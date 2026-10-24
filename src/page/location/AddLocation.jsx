@@ -84,7 +84,7 @@ import { resolveSubmitStatus } from "@/lib/store-lifecycle";
 import HorizontalScrollArea from "@/components/ui/HorizontalScrollArea";
 import TenantSelectField, { tenantErrorMessage } from "@/components/organism/TenantSelectField";
 import { useTenantManagePermission } from "@/hooks/useTenantManagePermission";
-import { FIELD_LIMITS, CURRENT_DB_LIMITS } from "@/constants/fieldLimits";
+import { FIELD_LIMITS } from "@/constants/fieldLimits";
 
 const days = [
   { id: "monday", label: "common.day.monday" },
@@ -1477,7 +1477,7 @@ const AddLocation = () => {
                             value={link.account}
                             onChange={(e) => updateSocial(idx, "account", e.target.value)}
                             className="flex-1"
-                            maxLength={CURRENT_DB_LIMITS.URL_COLUMN}
+                            maxLength={FIELD_LIMITS.URL}
                           />
                           <button
                             type="button"

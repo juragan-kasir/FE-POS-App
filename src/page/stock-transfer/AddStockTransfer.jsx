@@ -29,7 +29,7 @@ import { Loading } from "@/components/ui/loading";
 import PageHeader from "@/components/ui/PageHeader";
 import HorizontalScrollArea from "@/components/ui/HorizontalScrollArea";
 import { useLocations } from "@/queries/useLocations";
-import { FIELD_LIMITS, CURRENT_DB_LIMITS } from "@/constants/fieldLimits";
+import { FIELD_LIMITS } from "@/constants/fieldLimits";
 
 const AddStockTransfer = () => {
   const { t } = useTranslation();
@@ -252,7 +252,7 @@ const AddStockTransfer = () => {
               <Input
                 {...form.register("reason")}
                 placeholder={t("page.stockTransfer.add.form.reasonPlaceholder")}
-                maxLength={CURRENT_DB_LIMITS.STOCK_TRANSFER_REASON}
+                maxLength={FIELD_LIMITS.SHORT_NOTE}
               />
             </div>
             <div className="space-y-2">

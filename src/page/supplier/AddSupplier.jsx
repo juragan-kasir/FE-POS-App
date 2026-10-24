@@ -49,7 +49,7 @@ import { Loading } from "@/components/ui/loading";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import HorizontalScrollArea from "@/components/ui/HorizontalScrollArea";
 import { useLocations } from "@/queries/useLocations";
-import { FIELD_LIMITS, CURRENT_DB_LIMITS } from "@/constants/fieldLimits";
+import { FIELD_LIMITS } from "@/constants/fieldLimits";
 import { digitsOnly } from "@/utils/quantity";
 
 const AddSupplier = () => {
@@ -747,7 +747,7 @@ const AddSupplier = () => {
                               <Input
                                 placeholder={t("page.supplier.form.websitePlaceholder", "https://")}
                                 {...field}
-                                maxLength={CURRENT_DB_LIMITS.URL_COLUMN}
+                                maxLength={FIELD_LIMITS.URL}
                               />
                               <FormMessage />
                               <FormDescription>{t("common.optionalField")}</FormDescription>
