@@ -2,6 +2,7 @@ import React from "react";
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import { QueryClient, QueryClientProvider } from "react-query";
+import { MemoryRouter } from "react-router-dom";
 import QueueList from "../page/queue/QueueList";
 import WaiterRequestList from "../page/waiterRequest/WaiterRequestList";
 import PromoCampaignList from "../page/promo/PromoCampaignList";
@@ -74,7 +75,11 @@ const renderWithClient = (ui) => {
   const queryClient = new QueryClient({
     defaultOptions: { queries: { retry: false }, mutations: { retry: false } }
   });
-  return render(<QueryClientProvider client={queryClient}>{ui}</QueryClientProvider>);
+  return render(
+    <MemoryRouter>
+      <QueryClientProvider client={queryClient}>{ui}</QueryClientProvider>
+    </MemoryRouter>
+  );
 };
 
 const twoPageResponse = (rows) => ({

@@ -27,6 +27,7 @@ import {
 import Modal from "@/components/organism/modal";
 import { Loading } from "@/components/ui/loading";
 import PageHeader from "@/components/ui/PageHeader";
+import UserGuide from "@/components/organism/UserGuide";
 import HorizontalScrollArea from "@/components/ui/HorizontalScrollArea";
 import { useLocations } from "@/queries/useLocations";
 import { FIELD_LIMITS } from "@/constants/fieldLimits";
@@ -182,8 +183,9 @@ const AddStockTransfer = () => {
           title={t("page.stockTransfer.add.title")}
           description={t("page.stockTransfer.add.subtitle")}
           onBack={() => setCancelModal(true)}
-          dynamicInfo={false}
-        />
+          dynamicInfo={false}>
+          <UserGuide guideKey="add-stock-transfer" />
+        </PageHeader>
 
         <form
           onSubmit={handleSubmit(onSubmit)}

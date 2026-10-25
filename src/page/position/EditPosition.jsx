@@ -32,6 +32,7 @@ import {
 } from "@/components/ui/select";
 import { Check, BadgeCheck, Plus, Building2, X, Save, Info } from "lucide-react";
 import PageHeader from "@/components/ui/PageHeader";
+import UserGuide from "@/components/organism/UserGuide";
 import { useLeaveGuard } from "@/hooks/useLeaveGuard";
 import Modal from "@/components/organism/modal";
 import AbortController from "@/components/organism/abort-controller";
@@ -202,8 +203,9 @@ const EditPosition = () => {
         title={t("page.position.edit.title")}
         description={t("page.position.edit.description")}
         backLink="/position-list"
-        onBack={requestLeave}
-      />
+        onBack={requestLeave}>
+        <UserGuide guideKey="add-position" mode="edit" />
+      </PageHeader>
 
       <div className="bg-card p-6 rounded-xl shadow-sm border border-border">
         <Form {...form}>

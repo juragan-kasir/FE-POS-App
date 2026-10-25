@@ -23,6 +23,7 @@ import {
 } from "@/components/ui/form";
 import { Check, Building2, X, Save } from "lucide-react";
 import PageHeader from "@/components/ui/PageHeader";
+import UserGuide from "@/components/organism/UserGuide";
 import { useLeaveGuard } from "@/hooks/useLeaveGuard";
 import Modal from "@/components/organism/modal";
 import AbortController from "@/components/organism/abort-controller";
@@ -149,8 +150,9 @@ const EditDepartment = () => {
         title={t("page.department.edit.title")}
         description={t("page.department.edit.description")}
         backLink="/department-list"
-        onBack={requestLeave}
-      />
+        onBack={requestLeave}>
+        <UserGuide guideKey="add-department" mode="edit" />
+      </PageHeader>
 
       <div className="bg-card p-6 rounded-xl shadow-sm border border-border">
         <Form {...form}>

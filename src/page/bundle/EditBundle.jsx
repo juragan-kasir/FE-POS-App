@@ -18,6 +18,8 @@ import StoreSelectCard from "@/components/organism/StoreSelectCard";
 import Modal from "@/components/organism/modal";
 import MissingFieldsModal from "@/components/organism/MissingFieldsModal";
 import PageHeader from "@/components/ui/PageHeader";
+import { useDomDirtyTracking } from "@/hooks/useDomDirtyTracking";
+import UserGuide from "@/components/organism/UserGuide";
 import { getMissingFields } from "@/lib/validation";
 import { z } from "zod";
 import {
@@ -50,6 +52,7 @@ const SectionHeader = ({ icon: Icon, title, description, gradient }) => (
 );
 
 const EditBundle = () => {
+  const dirtyRef = useDomDirtyTracking();
   const { t } = useTranslation();
   const navigate = useNavigate();
   const { id } = useParams();
@@ -368,7 +371,7 @@ const EditBundle = () => {
 
   return (
     <>
-      <div className="space-y-6 pb-4">
+      <div ref={dirtyRef} className="space-y-6 pb-4">
         <PageHeader
           breadcrumbs={[
             {
@@ -382,8 +385,9 @@ const EditBundle = () => {
           title={t("page.bundle.editTitle")}
           description={t("page.bundle.editDescription")}
           backLink="/bundle"
-          onBack={() => setCancelModal(true)}
-        />
+          onBack={() => setCancelModal(true)}>
+          <UserGuide guideKey="add-bundle" mode="edit" />
+        </PageHeader>
 
         <form onSubmit={(e) => e.preventDefault()} className="space-y-6">
           <Card className="overflow-hidden border-0 shadow-md rounded-xl">

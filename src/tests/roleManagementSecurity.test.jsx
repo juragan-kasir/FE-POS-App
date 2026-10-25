@@ -2,6 +2,7 @@ import React from "react";
 import { render, screen, fireEvent, waitFor, within } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import { QueryClient, QueryClientProvider } from "react-query";
+import { MemoryRouter } from "react-router-dom";
 import { toast } from "sonner";
 import EditRole from "../page/role/EditRole";
 import AddRole from "../page/user/AddRole";
@@ -25,6 +26,7 @@ const mockNavigate = jest.fn();
 let mockCookieUser = { id: 1, roleType: "super_admin", store: null };
 
 jest.mock("react-router-dom", () => ({
+  ...jest.requireActual("react-router-dom"),
   useNavigate: () => mockNavigate,
   useParams: () => ({ id: "7" })
 }));
@@ -155,7 +157,11 @@ const renderWithClient = (ui) => {
   const client = new QueryClient({
     defaultOptions: { queries: { retry: false }, mutations: { retry: false } }
   });
-  return render(<QueryClientProvider client={client}>{ui}</QueryClientProvider>);
+  return render(
+    <MemoryRouter>
+      <QueryClientProvider client={client}>{ui}</QueryClientProvider>
+    </MemoryRouter>
+  );
 };
 
 const storedRole = {

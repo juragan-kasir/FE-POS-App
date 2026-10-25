@@ -1,4 +1,5 @@
 import { safeGet } from "@/lib/safe-lookup";
+import { usePageParam } from "@/hooks/usePageParam";
 import React, { useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "react-query";
 import { useNavigate } from "react-router-dom";
@@ -52,7 +53,7 @@ const LocationList = () => {
   const [cookie] = useCookies();
   const user = cookie?.user;
   const MENU_KEY = "/location-list";
-  const [page, setPage] = useState(1);
+  const [page, setPage] = usePageParam();
   const [limit, setLimit] = useState(10);
   const [search, setSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");

@@ -9,6 +9,7 @@ import { getAllMemberTier } from "@/services/member-tier";
 import { Button } from "@/components/ui/button";
 import { Loading } from "@/components/ui/loading";
 import PageHeader from "@/components/ui/PageHeader";
+import { useDomDirtyTracking } from "@/hooks/useDomDirtyTracking";
 import Modal from "@/components/organism/modal";
 import { useTranslation } from "react-i18next";
 import UserGuide from "@/components/organism/UserGuide";
@@ -33,6 +34,7 @@ const formSchema = z.object({
 });
 
 const AddMember = () => {
+  const dirtyRef = useDomDirtyTracking();
   const { t } = useTranslation();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
@@ -131,7 +133,7 @@ const AddMember = () => {
   };
 
   return (
-    <div className="space-y-6">
+    <div ref={dirtyRef} className="space-y-6">
       <PageHeader
         breadcrumbs={[
           {

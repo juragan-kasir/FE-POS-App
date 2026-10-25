@@ -2,6 +2,7 @@ import React from "react";
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import { QueryClient, QueryClientProvider } from "react-query";
+import { MemoryRouter } from "react-router-dom";
 import GoodsReceiptList from "../page/goods-receipt/GoodsReceiptList";
 import { getAllGoodsReceipt, changeGoodsReceiptStatus } from "../services/goods-receipt";
 import { getAllLocation } from "../services/location";
@@ -51,6 +52,7 @@ jest.mock("react-cookie", () => ({
 }));
 
 jest.mock("react-router-dom", () => ({
+  ...jest.requireActual("react-router-dom"),
   useNavigate: () => jest.fn()
 }));
 
@@ -95,9 +97,11 @@ const renderList = () => {
     defaultOptions: { queries: { retry: false }, mutations: { retry: false } }
   });
   return render(
-    <QueryClientProvider client={queryClient}>
-      <GoodsReceiptList />
-    </QueryClientProvider>
+    <MemoryRouter>
+      <QueryClientProvider client={queryClient}>
+        <GoodsReceiptList />
+      </QueryClientProvider>
+    </MemoryRouter>
   );
 };
 

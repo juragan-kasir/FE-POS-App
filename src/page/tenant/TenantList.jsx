@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { usePageParam } from "@/hooks/usePageParam";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
@@ -223,7 +224,7 @@ const TenantList = () => {
   const { t } = useTranslation();
   const queryClient = useQueryClient();
   const permission = useTenantManagePermission();
-  const [page, setPage] = useState(1);
+  const [page, setPage] = usePageParam();
   const [limit, setLimit] = useState(DEFAULT_LIMIT);
   const [search, setSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");

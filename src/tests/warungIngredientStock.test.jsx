@@ -2,6 +2,7 @@ import React from "react";
 import { render, screen, fireEvent, waitFor, within } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import { QueryClient, QueryClientProvider } from "react-query";
+import { MemoryRouter } from "react-router-dom";
 import AdjustIngredientStockModal from "../page/ingredient/components/AdjustIngredientStockModal";
 import IngredientStockSummary from "../page/ingredient/components/IngredientStockSummary";
 import BomList from "../page/bom/BomList";
@@ -21,6 +22,7 @@ class ResizeObserverStub {
 if (!globalThis.ResizeObserver) globalThis.ResizeObserver = ResizeObserverStub;
 
 jest.mock("react-router-dom", () => ({
+  ...jest.requireActual("react-router-dom"),
   useNavigate: () => jest.fn()
 }));
 jest.mock("react-i18next", () => ({
@@ -45,7 +47,11 @@ jest.mock("@/services/bom", () => ({
 
 const wrap = (ui) => {
   const queryClient = new QueryClient({ defaultOptions: { queries: { retry: false } } });
-  return render(<QueryClientProvider client={queryClient}>{ui}</QueryClientProvider>);
+  return render(
+    <MemoryRouter>
+      <QueryClientProvider client={queryClient}>{ui}</QueryClientProvider>
+    </MemoryRouter>
+  );
 };
 
 beforeEach(() => jest.clearAllMocks());

@@ -39,6 +39,7 @@ import AbortController from "@/components/organism/abort-controller";
 import Modal from "@/components/organism/modal";
 import { useTranslation } from "react-i18next";
 import PageHeader from "@/components/ui/PageHeader";
+import UserGuide from "@/components/organism/UserGuide";
 import MissingFieldsModal from "@/components/organism/MissingFieldsModal";
 import { getMissingFields } from "@/lib/validation";
 import { useLocations } from "@/queries/useLocations";
@@ -377,8 +378,9 @@ const EditDiscount = () => {
           ]}
           title={t("page.discount.edit.title")}
           description={t("page.discount.edit.description")}
-          backLink="/discount"
-        />
+          backLink="/discount">
+          <UserGuide guideKey="add-discount" mode="edit" />
+        </PageHeader>
         <div className="bg-card rounded-xl border border-border p-6 space-y-4">
           <Skeleton className="h-5 w-32" />
           <div className="flex gap-2">
@@ -482,8 +484,9 @@ const EditDiscount = () => {
           title={t("page.discount.edit.title")}
           description={t("page.discount.edit.description")}
           backLink="/discount"
-          onBack={() => setCancelModal(true)}
-        />
+          onBack={() => setCancelModal(true)}>
+          <UserGuide guideKey="add-discount" mode="edit" />
+        </PageHeader>
 
         <Form {...form}>
           <form

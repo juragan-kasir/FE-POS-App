@@ -8,6 +8,7 @@ import { z } from "zod";
 import { X, Save, Check } from "lucide-react";
 import { useCookies } from "react-cookie";
 import PageHeader from "@/components/ui/PageHeader";
+import UserGuide from "@/components/organism/UserGuide";
 import { getTypePaymentById, editTypePayment } from "@/services/type-payment";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -198,8 +199,9 @@ const EditTypePayment = () => {
             title={t("page.typePayment.edit.title")}
             description={t("page.typePayment.edit.description")}
             backLink="/type-payment-list"
-            onBack={() => setCancelModal(true)}
-          />
+            onBack={() => setCancelModal(true)}>
+            <UserGuide guideKey="add-type-payment" mode="edit" />
+          </PageHeader>
         </div>
       </div>
 

@@ -2,13 +2,17 @@ import React from "react";
 import { render, screen, fireEvent, waitFor, within } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import { QueryClient, QueryClientProvider } from "react-query";
+import { MemoryRouter } from "react-router-dom";
 import SalesReturnList from "../page/sales-return/SalesReturnList";
 import { approveSalesReturn, getAllSalesReturn } from "@/services/sales-return";
 
 // BA gap 009 (DR-23 §D/§G): approving a non-cash refund asks for its
 // reference (OTHER: a description); a cash refund keeps the plain confirm.
 
-jest.mock("react-router-dom", () => ({ useNavigate: () => jest.fn() }));
+jest.mock("react-router-dom", () => ({
+  ...jest.requireActual("react-router-dom"),
+  useNavigate: () => jest.fn()
+}));
 jest.mock("react-cookie", () => ({
   useCookies: () => [{ user: { id: 1, roleType: "super_admin", store: null } }]
 }));
@@ -94,9 +98,11 @@ const renderList = (rows) => {
     defaultOptions: { queries: { retry: false }, mutations: { retry: false } }
   });
   return render(
-    <QueryClientProvider client={client}>
-      <SalesReturnList />
-    </QueryClientProvider>
+    <MemoryRouter>
+      <QueryClientProvider client={client}>
+        <SalesReturnList />
+      </QueryClientProvider>
+    </MemoryRouter>
   );
 };
 

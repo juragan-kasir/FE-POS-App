@@ -27,6 +27,8 @@ import { z } from "zod";
 import { normalizePayload } from "@/lib/payload-normalizer";
 import { getDetailMemberTier, editMemberTier } from "@/services/member-tier";
 import PageHeader from "@/components/ui/PageHeader";
+import { useDomDirtyTracking } from "@/hooks/useDomDirtyTracking";
+import UserGuide from "@/components/organism/UserGuide";
 import Modal from "@/components/organism/modal";
 import MissingFieldsModal from "@/components/organism/MissingFieldsModal";
 import { getMissingFields } from "@/lib/validation";
@@ -61,6 +63,7 @@ const tierSchema = z.object({
 });
 
 const EditMemberTier = () => {
+  const dirtyRef = useDomDirtyTracking();
   const { t } = useTranslation();
   const { id } = useParams();
   const navigate = useNavigate();
@@ -210,7 +213,7 @@ const EditMemberTier = () => {
   const IconComponent = icons.find((i) => i.name === formData.selectedIcon)?.component || Star;
 
   return (
-    <div className="space-y-6">
+    <div ref={dirtyRef} className="space-y-6">
       <PageHeader
         breadcrumbs={[
           {
@@ -227,7 +230,9 @@ const EditMemberTier = () => {
           tierName: formData.tierName || "Tier"
         })}
         backLink="/member-tier"
-        onBack={() => setCancelModal(true)}></PageHeader>
+        onBack={() => setCancelModal(true)}>
+        <UserGuide guideKey="add-member-tier" mode="edit" />
+      </PageHeader>
 
       <div className="bg-card p-6 rounded-xl shadow-[0_4px_20px_-4px_rgba(0,0,0,0.05)] border border-border overflow-hidden">
         <div className="grid grid-cols-12 gap-6">

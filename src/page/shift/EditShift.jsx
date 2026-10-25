@@ -16,6 +16,7 @@ import {
   Wand2
 } from "lucide-react";
 import PageHeader from "@/components/ui/PageHeader";
+import UserGuide from "@/components/organism/UserGuide";
 import { useTranslation } from "react-i18next";
 import { getAllShift, editShift } from "@/services/shift";
 import { getAllEmployee } from "@/services/employee";
@@ -381,6 +382,7 @@ const EditShift = () => {
         description={t("page.shift.edit.subtitle")}
         backLink="/shift-list"
         onBack={() => setCancelModal(true)}>
+        <UserGuide guideKey="add-shift" mode="edit" />
         <Button variant="outline" onClick={() => setCancelModal(true)}>
           {t("action.back")}
         </Button>

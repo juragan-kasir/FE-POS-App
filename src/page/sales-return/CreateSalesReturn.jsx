@@ -26,6 +26,8 @@ import { getAllTypePayment } from "@/services/type-payment";
 import { getBatches } from "@/services/inventory";
 import Modal from "@/components/organism/modal";
 import PageHeader from "@/components/ui/PageHeader";
+import { useDomDirtyTracking } from "@/hooks/useDomDirtyTracking";
+import UserGuide from "@/components/organism/UserGuide";
 import VoidOrderDialog from "@/components/organism/VoidOrderDialog";
 import { isAdminRole } from "@/utils/role";
 import { FIELD_LIMITS } from "@/constants/fieldLimits";
@@ -45,6 +47,7 @@ const reasonKeys = [
 const formatRupiah = (value) => `Rp ${(value || 0).toLocaleString("id-ID")}`;
 
 const CreateSalesReturn = () => {
+  const dirtyRef = useDomDirtyTracking();
   const { t } = useTranslation();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
@@ -249,8 +252,9 @@ const CreateSalesReturn = () => {
           title={t("page.salesReturn.create.title")}
           description={t("page.salesReturn.create.subtitle")}
           backLink="/sales-return"
-          dynamicInfo={false}
-        />
+          dynamicInfo={false}>
+          <UserGuide guideKey="create-sales-return" />
+        </PageHeader>
 
         <Card className="p-6">
           <div className="flex items-center gap-3 mb-5">
@@ -313,7 +317,7 @@ const CreateSalesReturn = () => {
   }
 
   return (
-    <div className="space-y-6">
+    <div ref={dirtyRef} className="space-y-6">
       <PageHeader
         breadcrumbs={[
           {
@@ -332,6 +336,7 @@ const CreateSalesReturn = () => {
         description={`${t("page.salesReturn.create.orderLabel")}: ${order?.orderNumber} | ${t("page.salesReturn.create.customerLabel")}: ${order?.customerName || t("page.salesReturn.create.guest")}${order?.customerPhone ? ` · ${order.customerPhone}` : ""}`}
         backLink="/sales-return"
         dynamicInfo={false}>
+        <UserGuide guideKey="create-sales-return" />
         {canVoidOrder && (
           <Button variant="danger" onClick={() => setVoidOpen(true)}>
             {t("page.voidOrder.action")}

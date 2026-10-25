@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { usePageParam } from "@/hooks/usePageParam";
 import { useNavigate } from "react-router-dom";
 import { useQuery } from "react-query";
 import { useTranslation } from "react-i18next";
@@ -59,7 +60,7 @@ const StoreConfigurationTable = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const categoryLabel = useCategoryLabel();
-  const [page, setPage] = useState(1);
+  const [page, setPage] = usePageParam();
   const [limit, setLimit] = useState(DEFAULT_LIMIT);
 
   // Scope is resolved by the server from the canonical context; the request

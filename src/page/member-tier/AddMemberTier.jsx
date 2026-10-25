@@ -25,6 +25,7 @@ import { Loading } from "@/components/ui/loading";
 import { z } from "zod";
 import { addMemberTier } from "@/services/member-tier";
 import PageHeader from "@/components/ui/PageHeader";
+import { useDomDirtyTracking } from "@/hooks/useDomDirtyTracking";
 import Modal from "@/components/organism/modal";
 import UserGuide from "@/components/organism/UserGuide";
 import MissingFieldsModal from "@/components/organism/MissingFieldsModal";
@@ -60,6 +61,7 @@ const tierSchema = z.object({
 });
 
 const AddMemberTier = () => {
+  const dirtyRef = useDomDirtyTracking();
   const { t } = useTranslation();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
@@ -170,7 +172,7 @@ const AddMemberTier = () => {
   const IconComponent = icons.find((i) => i.name === formData.selectedIcon)?.component || Star;
 
   return (
-    <div className="space-y-6">
+    <div ref={dirtyRef} className="space-y-6">
       <PageHeader
         breadcrumbs={[
           {

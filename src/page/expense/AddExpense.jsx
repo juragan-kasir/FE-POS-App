@@ -7,6 +7,7 @@ import { z } from "zod";
 import { useCookies } from "react-cookie";
 import { X, Save, Plus, Trash2 } from "lucide-react";
 import PageHeader from "@/components/ui/PageHeader";
+import UserGuide from "@/components/organism/UserGuide";
 import { parseSalary } from "@/lib/utils";
 import { addExpense, bulkAddExpenses, getExpenseCategories } from "@/services/expense";
 import { getAllEmployee } from "@/services/employee";
@@ -380,8 +381,9 @@ const AddExpense = () => {
           title={t("page.expense.add.title")}
           description={t("page.expense.add.description")}
           onBack={() => setCancelModal(true)}
-          dynamicInfo={false}
-        />
+          dynamicInfo={false}>
+          <UserGuide guideKey="add-expense" />
+        </PageHeader>
 
         <Card className="p-6">
           {isLoading || isFetching || (isSuperAdmin && locsLoading) ? (

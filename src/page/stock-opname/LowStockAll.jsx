@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { usePageParam } from "@/hooks/usePageParam";
 import { useGlobalStoreFilter } from "@/hooks/useGlobalStoreFilter";
 import { useQuery, useMutation, useQueryClient } from "react-query";
 import { useCookies } from "react-cookie";
@@ -37,7 +38,7 @@ const LowStockAll = () => {
   const sidebarCollapsed = useSidebar();
   const queryClient = useQueryClient();
   const [confirmModal, setConfirmModal] = useState(false);
-  const [page, setPage] = useState(1);
+  const [page, setPage] = usePageParam();
   const [limit, setLimit] = useState(20);
   const [search, setSearch] = useState("");
   const [storeFilter, setGlobalStoreFilter] = useGlobalStoreFilter();

@@ -7,6 +7,8 @@ import { useTranslation } from "react-i18next";
 import { z } from "zod";
 import { Save, X, Plus, Trash2 } from "lucide-react";
 import PageHeader from "@/components/ui/PageHeader";
+import { useDomDirtyTracking } from "@/hooks/useDomDirtyTracking";
+import UserGuide from "@/components/organism/UserGuide";
 import { addBom, editBom, getBomById } from "@/services/bom";
 import { getAllProduct } from "@/services/product";
 import { getAllIngredients } from "@/services/ingredient";
@@ -33,6 +35,7 @@ const formSchema = z.object({
 });
 
 const AddBom = () => {
+  const dirtyRef = useDomDirtyTracking();
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const queryClient = useQueryClient();
@@ -284,7 +287,7 @@ const AddBom = () => {
   }
 
   return (
-    <div className="space-y-6 animate-in fade-in slide-in-from-top-2 duration-300">
+    <div ref={dirtyRef} className="space-y-6 animate-in fade-in slide-in-from-top-2 duration-300">
       <PageHeader
         breadcrumbs={[
           {
@@ -302,8 +305,9 @@ const AddBom = () => {
         title={t(isEdit ? "page.bom.edit.title" : "page.bom.add.title")}
         description={t(isEdit ? "page.bom.edit.description" : "page.bom.add.description")}
         onBack={() => setCancelModal(true)}
-        dynamicInfo={false}
-      />
+        dynamicInfo={false}>
+        <UserGuide guideKey="add-bom" mode={isEdit ? "edit" : "add"} />
+      </PageHeader>
 
       <div>
         <form

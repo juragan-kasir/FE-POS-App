@@ -6,6 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { X, Save, Check } from "lucide-react";
 import PageHeader from "@/components/ui/PageHeader";
+import UserGuide from "@/components/organism/UserGuide";
 import { useLeaveGuard } from "@/hooks/useLeaveGuard";
 import { useCookies } from "react-cookie";
 import { addExpenseCategory } from "@/services/expense";
@@ -145,8 +146,9 @@ const AddExpenseCategory = () => {
           title={t("page.expenseCategory.add.title")}
           description={t("page.expenseCategory.add.description")}
           onBack={requestLeave}
-          dynamicInfo={false}
-        />
+          dynamicInfo={false}>
+          <UserGuide guideKey="add-expense-category" />
+        </PageHeader>
 
         <Card className="p-6">
           <Form {...form}>

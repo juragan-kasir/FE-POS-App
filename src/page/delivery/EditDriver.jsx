@@ -13,6 +13,7 @@ import { Button } from "@/components/ui/button";
 import { Combobox } from "@/components/ui/combobox";
 import { Loading } from "@/components/ui/loading";
 import PageHeader from "@/components/ui/PageHeader";
+import UserGuide from "@/components/organism/UserGuide";
 import Modal from "@/components/organism/modal";
 import MissingFieldsModal from "@/components/organism/MissingFieldsModal";
 import { getMissingFields } from "@/lib/validation";
@@ -137,6 +138,7 @@ const EditDriver = () => {
         description={t("page.delivery.driver.edit.description")}
         backLink="/driver-list"
         onBack={() => setCancelModalOpen(true)}>
+        <UserGuide guideKey="add-driver" mode="edit" />
         <Button variant="danger" onClick={() => setCancelModalOpen(true)}>
           {t("common.cancel")}
         </Button>

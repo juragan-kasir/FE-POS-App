@@ -8,6 +8,7 @@ import { z } from "zod";
 import { toast } from "sonner";
 import { X, Save } from "lucide-react";
 import PageHeader from "@/components/ui/PageHeader";
+import UserGuide from "@/components/organism/UserGuide";
 import { useTranslation } from "react-i18next";
 import { getReservations, updateReservation, getAvailableTables } from "@/services/reservation";
 import { getLocationDetail } from "@/services/location";
@@ -262,7 +263,9 @@ const EditReservation = () => {
         title={t("page.reservation.edit.title")}
         description={t("page.reservation.edit.subtitle")}
         backLink="/reservation"
-        onBack={() => setCancelModal(true)}></PageHeader>
+        onBack={() => setCancelModal(true)}>
+        <UserGuide guideKey="add-reservation" mode="edit" />
+      </PageHeader>
 
       <Card className="p-6">
         <Form {...form}>

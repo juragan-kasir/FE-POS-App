@@ -1,4 +1,5 @@
 import { safeGet } from "@/lib/safe-lookup";
+import { usePageParam } from "@/hooks/usePageParam";
 import React, { useState, useEffect, useCallback } from "react";
 import { useQuery, useMutation, useQueryClient } from "react-query";
 import { useCookies } from "react-cookie";
@@ -55,7 +56,7 @@ const WaiterRequestList = () => {
   const [cookie] = useCookies();
   const { socket, connected } = useSocket();
   const [storeFilter, setGlobalStoreFilter] = useGlobalStoreFilter();
-  const [page, setPage] = useState(1);
+  const [page, setPage] = usePageParam();
   const [limit, setLimit] = useState(20);
   const [statusFilter, setStatusFilter] = useState("pending");
   const [approveTarget, setApproveTarget] = useState(null);

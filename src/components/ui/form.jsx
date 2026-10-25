@@ -4,9 +4,21 @@ import { Slot } from "@radix-ui/react-slot";
 import { Controller, FormProvider, useFormContext } from "react-hook-form";
 
 import { cn } from "@/lib/utils";
+import { useUnsavedChangesGuard } from "@/contexts/UnsavedChangesContext";
 import { Label } from "./label";
 
-const Form = FormProvider;
+const Form = ({ children, ...props }) => {
+  const { registerDirty } = useUnsavedChangesGuard();
+  const id = React.useId();
+  const isDirty = Boolean(props.formState?.isDirty);
+
+  React.useEffect(() => {
+    registerDirty(id, isDirty);
+    return () => registerDirty(id, false);
+  }, [id, isDirty, registerDirty]);
+
+  return <FormProvider {...props}>{children}</FormProvider>;
+};
 
 const FormFieldContext = React.createContext({});
 

@@ -1,5 +1,11 @@
 import React, { useEffect, useState, Suspense } from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import {
+  createBrowserRouter,
+  createRoutesFromElements,
+  Outlet,
+  Route,
+  RouterProvider
+} from "react-router-dom";
 import RouteProgress from "@/components/ui/route-progress";
 import { useTranslation } from "react-i18next";
 import { translationSelect } from "@/state/translation";
@@ -35,6 +41,7 @@ import {
   businessTripRoutes
 } from "@/routes";
 import RegisterRequiredDialog from "@/components/organism/RegisterRequiredDialog";
+import { UnsavedChangesProvider } from "@/contexts/UnsavedChangesContext";
 
 // Global lazy components
 const SupportComponent = React.lazy(() => import("@/components/organism/Support"));
@@ -66,6 +73,54 @@ const DeferredSentry = () => {
   return ready ? <SentryInitializer /> : null;
 };
 
+const RootLayout = () => (
+  <React.Fragment>
+    <OfflineIndicator />
+    <Suspense>
+      <SupportComponent />
+      <RouteProgress />
+      <ShortcutHandler />
+      <RegisterRequiredDialog />
+      <DeferredSentry />
+      <UnsavedChangesProvider>
+        <ErrorBoundary>
+          <Outlet />
+        </ErrorBoundary>
+      </UnsavedChangesProvider>
+    </Suspense>
+  </React.Fragment>
+);
+
+const router = createBrowserRouter(
+  createRoutesFromElements(
+    <Route element={<RootLayout />}>
+      {/* Standalone routes (no layout) */}
+      {authRoutes}
+      {cashierRoutes}
+
+      {/* Dashboard layout: sidebar & header persist across route changes */}
+      <Route element={<DashboardLayout />}>
+        {productRoutes}
+        {inventoryRoutes}
+        {purchasingRoutes}
+        {hrRoutes}
+        {financeRoutes}
+        {crmRoutes}
+        {reportRoutes}
+        {settingsRoutes}
+        {miscRoutes}
+        {deliveryRoutes}
+        {queueRoutes}
+        {waiterRoutes}
+        {supplierPerformanceRoutes}
+        {promoRoutes}
+        {bundleRoutes}
+        {businessTripRoutes}
+      </Route>
+    </Route>
+  )
+);
+
 function App() {
   const { i18n } = useTranslation();
   const { translation } = translationSelect();
@@ -76,47 +131,7 @@ function App() {
     }
   }, [translation]);
 
-  return (
-    <React.Fragment>
-      <OfflineIndicator />
-      <BrowserRouter>
-        <Suspense>
-          <SupportComponent />
-          <RouteProgress />
-          <ShortcutHandler />
-          <RegisterRequiredDialog />
-          <DeferredSentry />
-          <ErrorBoundary>
-            <Routes>
-              {/* Standalone routes (no layout) */}
-              {authRoutes}
-              {cashierRoutes}
-
-              {/* Dashboard layout: sidebar & header persist across route changes */}
-              <Route element={<DashboardLayout />}>
-                {productRoutes}
-                {inventoryRoutes}
-                {purchasingRoutes}
-                {hrRoutes}
-                {financeRoutes}
-                {crmRoutes}
-                {reportRoutes}
-                {settingsRoutes}
-                {miscRoutes}
-                {deliveryRoutes}
-                {queueRoutes}
-                {waiterRoutes}
-                {supplierPerformanceRoutes}
-                {promoRoutes}
-                {bundleRoutes}
-                {businessTripRoutes}
-              </Route>
-            </Routes>
-          </ErrorBoundary>
-        </Suspense>
-      </BrowserRouter>
-    </React.Fragment>
-  );
+  return <RouterProvider router={router} />;
 }
 
 export default App;

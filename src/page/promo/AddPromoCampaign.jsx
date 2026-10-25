@@ -31,6 +31,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import PageHeader from "@/components/ui/PageHeader";
+import UserGuide from "@/components/organism/UserGuide";
 import Modal from "@/components/organism/modal";
 import MissingFieldsModal from "@/components/organism/MissingFieldsModal";
 import { getMissingFields } from "@/lib/validation";
@@ -432,6 +433,7 @@ const AddPromoCampaign = () => {
         description={t("page.promo.add.description")}
         backLink="/promo-list"
         onBack={() => setCancelModalOpen(true)}>
+        <UserGuide guideKey="add-promo" />
         <Button variant="outline" onClick={() => setCancelModalOpen(true)}>
           {t("action.back")}
         </Button>

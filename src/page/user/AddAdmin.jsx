@@ -26,11 +26,14 @@ import MissingFieldsModal from "@/components/organism/MissingFieldsModal";
 import { getMissingFields } from "@/lib/validation";
 import { normalizePayload } from "@/lib/payload-normalizer";
 import PageHeader from "@/components/ui/PageHeader";
+import { useDomDirtyTracking } from "@/hooks/useDomDirtyTracking";
+import UserGuide from "@/components/organism/UserGuide";
 import { useLocations } from "@/queries/useLocations";
 import { FIELD_LIMITS } from "@/constants/fieldLimits";
 import { Input } from "@/components/ui/input";
 
 const AddAdmin = () => {
+  const dirtyRef = useDomDirtyTracking();
   const { t } = useTranslation();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
@@ -129,7 +132,7 @@ const AddAdmin = () => {
   };
 
   return (
-    <div>
+    <div ref={dirtyRef}>
       <div>
         <div className="mb-8 flex flex-col md:flex-row md:items-center justify-between gap-4">
           <PageHeader
@@ -149,8 +152,9 @@ const AddAdmin = () => {
             title={t("page.user.addAdmin.title")}
             description={t("page.user.addAdmin.description")}
             onBack={() => setCancelModal(true)}
-            dynamicInfo={false}
-          />
+            dynamicInfo={false}>
+            <UserGuide guideKey="add-user" />
+          </PageHeader>
         </div>
 
         <div className="grid grid-cols-12 gap-6">

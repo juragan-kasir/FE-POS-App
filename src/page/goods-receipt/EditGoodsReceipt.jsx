@@ -34,6 +34,8 @@ import { Combobox } from "@/components/ui/combobox";
 import Modal from "@/components/organism/modal";
 import AbortController from "@/components/organism/abort-controller";
 import PageHeader from "@/components/ui/PageHeader";
+import { useDomDirtyTracking } from "@/hooks/useDomDirtyTracking";
+import UserGuide from "@/components/organism/UserGuide";
 import MissingFieldsModal from "@/components/organism/MissingFieldsModal";
 import { getMissingFields } from "@/lib/validation";
 import { Loading } from "@/components/ui/loading";
@@ -45,6 +47,7 @@ import { useLocations } from "@/queries/useLocations";
 import { FIELD_LIMITS } from "@/constants/fieldLimits";
 
 const EditGoodsReceipt = () => {
+  const dirtyRef = useDomDirtyTracking();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const [searchParams] = useSearchParams();
@@ -509,8 +512,9 @@ const EditGoodsReceipt = () => {
           ]}
           title={t("page.goodsReceipt.edit.title")}
           description={t("page.goodsReceipt.edit.description")}
-          backLink="/goods-receipt"
-        />
+          backLink="/goods-receipt">
+          <UserGuide guideKey="add-goods-receipt" mode="edit" />
+        </PageHeader>
         <div className="bg-card p-6 rounded-xl border border-border space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="space-y-2">
@@ -543,7 +547,7 @@ const EditGoodsReceipt = () => {
 
   return (
     <>
-      <div className="space-y-6 animate-in fade-in slide-in-from-top-2 duration-300">
+      <div ref={dirtyRef} className="space-y-6 animate-in fade-in slide-in-from-top-2 duration-300">
         <PageHeader
           breadcrumbs={[
             {
@@ -561,8 +565,9 @@ const EditGoodsReceipt = () => {
           title={t("page.goodsReceipt.edit.title")}
           description={t("page.goodsReceipt.edit.description")}
           backLink="/goods-receipt"
-          onBack={() => setCancelModal(true)}
-        />
+          onBack={() => setCancelModal(true)}>
+          <UserGuide guideKey="add-goods-receipt" mode="edit" />
+        </PageHeader>
 
         <form
           onSubmit={(e) => {
