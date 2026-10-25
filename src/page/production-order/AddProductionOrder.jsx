@@ -98,7 +98,8 @@ const AddProductionOrder = () => {
       const payload = {
         productItemId: parseInt(data.productId),
         plannedQty: parseInt(data.plannedQty),
-        scheduledDate: formatDateOnly(data.scheduledDate),
+        scheduledDate:
+          formatDateOnly(data.scheduledDate),
         notes: data.notes,
         ...(saveAsDraft && { status: "draft" })
       };

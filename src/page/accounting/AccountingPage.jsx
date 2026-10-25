@@ -922,7 +922,11 @@ const JournalTab = ({ storeId, isAll }) => {
               <label className="text-xs font-medium text-muted-foreground">
                 {t("page.accounting.journal.date")}
               </label>
-              <DateInput name="date" defaultValue={todayDateOnly()} required />
+              <DateInput
+                name="date"
+                defaultValue={todayDateOnly()}
+                required
+              />
             </div>
             <div className="space-y-1.5">
               <label className="text-xs font-medium text-muted-foreground">

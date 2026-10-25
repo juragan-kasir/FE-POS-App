@@ -516,7 +516,8 @@ const AddStockOpname = () => {
   const buildPayload = (status) => {
     const values = getValues();
     return {
-      auditDate: formatDateOnly(values.tanggalAudit),
+      auditDate:
+        formatDateOnly(values.tanggalAudit),
       auditor: values.auditor,
       notes: values.catatan || "",
       ...(status ? { status } : {}),
@@ -1111,7 +1112,9 @@ const AddStockOpname = () => {
         onOpenChange={setUploadModalOpen}
         onDataParsed={handleUploadParsed}
         onUploadSuccess={() => navigate("/stock-opname")}
-        auditDate={formatDateOnly(watch("tanggalAudit"))}
+        auditDate={
+          formatDateOnly(watch("tanggalAudit"))
+        }
       />
     </div>
   );

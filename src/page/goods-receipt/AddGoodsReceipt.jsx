@@ -460,7 +460,8 @@ const AddGoodsReceipt = () => {
       if (!grIdempotencyRef.current) grIdempotencyRef.current = newGrIdempotencyKey();
       const payload = {
         purchaseOrderId: parseInt(data.poId),
-        receivedDate: formatDateOnly(data.receivedDate),
+        receivedDate:
+          formatDateOnly(data.receivedDate),
         notes: data.notes,
         pic: selectedPic?.id || null,
         suratJalan: suratJalan.trim() || null,

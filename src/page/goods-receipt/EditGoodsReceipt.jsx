@@ -450,7 +450,8 @@ const EditGoodsReceipt = () => {
     setIsSubmitting(true);
     try {
       const payload = {
-        receivedDate: formatDateOnly(receivedDate),
+        receivedDate:
+          formatDateOnly(receivedDate),
         notes,
         pic: selectedPic?.id || null,
         suratJalan: suratJalan.trim() || null,

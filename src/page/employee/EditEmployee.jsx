@@ -928,7 +928,9 @@ const EditEmployee = () => {
                                     </FormLabel>
                                     <DatePicker
                                       date={parseDateOnly(field.value)}
-                                      setDate={(date) => field.onChange(formatDateOnly(date))}
+                                      setDate={(date) =>
+                                        field.onChange(formatDateOnly(date))
+                                      }
                                     />
                                     <FormMessage />
                                   </FormItem>
