@@ -328,7 +328,7 @@ const MemberLoyalty = () => {
                             <Button
                               variant="outline"
                               size="sm"
-                              onClick={() => navigate(`/member/detail/${member.id}`)}>
+                              onClick={() => navigate(`/detail-member?id=${member.id}`)}>
                               <Eye className="w-4 h-4" />
                             </Button>
                           </TableCell>

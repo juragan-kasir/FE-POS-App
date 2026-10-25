@@ -146,7 +146,7 @@ const AddMember = () => {
         ]}
         title={t("breadcrumb.add")}
         description={t("page.member.add.description")}
-        backLink="/member"
+        backLink="/member-list"
         onBack={() => setCancelModal(true)}>
         <UserGuide guideKey="add-member" />
       </PageHeader>

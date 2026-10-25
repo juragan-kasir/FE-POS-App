@@ -102,14 +102,14 @@ const DetailSalesReturn = () => {
             },
             {
               label: t("page.salesReturn.detail.breadcrumb.list"),
-              href: "/sales-return-list",
+              href: "/sales-return",
               i18nKey: "page.salesReturn.detail.breadcrumb.list"
             },
             { label: t("breadcrumb.detail") }
           ]}
           title={t("page.salesReturn.detail.title")}
           description={ret.returnNumber}
-          backLink="/sales-return-list"
+          backLink="/sales-return"
           dynamicInfo={false}
         />
 

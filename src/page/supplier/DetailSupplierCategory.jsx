@@ -89,14 +89,14 @@ const DetailSupplierCategory = () => {
           },
           {
             label: t("page.supplierCategory.title"),
-            href: "/supplier-category-list",
+            href: "/supplier-category",
             i18nKey: "page.supplierCategory.title"
           },
           { label: t("breadcrumb.detail") }
         ]}
         title={isLoading ? t("common.loading") : category?.name || "-"}
         description={t("page.supplierCategory.description")}
-        backLink="/supplier-category-list"
+        backLink="/supplier-category"
         dynamicInfo={false}>
         <Button onClick={() => navigate(`/supplier-category?edit=${id}`)}>
           <Edit3 size={14} className="mr-1.5" />

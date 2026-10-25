@@ -1,15 +1,13 @@
 import { safeGet } from "@/lib/safe-lookup";
 import { usePageParam } from "@/hooks/usePageParam";
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { useQuery, useMutation, useQueryClient } from "react-query";
 import { useCookies } from "react-cookie";
 import { useTranslation } from "react-i18next";
 import { useGlobalStoreFilter } from "@/hooks/useGlobalStoreFilter";
-import { Users, Clock, UserCheck, XCircle, Plus, Eye, Timer } from "lucide-react";
+import { Users, Clock, UserCheck, XCircle, Timer } from "lucide-react";
 import { toast } from "sonner";
 import { getQueueList, getQueueStats, updateQueueStatus } from "@/services/queue";
-import { Button } from "@/components/ui/button";
 import { Combobox } from "@/components/ui/combobox";
 import { SearchInput } from "@/components/ui/SearchInput";
 import DataTable from "@/components/ui/DataTable";
@@ -18,7 +16,6 @@ import StatCard from "@/components/ui/StatCard";
 import PageHeader from "@/components/ui/PageHeader";
 import TableToolbar from "@/components/ui/TableToolbar";
 import Modal from "@/components/organism/modal";
-import { canAccess } from "@/utils/permission";
 
 const statusOptions = [
   { value: "all", label: "All" },
@@ -67,7 +64,6 @@ const priorityBadge = (priority) => {
 
 const QueueList = () => {
   const { t } = useTranslation();
-  const navigate = useNavigate();
   const queryClient = useQueryClient();
   const [cookie] = useCookies();
   const [page, setPage] = usePageParam();
@@ -91,7 +87,6 @@ const QueueList = () => {
   };
 
   const user = cookie?.user;
-  const MENU_KEY = "/queue-list";
 
   const { data, isLoading, isFetching, isError, refetch } = useQuery(
     ["queue-list", page, limit, storeFilter, search, statusFilter, priorityFilter],
@@ -219,7 +214,6 @@ const QueueList = () => {
       header: t("common.action"),
       accessorKey: "actions",
       legend: [
-        { icon: Eye, label: t("common.view") },
         { icon: UserCheck, label: t("common.seat") },
         { icon: XCircle, label: t("common.cancel") }
       ],
@@ -230,11 +224,6 @@ const QueueList = () => {
             align="center"
             visible={2}
             items={[
-              {
-                label: t("common.view"),
-                icon: Eye,
-                onClick: () => navigate(`/detail-queue?id=${item.id}`)
-              },
               ...(item.status === "waiting"
                 ? [
                     {
@@ -273,14 +262,8 @@ const QueueList = () => {
           { i18nKey: "sidebar.queue" }
         ]}
         title={t("page.queue.list.title")}
-        description={t("page.queue.list.description")}>
-        {canAccess(user, MENU_KEY, "create") && (
-          <Button variant="success" onClick={() => navigate("/add-queue")}>
-            <Plus size={16} className="mr-2" />
-            {t("page.queue.list.addButton")}
-          </Button>
-        )}
-      </PageHeader>
+        description={t("page.queue.list.description")}
+      />
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         <StatCard

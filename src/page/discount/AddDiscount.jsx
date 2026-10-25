@@ -352,14 +352,14 @@ const AddDiscount = () => {
             },
             {
               label: t("page.discount.list.title"),
-              href: "/discount",
+              href: "/discount-list",
               i18nKey: "page.discount.list.title"
             },
             { label: t("breadcrumb.add"), i18nKey: "breadcrumb.add" }
           ]}
           title={t("breadcrumb.add")}
           description={t("page.discount.add.description")}
-          backLink="/discount">
+          backLink="/discount-list">
           <UserGuide guideKey="add-discount" />
         </PageHeader>
         <div className="bg-card rounded-xl border border-border p-6 space-y-4">
@@ -444,14 +444,14 @@ const AddDiscount = () => {
             },
             {
               label: t("page.discount.list.title"),
-              href: "/discount",
+              href: "/discount-list",
               i18nKey: "page.discount.list.title"
             },
             { label: t("breadcrumb.add"), i18nKey: "breadcrumb.add" }
           ]}
           title={t("breadcrumb.add")}
           description={t("page.discount.add.description")}
-          backLink="/discount"
+          backLink="/discount-list"
           onBack={() => setCancelModal(true)}>
           <UserGuide guideKey="add-discount" />
         </PageHeader>

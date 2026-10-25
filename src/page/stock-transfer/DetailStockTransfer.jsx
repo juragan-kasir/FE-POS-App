@@ -132,14 +132,14 @@ const DetailStockTransfer = () => {
             },
             {
               label: t("page.stockTransfer.detail.breadcrumb.list"),
-              href: "/stock-transfer-list",
+              href: "/stock-transfer",
               i18nKey: "page.stockTransfer.detail.breadcrumb.list"
             },
             { label: t("breadcrumb.detail") }
           ]}
           title={t("page.stockTransfer.detail.title")}
           description={transfer.transferNumber}
-          backLink="/stock-transfer-list"
+          backLink="/stock-transfer"
           dynamicInfo={false}
         />
 

@@ -117,14 +117,14 @@ const DetailGoodsRequest = () => {
           },
           {
             label: t("breadcrumb.goodsRequest"),
-            href: "/goods-request-list",
+            href: "/goods-request",
             i18nKey: "breadcrumb.goodsRequest"
           },
           { label: t("breadcrumb.detail") }
         ]}
         title={isLoading ? t("common.loading") : t("page.goodsRequest.detail.title")}
         description={request?.requestNumber}
-        backLink="/goods-request-list"
+        backLink="/goods-request"
         dynamicInfo={false}>
         {!isLoading && request && <PrintButton />}
         {!isLoading && request && request.status === "pending" && (

@@ -82,14 +82,14 @@ const DetailProductionOrder = () => {
           },
           {
             label: t("breadcrumb.productionOrder"),
-            href: "/production-order-list",
+            href: "/production-order",
             i18nKey: "breadcrumb.productionOrder"
           },
           { label: t("breadcrumb.detail") }
         ]}
         title={isLoading ? t("common.loading") : order?.productionNo || "-"}
         description={t("page.productionOrder.detail.title")}
-        backLink="/production-order-list"
+        backLink="/production-order"
         dynamicInfo={false}>
         {!isLoading && order && <PrintButton />}
       </PageHeader>

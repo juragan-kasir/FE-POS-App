@@ -53,14 +53,14 @@ const DetailGoodsReceipt = () => {
           },
           {
             label: t("breadcrumb.goodsReceipt"),
-            href: "/goods-receipt-list",
+            href: "/goods-receipt",
             i18nKey: "breadcrumb.goodsReceipt"
           },
           { label: t("breadcrumb.detail") }
         ]}
         title={isLoading ? t("common.loading") : t("page.goodsReceipt.detail.title")}
         description={receipt?.receiptNumber}
-        backLink="/goods-receipt-list"
+        backLink="/goods-receipt"
         dynamicInfo={false}>
         <PrintButton />
       </PageHeader>
