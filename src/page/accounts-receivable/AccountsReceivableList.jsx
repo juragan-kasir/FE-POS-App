@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { usePageParam } from "@/hooks/usePageParam";
 import { safeGet } from "@/lib/safe-lookup";
 import { useGlobalStoreFilter } from "@/hooks/useGlobalStoreFilter";
 import { useQuery, useMutation } from "react-query";
@@ -37,7 +38,7 @@ const AccountsReceivableList = () => {
   const [cookie] = useCookies();
   const user = cookie?.user;
   const isSuperAdmin = user?.roleType === "super_admin";
-  const [page, setPage] = useState(1);
+  const [page, setPage] = usePageParam();
   const [limit, setLimit] = useState(10);
   const [statusFilter, setStatusFilter] = useState("");
   const [storeFilter, setGlobalStoreFilter] = useGlobalStoreFilter();

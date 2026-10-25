@@ -4,7 +4,6 @@ import { useQuery, useMutation, useQueryClient } from "react-query";
 import { useCookies } from "react-cookie";
 import { useTranslation } from "react-i18next";
 import {
-  ArrowLeft,
   Truck,
   Phone,
   Mail,
@@ -98,11 +97,8 @@ const DetailDriver = () => {
           { i18nKey: "page.delivery.driver.detail.title" }
         ]}
         title={t("page.delivery.driver.detail.title")}
-        description={driver.name}>
-        <Button variant="danger" onClick={() => navigate("/driver-list")}>
-          <ArrowLeft size={16} className="mr-2" />
-          {t("common.back")}
-        </Button>
+        description={driver.name}
+        backLink="/driver-list">
         <Button onClick={() => navigate(`/edit-driver?id=${id}`)}>
           <Edit size={16} className="mr-2" />
           {t("common.edit")}

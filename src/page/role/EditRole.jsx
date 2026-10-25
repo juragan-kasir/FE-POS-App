@@ -17,6 +17,8 @@ import AbortController from "@/components/organism/abort-controller";
 import MissingFieldsModal from "@/components/organism/MissingFieldsModal";
 import { getMissingFields } from "@/lib/validation";
 import PageHeader from "@/components/ui/PageHeader";
+import { useDomDirtyTracking } from "@/hooks/useDomDirtyTracking";
+import UserGuide from "@/components/organism/UserGuide";
 import PermissionMatrix from "./components/PermissionMatrix";
 import {
   actionLabelKeys,
@@ -44,6 +46,7 @@ const toStatusString = (status) =>
       : "inactive";
 
 const EditRole = () => {
+  const dirtyRef = useDomDirtyTracking();
   const { t } = useTranslation();
   const navigate = useNavigate();
   const { id } = useParams();
@@ -292,7 +295,7 @@ const EditRole = () => {
   );
 
   return (
-    <div className="space-y-6">
+    <div ref={dirtyRef} className="space-y-6">
       <PageHeader
         breadcrumbs={[
           {
@@ -305,8 +308,9 @@ const EditRole = () => {
         title={`${t("page.role.edit.title")}: ${initial?.name || name}`}
         description={t("page.role.edit.description")}
         onBack={leave}
-        dynamicInfo={false}
-      />
+        dynamicInfo={false}>
+        <UserGuide guideKey="edit-role" mode="edit" />
+      </PageHeader>
 
       {role?.isSystem && (
         <div

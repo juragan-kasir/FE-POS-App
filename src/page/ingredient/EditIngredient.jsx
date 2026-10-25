@@ -39,6 +39,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import AbortController from "@/components/organism/abort-controller";
 
 import PageHeader from "@/components/ui/PageHeader";
+import UserGuide from "@/components/organism/UserGuide";
 import MissingFieldsModal from "@/components/organism/MissingFieldsModal";
 import { useConfirmSubmit } from "@/hooks/useConfirmSubmit";
 import { getMissingFields } from "@/lib/validation";
@@ -364,8 +365,9 @@ const EditIngredient = () => {
             ]}
             title={t("page.ingredient.edit.title")}
             description={t("page.ingredient.edit.loading")}
-            backLink="/ingredient"
-          />
+            backLink="/ingredient">
+            <UserGuide guideKey="add-ingredient" mode="edit" />
+          </PageHeader>
         </div>
 
         <div className="bg-card p-6 rounded-xl shadow-[0_4px_20px_-4px_rgba(0,0,0,0.05)] border border-border overflow-hidden space-y-6">
@@ -406,8 +408,9 @@ const EditIngredient = () => {
           title={t("page.ingredient.edit.title")}
           description={form.watch("name")}
           backLink="/ingredient"
-          onBack={() => setCancelModal(true)}
-        />
+          onBack={() => setCancelModal(true)}>
+          <UserGuide guideKey="add-ingredient" mode="edit" />
+        </PageHeader>
 
         <div className="bg-card p-6 rounded-xl shadow-[0_4px_20px_-4px_rgba(0,0,0,0.05)] border border-border overflow-hidden">
           <Form {...form}>

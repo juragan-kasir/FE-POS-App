@@ -9,6 +9,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { Save, X, Plus, Trash2, User } from "lucide-react";
 import PageHeader from "@/components/ui/PageHeader";
+import UserGuide from "@/components/organism/UserGuide";
 import { format } from "date-fns";
 import { addGoodsRequest } from "@/services/goods-request";
 import { getAllSupplier } from "@/services/supplier";
@@ -525,8 +526,9 @@ const AddGoodsRequest = () => {
           title={t("page.goodsRequest.add.title")}
           description={t("page.goodsRequest.add.description")}
           onBack={() => setCancelModal(true)}
-          dynamicInfo={false}
-        />
+          dynamicInfo={false}>
+          <UserGuide guideKey="add-goods-request" />
+        </PageHeader>
 
         <form
           onSubmit={handleSubmit((data) => doSubmit(data))}

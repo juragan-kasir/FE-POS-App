@@ -2,6 +2,7 @@ import React from "react";
 import { render, waitFor } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import { QueryClient, QueryClientProvider } from "react-query";
+import { MemoryRouter } from "react-router-dom";
 import * as ReactQuery from "react-query";
 import WaiterRequestList from "../page/waiterRequest/WaiterRequestList";
 import { useSocket } from "@/services/socket";
@@ -121,9 +122,11 @@ describe("WaiterRequestList — polling fallback keyed to socket connection stat
       defaultOptions: { queries: { retry: false } }
     });
     const utils = render(
-      <QueryClientProvider client={queryClient}>
-        <WaiterRequestList />
-      </QueryClientProvider>
+      <MemoryRouter>
+        <QueryClientProvider client={queryClient}>
+          <WaiterRequestList />
+        </QueryClientProvider>
+      </MemoryRouter>
     );
     return { queryClient, ...utils };
   };
@@ -191,17 +194,21 @@ describe("WaiterRequestList — polling fallback keyed to socket connection stat
 
     useSocket.mockReturnValue({ socket: socketStub, connected: true });
     rerender(
-      <QueryClientProvider client={queryClient}>
-        <WaiterRequestList />
-      </QueryClientProvider>
+      <MemoryRouter>
+        <QueryClientProvider client={queryClient}>
+          <WaiterRequestList />
+        </QueryClientProvider>
+      </MemoryRouter>
     );
     await waitFor(() => expect(lastListOptions().refetchInterval).toBe(false));
 
     useSocket.mockReturnValue({ socket: socketStub, connected: false });
     rerender(
-      <QueryClientProvider client={queryClient}>
-        <WaiterRequestList />
-      </QueryClientProvider>
+      <MemoryRouter>
+        <QueryClientProvider client={queryClient}>
+          <WaiterRequestList />
+        </QueryClientProvider>
+      </MemoryRouter>
     );
     await waitFor(() => expect(lastListOptions().refetchInterval).toBe(15000));
   });

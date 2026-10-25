@@ -23,6 +23,7 @@ import { DatePicker } from "@/components/ui/date-picker";
 import { TimePicker } from "@/components/ui/time-picker";
 import { Combobox } from "@/components/ui/combobox";
 import PageHeader from "@/components/ui/PageHeader";
+import { useDomDirtyTracking } from "@/hooks/useDomDirtyTracking";
 import UserGuide from "@/components/organism/UserGuide";
 import Modal from "@/components/organism/modal";
 import MissingFieldsModal from "@/components/organism/MissingFieldsModal";
@@ -69,6 +70,7 @@ const unitOptions = [
 ];
 
 const EditPurchaseOrder = () => {
+  const dirtyRef = useDomDirtyTracking();
   const { t } = useTranslation();
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
@@ -603,7 +605,7 @@ const EditPurchaseOrder = () => {
   }
 
   return (
-    <div className="space-y-6">
+    <div ref={dirtyRef} className="space-y-6">
       <PageHeader
         breadcrumbs={[
           {

@@ -39,6 +39,7 @@ import Modal from "@/components/organism/modal";
 import { Loading } from "@/components/ui/loading";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import PageHeader from "@/components/ui/PageHeader";
+import UserGuide from "@/components/organism/UserGuide";
 import { useStore } from "@/contexts/StoreContext";
 import { Lock } from "lucide-react";
 import { useCookies } from "react-cookie";
@@ -514,8 +515,9 @@ const AddGoodsReceipt = () => {
           title={t("page.goodsReceipt.add.title")}
           description={t("page.goodsReceipt.add.description")}
           backLink="/goods-receipt"
-          onBack={() => setCancelModal(true)}
-        />
+          onBack={() => setCancelModal(true)}>
+          <UserGuide guideKey="add-goods-receipt" />
+        </PageHeader>
 
         <form
           onSubmit={handleSubmit((data) => doSubmit(data, false))}

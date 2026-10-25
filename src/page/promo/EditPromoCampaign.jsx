@@ -29,6 +29,7 @@ import StoreSelectCard from "@/components/organism/StoreSelectCard";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import PageHeader from "@/components/ui/PageHeader";
+import UserGuide from "@/components/organism/UserGuide";
 import Modal from "@/components/organism/modal";
 import MissingFieldsModal from "@/components/organism/MissingFieldsModal";
 import { getMissingFields } from "@/lib/validation";
@@ -421,6 +422,7 @@ const EditPromoCampaign = () => {
         description={t("page.promo.edit.description")}
         backLink="/promo-list"
         onBack={() => setCancelModalOpen(true)}>
+        <UserGuide guideKey="add-promo" mode="edit" />
         <Button variant="danger" onClick={() => setCancelModalOpen(true)}>
           {t("common.cancel")}
         </Button>

@@ -27,6 +27,7 @@ import {
 import Modal from "@/components/organism/modal";
 import { Loading } from "@/components/ui/loading";
 import PageHeader from "@/components/ui/PageHeader";
+import UserGuide from "@/components/organism/UserGuide";
 import HorizontalScrollArea from "@/components/ui/HorizontalScrollArea";
 import { useLocations } from "@/queries/useLocations";
 import { FIELD_LIMITS } from "@/constants/fieldLimits";
@@ -252,8 +253,9 @@ const AddBusinessTrip = () => {
           ]}
           title={t("page.businessTrip.add.title")}
           onBack={() => setCancelModal(true)}
-          dynamicInfo={false}
-        />
+          dynamicInfo={false}>
+          <UserGuide guideKey="add-business-trip" />
+        </PageHeader>
 
         <form onSubmit={handleSubmit((data) => doSubmit(data))} className="space-y-6">
           <Card className="overflow-hidden border-0 shadow-md rounded-xl">

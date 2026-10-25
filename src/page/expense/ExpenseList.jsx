@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { usePageParam } from "@/hooks/usePageParam";
 import { useGlobalStoreFilter } from "@/hooks/useGlobalStoreFilter";
 import { useQuery, useMutation, useQueryClient } from "react-query";
 import { useNavigate } from "react-router-dom";
@@ -59,7 +60,7 @@ const ExpenseList = () => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const [cookie] = useCookies();
-  const [page, setPage] = useState(1);
+  const [page, setPage] = usePageParam();
   const [limit, setLimit] = useState(10);
   const [search, setSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");

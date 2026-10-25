@@ -41,6 +41,7 @@ import { DatePicker } from "@/components/ui/date-picker";
 import { format } from "date-fns";
 import AbortController from "@/components/organism/abort-controller";
 import PageHeader from "@/components/ui/PageHeader";
+import UserGuide from "@/components/organism/UserGuide";
 import { isSalaryCategoryName } from "@/lib/salary-category";
 import { FIELD_LIMITS } from "@/constants/fieldLimits";
 
@@ -306,8 +307,9 @@ const EditExpense = () => {
           title={t("page.expense.edit.title")}
           description={t("page.expense.edit.description")}
           backLink="/expense"
-          onBack={() => setCancelModal(true)}
-        />
+          onBack={() => setCancelModal(true)}>
+          <UserGuide guideKey="add-expense" mode="edit" />
+        </PageHeader>
 
         <Card className="p-6">
           <Form {...form}>

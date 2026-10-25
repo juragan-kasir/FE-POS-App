@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { usePageParam } from "@/hooks/usePageParam";
 import { useGlobalStoreFilter } from "@/hooks/useGlobalStoreFilter";
 import { useQuery, useMutation, useQueryClient } from "react-query";
 import { useNavigate, useSearchParams } from "react-router-dom";
@@ -51,7 +52,7 @@ const ProductList = () => {
   const queryClient = useQueryClient();
   const [cookie] = useCookies();
   const [searchParams] = useSearchParams();
-  const [page, setPage] = useState(1);
+  const [page, setPage] = usePageParam();
   const [limit, setLimit] = useState(12);
   const [search, setSearch] = useState("");
   const [categoryFilter, setCategoryFilter] = useState("");

@@ -23,6 +23,7 @@ import {
 } from "@/components/ui/form";
 import { Check, BadgeCheck, X, Save } from "lucide-react";
 import PageHeader from "@/components/ui/PageHeader";
+import UserGuide from "@/components/organism/UserGuide";
 import { useLeaveGuard } from "@/hooks/useLeaveGuard";
 import Modal from "@/components/organism/modal";
 import MissingFieldsModal from "@/components/organism/MissingFieldsModal";
@@ -114,8 +115,9 @@ const AddShiftTemplate = () => {
         title={t("page.shiftTemplate.add.title")}
         description={t("page.shiftTemplate.add.description")}
         backLink="/shift-template-list"
-        onBack={requestLeave}
-      />
+        onBack={requestLeave}>
+        <UserGuide guideKey="add-shift-template" />
+      </PageHeader>
 
       <div className="bg-card p-6 rounded-xl shadow-sm border border-border">
         <Form {...form}>

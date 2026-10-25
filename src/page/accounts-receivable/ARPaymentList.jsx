@@ -1,4 +1,5 @@
 import { safeGet } from "@/lib/safe-lookup";
+import { usePageParam } from "@/hooks/usePageParam";
 import React, { useState } from "react";
 import { useQuery, useMutation } from "react-query";
 import { useNavigate } from "react-router-dom";
@@ -25,7 +26,7 @@ const statusLabelKeys = { UNPAID: "unpaid", PARTIAL: "partial", PAID: "paid", OV
 const ARPaymentList = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const [page, setPage] = useState(1);
+  const [page, setPage] = usePageParam();
   const [limit, setLimit] = useState(20);
   const [statusFilter, setStatusFilter] = useState("UNPAID");
   const [payModal, setPayModal] = useState(null);

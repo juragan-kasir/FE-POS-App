@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { usePageParam } from "@/hooks/usePageParam";
 import { useTranslation } from "react-i18next";
 import { useQuery, useMutation, useQueryClient } from "react-query";
 import { useNavigate } from "react-router-dom";
@@ -71,7 +72,7 @@ const TypePaymentList = () => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const [cookie] = useCookies();
-  const [page, setPage] = useState(1);
+  const [page, setPage] = usePageParam();
   const [limit, setLimit] = useState(10);
   const [search, setSearch] = useState("");
   const [deleteTarget, setDeleteTarget] = useState(null);

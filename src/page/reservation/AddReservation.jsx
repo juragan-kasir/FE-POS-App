@@ -39,6 +39,7 @@ import { useTranslation } from "react-i18next";
 import MissingFieldsModal from "@/components/organism/MissingFieldsModal";
 import { getMissingFields } from "@/lib/validation";
 import PageHeader from "@/components/ui/PageHeader";
+import UserGuide from "@/components/organism/UserGuide";
 import { FIELD_LIMITS } from "@/constants/fieldLimits";
 
 const DAY_NAMES = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"];
@@ -219,8 +220,9 @@ const AddReservation = () => {
         title="Tambah Reservasi"
         description="Buat reservasi meja baru"
         onBack={() => setCancelModal(true)}
-        dynamicInfo={false}
-      />
+        dynamicInfo={false}>
+        <UserGuide guideKey="add-reservation" />
+      </PageHeader>
 
       <Card className="p-6">
         <Form {...form}>

@@ -1,4 +1,5 @@
 import { safeGet } from "@/lib/safe-lookup";
+import { usePageParam } from "@/hooks/usePageParam";
 import React, { useState } from "react";
 import { useQuery } from "react-query";
 import { useCookies } from "react-cookie";
@@ -54,7 +55,7 @@ const StockHistory = () => {
   const user = cookie?.user;
   const isSuperAdmin = user?.roleType === "super_admin";
 
-  const [page, setPage] = useState(1);
+  const [page, setPage] = usePageParam();
   const [pageSize, setPageSize] = useState(10);
   // Client note 2026-10-24: ingredients and finished products on separate
   // tabs, ingredients first (a recipe menu's sales show up there).

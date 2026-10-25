@@ -17,6 +17,8 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import PageHeader from "@/components/ui/PageHeader";
+import { useDomDirtyTracking } from "@/hooks/useDomDirtyTracking";
+import UserGuide from "@/components/organism/UserGuide";
 import {
   Select,
   SelectContent,
@@ -47,6 +49,7 @@ const SectionHeader = ({ icon: Icon, title, description, gradient }) => (
 );
 
 const AddBundle = () => {
+  const dirtyRef = useDomDirtyTracking();
   const { t } = useTranslation();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
@@ -294,7 +297,7 @@ const AddBundle = () => {
   };
 
   return (
-    <div className="space-y-6 pb-4">
+    <div ref={dirtyRef} className="space-y-6 pb-4">
       <PageHeader
         breadcrumbs={[
           {
@@ -308,8 +311,9 @@ const AddBundle = () => {
         title={t("page.bundle.addTitle")}
         description={t("page.bundle.addDescription")}
         backLink="/bundle"
-        onBack={() => setCancelModal(true)}
-      />
+        onBack={() => setCancelModal(true)}>
+        <UserGuide guideKey="add-bundle" />
+      </PageHeader>
 
       <form onSubmit={(e) => e.preventDefault()} className="space-y-6">
         <Card className="overflow-hidden border-0 shadow-md rounded-xl">

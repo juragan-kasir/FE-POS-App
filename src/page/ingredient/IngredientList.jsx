@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { usePageParam } from "@/hooks/usePageParam";
 import { useGlobalStoreFilter } from "@/hooks/useGlobalStoreFilter";
 import { useQuery, useMutation, useQueryClient } from "react-query";
 import { useNavigate } from "react-router-dom";
@@ -60,7 +61,7 @@ const IngredientList = () => {
   const queryClient = useQueryClient();
   const [cookie] = useCookies();
   const [search, setSearch] = useState("");
-  const [page, setPage] = useState(1);
+  const [page, setPage] = usePageParam();
   const [deleteTarget, setDeleteTarget] = useState(null);
   const [importModal, setImportModal] = useState(false);
   const [downloadingTemplate, setDownloadingTemplate] = useState(false);

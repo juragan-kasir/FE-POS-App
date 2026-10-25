@@ -1,4 +1,5 @@
 import { safeGet } from "@/lib/safe-lookup";
+import { usePageParam } from "@/hooks/usePageParam";
 import React, { useState, useEffect, useCallback } from "react";
 import { useQuery, useMutation, useQueryClient } from "react-query";
 import { useNavigate } from "react-router-dom";
@@ -63,7 +64,7 @@ const StockOpnameList = () => {
   const user = cookie?.user;
   const isSuperAdmin = user?.roleType === "super_admin";
   const MENU_KEY = "/stock-opname";
-  const [page, setPage] = useState(1);
+  const [page, setPage] = usePageParam();
   const [limit, setLimit] = useState(10);
   const [search, setSearch] = useState("");
   const [storeFilter, setGlobalStoreFilter] = useGlobalStoreFilter();

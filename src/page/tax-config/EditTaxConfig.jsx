@@ -8,6 +8,7 @@ import { z } from "zod";
 import { useCookies } from "react-cookie";
 import { X, Save, Check } from "lucide-react";
 import PageHeader from "@/components/ui/PageHeader";
+import UserGuide from "@/components/organism/UserGuide";
 import { useLeaveGuard } from "@/hooks/useLeaveGuard";
 import { editTaxConfig, getTaxConfigById } from "@/services/tax-config";
 import { Button } from "@/components/ui/button";
@@ -51,8 +52,9 @@ const EditTaxConfigSkeleton = () => {
           ]}
           title={t("page.taxConfig.edit.title")}
           description={t("page.taxConfig.edit.description")}
-          backLink="/tax-list"
-        />
+          backLink="/tax-list">
+          <UserGuide guideKey="add-tax" mode="edit" />
+        </PageHeader>
       </div>
       <Card className="p-6">
         <div className="space-y-6">
@@ -209,8 +211,9 @@ const EditTaxConfig = () => {
           title={t("page.taxConfig.edit.title")}
           description={t("page.taxConfig.edit.description")}
           backLink="/tax-list"
-          onBack={requestLeave}
-        />
+          onBack={requestLeave}>
+          <UserGuide guideKey="add-tax" mode="edit" />
+        </PageHeader>
       </div>
 
       <Card className="p-6">

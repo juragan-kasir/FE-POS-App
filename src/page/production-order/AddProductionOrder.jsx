@@ -6,6 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { Save, X } from "lucide-react";
 import PageHeader from "@/components/ui/PageHeader";
+import UserGuide from "@/components/organism/UserGuide";
 import { toast } from "sonner";
 import { useTranslation } from "react-i18next";
 import {
@@ -152,8 +153,9 @@ const AddProductionOrder = () => {
             : t("page.productionOrder.add.subtitleAdd")
         }
         onBack={() => setCancelModal(true)}
-        dynamicInfo={false}
-      />
+        dynamicInfo={false}>
+        <UserGuide guideKey="add-production-order" mode={id ? "edit" : "add"} />
+      </PageHeader>
 
       <form
         onSubmit={handleSubmit((data) => doSubmit(data, false))}

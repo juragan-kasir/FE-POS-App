@@ -14,6 +14,8 @@ import Modal from "@/components/organism/modal";
 import MissingFieldsModal from "@/components/organism/MissingFieldsModal";
 import { getMissingFields } from "@/lib/validation";
 import PageHeader from "@/components/ui/PageHeader";
+import { useDomDirtyTracking } from "@/hooks/useDomDirtyTracking";
+import UserGuide from "@/components/organism/UserGuide";
 import PermissionMatrix from "@/page/role/components/PermissionMatrix";
 import {
   buildInitialPermissions,
@@ -32,6 +34,7 @@ import { Textarea } from "@/components/ui/textarea";
 const ROLE_TYPE_OPTIONS = ["admin", "kasir", "user"];
 
 const AddRole = () => {
+  const dirtyRef = useDomDirtyTracking();
   const { t } = useTranslation();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
@@ -130,7 +133,7 @@ const AddRole = () => {
   };
 
   return (
-    <div>
+    <div ref={dirtyRef}>
       <div>
         <PageHeader
           breadcrumbs={[
@@ -144,8 +147,9 @@ const AddRole = () => {
           title={t("page.role.add.title")}
           description={t("page.role.add.description")}
           onBack={leave}
-          dynamicInfo={false}
-        />
+          dynamicInfo={false}>
+          <UserGuide guideKey="add-role" />
+        </PageHeader>
 
         <div className="grid grid-cols-12 gap-6">
           <div className="col-span-12 lg:col-span-4 flex flex-col gap-6">

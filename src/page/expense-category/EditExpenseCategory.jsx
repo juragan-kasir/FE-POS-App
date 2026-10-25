@@ -35,6 +35,7 @@ import MissingFieldsModal from "@/components/organism/MissingFieldsModal";
 import { getMissingFields } from "@/lib/validation";
 import AbortController from "@/components/organism/abort-controller";
 import PageHeader from "@/components/ui/PageHeader";
+import UserGuide from "@/components/organism/UserGuide";
 import { useLeaveGuard } from "@/hooks/useLeaveGuard";
 import { FIELD_LIMITS } from "@/constants/fieldLimits";
 
@@ -193,8 +194,9 @@ const EditExpenseCategory = () => {
           title={t("page.expenseCategory.edit.title")}
           description={t("page.expenseCategory.edit.description")}
           backLink="/expense-category"
-          onBack={requestLeave}
-        />
+          onBack={requestLeave}>
+          <UserGuide guideKey="add-expense-category" mode="edit" />
+        </PageHeader>
 
         <Card className="p-6">
           <Form {...form}>

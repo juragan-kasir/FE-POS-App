@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { usePageParam } from "@/hooks/usePageParam";
 import { useGlobalStoreFilter } from "@/hooks/useGlobalStoreFilter";
 import { useNavigate } from "react-router-dom";
 import { useQuery, useMutation, useQueryClient } from "react-query";
@@ -46,7 +47,7 @@ const CashRegisterHistory = () => {
   const isSuperAdmin = user?.roleType === "super_admin";
   // const defaultStoreId = cookie?.activeStore || user?.store;
   const [storeFilter, setGlobalStoreFilter] = useGlobalStoreFilter();
-  const [page, setPage] = useState(1);
+  const [page, setPage] = usePageParam();
   const [limit, setLimit] = useState(10);
   const [search, setSearch] = useState("");
   const [closeTarget, setCloseTarget] = useState(null);

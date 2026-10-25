@@ -30,9 +30,16 @@ const PageHeader = ({
   const handleBack = () => {
     if (onBack) {
       onBack();
-    } else if (backLink) {
-      navigate(resolveHref(backLink));
+      return;
     }
+
+    const historyIndex = window.history.state?.idx;
+    if (typeof historyIndex === "number" && historyIndex > 0) {
+      navigate(-1);
+      return;
+    }
+
+    if (backLink) navigate(resolveHref(backLink));
   };
 
   const resolveHref = (href) => (href === "/dashboard-super-admin" ? getDashboardHref(user) : href);

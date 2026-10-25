@@ -6,6 +6,8 @@ import { useQuery, useMutation, useQueryClient } from "react-query";
 import { useCookies } from "react-cookie";
 import { Save, X, Plus, Trash2, ArrowLeft, User } from "lucide-react";
 import PageHeader from "@/components/ui/PageHeader";
+import { useDomDirtyTracking } from "@/hooks/useDomDirtyTracking";
+import UserGuide from "@/components/organism/UserGuide";
 import { toast } from "sonner";
 import { format, parseISO } from "date-fns";
 import { getGoodsRequestById, editGoodsRequest } from "@/services/goods-request";
@@ -51,6 +53,7 @@ const emptyItem = {
 const emptyGroup = () => ({ supplier: null, items: [{ ...emptyItem }] });
 
 const EditGoodsRequest = () => {
+  const dirtyRef = useDomDirtyTracking();
   const { t } = useTranslation();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
@@ -366,7 +369,7 @@ const EditGoodsRequest = () => {
 
   return (
     <>
-      <div className="space-y-6 animate-in fade-in slide-in-from-top-2 duration-300">
+      <div ref={dirtyRef} className="space-y-6 animate-in fade-in slide-in-from-top-2 duration-300">
         <PageHeader
           breadcrumbs={[
             {
@@ -384,8 +387,9 @@ const EditGoodsRequest = () => {
           title={t("page.goodsRequest.edit.title")}
           description={t("page.goodsRequest.edit.description")}
           onBack={() => setCancelModal(true)}
-          dynamicInfo={false}
-        />
+          dynamicInfo={false}>
+          <UserGuide guideKey="add-goods-request" mode="edit" />
+        </PageHeader>
 
         <form
           onSubmit={(e) => {

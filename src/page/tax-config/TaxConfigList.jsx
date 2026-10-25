@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { usePageParam } from "@/hooks/usePageParam";
 import { safeGet } from "@/lib/safe-lookup";
 import { getTaxType } from "@/utils/taxDisplay";
 import { useTranslation } from "react-i18next";
@@ -66,7 +67,7 @@ const TaxConfigList = () => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const [cookie] = useCookies();
-  const [page, setPage] = useState(1);
+  const [page, setPage] = usePageParam();
   const [limit, setLimit] = useState(10);
   const [search, setSearch] = useState("");
   const [deleteTarget, setDeleteTarget] = useState(null);

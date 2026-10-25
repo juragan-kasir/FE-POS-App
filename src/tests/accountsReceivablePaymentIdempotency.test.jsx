@@ -2,6 +2,7 @@ import React from "react";
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import { QueryClient, QueryClientProvider } from "react-query";
+import { MemoryRouter } from "react-router-dom";
 import AccountsReceivableList from "../page/accounts-receivable/AccountsReceivableList";
 import { getARList, getARAging, recordARPayment } from "../services/accounts-receivable";
 
@@ -53,9 +54,11 @@ const renderWithClient = () => {
     defaultOptions: { queries: { retry: false }, mutations: { retry: false } }
   });
   return render(
-    <QueryClientProvider client={queryClient}>
-      <AccountsReceivableList />
-    </QueryClientProvider>
+    <MemoryRouter>
+      <QueryClientProvider client={queryClient}>
+        <AccountsReceivableList />
+      </QueryClientProvider>
+    </MemoryRouter>
   );
 };
 

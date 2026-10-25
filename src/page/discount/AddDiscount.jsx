@@ -49,6 +49,7 @@ import { cn } from "@/lib/utils";
 import Modal from "@/components/organism/modal";
 import { useTranslation } from "react-i18next";
 import PageHeader from "@/components/ui/PageHeader";
+import UserGuide from "@/components/organism/UserGuide";
 import MissingFieldsModal from "@/components/organism/MissingFieldsModal";
 import { getMissingFields } from "@/lib/validation";
 import { useLocations } from "@/queries/useLocations";
@@ -358,8 +359,9 @@ const AddDiscount = () => {
           ]}
           title={t("breadcrumb.add")}
           description={t("page.discount.add.description")}
-          backLink="/discount"
-        />
+          backLink="/discount">
+          <UserGuide guideKey="add-discount" />
+        </PageHeader>
         <div className="bg-card rounded-xl border border-border p-6 space-y-4">
           <Skeleton className="h-5 w-32" />
           <div className="flex gap-2">
@@ -450,8 +452,9 @@ const AddDiscount = () => {
           title={t("breadcrumb.add")}
           description={t("page.discount.add.description")}
           backLink="/discount"
-          onBack={() => setCancelModal(true)}
-        />
+          onBack={() => setCancelModal(true)}>
+          <UserGuide guideKey="add-discount" />
+        </PageHeader>
 
         <Form {...form}>
           <form

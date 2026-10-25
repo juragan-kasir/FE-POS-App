@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App";
-import { QueryClient, QueryClientProvider } from "react-query";
+import { MutationCache, QueryClient, QueryClientProvider } from "react-query";
 // import { LoadingProvider } from "./components/organism/loading";
 // ponytail: Inter self-host — hapus rantai render-blocking ke fonts.googleapis.com
 import "@fontsource/inter/400.css";
@@ -16,6 +16,7 @@ import i18n from "./i18n";
 import { SocketProvider } from "@/services/socket";
 import { StoreProvider } from "@/contexts/StoreContext";
 import { shouldRetryQuery } from "@/lib/query-retry";
+import { markAllClean } from "@/lib/unsaved-changes-store";
 
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", () => {
@@ -24,6 +25,9 @@ if ("serviceWorker" in navigator) {
 }
 
 const queryClient = new QueryClient({
+  mutationCache: new MutationCache({
+    onSuccess: () => markAllClean()
+  }),
   defaultOptions: {
     queries: {
       staleTime: 30000,
