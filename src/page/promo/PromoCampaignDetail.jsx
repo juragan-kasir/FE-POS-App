@@ -261,7 +261,7 @@ const PromoCampaignDetail = () => {
           },
           {
             label: t("page.promo.list.title"),
-            href: "/promo-campaign-list",
+            href: "/promo-list",
             i18nKey: "page.promo.list.title"
           },
           { label: t("breadcrumb.detail") }
@@ -272,7 +272,7 @@ const PromoCampaignDetail = () => {
             ? `${campaign.code} · ${campaign.description || t("page.promo.detail.description")}`
             : campaign.description || t("page.promo.detail.description")
         }
-        backLink="/promo-campaign-list"
+        backLink="/promo-list"
         dynamicInfo={false}>
         {campaign.status === "active" ? (
           <Button
@@ -291,7 +291,7 @@ const PromoCampaignDetail = () => {
             {t("page.promo.detail.activate")}
           </Button>
         )}
-        <Button onClick={() => navigate(`/edit-promo-campaign?id=${id}`)}>
+        <Button onClick={() => navigate(`/edit-promo?id=${id}`)}>
           <Edit size={16} className="mr-1" />
           {t("common.edit")}
         </Button>

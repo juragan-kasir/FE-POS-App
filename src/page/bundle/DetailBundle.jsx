@@ -1,5 +1,5 @@
 import { safeGet } from "@/lib/safe-lookup";
-import React from "react";
+import React, { useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "react-query";
 import { useNavigate, useParams } from "react-router-dom";
 import { useCookies } from "react-cookie";
@@ -11,6 +11,7 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Loading } from "@/components/ui/loading";
 import AbortController from "@/components/organism/abort-controller";
+import Modal from "@/components/organism/modal";
 import PageHeader from "@/components/ui/PageHeader";
 
 const DetailBundle = () => {
@@ -23,6 +24,7 @@ const DetailBundle = () => {
   const isSuperAdmin = user?.roleType === "super_admin";
   const role = user?.roleType || "";
   const canEdit = isSuperAdmin || role === "admin";
+  const [deleteOpen, setDeleteOpen] = useState(false);
 
   const { data, isLoading, isError, refetch } = useQuery(["bundle", id], () => getBundleById(id), {
     enabled: !!id
@@ -114,7 +116,7 @@ const DetailBundle = () => {
             href: "/dashboard-super-admin",
             i18nKey: "breadcrumb.home"
           },
-          { label: t("breadcrumb.bundle"), href: "/bundle-list", i18nKey: "breadcrumb.bundle" },
+          { label: t("breadcrumb.bundle"), href: "/bundle", i18nKey: "breadcrumb.bundle" },
           { label: t("breadcrumb.detail") }
         ]}
         title={bundle.name}
@@ -140,7 +142,7 @@ const DetailBundle = () => {
             <span className="text-sm text-muted-foreground">{bundle.sku}</span>
           </div>
         }
-        backLink="/bundle-list"
+        backLink="/bundle"
         dynamicInfo={false}>
         {canEdit && (
           <>
@@ -172,7 +174,7 @@ const DetailBundle = () => {
             <Button
               variant="destructive"
               className="gap-2"
-              onClick={() => deleteMutation.mutate(bundle.id)}
+              onClick={() => setDeleteOpen(true)}
               disabled={deleteMutation.isLoading}>
               <Trash2 size={16} />
               {t("common.delete")}
@@ -322,6 +324,24 @@ const DetailBundle = () => {
           </Card>
         </div>
       </div>
+
+      <Modal
+        open={deleteOpen}
+        onOpenChange={setDeleteOpen}
+        type="confirm"
+        title={t("modal.confirmDelete")}
+        description={t("common.deleteConfirmDesc", { name: bundle.name })}
+        confirmText={t("common.confirmDelete")}
+        confirmVariant="destructive"
+        loading={deleteMutation.isLoading}
+        onConfirm={async () => {
+          try {
+            await deleteMutation.mutateAsync(bundle.id);
+          } catch {
+            return false;
+          }
+        }}
+      />
     </div>
   );
 };

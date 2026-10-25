@@ -93,7 +93,7 @@ const PurchasePaymentDetail = () => {
           },
           {
             label: t("page.purchasePayment.list.title"),
-            href: "/purchase-payment-list",
+            href: "/purchase-payment",
             i18nKey: "page.purchasePayment.list.title"
           },
           { label: t("breadcrumb.detail") }
@@ -104,7 +104,7 @@ const PurchasePaymentDetail = () => {
             : `${t("page.purchasePayment.detail.title")} #${payment?.id || ""}`
         }
         description={t("page.purchasePayment.detail.pageDesc")}
-        backLink="/purchase-payment-list"
+        backLink="/purchase-payment"
         dynamicInfo={false}>
         {!isLoading && (
           <span

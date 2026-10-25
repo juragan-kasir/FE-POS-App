@@ -162,14 +162,14 @@ const DetailIngredientCategory = () => {
           },
           {
             label: t("page.ingredientCategory.list.title"),
-            href: "/ingredient-category-list",
+            href: "/ingredient-category",
             i18nKey: "page.ingredientCategory.list.title"
           },
           { label: t("breadcrumb.detail") }
         ]}
         title={isLoading ? t("common.loading") : category?.name || "-"}
         description={t("page.ingredientCategory.detail.description")}
-        backLink="/ingredient-category-list"
+        backLink="/ingredient-category"
         dynamicInfo={false}>
         {!isLoading && (
           <Button onClick={() => navigate(`/edit-ingredient-category?id=${id}`)}>

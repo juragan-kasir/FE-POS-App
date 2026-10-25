@@ -371,14 +371,14 @@ const EditDiscount = () => {
             },
             {
               label: t("page.discount.list.title"),
-              href: "/discount",
+              href: "/discount-list",
               i18nKey: "page.discount.list.title"
             },
             { label: t("page.discount.edit.title"), i18nKey: "page.discount.edit.title" }
           ]}
           title={t("page.discount.edit.title")}
           description={t("page.discount.edit.description")}
-          backLink="/discount">
+          backLink="/discount-list">
           <UserGuide guideKey="add-discount" mode="edit" />
         </PageHeader>
         <div className="bg-card rounded-xl border border-border p-6 space-y-4">
@@ -476,14 +476,14 @@ const EditDiscount = () => {
             },
             {
               label: t("page.discount.list.title"),
-              href: "/discount",
+              href: "/discount-list",
               i18nKey: "page.discount.list.title"
             },
             { label: t("page.discount.edit.title"), i18nKey: "page.discount.edit.title" }
           ]}
           title={t("page.discount.edit.title")}
           description={t("page.discount.edit.description")}
-          backLink="/discount"
+          backLink="/discount-list"
           onBack={() => setCancelModal(true)}>
           <UserGuide guideKey="add-discount" mode="edit" />
         </PageHeader>

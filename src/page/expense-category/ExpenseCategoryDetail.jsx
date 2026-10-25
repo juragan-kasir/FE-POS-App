@@ -74,14 +74,14 @@ const ExpenseCategoryDetail = () => {
           },
           {
             label: t("page.expenseCategory.list.title"),
-            href: "/expense-category-list",
+            href: "/expense-category",
             i18nKey: "page.expenseCategory.list.title"
           },
           { label: t("breadcrumb.detail") }
         ]}
         title={isLoading ? t("common.loading") : category?.name || "-"}
         description={t("page.expenseCategory.detail.title")}
-        backLink="/expense-category-list"
+        backLink="/expense-category"
         dynamicInfo={false}>
         {!isLoading && (
           <Button variant="outline" onClick={() => navigate(`/edit-expense-category?id=${id}`)}>

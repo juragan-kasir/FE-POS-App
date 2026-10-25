@@ -115,14 +115,14 @@ const DetailStockOpname = () => {
             },
             {
               label: t("page.stockOpname.list.title", "Stock Opname"),
-              href: "/stock-opname-list",
+              href: "/stock-opname",
               i18nKey: "page.stockOpname.list.title"
             },
             { label: t("breadcrumb.detail") }
           ]}
           title={t("page.stockOpname.detail.title")}
           description={opname.auditId || `#${opname.id}`}
-          backLink="/stock-opname-list"
+          backLink="/stock-opname"
           dynamicInfo={false}>
           <PrintButton />
           {canEdit && (

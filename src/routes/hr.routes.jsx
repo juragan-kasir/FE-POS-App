@@ -50,8 +50,22 @@ const OvertimeApproval = React.lazy(() => import("@/page/overtime/OvertimeApprov
 
 export const hrRoutes = (
   <>
-    <Route path="/user-list" element={<AdminList />} />
-    <Route path="/add-user" element={<AddAdmin />} />
+    <Route
+      path="/user-list"
+      element={
+        <RequireRole roles={["super_admin", "admin"]}>
+          <AdminList />
+        </RequireRole>
+      }
+    />
+    <Route
+      path="/add-user"
+      element={
+        <RequireRole roles={["super_admin", "admin"]}>
+          <AddAdmin />
+        </RequireRole>
+      }
+    />
     <Route
       path="/add-role"
       element={
@@ -85,7 +99,14 @@ export const hrRoutes = (
       }
     />
 
-    <Route path="/employee-list" element={<EmployeeList />} />
+    <Route
+      path="/employee-list"
+      element={
+        <RequireRole roles={["super_admin", "admin"]}>
+          <EmployeeList />
+        </RequireRole>
+      }
+    />
     <Route
       path="/add-employee"
       element={
@@ -102,9 +123,23 @@ export const hrRoutes = (
         </RequireRole>
       }
     />
-    <Route path="/detail-employee" element={<DetailEmployee />} />
+    <Route
+      path="/detail-employee"
+      element={
+        <RequireRole roles={["super_admin", "admin"]}>
+          <DetailEmployee />
+        </RequireRole>
+      }
+    />
 
-    <Route path="/position-list" element={<PositionList />} />
+    <Route
+      path="/position-list"
+      element={
+        <RequireRole roles={["super_admin", "admin"]}>
+          <PositionList />
+        </RequireRole>
+      }
+    />
     <Route
       path="/add-position"
       element={
@@ -121,9 +156,23 @@ export const hrRoutes = (
         </RequireRole>
       }
     />
-    <Route path="/detail-position" element={<DetailPosition />} />
+    <Route
+      path="/detail-position"
+      element={
+        <RequireRole roles={["super_admin", "admin"]}>
+          <DetailPosition />
+        </RequireRole>
+      }
+    />
 
-    <Route path="/department-list" element={<DepartmentList />} />
+    <Route
+      path="/department-list"
+      element={
+        <RequireRole roles={["super_admin", "admin"]}>
+          <DepartmentList />
+        </RequireRole>
+      }
+    />
     <Route
       path="/add-department"
       element={
@@ -140,9 +189,23 @@ export const hrRoutes = (
         </RequireRole>
       }
     />
-    <Route path="/detail-department" element={<DetailDepartment />} />
+    <Route
+      path="/detail-department"
+      element={
+        <RequireRole roles={["super_admin", "admin"]}>
+          <DetailDepartment />
+        </RequireRole>
+      }
+    />
 
-    <Route path="/shift-list" element={<ShiftList />} />
+    <Route
+      path="/shift-list"
+      element={
+        <RequireRole roles={["super_admin", "admin"]}>
+          <ShiftList />
+        </RequireRole>
+      }
+    />
     <Route
       path="/add-shift"
       element={
@@ -159,10 +222,24 @@ export const hrRoutes = (
         </RequireRole>
       }
     />
-    <Route path="/detail-shift" element={<DetailShift />} />
+    <Route
+      path="/detail-shift"
+      element={
+        <RequireRole roles={["super_admin", "admin"]}>
+          <DetailShift />
+        </RequireRole>
+      }
+    />
     <Route path="/my-shift" element={<MyShift />} />
 
-    <Route path="/shift-template-list" element={<ShiftTemplateList />} />
+    <Route
+      path="/shift-template-list"
+      element={
+        <RequireRole roles={["super_admin", "admin"]}>
+          <ShiftTemplateList />
+        </RequireRole>
+      }
+    />
     <Route
       path="/add-shift-template"
       element={
@@ -179,7 +256,14 @@ export const hrRoutes = (
         </RequireRole>
       }
     />
-    <Route path="/detail-shift-template" element={<DetailShiftTemplate />} />
+    <Route
+      path="/detail-shift-template"
+      element={
+        <RequireRole roles={["super_admin", "admin"]}>
+          <DetailShiftTemplate />
+        </RequireRole>
+      }
+    />
 
     <Route path="/my-overtime" element={<MyOvertime />} />
     <Route

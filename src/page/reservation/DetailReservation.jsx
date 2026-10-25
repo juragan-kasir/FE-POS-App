@@ -70,7 +70,7 @@ const DetailReservation = () => {
     );
   }
 
-  const s = STATUS_MAP[r.status] || STATUS_MAP.pending;
+  const s = STATUS_MAP[r?.status] || STATUS_MAP.pending;
 
   return (
     <div className="space-y-6 w-full">
@@ -83,7 +83,7 @@ const DetailReservation = () => {
           },
           {
             label: t("page.reservation.title"),
-            href: "/reservation-list",
+            href: "/reservation",
             i18nKey: "page.reservation.title"
           },
           { label: t("breadcrumb.detail") }
@@ -92,7 +92,7 @@ const DetailReservation = () => {
           isLoading ? t("common.loading") : r?.customerName || t("page.reservation.detailTitle")
         }
         description={t("page.reservation.detail.subtitle")}
-        backLink="/reservation-list"
+        backLink="/reservation"
         dynamicInfo={false}
       />
 
@@ -186,7 +186,7 @@ const DetailReservation = () => {
         </Card>
       )}
 
-      {r.customerPhone && r.status === "confirmed" && (
+      {r?.customerPhone && r.status === "confirmed" && (
         <div className="flex justify-end">
           <Button onClick={sendWhatsApp} className="gap-2">
             <Phone size={16} /> {t("page.reservation.detail.sendWA")}

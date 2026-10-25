@@ -186,7 +186,7 @@ const DetailIngredient = () => {
         <div className="flex flex-col items-center justify-center h-64 text-muted-foreground gap-3">
           <Package size={40} />
           <p>{t("page.ingredient.notFound")}</p>
-          <Button variant="danger" onClick={() => navigate("/ingredient-list")}>
+          <Button variant="danger" onClick={() => navigate("/ingredient")}>
             {t("common.back")}
           </Button>
         </div>

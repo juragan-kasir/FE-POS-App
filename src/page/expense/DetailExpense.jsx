@@ -546,10 +546,7 @@ const DetailExpense = () => {
                     onClick={() => navigate(`/edit-expense?id=${item.id}`)}>
                     {t("page.expense.detail.editBtn")}
                   </Button>
-                  <Button
-                    className="w-full"
-                    variant="danger"
-                    onClick={() => navigate("/expense-list")}>
+                  <Button className="w-full" variant="danger" onClick={() => navigate("/expense")}>
                     {t("page.expense.detail.backToList")}
                   </Button>
                 </div>
