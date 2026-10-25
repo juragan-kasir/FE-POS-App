@@ -22,6 +22,7 @@ import { Button } from "@/components/ui/button";
 import { DatePicker } from "@/components/ui/date-picker";
 import { Skeleton } from "@/components/ui/skeleton";
 import { getAllEmployee } from "@/services/employee";
+import { formatDateOnly, parseDateOnly } from "@/utils/dateOnly";
 import { cn } from "@/lib/utils";
 import { resolveKaryawan, groupKaryawanByStore, splitKaryawanByStore } from "./shiftMembers";
 
@@ -34,18 +35,12 @@ const ExtendShiftModal = ({ open, onOpenChange, shift, locationName, onSave, isS
 
   const initialMulai = useMemo(() => {
     if (!shift?.tanggal_mulai) return null;
-    const d = new Date(shift.tanggal_mulai);
-    if (isNaN(d.getTime())) return null;
-    d.setHours(0, 0, 0, 0);
-    return d;
+    return parseDateOnly(shift.tanggal_mulai);
   }, [shift?.tanggal_mulai]);
 
   const initialSelesai = useMemo(() => {
     if (!shift?.tanggal_selesai) return null;
-    const d = new Date(shift.tanggal_selesai);
-    if (isNaN(d.getTime())) return null;
-    d.setHours(0, 0, 0, 0);
-    return d;
+    return parseDateOnly(shift.tanggal_selesai);
   }, [shift?.tanggal_selesai]);
 
   const [tanggalMulai, setTanggalMulai] = useState(initialMulai);
@@ -64,8 +59,7 @@ const ExtendShiftModal = ({ open, onOpenChange, shift, locationName, onSave, isS
 
   const isExpired = useMemo(() => {
     if (!shift?.tanggal_selesai) return false;
-    const end = new Date(shift.tanggal_selesai);
-    end.setHours(0, 0, 0, 0);
+    const end = parseDateOnly(shift.tanggal_selesai);
     return end < today;
   }, [shift?.tanggal_selesai, today]);
 
@@ -121,16 +115,15 @@ const ExtendShiftModal = ({ open, onOpenChange, shift, locationName, onSave, isS
       selesai.setHours(0, 0, 0, 0);
     }
     onSave({
-      tanggal_mulai: mulai.toISOString().split("T")[0],
-      tanggal_selesai: selesai ? selesai.toISOString().split("T")[0] : null,
+      tanggal_mulai: formatDateOnly(mulai),
+      tanggal_selesai: selesai ? formatDateOnly(selesai) : null,
       tipe_shift: tipeShift
     });
   };
 
   const daysLeft = useMemo(() => {
     if (!shift?.tanggal_selesai) return null;
-    const end = new Date(shift.tanggal_selesai);
-    end.setHours(0, 0, 0, 0);
+    const end = parseDateOnly(shift.tanggal_selesai);
     const diff = Math.ceil((end - today) / 86400000);
     return diff;
   }, [shift?.tanggal_selesai, today]);

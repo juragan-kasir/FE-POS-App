@@ -39,8 +39,18 @@ import MissingFieldsModal from "@/components/organism/MissingFieldsModal";
 import { getMissingFields } from "@/lib/validation";
 import { SHIFT_TYPES, DEFAULT_SHIFT_TYPE, SHIFT_TYPE_LABELS } from "@/constants/shiftTypes";
 import { safeGet } from "@/lib/safe-lookup";
+import { formatDateOnly } from "@/utils/dateOnly";
 import { useLocations } from "@/queries/useLocations";
 import { FIELD_LIMITS } from "@/constants/fieldLimits";
+import { buildEmployeeShiftConflictMap } from "./shiftOverlap";
+
+const toOverlapCandidate = (values) => ({
+  tanggal_mulai: values.tanggal_mulai,
+  tanggal_selesai: values.tipe_shift === "mingguan" ? values.tanggal_selesai : undefined,
+  jam_mulai: values.jam_mulai,
+  jam_selesai: values.jam_selesai,
+  tipe_shift: values.tipe_shift
+});
 
 const AddShift = () => {
   const { t } = useTranslation();
@@ -161,30 +171,15 @@ const AddShift = () => {
   const { data: allShiftsData } = useQuery(["shifts-for-conflict"], () =>
     getAllShift({ store: "", page: 1, limit: 1000, statusShift: "" })
   );
-  const employeeShiftMap = useMemo(() => {
-    const map = {};
-    const shifts = allShiftsData?.data || [];
-    shifts.forEach((shift) => {
-      (shift.karyawan || []).forEach((empId) => {
-        if (!map[empId]) {
-          map[empId] = {
-            shiftId: shift.id,
-            shiftName: shift.nama_shift,
-            startTime: shift.jam_mulai?.slice(0, 5),
-            endTime: shift.jam_selesai?.slice(0, 5),
-            storeId: shift.store
-          };
-        }
-      });
-    });
-    return map;
-  }, [allShiftsData]);
 
   const isInitialLoading = employeeQueries.some((q) => q.isLoading) || locLoading;
 
   const tipeShift = form.watch("tipe_shift");
   const selectedEmployees = form.watch("karyawan") || [];
   const tanggalMulai = form.watch("tanggal_mulai");
+  const tanggalSelesai = form.watch("tanggal_selesai");
+  const jamMulai = form.watch("jam_mulai");
+  const jamSelesai = form.watch("jam_selesai");
 
   React.useEffect(() => {
     if (tipeShift === "mingguan" && tanggalMulai) {
@@ -195,6 +190,46 @@ const AddShift = () => {
       form.setValue("tanggal_selesai", undefined);
     }
   }, [tipeShift, tanggalMulai, form]);
+
+  const employeeConflicts = useMemo(
+    () =>
+      buildEmployeeShiftConflictMap(
+        allShiftsData?.data || [],
+        toOverlapCandidate({
+          tanggal_mulai: tanggalMulai,
+          tanggal_selesai: tanggalSelesai,
+          jam_mulai: jamMulai,
+          jam_selesai: jamSelesai,
+          tipe_shift: tipeShift
+        })
+      ),
+    [allShiftsData, tanggalMulai, tanggalSelesai, jamMulai, jamSelesai, tipeShift]
+  );
+
+  const getConflictingEmployees = (values) => {
+    const conflicts = buildEmployeeShiftConflictMap(
+      allShiftsData?.data || [],
+      toOverlapCandidate(values)
+    );
+    return (values.karyawan || [])
+      .map((employee) => {
+        const employeeId = employee?.id ?? employee?._id;
+        const rows = conflicts[String(employeeId)] || [];
+        return rows.length > 0 ? { ...employee, conflicts: rows } : null;
+      })
+      .filter(Boolean);
+  };
+
+  const showConflictError = (employees) => {
+    const names = employees
+      .map((employee) => {
+        const conflict = employee.conflicts[0];
+        return `${employee.name || `#${employee.id}`} (${conflict.shiftName} ${conflict.startTime}-${conflict.endTime})`;
+      })
+      .join(", ");
+    setModalMessage(t("page.shift.add.conflictMessage", { names }));
+    setErrorModal(true);
+  };
 
   const handleStoreChange = (value) => {
     if (isSuperAdmin && Array.isArray(value)) {
@@ -262,6 +297,7 @@ const AddShift = () => {
   const createMutation = useMutation(addShift, {
     onSuccess: () => {
       queryClient.invalidateQueries(["shifts"]);
+      queryClient.invalidateQueries(["shifts-for-conflict"]);
       setSuccessModal(true);
     },
     onError: (err) => {
@@ -271,6 +307,12 @@ const AddShift = () => {
   });
 
   const handleSave = (values, saveAsDraft = false) => {
+    const conflictingEmployees = getConflictingEmployees(values);
+    if (conflictingEmployees.length > 0) {
+      showConflictError(conflictingEmployees);
+      return;
+    }
+
     const { status, karyawan, store, ...rest } = values;
     const storeValue = isSuperAdmin
       ? allStores
@@ -282,14 +324,8 @@ const AddShift = () => {
     createMutation.mutate({
       ...rest,
       store: storeValue,
-      tanggal_mulai:
-        values.tanggal_mulai instanceof Date
-          ? values.tanggal_mulai.toISOString().split("T")[0]
-          : values.tanggal_mulai,
-      tanggal_selesai:
-        values.tanggal_selesai instanceof Date
-          ? values.tanggal_selesai.toISOString().split("T")[0]
-          : values.tanggal_selesai,
+      tanggal_mulai: formatDateOnly(values.tanggal_mulai),
+      tanggal_selesai: values.tanggal_selesai ? formatDateOnly(values.tanggal_selesai) : null,
       karyawan: karyawan?.map((k) => k.id) || [],
       status: saveAsDraft ? "draft" : status ? "active" : "inactive"
     });
@@ -704,10 +740,11 @@ const AddShift = () => {
                                         .map((emp) => {
                                           const empId = emp.id || emp._id;
                                           const isSelected = selectedEmployees.some(
-                                            (e) => e.id === empId
+                                            (e) => String(e.id) === String(empId)
                                           );
-                                          const hasShift = employeeShiftMap[empId];
-                                          const isDisabled = !!hasShift;
+                                          const conflicts = employeeConflicts[String(empId)] || [];
+                                          const conflict = conflicts[0];
+                                          const isDisabled = !isSelected && conflicts.length > 0;
                                           const posName =
                                             emp.positionData?.name ||
                                             (typeof emp.position === "string" ? emp.position : "");
@@ -761,12 +798,18 @@ const AddShift = () => {
                                                     </span>
                                                   )}
                                                 </div>
-                                                {isDisabled && hasShift && (
+                                                {conflicts.length > 0 && (
                                                   <div className="flex items-center gap-1 mt-0.5 text-[11px] text-amber-600 dark:text-amber-400">
                                                     <AlertTriangle size={10} className="shrink-0" />
                                                     <span>
-                                                      Sudah ada shift: {hasShift.shiftName} (
-                                                      {hasShift.startTime}-{hasShift.endTime})
+                                                      {t("page.shift.add.conflictHint", {
+                                                        name: conflict.shiftName,
+                                                        start: conflict.startTime,
+                                                        end: conflict.endTime
+                                                      })}
+                                                      {conflicts.length > 1
+                                                        ? ` +${conflicts.length - 1}`
+                                                        : ""}
                                                     </span>
                                                   </div>
                                                 )}
@@ -860,10 +903,16 @@ const AddShift = () => {
                     type="button"
                     disabled={createMutation.isLoading}
                     onClick={() => {
-                      const fields = getMissingFields(form.getValues(), formSchema, fieldLabels);
+                      const values = form.getValues();
+                      const fields = getMissingFields(values, formSchema, fieldLabels);
                       if (fields.length > 0) {
                         setMissingFieldsList(fields);
                         setMissingFieldsModal(true);
+                        return;
+                      }
+                      const conflictingEmployees = getConflictingEmployees(values);
+                      if (conflictingEmployees.length > 0) {
+                        showConflictError(conflictingEmployees);
                         return;
                       }
                       setConfirmSaveModal(true);

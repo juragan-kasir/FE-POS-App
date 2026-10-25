@@ -63,6 +63,7 @@ import AbortController from "@/components/organism/abort-controller";
 import HorizontalScrollArea from "@/components/ui/HorizontalScrollArea";
 import { useLocations } from "@/queries/useLocations";
 import { FIELD_LIMITS } from "@/constants/fieldLimits";
+import { formatDateOnly } from "@/utils/dateOnly";
 
 // BE persists these opname quantities as decimals (matching the product's
 // own DECIMAL(10,4) stock field, which is what auto-fills stokAwalJumlah) —
@@ -516,9 +517,7 @@ const AddStockOpname = () => {
     const values = getValues();
     return {
       auditDate:
-        values.tanggalAudit instanceof Date
-          ? values.tanggalAudit.toISOString().split("T")[0]
-          : values.tanggalAudit,
+        formatDateOnly(values.tanggalAudit),
       auditor: values.auditor,
       notes: values.catatan || "",
       ...(status ? { status } : {}),
@@ -1114,9 +1113,7 @@ const AddStockOpname = () => {
         onDataParsed={handleUploadParsed}
         onUploadSuccess={() => navigate("/stock-opname")}
         auditDate={
-          watch("tanggalAudit") instanceof Date
-            ? watch("tanggalAudit").toISOString().split("T")[0]
-            : watch("tanggalAudit")
+          formatDateOnly(watch("tanggalAudit"))
         }
       />
     </div>

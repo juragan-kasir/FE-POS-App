@@ -45,6 +45,7 @@ import StoreSelectCard from "@/components/organism/StoreSelectCard";
 import HorizontalScrollArea from "@/components/ui/HorizontalScrollArea";
 import { useLocations } from "@/queries/useLocations";
 import { FIELD_LIMITS } from "@/constants/fieldLimits";
+import { formatDateOnly } from "@/utils/dateOnly";
 
 const EditGoodsReceipt = () => {
   const dirtyRef = useDomDirtyTracking();
@@ -450,7 +451,7 @@ const EditGoodsReceipt = () => {
     try {
       const payload = {
         receivedDate:
-          receivedDate instanceof Date ? receivedDate.toISOString().split("T")[0] : receivedDate,
+          formatDateOnly(receivedDate),
         notes,
         pic: selectedPic?.id || null,
         suratJalan: suratJalan.trim() || null,

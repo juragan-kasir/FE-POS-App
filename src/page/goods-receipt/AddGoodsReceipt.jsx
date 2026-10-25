@@ -46,6 +46,7 @@ import { useCookies } from "react-cookie";
 import StoreSelectCard from "@/components/organism/StoreSelectCard";
 import { useLocations } from "@/queries/useLocations";
 import { FIELD_LIMITS } from "@/constants/fieldLimits";
+import { formatDateOnly } from "@/utils/dateOnly";
 
 const AddGoodsReceipt = () => {
   const navigate = useNavigate();
@@ -460,9 +461,7 @@ const AddGoodsReceipt = () => {
       const payload = {
         purchaseOrderId: parseInt(data.poId),
         receivedDate:
-          data.receivedDate instanceof Date
-            ? data.receivedDate.toISOString().split("T")[0]
-            : data.receivedDate,
+          formatDateOnly(data.receivedDate),
         notes: data.notes,
         pic: selectedPic?.id || null,
         suratJalan: suratJalan.trim() || null,

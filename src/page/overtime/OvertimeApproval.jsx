@@ -33,6 +33,7 @@ import { Loading } from "@/components/ui/loading";
 import Modal from "@/components/organism/modal";
 import { useLocations } from "@/queries/useLocations";
 import { FIELD_LIMITS } from "@/constants/fieldLimits";
+import { todayDateOnly } from "@/utils/dateOnly";
 
 const fmt = (d) => {
   if (!d) return "-";
@@ -121,7 +122,7 @@ const OvertimeApproval = () => {
   const [decisionTarget, setDecisionTarget] = useState(null);
   const [decisionNote, setDecisionNote] = useState("");
   const [payrollTarget, setPayrollTarget] = useState(null);
-  const [payrollMonth, setPayrollMonth] = useState(() => new Date().toISOString().slice(0, 7));
+  const [payrollMonth, setPayrollMonth] = useState(() => todayDateOnly().slice(0, 7));
 
   const { data: locData } = useLocations("active", {
     enabled: isSuperAdmin

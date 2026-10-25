@@ -83,6 +83,7 @@ import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/component
 import HorizontalScrollArea from "@/components/ui/HorizontalScrollArea";
 import { useLocations } from "@/queries/useLocations";
 import { FIELD_LIMITS } from "@/constants/fieldLimits";
+import { todayDateOnly } from "@/utils/dateOnly";
 import { Textarea } from "@/components/ui/textarea";
 
 const SupplierExpandableRow = ({ supplier, renderSupplierItems }) => {
@@ -240,7 +241,7 @@ const PurchaseOrderList = () => {
     { enabled: !!returPo?.store }
   );
 
-  const todayStr = new Date().toISOString().slice(0, 10);
+  const todayStr = todayDateOnly();
 
   const productExpiry = useMemo(() => {
     // ponytail: Map — bebas object injection

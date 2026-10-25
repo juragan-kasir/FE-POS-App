@@ -31,6 +31,9 @@ import UserGuide from "@/components/organism/UserGuide";
 import HorizontalScrollArea from "@/components/ui/HorizontalScrollArea";
 import { useLocations } from "@/queries/useLocations";
 import { FIELD_LIMITS } from "@/constants/fieldLimits";
+import { useDomDirtyTracking } from "@/hooks/useDomDirtyTracking";
+import { useLeaveGuard } from "@/hooks/useLeaveGuard";
+import { useUnsavedChangesGuard } from "@/contexts/UnsavedChangesContext";
 
 const SectionHeader = ({ icon: Icon, title, desc, from, to }) => (
   <div className={`bg-gradient-to-r ${from} ${to} px-6 py-4`}>
@@ -50,6 +53,9 @@ const AddBusinessTrip = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
+  const dirtyRef = useDomDirtyTracking();
+  const { registerDirty, markAllClean } = useUnsavedChangesGuard();
+  const rhfDirtyId = React.useId();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errorModal, setErrorModal] = useState(false);
   const [modalMessage, setModalMessage] = useState("");
@@ -124,6 +130,19 @@ const AddBusinessTrip = () => {
 
   const employeeFields = useFieldArray({ control, name: "employees" });
   const budgetFields = useFieldArray({ control, name: "budgetItems" });
+
+  const requestLeave = useLeaveGuard(form, "/business-trip", () => setCancelModal(true));
+
+  React.useEffect(() => {
+    registerDirty(rhfDirtyId, form.formState.isDirty);
+    return () => registerDirty(rhfDirtyId, false);
+  }, [registerDirty, rhfDirtyId, form.formState.isDirty]);
+
+  const cancelAndLeave = () => {
+    markAllClean();
+    setCancelModal(false);
+    setTimeout(() => navigate("/business-trip"), 150);
+  };
 
   const departDate = watch("departureDate");
   const selectedStore = watch("store");
@@ -225,6 +244,7 @@ const AddBusinessTrip = () => {
         notes: data.notes
       });
       queryClient.invalidateQueries(["business-trips"]);
+      markAllClean();
       setSuccessModal(true);
     } catch (err) {
       setModalMessage(err?.response?.data?.message || err.message);
@@ -236,7 +256,7 @@ const AddBusinessTrip = () => {
 
   return (
     <>
-      <div className="space-y-6 animate-in fade-in slide-in-from-top-2 duration-300">
+      <div ref={dirtyRef} className="space-y-6 animate-in fade-in slide-in-from-top-2 duration-300">
         <PageHeader
           breadcrumbs={[
             {
@@ -252,7 +272,7 @@ const AddBusinessTrip = () => {
             { label: t("page.businessTrip.add.title") }
           ]}
           title={t("page.businessTrip.add.title")}
-          onBack={() => setCancelModal(true)}
+          onBack={requestLeave}
           dynamicInfo={false}>
           <UserGuide guideKey="add-business-trip" />
         </PageHeader>
@@ -694,7 +714,7 @@ const AddBusinessTrip = () => {
               type="button"
               variant="danger"
               className="w-full sm:w-auto justify-center"
-              onClick={() => setCancelModal(true)}>
+              onClick={requestLeave}>
               <X size={16} className="mr-1" /> {t("page.businessTrip.add.form.cancel")}
             </Button>
             <Button
@@ -723,10 +743,7 @@ const AddBusinessTrip = () => {
           title={t("page.businessTrip.add.form.cancel")}
           description={t("page.businessTrip.add.form.cancel")}
           confirmText={t("common.yes")}
-          onConfirm={() => {
-            setCancelModal(false);
-            setTimeout(() => navigate("/business-trip"), 150);
-          }}
+          onConfirm={cancelAndLeave}
         />
         <Modal
           type="confirm"
