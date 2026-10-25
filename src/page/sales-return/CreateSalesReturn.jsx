@@ -30,6 +30,7 @@ import { useDomDirtyTracking } from "@/hooks/useDomDirtyTracking";
 import UserGuide from "@/components/organism/UserGuide";
 import VoidOrderDialog from "@/components/organism/VoidOrderDialog";
 import { isAdminRole } from "@/utils/role";
+import { todayDateOnly } from "@/utils/dateOnly";
 import { FIELD_LIMITS } from "@/constants/fieldLimits";
 import { Textarea } from "@/components/ui/textarea";
 
@@ -116,7 +117,7 @@ const CreateSalesReturn = () => {
     setRefundMethod(order?.paymentMethod || "cash");
   }, [order?.paymentMethod]);
 
-  const todayStr = new Date().toISOString().slice(0, 10);
+  const todayStr = todayDateOnly();
 
   const productExpiry = useMemo(() => {
     // ponytail: Map — bebas object injection

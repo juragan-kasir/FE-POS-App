@@ -8,17 +8,10 @@ import { Input } from "@/components/ui/input";
 import { getIngredientStockSummary } from "@/services/ingredient";
 import { formatQuantity } from "@/utils/quantity";
 import { getIngredientStockState } from "@/utils/ingredientStockState";
+import { todayDateOnly } from "@/utils/dateOnly";
 
 const P = "page.ingredient.summary";
 const fieldLabelClass = "text-[11px] font-semibold uppercase tracking-wider text-muted-foreground";
-
-// YYYY-MM-DD of the viewer's local day (the store's business day for the
-// warung's own devices).
-const todayLocal = () => {
-  const d = new Date();
-  const pad = (n) => String(n).padStart(2, "0");
-  return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
-};
 
 const Qty = ({ value, unit, tone }) => (
   <span className={`font-mono ${tone || ""}`}>
@@ -31,9 +24,9 @@ const Qty = ({ value, unit, tone }) => (
 // portions sold. A recorded figure is the book stock, not a physical count.
 const IngredientStockSummary = ({ store, needsStore }) => {
   const { t } = useTranslation();
-  const [startDate, setStartDate] = useState(todayLocal());
-  const [endDate, setEndDate] = useState(todayLocal());
-  const isFiltered = startDate !== todayLocal() || endDate !== todayLocal();
+  const [startDate, setStartDate] = useState(todayDateOnly());
+  const [endDate, setEndDate] = useState(todayDateOnly());
+  const isFiltered = startDate !== todayDateOnly() || endDate !== todayDateOnly();
 
   const { data, isLoading, isFetching, isError, refetch } = useQuery(
     ["ingredient-stock-summary", store, startDate, endDate],
@@ -185,8 +178,8 @@ const IngredientStockSummary = ({ store, needsStore }) => {
             title={t(`${P}.title`)}
             isFiltered={isFiltered}
             onReset={() => {
-              setStartDate(todayLocal());
-              setEndDate(todayLocal());
+              setStartDate(todayDateOnly());
+              setEndDate(todayDateOnly());
             }}>
             {dateFilters}
           </TableToolbar>

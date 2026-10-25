@@ -7634,6 +7634,8 @@
   "page.role.edit.successTitle": "Role Berhasil Diperbarui",
   "page.shift.add.validation.store": "Toko wajib dipilih",
   "page.shift.add.validation.tanggalMulai": "Tanggal mulai wajib diisi",
+  "page.shift.add.conflictHint": "Sudah ada shift bentrok: {{name}} ({{start}}-{{end}})",
+  "page.shift.add.conflictMessage": "Karyawan berikut sudah memiliki shift yang tumpang tindih: {{names}}.",
   "page.stockTransfer.list.cancel": "Batal",
   "page.stockTransfer.list.cancelSuccess": "Berhasil dibatalkan",
   "page.goodsReceipt.list.export.no": "No",

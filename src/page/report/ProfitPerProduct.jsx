@@ -8,11 +8,12 @@ import ExportButtons from "@/components/organism/ExportButtons";
 import ReportTable from "@/components/organism/ReportTable";
 import { useReportData } from "@/queries/useReportData";
 import { formatCurrency } from "@/utils/reportUtils";
+import { todayDateOnly } from "@/utils/dateOnly";
 
 const ProfitPerProduct = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const today = new Date().toISOString().slice(0, 10);
+  const today = todayDateOnly();
   const [startDate, setStartDate] = useState(today);
   const [endDate, setEndDate] = useState(today);
 

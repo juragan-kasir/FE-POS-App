@@ -7643,6 +7643,8 @@
   "page.role.edit.successTitle": "Role Updated Successfully",
   "page.shift.add.validation.store": "Store is required",
   "page.shift.add.validation.tanggalMulai": "Start date is required",
+  "page.shift.add.conflictHint": "An overlapping shift already exists: {{name}} ({{start}}-{{end}})",
+  "page.shift.add.conflictMessage": "These employees already have overlapping shifts: {{names}}.",
   "page.product.upload.subtitle": "Upload Products",
   "page.accountsReceivable.totalReceivable": "Total Receivable",
   "page.role.action.view": "View",

@@ -25,6 +25,7 @@ import Modal from "@/components/organism/modal";
 import { Loading } from "@/components/ui/loading";
 import HorizontalScrollArea from "@/components/ui/HorizontalScrollArea";
 import { FIELD_LIMITS } from "@/constants/fieldLimits";
+import { formatDateOnly } from "@/utils/dateOnly";
 
 const AddProductionOrder = () => {
   const { t } = useTranslation();
@@ -97,10 +98,7 @@ const AddProductionOrder = () => {
       const payload = {
         productItemId: parseInt(data.productId),
         plannedQty: parseInt(data.plannedQty),
-        scheduledDate:
-          data.scheduledDate instanceof Date
-            ? data.scheduledDate.toISOString().split("T")[0]
-            : data.scheduledDate,
+        scheduledDate: formatDateOnly(data.scheduledDate),
         notes: data.notes,
         ...(saveAsDraft && { status: "draft" })
       };
