@@ -2,8 +2,9 @@
 // kind. The BE refuses anything longer with 400 (VALUE_TOO_LONG / per-field
 // zod limits); the DB column is never narrower than these.
 //
-// Until a column is widened (DR-28 step 4), its field uses the column's
-// current length instead of the standard — see CURRENT_DB_LIMITS.
+// A column that stays narrower than the standard keeps its own length — see
+// CURRENT_DB_LIMITS. (Tenant name, URL columns and the stock transfer reason
+// were widened by batch B5 and now take the standard.)
 export const FIELD_LIMITS = Object.freeze({
   PERSON_NAME: 100,
   BUSINESS_NAME: 150,
@@ -28,10 +29,7 @@ export const FIELD_LIMITS = Object.freeze({
   DESCRIPTION: 255
 });
 
-// Columns still narrower than the standard (widened in DR-28 step 4).
+// Columns that stay narrower than the standard.
 export const CURRENT_DB_LIMITS = Object.freeze({
-  TENANT_NAME: 100, // tenant.name VARCHAR(100), standard 150
-  ACCOUNT_CODE: 20, // account.code VARCHAR(20)
-  STOCK_TRANSFER_REASON: 100, // stock_transfer.reason VARCHAR(100), standard 140
-  URL_COLUMN: 255 // image / link / website columns VARCHAR(255), standard 2048
+  ACCOUNT_CODE: 20 // account.code VARCHAR(20)
 });

@@ -4,7 +4,7 @@ import "@testing-library/jest-dom";
 import { useForm } from "react-hook-form";
 import { Input } from "../components/ui/input";
 import { Textarea } from "../components/ui/textarea";
-import { FIELD_LIMITS } from "../constants/fieldLimits";
+import { CURRENT_DB_LIMITS, FIELD_LIMITS } from "../constants/fieldLimits";
 
 // Field-length standard (BA DR-28): a limited input shows how many characters
 // are used of the maximum; at the maximum the border turns red and a line says
@@ -154,4 +154,9 @@ test("showCount={false} keeps a plain capped input", () => {
   const { container } = render(<Input aria-label="rating" maxLength={3} showCount={false} />);
   expect(screen.getByLabelText("rating")).toHaveAttribute("maxLength", "3");
   expect(container.textContent).toBe("");
+});
+
+test("after batch B5 only the account code stays narrower than the standard", () => {
+  // tenant name 150, URL 2048 and the stock transfer reason use FIELD_LIMITS now
+  expect(CURRENT_DB_LIMITS).toEqual({ ACCOUNT_CODE: 20 });
 });
