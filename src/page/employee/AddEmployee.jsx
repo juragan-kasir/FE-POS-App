@@ -28,6 +28,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { addMonths, format } from "date-fns";
+import { formatDateOnly, parseDateOnly } from "@/utils/dateOnly";
 import { toast } from "sonner";
 import { useTranslation } from "react-i18next";
 import { addEmployee, generateEmployeeId } from "@/services/employee";
@@ -288,11 +289,11 @@ const AddEmployee = () => {
 
   useEffect(() => {
     if (startDate && contractDuration && ["contract", "internship"].includes(employmentType)) {
-      const start = new Date(startDate);
+      const start = parseDateOnly(startDate);
       const months = parseInt(contractDuration);
       if (!isNaN(months)) {
         const end = addMonths(start, months);
-        form.setValue("endDate", end.toISOString());
+        form.setValue("endDate", formatDateOnly(end));
       }
     } else {
       form.setValue("endDate", "");
@@ -783,9 +784,9 @@ const AddEmployee = () => {
                                           <span className="text-destructive">*</span>
                                         </FormLabel>
                                         <DatePicker
-                                          date={field.value ? new Date(field.value) : undefined}
+                                          date={parseDateOnly(field.value)}
                                           setDate={(date) =>
-                                            field.onChange(date ? date.toISOString() : "")
+                                            field.onChange(formatDateOnly(date))
                                           }
                                         />
                                         <FormMessage />
@@ -1110,9 +1111,9 @@ const AddEmployee = () => {
                                       {t("page.employee.form.startDate")}
                                     </FormLabel>
                                     <DatePicker
-                                      date={field.value ? new Date(field.value) : undefined}
+                                      date={parseDateOnly(field.value)}
                                       setDate={(date) =>
-                                        field.onChange(date ? date.toISOString() : "")
+                                        field.onChange(formatDateOnly(date))
                                       }
                                     />
                                     <FormMessage />
@@ -1161,7 +1162,7 @@ const AddEmployee = () => {
                                         </FormLabel>
                                         <div className="flex h-10 w-full items-center rounded-lg border border-border bg-muted/50 px-3 text-sm text-muted-foreground">
                                           {field.value
-                                            ? format(new Date(field.value), "dd MMM yyyy")
+                                            ? format(parseDateOnly(field.value), "dd MMM yyyy")
                                             : contractDuration && startDate
                                               ? t("page.employee.add.selectDurationFirst")
                                               : t("page.employee.add.selectStartAndDuration")}

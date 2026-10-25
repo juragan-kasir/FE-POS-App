@@ -7,6 +7,7 @@ import { getShiftDropdown } from "@/services/shift";
 import { useGlobalStoreFilter } from "@/hooks/useGlobalStoreFilter";
 import { getOvertimes, createOvertime, cancelOvertime } from "@/services/overtime";
 import { safeGet } from "@/lib/safe-lookup";
+import { todayDateOnly } from "@/utils/dateOnly";
 import { useUserSession } from "@/hooks/useUserSession";
 import { useTranslation } from "react-i18next";
 import PageHeader from "@/components/ui/PageHeader";
@@ -142,7 +143,7 @@ const MyOvertime = () => {
 
   const [form, setForm] = useState({
     shift_id: "",
-    date: new Date().toISOString().slice(0, 10),
+    date: todayDateOnly(),
     start_time: "",
     end_time: "",
     note: ""

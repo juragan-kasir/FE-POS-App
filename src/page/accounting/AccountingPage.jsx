@@ -40,6 +40,7 @@ import { DatePicker } from "@/components/ui/date-picker";
 import { Combobox } from "@/components/ui/combobox";
 import { useGlobalStoreFilter } from "@/hooks/useGlobalStoreFilter";
 import { isSuperAdminRole } from "@/utils/role";
+import { formatDateOnly, todayDateOnly } from "@/utils/dateOnly";
 import {
   getAccounts,
   createAccount,
@@ -544,15 +545,15 @@ const JournalTab = ({ storeId, isAll }) => {
       "accounting-journals",
       storeId || "all",
       sourceType,
-      dateRange?.from ? dateRange.from.toISOString() : "",
-      dateRange?.to ? dateRange.to.toISOString() : ""
+      dateRange?.from ? formatDateOnly(dateRange.from) : "",
+      dateRange?.to ? formatDateOnly(dateRange.to) : ""
     ],
     () =>
       getJournals({
         store: storeId,
         sourceType: sourceType !== "all" ? sourceType : undefined,
-        startDate: dateRange?.from ? dateRange.from.toISOString().slice(0, 10) : undefined,
-        endDate: dateRange?.to ? dateRange.to.toISOString().slice(0, 10) : undefined,
+        startDate: dateRange?.from ? formatDateOnly(dateRange.from) : undefined,
+        endDate: dateRange?.to ? formatDateOnly(dateRange.to) : undefined,
         limit: 500
       }),
     {
@@ -923,7 +924,7 @@ const JournalTab = ({ storeId, isAll }) => {
               </label>
               <DateInput
                 name="date"
-                defaultValue={new Date().toISOString().slice(0, 10)}
+                defaultValue={todayDateOnly()}
                 required
               />
             </div>
@@ -1071,14 +1072,14 @@ const TrialBalanceTab = ({ storeId, isAll }) => {
     [
       "accounting-trial",
       storeId || "all",
-      dateRange?.from ? dateRange.from.toISOString() : "",
-      dateRange?.to ? dateRange.to.toISOString() : ""
+      dateRange?.from ? formatDateOnly(dateRange.from) : "",
+      dateRange?.to ? formatDateOnly(dateRange.to) : ""
     ],
     () =>
       getTrialBalance({
         store: storeId,
-        startDate: dateRange?.from ? dateRange.from.toISOString().slice(0, 10) : undefined,
-        endDate: dateRange?.to ? dateRange.to.toISOString().slice(0, 10) : undefined
+        startDate: dateRange?.from ? formatDateOnly(dateRange.from) : undefined,
+        endDate: dateRange?.to ? formatDateOnly(dateRange.to) : undefined
       }),
     { enabled: !!storeId || isAll }
   );
@@ -1250,14 +1251,14 @@ const IncomeStatementTab = ({ storeId, isAll }) => {
     [
       "accounting-income",
       storeId || "all",
-      dateRange?.from ? dateRange.from.toISOString() : "",
-      dateRange?.to ? dateRange.to.toISOString() : ""
+      dateRange?.from ? formatDateOnly(dateRange.from) : "",
+      dateRange?.to ? formatDateOnly(dateRange.to) : ""
     ],
     () =>
       getIncomeStatement({
         store: storeId,
-        startDate: dateRange?.from ? dateRange.from.toISOString().slice(0, 10) : undefined,
-        endDate: dateRange?.to ? dateRange.to.toISOString().slice(0, 10) : undefined
+        startDate: dateRange?.from ? formatDateOnly(dateRange.from) : undefined,
+        endDate: dateRange?.to ? formatDateOnly(dateRange.to) : undefined
       }),
     { enabled: !!storeId || isAll }
   );
@@ -1387,11 +1388,11 @@ const BalanceSheetTab = ({ storeId, isAll }) => {
   const { t } = useTranslation();
   const [asOf, setAsOf] = useState(null);
   const { data, isLoading, isError, refetch } = useQuery(
-    ["accounting-balance", storeId || "all", asOf ? asOf.toISOString() : ""],
+    ["accounting-balance", storeId || "all", asOf ? formatDateOnly(asOf) : ""],
     () =>
       getBalanceSheet({
         store: storeId,
-        asOf: asOf ? asOf.toISOString().slice(0, 10) : undefined
+        asOf: asOf ? formatDateOnly(asOf) : undefined
       }),
     { enabled: !!storeId || isAll }
   );
@@ -1519,14 +1520,14 @@ const AccountingOverview = ({ storeId, isAll }) => {
     [
       "accounting-overview",
       storeId || "all",
-      dateRange?.from ? dateRange.from.toISOString() : "",
-      dateRange?.to ? dateRange.to.toISOString() : ""
+      dateRange?.from ? formatDateOnly(dateRange.from) : "",
+      dateRange?.to ? formatDateOnly(dateRange.to) : ""
     ],
     () =>
       getAccountingOverview({
         store: storeId,
-        startDate: dateRange?.from ? dateRange.from.toISOString().slice(0, 10) : undefined,
-        endDate: dateRange?.to ? dateRange.to.toISOString().slice(0, 10) : undefined
+        startDate: dateRange?.from ? formatDateOnly(dateRange.from) : undefined,
+        endDate: dateRange?.to ? formatDateOnly(dateRange.to) : undefined
       }),
     { enabled: !!storeId || isAll }
   );

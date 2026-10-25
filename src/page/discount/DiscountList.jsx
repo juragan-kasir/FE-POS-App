@@ -1,5 +1,6 @@
 import { safeGet } from "@/lib/safe-lookup";
 import { usePageParam } from "@/hooks/usePageParam";
+import { formatDateOnly } from "@/utils/dateOnly";
 import React, { useState } from "react";
 import { useGlobalStoreFilter } from "@/hooks/useGlobalStoreFilter";
 import { useQuery, useMutation, useQueryClient } from "react-query";
@@ -223,7 +224,7 @@ const DiscountList = () => {
       reactivateMutation.mutate({
         id: reactivateTarget.id,
         status: "active",
-        endDate: new Date(now.getTime() + 30 * 24 * 60 * 60 * 1000).toISOString().split("T")[0]
+        endDate: formatDateOnly(new Date(now.getTime() + 30 * 24 * 60 * 60 * 1000))
       });
       setReactivateTarget(null);
     }
@@ -257,8 +258,8 @@ const DiscountList = () => {
         name: extendTarget.name,
         type: extendTarget.type,
         value: extendTarget.value,
-        startDate: extendStartDate.toISOString().split("T")[0],
-        endDate: extendEndDate.toISOString().split("T")[0],
+        startDate: formatDateOnly(extendStartDate),
+        endDate: formatDateOnly(extendEndDate),
         minimumOrder: extendTarget.minimumOrder || 0,
         maximumDiscount: extendTarget.maximumDiscount || 0,
         code: extendTarget.code || null,
