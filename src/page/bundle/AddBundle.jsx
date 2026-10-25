@@ -2,6 +2,7 @@ import React, { useState, useMemo, useRef } from "react";
 import { useMutation, useQueryClient, useQuery } from "react-query";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import { useCookies } from "react-cookie";
 import { Save, Plus, Trash2, X, Package, ShoppingCart, Store, CloudUpload } from "lucide-react";
 import { toast } from "sonner";
 import { createBundle } from "@/services/productBundle";
@@ -53,6 +54,9 @@ const AddBundle = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
+  const [cookie] = useCookies();
+  const user = cookie?.user;
+  const isSuperAdmin = user?.roleType === "super_admin";
 
   const [formData, setFormData] = useState({
     name: "",
@@ -328,8 +332,8 @@ const AddBundle = () => {
               locations={locations}
               selectedStores={selectedStores}
               onChange={handleStoreChange}
-              isSuperAdmin={true}
-              user={{ store: null }}
+              isSuperAdmin={isSuperAdmin}
+              user={user}
               t={t}
               title={t("page.bundle.form.storeSection.title")}
               description={t("page.bundle.form.storeSection.desc")}

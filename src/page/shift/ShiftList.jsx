@@ -91,7 +91,7 @@ const ShiftList = () => {
 
   const { data, isLoading, isFetching, isError, refetch } = useQuery(
     ["shifts", page, limit, search, statusFilter, effectiveStore],
-    () => getAllShift({ store: effectiveStore, page, limit, statusShift: statusFilter }),
+    () => getAllShift({ store: effectiveStore, page, limit, statusShift: statusFilter, search }),
     { keepPreviousData: true }
   );
 
