@@ -49,7 +49,7 @@ import { getProductById, editProduct } from "@/services/product";
 import { normalizePayload } from "@/lib/payload-normalizer";
 import { getAllCategoryActive } from "@/services/category";
 import { getAllTaxConfig } from "@/services/tax-config";
-import { getBomByProduct } from "@/services/bom";
+import { getBomByProduct, getBomCosting } from "@/services/bom";
 
 import { getProductPriceByStore, updateProductPriceByStore } from "@/services/price-store";
 import { checkStockOpnameExists } from "@/services/stock";
@@ -62,6 +62,7 @@ import ProductPreview from "./ProductPreview";
 import ProductImageGallery from "@/components/organism/ProductImageGallery";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import InventoryModeField from "@/page/product/InventoryModeField";
+import ProductPriceCostFields from "@/page/product/ProductPriceCostFields";
 import { INVENTORY_MODES } from "@/lib/inventory-mode";
 import { useLocations } from "@/queries/useLocations";
 import { FIELD_LIMITS } from "@/constants/fieldLimits";
@@ -155,7 +156,18 @@ const EditProduct = () => {
   );
   const existingBom = bomData?.data || null;
 
+  // Live recipe HPP per outlet (BRD Harga Modal/HPP): the margin and food
+  // cost on this form use the same HPP the sale snapshots.
+  const { data: bomCosting } = useQuery(
+    ["bom-costing", product.id],
+    () => getBomCosting(product.id),
+    { enabled: !!product.id }
+  );
+
   const productStore = selectedStores[0] || "";
+  // One assigned outlet → that outlet's recipe; otherwise every outlet's
+  // recipe is listed (a store-bound user only ever gets its own).
+  const costingStore = selectedStores.length === 1 ? selectedStores[0] : null;
   const { data: categoriesData } = useQuery(
     ["categories-for-edit", productStore],
     () => getAllCategoryActive({ location: productStore }),
@@ -1357,88 +1369,10 @@ const EditProduct = () => {
                       />
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      <FormField
-                        control={form.control}
-                        name="price"
-                        render={({ field }) => {
-                          const costPrice = form.watch("costPrice");
-                          const price = field.value;
-                          const margin =
-                            price && costPrice ? ((price - costPrice) / price) * 100 : 0;
-
-                          return (
-                            <FormItem>
-                              <FormLabel>
-                                {t("page.product.form.price")}{" "}
-                                <span className="text-destructive">*</span>
-                              </FormLabel>
-                              <div className="relative">
-                                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground text-sm font-medium">
-                                  Rp
-                                </span>
-                                <Input
-                                  type="text"
-                                  inputMode="numeric"
-                                  placeholder="0"
-                                  className="pl-10"
-                                  value={
-                                    field.value ? Number(field.value).toLocaleString("id-ID") : ""
-                                  }
-                                  onChange={(e) => {
-                                    const raw = e.target.value.replace(/[^0-9]/g, "");
-                                    field.onChange(raw ? Number(raw) : "");
-                                  }}
-                                />
-                                {margin > 0 && (
-                                  <span className="absolute right-3 top-1/2 -translate-y-1/2 text-[10px] font-bold px-1.5 py-0.5 rounded bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400">
-                                    Margin {margin.toFixed(0)}%
-                                  </span>
-                                )}
-                              </div>
-                              <FormMessage />
-                            </FormItem>
-                          );
-                        }}
-                      />
-                      <FormField
-                        control={form.control}
-                        name="costPrice"
-                        render={({ field }) => {
-                          const price = form.watch("price");
-                          const costPrice = field.value;
-                          const markup =
-                            price && costPrice ? ((price - costPrice) / costPrice) * 100 : 0;
-
-                          return (
-                            <FormItem>
-                              <FormLabel>{t("page.product.form.costPrice")}</FormLabel>
-                              <div className="relative">
-                                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground text-sm font-medium">
-                                  Rp
-                                </span>
-                                <Input
-                                  type="text"
-                                  inputMode="numeric"
-                                  placeholder="0"
-                                  className="pl-10"
-                                  value={
-                                    field.value ? Number(field.value).toLocaleString("id-ID") : ""
-                                  }
-                                  onChange={(e) => {
-                                    const raw = e.target.value.replace(/[^0-9]/g, "");
-                                    field.onChange(raw ? Number(raw) : "");
-                                  }}
-                                />
-                                {markup > 0 && (
-                                  <span className="absolute right-3 top-1/2 -translate-y-1/2 text-[10px] font-bold px-1.5 py-0.5 rounded bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400">
-                                    Markup {markup.toFixed(0)}%
-                                  </span>
-                                )}
-                              </div>
-                              <FormMessage />
-                            </FormItem>
-                          );
-                        }}
+                      <ProductPriceCostFields
+                        form={form}
+                        costing={bomCosting}
+                        storeId={costingStore}
                       />
                       <FormField
                         control={form.control}

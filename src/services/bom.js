@@ -47,3 +47,12 @@ export const deleteBom = async (id) => {
   if (status !== 200 && status !== 204) throw Error(`${data?.message}`);
   return data;
 };
+
+// Live HPP of a product per outlet recipe (status, HPP per portion, food cost,
+// margin). The caller's store scope applies; a product without a recipe has
+// `recipes: []`.
+export const getBomCosting = async (productId) => {
+  const { data, status } = await axiosInstance.get(`/bom/costing/${productId}`);
+  if (status !== 200) throw Error(`${data?.message}`);
+  return data?.data || null;
+};
