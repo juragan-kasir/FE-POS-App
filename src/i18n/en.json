@@ -8795,5 +8795,8 @@
   "page.bom.add.form.yieldHint": "How many portions the ingredients below make. Example: one pot for 10 portions → enter 10; each portion sold uses 1/10 of the ingredients.",
   "page.bom.list.table.hpp": "Cost / portion",
   "page.bom.list.table.yield": "{{portions}} portions",
-  "page.bom.detail.yield": "Recipe yield"
+  "page.bom.detail.yield": "Recipe yield",
+  "page.cashier.product.portionsLeft": "{{count}} portions left",
+  "page.cashier.product.ingredientsOut": "Out of ingredients",
+  "page.cashier.product.limitedBy": "Limited by: {{names}}"
 }

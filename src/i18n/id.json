@@ -8795,5 +8795,8 @@
   "page.bom.add.form.yieldHint": "Jumlah porsi yang dihasilkan bahan di bawah. Contoh: 1 panci untuk 10 porsi → isi 10; setiap porsi terjual memotong 1/10 bahan.",
   "page.bom.list.table.hpp": "HPP / porsi",
   "page.bom.list.table.yield": "{{portions}} porsi",
-  "page.bom.detail.yield": "Hasil resep"
+  "page.bom.detail.yield": "Hasil resep",
+  "page.cashier.product.portionsLeft": "Sisa {{count}} porsi",
+  "page.cashier.product.ingredientsOut": "Bahan habis",
+  "page.cashier.product.limitedBy": "Dibatasi bahan: {{names}}"
 }

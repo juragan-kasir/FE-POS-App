@@ -476,6 +476,7 @@ const CheckoutModal = ({
     clearPendingQris();
     // Refresh the catalog so items added afterwards use the new prices.
     queryClient.invalidateQueries(["products-outlet", store]);
+    queryClient.invalidateQueries(["recipe-availability", store]);
     toast.error(t("page.cashier.priceChanged.title", "Prices changed"));
   }, [quoteFailed, quoteError, items, qrisPending, clearPendingQris, queryClient, store, t]);
   // A fresh valid quote means the current inputs are priced — a later,
@@ -657,6 +658,7 @@ const CheckoutModal = ({
       const order = res?.data || res;
       checkoutAttempts.getState().resolve(store);
       queryClient.invalidateQueries(["products-outlet", store]);
+      queryClient.invalidateQueries(["recipe-availability", store]);
       queryClient.invalidateQueries(["categories-cashier", store]);
       queryClient.invalidateQueries(["products"]);
       onComplete({
@@ -761,6 +763,7 @@ const CheckoutModal = ({
         if (["qris", "e-wallet"].includes(variables?.paymentMethod)) setQrisInvalidated(true);
         // Refresh the catalog so items added afterwards use the new prices.
         queryClient.invalidateQueries(["products-outlet", store]);
+        queryClient.invalidateQueries(["recipe-availability", store]);
         toast.error(t("page.cashier.priceChanged.title", "Prices changed"));
         return;
       }
