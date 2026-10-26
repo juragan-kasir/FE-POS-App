@@ -59,6 +59,7 @@ import ProductPreview from "./ProductPreview";
 import ProductImageGallery from "@/components/organism/ProductImageGallery";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import InventoryModeField from "@/page/product/InventoryModeField";
+import ProductPriceCostFields from "@/page/product/ProductPriceCostFields";
 import { INVENTORY_MODES, initialStockNeedsStore } from "@/lib/inventory-mode";
 import { useLocations } from "@/queries/useLocations";
 import { FIELD_LIMITS } from "@/constants/fieldLimits";
@@ -1104,89 +1105,7 @@ const AddProduct = () => {
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      <FormField
-                        control={form.control}
-                        name="price"
-                        render={({ field }) => {
-                          const costPrice = form.watch("costPrice");
-                          const price = field.value;
-                          const margin =
-                            price && costPrice ? ((price - costPrice) / price) * 100 : 0;
-
-                          return (
-                            <FormItem>
-                              <FormLabel>
-                                {t("page.product.form.price")}{" "}
-                                <span className="text-destructive">*</span>
-                              </FormLabel>
-                              <div className="relative">
-                                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground text-sm font-medium">
-                                  Rp
-                                </span>
-                                <Input
-                                  type="text"
-                                  inputMode="numeric"
-                                  placeholder="0"
-                                  className="pl-10"
-                                  value={
-                                    field.value ? Number(field.value).toLocaleString("id-ID") : ""
-                                  }
-                                  onChange={(e) => {
-                                    const raw = e.target.value.replace(/[^0-9]/g, "");
-                                    field.onChange(raw ? Number(raw) : "");
-                                  }}
-                                />
-                                {margin > 0 && (
-                                  <span className="absolute right-3 top-1/2 -translate-y-1/2 text-[10px] font-bold px-1.5 py-0.5 rounded bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400">
-                                    Margin {margin.toFixed(0)}%
-                                  </span>
-                                )}
-                              </div>
-                              <FormMessage />
-                            </FormItem>
-                          );
-                        }}
-                      />
-                      <FormField
-                        control={form.control}
-                        name="costPrice"
-                        render={({ field }) => {
-                          const price = form.watch("price");
-                          const costPrice = field.value;
-                          const markup =
-                            price && costPrice ? ((price - costPrice) / costPrice) * 100 : 0;
-
-                          return (
-                            <FormItem>
-                              <FormLabel>{t("page.product.form.costPrice")}</FormLabel>
-                              <div className="relative">
-                                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground text-sm font-medium">
-                                  Rp
-                                </span>
-                                <Input
-                                  type="text"
-                                  inputMode="numeric"
-                                  placeholder="0"
-                                  className="pl-10"
-                                  value={
-                                    field.value ? Number(field.value).toLocaleString("id-ID") : ""
-                                  }
-                                  onChange={(e) => {
-                                    const raw = e.target.value.replace(/[^0-9]/g, "");
-                                    field.onChange(raw ? Number(raw) : "");
-                                  }}
-                                />
-                                {markup > 0 && (
-                                  <span className="absolute right-3 top-1/2 -translate-y-1/2 text-[10px] font-bold px-1.5 py-0.5 rounded bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400">
-                                    Markup {markup.toFixed(0)}%
-                                  </span>
-                                )}
-                              </div>
-                              <FormMessage />
-                            </FormItem>
-                          );
-                        }}
-                      />
+                      <ProductPriceCostFields form={form} />
                       <FormField
                         control={form.control}
                         name="stock"

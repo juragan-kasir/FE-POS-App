@@ -20,6 +20,7 @@ import Modal from "@/components/organism/modal";
 import NoStore from "@/components/ui/NoStore";
 import PageHeader from "@/components/ui/PageHeader";
 import { useLocations } from "@/queries/useLocations";
+import { HppStatusBadge } from "@/components/organism/RecipeHppSummary";
 
 // Only an active recipe deducts ingredients at sale; draft/inactive ones
 // refuse the sale of a recipe-driven menu instead of consuming a guess.
@@ -138,6 +139,25 @@ const BomList = () => {
             </li>
           ))}
         </ul>
+      )
+    },
+    {
+      header: t("page.bom.list.table.hpp"),
+      className: "min-w-[160px]",
+      render: (item) => (
+        <div className="space-y-1">
+          <span className="font-mono text-sm block">
+            {item.costing?.hppPerPortion == null
+              ? "-"
+              : `Rp ${Number(item.costing.hppPerPortion).toLocaleString("id-ID")}`}
+          </span>
+          <HppStatusBadge status={item.costing?.status} />
+          {Number(item.totalQty) > 1 && (
+            <span className="text-[11px] text-muted-foreground block">
+              {t("page.bom.list.table.yield", { portions: item.totalQty })}
+            </span>
+          )}
+        </div>
       )
     },
     {

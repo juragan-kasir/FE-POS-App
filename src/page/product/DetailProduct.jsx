@@ -31,6 +31,9 @@ import { Card } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { getProductById, getProductReviews } from "@/services/product";
+import { getBomCosting } from "@/services/bom";
+import RecipeHppSummary, { HppStatusBadge } from "@/components/organism/RecipeHppSummary";
+import { costRatios, effectiveHpp, pickRecipeCosting } from "@/lib/recipe-costing";
 import ProductPreview from "./ProductPreview";
 import { safeGet } from "@/lib/safe-lookup";
 
@@ -65,15 +68,6 @@ const formatReviewTime = (value) =>
         minute: "2-digit"
       })
     : "-";
-
-const getMarginPercent = (product) => {
-  const hppMargin = Number(product.marginPersen || 0);
-  if (hppMargin > 0) return hppMargin;
-  const price = Number(product.price || 0);
-  const cost = Number(product.costPrice || 0);
-  if (price > 0) return ((price - cost) / price) * 100;
-  return 0;
-};
 
 const formatDate = (value) =>
   value
@@ -204,6 +198,23 @@ const DetailProduct = () => {
   );
 
   const product = data?.data || data;
+
+  // Live recipe HPP per outlet — the product row's stored hppPerPorsi /
+  // marginPersen are a global snapshot from the last recipe save.
+  const { data: costing } = useQuery(["bom-costing", id], () => getBomCosting(id), {
+    enabled: !!id
+  });
+  const recipes = costing?.recipes || [];
+  const usesRecipe = (product?.inventoryMode || "stocked") !== "stocked";
+  const { hpp, status: hppStatus } = effectiveHpp({
+    inventoryMode: product?.inventoryMode,
+    costPrice: product?.costPrice,
+    recipe: pickRecipeCosting(costing, null)
+  });
+  const { foodCostPercent, marginPercent } = costRatios(hpp, product?.price);
+  const costLabel = usesRecipe ? t("page.recipeHpp.hppLabel") : t("page.product.detail.costPrice");
+  const costValue = hpp == null ? "-" : `Rp ${formatPrice(hpp)}`;
+  const marginValue = marginPercent == null ? "-" : `${marginPercent.toFixed(2)}%`;
 
   const reviewsQuery = useQuery(["product-reviews", id], () => getProductReviews(id), {
     enabled: !!id
@@ -502,8 +513,9 @@ const DetailProduct = () => {
             />
             <StatCard
               icon={Coins}
-              label={t("page.product.detail.costPrice")}
-              value={`Rp ${formatPrice(product.costPrice || 0)}`}
+              label={costLabel}
+              value={costValue}
+              sub={usesRecipe ? <HppStatusBadge status={hppStatus} /> : null}
             />
             <StatCard
               icon={Box}
@@ -583,10 +595,8 @@ const DetailProduct = () => {
                   <p className="font-medium text-primary">Rp {formatPrice(product.price || 0)}</p>
                 </div>
                 <div>
-                  <p className="text-xs text-muted-foreground mb-1">
-                    {t("page.product.detail.costPrice")}
-                  </p>
-                  <p className="font-medium">Rp {formatPrice(product.costPrice || 0)}</p>
+                  <p className="text-xs text-muted-foreground mb-1">{costLabel}</p>
+                  <p className="font-medium">{costValue}</p>
                 </div>
                 <div>
                   <p className="text-xs text-muted-foreground mb-1">
@@ -773,46 +783,34 @@ const DetailProduct = () => {
                       </div>
                     ))}
                   </div>
-                  <div className="mt-3 grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs text-muted-foreground">
-                    <div className="p-3 rounded-lg bg-muted/20 border border-border/40">
-                      <p>{t("page.product.detail.hppPerPortion")}</p>
-                      <p className="font-semibold text-foreground text-sm mt-0.5">
-                        Rp {formatPrice(product.hppPerPorsi || 0)}
-                      </p>
-                    </div>
-                    <div className="p-3 rounded-lg bg-muted/20 border border-border/40">
-                      <p>{t("page.product.detail.foodCost")}</p>
-                      <p className="font-semibold text-foreground text-sm mt-0.5">
-                        {product.foodCostPersen || "0"}%
-                      </p>
-                    </div>
-                    <div className="p-3 rounded-lg bg-muted/20 border border-border/40">
-                      <p>{t("page.product.detail.margin")}</p>
-                      <p className="font-semibold text-foreground text-sm mt-0.5">
-                        {getMarginPercent(product).toFixed(2)}%
-                      </p>
-                    </div>
-                  </div>
+                  {recipes.map((row) => (
+                    <RecipeHppSummary
+                      key={row.bomId}
+                      className="mt-4"
+                      costing={row}
+                      storeName={recipes.length > 1 ? row.storeName : null}
+                    />
+                  ))}
                   <div className="mt-3 p-3 rounded-lg bg-blue-50 dark:bg-blue-950/30 border border-blue-200 dark:border-blue-800/40 text-xs text-blue-700 dark:text-blue-300 space-y-1.5">
                     <div className="flex items-center gap-1.5 font-semibold">
                       <Info size={13} />
                       {t("page.product.detail.marginTips.title")}
                     </div>
                     <p>
-                      {t("page.product.detail.marginTips.hpp")}{" "}
-                      <strong>Rp {formatPrice(product.hppPerPorsi || 0)}</strong>
+                      {t("page.product.detail.marginTips.hpp")} <strong>{costValue}</strong>
                     </p>
                     <p>
                       {t("page.product.detail.marginTips.foodCost", {
                         sellingPrice: formatPrice(product.price || 0),
-                        hpp: formatPrice(product.hppPerPorsi || 0)
+                        hpp: hpp == null ? "-" : formatPrice(hpp)
                       })}
+                      {foodCostPercent != null && ` = ${foodCostPercent.toFixed(2)}%`}
                     </p>
                     <p>
                       {t("page.product.detail.marginTips.margin", {
                         sellingPrice: formatPrice(product.price || 0),
-                        costPrice: formatPrice(product.costPrice || 0),
-                        margin: getMarginPercent(product).toFixed(2)
+                        hpp: hpp == null ? "-" : formatPrice(hpp),
+                        margin: marginValue
                       })}
                     </p>
                   </div>
@@ -875,20 +873,14 @@ const DetailProduct = () => {
                     <span className="text-sm font-bold">Rp {formatPrice(product.price || 0)}</span>
                   </div>
                   <div className="flex items-center justify-between pt-2 border-t border-border/50">
-                    <span className="text-sm text-muted-foreground">
-                      {t("page.product.detail.costPrice")}
-                    </span>
-                    <span className="text-sm font-bold">
-                      Rp {formatPrice(product.costPrice || 0)}
-                    </span>
+                    <span className="text-sm text-muted-foreground">{costLabel}</span>
+                    <span className="text-sm font-bold">{costValue}</span>
                   </div>
                   <div className="flex items-center justify-between pt-2 border-t border-border/50">
                     <span className="text-sm text-muted-foreground">
                       {t("page.product.detail.margin")}
                     </span>
-                    <span className="text-sm font-bold">
-                      {getMarginPercent(product).toFixed(2)}%
-                    </span>
+                    <span className="text-sm font-bold">{marginValue}</span>
                   </div>
                   <div className="flex items-center justify-between pt-2 border-t border-border/50">
                     <span className="text-sm text-muted-foreground">

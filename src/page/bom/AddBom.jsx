@@ -26,6 +26,8 @@ import { getMissingFields } from "@/lib/validation";
 import HorizontalScrollArea from "@/components/ui/HorizontalScrollArea";
 import { useLocations } from "@/queries/useLocations";
 import { FIELD_LIMITS } from "@/constants/fieldLimits";
+import RecipeHppSummary from "@/components/organism/RecipeHppSummary";
+import { recipeCosting } from "@/lib/recipe-costing";
 
 const emptyLine = () => ({ supplierId: "", ingredientId: "", qty: "", unit: "pcs", notes: "" });
 
@@ -57,6 +59,8 @@ const AddBom = () => {
   const [loadedEditId, setLoadedEditId] = useState(null);
   const [name, setName] = useState("");
   const [notes, setNotes] = useState("");
+  // Portions the recipe makes (bom_header.totalQty); lines are for the whole yield.
+  const [yieldQty, setYieldQty] = useState("1");
   const [lines, setLines] = useState([emptyLine()]);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errorModal, setErrorModal] = useState(false);
@@ -93,6 +97,7 @@ const AddBom = () => {
     setProductId(String(bom.productId));
     setName(bom.name || "");
     setNotes(bom.notes || "");
+    setYieldQty(String(Number(bom.totalQty) > 1 ? bom.totalQty : 1));
     setLines(
       bom.lines?.length
         ? bom.lines.map((l) => ({
@@ -125,6 +130,19 @@ const AddBom = () => {
     { enabled: !!selectedStore }
   );
   const ingredients = (ingData?.data || []).filter((i) => i.status === "active");
+
+  // Live HPP preview — the same rule the server stores and snapshots.
+  const selectedProduct = products.find((p) => String(p.id) === String(productId));
+  const hppPreview = useMemo(() => {
+    const validLines = lines.filter((l) => l.ingredientId && parseInt(l.qty) > 0);
+    return recipeCosting({
+      lines: validLines.map((l) => ({ ingredientId: l.ingredientId, qty: parseInt(l.qty) })),
+      ingredientById: new Map(ingredients.map((i) => [Number(i.id), i])),
+      yieldQty: parseInt(yieldQty) || 1,
+      estimate: selectedProduct?.costPrice,
+      price: selectedProduct?.price
+    });
+  }, [lines, ingredients, yieldQty, selectedProduct]);
 
   const { data: supData } = useQuery(
     ["suppliers-for-bom", selectedStore],
@@ -230,6 +248,7 @@ const AddBom = () => {
         ...(selectedStore ? { store: Number(selectedStore) } : {}),
         name: name || undefined,
         notes,
+        totalQty: Math.max(parseInt(yieldQty) || 1, 1),
         status: saveAsDraft ? "draft" : "active",
         lines: lines
           .filter((l) => l.ingredientId && parseInt(l.qty) > 0)
@@ -372,6 +391,19 @@ const AddBom = () => {
                 maxLength={FIELD_LIMITS.BUSINESS_NAME}
               />
             </div>
+            <div className="space-y-2">
+              <Label htmlFor="bom-yield">{t("page.bom.add.form.yield")}</Label>
+              <Input
+                id="bom-yield"
+                type="number"
+                min="1"
+                step="1"
+                value={yieldQty}
+                onChange={(e) => setYieldQty(e.target.value.replace(/[^0-9]/g, ""))}
+                onBlur={() => setYieldQty(String(Math.max(parseInt(yieldQty) || 1, 1)))}
+              />
+              <p className="text-xs text-muted-foreground">{t("page.bom.add.form.yieldHint")}</p>
+            </div>
           </div>
 
           <div className="space-y-2">
@@ -491,6 +523,12 @@ const AddBom = () => {
                   className="gap-1 mt-2">
                   <Plus size={14} /> {t("page.bom.add.form.addRow")}
                 </Button>
+                {productId && (
+                  <RecipeHppSummary
+                    costing={hppPreview}
+                    className="mt-4 p-4 rounded-lg border border-border bg-muted/10"
+                  />
+                )}
               </>
             )}
           </div>

@@ -4,6 +4,7 @@ import { useQuery } from "react-query";
 import { useTranslation } from "react-i18next";
 import { ArrowLeft, ClipboardList } from "lucide-react";
 import { getBomById } from "@/services/bom";
+import RecipeHppSummary from "@/components/organism/RecipeHppSummary";
 import AbortController from "@/components/organism/abort-controller";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -100,6 +101,12 @@ const DetailBom = () => {
                         t("page.bom.detail.totalItems"),
                         `${bom.lines?.length || 0} ${t("page.bom.detail.items")}`
                       ],
+                      [
+                        t("page.bom.detail.yield"),
+                        t("page.bom.list.table.yield", {
+                          portions: Number(bom.totalQty) > 1 ? bom.totalQty : 1
+                        })
+                      ],
                       [t("page.bom.detail.notes"), bom.notes || "-"],
                       [
                         t("page.bom.detail.date"),
@@ -166,6 +173,7 @@ const DetailBom = () => {
                 <ClipboardList size={14} /> {bom.lines?.length || 0}{" "}
                 {t("page.bom.detail.ingredientCount")}
               </div>
+              <RecipeHppSummary costing={bom.costing} className="mt-5" compact />
             </div>
           </div>
         </div>
