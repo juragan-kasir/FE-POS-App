@@ -24,6 +24,7 @@ import { Loading } from "@/components/ui/loading";
 import HorizontalScrollArea from "@/components/ui/HorizontalScrollArea";
 import { useLocations } from "@/queries/useLocations";
 import { FIELD_LIMITS } from "@/constants/fieldLimits";
+import { useFormExit } from "@/hooks/useLeaveGuard";
 
 const emptyItem = {
   name: "",
@@ -383,6 +384,11 @@ const AddGoodsRequest = () => {
       groups: [emptyGroup()]
     }
   });
+  const { request: requestLeave, leave } = useFormExit(
+    "/goods-request",
+    () => setCancelModal(true),
+    form
+  );
 
   const {
     control,
@@ -525,7 +531,7 @@ const AddGoodsRequest = () => {
           ]}
           title={t("page.goodsRequest.add.title")}
           description={t("page.goodsRequest.add.description")}
-          onBack={() => setCancelModal(true)}
+          onBack={requestLeave}
           dynamicInfo={false}>
           <UserGuide guideKey="add-goods-request" />
         </PageHeader>
@@ -674,7 +680,7 @@ const AddGoodsRequest = () => {
               type="button"
               variant="danger"
               className="w-full sm:w-auto justify-center"
-              onClick={() => setCancelModal(true)}>
+              onClick={requestLeave}>
               <X size={16} className="mr-1" /> {t("page.goodsRequest.add.form.cancel")}
             </Button>
             <Button
@@ -708,7 +714,7 @@ const AddGoodsRequest = () => {
           confirmText={t("page.goodsRequest.add.modal.confirm")}
           onConfirm={() => {
             setCancelModal(false);
-            setTimeout(() => navigate("/goods-request"), 150);
+            setTimeout(leave, 150);
           }}
         />
         <Modal

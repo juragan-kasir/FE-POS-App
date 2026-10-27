@@ -54,6 +54,7 @@ import MissingFieldsModal from "@/components/organism/MissingFieldsModal";
 import { getMissingFields } from "@/lib/validation";
 import { useLocations } from "@/queries/useLocations";
 import { FIELD_LIMITS } from "@/constants/fieldLimits";
+import { useFormExit } from "@/hooks/useLeaveGuard";
 const PROMO_TYPES = {
   standard: "page.discount.form.promoType.standard",
   bogo: "page.discount.form.promoType.bogo",
@@ -166,6 +167,11 @@ const AddDiscount = () => {
       store: ""
     }
   });
+  const { request: requestLeave, leave } = useFormExit(
+    "/discount-list",
+    () => setCancelModal(true),
+    form
+  );
 
   const promoType = form.watch("promoType");
   const startDate = form.watch("startDate");
@@ -452,7 +458,7 @@ const AddDiscount = () => {
           title={t("breadcrumb.add")}
           description={t("page.discount.add.description")}
           backLink="/discount-list"
-          onBack={() => setCancelModal(true)}>
+          onBack={requestLeave}>
           <UserGuide guideKey="add-discount" />
         </PageHeader>
 
@@ -1028,7 +1034,7 @@ const AddDiscount = () => {
                 <Button
                   type="button"
                   variant="danger"
-                  onClick={() => setCancelModal(true)}
+                  onClick={requestLeave}
                   className="gap-2 w-full sm:w-auto justify-center">
                   <X size={18} />
                   {t("breadcrumb.back")}
@@ -1064,7 +1070,7 @@ const AddDiscount = () => {
           title={t("modal.cancelTitle")}
           description={t("modal.cancelDescription")}
           confirmText={t("modal.yesCancel")}
-          onConfirm={() => setTimeout(() => navigate("/discount-list"), 150)}
+          onConfirm={() => setTimeout(leave, 150)}
         />
         <Modal
           type="success"

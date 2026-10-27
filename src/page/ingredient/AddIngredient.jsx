@@ -44,6 +44,7 @@ import { getMissingFields } from "@/lib/validation";
 import HorizontalScrollArea from "@/components/ui/HorizontalScrollArea";
 import IngredientSourceField from "./components/IngredientSourceField";
 import { useLocations } from "@/queries/useLocations";
+import { useFormExit } from "@/hooks/useLeaveGuard";
 
 const conversionHints = {
   kg: { base: "gram", factor: 1000 },
@@ -145,6 +146,11 @@ const AddIngredient = () => {
       store: null
     }
   });
+  const { request: requestLeave, leave } = useFormExit(
+    "/ingredient",
+    () => setCancelModal(true),
+    form
+  );
 
   const watchStore = form.watch("store");
   const watchSupplier = form.watch("supplier");
@@ -309,7 +315,7 @@ const AddIngredient = () => {
             ]}
             title={t("page.ingredient.add.title")}
             description={t("page.ingredient.add.subtitle")}
-            onBack={() => setCancelModal(true)}
+            onBack={requestLeave}
             dynamicInfo={false}
           />
           <UserGuide guideKey="add-ingredient" />
@@ -898,7 +904,7 @@ const AddIngredient = () => {
                   <Button
                     type="button"
                     variant="danger"
-                    onClick={() => setCancelModal(true)}
+                    onClick={requestLeave}
                     className="w-full sm:w-auto justify-center">
                     <X size={16} className="mr-1" /> {t("page.ingredient.form.cancelButton")}
                   </Button>
@@ -995,7 +1001,7 @@ const AddIngredient = () => {
           confirmText={t("page.ingredient.add.modalCancelConfirm")}
           onConfirm={() => {
             setCancelModal(false);
-            setTimeout(() => navigate("/ingredient"), 150);
+            setTimeout(leave, 150);
           }}
         />
         <Modal

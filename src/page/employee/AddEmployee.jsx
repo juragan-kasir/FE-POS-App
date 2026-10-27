@@ -68,6 +68,7 @@ import { getMissingFields } from "@/lib/validation";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { useLocations } from "@/queries/useLocations";
 import { FIELD_LIMITS } from "@/constants/fieldLimits";
+import { useFormExit } from "@/hooks/useLeaveGuard";
 
 const AddEmployee = () => {
   const navigate = useNavigate();
@@ -166,6 +167,11 @@ const AddEmployee = () => {
       monthlySalary: ""
     }
   });
+  const { request: requestLeave, leave } = useFormExit(
+    "/employee-list",
+    () => setCancelModal(true),
+    form
+  );
 
   const employmentType = form.watch("employmentType");
   const startDate = form.watch("startDate");
@@ -534,7 +540,7 @@ const AddEmployee = () => {
             title={t("page.employee.add.title")}
             description={t("page.employee.add.description")}
             backLink="/employee-list"
-            onBack={() => setCancelModal(true)}>
+            onBack={requestLeave}>
             <UserGuide guideKey="add-employee" />
           </PageHeader>
         </div>
@@ -785,9 +791,7 @@ const AddEmployee = () => {
                                         </FormLabel>
                                         <DatePicker
                                           date={parseDateOnly(field.value)}
-                                          setDate={(date) =>
-                                            field.onChange(formatDateOnly(date))
-                                          }
+                                          setDate={(date) => field.onChange(formatDateOnly(date))}
                                         />
                                         <FormMessage />
                                       </FormItem>
@@ -1112,9 +1116,7 @@ const AddEmployee = () => {
                                     </FormLabel>
                                     <DatePicker
                                       date={parseDateOnly(field.value)}
-                                      setDate={(date) =>
-                                        field.onChange(formatDateOnly(date))
-                                      }
+                                      setDate={(date) => field.onChange(formatDateOnly(date))}
                                     />
                                     <FormMessage />
                                   </FormItem>
@@ -1503,7 +1505,7 @@ const AddEmployee = () => {
                           type="button"
                           variant="danger"
                           className="w-full sm:w-auto"
-                          onClick={() => setCancelModal(true)}>
+                          onClick={requestLeave}>
                           <ArrowLeft size={20} className="text-lg" />
                           {t("page.employee.add.cancelButton")}
                         </Button>
@@ -1590,7 +1592,7 @@ const AddEmployee = () => {
         description={t("modal.cancelDescription")}
         confirmText={t("page.employee.add.cancelConfirm")}
         confirmVariant="success"
-        onConfirm={() => setTimeout(() => navigate("/employee-list"), 150)}
+        onConfirm={() => setTimeout(leave, 150)}
       />
       <Modal
         type="confirm"

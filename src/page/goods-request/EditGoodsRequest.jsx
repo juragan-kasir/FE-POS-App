@@ -23,6 +23,7 @@ import Modal from "@/components/organism/modal";
 import { Loading } from "@/components/ui/loading";
 import HorizontalScrollArea from "@/components/ui/HorizontalScrollArea";
 import { FIELD_LIMITS } from "@/constants/fieldLimits";
+import { useFormExit } from "@/hooks/useLeaveGuard";
 
 const unitOptions = [
   { value: "pcs", label: "pcs" },
@@ -72,6 +73,9 @@ const EditGoodsRequest = () => {
   const [errorModal, setErrorModal] = useState(false);
   const [modalMessage, setModalMessage] = useState("");
   const [cancelModal, setCancelModal] = useState(false);
+  const { request: requestLeave, leave } = useFormExit("/goods-request", () =>
+    setCancelModal(true)
+  );
   const [confirmModal, setConfirmModal] = useState(false);
 
   const { data, isLoading } = useQuery(["goods-request-edit", id], () => getGoodsRequestById(id), {
@@ -386,7 +390,7 @@ const EditGoodsRequest = () => {
           ]}
           title={t("page.goodsRequest.edit.title")}
           description={t("page.goodsRequest.edit.description")}
-          onBack={() => setCancelModal(true)}
+          onBack={requestLeave}
           dynamicInfo={false}>
           <UserGuide guideKey="add-goods-request" mode="edit" />
         </PageHeader>
@@ -606,7 +610,7 @@ const EditGoodsRequest = () => {
               type="button"
               variant="danger"
               className="w-full sm:w-auto justify-center"
-              onClick={() => setCancelModal(true)}>
+              onClick={requestLeave}>
               <X size={16} className="mr-1" /> {t("page.goodsRequest.edit.form.cancel")}
             </Button>
             <Button
@@ -636,7 +640,7 @@ const EditGoodsRequest = () => {
           confirmText={t("page.goodsRequest.edit.modal.confirm")}
           onConfirm={() => {
             setCancelModal(false);
-            setTimeout(() => navigate("/goods-request"), 150);
+            setTimeout(leave, 150);
           }}
         />
         <Modal

@@ -51,6 +51,7 @@ import HorizontalScrollArea from "@/components/ui/HorizontalScrollArea";
 import { useLocations } from "@/queries/useLocations";
 import { FIELD_LIMITS } from "@/constants/fieldLimits";
 import { digitsOnly } from "@/utils/quantity";
+import { useFormExit } from "@/hooks/useLeaveGuard";
 
 const AddSupplier = () => {
   const { t } = useTranslation();
@@ -408,6 +409,11 @@ const AddSupplier = () => {
       defaultDescription: ""
     }
   });
+  const { request: requestLeave, leave } = useFormExit(
+    "/supplier",
+    () => setCancelModal(true),
+    form
+  );
 
   const createMutation = useMutation(addSupplier, {
     onSuccess: () => {
@@ -488,7 +494,7 @@ const AddSupplier = () => {
             title={t("page.supplier.add.title")}
             description={t("page.supplier.add.description")}
             backLink="/supplier"
-            onBack={() => setCancelModal(true)}>
+            onBack={requestLeave}>
             <UserGuide guideKey="add-supplier" />
           </PageHeader>
         </div>
@@ -1769,7 +1775,7 @@ const AddSupplier = () => {
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mt-6 bg-card border border-border rounded-xl p-4">
           <Button
             variant="danger"
-            onClick={() => setCancelModal(true)}
+            onClick={requestLeave}
             className="gap-2 w-full sm:w-auto justify-center">
             <X size={18} />
             {t("common.cancel")}
@@ -1834,7 +1840,7 @@ const AddSupplier = () => {
         title={t("page.supplier.modal.cancelTitle")}
         description={t("page.supplier.modal.cancelDescription")}
         confirmText={t("page.supplier.modal.confirmCancel")}
-        onConfirm={() => setTimeout(() => navigate("/supplier"), 150)}
+        onConfirm={() => setTimeout(leave, 150)}
       />
       <Modal
         type="success"

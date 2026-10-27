@@ -40,6 +40,7 @@ import MissingFieldsModal from "@/components/organism/MissingFieldsModal";
 import { getMissingFields } from "@/lib/validation";
 import AbortController from "@/components/organism/abort-controller";
 import { FIELD_LIMITS } from "@/constants/fieldLimits";
+import { useFormExit } from "@/hooks/useLeaveGuard";
 
 const DAY_NAMES = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"];
 
@@ -125,6 +126,11 @@ const EditReservation = () => {
       status: "pending"
     }
   });
+  const { request: requestLeave, leave } = useFormExit(
+    "/reservation",
+    () => setCancelModal(true),
+    form
+  );
 
   useEffect(() => {
     if (reservation) {
@@ -263,7 +269,7 @@ const EditReservation = () => {
         title={t("page.reservation.edit.title")}
         description={t("page.reservation.edit.subtitle")}
         backLink="/reservation"
-        onBack={() => setCancelModal(true)}>
+        onBack={requestLeave}>
         <UserGuide guideKey="add-reservation" mode="edit" />
       </PageHeader>
 
@@ -479,7 +485,7 @@ const EditReservation = () => {
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mt-6 bg-card border border-border rounded-xl p-4">
               <Button
                 variant="danger"
-                onClick={() => setCancelModal(true)}
+                onClick={requestLeave}
                 className="gap-2 w-full sm:w-auto justify-center">
                 <X size={18} /> {t("page.reservation.edit.cancel")}
               </Button>
@@ -529,7 +535,7 @@ const EditReservation = () => {
         title={t("modal.cancelTitle")}
         description={t("modal.cancelDescription")}
         confirmText={t("modal.yesCancel")}
-        onConfirm={() => setTimeout(() => navigate("/reservation"), 150)}
+        onConfirm={() => setTimeout(leave, 150)}
       />
       <Modal
         type="success"

@@ -24,7 +24,7 @@ import { Card } from "@/components/ui/card";
 import { Switch } from "@/components/ui/switch";
 import { Loading } from "@/components/ui/loading";
 import PageHeader from "@/components/ui/PageHeader";
-import { useLeaveGuard } from "@/hooks/useLeaveGuard";
+import { useFormExit } from "@/hooks/useLeaveGuard";
 import UserGuide from "@/components/organism/UserGuide";
 import Modal from "@/components/organism/modal";
 import MissingFieldsModal from "@/components/organism/MissingFieldsModal";
@@ -76,7 +76,11 @@ const AddTaxConfig = () => {
       store: ""
     }
   });
-  const requestLeave = useLeaveGuard(form, "/tax-list", () => setCancelModal(true));
+  const { request: requestLeave, leave } = useFormExit(
+    "/tax-list",
+    () => setCancelModal(true),
+    form
+  );
 
   const taxFieldLabels = {
     name: "Nama Pajak",
@@ -355,7 +359,7 @@ const AddTaxConfig = () => {
         title={t("modal.cancelTitle")}
         description={t("modal.cancelDescription")}
         confirmText={t("modal.yesCancel")}
-        onConfirm={() => setTimeout(() => navigate("/tax-list"), 150)}
+        onConfirm={() => setTimeout(leave, 150)}
       />
       <Modal
         type="success"

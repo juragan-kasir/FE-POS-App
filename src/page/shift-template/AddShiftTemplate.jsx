@@ -24,7 +24,7 @@ import {
 import { Check, BadgeCheck, X, Save } from "lucide-react";
 import PageHeader from "@/components/ui/PageHeader";
 import UserGuide from "@/components/organism/UserGuide";
-import { useLeaveGuard } from "@/hooks/useLeaveGuard";
+import { useFormExit } from "@/hooks/useLeaveGuard";
 import Modal from "@/components/organism/modal";
 import MissingFieldsModal from "@/components/organism/MissingFieldsModal";
 import { getMissingFields } from "@/lib/validation";
@@ -76,7 +76,11 @@ const AddShiftTemplate = () => {
       isActive: true
     }
   });
-  const requestLeave = useLeaveGuard(form, "/shift-template-list", () => setCancelModal(true));
+  const { request: requestLeave, leave } = useFormExit(
+    "/shift-template-list",
+    () => setCancelModal(true),
+    form
+  );
 
   const createMutation = useMutation(addShiftTemplate, {
     onSuccess: () => {
@@ -352,7 +356,7 @@ const AddShiftTemplate = () => {
         confirmText={t("modal.yesCancel")}
         onConfirm={() => {
           setCancelModal(false);
-          setTimeout(() => navigate("/shift-template-list"), 150);
+          setTimeout(leave, 150);
         }}
       />
     </div>

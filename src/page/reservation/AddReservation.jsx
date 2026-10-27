@@ -41,6 +41,7 @@ import { getMissingFields } from "@/lib/validation";
 import PageHeader from "@/components/ui/PageHeader";
 import UserGuide from "@/components/organism/UserGuide";
 import { FIELD_LIMITS } from "@/constants/fieldLimits";
+import { useFormExit } from "@/hooks/useLeaveGuard";
 
 const DAY_NAMES = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"];
 
@@ -114,6 +115,11 @@ const AddReservation = () => {
       notes: ""
     }
   });
+  const { request: requestLeave, leave } = useFormExit(
+    "/reservation",
+    () => setCancelModal(true),
+    form
+  );
 
   const selectedStore = form.watch("store");
   const reservationDate = form.watch("reservationDate");
@@ -219,7 +225,7 @@ const AddReservation = () => {
         ]}
         title="Tambah Reservasi"
         description="Buat reservasi meja baru"
-        onBack={() => setCancelModal(true)}
+        onBack={requestLeave}
         dynamicInfo={false}>
         <UserGuide guideKey="add-reservation" />
       </PageHeader>
@@ -447,7 +453,7 @@ const AddReservation = () => {
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mt-6 bg-card border border-border rounded-xl p-4">
               <Button
                 variant="danger"
-                onClick={() => setCancelModal(true)}
+                onClick={requestLeave}
                 className="gap-2 w-full sm:w-auto justify-center">
                 <X size={18} /> {t("breadcrumb.back")}
               </Button>
@@ -495,7 +501,7 @@ const AddReservation = () => {
         title="Batalkan?"
         description="Perubahan yang belum disimpan akan hilang."
         confirmText="Ya, Batalkan"
-        onConfirm={() => setTimeout(() => navigate("/reservation"), 150)}
+        onConfirm={() => setTimeout(leave, 150)}
       />
       <MissingFieldsModal
         open={missingFieldsModal}

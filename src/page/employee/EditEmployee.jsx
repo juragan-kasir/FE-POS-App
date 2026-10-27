@@ -70,6 +70,7 @@ import MissingFieldsModal from "@/components/organism/MissingFieldsModal";
 import { getMissingFields } from "@/lib/validation";
 import { useLocations } from "@/queries/useLocations";
 import { FIELD_LIMITS } from "@/constants/fieldLimits";
+import { useFormExit } from "@/hooks/useLeaveGuard";
 
 const EditEmployee = () => {
   const { t } = useTranslation();
@@ -174,6 +175,11 @@ const EditEmployee = () => {
       monthlySalary: ""
     }
   });
+  const { request: requestLeave, leave } = useFormExit(
+    "/employee-list",
+    () => setCancelModal(true),
+    form
+  );
 
   const employeeTabs = [
     {
@@ -633,7 +639,7 @@ const EditEmployee = () => {
               title={t("page.employee.edit.title")}
               description={t("page.employee.edit.description")}
               backLink="/employee-list"
-              onBack={() => setCancelModal(true)}
+              onBack={requestLeave}
             />
           </div>
         </div>
@@ -692,7 +698,7 @@ const EditEmployee = () => {
             title={t("page.employee.edit.title")}
             description={t("page.employee.edit.description")}
             backLink="/employee-list"
-            onBack={() => setCancelModal(true)}>
+            onBack={requestLeave}>
             <UserGuide guideKey="add-employee" />
           </PageHeader>
         </div>
@@ -928,9 +934,7 @@ const EditEmployee = () => {
                                     </FormLabel>
                                     <DatePicker
                                       date={parseDateOnly(field.value)}
-                                      setDate={(date) =>
-                                        field.onChange(formatDateOnly(date))
-                                      }
+                                      setDate={(date) => field.onChange(formatDateOnly(date))}
                                     />
                                     <FormMessage />
                                   </FormItem>
@@ -1684,7 +1688,7 @@ const EditEmployee = () => {
                       type="button"
                       variant="danger"
                       className="w-full sm:w-auto"
-                      onClick={() => setCancelModal(true)}>
+                      onClick={requestLeave}>
                       <ArrowLeft size={20} className="text-lg" />
                       {t("common.cancel")}
                     </Button>
@@ -1755,7 +1759,7 @@ const EditEmployee = () => {
         title={t("modal.cancelTitle")}
         description={t("modal.cancelDescription")}
         confirmText={t("modal.yesCancel")}
-        onConfirm={() => setTimeout(() => navigate("/employee-list"), 150)}
+        onConfirm={() => setTimeout(leave, 150)}
       />
       <Modal
         type="confirm"

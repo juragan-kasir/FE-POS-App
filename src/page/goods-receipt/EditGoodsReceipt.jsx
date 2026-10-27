@@ -46,6 +46,7 @@ import HorizontalScrollArea from "@/components/ui/HorizontalScrollArea";
 import { useLocations } from "@/queries/useLocations";
 import { FIELD_LIMITS } from "@/constants/fieldLimits";
 import { formatDateOnly } from "@/utils/dateOnly";
+import { useFormExit } from "@/hooks/useLeaveGuard";
 
 const EditGoodsReceipt = () => {
   const dirtyRef = useDomDirtyTracking();
@@ -63,6 +64,9 @@ const EditGoodsReceipt = () => {
   const [errorModal, setErrorModal] = useState(false);
   const [modalMessage, setModalMessage] = useState("");
   const [cancelModal, setCancelModal] = useState(false);
+  const { request: requestLeave, leave } = useFormExit("/goods-receipt", () =>
+    setCancelModal(true)
+  );
   const [draftModal, setDraftModal] = useState(false);
   const [confirmModal, setConfirmModal] = useState(false);
   const [loaded, setLoaded] = useState(false);
@@ -450,8 +454,7 @@ const EditGoodsReceipt = () => {
     setIsSubmitting(true);
     try {
       const payload = {
-        receivedDate:
-          formatDateOnly(receivedDate),
+        receivedDate: formatDateOnly(receivedDate),
         notes,
         pic: selectedPic?.id || null,
         suratJalan: suratJalan.trim() || null,
@@ -566,7 +569,7 @@ const EditGoodsReceipt = () => {
           title={t("page.goodsReceipt.edit.title")}
           description={t("page.goodsReceipt.edit.description")}
           backLink="/goods-receipt"
-          onBack={() => setCancelModal(true)}>
+          onBack={requestLeave}>
           <UserGuide guideKey="add-goods-receipt" mode="edit" />
         </PageHeader>
 
@@ -1254,7 +1257,7 @@ const EditGoodsReceipt = () => {
               type="button"
               variant="danger"
               className="w-full sm:w-auto justify-center"
-              onClick={() => setCancelModal(true)}>
+              onClick={requestLeave}>
               <X size={16} className="mr-1" /> {t("page.goodsReceipt.edit.form.cancel")}
             </Button>
             <div className="flex flex-col sm:flex-row gap-3 sm:items-center">
@@ -1302,7 +1305,7 @@ const EditGoodsReceipt = () => {
           confirmText={t("page.goodsReceipt.edit.modal.confirm")}
           onConfirm={() => {
             setCancelModal(false);
-            setTimeout(() => navigate("/goods-receipt"), 150);
+            setTimeout(leave, 150);
           }}
         />
         <Modal

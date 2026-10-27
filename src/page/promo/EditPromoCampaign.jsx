@@ -52,6 +52,7 @@ import { useLocations } from "@/queries/useLocations";
 import { FIELD_LIMITS } from "@/constants/fieldLimits";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { useFormExit } from "@/hooks/useLeaveGuard";
 
 const SectionHeader = ({ icon: Icon, title, description, gradient }) => (
   <div className={`bg-gradient-to-r ${gradient} px-6 py-4`}>
@@ -197,6 +198,11 @@ const EditPromoCampaign = () => {
       autoActivate: false
     }
   });
+  const { request: requestLeave, leave } = useFormExit(
+    "/promo-list",
+    () => setCancelModalOpen(true),
+    form
+  );
 
   useEffect(() => {
     if (campaign) {
@@ -421,9 +427,9 @@ const EditPromoCampaign = () => {
         title={t("page.promo.edit.title")}
         description={t("page.promo.edit.description")}
         backLink="/promo-list"
-        onBack={() => setCancelModalOpen(true)}>
+        onBack={requestLeave}>
         <UserGuide guideKey="add-promo" mode="edit" />
-        <Button variant="danger" onClick={() => setCancelModalOpen(true)}>
+        <Button variant="danger" onClick={requestLeave}>
           {t("common.cancel")}
         </Button>
       </PageHeader>
@@ -1019,7 +1025,7 @@ const EditPromoCampaign = () => {
             <Button
               type="button"
               variant="danger"
-              onClick={() => setCancelModalOpen(true)}
+              onClick={requestLeave}
               className="gap-2 w-full sm:w-auto justify-center">
               <X size={18} />
               {t("breadcrumb.back")}
@@ -1054,7 +1060,7 @@ const EditPromoCampaign = () => {
         title={t("modal.cancelTitle")}
         description={t("modal.cancelDescription")}
         confirmText={t("modal.yesCancel")}
-        onConfirm={() => setTimeout(() => navigate("/promo-list"), 150)}
+        onConfirm={() => setTimeout(leave, 150)}
       />
       <Modal
         type="confirm"

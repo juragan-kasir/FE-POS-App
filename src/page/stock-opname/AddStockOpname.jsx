@@ -64,6 +64,7 @@ import HorizontalScrollArea from "@/components/ui/HorizontalScrollArea";
 import { useLocations } from "@/queries/useLocations";
 import { FIELD_LIMITS } from "@/constants/fieldLimits";
 import { formatDateOnly } from "@/utils/dateOnly";
+import { useFormExit } from "@/hooks/useLeaveGuard";
 
 // BE persists these opname quantities as decimals (matching the product's
 // own DECIMAL(10,4) stock field, which is what auto-fills stokAwalJumlah) —
@@ -313,6 +314,11 @@ const AddStockOpname = () => {
       items: [defaultItemValues]
     }
   });
+  const { request: requestLeave, leave } = useFormExit(
+    "/stock-opname",
+    () => setCancelModal(true),
+    form
+  );
 
   const {
     control,
@@ -516,8 +522,7 @@ const AddStockOpname = () => {
   const buildPayload = (status) => {
     const values = getValues();
     return {
-      auditDate:
-        formatDateOnly(values.tanggalAudit),
+      auditDate: formatDateOnly(values.tanggalAudit),
       auditor: values.auditor,
       notes: values.catatan || "",
       ...(status ? { status } : {}),
@@ -593,7 +598,7 @@ const AddStockOpname = () => {
             title={id ? t("page.stockOpname.edit.title") : t("page.stockOpname.add.title")}
             description={t("page.stockOpname.add.description")}
             backLink="/stock-opname"
-            onBack={() => setCancelModal(true)}>
+            onBack={requestLeave}>
             <Button
               variant="import"
               size="sm"
@@ -991,7 +996,7 @@ const AddStockOpname = () => {
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-card border border-border rounded-xl p-4">
               <Button
                 variant="danger"
-                onClick={() => setCancelModal(true)}
+                onClick={requestLeave}
                 className="transition-all w-full sm:w-auto justify-center">
                 <X size={16} className="mr-1" />
                 {t("common.cancel")}
@@ -1030,7 +1035,7 @@ const AddStockOpname = () => {
         confirmText={t("page.stockOpname.modal.confirmCancel")}
         onConfirm={() => {
           setCancelModal(false);
-          setTimeout(() => navigate("/stock-opname"), 150);
+          setTimeout(leave, 150);
         }}
       />
 
@@ -1112,9 +1117,7 @@ const AddStockOpname = () => {
         onOpenChange={setUploadModalOpen}
         onDataParsed={handleUploadParsed}
         onUploadSuccess={() => navigate("/stock-opname")}
-        auditDate={
-          formatDateOnly(watch("tanggalAudit"))
-        }
+        auditDate={formatDateOnly(watch("tanggalAudit"))}
       />
     </div>
   );

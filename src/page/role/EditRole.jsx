@@ -35,6 +35,7 @@ import { useLocations } from "@/queries/useLocations";
 import { FIELD_LIMITS } from "@/constants/fieldLimits";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { markAllClean } from "@/lib/unsaved-changes-store";
 
 const SUMMARY_LIMIT = 8;
 
@@ -513,7 +514,13 @@ const EditRole = () => {
         title={t("modal.cancelTitle")}
         description={t("page.role.edit.discardDesc")}
         confirmText={t("modal.yesCancel")}
-        onConfirm={() => setTimeout(() => navigate("/role-management"), 150)}
+        onConfirm={() =>
+          setTimeout(() => {
+            // Confirmed here, so the router-level guard must not ask again.
+            markAllClean();
+            navigate("/role-management");
+          }, 150)
+        }
       />
 
       <Modal

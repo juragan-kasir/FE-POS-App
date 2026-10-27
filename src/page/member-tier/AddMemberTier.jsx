@@ -32,6 +32,7 @@ import MissingFieldsModal from "@/components/organism/MissingFieldsModal";
 import { getMissingFields } from "@/lib/validation";
 import { FIELD_LIMITS } from "@/constants/fieldLimits";
 import { Input } from "@/components/ui/input";
+import { useFormExit } from "@/hooks/useLeaveGuard";
 
 const icons = [
   { name: "star", component: Star, fill: true },
@@ -78,6 +79,7 @@ const AddMemberTier = () => {
   });
 
   const [cancelModal, setCancelModal] = useState(false);
+  const { request: requestLeave, leave } = useFormExit("/member-tier", () => setCancelModal(true));
   const [draftModal, setDraftModal] = useState(false);
   const [missingFieldsModal, setMissingFieldsModal] = useState(false);
   const [missingFields, setMissingFields] = useState([]);
@@ -187,7 +189,7 @@ const AddMemberTier = () => {
         title={t("page.memberTier.add.title")}
         description={t("page.memberTier.add.description")}
         backLink="/member-tier"
-        onBack={() => setCancelModal(true)}>
+        onBack={requestLeave}>
         <UserGuide guideKey="add-member-tier" />
       </PageHeader>
 
@@ -491,7 +493,7 @@ const AddMemberTier = () => {
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mt-8 bg-card border border-border rounded-xl p-4">
           <Button
             variant="danger"
-            onClick={() => setCancelModal(true)}
+            onClick={requestLeave}
             className="gap-2 w-full sm:w-auto justify-center">
             <X size={18} />
             {t("common.cancel")}
@@ -525,7 +527,7 @@ const AddMemberTier = () => {
         title={t("modal.cancelTitle")}
         description={t("modal.cancelDescription")}
         confirmText={t("modal.yesCancel")}
-        onConfirm={() => setTimeout(() => navigate("/member-tier"), 150)}
+        onConfirm={() => setTimeout(leave, 150)}
       />
 
       <Modal

@@ -36,7 +36,7 @@ import { getMissingFields } from "@/lib/validation";
 import AbortController from "@/components/organism/abort-controller";
 import PageHeader from "@/components/ui/PageHeader";
 import UserGuide from "@/components/organism/UserGuide";
-import { useLeaveGuard } from "@/hooks/useLeaveGuard";
+import { useFormExit } from "@/hooks/useLeaveGuard";
 import { FIELD_LIMITS } from "@/constants/fieldLimits";
 
 const EditExpenseCategory = () => {
@@ -116,7 +116,11 @@ const EditExpenseCategory = () => {
       isActive: true
     }
   });
-  const requestLeave = useLeaveGuard(form, "/expense-category", () => setCancelModal(true));
+  const { request: requestLeave, leave } = useFormExit(
+    "/expense-category",
+    () => setCancelModal(true),
+    form
+  );
 
   useEffect(() => {
     if (categoryItem?.id) {
@@ -359,7 +363,7 @@ const EditExpenseCategory = () => {
           title={t("modal.cancelTitle")}
           description={t("modal.cancelDescription")}
           confirmText={t("modal.yesCancel")}
-          onConfirm={() => setTimeout(() => navigate("/expense-category"), 150)}
+          onConfirm={() => setTimeout(leave, 150)}
         />
         <Modal
           type="success"

@@ -2,7 +2,8 @@ import React from "react";
 import { render, screen, fireEvent, waitFor, renderHook } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import { QueryClient, QueryClientProvider } from "react-query";
-import { useLeaveGuard } from "../hooks/useLeaveGuard";
+import { useFormExit } from "../hooks/useLeaveGuard";
+import { getDirty, markAllClean } from "../lib/unsaved-changes-store";
 import EditDepartment from "../page/department/EditDepartment";
 
 // jsdom lacks ResizeObserver, which the Radix Switch on the form requires.
@@ -14,8 +15,8 @@ class ResizeObserverStub {
 if (!globalThis.ResizeObserver) globalThis.ResizeObserver = ResizeObserverStub;
 
 // UX-04: every Add/Edit form asked "discard changes?" even when nothing was
-// typed. useLeaveGuard leaves straight to the list for a clean form and only
-// confirms when the react-hook-form state is dirty.
+// typed. useFormExit leaves straight to the list for a clean form and only
+// confirms when something changed.
 
 jest.mock("react-i18next", () => ({
   useTranslation: () => ({ t: (k) => k })
@@ -43,21 +44,27 @@ jest.mock("react-router-dom", () => ({
   useSearchParams: () => [new URLSearchParams("id=7")]
 }));
 
-describe("useLeaveGuard (UX-04)", () => {
+describe("useFormExit (UX-04)", () => {
   // Minimal stand-in for a react-hook-form instance.
   const fakeForm = ({ isDirty = false, values = {}, defaults = {} } = {}) => ({
     formState: { isDirty, defaultValues: defaults },
     getValues: () => values
   });
+  const cleanForm = fakeForm({
+    values: { name: "A", on: true },
+    defaults: { on: true, name: "A" }
+  });
 
-  beforeEach(() => mockNavigate.mockClear());
+  beforeEach(() => {
+    mockNavigate.mockClear();
+    markAllClean();
+  });
 
   test("clean form navigates straight to the target", () => {
     const confirm = jest.fn();
-    const form = fakeForm({ values: { name: "A", on: true }, defaults: { on: true, name: "A" } });
-    const { result } = renderHook(() => useLeaveGuard(form, "/list", confirm));
+    const { result } = renderHook(() => useFormExit("/list", confirm, cleanForm));
 
-    result.current();
+    result.current.request();
 
     expect(mockNavigate).toHaveBeenCalledWith("/list");
     expect(confirm).not.toHaveBeenCalled();
@@ -65,11 +72,9 @@ describe("useLeaveGuard (UX-04)", () => {
 
   test("dirty form asks for confirmation and does not navigate", () => {
     const confirm = jest.fn();
-    const { result } = renderHook(() =>
-      useLeaveGuard(fakeForm({ isDirty: true }), "/list", confirm)
-    );
+    const { result } = renderHook(() => useFormExit("/list", confirm, fakeForm({ isDirty: true })));
 
-    result.current();
+    result.current.request();
 
     expect(confirm).toHaveBeenCalledTimes(1);
     expect(mockNavigate).not.toHaveBeenCalled();
@@ -78,25 +83,67 @@ describe("useLeaveGuard (UX-04)", () => {
   test("values differing from defaults confirm even while the isDirty snapshot is stale", () => {
     const confirm = jest.fn();
     const form = fakeForm({ values: { name: "Baru" }, defaults: { name: "Lama" } });
-    const { result } = renderHook(() => useLeaveGuard(form, "/list", confirm));
+    const { result } = renderHook(() => useFormExit("/list", confirm, form));
 
-    result.current();
+    result.current.request();
+
+    expect(confirm).toHaveBeenCalledTimes(1);
+  });
+
+  test("input outside react-hook-form (useState fields) counts as a change", () => {
+    const confirm = jest.fn();
+    const { result } = renderHook(() => useFormExit("/list", confirm, cleanForm));
+    const input = document.createElement("input");
+    document.body.appendChild(input);
+
+    fireEvent.input(input, { target: { value: "x" } });
+    result.current.request();
+
+    expect(confirm).toHaveBeenCalledTimes(1);
+    input.remove();
+  });
+
+  test("picking a combobox option counts as a change; other clicks do not", () => {
+    const confirm = jest.fn();
+    const { result } = renderHook(() => useFormExit("/list", confirm, cleanForm));
+    const button = document.createElement("button");
+    const option = document.createElement("div");
+    option.setAttribute("role", "option");
+    document.body.append(button, option);
+
+    fireEvent.click(button);
+    result.current.request();
+    expect(confirm).not.toHaveBeenCalled();
+
+    fireEvent.click(option);
+    result.current.request();
+    expect(confirm).toHaveBeenCalledTimes(1);
+    button.remove();
+    option.remove();
+  });
+
+  test("without a react-hook-form instance it always confirms", () => {
+    const confirm = jest.fn();
+    const { result } = renderHook(() => useFormExit("/list", confirm));
+
+    result.current.request();
 
     expect(confirm).toHaveBeenCalledTimes(1);
     expect(mockNavigate).not.toHaveBeenCalled();
   });
 
-  test("dirty form arms the browser beforeunload prompt; clean form does not", () => {
-    const add = jest.spyOn(window, "addEventListener");
-    const { rerender } = renderHook(
-      ({ dirty }) => useLeaveGuard(fakeForm({ isDirty: dirty }), "/list", jest.fn()),
-      { initialProps: { dirty: false } }
-    );
-    expect(add).not.toHaveBeenCalledWith("beforeunload", expect.any(Function));
+  test("registers the form's dirty state in the shared store; leave() clears it", () => {
+    const { result, rerender } = renderHook(({ form }) => useFormExit("/list", jest.fn(), form), {
+      initialProps: { form: cleanForm }
+    });
+    expect(getDirty()).toBe(false);
 
-    rerender({ dirty: true });
-    expect(add).toHaveBeenCalledWith("beforeunload", expect.any(Function));
-    add.mockRestore();
+    rerender({ form: fakeForm({ isDirty: true }) });
+    expect(getDirty()).toBe(true);
+
+    result.current.leave();
+    expect(getDirty()).toBe(false);
+    expect(mockNavigate).toHaveBeenCalledWith("/list");
   });
 });
 

@@ -29,6 +29,7 @@ import {
 import { FIELD_LIMITS } from "@/constants/fieldLimits";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { markAllClean } from "@/lib/unsaved-changes-store";
 
 // Role types a store account may create (super_admin: global accounts only).
 const ROLE_TYPE_OPTIONS = ["admin", "kasir", "user"];
@@ -322,7 +323,13 @@ const AddRole = () => {
           title={t("modal.cancelTitle")}
           description={t("page.role.edit.discardDesc")}
           confirmText={t("modal.yesCancel")}
-          onConfirm={() => setTimeout(() => navigate("/role-management"), 150)}
+          onConfirm={() =>
+            setTimeout(() => {
+              // Confirmed here, so the router-level guard must not ask again.
+              markAllClean();
+              navigate("/role-management");
+            }, 150)
+          }
         />
         <Modal
           type="confirm"

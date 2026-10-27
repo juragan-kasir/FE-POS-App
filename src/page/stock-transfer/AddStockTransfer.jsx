@@ -31,6 +31,7 @@ import UserGuide from "@/components/organism/UserGuide";
 import HorizontalScrollArea from "@/components/ui/HorizontalScrollArea";
 import { useLocations } from "@/queries/useLocations";
 import { FIELD_LIMITS } from "@/constants/fieldLimits";
+import { useFormExit } from "@/hooks/useLeaveGuard";
 
 const AddStockTransfer = () => {
   const { t } = useTranslation();
@@ -90,6 +91,11 @@ const AddStockTransfer = () => {
       items: [{ productId: "", qty: "", unit: "pcs", notes: "" }]
     }
   });
+  const { request: requestLeave, leave } = useFormExit(
+    "/stock-transfer",
+    () => setCancelModal(true),
+    form
+  );
 
   const {
     control,
@@ -182,7 +188,7 @@ const AddStockTransfer = () => {
           ]}
           title={t("page.stockTransfer.add.title")}
           description={t("page.stockTransfer.add.subtitle")}
-          onBack={() => setCancelModal(true)}
+          onBack={requestLeave}
           dynamicInfo={false}>
           <UserGuide guideKey="add-stock-transfer" />
         </PageHeader>
@@ -464,7 +470,7 @@ const AddStockTransfer = () => {
             <Button
               type="button"
               variant="danger"
-              onClick={() => setCancelModal(true)}
+              onClick={requestLeave}
               className="w-full sm:w-auto justify-center">
               <X size={16} className="mr-1" /> {t("page.stockTransfer.add.cancel")}
             </Button>
@@ -490,7 +496,7 @@ const AddStockTransfer = () => {
           confirmText={t("modal.yesCancel")}
           onConfirm={() => {
             setCancelModal(false);
-            setTimeout(() => navigate("/stock-transfer"), 150);
+            setTimeout(leave, 150);
           }}
         />
         <Modal

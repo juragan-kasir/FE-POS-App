@@ -31,6 +31,7 @@ import MissingFieldsModal from "@/components/organism/MissingFieldsModal";
 import { getMissingFields } from "@/lib/validation";
 import { useLocations } from "@/queries/useLocations";
 import { FIELD_LIMITS } from "@/constants/fieldLimits";
+import { useFormExit } from "@/hooks/useLeaveGuard";
 
 const EditTypePayment = () => {
   const { t } = useTranslation();
@@ -113,6 +114,11 @@ const EditTypePayment = () => {
       store: ""
     }
   });
+  const { request: requestLeave, leave } = useFormExit(
+    "/type-payment-list",
+    () => setCancelModal(true),
+    form
+  );
 
   useEffect(() => {
     if (item?.id) {
@@ -199,7 +205,7 @@ const EditTypePayment = () => {
             title={t("page.typePayment.edit.title")}
             description={t("page.typePayment.edit.description")}
             backLink="/type-payment-list"
-            onBack={() => setCancelModal(true)}>
+            onBack={requestLeave}>
             <UserGuide guideKey="add-type-payment" mode="edit" />
           </PageHeader>
         </div>
@@ -428,7 +434,7 @@ const EditTypePayment = () => {
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mt-6 bg-card border border-border rounded-xl p-4">
                     <Button
                       variant="danger"
-                      onClick={() => setCancelModal(true)}
+                      onClick={requestLeave}
                       className="gap-2 w-full sm:w-auto justify-center">
                       <X size={18} />
                       {t("common.cancel")}
@@ -487,7 +493,7 @@ const EditTypePayment = () => {
         title={t("modal.cancelTitle")}
         description={t("modal.cancelDescription")}
         confirmText={t("modal.yesCancel")}
-        onConfirm={() => setTimeout(() => navigate("/type-payment-list"), 150)}
+        onConfirm={() => setTimeout(leave, 150)}
       />
       <Modal
         type="success"

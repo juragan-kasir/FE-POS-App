@@ -31,6 +31,7 @@ import UserGuide from "@/components/organism/UserGuide";
 import { useLocations } from "@/queries/useLocations";
 import { FIELD_LIMITS } from "@/constants/fieldLimits";
 import { Input } from "@/components/ui/input";
+import { useFormExit } from "@/hooks/useLeaveGuard";
 
 const AddAdmin = () => {
   const dirtyRef = useDomDirtyTracking();
@@ -50,6 +51,7 @@ const AddAdmin = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [successModal, setSuccessModal] = useState(false);
   const [cancelModal, setCancelModal] = useState(false);
+  const { request: requestLeave, leave } = useFormExit("/user-list", () => setCancelModal(true));
   const [draftModal, setDraftModal] = useState(false);
   const [missingFieldsModal, setMissingFieldsModal] = useState(false);
   const [missingFieldsList, setMissingFieldsList] = useState([]);
@@ -151,7 +153,7 @@ const AddAdmin = () => {
             ]}
             title={t("page.user.addAdmin.title")}
             description={t("page.user.addAdmin.description")}
-            onBack={() => setCancelModal(true)}
+            onBack={requestLeave}
             dynamicInfo={false}>
             <UserGuide guideKey="add-user" />
           </PageHeader>
@@ -335,7 +337,7 @@ const AddAdmin = () => {
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mt-6 bg-card border border-border rounded-xl p-4">
           <Button
             variant="danger"
-            onClick={() => setCancelModal(true)}
+            onClick={requestLeave}
             className="gap-2 w-full sm:w-auto justify-center">
             <ArrowLeft size={20} className="text-lg" />
             {t("page.user.button.back")}
@@ -383,7 +385,7 @@ const AddAdmin = () => {
           onOpenChange={setCancelModal}
           title={t("modal.cancelTitle")}
           confirmText={t("modal.yesCancel")}
-          onConfirm={() => setTimeout(() => navigate("/user-list"), 150)}
+          onConfirm={() => setTimeout(leave, 150)}
         />
         <Modal
           type="confirm"

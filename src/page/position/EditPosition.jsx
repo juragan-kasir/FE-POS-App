@@ -33,7 +33,7 @@ import {
 import { Check, BadgeCheck, Plus, Building2, X, Save, Info } from "lucide-react";
 import PageHeader from "@/components/ui/PageHeader";
 import UserGuide from "@/components/organism/UserGuide";
-import { useLeaveGuard } from "@/hooks/useLeaveGuard";
+import { useFormExit } from "@/hooks/useLeaveGuard";
 import Modal from "@/components/organism/modal";
 import AbortController from "@/components/organism/abort-controller";
 import MissingFieldsModal from "@/components/organism/MissingFieldsModal";
@@ -84,7 +84,11 @@ const EditPosition = () => {
     mode: "onChange",
     defaultValues: { name: "", department: "", description: "", isActive: true }
   });
-  const requestLeave = useLeaveGuard(form, "/position-list", () => setCancelModal(true));
+  const { request: requestLeave, leave } = useFormExit(
+    "/position-list",
+    () => setCancelModal(true),
+    form
+  );
 
   const positionFieldLabels = {
     name: "Nama Posisi",
@@ -484,7 +488,7 @@ const EditPosition = () => {
         confirmText={t("modal.yesCancel")}
         onConfirm={() => {
           setCancelModal(false);
-          setTimeout(() => navigate("/position-list"), 150);
+          setTimeout(leave, 150);
         }}
       />
     </div>

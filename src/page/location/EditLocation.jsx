@@ -85,6 +85,7 @@ import HorizontalScrollArea from "@/components/ui/HorizontalScrollArea";
 import TenantSelectField, { tenantErrorMessage } from "@/components/organism/TenantSelectField";
 import { qk } from "@/queries/keys";
 import { FIELD_LIMITS } from "@/constants/fieldLimits";
+import { useFormExit } from "@/hooks/useLeaveGuard";
 
 const days = [
   { id: "monday", label: "common.day.monday" },
@@ -324,6 +325,11 @@ const EditLocation = () => {
       }))
     }
   });
+  const { request: requestLeave, leave } = useFormExit(
+    "/location-list",
+    () => setCancelModal(true),
+    form
+  );
 
   const selectedManagerName = form.watch("managerName");
 
@@ -838,8 +844,8 @@ const EditLocation = () => {
         title={t("page.location.edit.title")}
         description={t("page.location.edit.description")}
         backLink="/location-list"
-        onBack={() => setCancelModal(true)}>
-        <Button variant="danger" onClick={() => setCancelModal(true)} className="gap-2">
+        onBack={requestLeave}>
+        <Button variant="danger" onClick={requestLeave} className="gap-2">
           <ArrowLeft size={20} className="text-lg" />
           {t("breadcrumb.back")}
         </Button>
@@ -1683,7 +1689,7 @@ const EditLocation = () => {
                 type="button"
                 variant="danger"
                 className="w-full sm:w-auto"
-                onClick={() => setCancelModal(true)}>
+                onClick={requestLeave}>
                 {t("common.cancel")}
               </Button>
               <div className="flex gap-3">
@@ -1967,7 +1973,7 @@ const EditLocation = () => {
         title={t("modal.cancelTitle")}
         description={t("modal.cancelDescription")}
         confirmText={t("modal.yesCancel")}
-        onConfirm={() => setTimeout(() => navigate("/location-list"), 150)}
+        onConfirm={() => setTimeout(leave, 150)}
       />
       <Modal
         type="confirm"

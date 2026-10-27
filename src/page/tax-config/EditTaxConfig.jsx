@@ -9,7 +9,7 @@ import { useCookies } from "react-cookie";
 import { X, Save, Check } from "lucide-react";
 import PageHeader from "@/components/ui/PageHeader";
 import UserGuide from "@/components/organism/UserGuide";
-import { useLeaveGuard } from "@/hooks/useLeaveGuard";
+import { useFormExit } from "@/hooks/useLeaveGuard";
 import { editTaxConfig, getTaxConfigById } from "@/services/tax-config";
 import { Button } from "@/components/ui/button";
 import { Combobox } from "@/components/ui/combobox";
@@ -145,7 +145,11 @@ const EditTaxConfig = () => {
       store: ""
     }
   });
-  const requestLeave = useLeaveGuard(form, "/tax-list", () => setCancelModal(true));
+  const { request: requestLeave, leave } = useFormExit(
+    "/tax-list",
+    () => setCancelModal(true),
+    form
+  );
 
   const tax = taxData?.data || {};
 
@@ -431,7 +435,7 @@ const EditTaxConfig = () => {
         title={t("modal.cancelTitle")}
         description={t("modal.cancelDescription")}
         confirmText={t("modal.yesCancel")}
-        onConfirm={() => setTimeout(() => navigate("/tax-list"), 150)}
+        onConfirm={() => setTimeout(leave, 150)}
       />
       <Modal
         type="success"
