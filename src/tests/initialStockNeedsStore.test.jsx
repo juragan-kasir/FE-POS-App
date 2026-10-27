@@ -53,6 +53,11 @@ jest.mock("react-cookie", () => ({
   useCookies: () => [{ user: { roleType: "super_admin" } }]
 }));
 
+// The product form's inventory-item picker (BRD phase 3) loads ingredients.
+jest.mock("@/services/ingredient", () => ({
+  getAllIngredients: jest.fn(() => Promise.resolve({ data: [] })),
+  addIngredient: jest.fn()
+}));
 jest.mock("@/services/product", () => ({
   addProduct: jest.fn(() => Promise.resolve({ data: { id: 1 } })),
   getIngredients: jest.fn(() => Promise.resolve({ data: [] }))

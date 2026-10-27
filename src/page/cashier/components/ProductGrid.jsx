@@ -13,7 +13,7 @@ import ScrollRail from "@/components/ui/ScrollRail";
 import VariantModal from "./VariantModal";
 import ProductDetailModal from "./ProductDetailModal";
 import DynamicIcon from "@/components/ui/DynamicIcon";
-import { usesProductStock } from "@/lib/inventory-mode";
+import { isInventoryItemMode, usesProductStock } from "@/lib/inventory-mode";
 import { recipePortionsFor, remainingRecipePortions } from "@/lib/recipe-availability";
 
 const renderCategoryIcon = (cat, className, imgClassName) => {
@@ -34,26 +34,37 @@ const formatPrice = (value) => {
 // memoization for the whole grid on every render.
 const EMPTY_ARRAY = [];
 
-// "Sisa N porsi" for a recipe product (BRD BR-05); amber once few are left.
+// "Sisa N porsi" for a recipe product (BRD BR-05), "Stok N" for a finished
+// good sold from its inventory item (BR-02); amber once few are left.
 // Tiles get primitives (portions, limiting-ingredient names) so a cart change
 // only re-renders the tiles whose numbers actually moved (F7-02).
 const LOW_PORTIONS = 5;
-const RecipePortionsBadge = ({ portions, limitedBy }) => {
+const RecipePortionsBadge = ({ portions, limitedBy, linkedItem = false }) => {
   const { t } = useTranslation();
   if (portions == null || portions < 1) return null;
   return (
     <span
       data-testid="recipe-portions"
-      title={limitedBy ? t("page.cashier.product.limitedBy", { names: limitedBy }) : undefined}
+      title={
+        limitedBy && !linkedItem
+          ? t("page.cashier.product.limitedBy", { names: limitedBy })
+          : undefined
+      }
       className={`text-[9px] font-semibold ${portions <= LOW_PORTIONS ? "text-amber-500" : "text-muted-foreground"}`}>
-      {t("page.cashier.product.portionsLeft", { count: portions })}
+      {t(linkedItem ? "page.cashier.product.itemStockLeft" : "page.cashier.product.portionsLeft", {
+        count: portions
+      })}
     </span>
   );
 };
-RecipePortionsBadge.propTypes = { portions: PropTypes.number, limitedBy: PropTypes.string };
+RecipePortionsBadge.propTypes = {
+  portions: PropTypes.number,
+  limitedBy: PropTypes.string,
+  linkedItem: PropTypes.bool
+};
 
-const outOfStockLabel = (recipePortions) =>
-  recipePortions != null
+const outOfStockLabel = (recipePortions, linkedItem = false) =>
+  recipePortions != null && !linkedItem
     ? "page.cashier.product.ingredientsOut"
     : "page.cashier.product.outOfStock";
 
@@ -72,7 +83,8 @@ const ProductGridTile = React.memo(function ProductGridTile({
   hasChoices,
   outOfStock,
   recipePortions,
-  limitedBy
+  limitedBy,
+  linkedItem
 }) {
   const { t } = useTranslation();
   const img = product.image || product.imageProduct || product.photo || null;
@@ -127,7 +139,7 @@ const ProductGridTile = React.memo(function ProductGridTile({
                   limitedBy ? t("page.cashier.product.limitedBy", { names: limitedBy }) : undefined
                 }
                 className="text-[10px] font-bold text-white bg-destructive/90 px-2 py-1 rounded-md uppercase tracking-wider">
-                {t(outOfStockLabel(recipePortions))}
+                {t(outOfStockLabel(recipePortions, linkedItem))}
               </span>
             </div>
           )}
@@ -176,7 +188,11 @@ const ProductGridTile = React.memo(function ProductGridTile({
                   {t("page.cashier.stock")} {product.stock}
                 </span>
               )}
-            <RecipePortionsBadge portions={recipePortions} limitedBy={limitedBy} />
+            <RecipePortionsBadge
+              portions={recipePortions}
+              limitedBy={limitedBy}
+              linkedItem={linkedItem}
+            />
           </div>
         </div>
       </button>
@@ -202,7 +218,8 @@ ProductGridTile.propTypes = {
   hasChoices: PropTypes.func.isRequired,
   outOfStock: PropTypes.bool,
   recipePortions: PropTypes.number,
-  limitedBy: PropTypes.string
+  limitedBy: PropTypes.string,
+  linkedItem: PropTypes.bool
 };
 
 // F7-02: list-view counterpart to ProductGridTile — same memoization
@@ -215,7 +232,8 @@ const ProductListTile = React.memo(function ProductListTile({
   hasChoices,
   outOfStock,
   recipePortions,
-  limitedBy
+  limitedBy,
+  linkedItem
 }) {
   const { t } = useTranslation();
   const img = product.image || product.imageProduct || product.photo || null;
@@ -270,10 +288,14 @@ const ProductListTile = React.memo(function ProductListTile({
           </div>
           <p className="text-xs text-muted-foreground/60 truncate">
             {product.sku || ""}{" "}
-            <RecipePortionsBadge portions={recipePortions} limitedBy={limitedBy} />
+            <RecipePortionsBadge
+              portions={recipePortions}
+              limitedBy={limitedBy}
+              linkedItem={linkedItem}
+            />
             {outOfStock && recipePortions != null && (
               <span className="text-[9px] font-semibold text-destructive">
-                {t(outOfStockLabel(recipePortions))}
+                {t(outOfStockLabel(recipePortions, linkedItem))}
               </span>
             )}
           </p>
@@ -306,7 +328,8 @@ ProductListTile.propTypes = {
   hasChoices: PropTypes.func.isRequired,
   outOfStock: PropTypes.bool,
   recipePortions: PropTypes.number,
-  limitedBy: PropTypes.string
+  limitedBy: PropTypes.string,
+  linkedItem: PropTypes.bool
 };
 
 const ProductGrid = ({
@@ -460,6 +483,7 @@ const ProductGrid = ({
     return {
       outOfStock: isOutOfStock(product),
       recipePortions: recipe ? recipe.portions : null,
+      linkedItem: isInventoryItemMode(product.inventoryMode),
       limitedBy: recipe
         ? recipe.limitingIngredients
             .map((i) => i.name)

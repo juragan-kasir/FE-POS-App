@@ -33,6 +33,8 @@ import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { getProductById, getProductReviews } from "@/services/product";
 import { getBomCosting } from "@/services/bom";
 import RecipeHppSummary, { HppStatusBadge } from "@/components/organism/RecipeHppSummary";
+import { LinkedItemList } from "@/page/product/InventoryLinkField";
+import { isInventoryItemMode } from "@/lib/inventory-mode";
 import { costRatios, effectiveHpp, pickRecipeCosting } from "@/lib/recipe-costing";
 import ProductPreview from "./ProductPreview";
 import { safeGet } from "@/lib/safe-lookup";
@@ -198,6 +200,20 @@ const DetailProduct = () => {
   );
 
   const product = data?.data || data;
+  // BRD FR-02: a finished good linked to an inventory item shows the item's
+  // stock (as units it can still sell) and minimum, never its own.
+  const links = product?.inventoryLinks || [];
+  const linked = isInventoryItemMode(product?.inventoryMode);
+  const stockView = linked
+    ? {
+        stock: links.reduce((sum, l) => sum + (Number(l.availableUnits) || 0), 0),
+        minStock:
+          links.length === 1
+            ? Math.floor((Number(links[0].minStock) || 0) / (links[0].qty || 1))
+            : null,
+        unit: product?.unit
+      }
+    : product;
 
   // Live recipe HPP per outlet — the product row's stored hppPerPorsi /
   // marginPersen are a global snapshot from the last recipe save.
@@ -212,7 +228,11 @@ const DetailProduct = () => {
     recipe: pickRecipeCosting(costing, null)
   });
   const { foodCostPercent, marginPercent } = costRatios(hpp, product?.price);
-  const costLabel = usesRecipe ? t("page.recipeHpp.hppLabel") : t("page.product.detail.costPrice");
+  const costLabel = linked
+    ? t("page.product.form.inventoryLink.costLabel")
+    : usesRecipe
+      ? t("page.recipeHpp.hppLabel")
+      : t("page.product.detail.costPrice");
   const costValue = hpp == null ? "-" : `Rp ${formatPrice(hpp)}`;
   const marginValue = marginPercent == null ? "-" : `${marginPercent.toFixed(2)}%`;
 
@@ -365,8 +385,8 @@ const DetailProduct = () => {
         product.category?.icon ||
         "fastfood",
       storeName: stores[0] || "Nama Toko",
-      stock: product.stock ?? 0,
-      minStock: product.minStock ?? 0,
+      stock: stockView.stock ?? 0,
+      minStock: stockView.minStock ?? 0,
       estimatedTime: product.estimationTime || 15,
       isOption: Boolean(product.isOption),
       hasModifiers: Boolean(product.hasModifiers),
@@ -520,8 +540,8 @@ const DetailProduct = () => {
             <StatCard
               icon={Box}
               label={t("page.product.detail.stockStatus")}
-              value={`${product.stock ?? 0} ${product.unit || ""}`.trim()}
-              sub={stockBadge(product, t)}
+              value={`${stockView.stock ?? 0} ${product.unit || ""}`.trim()}
+              sub={stockBadge(stockView, t)}
             />
             <StatCard
               icon={Clock}
@@ -580,7 +600,7 @@ const DetailProduct = () => {
                   <p className="text-xs text-muted-foreground mb-1">
                     {t("page.product.detail.stockStatus")}
                   </p>
-                  {stockBadge(product, t)}
+                  {stockBadge(stockView, t)}
                 </div>
                 <div>
                   <p className="text-xs text-muted-foreground mb-1">
@@ -603,7 +623,7 @@ const DetailProduct = () => {
                     {t("page.product.detail.stock")}
                   </p>
                   <p className="font-medium">
-                    {product.stock ?? 0}
+                    {stockView.stock ?? 0}
                     {product.unit ? ` ${product.unit}` : ""}
                   </p>
                 </div>
@@ -611,8 +631,13 @@ const DetailProduct = () => {
                   <p className="text-xs text-muted-foreground mb-1">
                     {t("page.product.detail.minStock")}
                   </p>
-                  <p className="font-medium">{product.minStock ?? "-"}</p>
+                  <p className="font-medium">{stockView.minStock ?? "-"}</p>
                 </div>
+                {linked && (
+                  <div className="col-span-full">
+                    <LinkedItemList links={links} />
+                  </div>
+                )}
                 <div>
                   <p className="text-xs text-muted-foreground mb-1">
                     {t("page.product.form.estimationTime")}
@@ -856,7 +881,7 @@ const DetailProduct = () => {
                       {t("page.product.detail.stock")}
                     </span>
                     <span className="text-sm font-bold">
-                      {product.stock ?? 0}
+                      {stockView.stock ?? 0}
                       {product.unit ? ` ${product.unit}` : ""}
                     </span>
                   </div>
@@ -864,7 +889,7 @@ const DetailProduct = () => {
                     <span className="text-sm text-muted-foreground">
                       {t("page.product.detail.stockStatus")}
                     </span>
-                    {stockBadge(product, t)}
+                    {stockBadge(stockView, t)}
                   </div>
                   <div className="flex items-center justify-between pt-2 border-t border-border/50">
                     <span className="text-sm text-muted-foreground">

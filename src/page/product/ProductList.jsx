@@ -45,6 +45,7 @@ import { canAccess } from "@/utils/permission";
 import { Combobox } from "@/components/ui/combobox";
 import TableActions from "@/components/ui/TableActions";
 import { useLocations } from "@/queries/useLocations";
+import { isInventoryItemMode, usesProductStock } from "@/lib/inventory-mode";
 
 const ProductList = () => {
   const { t } = useTranslation();
@@ -155,6 +156,15 @@ const ProductList = () => {
   };
 
   const getAvailableBadge = (product) => {
+    // BRD BR-02/BR-03: a recipe or inventory-item product has no stock of its
+    // own (0) — its ingredients or item are checked at the cashier instead.
+    if (!usesProductStock(product)) {
+      return {
+        label: t("page.product.status.available"),
+        className:
+          "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400 border border-green-200 dark:border-green-800"
+      };
+    }
     const stock = product.stock || product.quantity || 0;
     if (stock <= 0) {
       return {
@@ -287,6 +297,17 @@ const ProductList = () => {
     {
       header: t("page.product.table.stock"),
       render: (product) => {
+        if (!usesProductStock(product)) {
+          return (
+            <span className="text-xs text-muted-foreground">
+              {t(
+                isInventoryItemMode(product.inventoryMode)
+                  ? "page.product.table.stockFromItem"
+                  : "page.product.table.stockFromRecipe"
+              )}
+            </span>
+          );
+        }
         const stock = product.stock || product.quantity || 0;
         return (
           <span

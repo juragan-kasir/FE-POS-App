@@ -4,6 +4,7 @@ import { FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/for
 import { Input } from "@/components/ui/input";
 import RecipeHppSummary from "@/components/organism/RecipeHppSummary";
 import { costRatios, effectiveHpp, pickRecipeCosting } from "@/lib/recipe-costing";
+import { isInventoryItemMode } from "@/lib/inventory-mode";
 
 const rupiahInputProps = (field) => ({
   type: "text",
@@ -36,15 +37,20 @@ const Chip = ({ className, children }) => (
 // read-only, and the manual figure is only a provisional estimate used
 // until the recipe is complete. `costing` is GET /bom/costing (null for a
 // product not saved yet); `storeId` picks the outlet recipe to show.
-const ProductPriceCostFields = ({ form, costing = null, storeId = null }) => {
+// A finished good linked to an inventory item (BRD FR-02) has no cost of its
+// own: `linkedCost` is the item's cost of one sold unit, shown read-only.
+const ProductPriceCostFields = ({ form, costing = null, storeId = null, linkedCost = null }) => {
   const { t } = useTranslation();
   const inventoryMode = form.watch("inventoryMode") || "stocked";
-  const usesRecipe = inventoryMode !== "stocked";
+  const linked = isInventoryItemMode(inventoryMode);
+  const usesRecipe = inventoryMode !== "stocked" && !linked;
   const price = form.watch("price");
   const costPrice = form.watch("costPrice");
   const recipes = costing?.recipes || [];
   const recipe = pickRecipeCosting(costing, storeId);
-  const { hpp, status } = effectiveHpp({ inventoryMode, costPrice, recipe });
+  const { hpp, status } = linked
+    ? { hpp: linkedCost, status: linkedCost != null ? "auto" : "unavailable" }
+    : effectiveHpp({ inventoryMode, costPrice, recipe });
   const { foodCostPercent, marginPercent } = costRatios(hpp, price);
   const estimated = status === "provisional";
   // The live summary for the recipe shown, re-derived from the form's
@@ -91,32 +97,69 @@ const ProductPriceCostFields = ({ form, costing = null, storeId = null }) => {
           </FormItem>
         )}
       />
-      <FormField
-        control={form.control}
-        name="costPrice"
-        render={({ field }) => (
-          <FormItem>
-            <FormLabel>
-              {t(usesRecipe ? "page.recipeHpp.estimateLabel" : "page.product.form.costPrice")}
-            </FormLabel>
-            <div className="relative">
-              <RupiahPrefix />
-              <Input {...rupiahInputProps(field)} />
-              {foodCostPercent != null && (!usesRecipe || estimated) && (
-                <Chip className="bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400">
-                  <span data-testid="cost-food-cost-chip">
-                    {t("page.recipeHpp.foodCostChip", { value: Math.round(foodCostPercent) })}
-                  </span>
-                </Chip>
-              )}
-            </div>
-            {usesRecipe && (
-              <p className="text-xs text-muted-foreground">{t("page.recipeHpp.estimateHint")}</p>
+      {linked ? (
+        <div className="space-y-2">
+          <p className="text-sm font-medium leading-none">
+            {t("page.product.form.inventoryLink.costLabel")}
+          </p>
+          <div className="relative">
+            <RupiahPrefix />
+            <Input
+              readOnly
+              aria-readonly="true"
+              data-testid="linked-cost"
+              className="pl-10 bg-muted/40"
+              value={
+                linkedCost != null
+                  ? Number(linkedCost).toLocaleString("id-ID", { maximumFractionDigits: 2 })
+                  : ""
+              }
+              placeholder="-"
+            />
+            {foodCostPercent != null && (
+              <Chip className="bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400">
+                <span data-testid="cost-food-cost-chip">
+                  {t("page.recipeHpp.foodCostChip", { value: Math.round(foodCostPercent) })}
+                </span>
+              </Chip>
             )}
-            <FormMessage />
-          </FormItem>
-        )}
-      />
+          </div>
+          <p className="text-xs text-muted-foreground">
+            {t(
+              linkedCost != null
+                ? "page.product.form.inventoryLink.costHint"
+                : "page.product.form.inventoryLink.costMissing"
+            )}
+          </p>
+        </div>
+      ) : (
+        <FormField
+          control={form.control}
+          name="costPrice"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>
+                {t(usesRecipe ? "page.recipeHpp.estimateLabel" : "page.product.form.costPrice")}
+              </FormLabel>
+              <div className="relative">
+                <RupiahPrefix />
+                <Input {...rupiahInputProps(field)} />
+                {foodCostPercent != null && (!usesRecipe || estimated) && (
+                  <Chip className="bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400">
+                    <span data-testid="cost-food-cost-chip">
+                      {t("page.recipeHpp.foodCostChip", { value: Math.round(foodCostPercent) })}
+                    </span>
+                  </Chip>
+                )}
+              </div>
+              {usesRecipe && (
+                <p className="text-xs text-muted-foreground">{t("page.recipeHpp.estimateHint")}</p>
+              )}
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+      )}
       {usesRecipe && (
         <div className="md:col-span-2 p-4 rounded-lg border border-border bg-muted/10 space-y-4">
           {!costing && (

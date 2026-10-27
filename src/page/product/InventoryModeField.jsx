@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
-import { INVENTORY_MODES } from "@/lib/inventory-mode";
+import { INVENTORY_MODES, usesRecipeMode } from "@/lib/inventory-mode";
 
 const P = "page.product.form.inventoryMode";
 
@@ -11,12 +11,12 @@ const P = "page.product.form.inventoryMode";
 const InventoryModeField = ({ value, onChange, productId }) => {
   const { t } = useTranslation();
   const mode = INVENTORY_MODES.includes(value) ? value : "stocked";
-  const usesRecipe = mode !== "stocked";
+  const usesRecipe = usesRecipeMode(mode);
 
   return (
     <fieldset className="space-y-2">
       <legend className="text-sm font-medium text-foreground">{t(`${P}.label`)}</legend>
-      <div className="grid grid-cols-1 gap-2 md:grid-cols-3">
+      <div className="grid grid-cols-1 gap-2 md:grid-cols-2 xl:grid-cols-4">
         {INVENTORY_MODES.map((option) => (
           <label
             key={option}
