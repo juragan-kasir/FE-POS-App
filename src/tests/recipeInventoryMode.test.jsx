@@ -114,10 +114,10 @@ describe("InventoryModeField", () => {
       </MemoryRouter>
     );
 
-  test("offers the three modes and reports the choice", () => {
+  test("offers the selectable modes and reports the choice", () => {
     const onChange = jest.fn();
     renderField({ value: "stocked", onChange });
-    expect(screen.getAllByRole("radio")).toHaveLength(INVENTORY_MODES.length);
+    expect(screen.getAllByRole("radio")).toHaveLength(INVENTORY_MODES.length - 1);
     const recipeRadio = screen
       .getAllByRole("radio")
       .find((radio) => radio.getAttribute("value") === "make_to_order");
@@ -137,5 +137,22 @@ describe("InventoryModeField", () => {
   test("the stocked mode shows no recipe warning", () => {
     renderField({ value: "stocked" });
     expect(screen.queryByText(/recipeRequired/)).not.toBeInTheDocument();
+  });
+
+  // BRD phase 4F: hybrid is retired.
+  test("hybrid is not offered to a product that does not have it", () => {
+    renderField({ value: "stocked", savedMode: "stocked" });
+    const values = screen.getAllByRole("radio").map((r) => r.getAttribute("value"));
+    expect(values).toEqual(["stocked", "make_to_order", "inventory_item"]);
+    expect(
+      screen.queryByText("page.product.form.inventoryMode.hybridRetired")
+    ).not.toBeInTheDocument();
+  });
+
+  test("a hybrid product keeps the option, with a note to move off it", () => {
+    renderField({ value: "hybrid", savedMode: "hybrid" });
+    const hybrid = screen.getAllByRole("radio").find((r) => r.getAttribute("value") === "hybrid");
+    expect(hybrid).toBeChecked();
+    expect(screen.getByText("page.product.form.inventoryMode.hybridRetired")).toBeInTheDocument();
   });
 });

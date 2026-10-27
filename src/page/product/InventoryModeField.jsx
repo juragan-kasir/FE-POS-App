@@ -3,21 +3,29 @@ import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
-import { INVENTORY_MODES, usesRecipeMode } from "@/lib/inventory-mode";
+import {
+  INVENTORY_MODES,
+  RETIRED_INVENTORY_MODES,
+  selectableInventoryModes,
+  usesRecipeMode
+} from "@/lib/inventory-mode";
 
 const P = "page.product.form.inventoryMode";
 
-// Product fulfillment strategy picker (see lib/inventory-mode).
-const InventoryModeField = ({ value, onChange, productId }) => {
+// Product fulfillment strategy picker (see lib/inventory-mode). `savedMode`
+// is the product's stored mode: a retired mode (hybrid) is offered only to
+// the product that already has it.
+const InventoryModeField = ({ value, onChange, productId, savedMode = null }) => {
   const { t } = useTranslation();
   const mode = INVENTORY_MODES.includes(value) ? value : "stocked";
   const usesRecipe = usesRecipeMode(mode);
+  const options = selectableInventoryModes(savedMode);
 
   return (
     <fieldset className="space-y-2">
       <legend className="text-sm font-medium text-foreground">{t(`${P}.label`)}</legend>
       <div className="grid grid-cols-1 gap-2 md:grid-cols-2 xl:grid-cols-4">
-        {INVENTORY_MODES.map((option) => (
+        {options.map((option) => (
           <label
             key={option}
             className={`flex cursor-pointer items-start gap-2 rounded-lg border p-3 text-sm transition-colors ${
@@ -38,6 +46,11 @@ const InventoryModeField = ({ value, onChange, productId }) => {
           </label>
         ))}
       </div>
+      {options.some((o) => RETIRED_INVENTORY_MODES.includes(o)) && (
+        <p className="text-xs text-amber-700 dark:text-amber-400" role="note">
+          {t(`${P}.hybridRetired`)}
+        </p>
+      )}
       {usesRecipe && (
         <p className="text-xs text-amber-700 dark:text-amber-400" role="note">
           {t(`${P}.recipeRequired`)}{" "}
@@ -59,7 +72,8 @@ const InventoryModeField = ({ value, onChange, productId }) => {
 InventoryModeField.propTypes = {
   value: PropTypes.string,
   onChange: PropTypes.func.isRequired,
-  productId: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+  productId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  savedMode: PropTypes.string
 };
 
 export default InventoryModeField;

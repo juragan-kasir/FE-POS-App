@@ -1404,6 +1404,7 @@ const EditProduct = () => {
                       <InventoryModeField
                         value={form.watch("inventoryMode")}
                         productId={product.id}
+                        savedMode={product.inventoryMode}
                         onChange={(mode) =>
                           form.setValue("inventoryMode", mode, { shouldDirty: true })
                         }

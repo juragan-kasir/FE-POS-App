@@ -8,6 +8,15 @@ export const INVENTORY_MODES = ["stocked", "make_to_order", "hybrid", "inventory
 
 export const isInventoryItemMode = (mode) => mode === "inventory_item";
 
+// BRD phase 4F: "hybrid" (own stock AND recipe deducted on every sale) is
+// retired — kept on the products that already have it, never offered anew.
+export const RETIRED_INVENTORY_MODES = ["hybrid"];
+
+// The modes a product can be given; a retired one only when it is the
+// product's saved mode.
+export const selectableInventoryModes = (savedMode = null) =>
+  INVENTORY_MODES.filter((m) => !RETIRED_INVENTORY_MODES.includes(m) || m === savedMode);
+
 // Modes priced and limited by an outlet recipe (not by a linked item).
 export const usesRecipeMode = (mode) => mode === "make_to_order" || mode === "hybrid";
 

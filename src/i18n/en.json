@@ -8510,6 +8510,7 @@
   "page.product.form.inventoryMode.make_to_orderDesc": "Each sale deducts the recipe (BOM) ingredients automatically; the product's own stock is not used.",
   "page.product.form.inventoryMode.hybrid": "Both",
   "page.product.form.inventoryMode.hybridDesc": "Each sale deducts both the product stock and the recipe ingredients.",
+  "page.product.form.inventoryMode.hybridRetired": "Hybrid is no longer offered for new products: each sale deducts both the product stock and the recipe ingredients. Move to Stocked (produced items) or Made to order.",
   "page.product.form.inventoryMode.inventory_item": "Inventory item",
   "page.product.form.inventoryMode.inventory_itemDesc": "Finished good (e.g. bottled water): stock, cost and minimum stock come from one inventory item per outlet.",
   "page.product.form.inventoryLink.label": "Inventory item",
