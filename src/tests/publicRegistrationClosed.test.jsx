@@ -18,6 +18,8 @@ if (!globalThis.ResizeObserver) globalThis.ResizeObserver = ResizeObserverStub;
 // sign-up is closed unless a build sets VITE_PUBLIC_REGISTRATION_ENABLED=true
 // (injected as __PUBLIC_REGISTRATION__ by vite.config.js).
 
+jest.mock("@/assets/logo-full.webp", () => "logo-full.webp");
+jest.mock("@/assets/logo-full-dark.webp", () => "logo-full-dark.webp");
 jest.mock("react-i18next", () => ({
   useTranslation: () => ({ t: (k) => k, ready: true, i18n: { changeLanguage: jest.fn() } })
 }));

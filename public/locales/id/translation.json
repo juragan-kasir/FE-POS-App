@@ -6803,7 +6803,7 @@
   "page.delivery.driver.modal.statusTitle": "Ubah Status Driver",
   "page.delivery.driver.modal.statusDescription": "Apakah Anda yakin ingin mengubah status driver ini?",
   "policy.understand": "Understand",
-  "sidebar.brandName": "Nama Merek",
+  "sidebar.brandName": "Juragan Kasir",
   "sidebar.terminalId": "ID Terminal",
   "tableQR.scanToOrder": "Scan untuk memesan di {{name}}",
   "tableQR.title": "QR {{name}}",

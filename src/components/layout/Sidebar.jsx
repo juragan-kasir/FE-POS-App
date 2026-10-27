@@ -336,8 +336,8 @@ const Sidebar = ({ collapsed = true, expandWidthClass = "w-64", onToggle, onHove
         <div
           className={`mb-5 flex items-center overflow-hidden
             ${isExpanded ? "gap-3 px-1" : "justify-center px-1"}`}>
-          <div className="w-9 h-9 rounded-xl overflow-hidden shrink-0 shadow-md shadow-primary/20">
-            <img src={logoImg} alt="Logo" className="w-full h-full object-contain" />
+          <div className="w-9 h-9 shrink-0">
+            <img src={logoImg} alt="Juragan Kasir" className="w-full h-full object-contain" />
           </div>
           <span
             className={`text-sm font-semibold text-foreground whitespace-nowrap overflow-hidden
