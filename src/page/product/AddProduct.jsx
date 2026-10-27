@@ -60,7 +60,9 @@ import ProductImageGallery from "@/components/organism/ProductImageGallery";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import InventoryModeField from "@/page/product/InventoryModeField";
 import ProductPriceCostFields from "@/page/product/ProductPriceCostFields";
-import { INVENTORY_MODES, initialStockNeedsStore } from "@/lib/inventory-mode";
+import InventoryLinkField, { useLinkItems } from "@/page/product/InventoryLinkField";
+import { INVENTORY_MODES, initialStockNeedsStore, isInventoryItemMode } from "@/lib/inventory-mode";
+import { linkUnitCost, linksPayload, missingLinkStores } from "@/lib/inventory-link";
 import { useLocations } from "@/queries/useLocations";
 import { FIELD_LIMITS } from "@/constants/fieldLimits";
 
@@ -125,6 +127,9 @@ const AddProduct = () => {
   const [confirmSaveModal, setConfirmSaveModal] = useState(false);
   const [showPreview, setShowPreview] = useState(false);
   const [confirmAction, setConfirmAction] = useState(null);
+  // BRD BR-02: the inventory item per outlet of an "inventory_item" product.
+  const [inventoryLinks, setInventoryLinks] = useState([]);
+  const [linkError, setLinkError] = useState("");
 
   const isSuperAdmin = role === "super_admin";
 
@@ -208,6 +213,23 @@ const AddProduct = () => {
   });
 
   useUnsavedChanges(form.formState.isDirty);
+
+  const linksItem = isInventoryItemMode(form.watch("inventoryMode"));
+  const linkStores = allStores
+    ? []
+    : selectedStores.map((id) => ({
+        id,
+        name:
+          locations.find((l) => String(l.id) === String(id))?.name ||
+          (String(user?.store) === String(id) ? user?.storeName : "") ||
+          ""
+      }));
+  const firstLink = inventoryLinks.find((l) => String(l.store) === String(firstStore));
+  const { items: firstStoreItems } = useLinkItems(linksItem ? firstStore : "");
+  const linkedCost = linkUnitCost(
+    firstStoreItems.find((i) => String(i.id) === String(firstLink?.ingredientId)),
+    firstLink?.qty
+  );
 
   const onSubmit = (values) => handleSave(values, false);
 
@@ -429,6 +451,24 @@ const AddProduct = () => {
       return;
     }
     form.clearErrors("store");
+    // FR-06: a finished good from an inventory item needs specific outlets,
+    // each with its item; it has no stock or minimum of its own.
+    const linksItemOnSave = isInventoryItemMode(values.inventoryMode);
+    if (linksItemOnSave && !saveAsDraft) {
+      const message =
+        allStores || selectedStores.length === 0
+          ? t("page.product.form.inventoryLink.needsStore")
+          : missingLinkStores(inventoryLinks, selectedStores).length > 0
+            ? t("page.product.form.inventoryLink.required")
+            : "";
+      if (message) {
+        setLinkError(message);
+        setCurrentStep(2);
+        toast.error(message);
+        return;
+      }
+    }
+    setLinkError("");
 
     setIsSubmitting(true);
 
@@ -442,9 +482,10 @@ const AddProduct = () => {
       stores: selectedStores, // Using 'stores' to match backend expectation if needed
       price: values.price,
       costPrice: values.costPrice,
-      stock: values.stock,
-      minStock: values.minStock,
+      stock: linksItemOnSave ? 0 : values.stock,
+      minStock: linksItemOnSave ? 0 : values.minStock,
       inventoryMode: values.inventoryMode || "stocked",
+      ...(linksItemOnSave ? { inventoryLinks: linksPayload(inventoryLinks, selectedStores) } : {}),
       unit: values.unit,
       baseUnit: values.baseUnit,
       conversionFactor: values.conversionFactor || 1,
@@ -496,7 +537,7 @@ const AddProduct = () => {
 
     const payload = normalizePayload(data, {
       isFormData: true,
-      jsonFields: ["stores", "options", "modifiers", "priceTiers"]
+      jsonFields: ["stores", "options", "modifiers", "priceTiers", "inventoryLinks"]
     });
 
     createMutation.mutate(payload);
@@ -1104,61 +1145,80 @@ const AddProduct = () => {
                       />
                     </div>
 
+                    {linksItem && (
+                      <div className="mb-5">
+                        <InventoryLinkField
+                          stores={linkStores}
+                          value={inventoryLinks}
+                          onChange={(links) => {
+                            setInventoryLinks(links);
+                            setLinkError("");
+                          }}
+                          productName={form.watch("nameProduct")}
+                          error={linkError}
+                        />
+                      </div>
+                    )}
+
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      <ProductPriceCostFields form={form} />
-                      <FormField
-                        control={form.control}
-                        name="stock"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>{t("page.product.form.stock")}</FormLabel>
-                            {form.watch("inventoryMode") === "make_to_order" && (
-                              <p className="text-xs text-muted-foreground">
-                                {t("page.product.form.inventoryMode.stockUnused")}
-                              </p>
+                      <ProductPriceCostFields form={form} linkedCost={linkedCost} />
+                      {!linksItem && (
+                        <>
+                          <FormField
+                            control={form.control}
+                            name="stock"
+                            render={({ field }) => (
+                              <FormItem>
+                                <FormLabel>{t("page.product.form.stock")}</FormLabel>
+                                {form.watch("inventoryMode") === "make_to_order" && (
+                                  <p className="text-xs text-muted-foreground">
+                                    {t("page.product.form.inventoryMode.stockUnused")}
+                                  </p>
+                                )}
+                                <Input
+                                  type="text"
+                                  inputMode="numeric"
+                                  placeholder="0"
+                                  value={
+                                    field.value !== undefined && field.value !== ""
+                                      ? Number(field.value).toLocaleString("id-ID")
+                                      : ""
+                                  }
+                                  onChange={(e) => {
+                                    const raw = e.target.value.replace(/[^0-9]/g, "");
+                                    field.onChange(raw ? Number(raw) : "");
+                                  }}
+                                />
+                                <FormMessage />
+                              </FormItem>
                             )}
-                            <Input
-                              type="text"
-                              inputMode="numeric"
-                              placeholder="0"
-                              value={
-                                field.value !== undefined && field.value !== ""
-                                  ? Number(field.value).toLocaleString("id-ID")
-                                  : ""
-                              }
-                              onChange={(e) => {
-                                const raw = e.target.value.replace(/[^0-9]/g, "");
-                                field.onChange(raw ? Number(raw) : "");
-                              }}
-                            />
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                      <FormField
-                        control={form.control}
-                        name="minStock"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>{t("page.product.form.minStock")}</FormLabel>
-                            <Input
-                              type="text"
-                              inputMode="numeric"
-                              placeholder="0"
-                              value={
-                                field.value !== undefined && field.value !== ""
-                                  ? Number(field.value).toLocaleString("id-ID")
-                                  : ""
-                              }
-                              onChange={(e) => {
-                                const raw = e.target.value.replace(/[^0-9]/g, "");
-                                field.onChange(raw ? Number(raw) : "");
-                              }}
-                            />
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
+                          />
+                          <FormField
+                            control={form.control}
+                            name="minStock"
+                            render={({ field }) => (
+                              <FormItem>
+                                <FormLabel>{t("page.product.form.minStock")}</FormLabel>
+                                <Input
+                                  type="text"
+                                  inputMode="numeric"
+                                  placeholder="0"
+                                  value={
+                                    field.value !== undefined && field.value !== ""
+                                      ? Number(field.value).toLocaleString("id-ID")
+                                      : ""
+                                  }
+                                  onChange={(e) => {
+                                    const raw = e.target.value.replace(/[^0-9]/g, "");
+                                    field.onChange(raw ? Number(raw) : "");
+                                  }}
+                                />
+                                <FormMessage />
+                              </FormItem>
+                            )}
+                          />
+                        </>
+                      )}
                       <FormField
                         control={form.control}
                         name="point"

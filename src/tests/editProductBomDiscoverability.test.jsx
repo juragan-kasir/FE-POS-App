@@ -53,6 +53,11 @@ const seededProduct = {
   priceTiers: []
 };
 
+// The product form's inventory-item picker (BRD phase 3) loads ingredients.
+jest.mock("@/services/ingredient", () => ({
+  getAllIngredients: jest.fn(() => Promise.resolve({ data: [] })),
+  addIngredient: jest.fn()
+}));
 jest.mock("@/services/product", () => ({
   getProductById: jest.fn(),
   editProduct: jest.fn(),
