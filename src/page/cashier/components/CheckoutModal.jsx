@@ -53,6 +53,7 @@ import { dispatchDisplayEvent, DISPLAY_EVENT_TYPES } from "@/utils/customerDispl
 import { isRegisterRequiredError } from "@/state/registerRequired";
 import { FIELD_LIMITS } from "@/constants/fieldLimits";
 import { Input } from "@/components/ui/input";
+import { quickCashAmounts } from "../quickCash";
 
 // The customer/discount dropdowns render in a fixed-position portal anchored
 // to their input's rect — always below it, with no bounds check. On a
@@ -1124,11 +1125,7 @@ const CheckoutModal = ({
     return Number(value).toLocaleString("id-ID");
   };
 
-  const quickAmounts = useMemo(() => {
-    if (total <= 0) return [];
-    const base = Math.ceil(total / 1000) * 1000;
-    return [base, base + 10000, base + 20000, base + 50000, base + 100000];
-  }, [total]);
+  const quickAmounts = useMemo(() => quickCashAmounts(total), [total]);
 
   const canSubmit =
     items.length > 0 &&
@@ -1454,9 +1451,21 @@ const CheckoutModal = ({
               )}
               {!fullPayment && (
                 <div className="flex flex-wrap gap-1.5">
-                  {quickAmounts.map((amt, idx) => (
+                  {total > 0 && (
                     <button
-                      key={idx}
+                      type="button"
+                      onClick={() => {
+                        setCashAmount(String(total));
+                        setFullPayment(false);
+                      }}
+                      className="px-3 py-1.5 text-xs font-semibold rounded-lg bg-primary/10 text-primary border border-primary/30 hover:bg-primary/15 transition-all">
+                      {t("page.cashier.exactCash")}
+                    </button>
+                  )}
+                  {quickAmounts.map((amt) => (
+                    <button
+                      key={amt}
+                      type="button"
                       onClick={() => {
                         setCashAmount(String(amt));
                         setFullPayment(false);

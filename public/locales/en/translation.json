@@ -5449,6 +5449,7 @@
   "page.cashier.paymentMethod": "Payment Method",
   "page.cashier.cashAmount": "Cash Amount",
   "page.cashier.roundUp": "Round Up",
+  "page.cashier.exactCash": "Exact Cash",
   "page.cashier.processingPayment": "Processing payment...",
   "page.cashier.paymentSuccessDesc": "Payment completed successfully",
   "page.cashier.confirmPayment": "Confirm Payment",
