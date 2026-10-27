@@ -8510,6 +8510,7 @@
   "page.product.form.inventoryMode.make_to_orderDesc": "Setiap penjualan otomatis memotong bahan baku sesuai resep (BOM); stok produk tidak dipakai.",
   "page.product.form.inventoryMode.hybrid": "Keduanya",
   "page.product.form.inventoryMode.hybridDesc": "Setiap penjualan memotong stok produk dan bahan baku resep.",
+  "page.product.form.inventoryMode.hybridRetired": "Mode hybrid sudah tidak dipakai untuk produk baru: setiap penjualan memotong stok produk dan bahan resep sekaligus. Disarankan pindah ke Stok sendiri (produk hasil produksi) atau Dibuat saat dipesan.",
   "page.product.form.inventoryMode.inventory_item": "Item persediaan",
   "page.product.form.inventoryMode.inventory_itemDesc": "Produk jadi (mis. Le Minerale): stok, harga modal, dan stok minimum diambil dari satu item persediaan per outlet.",
   "page.product.form.inventoryLink.label": "Item persediaan",
