@@ -31,6 +31,8 @@ import { useThemeEffect } from "@/hooks/useThemeEffect";
 import { getRoleDashboard } from "@/utils/role";
 import AuthGuideModal from "@/components/organism/AuthGuideModal";
 import { isPublicRegistrationEnabled } from "@/utils/publicRegistration";
+import logoFull from "@/assets/logo-full.webp";
+import logoFullDark from "@/assets/logo-full-dark.webp";
 
 const LoginPage = () => {
   const { t, ready } = useTranslation();
@@ -210,12 +212,12 @@ const LoginPage = () => {
           </div>
           <div className="relative z-10 w-full h-full flex flex-col items-center justify-center text-white px-lg">
             <div className="max-w-md text-center">
-              <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-white/10 border border-white/15 mb-6">
-                <span className="text-3xl font-bold tracking-tight">BN</span>
-              </div>
-              <span className="block text-4xl xl:text-5xl leading-tight font-semibold mb-4 tracking-tight">
-                Bisa Nota
-              </span>
+              {/* Panel is always dark: the logo variant with the white wordmark. */}
+              <img
+                src={logoFullDark}
+                alt="Juragan Kasir"
+                className="block w-64 xl:w-72 h-auto mx-auto mb-6"
+              />
               <div className="w-12 h-0.5 bg-white/30 mx-auto mb-6" />
               <h2 className="text-lg xl:text-xl leading-relaxed mb-4 font-light text-white/80">
                 Kelola seluruh operasional restoran — kasir, stok, dan laporan.
@@ -233,9 +235,16 @@ const LoginPage = () => {
           <div className="w-full max-w-sm mx-auto">
             {/* Mobile Branding */}
             <div className="lg:hidden mb-8 md:mb-10 text-center">
-              <span className="text-2xl md:text-3xl font-semibold text-foreground tracking-tight">
-                Bisa Nota
-              </span>
+              <img
+                src={logoFull}
+                alt="Juragan Kasir"
+                className="w-44 md:w-52 h-auto mx-auto dark:hidden"
+              />
+              <img
+                src={logoFullDark}
+                alt="Juragan Kasir"
+                className="w-44 md:w-52 h-auto mx-auto hidden dark:block"
+              />
             </div>
 
             <div className="mb-8">

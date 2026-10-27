@@ -21,6 +21,8 @@ if (!globalThis.ResizeObserver) globalThis.ResizeObserver = ResizeObserverStub;
 // writes nothing, and the one-time notice left by the boundary is shown once
 // and deleted.
 
+jest.mock("@/assets/logo-full.webp", () => "logo-full.webp");
+jest.mock("@/assets/logo-full-dark.webp", () => "logo-full-dark.webp");
 jest.mock("react-i18next", () => ({
   useTranslation: () => ({ t: (k) => k, ready: true, i18n: { changeLanguage: jest.fn() } })
 }));

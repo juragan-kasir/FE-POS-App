@@ -6982,7 +6982,7 @@
   "page.delivery.driver.validation.vehicleTypeRequired": "Jenis kendaraan wajib diisi",
   "page.delivery.driver.validation.vehiclePlateRequired": "Plat nomor wajib diisi",
   "policy.understand": "Understand",
-  "sidebar.brandName": "Nama Merek",
+  "sidebar.brandName": "Juragan Kasir",
   "sidebar.terminalId": "ID Terminal",
   "tableQR.scanToOrder": "Scan untuk memesan di {{name}}",
   "tableQR.title": "QR {{name}}",
