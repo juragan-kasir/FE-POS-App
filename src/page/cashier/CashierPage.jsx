@@ -19,7 +19,11 @@ import {
 import AbortController from "@/components/organism/abort-controller";
 import { useDebounce } from "@/hooks/useDebounce";
 import { useTranslation } from "react-i18next";
-import { getFullProductCatalog, getProductByOutlet } from "@/services/product";
+import {
+  getFullProductCatalog,
+  getProductByOutlet,
+  getRecipeAvailability
+} from "@/services/product";
 import { getCustomerTaxRate } from "@/services/order";
 import { storeIdsEqual } from "@/utils/storeId";
 import { isAdminRole } from "@/utils/role";
@@ -245,6 +249,16 @@ const CashierPage = () => {
     {
       enabled: !!store
     }
+  );
+
+  // BRD BR-05: portions each recipe product can still make at this outlet
+  // (ProductGrid subtracts the cart). Refreshed after every sale
+  // (CheckoutModal) and every minute; a failure never blocks selling — the
+  // server still refuses a short sale.
+  const { data: recipeAvailability } = useQuery(
+    ["recipe-availability", store],
+    () => getRecipeAvailability({ location: store }),
+    { enabled: !!store, retry: false, refetchInterval: 60000 }
   );
 
   // W3-4 (K1): the catalog's server-authoritative effectivePrice becomes the
@@ -737,6 +751,7 @@ const CashierPage = () => {
                 store={store}
                 storeName={storeName}
                 onRemoteBarcodeLookup={lookupProductRemote}
+                recipeAvailability={recipeAvailability}
               />
             </div>
           )}

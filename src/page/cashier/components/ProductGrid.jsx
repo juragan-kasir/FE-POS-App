@@ -14,6 +14,7 @@ import VariantModal from "./VariantModal";
 import ProductDetailModal from "./ProductDetailModal";
 import DynamicIcon from "@/components/ui/DynamicIcon";
 import { usesProductStock } from "@/lib/inventory-mode";
+import { recipePortionsFor, remainingRecipePortions } from "@/lib/recipe-availability";
 
 const renderCategoryIcon = (cat, className, imgClassName) => {
   const icon = cat?.image || cat?.icon;
@@ -33,6 +34,29 @@ const formatPrice = (value) => {
 // memoization for the whole grid on every render.
 const EMPTY_ARRAY = [];
 
+// "Sisa N porsi" for a recipe product (BRD BR-05); amber once few are left.
+// Tiles get primitives (portions, limiting-ingredient names) so a cart change
+// only re-renders the tiles whose numbers actually moved (F7-02).
+const LOW_PORTIONS = 5;
+const RecipePortionsBadge = ({ portions, limitedBy }) => {
+  const { t } = useTranslation();
+  if (portions == null || portions < 1) return null;
+  return (
+    <span
+      data-testid="recipe-portions"
+      title={limitedBy ? t("page.cashier.product.limitedBy", { names: limitedBy }) : undefined}
+      className={`text-[9px] font-semibold ${portions <= LOW_PORTIONS ? "text-amber-500" : "text-muted-foreground"}`}>
+      {t("page.cashier.product.portionsLeft", { count: portions })}
+    </span>
+  );
+};
+RecipePortionsBadge.propTypes = { portions: PropTypes.number, limitedBy: PropTypes.string };
+
+const outOfStockLabel = (recipePortions) =>
+  recipePortions != null
+    ? "page.cashier.product.ingredientsOut"
+    : "page.cashier.product.outOfStock";
+
 // F7-02: extracted + memoized so a cart mutation that only changes one
 // product's `cartCount` doesn't force React to re-diff every tile in a
 // large catalog — React.memo lets it bail on every tile whose own props
@@ -46,11 +70,12 @@ const ProductGridTile = React.memo(function ProductGridTile({
   onSelect,
   onShowDetail,
   hasChoices,
-  isOutOfStock
+  outOfStock,
+  recipePortions,
+  limitedBy
 }) {
   const { t } = useTranslation();
   const img = product.image || product.imageProduct || product.photo || null;
-  const outOfStock = isOutOfStock(product);
   const withChoices = hasChoices(product);
   return (
     <div className="relative">
@@ -97,8 +122,12 @@ const ProductGridTile = React.memo(function ProductGridTile({
           )}
           {outOfStock && (
             <div className="absolute inset-0 bg-black/40 backdrop-blur-[2px] rounded-lg flex items-center justify-center">
-              <span className="text-[10px] font-bold text-white bg-destructive/90 px-2 py-1 rounded-md uppercase tracking-wider">
-                {t("page.cashier.product.outOfStock")}
+              <span
+                title={
+                  limitedBy ? t("page.cashier.product.limitedBy", { names: limitedBy }) : undefined
+                }
+                className="text-[10px] font-bold text-white bg-destructive/90 px-2 py-1 rounded-md uppercase tracking-wider">
+                {t(outOfStockLabel(recipePortions))}
               </span>
             </div>
           )}
@@ -147,6 +176,7 @@ const ProductGridTile = React.memo(function ProductGridTile({
                   {t("page.cashier.stock")} {product.stock}
                 </span>
               )}
+            <RecipePortionsBadge portions={recipePortions} limitedBy={limitedBy} />
           </div>
         </div>
       </button>
@@ -170,7 +200,9 @@ ProductGridTile.propTypes = {
   onSelect: PropTypes.func.isRequired,
   onShowDetail: PropTypes.func.isRequired,
   hasChoices: PropTypes.func.isRequired,
-  isOutOfStock: PropTypes.func.isRequired
+  outOfStock: PropTypes.bool,
+  recipePortions: PropTypes.number,
+  limitedBy: PropTypes.string
 };
 
 // F7-02: list-view counterpart to ProductGridTile — same memoization
@@ -181,11 +213,12 @@ const ProductListTile = React.memo(function ProductListTile({
   onSelect,
   onShowDetail,
   hasChoices,
-  isOutOfStock
+  outOfStock,
+  recipePortions,
+  limitedBy
 }) {
   const { t } = useTranslation();
   const img = product.image || product.imageProduct || product.photo || null;
-  const outOfStock = isOutOfStock(product);
   const withChoices = hasChoices(product);
   return (
     <div className="flex items-stretch gap-2">
@@ -235,7 +268,15 @@ const ProductListTile = React.memo(function ProductListTile({
               </span>
             )}
           </div>
-          <p className="text-xs text-muted-foreground/60 truncate">{product.sku || ""}</p>
+          <p className="text-xs text-muted-foreground/60 truncate">
+            {product.sku || ""}{" "}
+            <RecipePortionsBadge portions={recipePortions} limitedBy={limitedBy} />
+            {outOfStock && recipePortions != null && (
+              <span className="text-[9px] font-semibold text-destructive">
+                {t(outOfStockLabel(recipePortions))}
+              </span>
+            )}
+          </p>
         </div>
         {cartCount > 0 && (
           <div className="w-6 h-6 rounded-full bg-primary shadow-sm flex items-center justify-center shrink-0">
@@ -263,7 +304,9 @@ ProductListTile.propTypes = {
   onSelect: PropTypes.func.isRequired,
   onShowDetail: PropTypes.func.isRequired,
   hasChoices: PropTypes.func.isRequired,
-  isOutOfStock: PropTypes.func.isRequired
+  outOfStock: PropTypes.bool,
+  recipePortions: PropTypes.number,
+  limitedBy: PropTypes.string
 };
 
 const ProductGrid = ({
@@ -278,7 +321,8 @@ const ProductGrid = ({
   onCategoryChange,
   store,
   refocusSignal,
-  onRemoteBarcodeLookup
+  onRemoteBarcodeLookup,
+  recipeAvailability
 }) => {
   const { t } = useTranslation();
   const [viewMode, setViewMode] = useState("grid");
@@ -385,21 +429,54 @@ const ProductGrid = ({
     return false;
   }, []);
 
-  // A make_to_order (recipe) product is limited by its ingredients, not by
-  // its own product stock; the server refuses the sale if an ingredient is
-  // short (409 INGREDIENT_STOCK_CONFLICT).
-  const isOutOfStock = useCallback((product) => {
-    return (
-      usesProductStock(product) &&
-      product.stock !== undefined &&
-      Number(product.stock) <= 0 &&
-      product.isAvailable !== false
-    );
-  }, []);
+  // BRD BR-05/BR-06: a recipe product (not 'stocked') is limited by the
+  // portions its ingredients still make — after what is already in the cart
+  // (FR-11) — not by its own product stock. If availability cannot be
+  // loaded the grid does not guess; the server still refuses a short sale
+  // (409 INGREDIENT_STOCK_CONFLICT).
+  // `recipeAvailability` is GET /product/recipe-availability, loaded by
+  // CashierPage (undefined while loading or when it failed).
+  const portionsById = useMemo(
+    () => remainingRecipePortions(recipeAvailability, order),
+    [recipeAvailability, order]
+  );
+  const recipeFor = useCallback(
+    (product) => recipePortionsFor(product, portionsById, !!recipeAvailability),
+    [portionsById, recipeAvailability]
+  );
+
+  const isOutOfStock = useCallback(
+    (product) => {
+      if (product.isAvailable === false) return false;
+      const recipe = recipeFor(product);
+      if (recipe && recipe.portions < 1) return true;
+      return usesProductStock(product) && product.stock !== undefined && Number(product.stock) <= 0;
+    },
+    [recipeFor]
+  );
+
+  const tileStockProps = (product) => {
+    const recipe = recipeFor(product);
+    return {
+      outOfStock: isOutOfStock(product),
+      recipePortions: recipe ? recipe.portions : null,
+      limitedBy: recipe
+        ? recipe.limitingIngredients
+            .map((i) => i.name)
+            .filter(Boolean)
+            .join(", ")
+        : ""
+    };
+  };
+
+  // Read through a ref so onSelect keeps one identity across cart changes —
+  // otherwise every memoized tile re-renders on each add (F7-02).
+  const isOutOfStockRef = useRef(isOutOfStock);
+  isOutOfStockRef.current = isOutOfStock;
 
   const handleProductClick = useCallback(
     (product) => {
-      if (isOutOfStock(product)) return;
+      if (isOutOfStockRef.current(product)) return;
       if (hasChoices(product)) {
         setSelectedProduct(product);
         setShowVariantModal(true);
@@ -407,7 +484,7 @@ const ProductGrid = ({
         addOrder(product, store);
       }
     },
-    [addOrder, store, hasChoices, isOutOfStock]
+    [addOrder, store, hasChoices]
   );
 
   // Scanner input types the code then sends Enter — look up an exact SKU
@@ -793,7 +870,7 @@ const ProductGrid = ({
                           onSelect={handleProductClick}
                           onShowDetail={handleShowDetail}
                           hasChoices={hasChoices}
-                          isOutOfStock={isOutOfStock}
+                          {...tileStockProps(product)}
                         />
                       );
                     })}
@@ -812,7 +889,7 @@ const ProductGrid = ({
                           onSelect={handleProductClick}
                           onShowDetail={handleShowDetail}
                           hasChoices={hasChoices}
-                          isOutOfStock={isOutOfStock}
+                          {...tileStockProps(product)}
                         />
                       );
                     })}
@@ -863,7 +940,8 @@ ProductGrid.propTypes = {
   onCategoryChange: PropTypes.func,
   store: PropTypes.any,
   refocusSignal: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  onRemoteBarcodeLookup: PropTypes.func
+  onRemoteBarcodeLookup: PropTypes.func,
+  recipeAvailability: PropTypes.object
 };
 
 // P20-B3: memoize the grid itself so a parent re-render (e.g. CashierPage cart totals)

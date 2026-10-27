@@ -154,3 +154,13 @@ export const uploadProductExcel = async (file) => {
   if (status !== 200 && status !== 201) throw Error(`${data.message}`);
   return data;
 };
+
+// Portions each recipe product can make at the outlet, its limiting
+// ingredients, and every ingredient's use per portion + stock (BRD BR-05).
+export const getRecipeAvailability = async ({ location } = {}) => {
+  const params = new URLSearchParams();
+  if (location) params.append("store", location);
+  const { data, status } = await axiosInstance.get(`/product/recipe-availability?${params}`);
+  if (status !== 200) throw Error(`${data?.message}`);
+  return data?.data || null;
+};
