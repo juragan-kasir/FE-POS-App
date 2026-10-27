@@ -1,4 +1,4 @@
-# Bisa Nota - Frontend
+# Juragan Kasir - Frontend
 
 [![React](https://img.shields.io/badge/React-18-61DAFB?logo=react&logoColor=white)](https://react.dev/)
 [![Vite](https://img.shields.io/badge/Vite-7-646CFF?logo=vite&logoColor=white)](https://vitejs.dev/)
@@ -50,7 +50,7 @@ Create `.env` file:
 Copy `.env.example` to `.env`:
 
 ```env
-VITE_BASE_URL=https://api-bisa-nota.vercel.app      # required
+VITE_BASE_URL=https://be.juragankasir.com           # required
 VITE_ORDER_APP_URL=https://order-app-dun.vercel.app # BISA-MAKAN-APP base URL for table QR codes (this is the default)
 ```
 
@@ -269,7 +269,7 @@ Sidebar menus, page access, and button permissions are all controlled by RBAC. S
 
 | Variable | Description | Example |
 |----------|-------------|---------|
-| `VITE_BASE_URL` | Backend API URL (required) | `https://api-bisa-nota.vercel.app` |
+| `VITE_BASE_URL` | Backend API URL (required) | `https://be.juragankasir.com` |
 | `VITE_ORDER_APP_URL` | BISA-MAKAN-APP base URL used in table QR codes | `https://order-app-dun.vercel.app` (default) |
 
 ---
@@ -278,8 +278,8 @@ Sidebar menus, page access, and button permissions are all controlled by RBAC. S
 
 Deployed on **Vercel** with SPA rewrites configured in `vercel.json`.
 
-- **Demo**: https://bisa-nota-demo.vercel.app
-- **API**: https://api-bisa-nota.vercel.app
+- **App**: https://pos.juragankasir.com
+- **API**: https://be.juragankasir.com
 - **CI**: GitHub Actions is currently disabled at the organisation level; run `npm run lint` and `npm test` locally before pushing.
 
 ---

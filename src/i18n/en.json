@@ -3907,7 +3907,7 @@
   "error.noStoreDesc": "This data is only available to accounts bound to a store. Ask a super admin to set your store in Admin Users, then log in again.",
   "error.forbiddenTitle": "Access Denied",
   "error.forbiddenDesc": "Your account is not allowed to view this data. Contact a super admin if you need access.",
-  "header.appName": "POS Application",
+  "header.appName": "Juragan Kasir",
   "modal.confirmDescription": "Are you sure?",
   "modal.errorDescription": "An error occurred while processing your request",
   "modal.successDescription": "Operation completed successfully",

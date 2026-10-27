@@ -1,8 +1,8 @@
-# PANDUAN SUPER ADMIN — Bisa Nota (Metro Retail)
+# PANDUAN SUPER ADMIN — Juragan Kasir (Metro Retail)
 
 > **Untuk siapa panduan ini?** Untuk pemilik bisnis, direktur operasional, dan Super Admin yang ingin mengerti alur kerja aplikasi secara menyeluruh tanpa perlu pusing soal teknis.
 >
-> **Aplikasi**: [bisa-nota-demo.vercel.app](https://bisa-nota-demo.vercel.app) | **API**: [api-bisa-nota.vercel.app](https://api-bisa-nota.vercel.app)
+> **Aplikasi**: [pos.juragankasir.com](https://pos.juragankasir.com) | **API**: [be.juragankasir.com](https://be.juragankasir.com)
 
 ---
 
@@ -2365,8 +2365,8 @@ stateDiagram-v2
 
 | Lingkungan                      | URL                                                            | Status                                            |
 | ------------------------------- | -------------------------------------------------------------- | ------------------------------------------------- |
-| **Frontend** (buat dipake)      | [bisa-nota-demo.vercel.app](https://bisa-nota-demo.vercel.app) | ✅ Online                                         |
-| **Backend** (otak aplikasi)     | [api-bisa-nota.vercel.app](https://api-bisa-nota.vercel.app)   | ✅ Online                                         |
+| **Frontend** (buat dipake)      | [pos.juragankasir.com](https://pos.juragankasir.com)           | ✅ Online                                         |
+| **Backend** (otak aplikasi)     | [be.juragankasir.com](https://be.juragankasir.com)             | ✅ Online                                         |
 | **Database** (penyimpanan data) | Neon PostgreSQL                                                | ✅ Online — Data sudah dibersihkan, siap produksi |
 
 ### 🔧 Perbaikan & Optimalisasi (27 Juni 2026)

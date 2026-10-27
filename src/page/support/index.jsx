@@ -150,9 +150,9 @@ const Support = () => {
               <h3 className="font-semibold text-foreground mb-1">{t("page.support.emailTitle")}</h3>
               <p className="text-sm text-muted-foreground mb-3">{t("page.support.emailDesc")}</p>
               <a
-                href="mailto:support@pos-app.id"
+                href="mailto:support@juragankasir.com"
                 className="text-sm font-semibold text-primary hover:underline">
-                support@pos-app.id
+                support@juragankasir.com
               </a>
             </div>
             <div
