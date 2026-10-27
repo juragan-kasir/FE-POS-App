@@ -4,6 +4,7 @@ import { hasOwn } from "@/lib/safe-lookup";
 import { getToken, getCookie } from "@/utils/cookies";
 import { endSession, isSessionEnding, isSessionExemptPath, SESSION_END_REASON } from "./session";
 import { isRegisterRequiredError, useRegisterRequiredStore } from "@/state/registerRequired";
+import { normalizeApiError } from "./errorMessage";
 
 const axiosInstance = axios.create({
   baseURL: ENDPOINT.BASE_URL
@@ -175,6 +176,8 @@ axiosInstance.interceptors.response.use(
     if (isRegisterRequiredError(err)) {
       useRegisterRequiredStore.getState().show();
     }
+    // Last: the checks above read the server's original response.
+    if (err instanceof AxiosError) normalizeApiError(err);
     return Promise.reject(err);
   }
 );
