@@ -234,6 +234,11 @@ const BomList = () => {
           ) : (
             <div data-tour="bom-table" className="mt-6">
               <DataTable
+                emptyAction={
+                  canAccess(user, MENU_KEY, "add")
+                    ? { label: t("page.bom.list.addButton"), onClick: () => navigate("/bom/add") }
+                    : undefined
+                }
                 columns={columns}
                 data={items}
                 isLoading={isLoading}

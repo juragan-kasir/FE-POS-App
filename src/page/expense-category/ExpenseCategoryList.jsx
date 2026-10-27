@@ -306,6 +306,14 @@ const ExpenseCategoryList = () => {
 
               <div>
                 <DataTable
+                  emptyAction={
+                    canAccess(user, MENU_KEY, "add")
+                      ? {
+                          label: t("page.expenseCategory.button.add"),
+                          onClick: () => navigate("/add-expense-category")
+                        }
+                      : undefined
+                  }
                   columns={columns}
                   data={filtered}
                   isLoading={isLoading || isFetching}

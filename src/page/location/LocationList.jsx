@@ -495,6 +495,11 @@ const LocationList = () => {
 
             <div data-tour="location-table" className="mt-6">
               <DataTable
+                emptyAction={
+                  canAccess(user, MENU_KEY, "add")
+                    ? { label: t("breadcrumb.add"), onClick: () => navigate("/add-location") }
+                    : undefined
+                }
                 columns={columns}
                 data={locations}
                 isLoading={isLoading || isFetching}

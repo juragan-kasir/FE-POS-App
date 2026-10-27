@@ -479,6 +479,14 @@ const TaxConfigList = () => {
 
               <div data-tour="tax-table">
                 <DataTable
+                  emptyAction={
+                    canAccess(user, MENU_KEY, "add")
+                      ? {
+                          label: t("page.taxConfig.button.add"),
+                          onClick: () => navigate("/add-tax")
+                        }
+                      : undefined
+                  }
                   columns={columns}
                   data={items}
                   isLoading={isLoading || isFetching}

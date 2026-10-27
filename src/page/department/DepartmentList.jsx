@@ -444,6 +444,14 @@ const DepartmentList = () => {
 
               <div data-tour="department-table" className="mt-6">
                 <DataTable
+                  emptyAction={
+                    canAccess(user, MENU_KEY, "add")
+                      ? {
+                          label: t("page.department.button.add"),
+                          onClick: () => navigate("/add-department")
+                        }
+                      : undefined
+                  }
                   columns={columns}
                   data={departments}
                   isLoading={isLoading || isFetching}

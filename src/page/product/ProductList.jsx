@@ -627,6 +627,11 @@ const ProductList = () => {
 
           <div data-tour="product-table" className="mt-6">
             <DataTable
+              emptyAction={
+                canAccess(user, MENU_KEY, "add")
+                  ? { label: t("page.product.button.add"), onClick: () => navigate("/add-product") }
+                  : undefined
+              }
               columns={columns}
               data={products}
               isLoading={isLoading || isFetching}

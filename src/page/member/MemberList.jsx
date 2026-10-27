@@ -556,6 +556,11 @@ const MemberList = () => {
 
                 <div data-tour="member-table" className="mt-6">
                   <DataTable
+                    emptyAction={
+                      canAccess(user, MENU_KEY, "add")
+                        ? { label: t("breadcrumb.add"), onClick: () => navigate("/add-member") }
+                        : undefined
+                    }
                     columns={columns}
                     data={members}
                     isLoading={isLoading}

@@ -394,6 +394,14 @@ const CategoryList = () => {
             ) : (
               <div className="mt-6">
                 <DataTable
+                  emptyAction={
+                    canAccess(user, MENU_KEY, "create")
+                      ? {
+                          label: t("page.ingredientCategory.list.addButton"),
+                          onClick: () => navigate("/add-ingredient-category")
+                        }
+                      : undefined
+                  }
                   columns={columns}
                   data={categories}
                   isLoading={isLoading || isFetching}

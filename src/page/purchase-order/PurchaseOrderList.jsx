@@ -1132,6 +1132,11 @@ const PurchaseOrderList = () => {
           <TooltipProvider>
             <div data-tour="purchase-order-table" className="mt-6">
               <DataTable
+                emptyAction={
+                  canAccess(user, MENU_KEY, "add")
+                    ? { label: t("breadcrumb.add"), onClick: () => navigate("/add-purchase-order") }
+                    : undefined
+                }
                 columns={columns}
                 data={orders}
                 isLoading={isLoading || isFetching}

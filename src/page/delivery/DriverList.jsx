@@ -333,6 +333,11 @@ const DriverList = () => {
       )}
 
       <DataTable
+        emptyAction={
+          canAccess(user, MENU_KEY, "add")
+            ? { label: t("page.delivery.driver.add.title"), onClick: () => navigate("/add-driver") }
+            : undefined
+        }
         columns={columns}
         data={drivers}
         isLoading={isLoading || isFetching}

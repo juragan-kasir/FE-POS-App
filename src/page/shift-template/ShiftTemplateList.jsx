@@ -273,6 +273,14 @@ const ShiftTemplateList = () => {
 
           <div data-tour="shift-template-table" className="mt-6">
             <DataTable
+              emptyAction={
+                canAccess(user, MENU_KEY, "add")
+                  ? {
+                      label: t("page.shiftTemplate.button.add"),
+                      onClick: () => navigate("/add-shift-template")
+                    }
+                  : undefined
+              }
               columns={columns}
               data={templates}
               isLoading={isFetching}

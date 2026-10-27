@@ -536,6 +536,10 @@ const BundleList = () => {
             <AbortController refetch={refetch} />
           ) : (
             <DataTable
+              emptyAction={{
+                label: t("page.bundle.addButton"),
+                onClick: () => navigate("/bundle/add")
+              }}
               columns={columns}
               data={items}
               isLoading={isLoading}

@@ -447,6 +447,14 @@ const PositionList = () => {
 
               <div data-tour="position-table" className="mt-6">
                 <DataTable
+                  emptyAction={
+                    canAccess(user, MENU_KEY, "add")
+                      ? {
+                          label: t("page.position.button.add"),
+                          onClick: () => navigate("/add-position")
+                        }
+                      : undefined
+                  }
                   columns={columns}
                   data={filteredPositions}
                   isLoading={isLoading || isFetching}

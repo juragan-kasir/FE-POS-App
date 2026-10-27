@@ -397,6 +397,11 @@ const PromoCampaignList = () => {
 
       <div className="bg-card rounded-xl border border-border p-4">
         <DataTable
+          emptyAction={
+            canAccess(user, MENU_KEY, "create")
+              ? { label: t("page.promo.list.addButton"), onClick: () => navigate("/add-promo") }
+              : undefined
+          }
           columns={columns}
           data={data?.data || []}
           isLoading={isLoading || isFetching}
