@@ -65,6 +65,7 @@ import { INVENTORY_MODES, initialStockNeedsStore, isInventoryItemMode } from "@/
 import { linkUnitCost, linksPayload, missingLinkStores } from "@/lib/inventory-link";
 import { useLocations } from "@/queries/useLocations";
 import { FIELD_LIMITS } from "@/constants/fieldLimits";
+import { useFormExit } from "@/hooks/useLeaveGuard";
 
 const AddProduct = () => {
   const { t } = useTranslation();
@@ -211,6 +212,11 @@ const AddProduct = () => {
       store: ""
     }
   });
+  const { request: requestLeave, leave } = useFormExit(
+    "/product-list",
+    () => setCancelModal(true),
+    form
+  );
 
   useUnsavedChanges(form.formState.isDirty);
 
@@ -653,7 +659,7 @@ const AddProduct = () => {
         title={t("page.product.add.title")}
         description={t("page.product.add.description")}
         backLink="/product-list"
-        onBack={() => setCancelModal(true)}>
+        onBack={requestLeave}>
         <UserGuide guideKey="add-product" />
       </PageHeader>
 
@@ -1708,7 +1714,7 @@ const AddProduct = () => {
             <Button
               type="button"
               variant="danger"
-              onClick={() => setCancelModal(true)}
+              onClick={requestLeave}
               className="gap-2 w-full sm:w-auto">
               <X size={18} />
               {t("page.product.form.cancel")}
@@ -1821,7 +1827,7 @@ const AddProduct = () => {
         title={t("modal.cancelTitle")}
         description={t("modal.cancelDescription")}
         confirmText={t("modal.yesCancel")}
-        onConfirm={() => setTimeout(() => navigate("/product-list"), 150)}
+        onConfirm={() => setTimeout(leave, 150)}
       />
 
       <Modal

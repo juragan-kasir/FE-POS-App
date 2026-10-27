@@ -32,6 +32,7 @@ import AbortController from "@/components/organism/abort-controller";
 import HorizontalScrollArea from "@/components/ui/HorizontalScrollArea";
 import { useLocations } from "@/queries/useLocations";
 import { FIELD_LIMITS } from "@/constants/fieldLimits";
+import { useFormExit } from "@/hooks/useLeaveGuard";
 
 const emptyItem = {
   name: "",
@@ -115,6 +116,9 @@ const EditPurchaseOrder = () => {
   const [overDeliveryTolerance, setOverDeliveryTolerance] = useState(10);
   const [groups, setGroups] = useState([emptyGroup()]);
   const [cancelModal, setCancelModal] = useState(false);
+  const { request: requestLeave, leave } = useFormExit("/purchase-order", () =>
+    setCancelModal(true)
+  );
   const [draftModal, setDraftModal] = useState(false);
   const [confirmModal, setConfirmModal] = useState(false);
   const [supplierChange, setSupplierChange] = useState(null);
@@ -626,7 +630,7 @@ const EditPurchaseOrder = () => {
         title={`${t("page.purchaseOrder.edit.editLabel")} ${po.orderNumber || `PO-${po.id}`}`}
         description={t("page.purchaseOrder.edit.description")}
         backLink="/purchase-order"
-        onBack={() => setCancelModal(true)}>
+        onBack={requestLeave}>
         <UserGuide guideKey="edit-purchase-order" />
       </PageHeader>
 
@@ -1359,7 +1363,7 @@ const EditPurchaseOrder = () => {
           <Button
             type="button"
             variant="danger"
-            onClick={() => setCancelModal(true)}
+            onClick={requestLeave}
             className="gap-2 flex-1 sm:flex-none">
             <X size={18} />
             {t("common.cancel")}
@@ -1433,7 +1437,7 @@ const EditPurchaseOrder = () => {
         title={t("modal.cancelTitle")}
         description={t("modal.cancelDescription")}
         confirmText={t("modal.yesCancel")}
-        onConfirm={() => setTimeout(() => navigate("/purchase-order"), 150)}
+        onConfirm={() => setTimeout(leave, 150)}
       />
       <Modal
         type="confirm"

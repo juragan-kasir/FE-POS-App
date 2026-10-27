@@ -16,7 +16,7 @@ import { Form, FormField, FormItem, FormLabel, FormMessage } from "@/components/
 import Modal from "@/components/organism/modal";
 import { Loading } from "@/components/ui/loading";
 import PageHeader from "@/components/ui/PageHeader";
-import { useLeaveGuard } from "@/hooks/useLeaveGuard";
+import { useFormExit } from "@/hooks/useLeaveGuard";
 import UserGuide from "@/components/organism/UserGuide";
 import AbortController from "@/components/organism/abort-controller";
 import MissingFieldsModal from "@/components/organism/MissingFieldsModal";
@@ -47,7 +47,11 @@ const EditCategory = () => {
     mode: "onChange",
     defaultValues: { name: "", isActive: true }
   });
-  const requestLeave = useLeaveGuard(form, "/ingredient-category", () => setShowCancel(true));
+  const { request: requestLeave, leave } = useFormExit(
+    "/ingredient-category",
+    () => setShowCancel(true),
+    form
+  );
 
   const [missingFieldsModal, setMissingFieldsModal] = useState(false);
   const [missingFieldsList, setMissingFieldsList] = useState([]);
@@ -313,7 +317,7 @@ const EditCategory = () => {
         title={t("modal.cancelTitle")}
         description={t("modal.cancelDescription")}
         confirmText={t("modal.yesCancel")}
-        onConfirm={() => setTimeout(() => navigate("/ingredient-category"), 150)}
+        onConfirm={() => setTimeout(leave, 150)}
       />
       <Modal
         type="confirm"

@@ -47,6 +47,7 @@ import StoreSelectCard from "@/components/organism/StoreSelectCard";
 import { useLocations } from "@/queries/useLocations";
 import { FIELD_LIMITS } from "@/constants/fieldLimits";
 import { formatDateOnly } from "@/utils/dateOnly";
+import { useFormExit } from "@/hooks/useLeaveGuard";
 
 const AddGoodsReceipt = () => {
   const navigate = useNavigate();
@@ -170,6 +171,11 @@ const AddGoodsReceipt = () => {
       items: []
     }
   });
+  const { request: requestLeave, leave } = useFormExit(
+    "/goods-receipt",
+    () => setCancelModal(true),
+    form
+  );
 
   const {
     control,
@@ -460,8 +466,7 @@ const AddGoodsReceipt = () => {
       if (!grIdempotencyRef.current) grIdempotencyRef.current = newGrIdempotencyKey();
       const payload = {
         purchaseOrderId: parseInt(data.poId),
-        receivedDate:
-          formatDateOnly(data.receivedDate),
+        receivedDate: formatDateOnly(data.receivedDate),
         notes: data.notes,
         pic: selectedPic?.id || null,
         suratJalan: suratJalan.trim() || null,
@@ -514,7 +519,7 @@ const AddGoodsReceipt = () => {
           title={t("page.goodsReceipt.add.title")}
           description={t("page.goodsReceipt.add.description")}
           backLink="/goods-receipt"
-          onBack={() => setCancelModal(true)}>
+          onBack={requestLeave}>
           <UserGuide guideKey="add-goods-receipt" />
         </PageHeader>
 
@@ -1558,7 +1563,7 @@ const AddGoodsReceipt = () => {
               type="button"
               variant="danger"
               className="w-full sm:w-auto justify-center"
-              onClick={() => setCancelModal(true)}>
+              onClick={requestLeave}>
               <X size={16} className="mr-1" /> {t("page.goodsReceipt.add.form.cancel")}
             </Button>
             <div className="flex flex-col sm:flex-row gap-3 sm:items-center">
@@ -1602,7 +1607,7 @@ const AddGoodsReceipt = () => {
           confirmText={t("page.goodsReceipt.add.modal.confirm")}
           onConfirm={() => {
             setCancelModal(false);
-            setTimeout(() => navigate("/goods-receipt"), 150);
+            setTimeout(leave, 150);
           }}
         />
         <Modal

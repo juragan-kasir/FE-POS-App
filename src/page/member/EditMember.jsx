@@ -21,6 +21,7 @@ import { getMissingFields } from "@/lib/validation";
 import { FIELD_LIMITS } from "@/constants/fieldLimits";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { useFormExit } from "@/hooks/useLeaveGuard";
 
 const editSchema = z.object({
   name: z.string().min(1),
@@ -42,6 +43,7 @@ const EditMember = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [successModal, setSuccessModal] = useState(false);
   const [cancelModal, setCancelModal] = useState(false);
+  const { request: requestLeave, leave } = useFormExit("/member-list", () => setCancelModal(true));
   const [draftModal, setDraftModal] = useState(false);
   const [missingFieldsModal, setMissingFieldsModal] = useState(false);
   const [missingFieldsList, setMissingFieldsList] = useState([]);
@@ -154,7 +156,7 @@ const EditMember = () => {
         title={t("breadcrumb.edit")}
         description={t("page.member.edit.description")}
         backLink="/member-list"
-        onBack={() => setCancelModal(true)}>
+        onBack={requestLeave}>
         <UserGuide guideKey="add-member" />
       </PageHeader>
 
@@ -432,7 +434,7 @@ const EditMember = () => {
         <div className="mt-8 flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-card border border-border rounded-xl p-4">
           <Button
             variant="danger"
-            onClick={() => setCancelModal(true)}
+            onClick={requestLeave}
             className="gap-2 w-full sm:w-auto justify-center">
             <ArrowLeft size={20} className="text-lg" />
             {t("breadcrumb.back")}
@@ -477,7 +479,7 @@ const EditMember = () => {
         title={t("modal.cancelTitle")}
         description={t("modal.cancelDescription")}
         confirmText={t("modal.yesCancel")}
-        onConfirm={() => setTimeout(() => navigate("/member-list"), 150)}
+        onConfirm={() => setTimeout(leave, 150)}
       />
       <Modal
         type="confirm"

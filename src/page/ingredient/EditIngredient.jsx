@@ -48,6 +48,7 @@ import IngredientSourceField from "./components/IngredientSourceField";
 import { toQuantity, formatQuantity } from "@/utils/quantity";
 import { getIngredientStockState } from "@/utils/ingredientStockState";
 import { useLocations } from "@/queries/useLocations";
+import { useFormExit } from "@/hooks/useLeaveGuard";
 
 const conversionHints = {
   kg: { base: "gram", factor: 1000 },
@@ -158,6 +159,11 @@ const EditIngredient = () => {
       store: null
     }
   });
+  const { request: requestLeave, leave } = useFormExit(
+    "/ingredient",
+    () => setCancelModal(true),
+    form
+  );
 
   const watchStore = form.watch("store");
   const watchSupplier = form.watch("supplier");
@@ -408,7 +414,7 @@ const EditIngredient = () => {
           title={t("page.ingredient.edit.title")}
           description={form.watch("name")}
           backLink="/ingredient"
-          onBack={() => setCancelModal(true)}>
+          onBack={requestLeave}>
           <UserGuide guideKey="add-ingredient" mode="edit" />
         </PageHeader>
 
@@ -975,7 +981,7 @@ const EditIngredient = () => {
                 <Button
                   type="button"
                   variant="danger"
-                  onClick={() => setCancelModal(true)}
+                  onClick={requestLeave}
                   className="w-full sm:w-auto justify-center">
                   <X size={16} className="mr-1" /> {t("page.ingredient.form.cancelButton")}
                 </Button>
@@ -1069,7 +1075,7 @@ const EditIngredient = () => {
           confirmText={t("page.ingredient.edit.modalCancelConfirm")}
           onConfirm={() => {
             setCancelModal(false);
-            setTimeout(() => navigate("/ingredient"), 150);
+            setTimeout(leave, 150);
           }}
         />
         <Modal

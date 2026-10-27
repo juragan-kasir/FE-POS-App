@@ -53,6 +53,7 @@ import { TimePicker } from "@/components/ui/time-picker";
 import StoreSelectCard from "@/components/organism/StoreSelectCard";
 import { useLocations } from "@/queries/useLocations";
 import { FIELD_LIMITS } from "@/constants/fieldLimits";
+import { useFormExit } from "@/hooks/useLeaveGuard";
 
 const SectionHeader = ({ icon: Icon, title, description, gradient }) => (
   <div className={`bg-gradient-to-r ${gradient} px-6 py-4`}>
@@ -195,6 +196,11 @@ const AddPromoCampaign = () => {
       autoActivate: false
     }
   });
+  const { request: requestLeave, leave } = useFormExit(
+    "/promo-list",
+    () => setCancelModalOpen(true),
+    form
+  );
 
   const createMutation = useMutation(createCampaign, {
     onSuccess: () => {
@@ -432,9 +438,9 @@ const AddPromoCampaign = () => {
         title={t("page.promo.add.title")}
         description={t("page.promo.add.description")}
         backLink="/promo-list"
-        onBack={() => setCancelModalOpen(true)}>
+        onBack={requestLeave}>
         <UserGuide guideKey="add-promo" />
-        <Button variant="outline" onClick={() => setCancelModalOpen(true)}>
+        <Button variant="outline" onClick={requestLeave}>
           {t("action.back")}
         </Button>
       </PageHeader>
@@ -1238,7 +1244,7 @@ const AddPromoCampaign = () => {
         <Button
           type="button"
           variant="danger"
-          onClick={() => setCancelModalOpen(true)}
+          onClick={requestLeave}
           className="gap-2 w-full sm:w-auto justify-center">
           <X size={18} />
           {t("breadcrumb.back")}
@@ -1271,7 +1277,7 @@ const AddPromoCampaign = () => {
         title={t("modal.cancelTitle")}
         description={t("modal.cancelDescription")}
         confirmText={t("modal.yesCancel")}
-        onConfirm={() => setTimeout(() => navigate("/promo-list"), 150)}
+        onConfirm={() => setTimeout(leave, 150)}
       />
       <Modal
         type="confirm"

@@ -32,7 +32,7 @@ import HorizontalScrollArea from "@/components/ui/HorizontalScrollArea";
 import { useLocations } from "@/queries/useLocations";
 import { FIELD_LIMITS } from "@/constants/fieldLimits";
 import { useDomDirtyTracking } from "@/hooks/useDomDirtyTracking";
-import { useLeaveGuard } from "@/hooks/useLeaveGuard";
+import { useFormExit } from "@/hooks/useLeaveGuard";
 import { useUnsavedChangesGuard } from "@/contexts/UnsavedChangesContext";
 
 const SectionHeader = ({ icon: Icon, title, desc, from, to }) => (
@@ -131,7 +131,7 @@ const AddBusinessTrip = () => {
   const employeeFields = useFieldArray({ control, name: "employees" });
   const budgetFields = useFieldArray({ control, name: "budgetItems" });
 
-  const requestLeave = useLeaveGuard(form, "/business-trip", () => setCancelModal(true));
+  const { request: requestLeave } = useFormExit("/business-trip", () => setCancelModal(true), form);
 
   React.useEffect(() => {
     registerDirty(rhfDirtyId, form.formState.isDirty);

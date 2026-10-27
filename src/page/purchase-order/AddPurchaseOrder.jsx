@@ -33,6 +33,7 @@ import { getMissingFields } from "@/lib/validation";
 import HorizontalScrollArea from "@/components/ui/HorizontalScrollArea";
 import { useLocations } from "@/queries/useLocations";
 import { FIELD_LIMITS } from "@/constants/fieldLimits";
+import { useFormExit } from "@/hooks/useLeaveGuard";
 
 const emptyItem = {
   name: "",
@@ -141,6 +142,9 @@ const AddPurchaseOrder = () => {
 
   const [notes, setNotes] = useState("");
   const [cancelModal, setCancelModal] = useState(false);
+  const { request: requestLeave, leave } = useFormExit("/purchase-order", () =>
+    setCancelModal(true)
+  );
   const [draftModal, setDraftModal] = useState(false);
   const [confirmModal, setConfirmModal] = useState(false);
   const [supplierChange, setSupplierChange] = useState(null);
@@ -633,7 +637,7 @@ const AddPurchaseOrder = () => {
         title={t("page.purchaseOrder.add.title")}
         description={t("page.purchaseOrder.add.description")}
         backLink="/purchase-order"
-        onBack={() => setCancelModal(true)}>
+        onBack={requestLeave}>
         <UserGuide guideKey="add-purchase-order" />
       </PageHeader>
 
@@ -1291,7 +1295,7 @@ const AddPurchaseOrder = () => {
             <Button
               type="button"
               variant="danger"
-              onClick={() => setCancelModal(true)}
+              onClick={requestLeave}
               className="gap-2 flex-1 sm:flex-none">
               <X size={18} />
               {t("common.cancel")}
@@ -1368,7 +1372,7 @@ const AddPurchaseOrder = () => {
         title={t("modal.cancelTitle")}
         description={t("modal.cancelDescription")}
         confirmText={t("modal.yesCancel")}
-        onConfirm={() => setTimeout(() => navigate("/purchase-order"), 150)}
+        onConfirm={() => setTimeout(leave, 150)}
       />
 
       <Modal

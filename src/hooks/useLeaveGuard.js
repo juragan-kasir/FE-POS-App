@@ -1,5 +1,6 @@
+import { useCallback, useEffect, useId, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import { useUnsavedChanges } from "./useUnsavedChanges";
+import { getDirty, markAllClean, setDirty } from "@/lib/unsaved-changes-store";
 
 const isEqual = (a, b) => {
   if (a === b) return true;
@@ -17,12 +18,48 @@ const isEqual = (a, b) => {
 const hasChanges = (form) =>
   form.formState.isDirty || !isEqual(form.getValues(), form.formState.defaultValues ?? {});
 
-// ponytail: keluar dari form — langsung ke `to` bila belum ada perubahan,
-// minta konfirmasi (`confirm`) bila sudah. Sekaligus memasang prompt
-// beforeunload browser selama form dirty. Hanya untuk form yang SEMUA
-// inputnya di react-hook-form; state di useState tidak ikut terhitung.
-export function useLeaveGuard(form, to, confirm) {
+// Klik pada elemen ini mengubah isian (pilihan combobox, checkbox, switch).
+const PICK_ROLES = '[role="option"], [role="checkbox"], [role="switch"], [role="radio"]';
+
+// ponytail: keluar dari form (tombol Kembali / Batal). `request()` langsung
+// ke `to` bila belum ada perubahan, atau memanggil `confirm()` (modal batal
+// halaman) bila sudah. `leave()` = keluar setelah dikonfirmasi: tanda dirty
+// dibuang dulu supaya guard router (UnsavedChangesProvider) tidak bertanya
+// untuk kedua kalinya.
+// Perubahan dibaca dari react-hook-form (`form`) dan dari store dirty global
+// (<Form>, useDomDirtyTracking); `form` juga didaftarkan ke store itu, jadi
+// navigasi sidebar ikut dijaga. Banyak form RHF menyimpan sebagian isian di
+// useState (varian, kontak, item), jadi interaksi apa pun di halaman (ketik,
+// ubah, pilih opsi/checkbox/switch) juga dihitung sebagai perubahan.
+// Tanpa `form` bersih tidak bisa dipastikan → `request()` selalu konfirmasi.
+export function useFormExit(to, confirm, form) {
   const navigate = useNavigate();
-  useUnsavedChanges(form.formState.isDirty);
-  return () => (hasChanges(form) ? confirm() : navigate(to));
+  const id = useId();
+  const isDirty = Boolean(form?.formState.isDirty);
+
+  useEffect(() => {
+    setDirty(id, isDirty);
+    return () => setDirty(id, false);
+  }, [id, isDirty]);
+
+  const touched = useRef(false);
+  useEffect(() => {
+    if (!form) return undefined;
+    const mark = (e) => {
+      if (e.type !== "click" || e.target?.closest?.(PICK_ROLES)) touched.current = true;
+    };
+    const events = ["input", "change", "click"];
+    events.forEach((type) => document.addEventListener(type, mark, true));
+    return () => events.forEach((type) => document.removeEventListener(type, mark, true));
+  }, [form]);
+
+  const leave = useCallback(() => {
+    markAllClean();
+    navigate(to);
+  }, [navigate, to]);
+
+  const request = () =>
+    !form || touched.current || hasChanges(form) || getDirty() ? confirm() : leave();
+
+  return { request, leave };
 }

@@ -52,6 +52,7 @@ import { normalizePayload } from "@/lib/payload-normalizer";
 import HorizontalScrollArea from "@/components/ui/HorizontalScrollArea";
 import { useLocations } from "@/queries/useLocations";
 import { FIELD_LIMITS } from "@/constants/fieldLimits";
+import { useFormExit } from "@/hooks/useLeaveGuard";
 
 const SectionHeader = ({ step, title, description }) => (
   <div className="flex items-center gap-3 pt-1">
@@ -162,6 +163,11 @@ const AddExpense = () => {
       items: [{ categoryId: "", description: "", amount: "", payee: "" }]
     }
   });
+  const { request: requestLeave, leave } = useFormExit(
+    "/expense",
+    () => setCancelModal(true),
+    form
+  );
 
   const watchedCategoryId = form.watch("categoryId");
   const watchedFrequency = form.watch("frequency");
@@ -380,7 +386,7 @@ const AddExpense = () => {
           ]}
           title={t("page.expense.add.title")}
           description={t("page.expense.add.description")}
-          onBack={() => setCancelModal(true)}
+          onBack={requestLeave}
           dynamicInfo={false}>
           <UserGuide guideKey="add-expense" />
         </PageHeader>
@@ -1069,7 +1075,7 @@ const AddExpense = () => {
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mt-6 bg-card border border-border rounded-xl p-4">
                   <Button
                     variant="danger"
-                    onClick={() => setCancelModal(true)}
+                    onClick={requestLeave}
                     className="gap-2 w-full sm:w-auto justify-center">
                     <X size={18} />
                     {t("common.cancel")}
@@ -1108,7 +1114,7 @@ const AddExpense = () => {
           title={t("modal.cancelTitle")}
           description={t("modal.cancelDescription")}
           confirmText={t("modal.yesCancel")}
-          onConfirm={() => setTimeout(() => navigate("/expense"), 150)}
+          onConfirm={() => setTimeout(leave, 150)}
         />
         <Modal
           type="success"

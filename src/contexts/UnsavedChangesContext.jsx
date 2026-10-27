@@ -43,7 +43,9 @@ export function UnsavedChangesProvider({ children }) {
     [isDirty, registerDirty]
   );
 
-  const blocker = useBlocker(isDirty);
+  // Read the store at navigation time, not from this render: a confirmed
+  // exit clears the marks and navigates in the same tick (useFormExit).
+  const blocker = useBlocker(useCallback(() => getDirty(), []));
 
   useEffect(() => {
     if (!isDirty) return undefined;

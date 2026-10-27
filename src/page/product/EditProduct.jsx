@@ -73,6 +73,7 @@ import {
 } from "@/lib/inventory-link";
 import { useLocations } from "@/queries/useLocations";
 import { FIELD_LIMITS } from "@/constants/fieldLimits";
+import { useFormExit } from "@/hooks/useLeaveGuard";
 
 const EditProduct = () => {
   const { t } = useTranslation();
@@ -277,6 +278,11 @@ const EditProduct = () => {
       store: ""
     }
   });
+  const { request: requestLeave, leave } = useFormExit(
+    "/product-list",
+    () => setCancelModal(true),
+    form
+  );
 
   const linksItem = isInventoryItemMode(form.watch("inventoryMode"));
   const storeNames = new Map(
@@ -798,7 +804,7 @@ const EditProduct = () => {
             title={t("page.product.form.editTitle")}
             description={t("common.loading")}
             backLink="/product-list"
-            onBack={() => setCancelModal(true)}
+            onBack={requestLeave}
           />
         </div>
         <div className="bg-card p-6 rounded-xl shadow-[0_4px_20px_-4px_rgba(0,0,0,0.05)] border border-border overflow-hidden space-y-6">
@@ -875,7 +881,7 @@ const EditProduct = () => {
         title={`${t("page.product.edit.editLabel")} ${product.nameProduct || t("page.product.edit.title")}`}
         description={t("page.product.edit.description")}
         backLink="/product-list"
-        onBack={() => setCancelModal(true)}>
+        onBack={requestLeave}>
         <UserGuide guideKey="add-product" />
       </PageHeader>
 
@@ -2067,7 +2073,7 @@ const EditProduct = () => {
             <Button
               type="button"
               variant="danger"
-              onClick={() => setCancelModal(true)}
+              onClick={requestLeave}
               className="gap-2 w-full sm:w-auto">
               <X size={18} /> {t("page.product.form.cancel")}
             </Button>
@@ -2154,7 +2160,7 @@ const EditProduct = () => {
         title={t("modal.cancelTitle")}
         description={t("modal.cancelDescription")}
         confirmText={t("modal.yesCancel")}
-        onConfirm={() => setTimeout(() => navigate("/product-list"), 150)}
+        onConfirm={() => setTimeout(leave, 150)}
       />
 
       <Modal

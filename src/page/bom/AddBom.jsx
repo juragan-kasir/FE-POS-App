@@ -28,6 +28,7 @@ import { useLocations } from "@/queries/useLocations";
 import { FIELD_LIMITS } from "@/constants/fieldLimits";
 import RecipeHppSummary from "@/components/organism/RecipeHppSummary";
 import { recipeCosting } from "@/lib/recipe-costing";
+import { useFormExit } from "@/hooks/useLeaveGuard";
 
 const emptyLine = () => ({ supplierId: "", ingredientId: "", qty: "", unit: "pcs", notes: "" });
 
@@ -66,6 +67,7 @@ const AddBom = () => {
   const [errorModal, setErrorModal] = useState(false);
   const [modalMessage, setModalMessage] = useState("");
   const [cancelModal, setCancelModal] = useState(false);
+  const { request: requestLeave, leave } = useFormExit("/bom", () => setCancelModal(true));
   const [draftModal, setDraftModal] = useState(false);
   const [missingFieldsModal, setMissingFieldsModal] = useState(false);
   const [missingFieldsList, setMissingFieldsList] = useState([]);
@@ -323,7 +325,7 @@ const AddBom = () => {
         ]}
         title={t(isEdit ? "page.bom.edit.title" : "page.bom.add.title")}
         description={t(isEdit ? "page.bom.edit.description" : "page.bom.add.description")}
-        onBack={() => setCancelModal(true)}
+        onBack={requestLeave}
         dynamicInfo={false}>
         <UserGuide guideKey="add-bom" mode={isEdit ? "edit" : "add"} />
       </PageHeader>
@@ -549,7 +551,7 @@ const AddBom = () => {
               type="button"
               variant="danger"
               className="w-full sm:w-auto justify-center"
-              onClick={() => setCancelModal(true)}>
+              onClick={requestLeave}>
               <X size={16} className="mr-1" /> {t("page.bom.add.form.cancel")}
             </Button>
             <div className="flex flex-col sm:flex-row gap-3 sm:items-center">
@@ -585,7 +587,7 @@ const AddBom = () => {
         confirmText={t("page.bom.add.modal.confirm")}
         onConfirm={() => {
           setCancelModal(false);
-          setTimeout(() => navigate("/bom"), 150);
+          setTimeout(leave, 150);
         }}
       />
       <Modal

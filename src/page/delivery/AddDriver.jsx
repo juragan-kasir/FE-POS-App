@@ -20,6 +20,7 @@ import { getMissingFields } from "@/lib/validation";
 import { FIELD_LIMITS } from "@/constants/fieldLimits";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { useFormExit } from "@/hooks/useLeaveGuard";
 
 const AddDriver = () => {
   const { t } = useTranslation();
@@ -77,6 +78,11 @@ const AddDriver = () => {
       notes: ""
     }
   });
+  const { request: requestLeave, leave } = useFormExit(
+    "/driver-list",
+    () => setCancelModalOpen(true),
+    form
+  );
 
   const createMutation = useMutation(createDriver, {
     onSuccess: () => {
@@ -133,9 +139,9 @@ const AddDriver = () => {
         title={t("page.delivery.driver.add.title")}
         description={t("page.delivery.driver.add.description")}
         backLink="/driver-list"
-        onBack={() => setCancelModalOpen(true)}>
+        onBack={requestLeave}>
         <UserGuide guideKey="add-driver" />
-        <Button variant="danger" onClick={() => setCancelModalOpen(true)}>
+        <Button variant="danger" onClick={requestLeave}>
           {t("common.cancel")}
         </Button>
       </PageHeader>
@@ -293,7 +299,7 @@ const AddDriver = () => {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-card border border-border rounded-xl p-4">
         <Button
           variant="danger"
-          onClick={() => setCancelModalOpen(true)}
+          onClick={requestLeave}
           className="gap-2 w-full sm:w-auto justify-center">
           <X size={18} />
           {t("common.cancel")}
@@ -350,7 +356,7 @@ const AddDriver = () => {
         title={t("page.delivery.driver.modal.cancelTitle")}
         description={t("page.delivery.driver.modal.cancelDescription")}
         confirmText={t("page.delivery.driver.modal.confirmCancel")}
-        onConfirm={() => setTimeout(() => navigate("/driver-list"), 150)}
+        onConfirm={() => setTimeout(leave, 150)}
       />
       <MissingFieldsModal
         open={missingFieldsModal}

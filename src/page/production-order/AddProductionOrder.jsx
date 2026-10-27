@@ -26,6 +26,7 @@ import { Loading } from "@/components/ui/loading";
 import HorizontalScrollArea from "@/components/ui/HorizontalScrollArea";
 import { FIELD_LIMITS } from "@/constants/fieldLimits";
 import { formatDateOnly } from "@/utils/dateOnly";
+import { useFormExit } from "@/hooks/useLeaveGuard";
 
 const AddProductionOrder = () => {
   const { t } = useTranslation();
@@ -63,6 +64,11 @@ const AddProductionOrder = () => {
       notes: ""
     }
   });
+  const { request: requestLeave, leave } = useFormExit(
+    "/production-order",
+    () => setCancelModal(true),
+    form
+  );
 
   const {
     control,
@@ -98,8 +104,7 @@ const AddProductionOrder = () => {
       const payload = {
         productItemId: parseInt(data.productId),
         plannedQty: parseInt(data.plannedQty),
-        scheduledDate:
-          formatDateOnly(data.scheduledDate),
+        scheduledDate: formatDateOnly(data.scheduledDate),
         notes: data.notes,
         ...(saveAsDraft && { status: "draft" })
       };
@@ -151,7 +156,7 @@ const AddProductionOrder = () => {
             ? t("page.productionOrder.add.subtitleEdit")
             : t("page.productionOrder.add.subtitleAdd")
         }
-        onBack={() => setCancelModal(true)}
+        onBack={requestLeave}
         dynamicInfo={false}>
         <UserGuide guideKey="add-production-order" mode={id ? "edit" : "add"} />
       </PageHeader>
@@ -255,7 +260,7 @@ const AddProductionOrder = () => {
             type="button"
             variant="success"
             className="w-full sm:w-auto"
-            onClick={() => setCancelModal(true)}>
+            onClick={requestLeave}>
             <X size={16} className="mr-1" /> {t("page.productionOrder.add.cancelButton")}
           </Button>
           <div className="flex flex-col-reverse sm:flex-row gap-3 w-full sm:w-auto">
@@ -293,7 +298,7 @@ const AddProductionOrder = () => {
         confirmText={t("modal.yesCancel")}
         onConfirm={() => {
           setCancelModal(false);
-          setTimeout(() => navigate("/production-order"), 150);
+          setTimeout(leave, 150);
         }}
       />
 

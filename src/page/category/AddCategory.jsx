@@ -44,6 +44,7 @@ import { getMissingFields } from "@/lib/validation";
 import CategoryPreviewModal from "./CategoryPreviewModal";
 import { useLocations } from "@/queries/useLocations";
 import { FIELD_LIMITS } from "@/constants/fieldLimits";
+import { useFormExit } from "@/hooks/useLeaveGuard";
 
 const iconSections = [
   {
@@ -434,6 +435,11 @@ const AddCategory = () => {
       store: ""
     }
   });
+  const { request: requestLeave, leave } = useFormExit(
+    "/category-list",
+    () => setCancelModal(true),
+    form
+  );
 
   const [errorModal, setErrorModal] = useState(false);
   const [modalMessage, setModalMessage] = useState("");
@@ -522,7 +528,7 @@ const AddCategory = () => {
         title={t("page.category.add.title")}
         description={t("page.category.add.description")}
         backLink="/category-list"
-        onBack={() => setCancelModal(true)}>
+        onBack={requestLeave}>
         <UserGuide guideKey="add-category" />
       </PageHeader>
 
@@ -852,7 +858,7 @@ const AddCategory = () => {
                   type="button"
                   variant="danger"
                   className="w-full sm:w-auto justify-center"
-                  onClick={() => setCancelModal(true)}>
+                  onClick={requestLeave}>
                   {t("common.cancel")}
                 </Button>
                 <div className="flex flex-col sm:flex-row gap-3 sm:items-center">
@@ -1039,7 +1045,7 @@ const AddCategory = () => {
           onOpenChange={setCancelModal}
           title={t("page.category.modal.cancelTitle")}
           confirmText={t("page.category.modal.confirmCancel")}
-          onConfirm={() => setTimeout(() => navigate("/category-list"), 150)}
+          onConfirm={() => setTimeout(leave, 150)}
         />
         <Modal
           type="confirm"

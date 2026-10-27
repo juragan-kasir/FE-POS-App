@@ -43,6 +43,7 @@ import { formatDateOnly } from "@/utils/dateOnly";
 import { useLocations } from "@/queries/useLocations";
 import { FIELD_LIMITS } from "@/constants/fieldLimits";
 import { buildEmployeeShiftConflictMap } from "./shiftOverlap";
+import { useFormExit } from "@/hooks/useLeaveGuard";
 
 const toOverlapCandidate = (values) => ({
   tanggal_mulai: values.tanggal_mulai,
@@ -116,6 +117,11 @@ const AddShift = () => {
       status: true
     }
   });
+  const { request: requestLeave, leave } = useFormExit(
+    "/shift-list",
+    () => setCancelModal(true),
+    form
+  );
 
   const { data: locationsData, isLoading: locLoading } = useLocations();
   const locations = locationsData?.data || locationsData?.locations || [];
@@ -355,9 +361,9 @@ const AddShift = () => {
         title={t("page.shift.add.title")}
         description={t("page.shift.list.description")}
         backLink="/shift-list"
-        onBack={() => setCancelModal(true)}>
+        onBack={requestLeave}>
         <UserGuide guideKey="add-shift" />
-        <Button variant="outline" onClick={() => setCancelModal(true)}>
+        <Button variant="outline" onClick={requestLeave}>
           {t("action.back")}
         </Button>
       </PageHeader>
@@ -885,7 +891,7 @@ const AddShift = () => {
                 <Button
                   type="button"
                   variant="danger"
-                  onClick={() => setCancelModal(true)}
+                  onClick={requestLeave}
                   className="gap-2 w-full sm:w-auto justify-center">
                   <X size={18} /> {t("breadcrumb.back")}
                 </Button>
@@ -935,7 +941,7 @@ const AddShift = () => {
         title={t("modal.cancelTitle")}
         description={t("modal.cancelDescription")}
         confirmText={t("modal.yesCancel")}
-        onConfirm={() => setTimeout(() => navigate("/shift-list"), 150)}
+        onConfirm={() => setTimeout(leave, 150)}
       />
       <Modal
         type="success"

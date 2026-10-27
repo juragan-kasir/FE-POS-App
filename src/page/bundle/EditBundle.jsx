@@ -35,6 +35,7 @@ import { TimePicker } from "@/components/ui/time-picker";
 import { Switch } from "@/components/ui/switch";
 import { useLocations } from "@/queries/useLocations";
 import { FIELD_LIMITS } from "@/constants/fieldLimits";
+import { useFormExit } from "@/hooks/useLeaveGuard";
 
 const emptyItem = { product: "", quantity: 1, unitPrice: 0, isOptional: false };
 
@@ -91,6 +92,7 @@ const EditBundle = () => {
   const [allStores, setAllStores] = useState(false);
   const [draftModal, setDraftModal] = useState(false);
   const [cancelModal, setCancelModal] = useState(false);
+  const { request: requestLeave, leave } = useFormExit("/bundle", () => setCancelModal(true));
   const [confirmModal, setConfirmModal] = useState(false);
   const [itemRemove, setItemRemove] = useState(null);
   const [successModal, setSuccessModal] = useState(false);
@@ -389,7 +391,7 @@ const EditBundle = () => {
           title={t("page.bundle.editTitle")}
           description={t("page.bundle.editDescription")}
           backLink="/bundle"
-          onBack={() => setCancelModal(true)}>
+          onBack={requestLeave}>
           <UserGuide guideKey="add-bundle" mode="edit" />
         </PageHeader>
 
@@ -698,7 +700,7 @@ const EditBundle = () => {
           <div className="sticky bottom-4 z-10 flex flex-wrap justify-between items-center gap-3 bg-card border border-border/60 shadow-lg rounded-xl p-4 backdrop-blur-sm">
             <Button
               variant="danger"
-              onClick={() => setCancelModal(true)}
+              onClick={requestLeave}
               disabled={updateMutation.isLoading}
               className="gap-2 flex-1 sm:flex-none">
               <X size={18} />
@@ -745,7 +747,7 @@ const EditBundle = () => {
         title={t("page.bundle.modal.cancelTitle")}
         description={t("page.bundle.modal.cancelDescription")}
         confirmText={t("page.bundle.modal.cancelConfirm")}
-        onConfirm={() => setTimeout(() => navigate("/bundle"), 150)}
+        onConfirm={() => setTimeout(leave, 150)}
       />
       <Modal
         type="confirm"

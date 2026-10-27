@@ -35,6 +35,7 @@ import { getMissingFields } from "@/lib/validation";
 import CategoryPreviewModal from "./CategoryPreviewModal";
 import { useLocations } from "@/queries/useLocations";
 import { FIELD_LIMITS } from "@/constants/fieldLimits";
+import { useFormExit } from "@/hooks/useLeaveGuard";
 
 const iconSections = [
   {
@@ -467,6 +468,11 @@ const EditCategory = () => {
       store: ""
     }
   });
+  const { request: requestLeave, leave } = useFormExit(
+    "/category-list",
+    () => setCancelModal(true),
+    form
+  );
 
   const updateMutation = useMutation(editCategory, {
     onSuccess: () => {
@@ -553,7 +559,7 @@ const EditCategory = () => {
         title={t("page.category.edit.title")}
         description={t("page.category.edit.description")}
         backLink="/category-list"
-        onBack={() => setCancelModal(true)}>
+        onBack={requestLeave}>
         <UserGuide guideKey="edit-category" />
       </PageHeader>
 
@@ -906,7 +912,7 @@ const EditCategory = () => {
                   type="button"
                   variant="danger"
                   className="w-full sm:w-auto justify-center"
-                  onClick={() => setCancelModal(true)}>
+                  onClick={requestLeave}>
                   {t("common.cancel")}
                 </Button>
                 <div className="flex flex-col sm:flex-row gap-3 sm:items-center">
@@ -1098,7 +1104,7 @@ const EditCategory = () => {
           onOpenChange={setCancelModal}
           title={t("page.category.modal.cancelTitle")}
           confirmText={t("page.category.modal.confirmCancel")}
-          onConfirm={() => setTimeout(() => navigate("/category-list"), 150)}
+          onConfirm={() => setTimeout(leave, 150)}
         />
         <Modal
           type="confirm"

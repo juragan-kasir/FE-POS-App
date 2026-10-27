@@ -7,7 +7,7 @@ import { z } from "zod";
 import { X, Save, Check } from "lucide-react";
 import PageHeader from "@/components/ui/PageHeader";
 import UserGuide from "@/components/organism/UserGuide";
-import { useLeaveGuard } from "@/hooks/useLeaveGuard";
+import { useFormExit } from "@/hooks/useLeaveGuard";
 import { useCookies } from "react-cookie";
 import { addExpenseCategory } from "@/services/expense";
 import { getAccounts } from "@/services/accounting";
@@ -100,7 +100,11 @@ const AddExpenseCategory = () => {
       isActive: true
     }
   });
-  const requestLeave = useLeaveGuard(form, "/expense-category", () => setCancelModal(true));
+  const { request: requestLeave, leave } = useFormExit(
+    "/expense-category",
+    () => setCancelModal(true),
+    form
+  );
 
   const createMutation = useMutation(addExpenseCategory, {
     onSuccess: () => {
@@ -311,7 +315,7 @@ const AddExpenseCategory = () => {
           title={t("modal.cancelTitle")}
           description={t("modal.cancelDescription")}
           confirmText={t("modal.yesCancel")}
-          onConfirm={() => setTimeout(() => navigate("/expense-category"), 150)}
+          onConfirm={() => setTimeout(leave, 150)}
         />
         <Modal
           type="success"

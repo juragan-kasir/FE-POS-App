@@ -24,7 +24,7 @@ import {
 import { Check, Building2, X, Save } from "lucide-react";
 import PageHeader from "@/components/ui/PageHeader";
 import UserGuide from "@/components/organism/UserGuide";
-import { useLeaveGuard } from "@/hooks/useLeaveGuard";
+import { useFormExit } from "@/hooks/useLeaveGuard";
 import Modal from "@/components/organism/modal";
 import AbortController from "@/components/organism/abort-controller";
 import MissingFieldsModal from "@/components/organism/MissingFieldsModal";
@@ -74,7 +74,11 @@ const EditDepartment = () => {
     mode: "onChange",
     defaultValues: { name: "", description: "", isActive: true }
   });
-  const requestLeave = useLeaveGuard(form, "/department-list", () => setCancelModal(true));
+  const { request: requestLeave, leave } = useFormExit(
+    "/department-list",
+    () => setCancelModal(true),
+    form
+  );
 
   useEffect(() => {
     if (department) {
@@ -335,7 +339,7 @@ const EditDepartment = () => {
         confirmText={t("modal.yesCancel")}
         onConfirm={() => {
           setCancelModal(false);
-          setTimeout(() => navigate("/department-list"), 150);
+          setTimeout(leave, 150);
         }}
       />
     </div>

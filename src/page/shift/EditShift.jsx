@@ -36,6 +36,7 @@ import { getMissingFields } from "@/lib/validation";
 import AbortController from "@/components/organism/abort-controller";
 import { useLocations } from "@/queries/useLocations";
 import { FIELD_LIMITS } from "@/constants/fieldLimits";
+import { useFormExit } from "@/hooks/useLeaveGuard";
 
 const EditShift = () => {
   const { t } = useTranslation();
@@ -107,6 +108,11 @@ const EditShift = () => {
       status: true
     }
   });
+  const { request: requestLeave, leave } = useFormExit(
+    "/shift-list",
+    () => setCancelModal(true),
+    form
+  );
 
   const selectedStores = form.watch("store") || (isSuperAdmin ? [] : "");
   const isMultiStore =
@@ -381,9 +387,9 @@ const EditShift = () => {
         title={t("page.shift.edit.title")}
         description={t("page.shift.edit.subtitle")}
         backLink="/shift-list"
-        onBack={() => setCancelModal(true)}>
+        onBack={requestLeave}>
         <UserGuide guideKey="add-shift" mode="edit" />
-        <Button variant="outline" onClick={() => setCancelModal(true)}>
+        <Button variant="outline" onClick={requestLeave}>
           {t("action.back")}
         </Button>
       </PageHeader>
@@ -746,7 +752,7 @@ const EditShift = () => {
               <Button
                 type="button"
                 variant="danger"
-                onClick={() => setCancelModal(true)}
+                onClick={requestLeave}
                 className="gap-2 w-full sm:w-auto justify-center">
                 <X size={18} />
                 {t("page.shift.edit.cancel")}
@@ -796,7 +802,7 @@ const EditShift = () => {
         title={t("modal.cancelTitle")}
         description={t("modal.cancelDescription")}
         confirmText={t("modal.yesCancel")}
-        onConfirm={() => setTimeout(() => navigate("/shift-list"), 150)}
+        onConfirm={() => setTimeout(leave, 150)}
       />
       <Modal
         type="success"
