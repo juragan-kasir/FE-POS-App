@@ -8772,6 +8772,8 @@
   "page.role.add.typeHint.user": "Kitchen, floor or warehouse staff: only the pages in its menu, no money actions.",
   "page.role.add.typeHint.super_admin": "Full access to every store (vendor only).",
   "page.login.accountFromOwner": "No account yet? Ask the store owner to create your staff account.",
+  "page.login.showPassword": "Show password",
+  "page.login.hidePassword": "Hide password",
   "page.cashRegister.current.overtimeNotice": "You're closing this register after the store's scheduled closing time ({{time}}).",
   "page.cashRegister.openClose.tableResetWarning": "Register opened, but {{failed}} stale table(s) could not be reset automatically.",
   "page.cashRegister.openClose.earlyOpeningNotice": "You're opening this register before the store's scheduled opening time ({{time}}).",

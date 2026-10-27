@@ -248,12 +248,10 @@ const LoginPage = () => {
             </div>
 
             <div className="mb-8">
-              <h1 className="text-2xl md:text-[28px] font-semibold text-foreground mb-1.5">
+              <h1 className="text-2xl md:text-[28px] font-semibold tracking-tight text-foreground mb-2">
                 {translationMemo.title}
               </h1>
-              <p className="text-sm md:text-base text-muted-foreground/80 font-light">
-                {translationMemo.descAuth}
-              </p>
+              <p className="text-sm text-muted-foreground">{translationMemo.descAuth}</p>
             </div>
 
             <Form {...form}>
@@ -265,15 +263,16 @@ const LoginPage = () => {
                   name="userName"
                   render={({ field }) => (
                     <FormItem data-tour="auth-username">
-                      <FormLabel className="text-[10px] md:text-[11px] text-muted-foreground font-semibold uppercase tracking-[0.1em]">
+                      <FormLabel className="text-sm font-medium text-foreground">
                         {translationMemo.userName}
                       </FormLabel>
                       <div className="relative group">
-                        <Mail className="absolute left-3.5 md:left-4 top-1/2 -translate-y-1/2 w-4 h-4 md:w-5 md:h-5 text-muted-foreground/60 group-focus-within:text-foreground transition-colors pointer-events-none" />
+                        <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground group-focus-within:text-foreground transition-colors pointer-events-none" />
                         <Input
                           {...field}
                           placeholder={translationMemo.placeholderInputUser}
-                          className="w-full pl-10 md:pl-12 pr-3.5 md:pr-4 h-10 text-sm md:text-base rounded-md border-border/60 bg-card focus:border-foreground focus-visible:ring-0 focus-visible:ring-offset-0 transition-all duration-300"
+                          autoComplete="username"
+                          className="w-full pl-10 pr-3.5 h-11 text-sm rounded-lg border-input bg-background shadow-sm placeholder:text-muted-foreground/70 focus-visible:border-foreground/40 focus-visible:ring-4 focus-visible:ring-foreground/10 focus-visible:ring-offset-0 transition-[border-color,box-shadow]"
                         />
                       </div>
                       {form?.formState?.errors?.userName && (
@@ -288,25 +287,29 @@ const LoginPage = () => {
                   name="password"
                   render={({ field }) => (
                     <FormItem data-tour="auth-password">
-                      <FormLabel className="text-[10px] md:text-[11px] text-muted-foreground font-semibold uppercase tracking-[0.1em]">
+                      <FormLabel className="text-sm font-medium text-foreground">
                         {translationMemo.password}
                       </FormLabel>
                       <div className="relative group">
-                        <Lock className="absolute left-3.5 md:left-4 top-1/2 -translate-y-1/2 w-4 h-4 md:w-5 md:h-5 text-muted-foreground/60 group-focus-within:text-foreground transition-colors pointer-events-none" />
+                        <Lock className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground group-focus-within:text-foreground transition-colors pointer-events-none" />
                         <Input
                           type={showPassword ? "text" : "password"}
                           {...field}
                           placeholder={translationMemo.placeholderInputPassword}
-                          className="w-full pl-10 md:pl-12 pr-10 md:pr-12 h-10 text-sm md:text-base rounded-md border-border/60 bg-card focus:border-foreground focus-visible:ring-0 focus-visible:ring-offset-0 transition-all duration-300"
+                          autoComplete="current-password"
+                          className="w-full pl-10 pr-11 h-11 text-sm rounded-lg border-input bg-background shadow-sm placeholder:text-muted-foreground/70 focus-visible:border-foreground/40 focus-visible:ring-4 focus-visible:ring-foreground/10 focus-visible:ring-offset-0 transition-[border-color,box-shadow]"
                         />
                         <button
                           type="button"
                           onClick={() => setShowPassword(!showPassword)}
-                          className="absolute right-3.5 md:right-4 top-1/2 -translate-y-1/2 text-muted-foreground/60 hover:text-foreground transition-colors">
+                          aria-label={t(
+                            showPassword ? "page.login.hidePassword" : "page.login.showPassword"
+                          )}
+                          className="absolute right-1.5 top-1/2 -translate-y-1/2 flex items-center justify-center w-8 h-8 rounded-md text-muted-foreground hover:text-foreground hover:bg-muted transition-colors">
                           {showPassword ? (
-                            <EyeOff className="w-4 h-4 md:w-5 md:h-5" />
+                            <EyeOff className="w-4 h-4" />
                           ) : (
-                            <Eye className="w-4 h-4 md:w-5 md:h-5" />
+                            <Eye className="w-4 h-4" />
                           )}
                         </button>
                       </div>
@@ -328,14 +331,14 @@ const LoginPage = () => {
                     />
                     <Label
                       htmlFor="remember-me"
-                      className="text-xs md:text-sm text-muted-foreground cursor-pointer font-normal">
+                      className="text-sm text-muted-foreground cursor-pointer font-normal">
                       {translationMemo.rememberMe}
                     </Label>
                   </div>
                   <button
                     type="button"
                     onClick={() => navigate("/reset-password")}
-                    className="text-[11px] md:text-xs text-foreground hover:text-foreground/80 font-medium transition-all">
+                    className="text-sm text-foreground font-medium underline-offset-4 hover:underline">
                     {translationMemo.forgotPassword}
                   </button>
                 </div>
@@ -343,9 +346,9 @@ const LoginPage = () => {
                 <Button
                   type="submit"
                   data-tour="auth-submit"
-                  className="w-full h-10 bg-foreground text-background hover:bg-foreground/90 rounded-md font-semibold text-sm md:text-base shadow-sm transition-colors flex items-center justify-center gap-2 md:gap-3">
+                  className="w-full h-11 bg-foreground text-background hover:bg-foreground/90 rounded-lg font-medium text-sm shadow-sm transition-colors flex items-center justify-center gap-2">
                   <span>{translationMemo.btnLogin}</span>
-                  <ArrowRight className="w-4 h-4 md:w-5 md:h-5" />
+                  <ArrowRight className="w-4 h-4" />
                 </Button>
               </form>
             </Form>
