@@ -345,6 +345,14 @@ const MemberTier = () => {
 
                 <div data-tour="tier-table" className="mt-6">
                   <DataTable
+                    emptyAction={
+                      canAccess(user, MENU_KEY, "add")
+                        ? {
+                            label: t("page.memberTier.list.addTier"),
+                            onClick: () => navigate("/add-member-tier")
+                          }
+                        : undefined
+                    }
                     columns={columns}
                     data={paginatedTiers}
                     isLoading={isLoading || isFetching}

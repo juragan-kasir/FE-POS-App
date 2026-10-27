@@ -436,6 +436,14 @@ const TypePaymentList = () => {
 
               <div data-tour="type-payment-table">
                 <DataTable
+                  emptyAction={
+                    canAccess(user, MENU_KEY, "add")
+                      ? {
+                          label: t("page.typePayment.button.add"),
+                          onClick: () => navigate("/add-type-payment")
+                        }
+                      : undefined
+                  }
                   columns={columns}
                   data={payments}
                   isLoading={isLoading || isFetching}

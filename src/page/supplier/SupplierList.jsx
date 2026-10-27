@@ -452,6 +452,14 @@ const SupplierList = () => {
           ) : (
             <div data-tour="supplier-table">
               <DataTable
+                emptyAction={
+                  canAccess(user, MENU_KEY, "add")
+                    ? {
+                        label: t("page.supplier.button.add"),
+                        onClick: () => navigate("/add-supplier")
+                      }
+                    : undefined
+                }
                 columns={columns}
                 data={suppliers}
                 isLoading={isLoading || isFetching}

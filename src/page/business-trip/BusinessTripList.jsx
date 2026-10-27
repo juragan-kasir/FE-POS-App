@@ -331,6 +331,14 @@ const BusinessTripList = () => {
         <AbortController refetch={refetch} />
       ) : (
         <DataTable
+          emptyAction={
+            canAccess(user, MENU_KEY, "add")
+              ? {
+                  label: t("page.businessTrip.list.addNew"),
+                  onClick: () => navigate("/add-business-trip")
+                }
+              : undefined
+          }
           columns={columns}
           data={items}
           isLoading={isLoading || isFetching}

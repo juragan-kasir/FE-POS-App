@@ -6,7 +6,11 @@ import {
   ChevronRight,
   ChevronsLeft,
   ChevronsRight,
-  AlertTriangle
+  AlertTriangle,
+  Inbox,
+  Plus,
+  RotateCcw,
+  SearchX
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -25,7 +29,9 @@ const DataTable = ({
   errorMessage: errorMessageProp,
   onRetry,
   emptyMessage: emptyMessageProp,
-  emptyIcon: EmptyIcon,
+  emptyIcon: EmptyIcon = Inbox,
+  // { label, onClick } — e.g. "Tambah Produk" when the list has no data yet.
+  emptyAction,
   containerClassName,
   toolbar,
   pagination,
@@ -46,6 +52,12 @@ const DataTable = ({
   const { t } = useTranslation();
   const emptyMessage = emptyMessageProp ?? t("common.noData");
   const errorMessage = errorMessageProp ?? t("common.loadError");
+  // A TableToolbar passed as `toolbar` tells whether filters are narrowing
+  // the list, so an empty result can say "nothing matches" and offer the
+  // reset instead of implying there is no data at all.
+  const toolbarProps = React.isValidElement(toolbar) ? toolbar.props : {};
+  const isFiltered = Boolean(toolbarProps.isFiltered);
+  const onResetFilters = toolbarProps.onReset;
   const legendItems = columns.flatMap((col) => (Array.isArray(col.legend) ? col.legend : []));
   const [expandedRows, setExpandedRows] = React.useState(new Set());
   const scrollRef = React.useRef(null);
@@ -218,11 +230,37 @@ const DataTable = ({
       );
     }
 
+    if (data.length === 0 && isFiltered) {
+      return (
+        <div className="px-4 py-12 text-center text-muted-foreground">
+          <SearchX size={40} className="mx-auto mb-3 opacity-30" />
+          <p className="font-medium text-foreground">{t("dataTable.noMatchTitle")}</p>
+          <p className="mt-1 text-sm">{t("dataTable.noMatchDescription")}</p>
+          {onResetFilters && (
+            <Button variant="outline" size="sm" className="mt-4 gap-1.5" onClick={onResetFilters}>
+              <RotateCcw size={14} />
+              {t("common.resetFilter")}
+            </Button>
+          )}
+        </div>
+      );
+    }
+
     if (data.length === 0) {
       return (
         <div className="px-4 py-12 text-center text-muted-foreground">
           {EmptyIcon && <EmptyIcon size={40} className="mx-auto mb-3 opacity-30" />}
           <p>{emptyMessage}</p>
+          {emptyAction && (
+            <Button
+              variant="success"
+              size="sm"
+              className="mt-4 gap-1.5"
+              onClick={emptyAction.onClick}>
+              <Plus size={14} />
+              {emptyAction.label}
+            </Button>
+          )}
         </div>
       );
     }

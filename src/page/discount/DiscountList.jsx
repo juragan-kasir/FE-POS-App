@@ -626,6 +626,14 @@ const DiscountList = () => {
 
           <div data-tour="discount-table" className="mt-6">
             <DataTable
+              emptyAction={
+                canAccess(user, MENU_KEY, "add")
+                  ? {
+                      label: t("page.discount.button.add"),
+                      onClick: () => navigate("/add-discount")
+                    }
+                  : undefined
+              }
               columns={columns}
               data={discounts}
               isLoading={isLoading || isFetching}
