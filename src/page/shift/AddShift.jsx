@@ -44,6 +44,7 @@ import { useLocations } from "@/queries/useLocations";
 import { FIELD_LIMITS } from "@/constants/fieldLimits";
 import { buildEmployeeShiftConflictMap } from "./shiftOverlap";
 import { useFormExit } from "@/hooks/useLeaveGuard";
+import { createdId } from "@/utils/createdRecord";
 
 const toOverlapCandidate = (values) => ({
   tanggal_mulai: values.tanggal_mulai,
@@ -64,6 +65,7 @@ const AddShift = () => {
 
   const [cancelModal, setCancelModal] = useState(false);
   const [successModal, setSuccessModal] = useState(false);
+  const [createdRecordId, setCreatedRecordId] = useState(null);
   const [errorModal, setErrorModal] = useState(false);
   const [modalMessage, setModalMessage] = useState("");
   const [draftModal, setDraftModal] = useState(false);
@@ -301,7 +303,8 @@ const AddShift = () => {
   };
 
   const createMutation = useMutation(addShift, {
-    onSuccess: () => {
+    onSuccess: (res) => {
+      setCreatedRecordId(createdId(res));
       queryClient.invalidateQueries(["shifts"]);
       queryClient.invalidateQueries(["shifts-for-conflict"]);
       setSuccessModal(true);
@@ -946,6 +949,8 @@ const AddShift = () => {
       <Modal
         type="success"
         open={successModal}
+        secondaryText={createdRecordId ? t("common.viewDetail") : undefined}
+        onSecondary={() => navigate(`/detail-shift?id=${createdRecordId}`)}
         onOpenChange={setSuccessModal}
         title={t("page.shift.edit.modal.successTitle")}
         description={t("page.shift.edit.modal.successDesc")}

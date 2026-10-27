@@ -42,6 +42,7 @@ import PageHeader from "@/components/ui/PageHeader";
 import UserGuide from "@/components/organism/UserGuide";
 import { FIELD_LIMITS } from "@/constants/fieldLimits";
 import { useFormExit } from "@/hooks/useLeaveGuard";
+import { createdId } from "@/utils/createdRecord";
 
 const DAY_NAMES = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"];
 
@@ -181,7 +182,17 @@ const AddReservation = () => {
   };
 
   const createMutation = useMutation(createReservation, {
-    onSuccess: () => {
+    onSuccess: (res) => {
+      // Saving used to return to the list without a word.
+      const id = createdId(res);
+      toast.success(
+        t("page.reservation.add.toastSuccess", { defaultValue: "Reservasi berhasil dibuat" }),
+        {
+          action: id
+            ? { label: t("common.viewDetail"), onClick: () => navigate(`/reservation/${id}`) }
+            : undefined
+        }
+      );
       queryClient.invalidateQueries(["reservations"]);
       navigate("/reservation");
     },

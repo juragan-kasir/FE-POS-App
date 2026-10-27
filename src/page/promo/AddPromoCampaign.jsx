@@ -54,6 +54,7 @@ import StoreSelectCard from "@/components/organism/StoreSelectCard";
 import { useLocations } from "@/queries/useLocations";
 import { FIELD_LIMITS } from "@/constants/fieldLimits";
 import { useFormExit } from "@/hooks/useLeaveGuard";
+import { createdId } from "@/utils/createdRecord";
 
 const SectionHeader = ({ icon: Icon, title, description, gradient }) => (
   <div className={`bg-gradient-to-r ${gradient} px-6 py-4`}>
@@ -93,6 +94,7 @@ const AddPromoCampaign = () => {
   const [confirmSaveModal, setConfirmSaveModal] = useState(false);
   const [pendingDraft, setPendingDraft] = useState(false);
   const [successModal, setSuccessModal] = useState(false);
+  const [createdRecordId, setCreatedRecordId] = useState(null);
   const [rules, setRules] = useState([]);
   const [rewards, setRewards] = useState([]);
   const [daysOfWeek, setDaysOfWeek] = useState([]);
@@ -203,7 +205,8 @@ const AddPromoCampaign = () => {
   );
 
   const createMutation = useMutation(createCampaign, {
-    onSuccess: () => {
+    onSuccess: (res) => {
+      setCreatedRecordId(createdId(res));
       // ponytail: cukup success modal, tanpa toast — pola bundle
       queryClient.invalidateQueries(["promo-campaigns"]);
       setSuccessModal(true);
@@ -1328,6 +1331,8 @@ const AddPromoCampaign = () => {
       <Modal
         type="success"
         open={successModal}
+        secondaryText={createdRecordId ? t("common.viewDetail") : undefined}
+        onSecondary={() => navigate(`/detail-promo?id=${createdRecordId}`)}
         onOpenChange={setSuccessModal}
         title={t("common.success")}
         description={t("page.promo.toast.createSuccess")}

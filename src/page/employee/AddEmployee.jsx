@@ -81,6 +81,7 @@ const AddEmployee = () => {
   const documentInputRef = useRef(null);
   const [documents, setDocuments] = useState([]);
   const [successModal, setSuccessModal] = useState(false);
+  const [createdRecordId, setCreatedRecordId] = useState(null);
   const [cancelModal, setCancelModal] = useState(false);
   const [draftModal, setDraftModal] = useState(false);
   const [accessMenuModalOpen, setAccessMenuModalOpen] = useState(false);
@@ -411,7 +412,9 @@ const AddEmployee = () => {
   const shifts = shiftsData?.data || shiftsData?.shifts || [];
 
   const createMutation = useMutation(addEmployee, {
-    onSuccess: () => {
+    onSuccess: (res) => {
+      // The detail page is keyed by the employee code, not the user id.
+      setCreatedRecordId(res?.data?.employeeID || null);
       queryClient.invalidateQueries(["employees"]);
       setIsSubmitting(false);
       setSuccessModal(true);
@@ -1579,6 +1582,8 @@ const AddEmployee = () => {
       <Modal
         type="success"
         open={successModal}
+        secondaryText={createdRecordId ? t("common.viewDetail") : undefined}
+        onSecondary={() => navigate(`/detail-employee?employeeID=${createdRecordId}`)}
         onOpenChange={setSuccessModal}
         title={t("page.employee.add.successTitle")}
         description={t("page.employee.add.successDescription")}

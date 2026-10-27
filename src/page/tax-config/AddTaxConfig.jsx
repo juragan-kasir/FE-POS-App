@@ -31,6 +31,7 @@ import MissingFieldsModal from "@/components/organism/MissingFieldsModal";
 import { getMissingFields } from "@/lib/validation";
 import { useLocations } from "@/queries/useLocations";
 import { FIELD_LIMITS } from "@/constants/fieldLimits";
+import { createdId } from "@/utils/createdRecord";
 
 const taxTypes = [
   { value: "ppn", label: "PPN" },
@@ -90,6 +91,7 @@ const AddTaxConfig = () => {
 
   const [cancelModal, setCancelModal] = useState(false);
   const [successModal, setSuccessModal] = useState(false);
+  const [createdRecordId, setCreatedRecordId] = useState(null);
   const [draftModal, setDraftModal] = useState(false);
   const [missingFieldsModal, setMissingFieldsModal] = useState(false);
   const [missingFieldsList, setMissingFieldsList] = useState([]);
@@ -98,7 +100,8 @@ const AddTaxConfig = () => {
   const [modalMessage, setModalMessage] = useState("");
 
   const createMutation = useMutation(addTaxConfig, {
-    onSuccess: () => {
+    onSuccess: (res) => {
+      setCreatedRecordId(createdId(res));
       setSuccessModal(true);
     },
     onError: (err) => {
@@ -364,6 +367,8 @@ const AddTaxConfig = () => {
       <Modal
         type="success"
         open={successModal}
+        secondaryText={createdRecordId ? t("common.viewDetail") : undefined}
+        onSecondary={() => navigate(`/detail-tax?id=${createdRecordId}`)}
         onOpenChange={setSuccessModal}
         title={t("common.success")}
         description={t("page.taxConfig.toast.addSuccess")}

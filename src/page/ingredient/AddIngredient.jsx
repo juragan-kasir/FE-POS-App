@@ -45,6 +45,7 @@ import HorizontalScrollArea from "@/components/ui/HorizontalScrollArea";
 import IngredientSourceField from "./components/IngredientSourceField";
 import { useLocations } from "@/queries/useLocations";
 import { useFormExit } from "@/hooks/useLeaveGuard";
+import { createdId } from "@/utils/createdRecord";
 
 const conversionHints = {
   kg: { base: "gram", factor: 1000 },
@@ -69,6 +70,7 @@ const AddIngredient = () => {
   // "none" (market / in-house) or "supplier"; see IngredientSourceField.
   const [source, setSource] = useState("none");
   const [successModal, setSuccessModal] = useState(false);
+  const [createdRecordId, setCreatedRecordId] = useState(null);
   const [draftModal, setDraftModal] = useState(false);
   const [missingFieldsModal, setMissingFieldsModal] = useState(false);
   const [missingFieldsList, setMissingFieldsList] = useState([]);
@@ -253,7 +255,8 @@ const AddIngredient = () => {
   }, [watchUnit]);
 
   const mutation = useMutation(addIngredient, {
-    onSuccess: () => {
+    onSuccess: (res) => {
+      setCreatedRecordId(createdId(res));
       setSuccessModal(true);
     },
     onError: (err) => {
@@ -982,6 +985,8 @@ const AddIngredient = () => {
         <Modal
           type="success"
           open={successModal}
+          secondaryText={createdRecordId ? t("common.viewDetail") : undefined}
+          onSecondary={() => navigate(`/detail-ingredient?id=${createdRecordId}`)}
           onOpenChange={(o) => !o && setSuccessModal(false)}
           title={t("page.ingredient.add.toastSuccess")}
           description={t("page.ingredient.add.toastAddDesc")}

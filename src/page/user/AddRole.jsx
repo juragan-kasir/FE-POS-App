@@ -32,6 +32,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { markAllClean } from "@/lib/unsaved-changes-store";
 import { useFieldErrors } from "@/hooks/useFieldErrors";
 import { FieldError } from "@/components/ui/field-error";
+import { createdId } from "@/utils/createdRecord";
 
 // Role types a store account may create (super_admin: global accounts only).
 const ROLE_TYPE_OPTIONS = ["admin", "kasir", "user"];
@@ -58,6 +59,7 @@ const AddRole = () => {
   const [description, setDescription] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [successModal, setSuccessModal] = useState(false);
+  const [createdRecordId, setCreatedRecordId] = useState(null);
   const [cancelModal, setCancelModal] = useState(false);
   const [draftModal, setDraftModal] = useState(false);
   const [missingFieldsModal, setMissingFieldsModal] = useState(false);
@@ -94,7 +96,8 @@ const AddRole = () => {
   useUnsavedChanges(isDirty && !successModal);
 
   const createMutation = useMutation(addRole, {
-    onSuccess: () => {
+    onSuccess: (res) => {
+      setCreatedRecordId(createdId(res));
       queryClient.invalidateQueries(["roles-all"]);
       queryClient.invalidateQueries(["roles"]);
       queryClient.invalidateQueries(["roles-table"]);
@@ -315,6 +318,8 @@ const AddRole = () => {
         <Modal
           type="success"
           open={successModal}
+          secondaryText={createdRecordId ? t("common.viewDetail") : undefined}
+          onSecondary={() => navigate(`/detail-role/${createdRecordId}`)}
           onOpenChange={setSuccessModal}
           title={t("page.role.add.successTitle")}
           onConfirm={() => {

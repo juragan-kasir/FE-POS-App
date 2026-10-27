@@ -35,6 +35,7 @@ import { Input } from "@/components/ui/input";
 import { useFormExit } from "@/hooks/useLeaveGuard";
 import { useFieldErrors } from "@/hooks/useFieldErrors";
 import { FieldError } from "@/components/ui/field-error";
+import { createdId } from "@/utils/createdRecord";
 
 const icons = [
   { name: "star", component: Star, fill: true },
@@ -115,9 +116,16 @@ const AddMemberTier = () => {
   };
 
   const createMutation = useMutation(addMemberTier, {
-    onSuccess: () => {
+    onSuccess: (res) => {
+      const id = createdId(res);
       toast.success(t("page.memberTier.add.toastSuccess"), {
-        description: t("page.memberTier.add.toastSuccessDesc")
+        description: t("page.memberTier.add.toastSuccessDesc"),
+        action: id
+          ? {
+              label: t("common.viewDetail"),
+              onClick: () => navigate(`/detail-member-tier?id=${id}`)
+            }
+          : undefined
       });
       queryClient.invalidateQueries(["member-tiers"]);
       navigate("/member-tier");

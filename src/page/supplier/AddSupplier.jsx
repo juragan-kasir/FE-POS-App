@@ -52,6 +52,7 @@ import { useLocations } from "@/queries/useLocations";
 import { FIELD_LIMITS } from "@/constants/fieldLimits";
 import { digitsOnly } from "@/utils/quantity";
 import { useFormExit } from "@/hooks/useLeaveGuard";
+import { createdId } from "@/utils/createdRecord";
 
 const AddSupplier = () => {
   const { t } = useTranslation();
@@ -96,6 +97,7 @@ const AddSupplier = () => {
 
   const [cancelModal, setCancelModal] = useState(false);
   const [successModal, setSuccessModal] = useState(false);
+  const [createdRecordId, setCreatedRecordId] = useState(null);
   const [draftModal, setDraftModal] = useState(false);
   const [missingFieldsModal, setMissingFieldsModal] = useState(false);
   const [missingFieldsList, setMissingFieldsList] = useState([]);
@@ -416,7 +418,8 @@ const AddSupplier = () => {
   );
 
   const createMutation = useMutation(addSupplier, {
-    onSuccess: () => {
+    onSuccess: (res) => {
+      setCreatedRecordId(createdId(res));
       queryClient.invalidateQueries(["suppliers"]);
       setSuccessModal(true);
     },
@@ -1845,6 +1848,8 @@ const AddSupplier = () => {
       <Modal
         type="success"
         open={successModal}
+        secondaryText={createdRecordId ? t("common.viewDetail") : undefined}
+        onSecondary={() => navigate(`/detail-supplier?id=${createdRecordId}`)}
         onOpenChange={setSuccessModal}
         title={t("common.success")}
         description={t("page.supplier.toast.addSuccess")}

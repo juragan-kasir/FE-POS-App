@@ -66,6 +66,7 @@ import { linkUnitCost, linksPayload, missingLinkStores } from "@/lib/inventory-l
 import { useLocations } from "@/queries/useLocations";
 import { FIELD_LIMITS } from "@/constants/fieldLimits";
 import { useFormExit } from "@/hooks/useLeaveGuard";
+import { createdId } from "@/utils/createdRecord";
 
 const AddProduct = () => {
   const { t } = useTranslation();
@@ -113,6 +114,7 @@ const AddProduct = () => {
   const [draftModal, setDraftModal] = useState(false);
   const [cancelModal, setCancelModal] = useState(false);
   const [successModal, setSuccessModal] = useState(false);
+  const [createdRecordId, setCreatedRecordId] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [productImages, setProductImages] = useState([]);
   const [optionalOpen, setOptionalOpen] = useState(false);
@@ -272,7 +274,8 @@ const AddProduct = () => {
   const [modalMessage, setModalMessage] = useState("");
 
   const createMutation = useMutation(addProduct, {
-    onSuccess: () => {
+    onSuccess: (res) => {
+      setCreatedRecordId(createdId(res));
       queryClient.invalidateQueries(["products"]);
       setIsSubmitting(false);
       setSuccessModal(true);
@@ -1805,6 +1808,8 @@ const AddProduct = () => {
       <Modal
         type="success"
         open={successModal}
+        secondaryText={createdRecordId ? t("common.viewDetail") : undefined}
+        onSecondary={() => navigate(`/detail-product/${createdRecordId}`)}
         onOpenChange={setSuccessModal}
         title={t("page.product.form.successAddTitle")}
         description={t("page.product.form.successAddDesc")}

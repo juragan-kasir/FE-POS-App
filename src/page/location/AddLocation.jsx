@@ -86,6 +86,7 @@ import TenantSelectField, { tenantErrorMessage } from "@/components/organism/Ten
 import { useTenantManagePermission } from "@/hooks/useTenantManagePermission";
 import { FIELD_LIMITS } from "@/constants/fieldLimits";
 import { useFormExit } from "@/hooks/useLeaveGuard";
+import { createdId } from "@/utils/createdRecord";
 
 const days = [
   { id: "monday", label: "common.day.monday" },
@@ -141,6 +142,7 @@ const AddLocation = () => {
   const isEdit = !!editId;
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [successModal, setSuccessModal] = useState(false);
+  const [createdRecordId, setCreatedRecordId] = useState(null);
   const [errorModal, setErrorModal] = useState(false);
   const [modalMessage, setModalMessage] = useState("");
   const [cancelModal, setCancelModal] = useState(false);
@@ -482,7 +484,8 @@ const AddLocation = () => {
   };
 
   const addMutation = useMutation(addLocation, {
-    onSuccess: () => {
+    onSuccess: (res) => {
+      setCreatedRecordId(createdId(res));
       queryClient.invalidateQueries();
       setIsSubmitting(false);
       setSuccessModal(true);
@@ -1820,6 +1823,8 @@ const AddLocation = () => {
       <Modal
         type="success"
         open={successModal}
+        secondaryText={createdRecordId ? t("common.viewDetail") : undefined}
+        onSecondary={() => navigate(`/detail-location?id=${createdRecordId}`)}
         onOpenChange={setSuccessModal}
         title={
           isEdit ? t("page.location.add.successEditTitle") : t("page.location.add.successAddTitle")

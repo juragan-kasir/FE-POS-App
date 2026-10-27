@@ -29,6 +29,7 @@ import Modal from "@/components/organism/modal";
 import MissingFieldsModal from "@/components/organism/MissingFieldsModal";
 import { getMissingFields } from "@/lib/validation";
 import { FIELD_LIMITS } from "@/constants/fieldLimits";
+import { createdId } from "@/utils/createdRecord";
 
 const AddShiftTemplate = () => {
   const { t } = useTranslation();
@@ -41,6 +42,7 @@ const AddShiftTemplate = () => {
   const [cancelModal, setCancelModal] = useState(false);
   const [errorModal, setErrorModal] = useState(false);
   const [successModal, setSuccessModal] = useState(false);
+  const [createdRecordId, setCreatedRecordId] = useState(null);
   const [modalMessage, setModalMessage] = useState("");
 
   const fieldLabels = useMemo(
@@ -83,7 +85,8 @@ const AddShiftTemplate = () => {
   );
 
   const createMutation = useMutation(addShiftTemplate, {
-    onSuccess: () => {
+    onSuccess: (res) => {
+      setCreatedRecordId(createdId(res));
       queryClient.invalidateQueries(["shift-templates"]);
       setSuccessModal(true);
     },
@@ -338,6 +341,8 @@ const AddShiftTemplate = () => {
       <Modal
         type="success"
         open={successModal}
+        secondaryText={createdRecordId ? t("common.viewDetail") : undefined}
+        onSecondary={() => navigate(`/detail-shift-template?id=${createdRecordId}`)}
         onOpenChange={setSuccessModal}
         title={t("common.success")}
         description={t("page.shiftTemplate.toast.addSuccess")}
