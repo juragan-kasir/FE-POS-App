@@ -840,6 +840,14 @@ const ExpenseList = () => {
 
               <div>
                 <DataTable
+                  emptyAction={
+                    canAccess(user, MENU_KEY, "add")
+                      ? {
+                          label: t("page.expense.button.add"),
+                          onClick: () => navigate("/add-expense")
+                        }
+                      : undefined
+                  }
                   columns={columns}
                   data={expenses}
                   isLoading={isLoading || isFetching}

@@ -413,6 +413,14 @@ const ProductionOrderList = () => {
             <>
               <div>
                 <DataTable
+                  emptyAction={
+                    canAccess(user, MENU_KEY, "add")
+                      ? {
+                          label: t("page.productionOrder.list.addButton"),
+                          onClick: () => navigate("/add-production-order")
+                        }
+                      : undefined
+                  }
                   columns={columns}
                   data={items}
                   isLoading={isLoading || isFetching}

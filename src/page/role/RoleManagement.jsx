@@ -191,6 +191,14 @@ const RoleManagement = () => {
               )}
               <div data-tour="role-table">
                 <DataTable
+                  emptyAction={
+                    canAccess(user, MENU_KEY, "add")
+                      ? {
+                          label: t("page.globalSetting.roleManagement.button.add"),
+                          onClick: () => navigate("/add-role")
+                        }
+                      : undefined
+                  }
                   columns={[
                     {
                       header: t("page.globalSetting.roleManagement.table.name"),

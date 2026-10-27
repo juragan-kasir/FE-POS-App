@@ -326,6 +326,10 @@ const SalesReturnList = () => {
           ) : (
             <div>
               <DataTable
+                emptyAction={{
+                  label: t("page.salesReturn.list.button.create"),
+                  onClick: () => navigate("/sales-return/create")
+                }}
                 columns={columns}
                 data={items}
                 isLoading={isLoading}

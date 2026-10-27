@@ -1980,6 +1980,8 @@
   "apiError.tooMany": "Too many requests. Wait a moment and try again.",
   "apiError.invalid": "The data sent is not valid. Please check your input.",
   "apiError.unknown": "Something went wrong. Please try again.",
+  "dataTable.noMatchTitle": "No matching data",
+  "dataTable.noMatchDescription": "Try a different search term or filter.",
   "missingFields.title": "Required Fields Empty",
   "missingFields.description": "Fill in these fields before saving. Click one to go straight to it.",
   "missingFields.tab": "Tab {{number}}",

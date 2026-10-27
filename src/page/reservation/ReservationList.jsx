@@ -384,6 +384,10 @@ const ReservationList = () => {
               )}
               <div data-tour="reservation-table" className="mt-6">
                 <DataTable
+                  emptyAction={{
+                    label: t("page.reservation.addButton"),
+                    onClick: () => navigate("/add-reservation")
+                  }}
                   columns={columns}
                   data={reservations}
                   isLoading={isLoading || isFetching}

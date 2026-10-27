@@ -437,6 +437,14 @@ const StockOpnameList = () => {
           ) : (
             <div>
               <DataTable
+                emptyAction={
+                  canAccess(user, MENU_KEY, "add")
+                    ? {
+                        label: t("page.stockOpname.list.addButton"),
+                        onClick: () => navigate("/add-stock-opname")
+                      }
+                    : undefined
+                }
                 columns={columns}
                 data={items}
                 isLoading={isLoading || isFetching}

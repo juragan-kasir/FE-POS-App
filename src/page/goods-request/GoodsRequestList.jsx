@@ -555,6 +555,14 @@ const GoodsRequestList = () => {
             <>
               <div>
                 <DataTable
+                  emptyAction={
+                    canAccess(user, MENU_KEY, "add")
+                      ? {
+                          label: t("page.goodsRequest.list.addButton"),
+                          onClick: () => navigate("/add-goods-request")
+                        }
+                      : undefined
+                  }
                   columns={columns}
                   data={items}
                   isLoading={isLoading || isFetching}

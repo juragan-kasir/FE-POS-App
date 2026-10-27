@@ -552,6 +552,14 @@ const CategoryList = () => {
 
               <div data-tour="category-table" className="mt-6">
                 <DataTable
+                  emptyAction={
+                    canAccess(user, MENU_KEY, "add")
+                      ? {
+                          label: t("page.category.button.add"),
+                          onClick: () => navigate("/add-category")
+                        }
+                      : undefined
+                  }
                   columns={columns}
                   data={categories}
                   isLoading={isLoading || isFetching}

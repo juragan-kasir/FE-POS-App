@@ -402,6 +402,14 @@ const EmployeeList = () => {
 
               <div data-tour="employee-table" className="mt-6">
                 <DataTable
+                  emptyAction={
+                    canAccess(user, MENU_KEY, "add")
+                      ? {
+                          label: t("page.employee.add.title"),
+                          onClick: () => navigate("/add-employee")
+                        }
+                      : undefined
+                  }
                   columns={columns}
                   data={filteredEmployees}
                   isLoading={isLoading || isFetching}

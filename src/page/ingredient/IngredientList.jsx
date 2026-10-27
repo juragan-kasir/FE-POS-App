@@ -484,6 +484,14 @@ const IngredientList = () => {
 
             <div data-tour="ingredient-table" className="mt-6">
               <DataTable
+                emptyAction={
+                  canAccess(user, MENU_KEY, "add")
+                    ? {
+                        label: t("page.ingredient.list.btnAdd"),
+                        onClick: () => navigate("/add-ingredient")
+                      }
+                    : undefined
+                }
                 columns={columns}
                 data={ingredients}
                 isLoading={isLoading || isFetching}

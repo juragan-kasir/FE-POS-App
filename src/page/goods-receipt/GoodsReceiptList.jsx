@@ -394,6 +394,14 @@ const GoodsReceiptList = () => {
             <>
               <div>
                 <DataTable
+                  emptyAction={
+                    canAccess(user, MENU_KEY, "add")
+                      ? {
+                          label: t("page.goodsReceipt.list.addButton"),
+                          onClick: () => navigate("/add-goods-receipt")
+                        }
+                      : undefined
+                  }
                   columns={columns}
                   data={items}
                   isLoading={isLoading || isFetching}

@@ -264,6 +264,14 @@ const StockTransferList = () => {
           ) : (
             <div>
               <DataTable
+                emptyAction={
+                  canAccess(user, MENU_KEY, "add")
+                    ? {
+                        label: t("page.stockTransfer.list.addButton"),
+                        onClick: () => navigate("/add-stock-transfer")
+                      }
+                    : undefined
+                }
                 columns={columns}
                 data={items}
                 isLoading={isLoading}

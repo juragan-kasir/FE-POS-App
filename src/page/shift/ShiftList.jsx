@@ -552,6 +552,11 @@ const ShiftList = () => {
 
                   <div data-tour="shift-table">
                     <DataTable
+                      emptyAction={
+                        canAccess(user, MENU_KEY, "add")
+                          ? { label: t("breadcrumb.add"), onClick: () => navigate("/add-shift") }
+                          : undefined
+                      }
                       columns={columns}
                       data={shifts}
                       isLoading={isLoading || isFetching}
