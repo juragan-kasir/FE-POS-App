@@ -5384,6 +5384,7 @@
   "page.cashier.paymentMethod": "Metode Pembayaran",
   "page.cashier.cashAmount": "Jumlah Tunai",
   "page.cashier.roundUp": "Bulatkan",
+  "page.cashier.exactCash": "Uang Pas",
   "page.cashier.processingPayment": "Memproses pembayaran...",
   "page.cashier.paymentSuccessDesc": "Pembayaran berhasil diselesaikan",
   "page.cashier.confirmPayment": "Konfirmasi Pembayaran",
