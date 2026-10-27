@@ -48,6 +48,7 @@ import { useLocations } from "@/queries/useLocations";
 import { FIELD_LIMITS } from "@/constants/fieldLimits";
 import { formatDateOnly } from "@/utils/dateOnly";
 import { useFormExit } from "@/hooks/useLeaveGuard";
+import { createdId } from "@/utils/createdRecord";
 
 const AddGoodsReceipt = () => {
   const navigate = useNavigate();
@@ -488,10 +489,16 @@ const AddGoodsReceipt = () => {
           conversionToBase: parseFloat(it.conversionToBase) || 1
         }))
       };
-      await addGoodsReceipt(payload, docFiles);
+      const receiptId = createdId(await addGoodsReceipt(payload, docFiles));
       grIdempotencyRef.current = "";
       toast.success(t("page.goodsReceipt.add.toast.success"), {
-        description: t("page.goodsReceipt.add.toast.successDesc")
+        description: t("page.goodsReceipt.add.toast.successDesc"),
+        action: receiptId
+          ? {
+              label: t("common.viewDetail"),
+              onClick: () => navigate(`/goods-receipt/detail?id=${receiptId}`)
+            }
+          : undefined
       });
       queryClient.invalidateQueries(["goods-receipts"]);
       navigate("/goods-receipt");

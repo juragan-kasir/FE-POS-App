@@ -55,6 +55,7 @@ import { getMissingFields } from "@/lib/validation";
 import { useLocations } from "@/queries/useLocations";
 import { FIELD_LIMITS } from "@/constants/fieldLimits";
 import { useFormExit } from "@/hooks/useLeaveGuard";
+import { createdId } from "@/utils/createdRecord";
 const PROMO_TYPES = {
   standard: "page.discount.form.promoType.standard",
   bogo: "page.discount.form.promoType.bogo",
@@ -75,6 +76,7 @@ const AddDiscount = () => {
   const [draftModal, setDraftModal] = useState(false);
   const [cancelModal, setCancelModal] = useState(false);
   const [successModal, setSuccessModal] = useState(false);
+  const [createdRecordId, setCreatedRecordId] = useState(null);
   const [confirmSaveModal, setConfirmSaveModal] = useState(false);
   const [missingFieldsModal, setMissingFieldsModal] = useState(false);
   const [missingFields, setMissingFields] = useState([]);
@@ -233,7 +235,8 @@ const AddDiscount = () => {
   const queryClient = useQueryClient();
 
   const createMutation = useMutation(addDiscount, {
-    onSuccess: () => {
+    onSuccess: (res) => {
+      setCreatedRecordId(createdId(res));
       queryClient.invalidateQueries(["discounts"]);
       setSuccessModal(true);
     },
@@ -1075,6 +1078,8 @@ const AddDiscount = () => {
         <Modal
           type="success"
           open={successModal}
+          secondaryText={createdRecordId ? t("common.viewDetail") : undefined}
+          onSecondary={() => navigate(`/detail-discount?id=${createdRecordId}`)}
           onOpenChange={setSuccessModal}
           title={t("page.discount.add.successTitle")}
           description={t("page.discount.add.successDescription")}

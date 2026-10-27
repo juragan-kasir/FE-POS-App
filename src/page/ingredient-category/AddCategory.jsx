@@ -26,6 +26,7 @@ import AbortController from "@/components/organism/abort-controller";
 import MissingFieldsModal from "@/components/organism/MissingFieldsModal";
 import { getMissingFields } from "@/lib/validation";
 import { FIELD_LIMITS } from "@/constants/fieldLimits";
+import { createdId } from "@/utils/createdRecord";
 
 const AddCategory = () => {
   const { t } = useTranslation();
@@ -41,6 +42,7 @@ const AddCategory = () => {
 
   const [showCancel, setShowCancel] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
+  const [createdRecordId, setCreatedRecordId] = useState(null);
   const [draftModal, setDraftModal] = useState(false);
 
   const categoryFieldLabels = {
@@ -86,7 +88,8 @@ const AddCategory = () => {
   });
 
   const createMutation = useMutation(addIngredientCategory, {
-    onSuccess: () => {
+    onSuccess: (res) => {
+      setCreatedRecordId(createdId(res));
       queryClient.invalidateQueries(["ingredient-categories"]);
       setShowSuccess(true);
     },
@@ -333,6 +336,8 @@ const AddCategory = () => {
       <Modal
         type="success"
         open={showSuccess}
+        secondaryText={createdRecordId ? t("common.viewDetail") : undefined}
+        onSecondary={() => navigate(`/detail-ingredient-category?id=${createdRecordId}`)}
         onOpenChange={setShowSuccess}
         title={
           isEdit

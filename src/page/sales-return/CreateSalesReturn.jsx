@@ -33,6 +33,7 @@ import { isAdminRole } from "@/utils/role";
 import { todayDateOnly } from "@/utils/dateOnly";
 import { FIELD_LIMITS } from "@/constants/fieldLimits";
 import { Textarea } from "@/components/ui/textarea";
+import { createdId } from "@/utils/createdRecord";
 
 const reasonKeys = [
   "damaged",
@@ -170,8 +171,16 @@ const CreateSalesReturn = () => {
       });
     },
     {
-      onSuccess: () => {
-        toast.success(t("page.salesReturn.create.toast.success"));
+      onSuccess: (res) => {
+        const id = createdId(res);
+        toast.success(t("page.salesReturn.create.toast.success"), {
+          action: id
+            ? {
+                label: t("common.viewDetail"),
+                onClick: () => navigate(`/sales-return/detail?id=${id}`)
+              }
+            : undefined
+        });
         queryClient.invalidateQueries(["sales-returns"]);
         idempotencyKeyRef.current = null;
         navigate("/sales-return");

@@ -25,6 +25,7 @@ import HorizontalScrollArea from "@/components/ui/HorizontalScrollArea";
 import { useLocations } from "@/queries/useLocations";
 import { FIELD_LIMITS } from "@/constants/fieldLimits";
 import { useFormExit } from "@/hooks/useLeaveGuard";
+import { createdId } from "@/utils/createdRecord";
 
 const emptyItem = {
   name: "",
@@ -327,6 +328,7 @@ const AddGoodsRequest = () => {
   const [changeStoreModal, setChangeStoreModal] = useState(false);
   const [pendingStoreId, setPendingStoreId] = useState("");
   const [successModal, setSuccessModal] = useState(false);
+  const [createdRecordId, setCreatedRecordId] = useState(null);
 
   const goodsRequestSchema = z
     .object({
@@ -485,7 +487,7 @@ const AddGoodsRequest = () => {
           if (it.name.trim() && it.qty > 0) validItems.push({ ...it, supplier: g.supplier });
         }
       }
-      await addGoodsRequest({
+      const created = await addGoodsRequest({
         store: data.storeId,
         requestedBy: data.requestedBy,
         requestDate: data.requestDate ? format(data.requestDate, "yyyy-MM-dd") : null,
@@ -503,6 +505,7 @@ const AddGoodsRequest = () => {
         }))
       });
       queryClient.invalidateQueries(["goods-requests"]);
+      setCreatedRecordId(createdId(created));
       setSuccessModal(true);
     } catch (err) {
       setModalMessage(err?.response?.data?.message || err.message);
@@ -746,6 +749,8 @@ const AddGoodsRequest = () => {
         <Modal
           type="success"
           open={successModal}
+          secondaryText={createdRecordId ? t("common.viewDetail") : undefined}
+          onSecondary={() => navigate(`/goods-request/detail?id=${createdRecordId}`)}
           onOpenChange={setSuccessModal}
           title={t("page.goodsRequest.add.successModal.title")}
           description={t("page.goodsRequest.add.successModal.description")}

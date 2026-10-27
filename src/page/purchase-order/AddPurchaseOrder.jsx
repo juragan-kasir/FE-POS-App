@@ -34,6 +34,7 @@ import HorizontalScrollArea from "@/components/ui/HorizontalScrollArea";
 import { useLocations } from "@/queries/useLocations";
 import { FIELD_LIMITS } from "@/constants/fieldLimits";
 import { useFormExit } from "@/hooks/useLeaveGuard";
+import { createdId } from "@/utils/createdRecord";
 
 const emptyItem = {
   name: "",
@@ -155,6 +156,7 @@ const AddPurchaseOrder = () => {
   const [missingFieldsModal, setMissingFieldsModal] = useState(false);
   const [missingFieldsList, setMissingFieldsList] = useState([]);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [createdRecordId, setCreatedRecordId] = useState(null);
   const [errorModal, setErrorModal] = useState(false);
   const [modalMessage, setModalMessage] = useState("");
   const [orderDate, setOrderDate] = useState(new Date());
@@ -466,7 +468,8 @@ const AddPurchaseOrder = () => {
   const { setActiveStore } = useStore();
 
   const createMutation = useMutation(addPurchaseOrder, {
-    onSuccess: () => {
+    onSuccess: (res) => {
+      setCreatedRecordId(createdId(res));
       queryClient.invalidateQueries(["purchase-orders"]);
       setShowSuccessModal(true);
     },
@@ -1503,6 +1506,8 @@ const AddPurchaseOrder = () => {
       <Modal
         type="success"
         open={showSuccessModal}
+        secondaryText={createdRecordId ? t("common.viewDetail") : undefined}
+        onSecondary={() => navigate(`/purchase-order/detail?id=${createdRecordId}`)}
         onOpenChange={setShowSuccessModal}
         title={t("common.success")}
         description={t("page.purchaseOrder.add.toast.poCreated")}

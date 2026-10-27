@@ -38,6 +38,8 @@ export default function Modal({
   confirmVariant,
   onConfirm,
   onCancel,
+  secondaryText,
+  onSecondary,
   loading,
   isLoading,
   className,
@@ -104,6 +106,13 @@ export default function Modal({
     handleClose();
   };
 
+  // Optional extra action beside the confirm button, e.g. "Lihat Detail" on a
+  // "created" notice whose confirm goes back to the list.
+  const handleSecondary = () => {
+    onSecondary?.();
+    handleClose();
+  };
+
   const handleCancel = () => {
     onCancel?.();
     handleClose();
@@ -129,6 +138,11 @@ export default function Modal({
               {!isNotification && (
                 <Button type="button" variant="danger" onClick={handleCancel}>
                   {cancelLabel}
+                </Button>
+              )}
+              {secondaryText && onSecondary && (
+                <Button type="button" variant="outline" onClick={handleSecondary}>
+                  {secondaryText}
                 </Button>
               )}
               <Button

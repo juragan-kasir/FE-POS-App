@@ -45,6 +45,7 @@ import CategoryPreviewModal from "./CategoryPreviewModal";
 import { useLocations } from "@/queries/useLocations";
 import { FIELD_LIMITS } from "@/constants/fieldLimits";
 import { useFormExit } from "@/hooks/useLeaveGuard";
+import { createdId } from "@/utils/createdRecord";
 
 const iconSections = [
   {
@@ -379,6 +380,7 @@ const AddCategory = () => {
   const [imagePreview, setImagePreview] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [successModal, setSuccessModal] = useState(false);
+  const [createdRecordId, setCreatedRecordId] = useState(null);
   const [draftModal, setDraftModal] = useState(false);
   const [cancelModal, setCancelModal] = useState(false);
   const [selectedStore, setSelectedStore] = useState([]);
@@ -445,7 +447,8 @@ const AddCategory = () => {
   const [modalMessage, setModalMessage] = useState("");
 
   const createMutation = useMutation(addCategory, {
-    onSuccess: () => {
+    onSuccess: (res) => {
+      setCreatedRecordId(createdId(res));
       queryClient.invalidateQueries(["categories"]);
       setSuccessModal(true);
       setIsSubmitting(false);
@@ -1032,6 +1035,8 @@ const AddCategory = () => {
         <Modal
           type="success"
           open={successModal}
+          secondaryText={createdRecordId ? t("common.viewDetail") : undefined}
+          onSecondary={() => navigate(`/detail-category?id=${createdRecordId}`)}
           onOpenChange={setSuccessModal}
           title={t("page.category.modal.successAdd")}
           onConfirm={() => {

@@ -24,6 +24,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { useFormExit } from "@/hooks/useLeaveGuard";
 import { useFieldErrors } from "@/hooks/useFieldErrors";
 import { FieldError } from "@/components/ui/field-error";
+import { createdId } from "@/utils/createdRecord";
 
 const formSchema = z.object({
   name: z.string().min(1),
@@ -45,6 +46,7 @@ const AddMember = () => {
   const user = cookie?.user;
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [successModal, setSuccessModal] = useState(false);
+  const [createdRecordId, setCreatedRecordId] = useState(null);
   const [cancelModal, setCancelModal] = useState(false);
   const { request: requestLeave, leave } = useFormExit("/member-list", () => setCancelModal(true));
   const [draftModal, setDraftModal] = useState(false);
@@ -86,7 +88,8 @@ const AddMember = () => {
   const tiers = tiersData?.data || tiersData?.tiers || [];
 
   const createMutation = useMutation(addMember, {
-    onSuccess: () => {
+    onSuccess: (res) => {
+      setCreatedRecordId(createdId(res));
       setIsSubmitting(false);
       queryClient.invalidateQueries(["members"]);
       setSuccessModal(true);
@@ -494,6 +497,8 @@ const AddMember = () => {
       <Modal
         type="success"
         open={successModal}
+        secondaryText={createdRecordId ? t("common.viewDetail") : undefined}
+        onSecondary={() => navigate(`/detail-member?id=${createdRecordId}`)}
         onOpenChange={setSuccessModal}
         title={t("page.member.add.successTitle")}
         description={t("page.member.add.successDescription")}

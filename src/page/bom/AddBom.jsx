@@ -31,6 +31,7 @@ import { recipeCosting } from "@/lib/recipe-costing";
 import { useFormExit } from "@/hooks/useLeaveGuard";
 import { useFieldErrors } from "@/hooks/useFieldErrors";
 import { FieldError } from "@/components/ui/field-error";
+import { createdId } from "@/utils/createdRecord";
 
 const emptyLine = () => ({ supplierId: "", ingredientId: "", qty: "", unit: "pcs", notes: "" });
 
@@ -271,10 +272,14 @@ const AddBom = () => {
       const saved = isEdit
         ? await editBom(editId, body)
         : await addBom({ ...body, productId: parseInt(productId), createdBy: user?.id });
+      const bomId = isEdit ? editId : createdId(saved);
       toast.success(t(isEdit ? "page.bom.edit.toast.success" : "page.bom.add.toast.success"), {
         description: t(
           isEdit ? "page.bom.edit.toast.successDesc" : "page.bom.add.toast.successDesc"
-        )
+        ),
+        action: bomId
+          ? { label: t("common.viewDetail"), onClick: () => navigate(`/bom/detail?id=${bomId}`) }
+          : undefined
       });
       // The server moved a product still on "Stok produk jadi" to recipe
       // deduction, so its sales now use up the ingredients.

@@ -35,6 +35,7 @@ import { FIELD_LIMITS } from "@/constants/fieldLimits";
 import { useFormExit } from "@/hooks/useLeaveGuard";
 import { useFieldErrors } from "@/hooks/useFieldErrors";
 import { FieldError } from "@/components/ui/field-error";
+import { createdId } from "@/utils/createdRecord";
 
 const emptyItem = { product: "", quantity: 1, unitPrice: 0, isOptional: false };
 
@@ -93,6 +94,7 @@ const AddBundle = () => {
   const [confirmModal, setConfirmModal] = useState(false);
   const [itemRemove, setItemRemove] = useState(null);
   const [successModal, setSuccessModal] = useState(false);
+  const [createdRecordId, setCreatedRecordId] = useState(null);
   const [errorModal, setErrorModal] = useState(false);
   const [modalMessage, setModalMessage] = useState("");
   const [missingFieldsModal, setMissingFieldsModal] = useState(false);
@@ -126,7 +128,8 @@ const AddBundle = () => {
   );
 
   const createMutation = useMutation(createBundle, {
-    onSuccess: () => {
+    onSuccess: (res) => {
+      setCreatedRecordId(createdId(res));
       // ponytail: cukup success modal, tanpa toast
       queryClient.invalidateQueries(["bundles"]);
       setSuccessModal(true);
@@ -725,6 +728,8 @@ const AddBundle = () => {
       <Modal
         type="success"
         open={successModal}
+        secondaryText={createdRecordId ? t("common.viewDetail") : undefined}
+        onSecondary={() => navigate(`/bundle/${createdRecordId}`)}
         onOpenChange={setSuccessModal}
         title={t("page.bundle.modal.successTitle")}
         description={t("page.bundle.modal.successDescription")}

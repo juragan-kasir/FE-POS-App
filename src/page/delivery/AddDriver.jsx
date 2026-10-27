@@ -21,6 +21,7 @@ import { FIELD_LIMITS } from "@/constants/fieldLimits";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useFormExit } from "@/hooks/useLeaveGuard";
+import { createdId } from "@/utils/createdRecord";
 
 const AddDriver = () => {
   const { t } = useTranslation();
@@ -85,9 +86,13 @@ const AddDriver = () => {
   );
 
   const createMutation = useMutation(createDriver, {
-    onSuccess: () => {
+    onSuccess: (res) => {
+      const id = createdId(res);
       toast.success(t("common.success"), {
-        description: t("page.delivery.driver.toast.addSuccess")
+        description: t("page.delivery.driver.toast.addSuccess"),
+        action: id
+          ? { label: t("common.viewDetail"), onClick: () => navigate(`/detail-driver?id=${id}`) }
+          : undefined
       });
       queryClient.invalidateQueries(["drivers"]);
       navigate("/driver-list");

@@ -27,6 +27,7 @@ import HorizontalScrollArea from "@/components/ui/HorizontalScrollArea";
 import { FIELD_LIMITS } from "@/constants/fieldLimits";
 import { formatDateOnly } from "@/utils/dateOnly";
 import { useFormExit } from "@/hooks/useLeaveGuard";
+import { createdId } from "@/utils/createdRecord";
 
 const AddProductionOrder = () => {
   const { t } = useTranslation();
@@ -108,15 +109,18 @@ const AddProductionOrder = () => {
         notes: data.notes,
         ...(saveAsDraft && { status: "draft" })
       };
-      if (id) {
-        await editProductionOrder(id, payload);
-      } else {
-        await addProductionOrder(payload);
-      }
+      const saved = id ? await editProductionOrder(id, payload) : await addProductionOrder(payload);
+      const orderId = id || createdId(saved);
       toast.success(t("page.productionOrder.add.toastSuccess"), {
         description: id
           ? t("page.productionOrder.add.toastSuccessDescEdit")
-          : t("page.productionOrder.add.toastSuccessDescAdd")
+          : t("page.productionOrder.add.toastSuccessDescAdd"),
+        action: orderId
+          ? {
+              label: t("common.viewDetail"),
+              onClick: () => navigate(`/production-order/detail?id=${orderId}`)
+            }
+          : undefined
       });
       queryClient.invalidateQueries(["production-orders"]);
       navigate("/production-order");

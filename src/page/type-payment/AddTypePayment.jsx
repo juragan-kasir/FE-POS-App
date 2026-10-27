@@ -30,6 +30,7 @@ import { getMissingFields } from "@/lib/validation";
 import { useLocations } from "@/queries/useLocations";
 import { FIELD_LIMITS } from "@/constants/fieldLimits";
 import { useFormExit } from "@/hooks/useLeaveGuard";
+import { createdId } from "@/utils/createdRecord";
 
 const AddTypePayment = () => {
   const { t } = useTranslation();
@@ -63,6 +64,7 @@ const AddTypePayment = () => {
   const queryClient = useQueryClient();
   const [cancelModal, setCancelModal] = useState(false);
   const [successModal, setSuccessModal] = useState(false);
+  const [createdRecordId, setCreatedRecordId] = useState(null);
   const [draftModal, setDraftModal] = useState(false);
   const [saveConfirm, setSaveConfirm] = useState(false);
   const [missingFieldsModal, setMissingFieldsModal] = useState(false);
@@ -99,7 +101,8 @@ const AddTypePayment = () => {
   );
 
   const createMutation = useMutation(addTypePayment, {
-    onSuccess: () => {
+    onSuccess: (res) => {
+      setCreatedRecordId(createdId(res));
       queryClient.invalidateQueries(["type-payments"]);
       queryClient.invalidateQueries(["type-payments-all"]);
       setSuccessModal(true);
@@ -406,6 +409,8 @@ const AddTypePayment = () => {
       <Modal
         type="success"
         open={successModal}
+        secondaryText={createdRecordId ? t("common.viewDetail") : undefined}
+        onSecondary={() => navigate(`/detail-type-payment?id=${createdRecordId}`)}
         onOpenChange={setSuccessModal}
         title={t("common.success")}
         description={t("page.typePayment.toast.addSuccess")}

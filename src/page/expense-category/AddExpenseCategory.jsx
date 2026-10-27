@@ -37,6 +37,7 @@ import MissingFieldsModal from "@/components/organism/MissingFieldsModal";
 import { getMissingFields } from "@/lib/validation";
 import { useTranslation } from "react-i18next";
 import { FIELD_LIMITS } from "@/constants/fieldLimits";
+import { createdId } from "@/utils/createdRecord";
 
 const AddExpenseCategory = () => {
   const { t } = useTranslation();
@@ -47,6 +48,7 @@ const AddExpenseCategory = () => {
   const store = user?.store || "";
   const [cancelModal, setCancelModal] = useState(false);
   const [successModal, setSuccessModal] = useState(false);
+  const [createdRecordId, setCreatedRecordId] = useState(null);
   const [draftModal, setDraftModal] = useState(false);
   const [saveConfirm, setSaveConfirm] = useState(false);
   const [missingFieldsModal, setMissingFieldsModal] = useState(false);
@@ -107,7 +109,8 @@ const AddExpenseCategory = () => {
   );
 
   const createMutation = useMutation(addExpenseCategory, {
-    onSuccess: () => {
+    onSuccess: (res) => {
+      setCreatedRecordId(createdId(res));
       queryClient.invalidateQueries(["expense-categories"]);
       setSuccessModal(true);
     },
@@ -320,6 +323,8 @@ const AddExpenseCategory = () => {
         <Modal
           type="success"
           open={successModal}
+          secondaryText={createdRecordId ? t("common.viewDetail") : undefined}
+          onSecondary={() => navigate(`/detail-expense-category?id=${createdRecordId}`)}
           onOpenChange={setSuccessModal}
           title={t("page.expenseCategory.add.successTitle")}
           description={t("page.expenseCategory.add.successDescription")}
