@@ -1,5 +1,5 @@
 import React from "react";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { useQuery } from "react-query";
 import { useTranslation } from "react-i18next";
 import {
@@ -60,6 +60,11 @@ const DetailPurchaseReturn = () => {
     { enabled: !!id }
   );
   const ret = data?.data;
+  // The return carries its PO as an id, or as the PO itself when included.
+  const poId =
+    ret?.purchaseOrder && typeof ret.purchaseOrder === "object"
+      ? (ret.purchaseOrder.id ?? null)
+      : (ret?.purchaseOrder ?? null);
   const st = statusBadge[ret?.status] || statusBadge.pending;
   const StatusIcon = st.icon;
   const printSpec = ret ? getDocumentSpecForPurchaseReturn(ret, t) : null;
@@ -328,11 +333,15 @@ const DetailPurchaseReturn = () => {
                         {t("page.purchaseReturn.detail.field.poNumber")}
                       </td>
                       <td className="py-2 text-right font-medium">
-                        {ret.purchaseOrder?.orderNumber
-                          ? ret.purchaseOrder.orderNumber
-                          : ret.purchaseOrder
-                            ? `PO-${ret.purchaseOrder}`
-                            : "-"}
+                        {poId ? (
+                          <Link
+                            to={`/purchase-order/detail?id=${poId}`}
+                            className="text-primary hover:underline">
+                            {ret.purchaseOrder?.orderNumber || `PO-${poId}`}
+                          </Link>
+                        ) : (
+                          ret.purchaseOrder?.orderNumber || "-"
+                        )}
                       </td>
                     </tr>
                   </tbody>
