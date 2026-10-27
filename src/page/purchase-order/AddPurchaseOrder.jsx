@@ -144,6 +144,7 @@ const AddPurchaseOrder = () => {
   const [draftModal, setDraftModal] = useState(false);
   const [confirmModal, setConfirmModal] = useState(false);
   const [supplierChange, setSupplierChange] = useState(null);
+  const [storeChange, setStoreChange] = useState(null);
   const [supplierRemove, setSupplierRemove] = useState(null);
   const [itemRemove, setItemRemove] = useState(null);
   const [groupRemove, setGroupRemove] = useState(null);
@@ -361,6 +362,26 @@ const AddPurchaseOrder = () => {
     setGroups((prev) =>
       prev.map((g, i) => (i === gIdx ? { supplier: supplierId, items: [{ ...emptyItem }] } : g))
     );
+  };
+
+  // Suppliers and items are scoped to the store, so a store change wipes
+  // them. Ask first when any of them is already filled.
+  const applyStoreChange = (storeId) => {
+    setSelectedStore(storeId);
+    setGroups([emptyGroup()]);
+    setErrors((prev) => ({ ...prev, store: undefined }));
+  };
+
+  const pickStore = (storeId) => {
+    if (storeId === selectedStore) return;
+    const hasFilledGroups = groups.some(
+      (g) => g.supplier || (g.items || []).some((it) => it.name.trim())
+    );
+    if (hasFilledGroups) {
+      setStoreChange({ storeId });
+      return;
+    }
+    applyStoreChange(storeId);
   };
 
   const pickGroupSupplier = (gIdx, value) => {
@@ -678,11 +699,7 @@ const AddPurchaseOrder = () => {
                       }))
                     ]}
                     value={selectedStore}
-                    onChange={(val) => {
-                      setSelectedStore(val);
-                      setGroups([emptyGroup()]);
-                      setErrors((prev) => ({ ...prev, store: undefined }));
-                    }}
+                    onChange={pickStore}
                     disabled={!isSuperAdmin || !!lockedStore}
                     placeholder={t("page.purchaseOrder.add.selectStore")}
                     searchPlaceholder={t("page.purchaseOrder.add.selectStore")}
@@ -1367,6 +1384,22 @@ const AddPurchaseOrder = () => {
         onConfirm={() => {
           if (supplierChange) applySupplierChange(supplierChange.gIdx, supplierChange.supplierId);
           setSupplierChange(null);
+        }}
+      />
+
+      <Modal
+        type="confirm"
+        open={!!storeChange}
+        onOpenChange={(open) => {
+          if (!open) setStoreChange(null);
+        }}
+        title={t("page.purchaseOrder.add.changeStoreTitle")}
+        description={t("page.purchaseOrder.add.changeStoreDesc")}
+        confirmText={t("page.purchaseOrder.add.changeStoreConfirm")}
+        cancelText={t("common.no") || "Batal"}
+        onConfirm={() => {
+          if (storeChange) applyStoreChange(storeChange.storeId);
+          setStoreChange(null);
         }}
       />
 
