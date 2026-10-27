@@ -13,7 +13,7 @@ if (!window.ResizeObserver) window.ResizeObserver = ResizeObserverStub;
 describe("PosWelcomeModal", () => {
   test("menampilkan sambutan dan tiga langkah onboarding", () => {
     render(<PosWelcomeModal open={true} onOpenChange={jest.fn()} />);
-    expect(screen.getByText(/Selamat Datang di POS!/)).toBeTruthy();
+    expect(screen.getByText(/Selamat Datang di juragankasir\.com!/)).toBeTruthy();
     expect(screen.getByText(/Mari mulai transaksi pertama Anda/)).toBeTruthy();
     expect(screen.getByText("Keranjang Pesanan")).toBeTruthy();
     expect(screen.getByText("Daftar Produk")).toBeTruthy();
@@ -29,6 +29,6 @@ describe("PosWelcomeModal", () => {
 
   test("tidak merender apa pun saat open=false", () => {
     render(<PosWelcomeModal open={false} onOpenChange={jest.fn()} />);
-    expect(screen.queryByText(/Selamat Datang di POS!/)).toBeNull();
+    expect(screen.queryByText(/Selamat Datang di juragankasir\.com!/)).toBeNull();
   });
 });
