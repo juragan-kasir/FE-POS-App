@@ -8774,6 +8774,8 @@
   "page.role.add.typeHint.user": "Staf dapur, pelayan atau gudang: hanya halaman sesuai menu, tanpa transaksi uang.",
   "page.role.add.typeHint.super_admin": "Akses penuh ke semua toko (khusus vendor).",
   "page.login.accountFromOwner": "Belum punya akun? Minta pemilik toko untuk membuatkan akun karyawan Anda.",
+  "page.login.tagline": "Semua angka restoran Anda, jelas tanpa ditebak.",
+  "page.login.taglineSub": "Kasir, stok, dan laporan dalam satu tempat — dari satu cabang hingga banyak cabang.",
   "page.login.showPassword": "Tampilkan kata sandi",
   "page.login.hidePassword": "Sembunyikan kata sandi",
   "page.cashRegister.current.overtimeNotice": "Register ini ditutup setelah jam tutup toko yang dijadwalkan ({{time}}).",

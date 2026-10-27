@@ -220,11 +220,10 @@ const LoginPage = () => {
               />
               <div className="w-12 h-0.5 bg-white/30 mx-auto mb-6" />
               <h2 className="text-lg xl:text-xl leading-relaxed mb-4 font-light text-white/80">
-                Kelola seluruh operasional restoran — kasir, stok, dan laporan.
+                {t("page.login.tagline")}
               </h2>
               <p className="text-sm xl:text-base text-white/50 font-light leading-relaxed max-w-sm mx-auto">
-                Ledger operasional yang bisa Anda lihat menembus: angka yang tepat, dalam satu
-                aplikasi.
+                {t("page.login.taglineSub")}
               </p>
             </div>
           </div>
