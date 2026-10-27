@@ -22,6 +22,8 @@ import { FIELD_LIMITS } from "@/constants/fieldLimits";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useFormExit } from "@/hooks/useLeaveGuard";
+import { useFieldErrors } from "@/hooks/useFieldErrors";
+import { FieldError } from "@/components/ui/field-error";
 
 const formSchema = z.object({
   name: z.string().min(1),
@@ -60,6 +62,7 @@ const AddMember = () => {
     tier: "",
     initialPoints: 0
   });
+  const { errors: fieldErrors, showErrors } = useFieldErrors(form, formSchema);
 
   const memberFieldLabels = useMemo(
     () => ({
@@ -108,6 +111,7 @@ const AddMember = () => {
     if (!saveAsDraft) {
       const missing = getMissingFields(form, formSchema, memberFieldLabels);
       if (missing.length > 0) {
+        showErrors();
         setMissingFieldsList(missing);
         setMissingFieldsModal(true);
         return;
@@ -172,6 +176,7 @@ const AddMember = () => {
                     <Input
                       unstyled
                       name="name"
+                      aria-invalid={!!fieldErrors.name}
                       value={form.name}
                       onChange={handleChange}
                       className="w-full px-3 py-2 rounded-lg border border-border focus:ring-2 focus:ring-primary focus:ring-offset-1 focus:outline-none transition-all bg-background text-sm"
@@ -179,6 +184,7 @@ const AddMember = () => {
                       required
                       maxLength={FIELD_LIMITS.PERSON_NAME}
                     />
+                    <FieldError message={fieldErrors.name} />
                   </div>
                   <div className="flex flex-col gap-1.5">
                     <label className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
@@ -187,6 +193,7 @@ const AddMember = () => {
                     <Input
                       unstyled
                       name="email"
+                      aria-invalid={!!fieldErrors.email}
                       type="email"
                       value={form.email}
                       onChange={handleChange}
@@ -194,6 +201,7 @@ const AddMember = () => {
                       placeholder={t("page.member.add.emailPlaceholder")}
                       maxLength={FIELD_LIMITS.EMAIL}
                     />
+                    <FieldError message={fieldErrors.email} />
                     <p className="text-xs text-muted-foreground">{t("common.optionalField")}</p>
                   </div>
                   <div className="flex flex-col gap-1.5">
@@ -203,6 +211,7 @@ const AddMember = () => {
                     <Input
                       unstyled
                       name="phoneNumber"
+                      aria-invalid={!!fieldErrors.phoneNumber}
                       type="tel"
                       value={form.phoneNumber}
                       onChange={handleChange}
@@ -211,6 +220,7 @@ const AddMember = () => {
                       maxLength={FIELD_LIMITS.PHONE}
                       required
                     />
+                    <FieldError message={fieldErrors.phoneNumber} />
                     <p className="text-xs text-muted-foreground">{t("common.phoneHintMin")}</p>
                   </div>
                   <div className="flex flex-col gap-1.5">
@@ -221,6 +231,7 @@ const AddMember = () => {
                       date={form.birthDate}
                       setDate={(date) => setForm({ ...form, birthDate: date })}
                     />
+                    <FieldError message={fieldErrors.birthDate} />
                   </div>
                   <div className="col-span-1 md:col-span-2 flex flex-col gap-1.5">
                     <label className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">

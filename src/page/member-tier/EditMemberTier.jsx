@@ -35,6 +35,8 @@ import { getMissingFields } from "@/lib/validation";
 import { FIELD_LIMITS } from "@/constants/fieldLimits";
 import { Input } from "@/components/ui/input";
 import { useFormExit } from "@/hooks/useLeaveGuard";
+import { useFieldErrors } from "@/hooks/useFieldErrors";
+import { FieldError } from "@/components/ui/field-error";
 
 const icons = [
   { name: "star", component: Star, fill: true },
@@ -86,6 +88,7 @@ const EditMemberTier = () => {
   const [draftModal, setDraftModal] = useState(false);
   const [missingFieldsModal, setMissingFieldsModal] = useState(false);
   const [missingFields, setMissingFields] = useState([]);
+  const { errors: fieldErrors, showErrors } = useFieldErrors(formData, tierSchema);
   const [errorModal, setErrorModal] = useState(false);
   const [modalMessage, setModalMessage] = useState("");
 
@@ -183,6 +186,7 @@ const EditMemberTier = () => {
     if (!saveAsDraft) {
       const missing = getMissingFields(formData, tierSchema, tierFieldLabels);
       if (missing.length > 0) {
+        showErrors();
         setMissingFields(missing);
         setMissingFieldsModal(true);
         return;
@@ -255,11 +259,13 @@ const EditMemberTier = () => {
                     unstyled
                     type="text"
                     value={formData.tierName}
+                    aria-invalid={!!fieldErrors.tierName}
                     onChange={(e) => handleInputChange("tierName", e.target.value)}
                     className="w-full px-3 py-2 rounded-lg border border-border focus:ring-2 focus:ring-primary focus:ring-offset-1 focus:outline-none transition-all bg-background text-sm disabled:opacity-50"
                     placeholder={t("page.memberTier.edit.tierNamePlaceholder")}
                     maxLength={FIELD_LIMITS.SHORT_LABEL}
                   />
+                  <FieldError message={fieldErrors.tierName} />
                 </div>
                 <div className="flex flex-col gap-1.5">
                   <label className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">

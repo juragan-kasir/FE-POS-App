@@ -32,6 +32,8 @@ import { useLocations } from "@/queries/useLocations";
 import { FIELD_LIMITS } from "@/constants/fieldLimits";
 import { Input } from "@/components/ui/input";
 import { useFormExit } from "@/hooks/useLeaveGuard";
+import { useFieldErrors } from "@/hooks/useFieldErrors";
+import { FieldError } from "@/components/ui/field-error";
 
 const AddAdmin = () => {
   const dirtyRef = useDomDirtyTracking();
@@ -82,6 +84,7 @@ const AddAdmin = () => {
       }),
     []
   );
+  const { errors: fieldErrors, showErrors } = useFieldErrors(form, adminFormSchema);
 
   const { data: locationsData } = useLocations();
   const locations = locationsData?.data || locationsData?.locations || [];
@@ -170,12 +173,14 @@ const AddAdmin = () => {
                   <Input
                     unstyled
                     name="name"
+                    aria-invalid={!!fieldErrors.name}
                     value={form.name}
                     onChange={handleChange}
                     className="w-full px-3 py-2 rounded-lg border border-border focus:ring-2 focus:ring-primary focus:ring-offset-1 focus:outline-none transition-all bg-background text-sm"
                     placeholder={t("page.user.form.namePlaceholder")}
                     maxLength={FIELD_LIMITS.PERSON_NAME}
                   />
+                  <FieldError message={fieldErrors.name} />
                 </div>
                 <div className="flex flex-col gap-1.5">
                   <label className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
@@ -184,6 +189,7 @@ const AddAdmin = () => {
                   <Input
                     unstyled
                     name="email"
+                    aria-invalid={!!fieldErrors.email}
                     type="email"
                     value={form.email}
                     onChange={handleChange}
@@ -191,6 +197,7 @@ const AddAdmin = () => {
                     placeholder={t("page.user.form.emailPlaceholder")}
                     maxLength={FIELD_LIMITS.EMAIL}
                   />
+                  <FieldError message={fieldErrors.email} />
                 </div>
                 <div className="flex flex-col gap-1.5">
                   <label className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
@@ -199,6 +206,7 @@ const AddAdmin = () => {
                   <div className="relative">
                     <input
                       name="password"
+                      aria-invalid={!!fieldErrors.password}
                       type={showPassword ? "text" : "password"}
                       value={form.password}
                       onChange={handleChange}
@@ -216,6 +224,7 @@ const AddAdmin = () => {
                       )}
                     </button>
                   </div>
+                  <FieldError message={fieldErrors.password} />
                   <p className="text-xs text-muted-foreground">{t("common.passwordMin6")}</p>
                 </div>
                 <div className="flex flex-col gap-1.5">
@@ -270,6 +279,7 @@ const AddAdmin = () => {
                     placeholder={t("page.user.form.rolePlaceholder")}
                     searchPlaceholder="Cari role..."
                   />
+                  <FieldError message={fieldErrors.role} />
                 </div>
               </div>
 
@@ -356,6 +366,7 @@ const AddAdmin = () => {
               onClick={() => {
                 const missing = getMissingFields(form, adminFormSchema, adminFieldLabels);
                 if (missing.length > 0) {
+                  showErrors();
                   setMissingFieldsList(missing);
                   setMissingFieldsModal(true);
                   return;
