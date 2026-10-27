@@ -5,6 +5,7 @@ import { safeGet } from "@/lib/safe-lookup";
 import { getPurchaseOrderById } from "../../services/purchase-order";
 import { getPaymentsByPO, deletePayment, recordPayment } from "../../services/purchase-payment";
 import { getReturnsByPO } from "../../services/purchase-return";
+import { getGoodsReceiptByPO } from "../../services/goods-receipt";
 import { returnPurchaseOrder, resolveReturnedBy } from "../../services/purchase-order";
 import { useCookies } from "react-cookie";
 import { useQueryClient } from "react-query";
@@ -60,7 +61,8 @@ import {
   Download,
   FileSpreadsheet,
   CloudUpload,
-  Eye
+  Eye,
+  PackageCheck
 } from "lucide-react";
 import HorizontalScrollArea from "@/components/ui/HorizontalScrollArea";
 import { FIELD_LIMITS } from "@/constants/fieldLimits";
@@ -74,6 +76,7 @@ export default function DetailPurchaseOrder() {
   const [po, setPo] = useState(null);
   const [payments, setPayments] = useState([]);
   const [returns, setReturns] = useState([]);
+  const [receipts, setReceipts] = useState([]);
   const [loading, setLoading] = useState(true);
 
   const [paymentModalOpen, setPaymentModalOpen] = useState(false);
@@ -154,12 +157,14 @@ export default function DetailPurchaseOrder() {
       setLoading(true);
       const poRes = await getPurchaseOrderById(id);
       setPo(poRes.data);
-      const [paymentRes, returnRes] = await Promise.allSettled([
+      const [paymentRes, returnRes, receiptRes] = await Promise.allSettled([
         getPaymentsByPO(id),
-        getReturnsByPO(id)
+        getReturnsByPO(id),
+        getGoodsReceiptByPO(id)
       ]);
       setPayments(paymentRes.status === "fulfilled" ? paymentRes.value?.data || [] : []);
       setReturns(returnRes.status === "fulfilled" ? returnRes.value?.data || [] : []);
+      setReceipts(receiptRes.status === "fulfilled" ? receiptRes.value?.data || [] : []);
     } catch (err) {
       toast.error(err.response?.data?.message || t("page.purchaseOrder.detail.loadFailed"));
     } finally {
@@ -1083,6 +1088,80 @@ export default function DetailPurchaseOrder() {
                 </tbody>
               </table>
             </HorizontalScrollArea>
+          </Card>
+
+          {/* Goods Receipts Card: the receipts made against this PO */}
+          <Card className="p-6">
+            <div className="flex items-center justify-between mb-4">
+              <h2 className="text-sm font-semibold text-foreground flex items-center gap-2">
+                <PackageCheck size={16} className="text-muted-foreground" />
+                {t("page.purchaseOrder.detail.receipts")}
+              </h2>
+              {(po.status === "pending" || po.status === "ordered") && (
+                <Button
+                  size="sm"
+                  variant="outline"
+                  onClick={() => navigate(`/add-goods-receipt?poId=${po.id}`)}>
+                  <Plus size={14} className="mr-1" />
+                  {t("page.purchaseOrder.detail.receiveGoods")}
+                </Button>
+              )}
+            </div>
+            {receipts.length === 0 ? (
+              <p className="text-sm text-muted-foreground text-center py-4">
+                {t("page.purchaseOrder.detail.noReceipt")}
+              </p>
+            ) : (
+              <HorizontalScrollArea
+                className="border border-border rounded-lg overflow-hidden"
+                viewportClassName="max-h-64 overflow-y-auto">
+                <table className="w-full text-sm">
+                  <thead>
+                    <tr className="bg-muted/50 uppercase text-xs text-muted-foreground">
+                      <th className="text-left py-3 px-4 font-medium">
+                        {t("page.purchaseOrder.detail.receiptNo")}
+                      </th>
+                      <th className="text-left py-3 px-4 font-medium">
+                        {t("page.purchaseOrder.detail.receivedDate")}
+                      </th>
+                      <th className="text-left py-3 px-4 font-medium">
+                        {t("page.purchaseOrder.detail.status")}
+                      </th>
+                      <th className="text-right py-3 px-4 font-medium">
+                        {t("page.purchaseOrder.detail.itemCount")}
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-border">
+                    {receipts.map((gr) => (
+                      <tr
+                        key={gr.id}
+                        className="hover:bg-muted/30 transition-colors cursor-pointer"
+                        onClick={() => navigate(`/goods-receipt/detail?id=${gr.id}`)}>
+                        <td className="py-3 px-4 font-medium text-primary">
+                          {gr.receiptNumber || "-"}
+                        </td>
+                        <td className="py-3 px-4">
+                          {gr.receivedDate || gr.createdAt
+                            ? format(new Date(gr.receivedDate || gr.createdAt), "dd MMM yyyy", {
+                                locale: localeId
+                              })
+                            : "-"}
+                        </td>
+                        <td className="py-3 px-4">
+                          {t(`page.goodsReceipt.list.status.${gr.status}`, {
+                            defaultValue: gr.status || "-"
+                          })}
+                        </td>
+                        <td className="py-3 px-4 text-right font-mono">
+                          {(gr.items || []).length}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </HorizontalScrollArea>
+            )}
           </Card>
 
           {/* Payment Card */}

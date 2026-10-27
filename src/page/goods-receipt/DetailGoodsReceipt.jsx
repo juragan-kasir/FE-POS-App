@@ -1,5 +1,5 @@
 import React from "react";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { useQuery } from "react-query";
 import { useTranslation } from "react-i18next";
 import {
@@ -166,9 +166,16 @@ const DetailGoodsReceipt = () => {
                       <span className="text-[11px] text-muted-foreground block mb-0.5">
                         {t("page.goodsReceipt.detail.poReference")}
                       </span>
-                      <span className="font-semibold">
-                        {receipt.purchaseOrderData?.orderNumber || "-"}
-                      </span>
+                      {receipt.purchaseOrderId ? (
+                        <Link
+                          to={`/purchase-order/detail?id=${receipt.purchaseOrderId}`}
+                          className="font-semibold text-primary hover:underline">
+                          {receipt.purchaseOrderData?.orderNumber ||
+                            `PO-${receipt.purchaseOrderId}`}
+                        </Link>
+                      ) : (
+                        <span className="font-semibold">-</span>
+                      )}
                     </div>
                     <div>
                       <span className="text-[11px] text-muted-foreground block mb-0.5 flex items-center gap-1">

@@ -4,6 +4,7 @@ import { useQuery } from "react-query";
 import { ArrowLeft, ShoppingBag } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { getSalesReturnById } from "@/services/sales-return";
+import { getOrderById } from "@/services/order";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -31,6 +32,14 @@ const DetailSalesReturn = () => {
     }
   );
   const ret = data?.data;
+  // The return names its order only by id; fetch it so the page says which
+  // sale was returned.
+  const orderId = ret?.order;
+  const { data: orderData } = useQuery(["order-detail", orderId], () => getOrderById(orderId), {
+    enabled: !!orderId,
+    retry: false
+  });
+  const order = orderData?.data;
 
   if (isError) return <AbortController refetch={refetch} />;
   if (isLoading)
@@ -124,6 +133,14 @@ const DetailSalesReturn = () => {
                   <tbody>
                     {[
                       [t("page.salesReturn.detail.field.returnNo"), ret.returnNumber],
+                      [
+                        t("page.salesReturn.create.orderLabel"),
+                        order?.orderNumber || (ret.order ? `#${ret.order}` : "-")
+                      ],
+                      [
+                        t("page.salesReturn.create.customerLabel"),
+                        order ? order.customerName || t("page.salesReturn.create.guest") : "-"
+                      ],
                       [t("page.salesReturn.detail.field.store"), ret.storeData?.name || "-"],
                       [
                         t("page.salesReturn.detail.field.refundAmount"),
