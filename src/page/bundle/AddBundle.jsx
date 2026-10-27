@@ -33,6 +33,8 @@ import { Switch } from "@/components/ui/switch";
 import { useLocations } from "@/queries/useLocations";
 import { FIELD_LIMITS } from "@/constants/fieldLimits";
 import { useFormExit } from "@/hooks/useLeaveGuard";
+import { useFieldErrors } from "@/hooks/useFieldErrors";
+import { FieldError } from "@/components/ui/field-error";
 
 const emptyItem = { product: "", quantity: 1, unitPrice: 0, isOptional: false };
 
@@ -101,6 +103,10 @@ const AddBundle = () => {
     bundlePrice: z.coerce.number().min(1, "Harga Bundle harus diisi"),
     store: z.string().min(1, "Toko harus dipilih")
   });
+  const { errors: fieldErrors, showErrors } = useFieldErrors(
+    { ...formData, store: allStores ? "all" : formData.store },
+    saveSchema
+  );
 
   const { data: locationsData, isLoading: locsLoading, isFetching: locsFetching } = useLocations();
   const locations = locationsData?.data || locationsData?.locations || [];
@@ -268,6 +274,7 @@ const AddBundle = () => {
       );
 
       if (missing.length > 0) {
+        showErrors();
         setMissingFields(missing);
         setMissingFieldsModal(true);
         return;
@@ -348,6 +355,7 @@ const AddBundle = () => {
               mandatory={true}
               locationsLoading={locsLoading || locsFetching}
             />
+            <FieldError message={fieldErrors.store} />
           </div>
         </Card>
 
@@ -364,10 +372,12 @@ const AddBundle = () => {
                   <Label>{t("page.bundle.form.name")} *</Label>
                   <Input
                     value={formData.name}
+                    aria-invalid={!!fieldErrors.name}
                     onChange={(e) => updateFormData("name", e.target.value)}
                     placeholder={t("page.bundle.form.namePlaceholder")}
                     maxLength={FIELD_LIMITS.BUSINESS_NAME}
                   />
+                  <FieldError message={fieldErrors.name} />
                 </div>
                 <div className="space-y-2">
                   <Label>{t("page.bundle.form.status")}</Label>
@@ -597,9 +607,11 @@ const AddBundle = () => {
                     type="text"
                     inputMode="numeric"
                     value={formData.bundlePrice ? formatIDR(formData.bundlePrice) : ""}
+                    aria-invalid={!!fieldErrors.bundlePrice}
                     onChange={(e) => updateFormData("bundlePrice", parseIDR(e.target.value))}
                     placeholder="Rp 0"
                   />
+                  <FieldError message={fieldErrors.bundlePrice} />
                 </div>
                 <div className="p-3 rounded-lg bg-green-50 dark:bg-green-900/20">
                   <p className="text-xs text-green-600 dark:text-green-400">

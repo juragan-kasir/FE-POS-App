@@ -36,6 +36,8 @@ import { FIELD_LIMITS } from "@/constants/fieldLimits";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { markAllClean } from "@/lib/unsaved-changes-store";
+import { useFieldErrors } from "@/hooks/useFieldErrors";
+import { FieldError } from "@/components/ui/field-error";
 
 const SUMMARY_LIMIT = 8;
 
@@ -88,6 +90,7 @@ const EditRole = () => {
   );
 
   const groups = useMemo(() => getLeafItemsGrouped(), []);
+  const { errors: fieldErrors, showErrors } = useFieldErrors({ name, description }, roleFormSchema);
 
   const {
     data: roleData,
@@ -186,6 +189,7 @@ const EditRole = () => {
   const requestSave = () => {
     const missing = getMissingFields({ name, description }, roleFormSchema, roleFieldLabels);
     if (missing.length > 0) {
+      showErrors();
       setMissingFieldsList(missing);
       setMissingFieldsModal(true);
       return;
@@ -348,11 +352,13 @@ const EditRole = () => {
                   id="role-name"
                   data-tour="role-name"
                   value={name}
+                  aria-invalid={!!fieldErrors.name}
                   onChange={(e) => setName(e.target.value)}
                   className="w-full bg-background border border-border rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-primary focus:border-transparent outline-none"
                   placeholder={t("page.role.edit.namePlaceholder")}
                   maxLength={FIELD_LIMITS.SHORT_LABEL}
                 />
+                <FieldError message={fieldErrors.name} />
               </div>
               <div className="flex flex-col gap-1.5">
                 <label

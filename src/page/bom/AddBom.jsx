@@ -29,6 +29,8 @@ import { FIELD_LIMITS } from "@/constants/fieldLimits";
 import RecipeHppSummary from "@/components/organism/RecipeHppSummary";
 import { recipeCosting } from "@/lib/recipe-costing";
 import { useFormExit } from "@/hooks/useLeaveGuard";
+import { useFieldErrors } from "@/hooks/useFieldErrors";
+import { FieldError } from "@/components/ui/field-error";
 
 const emptyLine = () => ({ supplierId: "", ingredientId: "", qty: "", unit: "pcs", notes: "" });
 
@@ -63,6 +65,10 @@ const AddBom = () => {
   // Portions the recipe makes (bom_header.totalQty); lines are for the whole yield.
   const [yieldQty, setYieldQty] = useState("1");
   const [lines, setLines] = useState([emptyLine()]);
+  const { errors: fieldErrors, showErrors } = useFieldErrors(
+    { productId, firstIngredient: lines[0]?.ingredientId || "" },
+    formSchema
+  );
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errorModal, setErrorModal] = useState(false);
   const [modalMessage, setModalMessage] = useState("");
@@ -231,6 +237,7 @@ const AddBom = () => {
         bomFieldLabels
       );
       if (missing.length > 0) {
+        showErrors();
         setMissingFieldsList(missing);
         setMissingFieldsModal(true);
         return;
@@ -383,6 +390,7 @@ const AddBom = () => {
                 }
                 searchPlaceholder={t("common.search")}
               />
+              <FieldError message={fieldErrors.productId} />
             </div>
             <div className="space-y-2">
               <Label>{t("page.bom.add.form.name")}</Label>
@@ -474,6 +482,9 @@ const AddBom = () => {
                               onChange={(val) => updateLine(idx, "ingredientId", val)}
                               placeholder={t("page.bom.add.form.selectIngredient")}
                               searchPlaceholder={t("common.search")}
+                            />
+                            <FieldError
+                              message={idx === 0 ? fieldErrors.firstIngredient : undefined}
                             />
                           </td>
                           <td className="px-3 py-2">

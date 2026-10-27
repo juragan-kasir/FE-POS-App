@@ -201,6 +201,13 @@
   html {
     font-family: "Inter", system-ui, sans-serif;
   }
+  /* A field flagged invalid (FormControl, useFieldErrors) gets a red border;
+     the attribute selector outranks the field's own border-* utility. */
+  input[aria-invalid="true"],
+  textarea[aria-invalid="true"],
+  [role="combobox"][aria-invalid="true"] {
+    border-color: hsl(var(--destructive));
+  }
 
   body {
     @apply bg-background text-foreground;

@@ -30,6 +30,8 @@ import { FIELD_LIMITS } from "@/constants/fieldLimits";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { markAllClean } from "@/lib/unsaved-changes-store";
+import { useFieldErrors } from "@/hooks/useFieldErrors";
+import { FieldError } from "@/components/ui/field-error";
 
 // Role types a store account may create (super_admin: global accounts only).
 const ROLE_TYPE_OPTIONS = ["admin", "kasir", "user"];
@@ -81,6 +83,7 @@ const AddRole = () => {
   );
 
   const groups = useMemo(() => getLeafItemsGrouped(), []);
+  const { errors: fieldErrors, showErrors } = useFieldErrors({ name, description }, roleFormSchema);
   const [permissions, setPermissions] = useState(() => buildInitialPermissions(groups));
 
   const isDirty =
@@ -172,11 +175,13 @@ const AddRole = () => {
                     unstyled
                     id="role-name"
                     value={name}
+                    aria-invalid={!!fieldErrors.name}
                     onChange={(e) => setName(e.target.value)}
                     className="w-full bg-background border border-border rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-primary focus:border-transparent outline-none"
                     placeholder={t("page.role.add.namePlaceholder")}
                     maxLength={FIELD_LIMITS.SHORT_LABEL}
                   />
+                  <FieldError message={fieldErrors.name} />
                 </div>
                 <div className="flex flex-col gap-1.5">
                   <label
@@ -291,6 +296,7 @@ const AddRole = () => {
                   roleFieldLabels
                 );
                 if (missing.length > 0) {
+                  showErrors();
                   setMissingFieldsList(missing);
                   setMissingFieldsModal(true);
                   return;
