@@ -57,14 +57,14 @@ const DetailDiscount = () => {
   if (!id)
     return (
       <div className="flex items-center justify-center h-64">
-        <p className="text-muted-foreground">Discount ID not found</p>
+        <p className="text-muted-foreground">{t("page.discount.edit.idNotFound")}</p>
       </div>
     );
 
   if (isError)
     return (
       <div className="flex flex-col items-center justify-center h-64 gap-4">
-        <p className="text-muted-foreground">Discount not found</p>
+        <p className="text-muted-foreground">{t("page.discount.edit.notFound")}</p>
         <Button variant="outline" onClick={() => refetch()}>
           {t("common.retry")}
         </Button>
@@ -153,7 +153,7 @@ const DetailDiscount = () => {
           <Card className="p-5 col-span-1 md:col-span-2">
             <div className="flex items-center gap-2 text-sm font-semibold text-muted-foreground uppercase tracking-wide mb-5">
               <Tags size={16} />
-              Discount Info
+              {t("page.discount.ui.discountInfo")}
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-y-4 gap-x-6 text-sm">
               <div>
@@ -253,19 +253,21 @@ const DetailDiscount = () => {
                 <Tags size={20} />
               </div>
               <p className="text-2xl font-bold">{discount.usageCount ?? 0}</p>
-              <p className="text-xs text-muted-foreground mt-1">Total Transaksi</p>
+              <p className="text-xs text-muted-foreground mt-1">
+                {t("page.bundle.detail.totalTransactions")}
+              </p>
             </Card>
             <Card className="p-5">
               <div className="flex items-center gap-2 text-xs font-semibold text-muted-foreground uppercase tracking-wide mb-3">
                 <Calendar size={14} />
-                Created
+                {t("page.backup.createdAt")}
               </div>
               <p className="text-sm font-medium">{formatDate(discount.createdAt)}</p>
             </Card>
             <Card className="p-5">
               <div className="flex items-center gap-2 text-xs font-semibold text-muted-foreground uppercase tracking-wide mb-3">
                 <Calendar size={14} />
-                Modified
+                {t("page.discount.ui.modified")}
               </div>
               <p className="text-sm font-medium">{formatDate(discount.updatedAt)}</p>
             </Card>

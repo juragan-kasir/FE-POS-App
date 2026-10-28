@@ -80,7 +80,7 @@ const SendWhatsAppDialog = ({ orderId, defaultPhone = "", onClose }) => {
           <div className="flex flex-col gap-1.5">
             <label
               htmlFor="wa-phone"
-              className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
+              className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
               {t(`${P}.waPhoneLabel`)}
             </label>
             <Input

@@ -166,7 +166,7 @@ const MemberTier = () => {
           ).map((benefit, idx) => (
             <span
               key={idx}
-              className="bg-primary/10 px-2 py-0.5 rounded text-[10px] font-bold text-primary">
+              className="bg-primary/10 px-2 py-0.5 rounded text-xs font-bold text-primary">
               {benefit}
             </span>
           ))}
@@ -363,10 +363,13 @@ const MemberTier = () => {
                         onReset={resetFilters}
                         isFiltered={isFiltered}>
                         <div className="flex flex-col gap-1.5">
-                          <label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
+                          <label
+                            htmlFor="index-status"
+                            className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                             {t("common.status")}
                           </label>
                           <Combobox
+                            id="index-status"
                             options={[
                               { value: "all", label: t("common.all") },
                               { value: "active", label: t("common.active") },
@@ -383,10 +386,13 @@ const MemberTier = () => {
                           />
                         </div>
                         <div className="flex flex-col gap-1.5">
-                          <label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
-                            Cari
+                          <label
+                            htmlFor="index-search"
+                            className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                            {t("common.search")}
                           </label>
                           <SearchInput
+                            id="index-search"
                             value={search}
                             onChange={(val) => {
                               setSearch(val);

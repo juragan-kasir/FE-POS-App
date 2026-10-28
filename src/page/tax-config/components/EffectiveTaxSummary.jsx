@@ -125,7 +125,7 @@ const RowList = ({ rows, testId, highlightRowId, canViewDetail, t }) => {
                         <span className="font-medium">{r.name}</span>
                       )}
                       {isCurrent && (
-                        <span className="rounded-full border border-primary/30 px-2 py-0.5 text-[11px] font-semibold text-primary">
+                        <span className="rounded-full border border-primary/30 px-2 py-0.5 text-xs font-semibold text-primary">
                           {t("page.taxConfig.effective.rows.thisConfig")}
                         </span>
                       )}

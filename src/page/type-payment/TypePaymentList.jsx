@@ -456,10 +456,13 @@ const TypePaymentList = () => {
                       isFiltered={isFiltered}>
                       {isSuperAdmin && (
                         <div className="flex flex-col gap-1.5">
-                          <label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
-                            Store
+                          <label
+                            htmlFor="type-payment-list-store"
+                            className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                            {t("page.goodsReceipt.detail.store")}
                           </label>
                           <Combobox
+                            id="type-payment-list-store"
                             options={[
                               { value: "all", label: t("page.employee.list.allStores") },
                               ...(locData?.data || []).map((loc) => ({
@@ -478,10 +481,13 @@ const TypePaymentList = () => {
                         </div>
                       )}
                       <div className="flex flex-col gap-1.5">
-                        <label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
+                        <label
+                          htmlFor="type-payment-list-status"
+                          className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                           {t("common.status")}
                         </label>
                         <Combobox
+                          id="type-payment-list-status"
                           options={[
                             { value: "all", label: t("common.all") },
                             { value: "active", label: t("common.active") },
@@ -498,10 +504,13 @@ const TypePaymentList = () => {
                         />
                       </div>
                       <div className="flex flex-col gap-1.5">
-                        <label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
-                          Cari
+                        <label
+                          htmlFor="type-payment-list-search"
+                          className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                          {t("common.search")}
                         </label>
                         <SearchInput
+                          id="type-payment-list-search"
                           value={search}
                           onChange={(val) => {
                             setSearch(val);

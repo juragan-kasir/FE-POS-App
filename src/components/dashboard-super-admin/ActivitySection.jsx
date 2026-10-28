@@ -48,7 +48,7 @@ const ActivitySection = ({ activity }) => {
       subtitle={t("page.dashboardSuperAdmin.activity.subtitle")}
       bodyClassName="grid grid-cols-1 lg:grid-cols-3 gap-5">
       <div>
-        <p className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider mb-3 flex items-center gap-1.5">
+        <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-3 flex items-center gap-1.5">
           <ShoppingCart size={13} className="text-primary" />{" "}
           {t("page.dashboardSuperAdmin.activity.recentOrders")}
         </p>
@@ -77,7 +77,7 @@ const ActivitySection = ({ activity }) => {
               </div>
               <div className="flex items-center justify-between">
                 <span className="text-xs text-muted-foreground">{o.cashierName || "—"}</span>
-                <span className="text-[10px] font-semibold uppercase bg-primary/10 text-primary px-1.5 py-0.5 rounded">
+                <span className="text-xs font-semibold uppercase bg-primary/10 text-primary px-1.5 py-0.5 rounded">
                   {o.paymentMethod || o.status}
                 </span>
               </div>
@@ -87,7 +87,7 @@ const ActivitySection = ({ activity }) => {
       </div>
 
       <div>
-        <p className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider mb-3 flex items-center gap-1.5">
+        <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-3 flex items-center gap-1.5">
           <ArrowDownLeft size={13} className="text-emerald-600" />
           {t("page.dashboardSuperAdmin.activity.recentPayments")}
         </p>
@@ -133,7 +133,7 @@ const ActivitySection = ({ activity }) => {
       </div>
 
       <div>
-        <p className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider mb-3 flex items-center gap-1.5">
+        <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-3 flex items-center gap-1.5">
           <ScrollText size={13} className="text-violet-500" />{" "}
           {t("page.dashboardSuperAdmin.activity.auditLog")}
         </p>
@@ -149,7 +149,7 @@ const ActivitySection = ({ activity }) => {
                 <span className="text-sm font-medium text-foreground truncate">
                   {a.userName || t("page.dashboardSuperAdmin.activity.system")}
                 </span>
-                <span className="text-[10px] font-semibold uppercase bg-violet-100 text-violet-700 dark:bg-violet-900/30 dark:text-violet-400 px-1.5 py-0.5 rounded shrink-0">
+                <span className="text-xs font-semibold uppercase bg-violet-100 text-violet-700 dark:bg-violet-900/30 dark:text-violet-400 px-1.5 py-0.5 rounded shrink-0">
                   {a.action}
                 </span>
               </div>

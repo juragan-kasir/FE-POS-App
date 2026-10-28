@@ -47,6 +47,7 @@ import { useLocations } from "@/queries/useLocations";
 import { FIELD_LIMITS } from "@/constants/fieldLimits";
 import { formatDateOnly } from "@/utils/dateOnly";
 import { useFormExit } from "@/hooks/useLeaveGuard";
+import { FieldError } from "@/components/ui/field-error";
 
 const EditGoodsReceipt = () => {
   const dirtyRef = useDomDirtyTracking();
@@ -72,6 +73,9 @@ const EditGoodsReceipt = () => {
   const [loaded, setLoaded] = useState(false);
   const [ingredientFocusIdx, setIngredientFocusIdx] = useState(null);
   const [missingFieldsModal, setMissingFieldsModal] = useState(false);
+  // Item problems are shown under the items section (they were toasts) and
+  // cleared as soon as the items change.
+  const [itemsError, setItemsError] = useState("");
   const [missingFields, setMissingFields] = useState([]);
   const [picSearch, setPicSearch] = useState("");
   const [picOpen, setPicOpen] = useState(false);
@@ -413,31 +417,33 @@ const EditGoodsReceipt = () => {
     setItems((prev) => prev.filter((_, i) => i !== idx));
   };
 
+  const showItemsError = (message) => {
+    setItemsError(message);
+    document
+      .getElementById("edit-goods-receipt-items")
+      ?.scrollIntoView({ behavior: "smooth", block: "center" });
+  };
+
   const updateItem = (idx, field, value) => {
+    setItemsError("");
     setItems((prev) => prev.map((item, i) => (i !== idx ? item : { ...item, [field]: value })));
   };
 
   const doSubmit = async (saveAsDraft = false) => {
     if (!poId || items.length === 0) {
-      toast.error(t("page.goodsReceipt.edit.toast.validation"), {
-        description: t("page.goodsReceipt.edit.toast.poRequired")
-      });
+      showItemsError(t("page.goodsReceipt.edit.toast.poRequired"));
       return;
     }
     const validItems = items.filter(
       (it) => parseFloat(it.qtyReceived) > 0 && (it.ingredientName || it.ingredient)
     );
     if (validItems.length === 0) {
-      toast.error(t("page.goodsReceipt.edit.toast.validation"), {
-        description: t("page.goodsReceipt.edit.toast.itemRequired")
-      });
+      showItemsError(t("page.goodsReceipt.edit.toast.itemRequired"));
       return;
     }
     const overItem = validItems.find((it) => parseFloat(it.qtyReceived) > getItemRemaining(it));
     if (overItem) {
-      toast.error(t("page.goodsReceipt.edit.toast.validation"), {
-        description: t("page.goodsReceipt.add.toast.qtyExceed")
-      });
+      showItemsError(t("page.goodsReceipt.add.toast.qtyExceed"));
       return;
     }
     // tanggal terima tidak boleh sebelum tanggal PO
@@ -602,11 +608,12 @@ const EditGoodsReceipt = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="space-y-2">
-              <Label>
+              <Label htmlFor="edit-goods-receipt-purchase-order">
                 {t("page.goodsReceipt.edit.form.purchaseOrder")}{" "}
                 <span className="text-destructive">*</span>
               </Label>
               <Combobox
+                id="edit-goods-receipt-purchase-order"
                 options={[
                   { value: "", label: t("page.goodsReceipt.edit.form.selectPO") },
                   ...purchaseOrders.map((po) => ({
@@ -639,7 +646,7 @@ const EditGoodsReceipt = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="space-y-2">
-              <Label>
+              <Label htmlFor="edit-goods-receipt-pic">
                 {t("page.goodsReceipt.add.form.pic")}{" "}
                 <span className="text-xs font-normal text-muted-foreground">
                   ({t("common.optional")})
@@ -651,6 +658,7 @@ const EditGoodsReceipt = () => {
                   onClick={() => setPicOpen(!picOpen)}>
                   <Search size={14} className="mr-2 text-muted-foreground shrink-0" />
                   <input
+                    id="edit-goods-receipt-pic"
                     type="text"
                     value={
                       picOpen ? picSearch : selectedPic?.fullName || selectedPic?.userName || ""
@@ -697,13 +705,14 @@ const EditGoodsReceipt = () => {
               )}
             </div>
             <div className="space-y-2">
-              <Label>
+              <Label htmlFor="edit-goods-receipt-documentation">
                 {t("page.goodsReceipt.add.form.documentation")}{" "}
                 <span className="text-xs font-normal text-muted-foreground">
                   ({t("common.optional")})
                 </span>
               </Label>
               <input
+                id="edit-goods-receipt-documentation"
                 type="file"
                 accept="image/*"
                 multiple
@@ -731,13 +740,13 @@ const EditGoodsReceipt = () => {
                     onClick={() => docInputRef.current?.click()}
                     className="h-20 rounded-lg border-2 border-dashed border-border hover:border-primary transition-all flex flex-col items-center justify-center gap-1 text-muted-foreground hover:text-primary bg-muted/30">
                     <CloudUpload size={18} />
-                    <span className="text-[11px] font-medium">
+                    <span className="text-xs font-medium">
                       {t("page.goodsReceipt.add.form.docAdd")}
                     </span>
                   </button>
                 )}
               </div>
-              <p className="text-[11px] text-muted-foreground">
+              <p className="text-xs text-muted-foreground">
                 {t("page.goodsReceipt.add.form.docHint")}
               </p>
             </div>
@@ -745,13 +754,14 @@ const EditGoodsReceipt = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div className="space-y-2">
-              <Label>
+              <Label htmlFor="edit-goods-receipt-surat-jalan">
                 {t("page.goodsReceipt.add.form.suratJalan")}{" "}
                 <span className="text-xs font-normal text-muted-foreground">
                   ({t("common.optional")})
                 </span>
               </Label>
               <Input
+                id="edit-goods-receipt-surat-jalan"
                 type="text"
                 value={suratJalan}
                 onChange={(e) => setSuratJalan(e.target.value)}
@@ -760,13 +770,14 @@ const EditGoodsReceipt = () => {
               />
             </div>
             <div className="space-y-2">
-              <Label>
+              <Label htmlFor="edit-goods-receipt-tax-invoice-no">
                 {t("page.goodsReceipt.add.form.taxInvoiceNo")}{" "}
                 <span className="text-xs font-normal text-muted-foreground">
                   ({t("common.optional")})
                 </span>
               </Label>
               <Input
+                id="edit-goods-receipt-tax-invoice-no"
                 type="text"
                 value={taxInvoiceNo}
                 onChange={(e) => setTaxInvoiceNo(e.target.value)}
@@ -775,7 +786,7 @@ const EditGoodsReceipt = () => {
               />
             </div>
             <div className="space-y-2">
-              <Label>
+              <Label htmlFor="edit-goods-receipt-shipping-cost">
                 {t("page.goodsReceipt.add.form.shippingCost")}{" "}
                 <span className="text-xs font-normal text-muted-foreground">
                   ({t("common.optional")})
@@ -786,6 +797,7 @@ const EditGoodsReceipt = () => {
                   Rp
                 </span>
                 <Input
+                  id="edit-goods-receipt-shipping-cost"
                   type="text"
                   inputMode="numeric"
                   value={shippingCost ? Number(shippingCost).toLocaleString("id-ID") : ""}
@@ -798,13 +810,13 @@ const EditGoodsReceipt = () => {
                   placeholder="0"
                 />
               </div>
-              <p className="text-[11px] text-muted-foreground">
+              <p className="text-xs text-muted-foreground">
                 {t("page.goodsReceipt.add.form.shippingHint")}
               </p>
             </div>
           </div>
 
-          <div className="space-y-2">
+          <div id="edit-goods-receipt-items" className="space-y-2">
             <div className="flex items-center justify-between gap-2">
               <Label>{t("page.goodsReceipt.edit.form.items")}</Label>
               <div className="flex items-center gap-2">
@@ -839,6 +851,7 @@ const EditGoodsReceipt = () => {
                 )}
               </div>
             </div>
+            <FieldError message={itemsError} />
             {loadingPo ? (
               <div className="flex items-center justify-center py-8 text-sm text-muted-foreground">
                 {t("page.goodsReceipt.edit.loading.items")}
@@ -987,7 +1000,7 @@ const EditGoodsReceipt = () => {
                                 {parseFloat(item.conversionToBase) || 1}
                               </span>
                               {parseFloat(item.qtyReceived) > 0 && (
-                                <p className="text-[10px] text-muted-foreground mt-0.5">
+                                <p className="text-xs text-muted-foreground mt-0.5">
                                   ={" "}
                                   {(
                                     parseFloat(item.qtyReceived) * (item.conversionToBase || 1)
@@ -1037,11 +1050,11 @@ const EditGoodsReceipt = () => {
                             const val = parseFloat(item.qtyReceived) || 0;
                             if (val <= 0 || max <= 0) return null;
                             return val >= max ? (
-                              <p className="text-[10px] font-medium text-emerald-600 mt-0.5 text-right">
+                              <p className="text-xs font-medium text-emerald-600 mt-0.5 text-right">
                                 {t("page.goodsReceipt.add.status.pas")}
                               </p>
                             ) : (
-                              <p className="text-[10px] font-medium text-amber-600 mt-0.5 text-right">
+                              <p className="text-xs font-medium text-amber-600 mt-0.5 text-right">
                                 {t("page.goodsReceipt.add.status.kurang", { qty: max - val })}
                               </p>
                             );
@@ -1107,8 +1120,11 @@ const EditGoodsReceipt = () => {
           </div>
 
           <div className="space-y-2">
-            <Label>{t("page.goodsReceipt.edit.form.notesLabel")}</Label>
+            <Label htmlFor="edit-goods-receipt-notes-label">
+              {t("page.goodsReceipt.edit.form.notesLabel")}
+            </Label>
             <Textarea
+              id="edit-goods-receipt-notes-label"
               rows={2}
               value={notes}
               onChange={(e) => setNotes(e.target.value)}
@@ -1143,7 +1159,7 @@ const EditGoodsReceipt = () => {
                         {totalQty.toLocaleString("id-ID")} unit
                       </span>
                       <span
-                        className={`px-2 py-0.5 rounded-full text-[11px] font-medium ${
+                        className={`px-2 py-0.5 rounded-full text-xs font-medium ${
                           g.status === "completed"
                             ? "bg-emerald-100 text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-400"
                             : "bg-amber-100 text-amber-700 dark:bg-amber-950/40 dark:text-amber-400"

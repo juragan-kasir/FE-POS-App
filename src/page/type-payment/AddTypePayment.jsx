@@ -31,6 +31,7 @@ import { useLocations } from "@/queries/useLocations";
 import { FIELD_LIMITS } from "@/constants/fieldLimits";
 import { useFormExit } from "@/hooks/useLeaveGuard";
 import { createdId } from "@/utils/createdRecord";
+import LoadErrorBanner from "@/components/ui/LoadErrorBanner";
 
 const AddTypePayment = () => {
   const { t } = useTranslation();
@@ -145,6 +146,7 @@ const AddTypePayment = () => {
             onBack={requestLeave}>
             <UserGuide guideKey="add-type-payment" />
           </PageHeader>
+          <LoadErrorBanner />
         </div>
       </div>
 
@@ -213,11 +215,17 @@ const AddTypePayment = () => {
                             <SelectValue placeholder={t("page.typePayment.form.typePlaceholder")} />
                           </SelectTrigger>
                           <SelectContent>
-                            <SelectItem value="cash">Tunai</SelectItem>
-                            <SelectItem value="debit">Non-Tunai</SelectItem>
-                            <SelectItem value="credit">Kartu Kredit</SelectItem>
-                            <SelectItem value="e-wallet">E-Wallet</SelectItem>
-                            <SelectItem value="other">Lainnya</SelectItem>
+                            <SelectItem value="cash">{t("page.dashboard.payCash")}</SelectItem>
+                            <SelectItem value="debit">
+                              {t("page.typePayment.ui.nonCash")}
+                            </SelectItem>
+                            <SelectItem value="credit">
+                              {t("page.salesReturn.method.credit")}
+                            </SelectItem>
+                            <SelectItem value="e-wallet">
+                              {t("page.salesReturn.method.ewallet")}
+                            </SelectItem>
+                            <SelectItem value="other">{t("sidebar.lainnya")}</SelectItem>
                           </SelectContent>
                         </Select>
                         <FormMessage />

@@ -35,6 +35,7 @@ import { useLocations } from "@/queries/useLocations";
 import { FIELD_LIMITS } from "@/constants/fieldLimits";
 import { useFormExit } from "@/hooks/useLeaveGuard";
 import { createdId } from "@/utils/createdRecord";
+import LoadErrorBanner from "@/components/ui/LoadErrorBanner";
 
 const emptyItem = {
   name: "",
@@ -643,6 +644,7 @@ const AddPurchaseOrder = () => {
         onBack={requestLeave}>
         <UserGuide guideKey="add-purchase-order" />
       </PageHeader>
+      <LoadErrorBanner />
 
       {!headerReady ? (
         <div className="space-y-6">
@@ -694,10 +696,13 @@ const AddPurchaseOrder = () => {
             <div className="p-6">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <label className="text-sm font-medium text-foreground mb-1.5 block">
+                  <label
+                    htmlFor="add-purchase-order-store"
+                    className="text-sm font-medium text-foreground mb-1.5 block">
                     {t("page.purchaseOrder.add.store")} <span className="text-destructive">*</span>
                   </label>
                   <Combobox
+                    id="add-purchase-order-store"
                     options={[
                       { value: "", label: t("page.purchaseOrder.add.selectStore") },
                       ...locations.map((loc) => ({
@@ -830,11 +835,14 @@ const AddPurchaseOrder = () => {
                   )}
                 </div>
                 <div>
-                  <label className="text-sm font-medium text-foreground mb-1.5 block">
+                  <label
+                    htmlFor="add-purchase-order-payment-method"
+                    className="text-sm font-medium text-foreground mb-1.5 block">
                     {t("page.purchaseOrder.add.paymentMethod")}{" "}
                     <span className="text-destructive">*</span>
                   </label>
                   <Combobox
+                    id="add-purchase-order-payment-method"
                     options={[
                       { value: "cash", label: t("page.purchaseOrder.add.paymentMethodCash") },
                       {
@@ -857,10 +865,13 @@ const AddPurchaseOrder = () => {
                 </div>
                 {paymentMethod === "credit" && (
                   <div>
-                    <label className="text-sm font-medium text-foreground mb-1.5 block">
+                    <label
+                      htmlFor="add-purchase-order-dp-percent"
+                      className="text-sm font-medium text-foreground mb-1.5 block">
                       {t("page.purchaseOrder.add.dpPercent")}
                     </label>
                     <Input
+                      id="add-purchase-order-dp-percent"
                       type="number"
                       min="0"
                       max="100"
@@ -903,11 +914,14 @@ const AddPurchaseOrder = () => {
                 )}
                 {paymentMethod === "credit" && (
                   <div>
-                    <label className="text-sm font-medium text-foreground mb-1.5 block">
+                    <label
+                      htmlFor="add-purchase-order-tenor"
+                      className="text-sm font-medium text-foreground mb-1.5 block">
                       {t("page.purchaseOrder.add.tenor")}{" "}
                       <span className="text-destructive">*</span>
                     </label>
                     <Input
+                      id="add-purchase-order-tenor"
                       type="number"
                       min="1"
                       placeholder={t("page.purchaseOrder.add.tenorPlaceholder")}
@@ -921,10 +935,13 @@ const AddPurchaseOrder = () => {
                   </div>
                 )}
                 <div className="md:col-span-2">
-                  <label className="text-sm font-medium text-foreground mb-1.5 block">
+                  <label
+                    htmlFor="add-purchase-order-notes"
+                    className="text-sm font-medium text-foreground mb-1.5 block">
                     {t("page.purchaseOrder.add.notes")}
                   </label>
                   <Textarea
+                    id="add-purchase-order-notes"
                     placeholder={t("page.purchaseOrder.add.notesPlaceholder")}
                     value={notes}
                     onChange={(e) => setNotes(e.target.value)}
@@ -1058,7 +1075,7 @@ const AddPurchaseOrder = () => {
                                         disabled={!group.supplier}
                                       />
                                       {item.name && !selectedItemValue(item, group.supplier) && (
-                                        <p className="text-[10px] text-muted-foreground mt-1 truncate">
+                                        <p className="text-xs text-muted-foreground mt-1 truncate">
                                           {item.name}
                                         </p>
                                       )}
@@ -1123,7 +1140,7 @@ const AddPurchaseOrder = () => {
                                             { unit: item.unit || "pcs" }
                                           )}
                                         />
-                                        <p className="text-[10px] text-muted-foreground text-center mt-0.5">
+                                        <p className="text-xs text-muted-foreground text-center mt-0.5">
                                           {t("page.purchaseOrder.add.conversionPlaceholder", {
                                             unit: item.unit || "pcs"
                                           })}
@@ -1145,7 +1162,7 @@ const AddPurchaseOrder = () => {
                                         <p className="text-sm font-semibold text-foreground">
                                           Rp {(item.qty * item.price).toLocaleString("id-ID")}
                                         </p>
-                                        <p className="text-[10px] text-muted-foreground">
+                                        <p className="text-xs text-muted-foreground">
                                           {item.qty} x {formatIDR(item.price)}
                                         </p>
                                       </div>
@@ -1194,10 +1211,13 @@ const AddPurchaseOrder = () => {
                     <div className="flex flex-col sm:flex-row sm:items-start gap-4 sm:gap-6 justify-end">
                       <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:gap-4 sm:pt-1">
                         <div className="flex items-center gap-3">
-                          <Label className="text-sm text-muted-foreground font-medium whitespace-nowrap">
+                          <Label
+                            htmlFor="add-purchase-order-discount"
+                            className="text-sm text-muted-foreground font-medium whitespace-nowrap">
                             {t("page.purchaseOrder.add.discount")}
                           </Label>
                           <Input
+                            id="add-purchase-order-discount"
                             placeholder={t("page.purchaseOrder.add.rpPlaceholder")}
                             value={discount ? formatIDR(discount) : ""}
                             onChange={(e) => setDiscount(parseIDR(e.target.value))}
@@ -1205,10 +1225,13 @@ const AddPurchaseOrder = () => {
                           />
                         </div>
                         <div className="flex items-center gap-3">
-                          <Label className="text-sm text-muted-foreground font-medium whitespace-nowrap">
+                          <Label
+                            htmlFor="add-purchase-order-tax-rate"
+                            className="text-sm text-muted-foreground font-medium whitespace-nowrap">
                             {t("page.purchaseOrder.add.taxRate")}
                           </Label>
                           <Input
+                            id="add-purchase-order-tax-rate"
                             type="text"
                             inputMode="decimal"
                             placeholder="0"
@@ -1220,10 +1243,13 @@ const AddPurchaseOrder = () => {
                           />
                         </div>
                         <div className="flex items-center gap-3">
-                          <Label className="text-sm text-muted-foreground font-medium whitespace-nowrap">
+                          <Label
+                            htmlFor="add-purchase-order-additional-cost"
+                            className="text-sm text-muted-foreground font-medium whitespace-nowrap">
                             {t("page.purchaseOrder.add.additionalCost")}
                           </Label>
                           <Input
+                            id="add-purchase-order-additional-cost"
                             placeholder={t("page.purchaseOrder.add.rpPlaceholder")}
                             value={additionalCost ? formatIDR(additionalCost) : ""}
                             onChange={(e) => setAdditionalCost(parseIDR(e.target.value))}
@@ -1231,10 +1257,13 @@ const AddPurchaseOrder = () => {
                           />
                         </div>
                         <div className="flex items-center gap-3">
-                          <Label className="text-sm text-muted-foreground font-medium whitespace-nowrap">
+                          <Label
+                            htmlFor="add-purchase-order-over-delivery-tolerance"
+                            className="text-sm text-muted-foreground font-medium whitespace-nowrap">
                             {t("page.purchaseOrder.add.overDeliveryTolerance")}
                           </Label>
                           <Input
+                            id="add-purchase-order-over-delivery-tolerance"
                             type="text"
                             inputMode="decimal"
                             value={overDeliveryTolerance || ""}

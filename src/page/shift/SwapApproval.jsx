@@ -22,6 +22,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { Loading } from "@/components/ui/loading";
 import Modal from "@/components/organism/modal";
 import PageHeader from "@/components/ui/PageHeader";
+import { useTranslation } from "react-i18next";
 
 const fmt = (d) => {
   if (!d) return "-";
@@ -75,8 +76,7 @@ const statusBadge = (status) => {
       "bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400 border-green-200 dark:border-green-800",
     rejected:
       "bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400 border-red-200 dark:border-red-800",
-    expired:
-      "bg-slate-200 text-slate-600 dark:bg-slate-800 dark:text-slate-400 border-slate-300 dark:border-slate-700",
+    expired: "bg-muted text-muted-foreground border-border",
     cancelled: "bg-muted text-muted-foreground border-border"
   };
   const labels = {
@@ -88,7 +88,7 @@ const statusBadge = (status) => {
   };
   return (
     <span
-      className={`shrink-0 inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-semibold border capitalize ${safeGet(map, status, map.pending)}`}>
+      className={`shrink-0 inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-semibold border capitalize ${safeGet(map, status, map.pending)}`}>
       {safeGet(labels, status, status)}
     </span>
   );
@@ -110,6 +110,7 @@ const toISODate = (d) => {
 
 // Panel audit: "siapa menukar dengan siapa" dalam 30 hari terakhir (approved)
 const AuditTrailPanel = ({ store, locations }) => {
+  const { t } = useTranslation();
   const [open, setOpen] = useState(false);
   const [fromDate, setFromDate] = useState(() => toISODate(new Date(Date.now() - 30 * DAY_MS)));
   const [toDate, setToDate] = useState(() => toISODate(new Date()));
@@ -150,10 +151,10 @@ const AuditTrailPanel = ({ store, locations }) => {
           </div>
           <div>
             <h2 className="text-sm font-semibold text-foreground">
-              Audit Pertukaran Shift (30 hari terakhir)
+              {t("page.shift.ui.shiftSwapAuditLast30")}
             </h2>
             <p className="text-xs text-muted-foreground">
-              Rekap siapa menukar dengan siapa yang telah disetujui
+              {t("page.shift.ui.summaryOfApprovedSwapsWho")}
             </p>
           </div>
         </div>
@@ -166,7 +167,7 @@ const AuditTrailPanel = ({ store, locations }) => {
         <div className="mt-4">
           <div className="flex flex-wrap items-center gap-3 mb-3">
             <div className="flex items-center gap-2 text-xs text-muted-foreground">
-              <span>Dari</span>
+              <span>{t("page.stockTransfer.list.header.from")}</span>
               <input
                 type="date"
                 value={fromDate}
@@ -183,7 +184,7 @@ const AuditTrailPanel = ({ store, locations }) => {
             </div>
             {isFetching && <Loader2 size={14} className="text-primary animate-spin" />}
             <span className="text-xs text-muted-foreground">
-              {trail.length} pertukaran disetujui
+              {trail.length} {t("page.shift.ui.approvedSwaps")}
             </span>
           </div>
 
@@ -195,7 +196,7 @@ const AuditTrailPanel = ({ store, locations }) => {
             </div>
           ) : trail.length === 0 ? (
             <div className="rounded-xl border border-dashed border-border p-8 text-center text-sm text-muted-foreground">
-              Belum ada pertukaran yang disetujui pada rentang tanggal tersebut.
+              {t("page.shift.ui.noApprovedSwapsInThis")}
             </div>
           ) : (
             <div className="space-y-4">
@@ -203,7 +204,7 @@ const AuditTrailPanel = ({ store, locations }) => {
                 .sort((a, b) => (a[0] < b[0] ? 1 : -1))
                 .map(([day, items]) => (
                   <div key={day}>
-                    <p className="text-[11px] font-bold uppercase tracking-wide text-muted-foreground mb-2">
+                    <p className="text-xs font-bold uppercase tracking-wide text-muted-foreground mb-2">
                       {day}
                     </p>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
@@ -238,6 +239,7 @@ const AuditTrailPanel = ({ store, locations }) => {
 };
 
 const SwapApproval = ({ user, store, locations }) => {
+  const { t } = useTranslation();
   const queryClient = useQueryClient();
   const [status, setStatus] = useState("pending");
   const [page, setPage] = useState(1);
@@ -334,25 +336,28 @@ const SwapApproval = ({ user, store, locations }) => {
           { label: "Shift" },
           { label: "Swap Approval" }
         ]}
-        title="Swap Approval"
-        description="Kelola permintaan tukar jadwal shift"
+        title={t("page.shift.list.tabSwap")}
+        description={t("page.shift.ui.manageShiftSwapRequests")}
       />
 
       <div className="grid grid-cols-1 sm:grid-cols-5 gap-4">
         {statItem("Menunggu", stats.pending || 0, "text-amber-600 dark:text-amber-400")}
         {statItem("Disetujui", stats.approved || 0, "text-green-600 dark:text-green-400")}
         {statItem("Ditolak", stats.rejected || 0, "text-red-600 dark:text-red-400")}
-        {statItem("Kedaluwarsa", stats.expired || 0, "text-slate-600 dark:text-slate-400")}
+        {statItem("Kedaluwarsa", stats.expired || 0, "text-muted-foreground")}
         {statItem("Total", stats.total || 0, "text-foreground")}
       </div>
 
       {isAuthorized && (
         <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-3">
           <div className="flex flex-col gap-1.5">
-            <label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
-              Status
+            <label
+              htmlFor="swap-approval-status"
+              className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+              {t("common.status")}
             </label>
             <Combobox
+              id="swap-approval-status"
               options={[
                 { value: "pending", label: "Menunggu" },
                 { value: "approved", label: "Disetujui" },
@@ -365,12 +370,12 @@ const SwapApproval = ({ user, store, locations }) => {
                 setStatus(v);
                 setPage(1);
               }}
-              placeholder="Pilih status"
+              placeholder={t("page.shift.ui.selectStatus")}
               searchPlaceholder="Cari..."
             />
           </div>
           <p className="text-xs text-muted-foreground">
-            Menampilkan permintaan ubah jadwal untuk{" "}
+            {t("page.shift.ui.showingScheduleChangeRequestsFor")}{" "}
             <span className="font-medium text-foreground">
               {locationName(store) || `Toko #${store || "-"}`}
             </span>
@@ -380,9 +385,11 @@ const SwapApproval = ({ user, store, locations }) => {
 
       {isError ? (
         <div className="rounded-xl border border-dashed border-border p-10 text-center">
-          <p className="text-sm text-muted-foreground">Gagal memuat permintaan ubah jadwal.</p>
+          <p className="text-sm text-muted-foreground">
+            {t("page.shift.ui.failedToLoadScheduleChange")}
+          </p>
           <Button variant="outline" size="sm" className="mt-3" onClick={() => refetch()}>
-            Muat Ulang
+            {t("common.refresh")}
           </Button>
         </div>
       ) : isLoading || isFetching ? (
@@ -409,10 +416,11 @@ const SwapApproval = ({ user, store, locations }) => {
           <div className="w-12 h-12 rounded-full bg-muted flex items-center justify-center">
             <Inbox size={22} className="text-muted-foreground" />
           </div>
-          <p className="text-sm font-medium text-foreground">Belum ada permintaan ubah jadwal</p>
+          <p className="text-sm font-medium text-foreground">
+            {t("page.shift.ui.noScheduleChangeRequestsYet")}
+          </p>
           <p className="text-xs text-muted-foreground max-w-sm">
-            Permintaan dari karyawan untuk menukar jadwal shift akan muncul di sini untuk
-            dikonfirmasi.
+            {t("page.shift.ui.employeeShiftSwapRequestsAppear")}
           </p>
         </div>
       ) : (
@@ -440,10 +448,8 @@ const SwapApproval = ({ user, store, locations }) => {
                     <p className="font-medium text-sm text-foreground truncate mt-1.5">
                       {reqUser?.fullName || reqUser?.userName || "-"}
                     </p>
-                    <p className="text-[11px] text-muted-foreground truncate">
-                      {roleLabel(reqUser)}
-                    </p>
-                    <p className="text-[11px] text-muted-foreground truncate mt-1 font-mono">
+                    <p className="text-xs text-muted-foreground truncate">{roleLabel(reqUser)}</p>
+                    <p className="text-xs text-muted-foreground truncate mt-1 font-mono">
                       {shiftLabel(sw.requesterShift)}
                     </p>
                   </div>
@@ -451,7 +457,7 @@ const SwapApproval = ({ user, store, locations }) => {
                     <div className="w-7 h-7 rounded-full bg-primary/10 text-primary flex items-center justify-center">
                       <ArrowRightLeft size={14} />
                     </div>
-                    <span className="text-[10px] text-muted-foreground mt-1">TUKAR</span>
+                    <span className="text-xs text-muted-foreground mt-1">TUKAR</span>
                   </div>
                   <div className="min-w-0 text-right">
                     <div className="flex justify-end">
@@ -460,10 +466,8 @@ const SwapApproval = ({ user, store, locations }) => {
                     <p className="font-medium text-sm text-foreground truncate mt-1.5">
                       {tgtUser?.fullName || tgtUser?.userName || "-"}
                     </p>
-                    <p className="text-[11px] text-muted-foreground truncate">
-                      {roleLabel(tgtUser)}
-                    </p>
-                    <p className="text-[11px] text-muted-foreground truncate mt-1 font-mono">
+                    <p className="text-xs text-muted-foreground truncate">{roleLabel(tgtUser)}</p>
+                    <p className="text-xs text-muted-foreground truncate mt-1 font-mono">
                       {shiftLabel(sw.targetShift)}
                     </p>
                   </div>
@@ -482,19 +486,22 @@ const SwapApproval = ({ user, store, locations }) => {
                       <span className="line-clamp-2">{sw.note}</span>
                     </div>
                   )}
-                  <div className="flex items-center gap-1.5 text-[11px] text-muted-foreground">
+                  <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
                     <Clock size={11} className="shrink-0" />
-                    <span>Diajukan {fmtDateTime(sw.createdAt)}</span>
+                    <span>
+                      {t("page.shift.ui.submitted")} {fmtDateTime(sw.createdAt)}
+                    </span>
                   </div>
                   {sw.status !== "pending" && sw.decidedByUser && (
-                    <div className="flex items-center gap-1.5 text-[11px] text-muted-foreground">
+                    <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
                       {sw.status === "approved" ? (
                         <BadgeCheck size={11} className="shrink-0 text-green-500" />
                       ) : (
                         <XCircle size={11} className="shrink-0 text-red-500" />
                       )}
                       <span>
-                        Diputus oleh {sw.decidedByUser.fullName || sw.decidedByUser.userName} ·{" "}
+                        {t("page.shift.ui.decidedBy")}{" "}
+                        {sw.decidedByUser.fullName || sw.decidedByUser.userName} ·{" "}
                         {fmtDateTime(sw.decidedAt)}
                       </span>
                     </div>
@@ -509,14 +516,14 @@ const SwapApproval = ({ user, store, locations }) => {
                       className="gap-1.5 text-destructive border-destructive/40 hover:bg-destructive/10"
                       onClick={() => setDecisionTarget({ swap: sw, decision: "rejected" })}>
                       <X size={14} />
-                      Tolak
+                      {t("common.reject")}
                     </Button>
                     <Button
                       size="sm"
                       className="gap-1.5 bg-green-600 hover:bg-green-700 text-white"
                       onClick={() => setDecisionTarget({ swap: sw, decision: "approved" })}>
                       <Check size={14} />
-                      Terima
+                      {t("page.customerOrder.accept")}
                     </Button>
                   </div>
                 )}
@@ -529,7 +536,7 @@ const SwapApproval = ({ user, store, locations }) => {
       {total > 0 && (
         <div className="flex items-center justify-between gap-3">
           <p className="text-xs text-muted-foreground">
-            {total} permintaan · halaman {page} / {totalPages}
+            {total} {t("page.shift.ui.requestsPage")} {page} / {totalPages}
           </p>
           <div className="flex items-center gap-2">
             <Button
@@ -537,14 +544,14 @@ const SwapApproval = ({ user, store, locations }) => {
               size="sm"
               disabled={page <= 1}
               onClick={() => setPage((p) => p - 1)}>
-              Sebelumnya
+              {t("guide.auth.prev")}
             </Button>
             <Button
               variant="outline"
               size="sm"
               disabled={page >= totalPages}
               onClick={() => setPage((p) => p + 1)}>
-              Berikutnya
+              {t("page.shift.swap.next")}
             </Button>
           </div>
         </div>
@@ -574,7 +581,9 @@ const SwapApproval = ({ user, store, locations }) => {
         loading={decideMutation.isLoading}
         onConfirm={confirmDecide}
       />
-      {decideMutation.isLoading && <Loading fullscreen size="lg" label="Menyimpan keputusan..." />}
+      {decideMutation.isLoading && (
+        <Loading fullscreen size="lg" label={t("page.shift.ui.savingDecision")} />
+      )}
     </div>
   );
 };

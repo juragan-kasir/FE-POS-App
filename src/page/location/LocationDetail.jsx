@@ -720,10 +720,10 @@ const LocationDetail = () => {
                   <Info size={18} className="text-primary shrink-0 mt-0.5" />
                   <div>
                     <h4 className="text-xs font-bold text-foreground uppercase tracking-wide">
-                      Validasi Data
+                      {t("page.location.form.validationTitle")}
                     </h4>
                     <p className="text-xs text-muted-foreground mt-1">
-                      Pastikan data toko selalu diperbarui untuk akurasi operasional.
+                      {t("page.location.ui.keepStoreDataUpTo")}
                     </p>
                   </div>
                 </div>
@@ -731,10 +731,10 @@ const LocationDetail = () => {
                   <ShieldCheck size={18} className="text-green-600 shrink-0 mt-0.5" />
                   <div>
                     <h4 className="text-xs font-bold text-foreground uppercase tracking-wide">
-                      Keamanan
+                      {t("page.location.form.securityTitle")}
                     </h4>
                     <p className="text-xs text-muted-foreground mt-1">
-                      Data hanya dapat diubah oleh pemilik atau super admin.
+                      {t("page.location.form.securityDesc")}
                     </p>
                   </div>
                 </div>
@@ -742,10 +742,10 @@ const LocationDetail = () => {
                   <History size={18} className="text-amber-600 shrink-0 mt-0.5" />
                   <div>
                     <h4 className="text-xs font-bold text-foreground uppercase tracking-wide">
-                      Audit Trail
+                      {t("page.location.form.auditTitle")}
                     </h4>
                     <p className="text-xs text-muted-foreground mt-1">
-                      Setiap perubahan akan tercatat dalam log sistem.
+                      {t("page.location.form.auditDesc")}
                     </p>
                   </div>
                 </div>

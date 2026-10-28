@@ -253,7 +253,7 @@ const LocationList = () => {
         };
         return (
           <span
-            className={`inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold capitalize ${safeGet(
+            className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-bold capitalize ${safeGet(
               styles,
               status,
               styles.inactive
@@ -510,10 +510,13 @@ const LocationList = () => {
                     onReset={resetFilters}
                     isFiltered={isFiltered}>
                     <div className="flex flex-col gap-1.5">
-                      <label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
-                        Cari
+                      <label
+                        htmlFor="location-list-search"
+                        className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                        {t("common.search")}
                       </label>
                       <SearchInput
+                        id="location-list-search"
                         value={search}
                         onChange={(val) => {
                           setSearch(val);
@@ -525,10 +528,13 @@ const LocationList = () => {
                       />
                     </div>
                     <div className="flex flex-col gap-1.5">
-                      <label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
+                      <label
+                        htmlFor="location-list-status"
+                        className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                         {t("common.status")}
                       </label>
                       <Combobox
+                        id="location-list-status"
                         options={[
                           { value: "all", label: t("common.all") },
                           { value: "active", label: t("common.active") },
@@ -545,7 +551,7 @@ const LocationList = () => {
                       />
                     </div>
                     <div className="flex flex-col gap-1.5">
-                      <label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
+                      <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                         {t("page.location.button.viewMap")}
                       </label>
                       <Button
@@ -646,10 +652,13 @@ const LocationList = () => {
           });
         }}>
         <div className="py-2">
-          <label className="text-sm font-medium text-foreground mb-1.5 block">
+          <label
+            htmlFor="location-list-archive-reason"
+            className="text-sm font-medium text-foreground mb-1.5 block">
             {t("page.location.archiveReason")}
           </label>
           <Textarea
+            id="location-list-archive-reason"
             value={archiveReason}
             onChange={(e) => setArchiveReason(e.target.value)}
             placeholder={t("page.location.archiveReasonPlaceholder")}
@@ -673,11 +682,14 @@ const LocationList = () => {
           })
         }>
         <div className="py-2">
-          <label className="text-sm font-medium text-muted-foreground mb-1 block">
+          <label
+            htmlFor="location-list-target-amount"
+            className="text-sm font-medium text-muted-foreground mb-1 block">
             {t("page.dashboard.targetAmount") || "Target per Hari (Rp)"}
           </label>
           <div className="relative">
             <input
+              id="location-list-target-amount"
               type="text"
               value={
                 targetModal.value ? `Rp ${Number(targetModal.value).toLocaleString("id-ID")}` : ""

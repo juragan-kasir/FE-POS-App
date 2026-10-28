@@ -79,7 +79,7 @@ function AccountingFilterBar({ label, onReset, disabled, children }) {
   return (
     <div className="flex flex-wrap items-end gap-2">
       <div className="flex flex-col gap-1.5">
-        <label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
+        <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
           {label}
         </label>
         {children}
@@ -130,7 +130,7 @@ const CardSection = ({ title, children, icon: Icon, className = "" }) => (
   <div className={`bg-card rounded-xl border border-border overflow-hidden ${className}`}>
     <div className="flex items-center gap-2 px-5 pt-4 pb-1">
       {Icon && <Icon size={14} className="text-muted-foreground" />}
-      <p className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
+      <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
         {title}
       </p>
     </div>
@@ -153,10 +153,13 @@ const AccountForm = ({ form, onChange, initial }) => {
     <div className="space-y-4">
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
         <div className="space-y-1.5">
-          <label className="text-xs font-medium text-muted-foreground">
+          <label
+            htmlFor="accounting-page-code"
+            className="text-xs font-medium text-muted-foreground">
             {t("page.accounting.accounts.code")}
           </label>
           <Input
+            id="accounting-page-code"
             value={form.code}
             onChange={set("code")}
             placeholder="1000"
@@ -165,18 +168,28 @@ const AccountForm = ({ form, onChange, initial }) => {
           />
         </div>
         <div className="space-y-1.5">
-          <label className="text-xs font-medium text-muted-foreground">
+          <label
+            htmlFor="accounting-page-name"
+            className="text-xs font-medium text-muted-foreground">
             {t("page.accounting.accounts.name")}
           </label>
-          <Input value={form.name} onChange={set("name")} maxLength={FIELD_LIMITS.BUSINESS_NAME} />
+          <Input
+            id="accounting-page-name"
+            value={form.name}
+            onChange={set("name")}
+            maxLength={FIELD_LIMITS.BUSINESS_NAME}
+          />
         </div>
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
         <div className="space-y-1.5">
-          <label className="text-xs font-medium text-muted-foreground">
+          <label
+            htmlFor="accounting-page-type"
+            className="text-xs font-medium text-muted-foreground">
             {t("page.accounting.accounts.type")}
           </label>
           <select
+            id="accounting-page-type"
             value={form.type}
             onChange={set("type")}
             disabled={initial?.isSystem}
@@ -189,10 +202,13 @@ const AccountForm = ({ form, onChange, initial }) => {
           </select>
         </div>
         <div className="space-y-1.5">
-          <label className="text-xs font-medium text-muted-foreground">
+          <label
+            htmlFor="accounting-page-normal-balance"
+            className="text-xs font-medium text-muted-foreground">
             {t("page.accounting.accounts.normalBalance")}
           </label>
           <select
+            id="accounting-page-normal-balance"
             value={form.normalBalance}
             onChange={set("normalBalance")}
             disabled={initial?.isSystem}
@@ -203,10 +219,16 @@ const AccountForm = ({ form, onChange, initial }) => {
         </div>
       </div>
       <div className="space-y-1.5">
-        <label className="text-xs font-medium text-muted-foreground">
+        <label
+          htmlFor="accounting-page-description"
+          className="text-xs font-medium text-muted-foreground">
           {t("page.accounting.accounts.description")}
         </label>
-        <Input value={form.description || ""} onChange={set("description")} />
+        <Input
+          id="accounting-page-description"
+          value={form.description || ""}
+          onChange={set("description")}
+        />
       </div>
     </div>
   );
@@ -380,37 +402,37 @@ const AccountsTab = ({ storeId, isAll }) => {
                   <tr className="border-b border-border/60 text-left text-xs uppercase tracking-wider text-muted-foreground">
                     <th className="px-2.5 sm:px-4 py3 font-semibold align-top">
                       <span className="block">{t("page.accounting.accounts.code")}</span>
-                      <span className="block text-[10px] font-normal normal-case tracking-normal text-muted-foreground/70 mt-0.5">
+                      <span className="block text-xs font-normal normal-case tracking-normal text-muted-foreground/70 mt-0.5">
                         {t("page.accounting.accounts.codeHint")}
                       </span>
                     </th>
                     <th className="px-2.5 sm:px-4 py3 font-semibold align-top">
                       <span className="block">{t("page.accounting.accounts.name")}</span>
-                      <span className="block text-[10px] font-normal normal-case tracking-normal text-muted-foreground/70 mt-0.5">
+                      <span className="block text-xs font-normal normal-case tracking-normal text-muted-foreground/70 mt-0.5">
                         {t("page.accounting.accounts.nameHint")}
                       </span>
                     </th>
                     <th className="px-2.5 sm:px-4 py3 font-semibold align-top">
                       <span className="block">{t("page.accounting.accounts.type")}</span>
-                      <span className="block text-[10px] font-normal normal-case tracking-normal text-muted-foreground/70 mt-0.5">
+                      <span className="block text-xs font-normal normal-case tracking-normal text-muted-foreground/70 mt-0.5">
                         {t("page.accounting.accounts.typeHint")}
                       </span>
                     </th>
                     <th className="px-2.5 sm:px-4 py3 font-semibold align-top">
                       <span className="block">{t("page.accounting.accounts.normalBalance")}</span>
-                      <span className="block text-[10px] font-normal normal-case tracking-normal text-muted-foreground/70 mt-0.5">
+                      <span className="block text-xs font-normal normal-case tracking-normal text-muted-foreground/70 mt-0.5">
                         {t("page.accounting.accounts.normalBalanceHint")}
                       </span>
                     </th>
                     <th className="px-2.5 sm:px-4 py3 font-semibold align-top">
                       <span className="block">{t("page.accounting.accounts.description")}</span>
-                      <span className="block text-[10px] font-normal normal-case tracking-normal text-muted-foreground/70 mt-0.5">
+                      <span className="block text-xs font-normal normal-case tracking-normal text-muted-foreground/70 mt-0.5">
                         {t("page.accounting.accounts.descriptionHint")}
                       </span>
                     </th>
                     <th className="px-2.5 sm:px-4 py3 font-semibold text-right align-top">
                       <span className="block">{t("page.accounting.accounts.actions")}</span>
-                      <span className="block text-[10px] font-normal normal-case tracking-normal text-muted-foreground/70 mt-0.5">
+                      <span className="block text-xs font-normal normal-case tracking-normal text-muted-foreground/70 mt-0.5">
                         {t("page.accounting.accounts.actionsHint")}
                       </span>
                     </th>
@@ -438,7 +460,7 @@ const AccountsTab = ({ storeId, isAll }) => {
                         <td className="px-2.5 sm:px-4 py2.5 font-medium">{acc.name}</td>
                         <td className="px-2.5 sm:px-4 py2.5">
                           <span
-                            className={`inline-flex px-2 py-0.5 rounded-full text-[11px] font-semibold ${
+                            className={`inline-flex px-2 py-0.5 rounded-full text-xs font-semibold ${
                               TYPE_BADGE[acc.type] || "bg-muted text-muted-foreground"
                             }`}>
                             {t(`page.accounting.types.${acc.type}`)}
@@ -693,20 +715,26 @@ const JournalTab = ({ storeId, isAll }) => {
 
       <div className="flex flex-col lg:flex-row lg:items-end gap-3">
         <div className="flex-1 flex flex-col gap-1.5">
-          <label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
+          <label
+            htmlFor="accounting-page-search"
+            className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
             {t("common.search")}
           </label>
           <SearchInput
+            id="accounting-page-search"
             value={search}
             onChange={setSearch}
             placeholder={t("page.accounting.journal.searchPlaceholder")}
           />
         </div>
         <div className="flex-1 flex flex-col gap-1.5">
-          <label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
+          <label
+            htmlFor="accounting-page-filter-source"
+            className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
             {t("page.accounting.journal.filterSource")}
           </label>
           <Combobox
+            id="accounting-page-filter-source"
             options={sourceOptions}
             value={sourceType}
             onChange={(v) => {
@@ -717,7 +745,7 @@ const JournalTab = ({ storeId, isAll }) => {
           />
         </div>
         <div className="flex-1 flex flex-col gap-1.5">
-          <label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
+          <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
             {t("page.accounting.filter.dateRange")}
           </label>
           <DatePickerWithRange
@@ -794,16 +822,16 @@ const JournalTab = ({ storeId, isAll }) => {
                     <span className="inline-flex items-center gap-1 text-xs text-muted-foreground">
                       <CalendarDays size={12} /> {formatDate(entry.date)}
                     </span>
-                    <span className="inline-flex px-2 py-0.5 rounded-full bg-accent text-[11px] font-semibold capitalize">
+                    <span className="inline-flex px-2 py-0.5 rounded-full bg-accent text-xs font-semibold capitalize">
                       {t(`page.accounting.journal.source.${entry.sourceType}`)}
                     </span>
                     {entry.status === "reversed" && (
-                      <span className="inline-flex px-2 py-0.5 rounded-full bg-amber-100 text-amber-800 text-[11px] font-semibold">
+                      <span className="inline-flex px-2 py-0.5 rounded-full bg-amber-100 text-amber-800 text-xs font-semibold">
                         {t("page.accounting.journal.reversed")}
                       </span>
                     )}
                     {entry.storeName && (
-                      <span className="inline-flex px-2 py-0.5 rounded-full bg-primary/10 text-primary text-[11px] font-semibold">
+                      <span className="inline-flex px-2 py-0.5 rounded-full bg-primary/10 text-primary text-xs font-semibold">
                         {entry.storeName}
                       </span>
                     )}
@@ -850,7 +878,7 @@ const JournalTab = ({ storeId, isAll }) => {
                             </span>
                             <span className="text-xs font-medium">{line.accountData?.name}</span>
                             {line.description && (
-                              <span className="block text-[11px] text-muted-foreground/70 mt-0.5">
+                              <span className="block text-xs text-muted-foreground/70 mt-0.5">
                                 {line.description}
                               </span>
                             )}
@@ -919,20 +947,29 @@ const JournalTab = ({ storeId, isAll }) => {
         <form ref={formRef} onSubmit={handleManualSubmit} className="space-y-4">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div className="space-y-1.5">
-              <label className="text-xs font-medium text-muted-foreground">
+              <label
+                htmlFor="accounting-page-date"
+                className="text-xs font-medium text-muted-foreground">
                 {t("page.accounting.journal.date")}
               </label>
               <DateInput
+                id="accounting-page-date"
                 name="date"
                 defaultValue={todayDateOnly()}
                 required
               />
             </div>
             <div className="space-y-1.5">
-              <label className="text-xs font-medium text-muted-foreground">
+              <label
+                htmlFor="accounting-page-description-2"
+                className="text-xs font-medium text-muted-foreground">
                 {t("page.accounting.journal.description")}
               </label>
-              <Input name="description" maxLength={FIELD_LIMITS.SHORT_NOTE} />
+              <Input
+                id="accounting-page-description-2"
+                name="description"
+                maxLength={FIELD_LIMITS.SHORT_NOTE}
+              />
             </div>
           </div>
           <ManualLines accounts={accData?.data || []} />
@@ -958,7 +995,7 @@ const JournalTab = ({ storeId, isAll }) => {
         onConfirm={() => deleteMut.mutate({ id: deleting.id, reason: reverseReason.trim() })}>
         <label
           htmlFor="journal-reverse-reason"
-          className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
+          className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
           {t("page.accounting.journal.reverseReason")}
         </label>
         <Textarea
@@ -1161,25 +1198,25 @@ const TrialBalanceTab = ({ storeId, isAll }) => {
                     <tr className="border-b border-border/60 text-left text-xs uppercase tracking-wider text-muted-foreground">
                       <th className="px-2.5 sm:px-4 py3 font-semibold align-top">
                         <span className="block">{t("page.accounting.trial.code")}</span>
-                        <span className="block text-[10px] font-normal normal-case tracking-normal text-muted-foreground/70 mt-0.5">
+                        <span className="block text-xs font-normal normal-case tracking-normal text-muted-foreground/70 mt-0.5">
                           {t("page.accounting.trial.codeHint")}
                         </span>
                       </th>
                       <th className="px-2.5 sm:px-4 py3 font-semibold align-top">
                         <span className="block">{t("page.accounting.trial.account")}</span>
-                        <span className="block text-[10px] font-normal normal-case tracking-normal text-muted-foreground/70 mt-0.5">
+                        <span className="block text-xs font-normal normal-case tracking-normal text-muted-foreground/70 mt-0.5">
                           {t("page.accounting.trial.accountHint")}
                         </span>
                       </th>
                       <th className="px-2.5 sm:px-4 py3 font-semibold text-right align-top">
                         <span className="block">{t("page.accounting.trial.debit")}</span>
-                        <span className="block text-[10px] font-normal normal-case tracking-normal text-muted-foreground/70 mt-0.5">
+                        <span className="block text-xs font-normal normal-case tracking-normal text-muted-foreground/70 mt-0.5">
                           {t("page.accounting.trial.debitHint")}
                         </span>
                       </th>
                       <th className="px-2.5 sm:px-4 py3 font-semibold text-right align-top">
                         <span className="block">{t("page.accounting.trial.credit")}</span>
-                        <span className="block text-[10px] font-normal normal-case tracking-normal text-muted-foreground/70 mt-0.5">
+                        <span className="block text-xs font-normal normal-case tracking-normal text-muted-foreground/70 mt-0.5">
                           {t("page.accounting.trial.creditHint")}
                         </span>
                       </th>
@@ -1193,7 +1230,7 @@ const TrialBalanceTab = ({ storeId, isAll }) => {
                           <span className="text-sm">{row.name}</span>
                           {row.type && (
                             <span
-                              className={`ml-2 inline-flex px-2 py-0.5 rounded-full text-[10px] font-semibold ${
+                              className={`ml-2 inline-flex px-2 py-0.5 rounded-full text-xs font-semibold ${
                                 TYPE_BADGE[row.type] || "bg-muted text-muted-foreground"
                               }`}>
                               {t(`page.accounting.types.${row.type}`)}
@@ -1328,7 +1365,7 @@ const IncomeStatementTab = ({ storeId, isAll }) => {
 
           <div className="bg-card rounded-xl border border-border overflow-hidden">
             <div className="p-5 space-y-1">
-              <p className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground mb-2">
+              <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-2">
                 {t("page.accounting.income.revenue")}
               </p>
               {st.revenues.length === 0 && (
@@ -1344,7 +1381,7 @@ const IncomeStatementTab = ({ storeId, isAll }) => {
                   strong
                 />
               </div>
-              <p className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground mt-4 mb-2">
+              <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mt-4 mb-2">
                 {t("page.accounting.income.expenses")}
               </p>
               {st.expenses.length === 0 && (

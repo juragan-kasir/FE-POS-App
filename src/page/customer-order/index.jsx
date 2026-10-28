@@ -262,7 +262,7 @@ const CustomerOrderManagement = () => {
                 isFiltered={isFiltered}>
                 {isSuperAdmin && (
                   <div className="flex flex-col gap-1.5">
-                    <label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
+                    <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                       {t("page.customerOrder.storeLabel")}
                     </label>
                     <StoreFilter
@@ -275,10 +275,13 @@ const CustomerOrderManagement = () => {
                   </div>
                 )}
                 <div className="flex flex-col gap-1.5">
-                  <label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
+                  <label
+                    htmlFor="index-search"
+                    className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                     {t("common.search")}
                   </label>
                   <SearchInput
+                    id="index-search"
                     value={search}
                     onChange={setSearch}
                     placeholder={t("page.customerOrder.searchOrders")}
@@ -338,9 +341,7 @@ const CustomerOrderManagement = () => {
                               <span className="font-bold text-base sm:text-lg text-foreground break-words">
                                 {order.orderNumber}
                               </span>
-                              <Badge
-                                variant="secondary"
-                                className="text-[10px] bg-muted dark:bg-muted">
+                              <Badge variant="secondary" className="text-xs bg-muted dark:bg-muted">
                                 <Clock size={10} className="mr-1" />
                                 {new Date(order.createdAt).toLocaleString("id-ID", {
                                   hour: "2-digit",
@@ -546,7 +547,7 @@ const CustomerOrderManagement = () => {
             <div className="space-y-4">
               <div className="flex items-center gap-2 flex-wrap">
                 <span className="font-bold text-foreground">{modalOrder.orderNumber}</span>
-                <Badge variant="secondary" className="text-[10px] bg-muted dark:bg-muted">
+                <Badge variant="secondary" className="text-xs bg-muted dark:bg-muted">
                   <Clock size={10} className="mr-1" />
                   {new Date(modalOrder.createdAt).toLocaleString("id-ID", {
                     hour: "2-digit",

@@ -1,7 +1,6 @@
 import React, { useState, useCallback } from "react";
 import { useGlobalStoreFilter } from "@/hooks/useGlobalStoreFilter";
 import { useCookies } from "react-cookie";
-import { useNavigate } from "react-router-dom";
 import { Clock, User, Database, RefreshCw, ChevronLeft, ChevronRight } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button";
@@ -15,10 +14,10 @@ import { Skeleton } from "@/components/ui/skeleton";
 import NoStore from "@/components/ui/NoStore";
 import { getAuditLogs } from "@/services/auditLog";
 import { useLocations } from "@/queries/useLocations";
+import PageHeader from "@/components/ui/PageHeader";
 
 const AuditLogList = () => {
   const { t } = useTranslation();
-  const navigate = useNavigate();
 
   const [cookie] = useCookies();
   const user = cookie?.user;
@@ -75,34 +74,18 @@ const AuditLogList = () => {
 
   return (
     <div className="space-y-6">
-      <div>
-        <nav className="flex items-center gap-2 text-sm text-muted-foreground">
-          <button
-            onClick={() => navigate("/dashboard-super-admin")}
-            className="hover:text-foreground transition-colors">
-            {t("breadcrumb.home")}
-          </button>
-          <span className="text-xs">/</span>
-          <span className="text-primary font-semibold">{t("sidebar.auditLog")}</span>
-        </nav>
-      </div>
-
-      <div>
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-4">
-          <div>
-            <h1 className="text-2xl font-bold text-foreground">{t("sidebar.auditLog")}</h1>
-            <p className="text-sm text-muted-foreground mt-1">
-              {t("page.auditLog.description", { count: logs.length })}
-            </p>
-          </div>
-          <div className="flex items-center gap-2">
-            <Button variant="outline" size="sm" onClick={handleFetch} disabled={isLoading}>
-              {isLoading ? <RefreshCw size={14} className="animate-spin mr-1" /> : null}
-              {t("page.auditLog.refresh")}
-            </Button>
-          </div>
-        </div>
-      </div>
+      <PageHeader
+        breadcrumbs={[
+          { label: t("breadcrumb.home"), href: "/dashboard-super-admin" },
+          { label: t("sidebar.auditLog") }
+        ]}
+        title={t("sidebar.auditLog")}
+        description={<>{t("page.auditLog.description", { count: logs.length })}</>}>
+        <Button variant="outline" size="sm" onClick={handleFetch} disabled={isLoading}>
+          {isLoading ? <RefreshCw size={14} className="animate-spin mr-1" /> : null}
+          {t("page.auditLog.refresh")}
+        </Button>
+      </PageHeader>
 
       {locData && (locData?.data || []).length === 0 ? (
         <NoStore />
@@ -121,8 +104,8 @@ const AuditLogList = () => {
                 isFiltered={isFiltered}>
                 {isSuperAdmin && (
                   <div className="flex flex-col gap-1.5">
-                    <label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
-                      Store
+                    <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                      {t("page.goodsReceipt.detail.store")}
                     </label>
                     <StoreFilter
                       locations={(locData?.data || []).filter((l) => l.status === "active")}
@@ -137,10 +120,13 @@ const AuditLogList = () => {
                   </div>
                 )}
                 <div className="flex flex-col gap-1.5">
-                  <label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
-                    Cari
+                  <label
+                    htmlFor="audit-log-list-search"
+                    className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                    {t("common.search")}
                   </label>
                   <SearchInput
+                    id="audit-log-list-search"
                     value={search}
                     onChange={(val) => {
                       setSearch(val);
@@ -152,10 +138,13 @@ const AuditLogList = () => {
                   />
                 </div>
                 <div className="flex flex-col gap-1.5">
-                  <label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
-                    Aksi
+                  <label
+                    htmlFor="audit-log-list-action"
+                    className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                    {t("common.action")}
                   </label>
                   <Combobox
+                    id="audit-log-list-action"
                     value={actionFilter}
                     onChange={(v) => {
                       setActionFilter(v);
@@ -181,10 +170,13 @@ const AuditLogList = () => {
                   />
                 </div>
                 <div className="flex flex-col gap-1.5">
-                  <label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
-                    Entitas
+                  <label
+                    htmlFor="audit-log-list-entity"
+                    className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                    {t("page.auditLog.ui.entity")}
                   </label>
                   <Combobox
+                    id="audit-log-list-entity"
                     value={entityFilter}
                     onChange={(v) => {
                       setEntityFilter(v);
@@ -237,7 +229,7 @@ const AuditLogList = () => {
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-2 flex-wrap">
                           <span
-                            className={`px-2 py-0.5 rounded text-[10px] font-bold ${
+                            className={`px-2 py-0.5 rounded text-xs font-bold ${
                               log.action === "create"
                                 ? "bg-emerald-100 text-emerald-700"
                                 : log.action === "update"
@@ -268,7 +260,7 @@ const AuditLogList = () => {
                               <span className="text-muted-foreground">:#{log.entityId}</span>
                             )}
                           </span>
-                          <span className="px-2 py-0.5 bg-muted text-[10px] rounded">
+                          <span className="px-2 py-0.5 bg-muted text-xs rounded">
                             <Clock size={10} className="mr-1 inline" />
                             {new Date(log.createdAt).toLocaleString("id-ID")}
                           </span>
@@ -284,7 +276,11 @@ const AuditLogList = () => {
                         </div>
                       </div>
                       <div className="flex flex-col items-end gap-1 shrink-0 text-xs text-muted-foreground">
-                        {log.ipAddress && <span>IP: {log.ipAddress}</span>}
+                        {log.ipAddress && (
+                          <span>
+                            {t("page.auditLog.ui.ip")} {log.ipAddress}
+                          </span>
+                        )}
                       </div>
                     </div>
                   </Card>

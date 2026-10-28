@@ -35,6 +35,7 @@ import { FIELD_LIMITS } from "@/constants/fieldLimits";
 import { useDomDirtyTracking } from "@/hooks/useDomDirtyTracking";
 import { useFormExit } from "@/hooks/useLeaveGuard";
 import { useUnsavedChangesGuard } from "@/contexts/UnsavedChangesContext";
+import LoadErrorBanner from "@/components/ui/LoadErrorBanner";
 
 const toDate = (v) => {
   if (!v) return null;
@@ -323,6 +324,7 @@ const EditBusinessTrip = () => {
           dynamicInfo={false}>
           <UserGuide guideKey="add-business-trip" mode="edit" />
         </PageHeader>
+        <LoadErrorBanner />
 
         <form onSubmit={handleSubmit((data) => doSubmit(data))} className="space-y-6">
           <Card className="overflow-hidden border-0 shadow-md rounded-xl">
@@ -375,11 +377,12 @@ const EditBusinessTrip = () => {
                   )}
                 </div>
                 <div className="space-y-2">
-                  <Label className="text-sm">
+                  <Label htmlFor="edit-business-trip-destination" className="text-sm">
                     {t("page.businessTrip.detail.destination")}{" "}
                     <span className="text-destructive">*</span>
                   </Label>
                   <Input
+                    id="edit-business-trip-destination"
                     {...form.register("destination")}
                     placeholder={t("page.businessTrip.add.form.destination")}
                     maxLength={FIELD_LIMITS.BUSINESS_NAME}
@@ -389,8 +392,11 @@ const EditBusinessTrip = () => {
                   )}
                 </div>
                 <div className="space-y-2">
-                  <Label className="text-sm">{t("page.businessTrip.add.form.tripPurpose")}</Label>
+                  <Label htmlFor="edit-business-trip-trip-purpose" className="text-sm">
+                    {t("page.businessTrip.add.form.tripPurpose")}
+                  </Label>
                   <Input
+                    id="edit-business-trip-trip-purpose"
                     {...form.register("tripPurpose")}
                     placeholder={t("page.businessTrip.add.form.tripPurpose")}
                     maxLength={FIELD_LIMITS.SHORT_NOTE}
@@ -438,8 +444,11 @@ const EditBusinessTrip = () => {
                   )}
                 </div>
                 <div className="space-y-2 md:col-span-2">
-                  <Label className="text-sm">{t("page.businessTrip.add.form.notes")}</Label>
+                  <Label htmlFor="edit-business-trip-notes" className="text-sm">
+                    {t("page.businessTrip.add.form.notes")}
+                  </Label>
                   <Textarea
+                    id="edit-business-trip-notes"
                     rows={3}
                     {...form.register("notes")}
                     placeholder={t("page.businessTrip.add.form.notes")}
@@ -692,7 +701,7 @@ const EditBusinessTrip = () => {
                                 <p className="text-sm font-semibold text-foreground">
                                   {fmtMoney(itemTotal(i))}
                                 </p>
-                                <p className="text-[10px] text-muted-foreground">
+                                <p className="text-xs text-muted-foreground">
                                   {Number(items?.[i]?.qty || 0)} x{" "}
                                   {fmtMoney(Number(items?.[i]?.tarif || 0))}
                                 </p>

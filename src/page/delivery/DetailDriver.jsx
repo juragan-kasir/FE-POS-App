@@ -21,6 +21,7 @@ import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import PageHeader from "@/components/ui/PageHeader";
 import Modal from "@/components/organism/modal";
+import LoadErrorBanner from "@/components/ui/LoadErrorBanner";
 
 const DetailDriver = () => {
   const { t } = useTranslation();
@@ -104,6 +105,7 @@ const DetailDriver = () => {
           {t("common.edit")}
         </Button>
       </PageHeader>
+      <LoadErrorBanner />
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div className="lg:col-span-2 space-y-6">
@@ -184,7 +186,7 @@ const DetailDriver = () => {
               ) : driver.status === "busy" ? (
                 <Clock size={18} className="text-orange-600" />
               ) : driver.status === "draft" ? (
-                <FileEdit size={18} className="text-slate-500" />
+                <FileEdit size={18} className="text-muted-foreground" />
               ) : (
                 <Ban size={18} className="text-red-600" />
               )}
@@ -195,7 +197,7 @@ const DetailDriver = () => {
                     : driver.status === "busy"
                       ? "text-orange-600"
                       : driver.status === "draft"
-                        ? "text-slate-500"
+                        ? "text-muted-foreground"
                         : "text-red-600"
                 }`}>
                 {t(`page.delivery.driver.status.${driver.status}`)}

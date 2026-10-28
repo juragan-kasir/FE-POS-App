@@ -141,7 +141,7 @@ const MemberLoyalty = () => {
   };
 
   const getTierBadge = (tier) => {
-    if (!tier) return <Badge variant="secondary">No Tier</Badge>;
+    if (!tier) return <Badge variant="secondary">{t("page.memberLoyalty.ui.noTier")}</Badge>;
     const colors = {
       active: "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400",
       inactive: "bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400",
@@ -165,7 +165,7 @@ const MemberLoyalty = () => {
         {isSuperAdmin && (
           <Select value={store} onValueChange={setStore}>
             <SelectTrigger className="w-[180px]">
-              <SelectValue placeholder="Pilih toko" />
+              <SelectValue placeholder={t("page.table.form.storePlaceholder")} />
             </SelectTrigger>
             <SelectContent>
               {locations.map((loc) => (
@@ -183,7 +183,7 @@ const MemberLoyalty = () => {
           <RefreshCw
             className={`w-4 h-4 mr-2 ${updateTiersMutation.isLoading ? "animate-spin" : ""}`}
           />
-          Update All Tiers
+          {t("page.memberLoyalty.ui.updateAllTiers")}
         </Button>
       </PageHeader>
 
@@ -202,17 +202,17 @@ const MemberLoyalty = () => {
           ) : (
             <Card>
               <CardHeader className="flex flex-row items-center justify-between">
-                <CardTitle>Member Tiers</CardTitle>
+                <CardTitle>{t("guide.tier.s25a")}</CardTitle>
                 <Dialog>
                   <DialogTrigger asChild>
                     <Button variant="success">
                       <Plus className="w-4 h-4 mr-2" />
-                      Add Tier
+                      {t("guide.tier.s25e")}
                     </Button>
                   </DialogTrigger>
                   <DialogContent>
                     <DialogHeader>
-                      <DialogTitle>Add Member Tier</DialogTitle>
+                      <DialogTitle>{t("page.member.list.addMemberTier")}</DialogTitle>
                     </DialogHeader>
                     <AddTierForm
                       onSuccess={() => queryClient.invalidateQueries(["member-tiers"])}
@@ -222,7 +222,9 @@ const MemberLoyalty = () => {
               </CardHeader>
               <CardContent>
                 {tiers.length === 0 ? (
-                  <p className="text-center text-muted-foreground py-8">Tidak ada tier</p>
+                  <p className="text-center text-muted-foreground py-8">
+                    {t("page.memberLoyalty.ui.noTiers")}
+                  </p>
                 ) : (
                   <div className="space-y-4">
                     {tiers.map((tier) => (
@@ -238,8 +240,9 @@ const MemberLoyalty = () => {
                           <div>
                             <h3 className="font-semibold">{tier.name}</h3>
                             <p className="text-sm text-muted-foreground">
-                              {tier.minPoints} - {tier.maxPoints ?? "∞"} poin |{" "}
-                              {tier.discountPercent}% diskon
+                              {tier.minPoints} - {tier.maxPoints ?? "∞"}{" "}
+                              {t("page.memberLoyalty.ui.points")} {tier.discountPercent}
+                              {t("page.memberLoyalty.ui.discount")}
                             </p>
                             <p className="text-sm text-muted-foreground">
                               {tier.memberCount || 0} member
@@ -258,7 +261,7 @@ const MemberLoyalty = () => {
                             </DialogTrigger>
                             <DialogContent>
                               <DialogHeader>
-                                <DialogTitle>Edit Tier</DialogTitle>
+                                <DialogTitle>{t("page.memberLoyalty.ui.editTier")}</DialogTitle>
                               </DialogHeader>
                               <EditTierForm
                                 tier={tier}
@@ -292,9 +295,9 @@ const MemberLoyalty = () => {
             <Card>
               <CardHeader>
                 <div className="flex items-center justify-between">
-                  <CardTitle>Members</CardTitle>
+                  <CardTitle>{t("guide.member.s15a")}</CardTitle>
                   <Input
-                    placeholder="Cari member..."
+                    placeholder={t("page.memberLoyalty.ui.searchMembers")}
                     value={search}
                     onChange={(e) => setSearch(e.target.value)}
                     className="w-[200px]"
@@ -303,17 +306,19 @@ const MemberLoyalty = () => {
               </CardHeader>
               <CardContent>
                 {members.length === 0 ? (
-                  <p className="text-center text-muted-foreground py-8">Tidak ada member</p>
+                  <p className="text-center text-muted-foreground py-8">
+                    {t("page.memberLoyalty.ui.noMembers")}
+                  </p>
                 ) : (
                   <Table>
                     <TableHeader>
                       <TableRow>
-                        <TableHead>Nama</TableHead>
-                        <TableHead>Phone</TableHead>
-                        <TableHead>Tier</TableHead>
-                        <TableHead>Poin</TableHead>
-                        <TableHead>Total Belanja</TableHead>
-                        <TableHead>Aksi</TableHead>
+                        <TableHead>{t("document.name")}</TableHead>
+                        <TableHead>{t("document.phone")}</TableHead>
+                        <TableHead>{t("page.memberLoyalty.tabs.tiers")}</TableHead>
+                        <TableHead>{t("page.cashier.modal.memberPoints")}</TableHead>
+                        <TableHead>{t("page.cashier.modal.totalShopping")}</TableHead>
+                        <TableHead>{t("common.action")}</TableHead>
                       </TableRow>
                     </TableHeader>
                     <TableBody>
@@ -345,13 +350,13 @@ const MemberLoyalty = () => {
         <TabsContent value="redeem">
           <Card>
             <CardHeader>
-              <CardTitle>Redeem Points</CardTitle>
+              <CardTitle>{t("page.product.form.redeemPoints")}</CardTitle>
             </CardHeader>
             <CardContent>
               <div className="space-y-4">
                 <div className="flex gap-4 items-end">
                   <div className="flex-1">
-                    <Label htmlFor="redeem-member">Member</Label>
+                    <Label htmlFor="redeem-member">{t("breadcrumb.member")}</Label>
                     <Select
                       onValueChange={(val) => {
                         setSelectedMember(Number(val));
@@ -362,26 +367,28 @@ const MemberLoyalty = () => {
                         setRedeemPoints("");
                       }}>
                       <SelectTrigger id="redeem-member">
-                        <SelectValue placeholder="Pilih member" />
+                        <SelectValue placeholder={t("page.memberLoyalty.ui.selectMember")} />
                       </SelectTrigger>
                       <SelectContent>
                         {members.map((m) => (
                           <SelectItem key={m.id} value={String(m.id)}>
-                            {m.name} ({m.totalPoints || 0} poin)
+                            {m.name} ({m.totalPoints || 0} {t("page.memberLoyalty.ui.points2")}
                           </SelectItem>
                         ))}
                       </SelectContent>
                     </Select>
                   </div>
                   <div className="flex-1">
-                    <Label htmlFor="redeem-points">Poin yang Diredeem</Label>
+                    <Label htmlFor="redeem-points">
+                      {t("page.memberLoyalty.ui.redeemedPoints")}
+                    </Label>
                     <Input
                       id="redeem-points"
                       type="number"
                       min={1}
                       value={redeemPoints}
                       onChange={(e) => setRedeemPoints(e.target.value)}
-                      placeholder="Jumlah poin"
+                      placeholder={t("page.memberLoyalty.ui.pointsAmount")}
                     />
                   </div>
                   <Button
@@ -410,7 +417,7 @@ const MemberLoyalty = () => {
         type="confirm"
         open={!!deleteTierTarget}
         onOpenChange={(open) => !open && setDeleteTierTarget(null)}
-        title="Hapus Tier"
+        title={t("page.memberTier.edit.deleteTier")}
         description={`Yakin ingin menghapus tier "${deleteTierTarget?.name}"? Tindakan ini tidak dapat dibatalkan.`}
         confirmText="Hapus"
         confirmVariant="destructive"
@@ -454,21 +461,28 @@ const AddTierForm = ({ onSuccess }) => {
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
       <div>
-        <Label>Nama Tier</Label>
-        <Input value={name} onChange={(e) => setName(e.target.value)} required />
+        <Label htmlFor="member-loyalty-name">{t("page.memberTier.table.name")}</Label>
+        <Input
+          id="member-loyalty-name"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          required
+        />
       </div>
       <div className="grid grid-cols-2 gap-4">
         <div>
-          <Label>Min Points</Label>
+          <Label htmlFor="member-loyalty-min-points">{t("page.memberTier.detail.minPoints")}</Label>
           <Input
+            id="member-loyalty-min-points"
             type="number"
             value={minPoints}
             onChange={(e) => setMinPoints(Number(e.target.value))}
           />
         </div>
         <div>
-          <Label>Max Points</Label>
+          <Label htmlFor="member-loyalty-max-points">{t("page.memberTier.detail.maxPoints")}</Label>
           <Input
+            id="member-loyalty-max-points"
             type="number"
             value={maxPoints}
             onChange={(e) => setMaxPoints(Number(e.target.value))}
@@ -477,28 +491,34 @@ const AddTierForm = ({ onSuccess }) => {
       </div>
       <div className="grid grid-cols-2 gap-4">
         <div>
-          <Label>Discount %</Label>
+          <Label htmlFor="member-loyalty-discount2">{t("page.memberLoyalty.ui.discount2")}</Label>
           <Input
+            id="member-loyalty-discount2"
             type="number"
             value={discountPercent}
             onChange={(e) => setDiscountPercent(Number(e.target.value))}
           />
         </div>
         <div>
-          <Label>Color</Label>
-          <Input type="color" value={color} onChange={(e) => setColor(e.target.value)} />
+          <Label htmlFor="member-loyalty-color">{t("page.category.form.color")}</Label>
+          <Input
+            id="member-loyalty-color"
+            type="color"
+            value={color}
+            onChange={(e) => setColor(e.target.value)}
+          />
         </div>
       </div>
       <div>
-        <Label>Status</Label>
+        <Label htmlFor="member-loyalty-status">{t("common.status")}</Label>
         <Select value={status} onValueChange={setStatus}>
-          <SelectTrigger>
+          <SelectTrigger id="member-loyalty-status">
             <SelectValue />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="active">Active</SelectItem>
-            <SelectItem value="inactive">Inactive</SelectItem>
-            <SelectItem value="draft">Draft</SelectItem>
+            <SelectItem value="active">{t("page.location.map.active")}</SelectItem>
+            <SelectItem value="inactive">{t("page.location.map.inactive")}</SelectItem>
+            <SelectItem value="draft">{t("common.draft")}</SelectItem>
           </SelectContent>
         </Select>
       </div>
@@ -540,21 +560,32 @@ const EditTierForm = ({ tier, onSuccess }) => {
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
       <div>
-        <Label>Nama Tier</Label>
-        <Input value={name} onChange={(e) => setName(e.target.value)} required />
+        <Label htmlFor="member-loyalty-name-2">{t("page.memberTier.table.name")}</Label>
+        <Input
+          id="member-loyalty-name-2"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          required
+        />
       </div>
       <div className="grid grid-cols-2 gap-4">
         <div>
-          <Label>Min Points</Label>
+          <Label htmlFor="member-loyalty-min-points-2">
+            {t("page.memberTier.detail.minPoints")}
+          </Label>
           <Input
+            id="member-loyalty-min-points-2"
             type="number"
             value={minPoints}
             onChange={(e) => setMinPoints(Number(e.target.value))}
           />
         </div>
         <div>
-          <Label>Max Points</Label>
+          <Label htmlFor="member-loyalty-max-points-2">
+            {t("page.memberTier.detail.maxPoints")}
+          </Label>
           <Input
+            id="member-loyalty-max-points-2"
             type="number"
             value={maxPoints}
             onChange={(e) => setMaxPoints(Number(e.target.value))}
@@ -563,28 +594,34 @@ const EditTierForm = ({ tier, onSuccess }) => {
       </div>
       <div className="grid grid-cols-2 gap-4">
         <div>
-          <Label>Discount %</Label>
+          <Label htmlFor="member-loyalty-discount2-2">{t("page.memberLoyalty.ui.discount2")}</Label>
           <Input
+            id="member-loyalty-discount2-2"
             type="number"
             value={discountPercent}
             onChange={(e) => setDiscountPercent(Number(e.target.value))}
           />
         </div>
         <div>
-          <Label>Color</Label>
-          <Input type="color" value={color} onChange={(e) => setColor(e.target.value)} />
+          <Label htmlFor="member-loyalty-color-2">{t("page.category.form.color")}</Label>
+          <Input
+            id="member-loyalty-color-2"
+            type="color"
+            value={color}
+            onChange={(e) => setColor(e.target.value)}
+          />
         </div>
       </div>
       <div>
-        <Label>Status</Label>
+        <Label htmlFor="member-loyalty-status-2">{t("common.status")}</Label>
         <Select value={status} onValueChange={setStatus}>
-          <SelectTrigger>
+          <SelectTrigger id="member-loyalty-status-2">
             <SelectValue />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="active">Active</SelectItem>
-            <SelectItem value="inactive">Inactive</SelectItem>
-            <SelectItem value="draft">Draft</SelectItem>
+            <SelectItem value="active">{t("page.location.map.active")}</SelectItem>
+            <SelectItem value="inactive">{t("page.location.map.inactive")}</SelectItem>
+            <SelectItem value="draft">{t("common.draft")}</SelectItem>
           </SelectContent>
         </Select>
       </div>

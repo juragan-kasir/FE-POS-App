@@ -313,7 +313,7 @@ const DiscountList = () => {
       render: (item) => {
         const store = item.store;
         if (!store || Array.isArray(store))
-          return <span className="text-xs text-foreground">Semua Toko</span>;
+          return <span className="text-xs text-foreground">{t("header.allStore")}</span>;
         return <span className="text-xs">{store.name || `Store #${store.id}`}</span>;
       }
     },
@@ -647,8 +647,8 @@ const DiscountList = () => {
                   onReset={resetFilters}
                   isFiltered={isFiltered}>
                   <div className="flex flex-col gap-1.5">
-                    <label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
-                      Store
+                    <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                      {t("page.goodsReceipt.detail.store")}
                     </label>
                     <StoreFilter
                       locations={locData?.data || []}
@@ -662,10 +662,13 @@ const DiscountList = () => {
                     />
                   </div>
                   <div className="flex flex-col gap-1.5">
-                    <label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
+                    <label
+                      htmlFor="discount-list-status"
+                      className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                       {t("common.status")}
                     </label>
                     <Combobox
+                      id="discount-list-status"
                       options={[
                         { value: "all", label: t("common.all") },
                         { value: "active", label: t("common.active") },
@@ -683,10 +686,13 @@ const DiscountList = () => {
                     />
                   </div>
                   <div className="flex flex-col gap-1.5">
-                    <label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
-                      Cari
+                    <label
+                      htmlFor="discount-list-search"
+                      className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                      {t("common.search")}
                     </label>
                     <SearchInput
+                      id="discount-list-search"
                       value={search}
                       onChange={(val) => {
                         setSearch(val);

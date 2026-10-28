@@ -240,7 +240,7 @@ const DetailCategory = () => {
                 <Package size={20} />
               </div>
               <p className="text-2xl font-bold">{category.productCount ?? 0}</p>
-              <p className="text-xs text-muted-foreground mt-1">Total Produk</p>
+              <p className="text-xs text-muted-foreground mt-1">{t("page.product.stats.total")}</p>
             </Card>
             <Card className="p-5">
               <div className="flex items-center gap-2 text-xs font-semibold text-muted-foreground uppercase tracking-wide mb-3">
@@ -279,9 +279,13 @@ const DetailCategory = () => {
         title={`Produk dalam kategori "${category?.name || ""}" (${products.length})`}>
         <div className="space-y-3 max-h-[32rem] overflow-y-auto pr-1">
           {productLoading ? (
-            <p className="text-sm text-muted-foreground text-center py-4">Loading...</p>
+            <p className="text-sm text-muted-foreground text-center py-4">
+              {t("page.employee.add.loading")}
+            </p>
           ) : products.length === 0 ? (
-            <p className="text-sm text-muted-foreground text-center py-4">Tidak ada produk</p>
+            <p className="text-sm text-muted-foreground text-center py-4">
+              {t("page.customerOrder.noProducts")}
+            </p>
           ) : (
             products.map((p) => {
               const tax = typeof p.tax === "string" ? JSON.parse(p.tax) : p.tax;
@@ -303,7 +307,7 @@ const DetailCategory = () => {
                         Rp{p.price?.toLocaleString("id-ID") || "0"}
                       </p>
                       {p.costPrice > 0 && (
-                        <p className="text-[11px] text-muted-foreground/70 line-through">
+                        <p className="text-xs text-muted-foreground/70 line-through">
                           Rp{(p.costPrice ?? 0).toLocaleString("id-ID")}
                         </p>
                       )}
@@ -312,30 +316,40 @@ const DetailCategory = () => {
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-2 text-xs">
                     {p.brand && (
                       <div className="flex items-center gap-1.5">
-                        <span className="text-muted-foreground/60 w-16 shrink-0">Brand</span>
+                        <span className="text-muted-foreground/60 w-16 shrink-0">
+                          {t("tour.brand")}
+                        </span>
                         <span className="font-medium text-foreground/80 truncate">{p.brand}</span>
                       </div>
                     )}
                     <div className="flex items-center gap-1.5">
-                      <span className="text-muted-foreground/60 w-16 shrink-0">Stok</span>
+                      <span className="text-muted-foreground/60 w-16 shrink-0">
+                        {t("breadcrumb.stock")}
+                      </span>
                       <span className="font-medium text-foreground/80">
                         {p.stock ?? 0} {p.unit || "pcs"}
                       </span>
                     </div>
                     <div className="flex items-center gap-1.5">
-                      <span className="text-muted-foreground/60 w-16 shrink-0">Min</span>
+                      <span className="text-muted-foreground/60 w-16 shrink-0">
+                        {t("page.category.ui.min")}
+                      </span>
                       <span className="font-medium text-foreground/80">{p.minStock ?? 0}</span>
                     </div>
                     <div className="flex items-center gap-1.5">
-                      <span className="text-muted-foreground/60 w-16 shrink-0">Tipe</span>
+                      <span className="text-muted-foreground/60 w-16 shrink-0">
+                        {t("page.profile.type")}
+                      </span>
                       <span className="font-medium text-foreground/80 capitalize">
                         {p.tipeProduk || "-"}
                       </span>
                     </div>
                     <div className="flex items-center gap-1.5">
-                      <span className="text-muted-foreground/60 w-16 shrink-0">Status</span>
+                      <span className="text-muted-foreground/60 w-16 shrink-0">
+                        {t("common.status")}
+                      </span>
                       <span
-                        className={`inline-flex items-center gap-1 px-1.5 py-0.5 rounded-full text-[10px] font-semibold ${
+                        className={`inline-flex items-center gap-1 px-1.5 py-0.5 rounded-full text-xs font-semibold ${
                           p.status === "active"
                             ? "bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400"
                             : "bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400"
@@ -350,7 +364,9 @@ const DetailCategory = () => {
                     </div>
                     {tax?.rate && (
                       <div className="flex items-center gap-1.5">
-                        <span className="text-muted-foreground/60 w-16 shrink-0">Pajak</span>
+                        <span className="text-muted-foreground/60 w-16 shrink-0">
+                          {t("sidebar.pajak")}
+                        </span>
                         <span className="font-medium text-foreground/80">
                           {tax.name} ({tax.rate}%)
                         </span>

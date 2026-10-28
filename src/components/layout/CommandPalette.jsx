@@ -105,7 +105,7 @@ const CommandPalette = ({ open, onClose }) => {
             className="flex-1 bg-transparent border-none focus:ring-0 text-sm text-foreground placeholder:text-muted-foreground/60 outline-none"
             placeholder={t("commandPalette.placeholder")}
           />
-          <kbd className="hidden sm:inline-flex items-center gap-1 px-1.5 py-0.5 text-[10px] font-mono text-muted-foreground bg-muted rounded border border-border">
+          <kbd className="hidden sm:inline-flex items-center gap-1 px-1.5 py-0.5 text-xs font-mono text-muted-foreground bg-muted rounded border border-border">
             ESC
           </kbd>
         </div>
@@ -118,7 +118,7 @@ const CommandPalette = ({ open, onClose }) => {
           ) : (
             filteredGroups.map((group) => (
               <div key={group.id}>
-                <div className="px-4 pt-2 pb-1 text-[10px] font-semibold uppercase tracking-wider text-muted-foreground bg-muted/40 border-y border-border/50">
+                <div className="px-4 pt-2 pb-1 text-xs font-semibold uppercase tracking-wider text-muted-foreground bg-muted/40 border-y border-border/50">
                   {group.title}
                 </div>
                 {group.items.map((item) => {
@@ -146,7 +146,7 @@ const CommandPalette = ({ open, onClose }) => {
                         <ArrowRight size={14} className="shrink-0" />
                       )}
                       <span className="flex-1 truncate">{item.label}</span>
-                      <span className="text-[10px] text-muted-foreground truncate max-w-[120px] hidden sm:inline">
+                      <span className="text-xs text-muted-foreground truncate max-w-[120px] hidden sm:inline">
                         {item.path}
                       </span>
                     </button>

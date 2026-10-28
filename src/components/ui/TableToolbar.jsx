@@ -34,7 +34,7 @@ const TableToolbar = ({ title, onReset, isFiltered, children }) => {
         ))}
         {onReset && (
           <div className="flex flex-col gap-1.5 shrink-0">
-            <label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground invisible">
+            <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground invisible">
               &nbsp;
             </label>
             <Button

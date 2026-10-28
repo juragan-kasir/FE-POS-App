@@ -135,7 +135,7 @@ const tipeBadge = (tipe, t) => {
       </span>
     );
   return (
-    <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-slate-100 text-slate-700 border border-slate-200 dark:bg-slate-800 dark:text-slate-300 dark:border-slate-700">
+    <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-muted text-foreground border border-border">
       {tipe || "-"}
     </span>
   );

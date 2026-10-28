@@ -86,6 +86,7 @@ import TenantSelectField, { tenantErrorMessage } from "@/components/organism/Ten
 import { qk } from "@/queries/keys";
 import { FIELD_LIMITS } from "@/constants/fieldLimits";
 import { useFormExit } from "@/hooks/useLeaveGuard";
+import LoadErrorBanner from "@/components/ui/LoadErrorBanner";
 
 const days = [
   { id: "monday", label: "common.day.monday" },
@@ -760,6 +761,7 @@ const EditLocation = () => {
           description={t("page.location.edit.description")}
           backLink="/location-list"
         />
+        <LoadErrorBanner />
         <div className="bg-card rounded-xl border border-border p-6 space-y-6">
           <Skeleton className="h-5 w-48" />
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -1615,7 +1617,9 @@ const EditLocation = () => {
                             <SelectItem value="LinkedIn">LinkedIn</SelectItem>
                             <SelectItem value="Shopee">Shopee</SelectItem>
                             <SelectItem value="Tokopedia">Tokopedia</SelectItem>
-                            <SelectItem value="Website">Website</SelectItem>
+                            <SelectItem value="Website">
+                              {t("page.supplier.form.website")}
+                            </SelectItem>
                           </SelectContent>
                         </Select>
                         <Input
@@ -1874,7 +1878,7 @@ const EditLocation = () => {
                             }`}>
                             {emp.fullName}
                             {isSelected && (
-                              <span className="ml-2 inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-semibold uppercase tracking-wide bg-muted text-muted-foreground border border-border">
+                              <span className="ml-2 inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold uppercase tracking-wide bg-muted text-muted-foreground border border-border">
                                 {t("page.location.form.managerCurrentLabel")}
                               </span>
                             )}
@@ -1887,7 +1891,7 @@ const EditLocation = () => {
                         <td className="px-4 py-3">
                           {position ? (
                             <span
-                              className={`inline-flex items-center px-2.5 py-1 rounded-full text-[11px] font-semibold uppercase tracking-wide border ${getPositionBadge(position)} ${isSelected ? "opacity-60" : ""}`}>
+                              className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold uppercase tracking-wide border ${getPositionBadge(position)} ${isSelected ? "opacity-60" : ""}`}>
                               {position}
                             </span>
                           ) : (

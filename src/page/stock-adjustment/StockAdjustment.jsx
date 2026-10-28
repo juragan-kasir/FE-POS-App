@@ -37,6 +37,7 @@ import PageHeader from "@/components/ui/PageHeader";
 import UserGuide from "@/components/organism/UserGuide";
 import { useLocations } from "@/queries/useLocations";
 import { FIELD_LIMITS } from "@/constants/fieldLimits";
+import LoadErrorBanner from "@/components/ui/LoadErrorBanner";
 
 const StockAdjustment = () => {
   const { t } = useTranslation();
@@ -157,6 +158,7 @@ const StockAdjustment = () => {
         description={t("page.stockAdjustment.description")}>
         <UserGuide guideKey="adjust-stock" />
       </PageHeader>
+      <LoadErrorBanner />
 
       {locData && (locData?.data || []).length === 0 ? (
         <NoStore />
@@ -248,7 +250,7 @@ const StockAdjustment = () => {
                 </div>
 
                 <div className="space-y-2">
-                  <Label>
+                  <Label htmlFor="stock-adjustment-qty">
                     {t("page.stockAdjustment.form.qty")} <span className="text-destructive">*</span>
                     <span className="text-xs text-muted-foreground ml-2 font-normal">
                       ({t("page.stockAdjustment.form.qtyHint")})
@@ -271,6 +273,7 @@ const StockAdjustment = () => {
                       )}
                     />
                     <Input
+                      id="stock-adjustment-qty"
                       type="text"
                       inputMode="numeric"
                       placeholder={t("page.stockAdjustment.form.qtyPlaceholder")}
@@ -285,8 +288,11 @@ const StockAdjustment = () => {
                 </div>
 
                 <div className="space-y-2">
-                  <Label>{t("page.stockAdjustment.form.reason")}</Label>
+                  <Label htmlFor="stock-adjustment-reason">
+                    {t("page.stockAdjustment.form.reason")}
+                  </Label>
                   <Textarea
+                    id="stock-adjustment-reason"
                     placeholder={t("page.stockAdjustment.form.reasonPlaceholder")}
                     {...form.register("reason")}
                     rows={3}

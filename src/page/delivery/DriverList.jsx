@@ -57,12 +57,10 @@ const statusBadge = (status) => {
     active:
       "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400 border border-green-200 dark:border-green-800",
     busy: "bg-orange-100 text-orange-800 dark:bg-orange-900/30 dark:text-orange-400 border border-orange-200 dark:border-orange-800",
-    offline:
-      "bg-muted text-gray-600 dark:bg-gray-900/30 dark:text-muted-foreground border border-gray-200 dark:border-gray-800",
+    offline: "bg-muted text-muted-foreground border border-border",
     inactive:
       "bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400 border border-red-200 dark:border-red-800",
-    draft:
-      "bg-slate-100 text-slate-700 dark:bg-slate-900/30 dark:text-slate-400 border border-slate-200 dark:border-slate-800"
+    draft: "bg-muted text-foreground border border-border"
   };
   return safeGet(map, status, "bg-muted text-muted-foreground");
 };
@@ -166,7 +164,7 @@ const DriverList = () => {
       header: t("page.delivery.driver.detail.status"),
       render: (driver) => (
         <span
-          className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-tight ${statusBadge(driver.status)}`}>
+          className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold uppercase tracking-tight ${statusBadge(driver.status)}`}>
           {t(`page.delivery.driver.status.${driver.status}`)}
         </span>
       )
@@ -351,10 +349,13 @@ const DriverList = () => {
             onReset={resetFilters}
             isFiltered={isFiltered}>
             <div className="flex flex-col gap-1.5">
-              <label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
-                Cari
+              <label
+                htmlFor="driver-list-search"
+                className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                {t("common.search")}
               </label>
               <SearchInput
+                id="driver-list-search"
                 value={search}
                 onChange={(val) => {
                   setSearch(val);
@@ -365,10 +366,13 @@ const DriverList = () => {
               />
             </div>
             <div className="flex flex-col gap-1.5">
-              <label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
+              <label
+                htmlFor="driver-list-status"
+                className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                 {t("page.delivery.driver.detail.status")}
               </label>
               <Combobox
+                id="driver-list-status"
                 options={statusOptions}
                 value={statusFilter}
                 onChange={(val) => {

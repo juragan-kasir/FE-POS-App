@@ -61,7 +61,7 @@ const TenantStatusPill = ({ status }) => {
   const { t } = useTranslation();
   return (
     <span
-      className={`inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold ${
+      className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-bold ${
         STATUS_STYLES[status] || STATUS_STYLES.suspended
       }`}>
       {t(`${P}.status.${status}`, { defaultValue: status })}
@@ -95,7 +95,7 @@ const errorMessage = (t, error) => {
   return { field: null, message: t(`${P}.error.generic`) };
 };
 
-const fieldLabelClass = "text-[11px] font-semibold uppercase tracking-wider text-muted-foreground";
+const fieldLabelClass = "text-xs font-semibold uppercase tracking-wider text-muted-foreground";
 
 const TenantFormModal = ({ open, tenant, onClose }) => {
   const { t } = useTranslation();
@@ -437,11 +437,18 @@ const TenantList = () => {
             isLoading={isLoading || isFetching}
             emptyMessage={t(`${P}.empty`)}
             emptyIcon={Building2}
+            emptyAction={{
+              label: t("breadcrumb.add"),
+              onClick: () => setFormTarget({ tenant: null })
+            }}
             toolbar={
               <TableToolbar title={t(`${P}.title`)} onReset={resetFilters} isFiltered={isFiltered}>
                 <div className="flex flex-col gap-1.5">
-                  <label className={fieldLabelClass}>{t("common.search")}</label>
+                  <label htmlFor="tenant-list-search" className={fieldLabelClass}>
+                    {t("common.search")}
+                  </label>
                   <SearchInput
+                    id="tenant-list-search"
                     value={search}
                     onChange={(value) => {
                       setSearch(value);
@@ -453,7 +460,9 @@ const TenantList = () => {
                   />
                 </div>
                 <div className="flex flex-col gap-1.5">
-                  <label className={fieldLabelClass}>{t("common.status")}</label>
+                  <label htmlFor="tenant-status-filter" className={fieldLabelClass}>
+                    {t("common.status")}
+                  </label>
                   <Combobox
                     id="tenant-status-filter"
                     options={[

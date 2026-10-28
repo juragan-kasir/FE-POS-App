@@ -11,7 +11,7 @@ import { getIngredientStockState } from "@/utils/ingredientStockState";
 import { todayDateOnly } from "@/utils/dateOnly";
 
 const P = "page.ingredient.summary";
-const fieldLabelClass = "text-[11px] font-semibold uppercase tracking-wider text-muted-foreground";
+const fieldLabelClass = "text-xs font-semibold uppercase tracking-wider text-muted-foreground";
 
 const Qty = ({ value, unit, tone }) => (
   <span className={`font-mono ${tone || ""}`}>
@@ -54,7 +54,7 @@ const IngredientStockSummary = ({ store, needsStore }) => {
           <div>
             <p className="font-medium">{item.name}</p>
             {state !== "recorded" && (
-              <span className="mt-1 inline-flex px-2 py-0.5 rounded-full text-[11px] font-medium bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400">
+              <span className="mt-1 inline-flex px-2 py-0.5 rounded-full text-xs font-medium bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400">
                 {t(`page.ingredient.stockState.${state}`)}
               </span>
             )}

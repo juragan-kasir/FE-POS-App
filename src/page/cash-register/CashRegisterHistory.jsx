@@ -130,7 +130,7 @@ const CashRegisterHistory = () => {
         <div className="text-sm">
           <div>{item.storeData?.name || "-"}</div>
           {item.storeData?.address && (
-            <div className="text-[10px] text-muted-foreground">
+            <div className="text-xs text-muted-foreground">
               {[item.storeData.address, item.storeData.city].filter(Boolean).join(", ")}
             </div>
           )}
@@ -201,7 +201,7 @@ const CashRegisterHistory = () => {
       render: (item) => (
         <div className="text-right">
           <div className="font-mono text-sm">{item.outsideWindow?.count ?? 0}x</div>
-          <div className="text-[10px] text-muted-foreground font-mono">
+          <div className="text-xs text-muted-foreground font-mono">
             {formatIDR(item.outsideWindow?.total)}
           </div>
         </div>
@@ -245,7 +245,7 @@ const CashRegisterHistory = () => {
           <div className="text-right" data-testid={`closing-balance-${item.id}`}>
             <div className="font-mono text-sm">{formatIDR(closing)}</div>
             {variance != null && variance !== 0 && (
-              <div className="text-[10px] text-muted-foreground">
+              <div className="text-xs text-muted-foreground">
                 {t("page.cashRegister.history.variance")} {variance > 0 ? "+" : ""}
                 {formatIDR(variance)}
                 {nonCash > 0
@@ -264,7 +264,7 @@ const CashRegisterHistory = () => {
         const sc = statusCfg[item.status] || statusCfg.closed;
         return (
           <span
-            className={`inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold uppercase ${sc.class}`}>
+            className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-bold uppercase ${sc.class}`}>
             {sc.label}
           </span>
         );
@@ -371,6 +371,10 @@ const CashRegisterHistory = () => {
             isLoading={isLoading}
             emptyMessage={t("page.cashRegister.history.empty")}
             emptyIcon={Receipt}
+            emptyAction={{
+              label: t("page.cashRegister.history.openRegister"),
+              onClick: () => navigate("/cash-register/open-close")
+            }}
             toolbar={
               <div className="flex flex-wrap lg:flex-nowrap items-end gap-3 w-full">
                 <h4 className="text-base font-semibold text-foreground shrink-0 self-center mr-1">
@@ -386,10 +390,13 @@ const CashRegisterHistory = () => {
                   <>
                     <div className="flex-1 min-w-[160px]">
                       <div className="flex flex-col gap-1.5">
-                        <label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
-                          Cari
+                        <label
+                          htmlFor="cash-register-history-search"
+                          className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                          {t("common.search")}
                         </label>
                         <SearchInput
+                          id="cash-register-history-search"
                           value={search}
                           onChange={(val) => {
                             setSearch(val);
@@ -402,8 +409,8 @@ const CashRegisterHistory = () => {
                     </div>
                     {isSuperAdmin && (
                       <div className="flex flex-col gap-1.5">
-                        <label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
-                          Store
+                        <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                          {t("page.goodsReceipt.detail.store")}
                         </label>
                         <StoreFilter
                           locations={locData?.data || []}
@@ -418,7 +425,7 @@ const CashRegisterHistory = () => {
                       </div>
                     )}
                     <div className="flex flex-col gap-1.5">
-                      <label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
+                      <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                         &nbsp;
                       </label>
                       <Button
@@ -466,7 +473,7 @@ const CashRegisterHistory = () => {
         loading={closeMut.isLoading}
         onConfirm={() => closeMut.mutate()}>
         <div className="space-y-2">
-          <Label className="text-sm font-medium">
+          <Label htmlFor="cash-register-history-closing-balance" className="text-sm font-medium">
             {t("page.cashRegister.current.closingBalance")}{" "}
             <span className="text-destructive">*</span>
           </Label>
@@ -475,6 +482,7 @@ const CashRegisterHistory = () => {
               <Coins size={16} />
             </div>
             <Input
+              id="cash-register-history-closing-balance"
               type="text"
               inputMode="numeric"
               value={formatIDR(rawClosing === "0" ? "" : rawClosing)}

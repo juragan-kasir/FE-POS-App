@@ -12,7 +12,7 @@ import { getIngredientStockState } from "@/utils/ingredientStockState";
 import { FIELD_LIMITS } from "@/constants/fieldLimits";
 
 const P = "page.ingredient.adjust";
-const fieldLabelClass = "text-[11px] font-semibold uppercase tracking-wider text-muted-foreground";
+const fieldLabelClass = "text-xs font-semibold uppercase tracking-wider text-muted-foreground";
 
 // Opening stock / count / correction for one ingredient through the
 // audited adjust-stock endpoint. The server computes the change from its
@@ -106,7 +106,7 @@ const AdjustIngredientStockModal = ({ ingredient, onClose }) => {
                 {formatQuantity(current)} {unit}
               </span>
               {stockState === "unrecorded" && (
-                <span className="ml-2 inline-flex px-2 py-0.5 rounded-full text-[11px] font-medium bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400">
+                <span className="ml-2 inline-flex px-2 py-0.5 rounded-full text-xs font-medium bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400">
                   {t("page.ingredient.stockState.unrecorded")}
                 </span>
               )}
@@ -114,8 +114,11 @@ const AdjustIngredientStockModal = ({ ingredient, onClose }) => {
           )}
         </div>
         <div className="flex flex-col gap-1.5">
-          <label className={fieldLabelClass}>{t(`${P}.type`)}</label>
+          <label htmlFor="adjust-ingredient-stock-modal-type" className={fieldLabelClass}>
+            {t(`${P}.type`)}
+          </label>
           <Combobox
+            id="adjust-ingredient-stock-modal-type"
             options={[
               { value: "set", label: t(`${P}.typeSet`) },
               { value: "add", label: t(`${P}.typeAdd`) },

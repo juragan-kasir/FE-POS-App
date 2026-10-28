@@ -43,6 +43,7 @@ import TableActions from "@/components/ui/TableActions";
 import { cn } from "@/lib/utils";
 import HorizontalScrollArea from "@/components/ui/HorizontalScrollArea";
 import { useLocations } from "@/queries/useLocations";
+import PageHeader from "@/components/ui/PageHeader";
 
 const statusMap = {
   pending: {
@@ -55,7 +56,7 @@ const statusMap = {
     class: "bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400"
   },
   cancelled: {
-    class: "bg-gray-100 text-gray-700 dark:bg-gray-800/40 dark:text-gray-400"
+    class: "bg-muted text-foreground"
   }
 };
 
@@ -219,7 +220,7 @@ const GoodsRequestList = () => {
         const sc = statusMap[item.status] || statusMap.pending;
         return (
           <span
-            className={`inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold uppercase ${sc.class}`}>
+            className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-bold uppercase ${sc.class}`}>
             {t(`page.goodsRequest.list.status.${item.status || "pending"}`)}
           </span>
         );
@@ -372,7 +373,7 @@ const GoodsRequestList = () => {
             className="border border-border rounded-xl overflow-hidden bg-card">
             <div className="flex items-center gap-3 px-4 py-3 bg-muted/40 border-b">
               <span className="font-semibold text-foreground">{g.supplierName}</span>
-              <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-medium bg-blue-50 text-blue-700 dark:bg-blue-900/20 dark:text-blue-400 border border-blue-200 dark:border-blue-800">
+              <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-blue-50 text-blue-700 dark:bg-blue-900/20 dark:text-blue-400 border border-blue-200 dark:border-blue-800">
                 {g.items.length}{" "}
                 {g.items.length > 1
                   ? t("page.goodsRequest.list.items")
@@ -383,13 +384,13 @@ const GoodsRequestList = () => {
               <table className="w-full text-sm">
                 <thead>
                   <tr className="bg-gradient-to-r from-slate-50 to-blue-50/30 dark:from-slate-900 dark:to-blue-950/20">
-                    <th className="text-left px-4 py-2.5 text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
+                    <th className="text-left px-4 py-2.5 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                       {t("page.goodsRequest.list.table.item")}
                     </th>
-                    <th className="text-center px-4 py-2.5 text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
+                    <th className="text-center px-4 py-2.5 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                       {t("page.goodsRequest.list.table.qty")}
                     </th>
-                    <th className="text-center px-4 py-2.5 text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
+                    <th className="text-center px-4 py-2.5 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                       {t("page.goodsRequest.list.table.unit")}
                     </th>
                   </tr>
@@ -400,9 +401,7 @@ const GoodsRequestList = () => {
                       key={it.id || i}
                       className={cn(
                         "transition-colors",
-                        i % 2 === 0
-                          ? "bg-white dark:bg-slate-950"
-                          : "bg-slate-50/50 dark:bg-slate-900/50",
+                        i % 2 === 0 ? "bg-background" : "bg-muted/50",
                         "hover:bg-blue-50/50 dark:hover:bg-blue-950/20"
                       )}>
                       <td className="px-4 py-2.5 font-medium text-foreground">
@@ -459,49 +458,33 @@ const GoodsRequestList = () => {
 
   return (
     <div className="space-y-6">
-      <div>
-        <nav className="flex items-center gap-2 text-sm text-muted-foreground">
-          <button
-            onClick={() => navigate("/dashboard-super-admin")}
-            className="hover:text-foreground">
-            {t("breadcrumb.dashboard")}
-          </button>
-          <span className="text-xs">/</span>
-          <span className="text-primary font-semibold">{t("breadcrumb.goodsRequest")}</span>
-        </nav>
-      </div>
-
-      <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
-        <div>
-          <h1 className="text-2xl font-bold text-foreground">
-            {t("page.goodsRequest.list.title")}
-          </h1>
-          <p className="text-sm text-muted-foreground mt-1">
-            {t("page.goodsRequest.list.description")}
-          </p>
-        </div>
-        <div className="flex items-center gap-2 shrink-0">
-          {canAccess(user, MENU_KEY, "export") && (
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={exportData}
-              disabled={exportLoading}
-              className="gap-1.5">
-              <Download size={14} />
-              {exportLoading ? "..." : t("common.export")}
-            </Button>
-          )}
-          {canAccess(user, MENU_KEY, "add") && (
-            <Button
-              variant="success"
-              onClick={() => navigate("/add-goods-request")}
-              className="shrink-0 gap-2">
-              <Plus size={16} /> {t("page.goodsRequest.list.addButton")}
-            </Button>
-          )}
-        </div>
-      </div>
+      <PageHeader
+        breadcrumbs={[
+          { label: t("breadcrumb.dashboard"), href: "/dashboard-super-admin" },
+          { label: t("breadcrumb.goodsRequest") }
+        ]}
+        title={t("page.goodsRequest.list.title")}
+        description={t("page.goodsRequest.list.description")}>
+        {canAccess(user, MENU_KEY, "export") && (
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={exportData}
+            disabled={exportLoading}
+            className="gap-1.5">
+            <Download size={14} />
+            {exportLoading ? "..." : t("common.export")}
+          </Button>
+        )}
+        {canAccess(user, MENU_KEY, "add") && (
+          <Button
+            variant="success"
+            onClick={() => navigate("/add-goods-request")}
+            className="shrink-0 gap-2">
+            <Plus size={16} /> {t("page.goodsRequest.list.addButton")}
+          </Button>
+        )}
+      </PageHeader>
 
       {locData && (locData?.data || []).length === 0 ? (
         <NoStore />
@@ -576,10 +559,13 @@ const GoodsRequestList = () => {
                       onReset={resetFilters}
                       isFiltered={isFiltered}>
                       <div className="flex flex-col gap-1.5">
-                        <label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
-                          Cari
+                        <label
+                          htmlFor="goods-request-list-search"
+                          className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                          {t("common.search")}
                         </label>
                         <SearchInput
+                          id="goods-request-list-search"
                           value={search}
                           onChange={(val) => {
                             setSearch(val);
@@ -591,10 +577,13 @@ const GoodsRequestList = () => {
                       </div>
                       {isSuperAdmin && (
                         <div className="flex flex-col gap-1.5">
-                          <label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
-                            Store
+                          <label
+                            htmlFor="goods-request-list-store"
+                            className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                            {t("page.goodsReceipt.detail.store")}
                           </label>
                           <Combobox
+                            id="goods-request-list-store"
                             options={[
                               {
                                 value: "all",
@@ -616,10 +605,13 @@ const GoodsRequestList = () => {
                         </div>
                       )}
                       <div className="flex flex-col gap-1.5">
-                        <label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
+                        <label
+                          htmlFor="goods-request-list-status"
+                          className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                           {t("common.status")}
                         </label>
                         <Combobox
+                          id="goods-request-list-status"
                           options={[
                             {
                               value: "all",

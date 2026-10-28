@@ -1,17 +1,18 @@
 import { safeGet } from "@/lib/safe-lookup";
 import React from "react";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 import { useQuery } from "react-query";
-import { ArrowLeft, Receipt, Wallet, Clock, AlertCircle, FileText } from "lucide-react";
+import { Receipt, Wallet, Clock, AlertCircle } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { getARById } from "@/services/accounts-receivable";
-import { Button } from "@/components/ui/button";
+
 import { Card } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Separator } from "@/components/ui/separator";
 import DataTable from "@/components/ui/DataTable";
 import { formatCurrencyRupiah } from "@/utils/formatter-currency";
 import AbortController from "@/components/organism/abort-controller";
+import PageHeader from "@/components/ui/PageHeader";
 
 const STATUS_MAP = {
   UNPAID: { label: "Belum Dibayar", color: "bg-yellow-100 text-yellow-800" },
@@ -22,7 +23,6 @@ const STATUS_MAP = {
 
 const AccountsReceivableDetail = () => {
   const { t } = useTranslation();
-  const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const id = searchParams.get("id");
 
@@ -66,58 +66,30 @@ const AccountsReceivableDetail = () => {
 
   return (
     <div className="space-y-6">
-      <div>
-        <nav className="flex items-center gap-2 text-sm text-muted-foreground">
-          <button
-            onClick={() => navigate("/dashboard-super-admin")}
-            className="hover:text-foreground transition-colors">
-            {t("page.accountsReceivable.detail.breadcrumb.dashboard")}
-          </button>
-          <span className="text-xs">/</span>
-          <button
-            onClick={() => navigate("/accounts-receivable")}
-            className="hover:text-foreground transition-colors">
-            {t("page.accountsReceivable.detail.breadcrumb.list")}
-          </button>
-          <span className="text-xs">/</span>
-          <span className="text-primary font-semibold">
-            {t("page.accountsReceivable.detail.breadcrumb.detail")}
+      <PageHeader
+        breadcrumbs={[
+          {
+            label: t("page.accountsReceivable.detail.breadcrumb.dashboard"),
+            href: "/dashboard-super-admin"
+          },
+          {
+            label: t("page.accountsReceivable.detail.breadcrumb.list"),
+            href: "/accounts-receivable"
+          },
+          { label: t("page.accountsReceivable.detail.breadcrumb.detail") }
+        ]}
+        title={isLoading ? "…" : ar?.invoiceNo || `AR-${ar?.id}`}
+        backLink="/accounts-receivable"
+        dynamicInfo={false}>
+        {!isLoading && (
+          <span
+            className={`inline-block px-2 py-0.5 rounded text-xs font-medium ${statusInfo?.color}`}>
+            {isOverdue ? t("page.accountsReceivable.detail.status.overdue") : statusInfo?.label}
+            {ar?.overdueDays > 0 &&
+              ` (${t("page.accountsReceivable.detail.overdueLabel")} ${ar.overdueDays} ${t("page.accountsReceivable.detail.days")})`}
           </span>
-        </nav>
-      </div>
-
-      <div>
-        <div className="flex flex-wrap items-center justify-between gap-3">
-          <div className="flex items-center gap-3">
-            <Button variant="outline" size="icon" onClick={() => navigate("/accounts-receivable")}>
-              <ArrowLeft size={16} />
-            </Button>
-            <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center text-primary">
-              <FileText size={24} />
-            </div>
-            <div>
-              {isLoading ? (
-                <>
-                  <Skeleton className="h-7 w-48 mb-2" />
-                  <Skeleton className="h-4 w-64" />
-                </>
-              ) : (
-                <>
-                  <h1 className="text-2xl font-bold">{ar?.invoiceNo || `AR-${ar?.id}`}</h1>
-                  <span
-                    className={`inline-block px-2 py-0.5 rounded text-xs font-medium mt-1 ${statusInfo?.color}`}>
-                    {isOverdue
-                      ? t("page.accountsReceivable.detail.status.overdue")
-                      : statusInfo?.label}
-                    {ar?.overdueDays > 0 &&
-                      ` (${t("page.accountsReceivable.detail.overdueLabel")} ${ar.overdueDays} ${t("page.accountsReceivable.detail.days")})`}
-                  </span>
-                </>
-              )}
-            </div>
-          </div>
-        </div>
-      </div>
+        )}
+      </PageHeader>
 
       {isLoading ? (
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">

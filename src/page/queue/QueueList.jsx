@@ -45,8 +45,7 @@ const statusBadge = (status) => {
       "bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400 border border-red-200 dark:border-red-800",
     no_show:
       "bg-orange-100 text-orange-800 dark:bg-orange-900/30 dark:text-orange-400 border border-orange-200 dark:border-orange-800",
-    expired:
-      "bg-muted text-muted-foreground dark:bg-gray-900/30 dark:text-muted-foreground border border-gray-200 dark:border-gray-800"
+    expired: "bg-muted text-muted-foreground border border-border"
   };
   return safeGet(map, status, "bg-muted text-muted-foreground");
 };
@@ -307,10 +306,13 @@ const QueueList = () => {
               onReset={resetFilters}
               isFiltered={isFiltered}>
               <div className="flex flex-col gap-1.5">
-                <label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
-                  Cari
+                <label
+                  htmlFor="queue-list-search"
+                  className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                  {t("common.search")}
                 </label>
                 <SearchInput
+                  id="queue-list-search"
                   value={search}
                   onChange={(val) => {
                     setSearch(val);
@@ -321,32 +323,38 @@ const QueueList = () => {
                 />
               </div>
               <div className="flex flex-col gap-1.5">
-                <label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
-                  Filter Status
+                <label
+                  htmlFor="queue-list-filter-status"
+                  className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                  {t("page.queue.ui.filterStatus")}
                 </label>
                 <Combobox
+                  id="queue-list-filter-status"
                   options={statusOptions}
                   value={statusFilter}
                   onChange={(val) => {
                     setStatusFilter(val);
                     setPage(1);
                   }}
-                  placeholder="Filter Status"
+                  placeholder={t("page.queue.ui.filterStatus")}
                   searchPlaceholder="Cari..."
                 />
               </div>
               <div className="flex flex-col gap-1.5">
-                <label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
-                  Filter Priority
+                <label
+                  htmlFor="queue-list-filter-priority"
+                  className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                  {t("page.queue.ui.filterPriority")}
                 </label>
                 <Combobox
+                  id="queue-list-filter-priority"
                   options={priorityOptions}
                   value={priorityFilter}
                   onChange={(val) => {
                     setPriorityFilter(val);
                     setPage(1);
                   }}
-                  placeholder="Filter Priority"
+                  placeholder={t("page.queue.ui.filterPriority")}
                   searchPlaceholder="Cari..."
                 />
               </div>

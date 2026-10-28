@@ -375,7 +375,7 @@ const DetailIngredientCategory = () => {
               <div className="flex items-center gap-2">
                 <div className="flex items-center gap-2 text-sm font-semibold text-muted-foreground uppercase tracking-wide">
                   <Beef size={14} />
-                  Bahan Baku dalam Kategori
+                  {t("page.ingredientCategory.ui.ingredientsInCategory")}
                 </div>
                 <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-bold bg-primary/10 text-primary">
                   {ingredientCount}
@@ -386,7 +386,7 @@ const DetailIngredientCategory = () => {
                   <SearchInput
                     value={ingSearch}
                     onChange={setIngSearch}
-                    placeholder="Cari bahan baku..."
+                    placeholder={t("page.ingredient.list.searchPlaceholder")}
                   />
                 </div>
               )}
@@ -398,20 +398,23 @@ const DetailIngredientCategory = () => {
                   <Beef size={24} className="text-muted-foreground/60" />
                 </div>
                 <div className="text-center">
-                  <p className="text-sm font-medium text-foreground">Belum ada bahan baku</p>
+                  <p className="text-sm font-medium text-foreground">
+                    {t("page.ingredient.list.emptyMessage")}
+                  </p>
                   <p className="text-xs text-muted-foreground mt-0.5">
-                    Bahan baku yang menggunakan kategori ini akan tampil di sini
+                    {t("page.ingredientCategory.ui.ingredientsInThisCategoryWill")}
                   </p>
                 </div>
                 <Button variant="success" size="sm" onClick={() => navigate("/add-ingredient")}>
-                  Tambah Bahan Baku
+                  {t("guide.ingredient.s14d")}
                 </Button>
               </div>
             ) : filteredIngredients.length === 0 ? (
               <div className="flex flex-col items-center gap-2 py-10">
                 <Beef size={24} className="text-muted-foreground/40" />
                 <p className="text-sm text-muted-foreground">
-                  Tidak ada hasil untuk &quot;{ingSearch}&quot;
+                  {t("page.ingredientCategory.ui.noResultsFor")}
+                  {ingSearch}&quot;
                 </p>
               </div>
             ) : (
@@ -438,11 +441,12 @@ const DetailIngredientCategory = () => {
                         <div className="flex items-center gap-2 mt-0.5 flex-wrap">
                           <span
                             className={`text-xs ${low ? "text-amber-600 dark:text-amber-400 font-medium" : "text-muted-foreground"}`}>
-                            Stok: {Number(ing.stock || 0)} {ing.unit || "pcs"}
+                            {t("page.product.stockLabel")} {Number(ing.stock || 0)}{" "}
+                            {ing.unit || "pcs"}
                             {low && (
                               <span className="inline-flex items-center gap-0.5 ml-1">
                                 <AlertTriangle size={10} />
-                                Menipis
+                                {t("page.stockOpname.status.menipis")}
                               </span>
                             )}
                           </span>
@@ -453,7 +457,7 @@ const DetailIngredientCategory = () => {
                         </div>
                       </div>
                       <span
-                        className={`shrink-0 inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold ${ingSt.badge}`}>
+                        className={`shrink-0 inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-bold ${ingSt.badge}`}>
                         {(() => {
                           const IngIcon = ingSt.icon;
                           return IngIcon && <IngIcon size={10} />;

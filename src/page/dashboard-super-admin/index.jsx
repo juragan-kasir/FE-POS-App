@@ -2,16 +2,7 @@ import React, { useState, useMemo, useEffect } from "react";
 import { useQuery } from "react-query";
 import { useNavigate } from "react-router-dom";
 import { useStore } from "@/contexts/StoreContext";
-import {
-  LayoutDashboard,
-  RefreshCw,
-  Store,
-  CalendarDays,
-  Building2,
-  Info,
-  BellRing,
-  Calendar
-} from "lucide-react";
+import { RefreshCw, Store, CalendarDays, Building2, Info, BellRing, Calendar } from "lucide-react";
 import { getSuperAdminDashboard } from "@/services/dashboard";
 import { getUpcomingPayments } from "@/services/expense";
 import { useTranslation } from "react-i18next";
@@ -36,6 +27,7 @@ import ActivitySection from "@/components/dashboard-super-admin/ActivitySection"
 import { formatCurrencyRupiah } from "@/utils/formatter-currency";
 import { buildDashboardQueryParams } from "@/lib/dashboard-query";
 import { useLocations } from "@/queries/useLocations";
+import PageHeader from "@/components/ui/PageHeader";
 
 const PRESETS = ["7d", "30d", "thisMonth", "lastMonth", "all"];
 
@@ -127,100 +119,83 @@ const DashboardSuperAdmin = () => {
 
   return (
     <div className="space-y-6">
-      {/* Header + global filter */}
-      <div className="bg-card rounded-xl border border-border p-5 shadow-sm">
-        <div className="flex flex-wrap items-start justify-between gap-4">
-          <div className="flex items-start gap-3">
-            <div className="h-11 w-11 rounded-xl bg-primary/10 flex items-center justify-center text-primary shrink-0">
-              <LayoutDashboard size={22} />
-            </div>
-            <div>
-              <h1 className="text-xl font-bold text-foreground">
-                {t("page.dashboardSuperAdmin.title")}
-              </h1>
-              <p className="text-sm text-muted-foreground">
-                {t("page.dashboardSuperAdmin.subtitle")}
-              </p>
-            </div>
-          </div>
+      <PageHeader
+        title={t("page.dashboardSuperAdmin.title")}
+        description={t("page.dashboardSuperAdmin.subtitle")}
+        dynamicInfo={false}>
+        <div className="flex bg-muted rounded-lg p-0.5">
+          {PRESETS.map((key) => (
+            <button
+              key={key}
+              onClick={() => handlePreset(key)}
+              className={`px-3 py-1.5 text-xs font-medium rounded-md transition-colors ${
+                preset === key
+                  ? "bg-background text-foreground shadow-sm"
+                  : "text-muted-foreground hover:text-foreground"
+              }`}>
+              {t(`page.dashboardSuperAdmin.preset.${key}`)}
+            </button>
+          ))}
+        </div>
 
-          <div className="flex flex-wrap items-center gap-3">
-            <div className="flex bg-muted rounded-lg p-0.5">
-              {PRESETS.map((key) => (
-                <button
-                  key={key}
-                  onClick={() => handlePreset(key)}
-                  className={`px-3 py-1.5 text-xs font-medium rounded-md transition-colors ${
-                    preset === key
-                      ? "bg-background text-foreground shadow-sm"
-                      : "text-muted-foreground hover:text-foreground"
-                  }`}>
-                  {t(`page.dashboardSuperAdmin.preset.${key}`)}
-                </button>
+        <div className="flex items-center gap-2">
+          <Store size={16} className="text-muted-foreground shrink-0" />
+          <Select
+            value={storeFilter || "all"}
+            onValueChange={(v) => {
+              if (v === "all") setActiveStore("", "");
+              else setActiveStore(v, "");
+            }}>
+            <SelectTrigger className="w-[180px]">
+              <SelectValue placeholder={t("page.dashboardSuperAdmin.allStores")} />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">{t("page.dashboardSuperAdmin.allStores")}</SelectItem>
+              {locations.map((loc) => (
+                <SelectItem key={loc.id} value={String(loc.id)}>
+                  {loc.name}
+                </SelectItem>
               ))}
-            </div>
-
-            <div className="flex items-center gap-2">
-              <Store size={16} className="text-muted-foreground shrink-0" />
-              <Select
-                value={storeFilter || "all"}
-                onValueChange={(v) => {
-                  if (v === "all") setActiveStore("", "");
-                  else setActiveStore(v, "");
-                }}>
-                <SelectTrigger className="w-[180px]">
-                  <SelectValue placeholder={t("page.dashboardSuperAdmin.allStores")} />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="all">{t("page.dashboardSuperAdmin.allStores")}</SelectItem>
-                  {locations.map((loc) => (
-                    <SelectItem key={loc.id} value={String(loc.id)}>
-                      {loc.name}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
-
-            <div className="flex items-center gap-2 text-sm text-muted-foreground">
-              <CalendarDays size={15} />
-              <span className="capitalize">{rangeLabel}</span>
-            </div>
-
-            <Button
-              variant="outline"
-              size="sm"
-              className="gap-1.5"
-              onClick={() => refetch()}
-              disabled={isFetching}>
-              <RefreshCw size={14} className={isFetching ? "animate-spin" : ""} />
-              {t("page.dashboardSuperAdmin.reload")}
-            </Button>
-          </div>
+            </SelectContent>
+          </Select>
         </div>
 
-        <div className="mt-4 pt-4 border-t border-border flex flex-wrap items-center gap-x-5 gap-y-1.5 text-xs text-muted-foreground">
-          <span className="inline-flex items-center gap-1.5">
-            <Building2 size={13} />
-            {storeFilter
-              ? selectedStoreName ||
-                t("page.dashboardSuperAdmin.meta.storeFallback", { id: storeFilter })
-              : t("page.dashboardSuperAdmin.meta.allStores")}
-          </span>
-          <span className="inline-flex items-center gap-1.5">
-            <CalendarDays size={13} />
-            {t("page.dashboardSuperAdmin.meta.period")}{" "}
-            {dateRange.startDate
-              ? `${new Date(dateRange.startDate).toLocaleDateString(locale)} – ${new Date(
-                  dateRange.endDate
-                ).toLocaleDateString(locale)}`
-              : t("page.dashboardSuperAdmin.meta.allTime")}
-          </span>
-          <span className="inline-flex items-center gap-1.5">
-            <Info size={13} />
-            {t("page.dashboardSuperAdmin.meta.activeStores", { count: d.meta?.storeCount || 0 })}
-          </span>
-        </div>
+        <Button
+          variant="outline"
+          size="sm"
+          className="gap-1.5"
+          onClick={() => refetch()}
+          disabled={isFetching}>
+          <RefreshCw size={14} className={isFetching ? "animate-spin" : ""} />
+          {t("page.dashboardSuperAdmin.reload")}
+        </Button>
+      </PageHeader>
+
+      <div className="flex flex-wrap items-center gap-x-5 gap-y-1.5 text-xs text-muted-foreground">
+        <span className="inline-flex items-center gap-1.5 capitalize">
+          <CalendarDays size={13} />
+          {rangeLabel}
+        </span>
+        <span className="inline-flex items-center gap-1.5">
+          <Building2 size={13} />
+          {storeFilter
+            ? selectedStoreName ||
+              t("page.dashboardSuperAdmin.meta.storeFallback", { id: storeFilter })
+            : t("page.dashboardSuperAdmin.meta.allStores")}
+        </span>
+        <span className="inline-flex items-center gap-1.5">
+          <CalendarDays size={13} />
+          {t("page.dashboardSuperAdmin.meta.period")}{" "}
+          {dateRange.startDate
+            ? `${new Date(dateRange.startDate).toLocaleDateString(locale)} – ${new Date(
+                dateRange.endDate
+              ).toLocaleDateString(locale)}`
+            : t("page.dashboardSuperAdmin.meta.allTime")}
+        </span>
+        <span className="inline-flex items-center gap-1.5">
+          <Info size={13} />
+          {t("page.dashboardSuperAdmin.meta.activeStores", { count: d.meta?.storeCount || 0 })}
+        </span>
       </div>
 
       {upcomingCount > 0 && (

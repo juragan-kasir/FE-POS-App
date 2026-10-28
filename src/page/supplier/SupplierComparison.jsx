@@ -45,6 +45,7 @@ import {
   SelectValue
 } from "@/components/ui/select";
 import PageHeader from "@/components/ui/PageHeader";
+import LoadErrorBanner from "@/components/ui/LoadErrorBanner";
 
 const PAGE_SIZES = [5, 10, 15, 20, 25, 50, 100];
 const DEFAULT_PAGE_SIZE = 10;
@@ -211,7 +212,7 @@ const SupplierComparison = () => {
       } else if (i === fullStars && hasHalf) {
         stars.push(<Star key={i} size={14} className="fill-yellow-400/50 text-yellow-400" />);
       } else {
-        stars.push(<Star key={i} size={14} className="text-gray-300" />);
+        stars.push(<Star key={i} size={14} className="text-muted-foreground" />);
       }
     }
     return stars;
@@ -236,7 +237,7 @@ const SupplierComparison = () => {
       <div className="px-4 py-3 border-t border-border bg-muted/30 flex flex-col sm:flex-row justify-between items-center gap-3">
         <div className="flex items-center gap-3">
           <div className="flex items-center gap-2 text-sm text-muted-foreground">
-            <span>Show</span>
+            <span>{t("page.position.list.show")}</span>
             <Combobox
               options={PAGE_SIZES.map((opt) => ({ value: String(opt), label: String(opt) }))}
               value={String(limit)}
@@ -250,7 +251,7 @@ const SupplierComparison = () => {
             <span>entries</span>
           </div>
           <span className="text-sm text-muted-foreground">
-            Menampilkan {firstIdx}-{lastIdx} dari {supplierGroups.length}
+            {t("page.supplier.ui.showing")} {firstIdx}-{lastIdx} dari {supplierGroups.length}
           </span>
         </div>
         <div className="flex gap-1">
@@ -346,6 +347,7 @@ const SupplierComparison = () => {
           <ArrowLeft size={16} />
         </Button>
       </PageHeader>
+      <LoadErrorBanner />
 
       <Card className="p-4 md:p-5 space-y-3 md:space-y-4">
         <div className="flex items-center gap-2 text-sm font-semibold text-muted-foreground">
@@ -354,7 +356,9 @@ const SupplierComparison = () => {
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 md:gap-4">
           <div className="space-y-1.5">
-            <label className="text-xs font-medium text-muted-foreground">
+            <label
+              htmlFor="supplier-comparison-select-product"
+              className="text-xs font-medium text-muted-foreground">
               {t("page.supplier.comparison.selectProduct")}
             </label>
             <Select
@@ -364,7 +368,7 @@ const SupplierComparison = () => {
                 setPage(1);
                 if (val !== "all") setSearchQuery("");
               }}>
-              <SelectTrigger>
+              <SelectTrigger id="supplier-comparison-select-product">
                 <SelectValue placeholder={t("page.supplier.comparison.allProducts")} />
               </SelectTrigger>
               <SelectContent>
@@ -381,7 +385,9 @@ const SupplierComparison = () => {
             </Select>
           </div>
           <div className="space-y-1.5">
-            <label className="text-xs font-medium text-muted-foreground">
+            <label
+              htmlFor="supplier-comparison-search-product"
+              className="text-xs font-medium text-muted-foreground">
               {t("page.supplier.comparison.searchProduct")}
             </label>
             <div className="relative">
@@ -390,6 +396,7 @@ const SupplierComparison = () => {
                 size={14}
               />
               <Input
+                id="supplier-comparison-search-product"
                 placeholder={t("page.supplier.comparison.searchPlaceholder")}
                 value={searchQuery}
                 onChange={(e) => {
@@ -402,7 +409,9 @@ const SupplierComparison = () => {
             </div>
           </div>
           <div className="space-y-1.5">
-            <label className="text-xs font-medium text-muted-foreground">
+            <label
+              htmlFor="supplier-comparison-sort-by"
+              className="text-xs font-medium text-muted-foreground">
               {t("page.supplier.comparison.sortBy")}
             </label>
             <Select
@@ -411,7 +420,7 @@ const SupplierComparison = () => {
                 setSortBy(val);
                 setPage(1);
               }}>
-              <SelectTrigger>
+              <SelectTrigger id="supplier-comparison-sort-by">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>

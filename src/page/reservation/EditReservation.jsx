@@ -279,7 +279,7 @@ const EditReservation = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="col-span-full">
                 <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider mb-4">
-                  Detail Reservasi
+                  {t("page.reservation.detailTitle")}
                 </h3>
               </div>
               <FormField
@@ -451,9 +451,9 @@ const EditReservation = () => {
                         <SelectItem value="none">
                           {t("page.reservation.edit.form.noTable")}
                         </SelectItem>
-                        {availableTables.map((t) => (
-                          <SelectItem key={t.id} value={String(t.id)}>
-                            {t.name} (Kap. {t.capacity})
+                        {availableTables.map((table) => (
+                          <SelectItem key={table.id} value={String(table.id)}>
+                            {table.name} {t("page.reservation.ui.cap")} {table.capacity})
                           </SelectItem>
                         ))}
                       </SelectContent>
@@ -517,8 +517,8 @@ const EditReservation = () => {
           type="confirm"
           open={confirmSaveModal}
           onOpenChange={setConfirmSaveModal}
-          title="Konfirmasi Simpan"
-          description="Apakah Anda yakin ingin menyimpan perubahan ini?"
+          title={t("common.confirmSave")}
+          description={t("page.reservation.ui.areYouSureYouWant")}
           confirmText="Ya, Simpan"
           onConfirm={() => {
             setConfirmSaveModal(false);

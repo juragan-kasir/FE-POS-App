@@ -25,14 +25,14 @@ const methodBadge = {
   },
   other: {
     label: "Other",
-    class: "bg-gray-100 text-gray-800 dark:bg-gray-900/20 dark:text-gray-400"
+    class: "bg-muted text-foreground"
   }
 };
 
 const poStatusBadge = {
   draft: {
     label: "Draft",
-    class: "bg-gray-100 text-gray-800 dark:bg-gray-900/20 dark:text-gray-400"
+    class: "bg-muted text-foreground"
   },
   pending: {
     label: "Pending",

@@ -52,6 +52,7 @@ import {
 import { StoreConfigurationSkeleton, StoreStatusPill, useCategoryLabel } from "./shared";
 import { qk } from "@/queries/keys";
 import { FIELD_LIMITS } from "@/constants/fieldLimits";
+import LoadErrorBanner from "@/components/ui/LoadErrorBanner";
 
 const LIST_PATH = "/store-configuration";
 
@@ -347,6 +348,7 @@ const StoreConfigurationEditor = ({ routeId }) => {
         backLink={LIST_PATH}
         onBack={requestLeave}
       />
+      <LoadErrorBanner />
 
       <div className="flex flex-col gap-3 rounded-xl border border-border bg-card p-4 shadow-sm sm:flex-row sm:items-center sm:justify-between md:p-6">
         <div className="min-w-0">

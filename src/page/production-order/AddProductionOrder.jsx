@@ -28,6 +28,7 @@ import { FIELD_LIMITS } from "@/constants/fieldLimits";
 import { formatDateOnly } from "@/utils/dateOnly";
 import { useFormExit } from "@/hooks/useLeaveGuard";
 import { createdId } from "@/utils/createdRecord";
+import LoadErrorBanner from "@/components/ui/LoadErrorBanner";
 
 const AddProductionOrder = () => {
   const { t } = useTranslation();
@@ -164,6 +165,7 @@ const AddProductionOrder = () => {
         dynamicInfo={false}>
         <UserGuide guideKey="add-production-order" mode={id ? "edit" : "add"} />
       </PageHeader>
+      <LoadErrorBanner />
 
       <form
         onSubmit={handleSubmit((data) => doSubmit(data, false))}
@@ -197,11 +199,12 @@ const AddProductionOrder = () => {
         </div>
 
         <div className="space-y-2">
-          <Label>
+          <Label htmlFor="add-production-order-label-jumlah-produksi">
             {t("page.productionOrder.add.labelJumlahProduksi")}{" "}
             <span className="text-destructive">*</span>
           </Label>
           <Input
+            id="add-production-order-label-jumlah-produksi"
             type="number"
             min="1"
             {...form.register("plannedQty")}
@@ -222,8 +225,11 @@ const AddProductionOrder = () => {
         </div>
 
         <div className="space-y-2">
-          <Label>{t("page.productionOrder.add.labelCatatan")}</Label>
+          <Label htmlFor="add-production-order-label-catatan">
+            {t("page.productionOrder.add.labelCatatan")}
+          </Label>
           <Textarea
+            id="add-production-order-label-catatan"
             rows={3}
             {...form.register("notes")}
             placeholder={t("page.productionOrder.add.placeholderCatatan")}
@@ -273,7 +279,7 @@ const AddProductionOrder = () => {
               className="w-full sm:w-auto"
               onClick={() => setDraftModal(true)}
               disabled={isSubmitting}>
-              Save as Draft
+              {t("common.saveAsDraft")}
             </Button>
             <Button
               variant="success"

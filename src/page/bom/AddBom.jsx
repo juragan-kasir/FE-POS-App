@@ -32,6 +32,7 @@ import { useFormExit } from "@/hooks/useLeaveGuard";
 import { useFieldErrors } from "@/hooks/useFieldErrors";
 import { FieldError } from "@/components/ui/field-error";
 import { createdId } from "@/utils/createdRecord";
+import LoadErrorBanner from "@/components/ui/LoadErrorBanner";
 
 const emptyLine = () => ({ supplierId: "", ingredientId: "", qty: "", unit: "pcs", notes: "" });
 
@@ -341,6 +342,7 @@ const AddBom = () => {
         dynamicInfo={false}>
         <UserGuide guideKey="add-bom" mode={isEdit ? "edit" : "add"} />
       </PageHeader>
+      <LoadErrorBanner />
 
       <div>
         <form
@@ -348,10 +350,11 @@ const AddBom = () => {
           className="bg-card p-6 rounded-xl border border-border space-y-6">
           {isSuperAdmin && (
             <div className="space-y-2">
-              <Label>
+              <Label htmlFor="add-bom-store">
                 {t("page.bom.add.form.store")} <span className="text-destructive">*</span>
               </Label>
               <Combobox
+                id="add-bom-store"
                 options={[
                   { value: "", label: t("page.bom.add.form.selectStore") },
                   ...locations.map((loc) => ({
@@ -374,10 +377,11 @@ const AddBom = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="space-y-2">
-              <Label>
+              <Label htmlFor="add-bom-product">
                 {t("page.bom.add.form.product")} <span className="text-destructive">*</span>
               </Label>
               <Combobox
+                id="add-bom-product"
                 options={[
                   { value: "", label: t("page.bom.add.form.selectProduct") },
                   ...products.map((p) => ({
@@ -398,8 +402,9 @@ const AddBom = () => {
               <FieldError message={fieldErrors.productId} />
             </div>
             <div className="space-y-2">
-              <Label>{t("page.bom.add.form.name")}</Label>
+              <Label htmlFor="add-bom-name">{t("page.bom.add.form.name")}</Label>
               <Input
+                id="add-bom-name"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 placeholder={t("page.bom.add.placeholder.name")}
@@ -552,8 +557,9 @@ const AddBom = () => {
           </div>
 
           <div className="space-y-2">
-            <Label>{t("page.bom.add.form.notesLabel")}</Label>
+            <Label htmlFor="add-bom-notes-label">{t("page.bom.add.form.notesLabel")}</Label>
             <Textarea
+              id="add-bom-notes-label"
               rows={2}
               value={notes}
               onChange={(e) => setNotes(e.target.value)}

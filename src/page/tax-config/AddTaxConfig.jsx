@@ -32,6 +32,7 @@ import { getMissingFields } from "@/lib/validation";
 import { useLocations } from "@/queries/useLocations";
 import { FIELD_LIMITS } from "@/constants/fieldLimits";
 import { createdId } from "@/utils/createdRecord";
+import LoadErrorBanner from "@/components/ui/LoadErrorBanner";
 
 const taxTypes = [
   { value: "ppn", label: "PPN" },
@@ -137,6 +138,7 @@ const AddTaxConfig = () => {
             onBack={requestLeave}>
             <UserGuide guideKey="add-tax" />
           </PageHeader>
+          <LoadErrorBanner />
         </div>
       </div>
 
@@ -337,8 +339,8 @@ const AddTaxConfig = () => {
               type="confirm"
               open={confirmSaveModal}
               onOpenChange={setConfirmSaveModal}
-              title="Konfirmasi Simpan"
-              description="Apakah Anda yakin ingin menyimpan data ini?"
+              title={t("common.confirmSave")}
+              description={t("page.supplier.modal.confirmSaveDesc")}
               confirmText="Ya, Simpan"
               onConfirm={() => {
                 setConfirmSaveModal(false);

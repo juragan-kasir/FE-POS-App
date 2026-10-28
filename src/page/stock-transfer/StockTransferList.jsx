@@ -174,7 +174,7 @@ const StockTransferList = () => {
         const sc = statusCfg[item.status] || statusCfg.pending;
         return (
           <span
-            className={`inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold uppercase ${sc.class}`}>
+            className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-bold uppercase ${sc.class}`}>
             {sc.label}
           </span>
         );
@@ -283,8 +283,8 @@ const StockTransferList = () => {
                     isFiltered={isFiltered}>
                     {isSuperAdmin && (
                       <div className="flex flex-col gap-1.5">
-                        <label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
-                          Store
+                        <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                          {t("page.goodsReceipt.detail.store")}
                         </label>
                         <StoreFilter
                           locations={locData?.data || []}
@@ -299,10 +299,13 @@ const StockTransferList = () => {
                       </div>
                     )}
                     <div className="flex flex-col gap-1.5">
-                      <label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
+                      <label
+                        htmlFor="stock-transfer-list-all-status"
+                        className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                         {t("page.stockTransfer.list.filter.allStatus")}
                       </label>
                       <Combobox
+                        id="stock-transfer-list-all-status"
                         options={[
                           {
                             value: "all",
@@ -323,10 +326,13 @@ const StockTransferList = () => {
                       />
                     </div>
                     <div className="flex flex-col gap-1.5">
-                      <label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
-                        Cari
+                      <label
+                        htmlFor="stock-transfer-list-search"
+                        className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                        {t("common.search")}
                       </label>
                       <SearchInput
+                        id="stock-transfer-list-search"
                         value={search}
                         onChange={(val) => {
                           setSearch(val);

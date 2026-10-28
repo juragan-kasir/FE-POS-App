@@ -30,6 +30,7 @@ import {
   BarChart3,
   User
 } from "lucide-react";
+import LoadErrorBanner from "@/components/ui/LoadErrorBanner";
 
 const typeIcon = (type) => {
   const map = {
@@ -237,7 +238,7 @@ const PromoCampaignDetail = () => {
         <p>{t("page.promo.detail.notFound")}</p>
         <Button variant="danger" onClick={() => navigate("/promo-list")}>
           <ArrowLeft size={16} className="mr-1" />
-          Kembali
+          {t("common.back")}
         </Button>
       </div>
     );
@@ -296,6 +297,7 @@ const PromoCampaignDetail = () => {
           {t("common.edit")}
         </Button>
       </PageHeader>
+      <LoadErrorBanner />
 
       <div className="bg-card rounded-2xl shadow-sm border border-border overflow-hidden">
         <div className="bg-gradient-to-r from-primary/10 via-primary/5 to-transparent p-8 md:p-10">
@@ -326,7 +328,7 @@ const PromoCampaignDetail = () => {
             </div>
             <div>
               <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
-                Diskon
+                {t("sidebar.diskon")}
               </p>
               <p className="text-sm font-semibold text-foreground mt-0.5">
                 {formatDiscount(campaign.discountType, campaign.discountValue)}
@@ -339,7 +341,7 @@ const PromoCampaignDetail = () => {
             </div>
             <div>
               <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
-                Tipe
+                {t("page.profile.type")}
               </p>
               <p className="text-sm font-semibold text-foreground mt-0.5 capitalize">
                 {campaign.type?.replace(/_/g, " ")}
@@ -352,7 +354,7 @@ const PromoCampaignDetail = () => {
             </div>
             <div>
               <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
-                Penggunaan
+                {t("page.promo.list.usage")}
               </p>
               <p className="text-sm font-semibold text-foreground mt-0.5">
                 {campaign.currentUsage || 0}
@@ -366,7 +368,7 @@ const PromoCampaignDetail = () => {
             </div>
             <div>
               <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
-                Berlaku Untuk
+                {t("page.promo.form.applicableTo")}
               </p>
               <p className="text-sm font-semibold text-foreground mt-0.5 capitalize">
                 {campaign.applicableTo?.replace(/_/g, " ")}
@@ -379,7 +381,9 @@ const PromoCampaignDetail = () => {
       {usagePercent !== null && (
         <div className="bg-card rounded-xl shadow-sm border border-border p-4">
           <div className="flex items-center justify-between mb-2">
-            <span className="text-sm font-medium text-foreground">Progress Penggunaan</span>
+            <span className="text-sm font-medium text-foreground">
+              {t("page.promo.ui.usageProgress")}
+            </span>
             <span className="text-sm font-semibold text-foreground">{usagePercent}%</span>
           </div>
           <div className="w-full bg-muted rounded-full h-2">

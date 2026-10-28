@@ -22,6 +22,7 @@ import { formatCurrencyRupiah } from "@/utils/formatter-currency";
 import { canAccess } from "@/utils/permission";
 import { FIELD_LIMITS } from "@/constants/fieldLimits";
 import { Textarea } from "@/components/ui/textarea";
+import LoadErrorBanner from "@/components/ui/LoadErrorBanner";
 
 const statusBadge = (status) => {
   const map = {
@@ -177,6 +178,7 @@ const DeliveryOrderDetail = () => {
         </Button>
         <PrintButton />
       </PageHeader>
+      <LoadErrorBanner />
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Main Info */}
@@ -203,7 +205,7 @@ const DeliveryOrderDetail = () => {
                   {t("page.delivery.detail.status")}
                 </p>
                 <span
-                  className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-tight ${statusBadge(order.status)}`}>
+                  className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold uppercase tracking-tight ${statusBadge(order.status)}`}>
                   {t(`page.delivery.status.${order.status}`)}
                 </span>
               </div>
@@ -292,7 +294,7 @@ const DeliveryOrderDetail = () => {
                   <div className="pb-4">
                     <div className="flex items-center gap-2">
                       <span
-                        className={`inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-tight ${statusBadge(history.status)}`}>
+                        className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-bold uppercase tracking-tight ${statusBadge(history.status)}`}>
                         {t(`page.delivery.status.${history.status}`)}
                       </span>
                       <span className="text-xs text-muted-foreground">
@@ -311,7 +313,9 @@ const DeliveryOrderDetail = () => {
                 </div>
               ))}
               {(!order.statusHistory || order.statusHistory.length === 0) && (
-                <p className="text-sm text-muted-foreground">No status history</p>
+                <p className="text-sm text-muted-foreground">
+                  {t("page.delivery.ui.noStatusHistory")}
+                </p>
               )}
             </div>
           </div>
@@ -365,7 +369,9 @@ const DeliveryOrderDetail = () => {
 
           {/* Actions */}
           <div className="bg-card rounded-xl border border-border p-6">
-            <h3 className="font-semibold text-foreground mb-4">Actions</h3>
+            <h3 className="font-semibold text-foreground mb-4">
+              {t("page.expenseCategory.list.actions")}
+            </h3>
             <div className="space-y-2">
               {canAssignDriver && canAccess(user, MENU_KEY, "edit") && (
                 <Button className="w-full" onClick={() => setAssignModalOpen(true)}>
@@ -422,7 +428,9 @@ const DeliveryOrderDetail = () => {
             </div>
           ))}
           {drivers.length === 0 && (
-            <p className="text-sm text-muted-foreground text-center py-4">No available drivers</p>
+            <p className="text-sm text-muted-foreground text-center py-4">
+              {t("page.delivery.ui.noAvailableDrivers")}
+            </p>
           )}
         </div>
       </Modal>
@@ -467,7 +475,7 @@ const DeliveryOrderDetail = () => {
             value={statusNote}
             onChange={(e) => setStatusNote(e.target.value)}
             className="w-full h-20 px-3 py-2 bg-background border border-input rounded-lg text-sm focus:ring-2 focus:ring-ring outline-none resize-none"
-            placeholder="Optional note..."
+            placeholder={t("page.delivery.ui.optionalNote")}
             maxLength={FIELD_LIMITS.DESCRIPTION}
           />
         </div>

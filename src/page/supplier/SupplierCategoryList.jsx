@@ -381,16 +381,20 @@ const SupplierCategoryList = () => {
           isLoading={isLoading || isFetching}
           emptyMessage={t("page.supplierCategory.empty")}
           emptyIcon={FolderOpen}
+          emptyAction={{ label: t("page.supplierCategory.add"), onClick: handleCreate }}
           toolbar={
             <TableToolbar
               title={t("page.supplierCategory.title")}
               onReset={resetFilters}
               isFiltered={isFiltered}>
               <div className="flex flex-col gap-1.5">
-                <label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
+                <label
+                  htmlFor="supplier-category-list-status"
+                  className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                   {t("page.supplierCategory.status")}
                 </label>
                 <select
+                  id="supplier-category-list-status"
                   value={statusFilter}
                   onChange={(e) => {
                     setStatusFilter(e.target.value);
@@ -403,10 +407,13 @@ const SupplierCategoryList = () => {
                 </select>
               </div>
               <div className="flex flex-col gap-1.5">
-                <label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
+                <label
+                  htmlFor="supplier-category-list-search"
+                  className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                   {t("common.search")}
                 </label>
                 <SearchInput
+                  id="supplier-category-list-search"
                   value={search}
                   onChange={(v) => {
                     setSearch(v);

@@ -55,6 +55,7 @@ import { useLocations } from "@/queries/useLocations";
 import { FIELD_LIMITS } from "@/constants/fieldLimits";
 import { useFormExit } from "@/hooks/useLeaveGuard";
 import { createdId } from "@/utils/createdRecord";
+import LoadErrorBanner from "@/components/ui/LoadErrorBanner";
 
 const SectionHeader = ({ icon: Icon, title, description, gradient }) => (
   <div className={`bg-gradient-to-r ${gradient} px-6 py-4`}>
@@ -447,6 +448,7 @@ const AddPromoCampaign = () => {
           {t("action.back")}
         </Button>
       </PageHeader>
+      <LoadErrorBanner />
 
       <Form {...form}>
         <form onSubmit={(e) => e.preventDefault()} className="space-y-6">
@@ -502,7 +504,7 @@ const AddPromoCampaign = () => {
                   </TabsTrigger>
                   <TabsTrigger value="targeting" className="gap-1.5">
                     <SlidersHorizontal size={14} />
-                    Target
+                    {t("page.dashboardSuperAdmin.store.col.target")}
                   </TabsTrigger>
                   <TabsTrigger value="rules" className="gap-1.5">
                     <ListChecks size={14} />
@@ -518,10 +520,11 @@ const AddPromoCampaign = () => {
               <TabsContent value="general" className="mt-0">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div className="md:col-span-2 space-y-2">
-                    <Label>
+                    <Label htmlFor="add-promo-campaign-name">
                       {t("page.promo.form.name")} <span className="text-destructive">*</span>
                     </Label>
                     <Input
+                      id="add-promo-campaign-name"
                       {...form.register("name")}
                       placeholder={t("page.promo.form.namePlaceholder")}
                       maxLength={FIELD_LIMITS.BUSINESS_NAME}
@@ -533,8 +536,11 @@ const AddPromoCampaign = () => {
                     )}
                   </div>
                   <div className="md:col-span-2 space-y-2">
-                    <Label>{t("page.promo.form.description")}</Label>
+                    <Label htmlFor="add-promo-campaign-description">
+                      {t("page.promo.form.description")}
+                    </Label>
                     <Textarea
+                      id="add-promo-campaign-description"
                       {...form.register("description")}
                       rows={3}
                       placeholder={t("page.promo.form.descriptionPlaceholder")}
@@ -542,8 +548,9 @@ const AddPromoCampaign = () => {
                     />
                   </div>
                   <div className="space-y-2">
-                    <Label>{t("page.promo.form.code")}</Label>
+                    <Label htmlFor="add-promo-campaign-code">{t("page.promo.form.code")}</Label>
                     <Input
+                      id="add-promo-campaign-code"
                       {...form.register("code")}
                       className="uppercase"
                       placeholder={t("page.promo.form.codePlaceholder")}
@@ -552,10 +559,11 @@ const AddPromoCampaign = () => {
                     <FormDescription>{t("common.optionalField")}</FormDescription>
                   </div>
                   <div className="space-y-2">
-                    <Label>
+                    <Label htmlFor="add-promo-campaign-type">
                       {t("page.promo.form.type")} <span className="text-destructive">*</span>
                     </Label>
                     <Combobox
+                      id="add-promo-campaign-type"
                       options={[
                         { value: "happy_hour", label: "Happy Hour" },
                         { value: "birthday", label: "Birthday" },
@@ -578,13 +586,16 @@ const AddPromoCampaign = () => {
                   <div className="space-y-4">
                     {isBirthday && (
                       <p className="text-xs text-muted-foreground">
-                        Tipe birthday menggunakan diskon otomatis sesuai rewards
+                        {t("page.promo.ui.theBirthdayTypeAppliesAn")}
                       </p>
                     )}
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       <div className="space-y-2">
-                        <Label>{t("page.promo.form.discountType")}</Label>
+                        <Label htmlFor="add-promo-campaign-discount-type">
+                          {t("page.promo.form.discountType")}
+                        </Label>
                         <Combobox
+                          id="add-promo-campaign-discount-type"
                           options={[
                             { value: "percentage", label: "Percentage" },
                             { value: "fixed", label: "Fixed Amount" },
@@ -593,7 +604,7 @@ const AddPromoCampaign = () => {
                           value={form.watch("discountType")}
                           onChange={(v) => form.setValue("discountType", v)}
                           disabled={isBirthday}
-                          placeholder="Pilih tipe diskon"
+                          placeholder={t("page.discount.form.typePlaceholder")}
                           searchPlaceholder="Cari tipe diskon..."
                         />
                       </div>
@@ -629,8 +640,11 @@ const AddPromoCampaign = () => {
                         )}
                       </div>
                       <div className="space-y-2">
-                        <Label>{t("page.promo.form.maxDiscount")}</Label>
+                        <Label htmlFor="add-promo-campaign-max-discount">
+                          {t("page.promo.form.maxDiscount")}
+                        </Label>
                         <Input
+                          id="add-promo-campaign-max-discount"
                           type="text"
                           inputMode="numeric"
                           disabled={!isPercentage}
@@ -648,16 +662,19 @@ const AddPromoCampaign = () => {
                           className={`${moneyInputCls} ${!isPercentage ? "bg-muted cursor-not-allowed" : ""}`}
                         />
                         {!isPercentage && (
-                          <p className="text-[11px] text-muted-foreground">
-                            Hanya berlaku untuk tipe Percentage
+                          <p className="text-xs text-muted-foreground">
+                            {t("page.promo.ui.onlyAppliesToThePercentage")}
                           </p>
                         )}
                         <FormDescription>{t("common.optionalField")}</FormDescription>
                       </div>
                       {(isSpendGet || isBuyXGetY) && (
                         <div className="space-y-2">
-                          <Label>{t("page.promo.form.minPurchase")}</Label>
+                          <Label htmlFor="add-promo-campaign-min-purchase">
+                            {t("page.promo.form.minPurchase")}
+                          </Label>
                           <Input
+                            id="add-promo-campaign-min-purchase"
                             type="text"
                             inputMode="numeric"
                             value={watchedMinPurchase ? formatIDR(watchedMinPurchase) : ""}
@@ -671,7 +688,7 @@ const AddPromoCampaign = () => {
                   </div>
                 ) : (
                   <p className="text-sm text-muted-foreground">
-                    Tipe campaign Manual tidak memerlukan pengaturan diskon.
+                    {t("page.promo.ui.aManualCampaignNeedsNo")}
                   </p>
                 )}
               </TabsContent>
@@ -679,7 +696,7 @@ const AddPromoCampaign = () => {
               <TabsContent value="schedule" className="mt-0 space-y-4">
                 {isHappyHour && (
                   <p className="text-xs text-muted-foreground">
-                    Atur jam mulai dan akhir untuk periode Happy Hour
+                    {t("page.promo.ui.setTheStartAndEnd")}
                   </p>
                 )}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -766,7 +783,7 @@ const AddPromoCampaign = () => {
                 </div>
                 {isHappyHour && (
                   <div className="space-y-2 pt-2 border-t border-border">
-                    <Label className="text-xs">Hari Aktif</Label>
+                    <Label className="text-xs">{t("page.promo.ui.activeDays")}</Label>
                     <div className="flex flex-wrap gap-2">
                       {DAY_LABELS.map((label, day) => (
                         <button
@@ -782,8 +799,8 @@ const AddPromoCampaign = () => {
                         </button>
                       ))}
                     </div>
-                    <p className="text-[11px] text-muted-foreground">
-                      Kosongkan jika berlaku setiap hari
+                    <p className="text-xs text-muted-foreground">
+                      {t("page.promo.ui.leaveEmptyToApplyEvery")}
                     </p>
                   </div>
                 )}
@@ -828,7 +845,7 @@ const AddPromoCampaign = () => {
                               ]}
                               value={rule.ruleType}
                               onChange={(v) => updateRule(index, "ruleType", v)}
-                              placeholder="Pilih rule"
+                              placeholder={t("page.promo.ui.selectRule")}
                               searchPlaceholder="Cari rule..."
                             />
                           </div>
@@ -844,7 +861,7 @@ const AddPromoCampaign = () => {
                         {rule.ruleType === "buy_x_get_y" && (
                           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                             <div className="space-y-1">
-                              <Label className="text-xs">Produk X</Label>
+                              <Label className="text-xs">{t("page.promo.ui.productX")}</Label>
                               <Combobox
                                 options={productOptions}
                                 value={
@@ -853,12 +870,12 @@ const AddPromoCampaign = () => {
                                 onChange={(v) =>
                                   updateRule(index, "condition.productIdX", Number(v))
                                 }
-                                placeholder="Pilih produk X"
+                                placeholder={t("page.promo.ui.selectProductX")}
                                 searchPlaceholder="Cari produk..."
                               />
                             </div>
                             <div className="space-y-1">
-                              <Label className="text-xs">Produk Y (Bonus)</Label>
+                              <Label className="text-xs">{t("page.promo.ui.productYBonus")}</Label>
                               <Combobox
                                 options={productOptions}
                                 value={
@@ -867,12 +884,12 @@ const AddPromoCampaign = () => {
                                 onChange={(v) =>
                                   updateRule(index, "condition.productIdY", Number(v))
                                 }
-                                placeholder="Pilih produk bonus"
+                                placeholder={t("page.promo.ui.selectBonusProduct")}
                                 searchPlaceholder="Cari produk..."
                               />
                             </div>
                             <div className="space-y-1">
-                              <Label className="text-xs">Qty Beli (X)</Label>
+                              <Label className="text-xs">{t("page.promo.ui.buyQtyX")}</Label>
                               <Input
                                 type="number"
                                 min="1"
@@ -883,7 +900,7 @@ const AddPromoCampaign = () => {
                               />
                             </div>
                             <div className="space-y-1">
-                              <Label className="text-xs">Qty Bonus (Y)</Label>
+                              <Label className="text-xs">{t("page.promo.ui.bonusQtyY")}</Label>
                               <Input
                                 type="number"
                                 min="1"
@@ -897,7 +914,7 @@ const AddPromoCampaign = () => {
                         )}
                         {rule.ruleType === "spend_threshold" && (
                           <div className="space-y-1">
-                            <Label className="text-xs">Minimal Belanja</Label>
+                            <Label className="text-xs">{t("page.discount.form.minPurchase")}</Label>
                             <Input
                               type="text"
                               inputMode="numeric"
@@ -914,19 +931,19 @@ const AddPromoCampaign = () => {
                         )}
                         {rule.ruleType === "member_tier" && (
                           <div className="space-y-1">
-                            <Label className="text-xs">Tier Member</Label>
+                            <Label className="text-xs">{t("guide.tier.s25a")}</Label>
                             <Combobox
                               options={tierOptions}
                               value={rule.condition.tierId ? String(rule.condition.tierId) : ""}
                               onChange={(v) => updateRule(index, "condition.tierId", Number(v))}
-                              placeholder="Pilih tier"
+                              placeholder={t("page.promo.ui.selectTier")}
                               searchPlaceholder="Cari tier..."
                             />
                           </div>
                         )}
                         {["time", "birthday", "first_purchase"].includes(rule.ruleType) && (
-                          <p className="text-[11px] text-muted-foreground">
-                            Aturan ini tidak memerlukan pengaturan tambahan
+                          <p className="text-xs text-muted-foreground">
+                            {t("page.promo.ui.thisRuleNeedsNoAdditional")}
                           </p>
                         )}
                       </div>
@@ -962,7 +979,7 @@ const AddPromoCampaign = () => {
                           className="p-3 bg-background rounded-lg border border-border space-y-3">
                           <div className="grid grid-cols-1 sm:grid-cols-12 gap-3 items-end">
                             <div className="space-y-1 sm:col-span-5">
-                              <Label className="text-xs">Tipe Reward</Label>
+                              <Label className="text-xs">{t("page.promo.ui.rewardType")}</Label>
                               <Combobox
                                 options={[
                                   { value: "discount_percentage", label: "Diskon %" },
@@ -974,7 +991,7 @@ const AddPromoCampaign = () => {
                                 ]}
                                 value={reward.rewardType}
                                 onChange={(v) => updateReward(index, "rewardType", v)}
-                                placeholder="Pilih reward"
+                                placeholder={t("page.promo.ui.selectReward")}
                                 searchPlaceholder="Cari reward..."
                               />
                             </div>
@@ -1030,18 +1047,18 @@ const AddPromoCampaign = () => {
                             )}
                             {needProduct && (
                               <div className="space-y-1 sm:col-span-7">
-                                <Label className="text-xs">Produk Gratis</Label>
+                                <Label className="text-xs">{t("page.promo.ui.freeProduct")}</Label>
                                 <Combobox
                                   options={productOptions}
                                   value={reward.productId ? String(reward.productId) : ""}
                                   onChange={(v) => updateReward(index, "productId", Number(v))}
-                                  placeholder="Pilih produk gratis"
+                                  placeholder={t("page.promo.ui.selectFreeProduct")}
                                   searchPlaceholder="Cari produk..."
                                 />
                               </div>
                             )}
                             <div className="space-y-1 sm:col-span-3">
-                              <Label className="text-xs">Qty</Label>
+                              <Label className="text-xs">{t("document.qty")}</Label>
                               <Input
                                 type="number"
                                 min="1"
@@ -1073,8 +1090,11 @@ const AddPromoCampaign = () => {
                 {/* Penempatan & Batas */}
                 <div className="space-y-4">
                   <div className="space-y-2">
-                    <Label>{t("page.promo.form.applicableTo")}</Label>
+                    <Label htmlFor="add-promo-campaign-applicable-to">
+                      {t("page.promo.form.applicableTo")}
+                    </Label>
                     <Combobox
+                      id="add-promo-campaign-applicable-to"
                       options={[
                         { value: "all", label: "All Products" },
                         { value: "specific_products", label: "Specific Products" },
@@ -1093,7 +1113,7 @@ const AddPromoCampaign = () => {
                       searchPlaceholder="Cari penerapan..."
                     />
                     {!storeReady && (
-                      <p className="text-[11px] text-muted-foreground">
+                      <p className="text-xs text-muted-foreground">
                         {t("page.bundle.form.storeSection.desc")}
                       </p>
                     )}
@@ -1109,10 +1129,10 @@ const AddPromoCampaign = () => {
                             value={applicableIds}
                             loading={productsLoading}
                             onChange={setApplicableIds}
-                            placeholder="Pilih produk..."
+                            placeholder={t("page.discount.form.selectProduct")}
                             selectedLabel="produk dipilih"
                             searchPlaceholder="Cari produk..."
-                            emptyMessage="Produk tidak ditemukan"
+                            emptyMessage={t("page.cashier.noProducts")}
                           />
                         )}
                         {watchedApplicableTo === "specific_categories" && (
@@ -1121,10 +1141,10 @@ const AddPromoCampaign = () => {
                             value={applicableIds}
                             loading={categoriesLoading}
                             onChange={setApplicableIds}
-                            placeholder="Pilih kategori..."
+                            placeholder={t("page.promo.ui.selectCategory")}
                             selectedLabel="kategori dipilih"
                             searchPlaceholder="Cari kategori..."
-                            emptyMessage="Kategori tidak ditemukan"
+                            emptyMessage={t("page.category.notFound")}
                           />
                         )}
                         {watchedApplicableTo === "specific_members" && (
@@ -1132,35 +1152,47 @@ const AddPromoCampaign = () => {
                             options={tierOptions}
                             value={applicableIds}
                             onChange={setApplicableIds}
-                            placeholder="Pilih tier member..."
+                            placeholder={t("page.promo.ui.selectMemberTier")}
                             selectedLabel="tier dipilih"
                             searchPlaceholder="Cari tier..."
-                            emptyMessage="Tier tidak ditemukan"
+                            emptyMessage={t("page.promo.ui.tierNotFound")}
                           />
                         )}
                       </div>
                     )}
                   <div className="space-y-2">
-                    <Label>{t("page.promo.form.maxUsageTotal")}</Label>
+                    <Label htmlFor="add-promo-campaign-max-usage-total">
+                      {t("page.promo.form.maxUsageTotal")}
+                    </Label>
                     <Input
+                      id="add-promo-campaign-max-usage-total"
                       type="number"
                       {...form.register("maxUsageTotal", { valueAsNumber: true })}
-                      placeholder="Unlimited"
+                      placeholder={t("common.unlimited")}
                     />
                     <FormDescription>{t("common.optionalField")}</FormDescription>
                   </div>
                   <div className="space-y-2">
-                    <Label>{t("page.promo.form.maxUsagePerMember")}</Label>
+                    <Label htmlFor="add-promo-campaign-max-usage-per-member">
+                      {t("page.promo.form.maxUsagePerMember")}
+                    </Label>
                     <Input
+                      id="add-promo-campaign-max-usage-per-member"
                       type="number"
                       {...form.register("maxUsagePerMember", { valueAsNumber: true })}
-                      placeholder="Unlimited"
+                      placeholder={t("common.unlimited")}
                     />
                     <FormDescription>{t("common.optionalField")}</FormDescription>
                   </div>
                   <div className="space-y-2">
-                    <Label>{t("page.promo.form.priority")}</Label>
-                    <Input type="number" {...form.register("priority", { valueAsNumber: true })} />
+                    <Label htmlFor="add-promo-campaign-priority">
+                      {t("page.promo.form.priority")}
+                    </Label>
+                    <Input
+                      id="add-promo-campaign-priority"
+                      type="number"
+                      {...form.register("priority", { valueAsNumber: true })}
+                    />
                   </div>
                 </div>
 
@@ -1172,7 +1204,7 @@ const AddPromoCampaign = () => {
                         {form.watch("autoActivate") ? "Aktif Otomatis" : "Nonaktif"}
                       </p>
                       <p className="text-xs text-muted-foreground">
-                        Aktifkan langsung saat tanggal mulai tercapai
+                        {t("page.promo.ui.activateAutomaticallyOnTheStart")}
                       </p>
                     </div>
                     <Switch
@@ -1186,7 +1218,7 @@ const AddPromoCampaign = () => {
                         {t("page.promo.form.isCombinable")}
                       </p>
                       <p className="text-xs text-muted-foreground">
-                        Boleh digabung dengan diskon/kampanye lain
+                        {t("page.promo.ui.canBeCombinedWithOther")}
                       </p>
                     </div>
                     <Switch
@@ -1197,14 +1229,17 @@ const AddPromoCampaign = () => {
                   {watchedIsCombinable && (
                     <div className="pt-3 border-t border-border space-y-2">
                       <p className="text-xs font-medium text-foreground">
-                        Promo Aktif — {allStores ? t("header.allStore") : "Toko Terpilih"}
+                        {t("page.promo.ui.activePromo")}{" "}
+                        {allStores ? t("header.allStore") : "Toko Terpilih"}
                       </p>
                       {combinableLoading ? (
-                        <p className="text-xs text-muted-foreground">Memuat promo...</p>
+                        <p className="text-xs text-muted-foreground">
+                          {t("page.promo.ui.loadingPromos")}
+                        </p>
                       ) : combinablePromos.length === 0 ? (
                         <div className="p-3 rounded-lg bg-muted/30 border border-dashed border-muted-foreground/30 text-center">
                           <p className="text-xs text-muted-foreground">
-                            Belum ada promo aktif di toko ini
+                            {t("page.promo.ui.noActivePromosInThis")}
                           </p>
                         </div>
                       ) : (
@@ -1216,7 +1251,7 @@ const AddPromoCampaign = () => {
                               <span className="text-xs font-medium text-foreground truncate">
                                 {promo.name}
                               </span>
-                              <span className="text-[10px] px-1.5 py-0.5 rounded bg-primary/10 text-primary font-medium shrink-0">
+                              <span className="text-xs px-1.5 py-0.5 rounded bg-primary/10 text-primary font-medium shrink-0">
                                 {CAMPAIGN_TYPE_LABELS[promo.type] || promo.type}
                               </span>
                             </div>

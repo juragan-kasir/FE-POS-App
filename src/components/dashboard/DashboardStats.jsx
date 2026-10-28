@@ -27,11 +27,11 @@ const DashboardStats = ({ summaryCards }) => {
             } ${clicked ? "cursor-pointer hover:shadow-md hover:ring-2 hover:ring-primary/30" : ""}`}>
             <div className="flex items-start justify-between mb-2">
               <div className="min-w-0">
-                <p className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider truncate">
+                <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider truncate">
                   {card.label}
                 </p>
                 {card.sub && (
-                  <p className="text-[11px] text-muted-foreground/80 mt-0.5 truncate">{card.sub}</p>
+                  <p className="text-xs text-muted-foreground/80 mt-0.5 truncate">{card.sub}</p>
                 )}
               </div>
               <span
@@ -62,12 +62,12 @@ const DashboardStats = ({ summaryCards }) => {
                 </span>
               ) : null}
               {card.trendNote && (
-                <span className="text-[11px] text-muted-foreground truncate">{card.trendNote}</span>
+                <span className="text-xs text-muted-foreground truncate">{card.trendNote}</span>
               )}
             </div>
             {card.progress !== undefined && (
               <div className="mt-2.5">
-                <div className="flex items-center justify-between text-[11px] mb-1 gap-2">
+                <div className="flex items-center justify-between text-xs mb-1 gap-2">
                   <span className="text-muted-foreground truncate">{card.progressLabel}</span>
                   <span className="font-semibold text-foreground shrink-0">
                     {Math.round(card.progress)}%

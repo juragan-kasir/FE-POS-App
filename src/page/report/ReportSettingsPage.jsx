@@ -44,6 +44,7 @@ import ReportPreview from "@/components/report/ReportPreview";
 import { useUnsavedChanges } from "@/hooks/useUnsavedChanges";
 import { qk } from "@/queries/keys";
 import { columnLabel, reportLabel } from "@/utils/reportFormat";
+import LoadErrorBanner from "@/components/ui/LoadErrorBanner";
 
 const DEFAULT_ACCENT = "#0f172a";
 const DEFAULT_BRANDING = { showLogo: true, showAddress: true, showPhone: true, showEmail: true };
@@ -236,7 +237,7 @@ const ReportSettingsPage = () => {
     const { Icon, style } = TYPE_META[col.type] || TYPE_META.string;
     return (
       <span
-        className={`inline-flex flex-shrink-0 items-center gap-1 rounded-full px-2 py-0.5 text-[11px] font-medium ${style}`}>
+        className={`inline-flex flex-shrink-0 items-center gap-1 rounded-full px-2 py-0.5 text-xs font-medium ${style}`}>
         <Icon size={11} />
         {t(`page.reportSettings.columnType.${col.type}`)}
       </span>
@@ -265,6 +266,7 @@ const ReportSettingsPage = () => {
           {t("common.save")}
         </Button>
       </PageHeader>
+      <LoadErrorBanner />
 
       <div className="flex items-start gap-3 rounded-lg border border-blue-200 bg-blue-50 px-4 py-3 text-sm text-blue-900 dark:border-blue-900 dark:bg-blue-950/40 dark:text-blue-200">
         <Info size={16} className="mt-0.5 shrink-0" />
@@ -312,7 +314,7 @@ const ReportSettingsPage = () => {
                       />
                     ) : configs[r.key] ? (
                       <span
-                        className={`shrink-0 text-[10px] font-medium ${active ? "text-primary-foreground/80" : "text-muted-foreground"}`}>
+                        className={`shrink-0 text-xs font-medium ${active ? "text-primary-foreground/80" : "text-muted-foreground"}`}>
                         {t("page.reportSettings.customized")}
                       </span>
                     ) : null}
@@ -460,7 +462,7 @@ const ReportSettingsPage = () => {
                           {active && <Check size={16} />}
                         </span>
                         <span
-                          className={`text-[11px] ${active ? "font-semibold text-foreground" : "text-muted-foreground"}`}>
+                          className={`text-xs ${active ? "font-semibold text-foreground" : "text-muted-foreground"}`}>
                           {name}
                         </span>
                       </button>
@@ -568,7 +570,7 @@ const ReportSettingsPage = () => {
               <TabsContent
                 key={variant}
                 value={variant}
-                className="mt-3 min-h-0 flex-1 overflow-auto rounded-lg border border-border bg-slate-100 p-3 dark:bg-slate-900">
+                className="mt-3 min-h-0 flex-1 overflow-auto rounded-lg border border-border bg-muted p-3">
                 <div className="mx-auto max-w-3xl overflow-hidden rounded-md shadow-sm">
                   {draft && (
                     <ReportPreview

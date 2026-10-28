@@ -46,6 +46,7 @@ import IngredientSourceField from "./components/IngredientSourceField";
 import { useLocations } from "@/queries/useLocations";
 import { useFormExit } from "@/hooks/useLeaveGuard";
 import { createdId } from "@/utils/createdRecord";
+import LoadErrorBanner from "@/components/ui/LoadErrorBanner";
 
 const conversionHints = {
   kg: { base: "gram", factor: 1000 },
@@ -321,6 +322,7 @@ const AddIngredient = () => {
             onBack={requestLeave}
             dynamicInfo={false}
           />
+          <LoadErrorBanner />
           <UserGuide guideKey="add-ingredient" />
         </div>
 
@@ -351,7 +353,7 @@ const AddIngredient = () => {
                     render={({ field }) => (
                       <FormItem className="mb-6 bg-card rounded-xl p-4 border border-border shadow-sm">
                         <FormLabel className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
-                          Toko <span className="text-destructive">*</span>
+                          {t("document.store")} <span className="text-destructive">*</span>
                         </FormLabel>
                         <Combobox
                           options={locations.map((l) => ({
@@ -530,7 +532,7 @@ const AddIngredient = () => {
                         <div className="border rounded-lg overflow-hidden">
                           <div className="bg-muted/50 px-4 py-3 border-b">
                             <p className="text-sm font-semibold text-foreground">
-                              Produk yang Disediakan
+                              {t("page.supplier.products.title")}
                             </p>
                           </div>
                           <HorizontalScrollArea>
@@ -538,28 +540,28 @@ const AddIngredient = () => {
                               <thead>
                                 <tr className="border-b bg-muted/30">
                                   <th className="text-left px-3 py-2 font-medium text-muted-foreground w-8">
-                                    No
+                                    {t("page.position.table.no")}
                                   </th>
                                   <th className="text-left px-3 py-2 font-medium text-muted-foreground">
-                                    Nama Produk
+                                    {t("page.product.form.name")}
                                   </th>
                                   <th className="text-right px-3 py-2 font-medium text-muted-foreground">
-                                    Harga
+                                    {t("sidebar.section.harga")}
                                   </th>
                                   <th className="text-center px-3 py-2 font-medium text-muted-foreground">
-                                    Satuan
+                                    {t("document.unit")}
                                   </th>
                                   <th className="text-center px-3 py-2 font-medium text-muted-foreground">
-                                    Lead Time
+                                    {t("page.supplier.products.table.leadTime")}
                                   </th>
                                   <th className="text-center px-3 py-2 font-medium text-muted-foreground">
-                                    Kualitas
+                                    {t("page.supplier.products.table.quality")}
                                   </th>
                                   <th className="text-center px-3 py-2 font-medium text-muted-foreground">
-                                    Min Order
+                                    {t("page.supplier.products.table.minOrder")}
                                   </th>
                                   <th className="text-left px-3 py-2 font-medium text-muted-foreground">
-                                    Catatan
+                                    {t("page.bom.detail.notes")}
                                   </th>
                                 </tr>
                               </thead>
@@ -569,7 +571,7 @@ const AddIngredient = () => {
                                     <td
                                       colSpan={8}
                                       className="px-3 py-8 text-center text-muted-foreground">
-                                      Loading...
+                                      {t("page.employee.add.loading")}
                                     </td>
                                   </tr>
                                 ) : !allSupplierProductsData?.data?.length ? (
@@ -577,7 +579,7 @@ const AddIngredient = () => {
                                     <td
                                       colSpan={8}
                                       className="px-3 py-8 text-center text-muted-foreground">
-                                      Tidak ada produk tersedia
+                                      {t("page.ingredient.ui.noProductsAvailable")}
                                     </td>
                                   </tr>
                                 ) : (
@@ -640,7 +642,7 @@ const AddIngredient = () => {
                                 options={unitOptions}
                                 value={field.value}
                                 onChange={(v) => field.onChange(v)}
-                                placeholder="Pilih unit..."
+                                placeholder={t("page.ingredient.ui.selectUnit")}
                                 searchPlaceholder="Cari unit..."
                               />
                               <FormMessage />
@@ -659,7 +661,7 @@ const AddIngredient = () => {
                                 options={baseUnitOptions}
                                 value={field.value}
                                 onChange={(v) => field.onChange(v)}
-                                placeholder="Pilih base unit..."
+                                placeholder={t("page.ingredient.ui.selectBaseUnit")}
                                 searchPlaceholder="Cari base unit..."
                               />
                               <FormMessage />
