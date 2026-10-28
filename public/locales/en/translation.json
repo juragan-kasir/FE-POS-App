@@ -8779,6 +8779,7 @@
   "page.login.taglineSub": "Cashier, stock, and reports in one app. From a single stall to dozens of branches.",
   "page.login.showPassword": "Show password",
   "page.login.hidePassword": "Hide password",
+  "page.login.copyright": "© {{year}} Juragan Kasir. All rights reserved.",
   "page.cashRegister.current.overtimeNotice": "You're closing this register after the store's scheduled closing time ({{time}}).",
   "page.cashRegister.openClose.tableResetWarning": "Register opened, but {{failed}} stale table(s) could not be reset automatically.",
   "page.cashRegister.openClose.earlyOpeningNotice": "You're opening this register before the store's scheduled opening time ({{time}}).",

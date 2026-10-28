@@ -182,7 +182,7 @@ const LoginPage = () => {
         <div className="relative z-10 flex w-full flex-col justify-between p-10 xl:p-14">
           <img src={logoFull} alt="Juragan Kasir" className="h-auto w-36 dark:hidden" />
           <img src={logoFullDark} alt="Juragan Kasir" className="hidden h-auto w-36 dark:block" />
-          <div className="max-w-md">
+          <div className="my-auto max-w-md">
             <h2 className="text-balance text-4xl font-semibold leading-[1.15] tracking-tight text-foreground xl:text-5xl">
               {t("page.login.tagline")}
             </h2>
@@ -190,7 +190,6 @@ const LoginPage = () => {
               {t("page.login.taglineSub")}
             </p>
           </div>
-          <p className="text-xs text-muted-foreground/70">juragankasir.com</p>
         </div>
       </section>
 
@@ -369,6 +368,12 @@ const LoginPage = () => {
             </div>
           </div>
         </main>
+
+        <footer className="px-5 pb-5 md:px-8">
+          <p className="text-center text-xs text-muted-foreground/70">
+            {t("page.login.copyright", { year: new Date().getFullYear() })}
+          </p>
+        </footer>
       </section>
 
       <AuthGuideModal open={guideOpen} onOpenChange={setGuideOpen} context="login" />

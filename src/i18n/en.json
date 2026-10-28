@@ -8823,6 +8823,7 @@
   "page.login.taglineSub": "Cashier, stock, and reports in one app. From a single stall to dozens of branches.",
   "page.login.showPassword": "Show password",
   "page.login.hidePassword": "Hide password",
+  "page.login.copyright": "© {{year}} Juragan Kasir. All rights reserved.",
   "common.deleteConfirmDesc": "Are you sure you want to delete {{name}}? This cannot be undone.",
   "page.cashRegister.current.varianceMore": "{{amount}} over expected",
   "page.cashRegister.current.varianceLess": "{{amount}} short of expected",

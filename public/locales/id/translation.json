@@ -8779,6 +8779,7 @@
   "page.login.taglineSub": "Kasir, stok, dan laporan dalam satu aplikasi. Dari satu warung sampai puluhan cabang.",
   "page.login.showPassword": "Tampilkan kata sandi",
   "page.login.hidePassword": "Sembunyikan kata sandi",
+  "page.login.copyright": "© {{year}} Juragan Kasir. Hak cipta dilindungi.",
   "page.cashRegister.current.overtimeNotice": "Register ini ditutup setelah jam tutup toko yang dijadwalkan ({{time}}).",
   "page.cashRegister.openClose.tableResetWarning": "Register berhasil dibuka, tapi {{failed}} meja gagal direset otomatis.",
   "page.cashRegister.openClose.earlyOpeningNotice": "Register ini dibuka sebelum jam buka toko yang dijadwalkan ({{time}}).",
