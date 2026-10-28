@@ -203,9 +203,9 @@ const MemberDetail = () => {
     return (
       <div className="flex flex-col items-center justify-center h-64 text-muted-foreground gap-3">
         <Users size={48} />
-        <p>Member tidak ditemukan</p>
+        <p>{t("page.cashier.modal.memberNotFound")}</p>
         <Button variant="danger" onClick={() => navigate("/member-list")}>
-          Kembali
+          {t("common.back")}
         </Button>
       </div>
     );
@@ -287,7 +287,7 @@ const MemberDetail = () => {
           { label: t("breadcrumb.detail") }
         ]}
         title={isLoading ? t("common.loading") : name}
-        description="Detail informasi member"
+        description={t("page.member.ui.memberDetails")}
         backLink="/member-list"
         dynamicInfo={false}>
         {!isLoading && (
@@ -382,7 +382,7 @@ const MemberDetail = () => {
                     {t("page.member.detail.totalPoints")}
                   </span>
                   <span className="text-lg font-bold text-primary">
-                    {points.toLocaleString()} Pts
+                    {points.toLocaleString()} {t("page.member.ui.pts")}
                   </span>
                 </div>
                 <div className="w-full bg-muted rounded-full h-2">
@@ -458,7 +458,7 @@ const MemberDetail = () => {
                     ? "text-primary border-primary"
                     : "text-muted-foreground border-transparent hover:text-foreground"
                 }`}>
-                Riwayat Transaksi
+                {t("page.cashRegister.detail.transactionHistory")}
               </button>
               <button
                 onClick={() => setActiveTab("points")}
@@ -467,7 +467,7 @@ const MemberDetail = () => {
                     ? "text-primary border-primary"
                     : "text-muted-foreground border-transparent hover:text-foreground"
                 }`}>
-                Aktivitas Poin
+                {t("page.member.pointHistory.pointActivity")}
               </button>
             </div>
 
@@ -501,7 +501,7 @@ const MemberDetail = () => {
                       <tr>
                         <td colSpan={6} className="px-4 py-12 text-center text-muted-foreground">
                           <ReceiptText size={36} className="text-4xl block mb-2" />
-                          Tidak ada transaksi ditemukan
+                          {t("page.member.pointHistory.noTransaction")}
                         </td>
                       </tr>
                     ) : (
@@ -641,8 +641,9 @@ const MemberDetail = () => {
                 </HorizontalScrollArea>
                 <div className="px-4 py-3 border-t border-border flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 bg-muted/10">
                   <p className="text-xs text-muted-foreground">
-                    Menampilkan {(pointData?.data || []).length} dari{" "}
-                    {pointData?.pagination?.total || pointData?.total || 0} aktivitas poin
+                    {t("page.member.ui.showing")} {(pointData?.data || []).length} dari{" "}
+                    {pointData?.pagination?.total || pointData?.total || 0}{" "}
+                    {t("page.member.ui.pointActivities")}
                   </p>
                   <div className="flex gap-1">
                     <button
@@ -668,8 +669,8 @@ const MemberDetail = () => {
             {activeTab === "transactions" && (
               <div className="px-4 py-3 border-t border-border flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 bg-muted/10">
                 <p className="text-xs text-muted-foreground">
-                  Menampilkan {transactions.length} dari {member?.transactionPagination?.total || 0}{" "}
-                  transaksi
+                  {t("page.member.ui.showing")} {transactions.length} dari{" "}
+                  {member?.transactionPagination?.total || 0} transaksi
                 </p>
                 <div className="flex gap-1">
                   <button

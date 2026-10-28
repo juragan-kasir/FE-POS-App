@@ -71,7 +71,7 @@ const MemberPointHistory = () => {
     return (
       <div className="flex flex-col items-center justify-center h-64 text-muted-foreground gap-3">
         <Users size={48} className="text-5xl" />
-        <p>Member tidak ditemukan</p>
+        <p>{t("page.cashier.modal.memberNotFound")}</p>
         <Button variant="danger" onClick={() => navigate("/member-list")}>
           {t("page.member.pointHistory.back")}
         </Button>
@@ -199,8 +199,8 @@ const MemberPointHistory = () => {
             </table>
             <div className="px-4 py-3 border-t border-border flex justify-between items-center bg-muted/10">
               <p className="text-xs text-muted-foreground">
-                Menampilkan {transactions.length} dari {member?.transactionPagination?.total || 0}{" "}
-                transaksi
+                {t("page.member.ui.showing")} {transactions.length} dari{" "}
+                {member?.transactionPagination?.total || 0} transaksi
               </p>
               <div className="flex gap-1">
                 <button
@@ -307,8 +307,9 @@ const MemberPointHistory = () => {
             )}
             <div className="px-4 py-3 border-t border-border flex justify-between items-center bg-muted/10">
               <p className="text-xs text-muted-foreground">
-                Menampilkan {(pointData?.data || []).length} dari{" "}
-                {pointData?.pagination?.total || pointData?.total || 0} aktivitas poin
+                {t("page.member.ui.showing")} {(pointData?.data || []).length} dari{" "}
+                {pointData?.pagination?.total || pointData?.total || 0}{" "}
+                {t("page.member.ui.pointActivities")}
               </p>
               <div className="flex gap-1">
                 <button

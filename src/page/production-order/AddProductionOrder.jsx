@@ -275,7 +275,7 @@ const AddProductionOrder = () => {
               className="w-full sm:w-auto"
               onClick={() => setDraftModal(true)}
               disabled={isSubmitting}>
-              Save as Draft
+              {t("common.saveAsDraft")}
             </Button>
             <Button
               variant="success"

@@ -783,7 +783,7 @@ const EditEmployee = () => {
                                 <>
                                   <img
                                     src={previewImage}
-                                    alt="Preview"
+                                    alt={t("page.product.form.preview")}
                                     className="w-full h-full object-cover"
                                   />
                                   <button
@@ -1733,8 +1733,8 @@ const EditEmployee = () => {
         type="confirm"
         open={confirmSaveModal}
         onOpenChange={setConfirmSaveModal}
-        title="Konfirmasi Simpan"
-        description="Apakah Anda yakin ingin menyimpan perubahan data ini?"
+        title={t("common.confirmSave")}
+        description={t("page.employee.ui.areYouSureYouWant")}
         confirmText="Ya, Simpan"
         onConfirm={() => {
           setConfirmSaveModal(false);

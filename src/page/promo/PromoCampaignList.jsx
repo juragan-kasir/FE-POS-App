@@ -203,7 +203,8 @@ const PromoCampaignList = () => {
         if (type === "percentage") return <span className="font-semibold">{val}%</span>;
         if (type === "fixed")
           return <span className="font-semibold">Rp{val?.toLocaleString()}</span>;
-        if (type === "free_item") return <span className="font-semibold">Free Item</span>;
+        if (type === "free_item")
+          return <span className="font-semibold">{t("page.promo.ui.freeItem")}</span>;
         return <span className="font-semibold">{val}</span>;
       }
     },
@@ -414,7 +415,7 @@ const PromoCampaignList = () => {
               isFiltered={isFiltered}>
               <div className="flex flex-col gap-1.5">
                 <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-                  Filter Status
+                  {t("page.promo.ui.filterStatus")}
                 </label>
                 <Combobox
                   options={statusOptions}
@@ -423,13 +424,13 @@ const PromoCampaignList = () => {
                     setStatusFilter(val);
                     setPage(1);
                   }}
-                  placeholder="Filter Status"
+                  placeholder={t("page.promo.ui.filterStatus")}
                   searchPlaceholder="Cari status..."
                 />
               </div>
               <div className="flex flex-col gap-1.5">
                 <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-                  Filter Tipe
+                  {t("page.promo.ui.filterType")}
                 </label>
                 <Combobox
                   options={typeOptions}
@@ -438,13 +439,13 @@ const PromoCampaignList = () => {
                     setTypeFilter(val);
                     setPage(1);
                   }}
-                  placeholder="Filter Tipe"
+                  placeholder={t("page.promo.ui.filterType")}
                   searchPlaceholder="Cari tipe..."
                 />
               </div>
               <div className="flex flex-col gap-1.5">
                 <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-                  Cari
+                  {t("common.search")}
                 </label>
                 <SearchInput
                   value={search}

@@ -222,7 +222,7 @@ const LowStockAll = () => {
         : [
             <div key="search" className="flex flex-col gap-1.5">
               <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-                Cari
+                {t("common.search")}
               </label>
               <SearchInput
                 value={search}
@@ -230,13 +230,13 @@ const LowStockAll = () => {
                   setSearch(val);
                   setPage(1);
                 }}
-                placeholder="Cari nama barang..."
+                placeholder={t("page.stockOpname.ui.searchItemName")}
                 isLoading={isLoading}
               />
             </div>,
             <div key="store" className="flex flex-col gap-1.5">
               <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-                Toko
+                {t("document.store")}
               </label>
               <Select
                 value={storeFilter}
@@ -245,10 +245,10 @@ const LowStockAll = () => {
                   setPage(1);
                 }}>
                 <SelectTrigger className="h-9 text-sm">
-                  <SelectValue placeholder="Semua Toko" />
+                  <SelectValue placeholder={t("header.allStore")} />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="all">Semua Toko</SelectItem>
+                  <SelectItem value="all">{t("header.allStore")}</SelectItem>
                   {locations.map((loc) => (
                     <SelectItem key={loc.id} value={String(loc.id)}>
                       {loc.name}
@@ -259,7 +259,7 @@ const LowStockAll = () => {
             </div>,
             <div key="type" className="flex flex-col gap-1.5">
               <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-                Tipe
+                {t("page.profile.type")}
               </label>
               <Select
                 value={typeFilter}
@@ -268,12 +268,14 @@ const LowStockAll = () => {
                   setPage(1);
                 }}>
                 <SelectTrigger className="h-9 text-sm">
-                  <SelectValue placeholder="Semua Tipe" />
+                  <SelectValue placeholder={t("page.stockHistory.filter.allTypes")} />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="all">Semua Tipe</SelectItem>
-                  <SelectItem value="product">Produk</SelectItem>
-                  <SelectItem value="ingredient">Bahan</SelectItem>
+                  <SelectItem value="all">{t("page.stockHistory.filter.allTypes")}</SelectItem>
+                  <SelectItem value="product">{t("sidebar.produk")}</SelectItem>
+                  <SelectItem value="ingredient">
+                    {t("page.dashboardSuperAdmin.ops.type.ingredient")}
+                  </SelectItem>
                 </SelectContent>
               </Select>
             </div>

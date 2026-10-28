@@ -565,7 +565,7 @@ const AddBundle = () => {
                     <>
                       <img
                         src={previewImage}
-                        alt="Preview"
+                        alt={t("page.product.form.preview")}
                         className="w-full h-auto max-h-[300px] object-contain"
                       />
                       <button

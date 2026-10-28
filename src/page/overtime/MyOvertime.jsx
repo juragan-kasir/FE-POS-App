@@ -212,8 +212,8 @@ const MyOvertime = () => {
           { label: "SDM" },
           { label: "Lembur", i18nKey: "sidebar.overtime" }
         ]}
-        title="Lembur Saya"
-        description="Ajukan lembur berdasarkan shift aktif dan pantau status pengajuan."
+        title={t("sidebar.myOvertime")}
+        description={t("page.overtime.ui.requestOvertimeOnAnActive")}
       />
 
       <div className="grid grid-cols-1 sm:grid-cols-4 gap-4">
@@ -226,7 +226,7 @@ const MyOvertime = () => {
       {isSuperAdmin && (
         <div className="flex flex-col gap-1.5 max-w-xs">
           <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-            Toko
+            {t("document.store")}
           </label>
           <Combobox
             options={[
@@ -238,7 +238,7 @@ const MyOvertime = () => {
               setGlobalStoreFilter(v);
               setPage(1);
             }}
-            placeholder="Pilih toko"
+            placeholder={t("page.table.form.storePlaceholder")}
             searchPlaceholder="Cari toko..."
           />
         </div>
@@ -252,16 +252,18 @@ const MyOvertime = () => {
               <AlarmClock size={18} />
             </div>
             <div>
-              <h2 className="text-sm font-semibold text-foreground">Ajukan Lembur</h2>
+              <h2 className="text-sm font-semibold text-foreground">
+                {t("page.overtime.ui.requestOvertime")}
+              </h2>
               <p className="text-xs text-muted-foreground">
-                Tentukan shift, tanggal, dan jam lembur Anda.
+                {t("page.overtime.ui.setYourOvertimeShiftDate")}
               </p>
             </div>
           </div>
 
           <div className="space-y-1.5">
             <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-              Shift
+              {t("sidebar.shift")}
             </label>
             <Combobox
               options={shiftOptions}
@@ -271,14 +273,14 @@ const MyOvertime = () => {
               searchPlaceholder="Cari shift..."
             />
             {myShifts.length === 0 && (
-              <p className="text-xs text-red-500">Anda belum terdaftar di shift aktif toko ini.</p>
+              <p className="text-xs text-red-500">{t("page.overtime.ui.youAreNotAssignedTo")}</p>
             )}
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div className="space-y-1.5">
               <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-                Tanggal
+                {t("document.date")}
               </label>
               <Input
                 type="date"
@@ -288,7 +290,7 @@ const MyOvertime = () => {
             </div>
             <div className="space-y-1.5">
               <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-                Durasi (auto)
+                {t("page.overtime.ui.durationAuto")}
               </label>
               <div className="h-9 rounded-lg border border-border bg-muted/30 px-3 flex items-center text-sm font-medium text-foreground">
                 {duration !== null && duration > 0 ? durationLabel(duration) : "-"}
@@ -296,7 +298,7 @@ const MyOvertime = () => {
             </div>
             <div className="space-y-1.5">
               <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-                Jam Mulai
+                {t("page.shift.form.startTime")}
               </label>
               <Input
                 type="time"
@@ -306,7 +308,7 @@ const MyOvertime = () => {
             </div>
             <div className="space-y-1.5">
               <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-                Jam Selesai
+                {t("page.shift.form.endTime")}
               </label>
               <Input
                 type="time"
@@ -318,11 +320,11 @@ const MyOvertime = () => {
 
           <div className="space-y-1.5">
             <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-              Catatan
+              {t("page.bom.detail.notes")}
             </label>
             <Textarea
               rows={3}
-              placeholder="Alasan / detail pekerjaan lembur (opsional)"
+              placeholder={t("page.overtime.ui.reasonOvertimeWorkDetailsOptional")}
               value={form.note}
               onChange={(e) => setForm((f) => ({ ...f, note: e.target.value }))}
               maxLength={FIELD_LIMITS.DESCRIPTION}
@@ -339,7 +341,7 @@ const MyOvertime = () => {
             ) : (
               <Send size={16} />
             )}
-            Kirim Pengajuan
+            {t("page.overtime.ui.submitRequest")}
           </Button>
         </div>
 
@@ -351,7 +353,9 @@ const MyOvertime = () => {
                 <Clock size={18} />
               </div>
               <div>
-                <h2 className="text-sm font-semibold text-foreground">Riwayat Pengajuan</h2>
+                <h2 className="text-sm font-semibold text-foreground">
+                  {t("page.overtime.ui.requestHistory")}
+                </h2>
                 <p className="text-xs text-muted-foreground">
                   {locationName(effectiveStore) || `Toko #${effectiveStore || "-"}`}
                 </p>
@@ -368,15 +372,19 @@ const MyOvertime = () => {
             </div>
           ) : isError ? (
             <div className="rounded-xl border border-dashed border-border p-8 text-center">
-              <p className="text-sm text-muted-foreground">Gagal memuat riwayat lembur.</p>
+              <p className="text-sm text-muted-foreground">
+                {t("page.overtime.ui.failedToLoadOvertimeHistory")}
+              </p>
               <Button variant="outline" size="sm" className="mt-3" onClick={() => refetch()}>
-                Muat Ulang
+                {t("common.refresh")}
               </Button>
             </div>
           ) : rows.length === 0 ? (
             <div className="rounded-xl border border-dashed border-border p-8 flex flex-col items-center justify-center text-center gap-2">
               <Inbox size={20} className="text-muted-foreground" />
-              <p className="text-sm text-muted-foreground">Belum ada pengajuan lembur.</p>
+              <p className="text-sm text-muted-foreground">
+                {t("page.overtime.ui.noOvertimeRequestsYet")}
+              </p>
             </div>
           ) : (
             <div className="space-y-2.5">
@@ -415,7 +423,7 @@ const MyOvertime = () => {
                   )}
                   <div className="flex items-center justify-between gap-2 pt-1 border-t border-border/50">
                     <p className="text-xs text-muted-foreground">
-                      Diajukan {fmtDateTime(ot.createdAt)}
+                      {t("page.overtime.ui.submitted")} {fmtDateTime(ot.createdAt)}
                     </p>
                     {ot.status === "pending" && (
                       <Button
@@ -423,7 +431,7 @@ const MyOvertime = () => {
                         variant="danger"
                         className="h-7 px-2.5 text-xs text-destructive border-destructive/40 hover:bg-destructive/10"
                         onClick={() => setCancelTarget(ot)}>
-                        Batalkan
+                        {t("page.goodsRequest.list.cancel")}
                       </Button>
                     )}
                   </div>
@@ -435,7 +443,7 @@ const MyOvertime = () => {
           {total > 0 && (
             <div className="flex items-center justify-between gap-3">
               <p className="text-xs text-muted-foreground">
-                {total} pengajuan · halaman {page} / {totalPages}
+                {total} {t("page.overtime.ui.requestsPage")} {page} / {totalPages}
               </p>
               <div className="flex items-center gap-2">
                 <Button
@@ -443,14 +451,14 @@ const MyOvertime = () => {
                   size="sm"
                   disabled={page <= 1}
                   onClick={() => setPage((p) => p - 1)}>
-                  Sebelumnya
+                  {t("guide.auth.prev")}
                 </Button>
                 <Button
                   variant="outline"
                   size="sm"
                   disabled={page >= totalPages}
                   onClick={() => setPage((p) => p + 1)}>
-                  Berikutnya
+                  {t("page.shift.swap.next")}
                 </Button>
               </div>
             </div>
@@ -462,7 +470,7 @@ const MyOvertime = () => {
         type="confirm"
         open={!!cancelTarget}
         onOpenChange={(open) => !open && setCancelTarget(null)}
-        title="Batalkan pengajuan lembur?"
+        title={t("page.overtime.ui.cancelThisOvertimeRequest")}
         description={`Pengajuan lembur ${
           cancelTarget?.shift?.name || ""
         } pada ${fmtDate(cancelTarget?.date)} akan dibatalkan.`}
@@ -471,7 +479,7 @@ const MyOvertime = () => {
         onConfirm={() => cancelMutation.mutate({ id: cancelTarget.id })}
       />
       {(createMutation.isLoading || cancelMutation.isLoading) && (
-        <Loading fullscreen size="lg" label="Menyimpan..." />
+        <Loading fullscreen size="lg" label={t("common.saving")} />
       )}
     </div>
   );

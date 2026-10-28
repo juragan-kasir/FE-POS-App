@@ -267,17 +267,17 @@ const MyShift = () => {
                 {hasCheckedIn && hasCheckedOut ? (
                   <>
                     <CheckCircle2 size={10} />
-                    Absen Masuk & Pulang
+                    {t("page.shift.ui.clockInOut")}
                   </>
                 ) : hasCheckedIn ? (
                   <>
                     <CheckCircle2 size={10} />
-                    Absen Masuk • Belum Pulang
+                    {t("page.shift.ui.clockedInNotClockedOut")}
                   </>
                 ) : (
                   <>
                     <CircleDashed size={10} />
-                    Belum Absen
+                    {t("page.shift.ui.notClockedIn")}
                   </>
                 )}
               </span>
@@ -318,12 +318,12 @@ const MyShift = () => {
                   ) : hasCheckedIn ? (
                     <>
                       <LogOut size={13} />
-                      Absen Pulang
+                      {t("page.shift.ui.clockOut")}
                     </>
                   ) : (
                     <>
                       <Fingerprint size={13} />
-                      Absen Masuk
+                      {t("page.shift.ui.clockIn")}
                     </>
                   )}
                 </Button>
@@ -475,9 +475,12 @@ const MyShift = () => {
                 <ArrowRightLeft size={18} />
               </div>
               <div>
-                <h2 className="text-sm font-semibold text-foreground">Pertukaran Shift</h2>
+                <h2 className="text-sm font-semibold text-foreground">
+                  {t("page.shift.ui.shiftSwaps")}
+                </h2>
                 <p className="text-xs text-muted-foreground">
-                  {mySwaps.filter((s) => s.status === "pending").length} sedang diproses ·{" "}
+                  {mySwaps.filter((s) => s.status === "pending").length}{" "}
+                  {t("page.shift.ui.inProgress")}{" "}
                   {mySwaps.filter((s) => s.status === "approved").length} berhasil
                 </p>
               </div>
@@ -577,7 +580,7 @@ const MyShift = () => {
                         className="h-8 gap-1.5 text-xs text-red-600 dark:text-red-400 hover:text-red-600 dark:hover:text-red-400"
                         onClick={() => setCancelSwap(s)}>
                         <XCircle size={13} />
-                        Batalkan
+                        {t("page.goodsRequest.list.cancel")}
                       </Button>
                     </div>
                   )}

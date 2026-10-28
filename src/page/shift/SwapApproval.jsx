@@ -22,6 +22,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { Loading } from "@/components/ui/loading";
 import Modal from "@/components/organism/modal";
 import PageHeader from "@/components/ui/PageHeader";
+import { useTranslation } from "react-i18next";
 
 const fmt = (d) => {
   if (!d) return "-";
@@ -110,6 +111,7 @@ const toISODate = (d) => {
 
 // Panel audit: "siapa menukar dengan siapa" dalam 30 hari terakhir (approved)
 const AuditTrailPanel = ({ store, locations }) => {
+  const { t } = useTranslation();
   const [open, setOpen] = useState(false);
   const [fromDate, setFromDate] = useState(() => toISODate(new Date(Date.now() - 30 * DAY_MS)));
   const [toDate, setToDate] = useState(() => toISODate(new Date()));
@@ -150,10 +152,10 @@ const AuditTrailPanel = ({ store, locations }) => {
           </div>
           <div>
             <h2 className="text-sm font-semibold text-foreground">
-              Audit Pertukaran Shift (30 hari terakhir)
+              {t("page.shift.ui.shiftSwapAuditLast30")}
             </h2>
             <p className="text-xs text-muted-foreground">
-              Rekap siapa menukar dengan siapa yang telah disetujui
+              {t("page.shift.ui.summaryOfApprovedSwapsWho")}
             </p>
           </div>
         </div>
@@ -166,7 +168,7 @@ const AuditTrailPanel = ({ store, locations }) => {
         <div className="mt-4">
           <div className="flex flex-wrap items-center gap-3 mb-3">
             <div className="flex items-center gap-2 text-xs text-muted-foreground">
-              <span>Dari</span>
+              <span>{t("page.stockTransfer.list.header.from")}</span>
               <input
                 type="date"
                 value={fromDate}
@@ -183,7 +185,7 @@ const AuditTrailPanel = ({ store, locations }) => {
             </div>
             {isFetching && <Loader2 size={14} className="text-primary animate-spin" />}
             <span className="text-xs text-muted-foreground">
-              {trail.length} pertukaran disetujui
+              {trail.length} {t("page.shift.ui.approvedSwaps")}
             </span>
           </div>
 
@@ -195,7 +197,7 @@ const AuditTrailPanel = ({ store, locations }) => {
             </div>
           ) : trail.length === 0 ? (
             <div className="rounded-xl border border-dashed border-border p-8 text-center text-sm text-muted-foreground">
-              Belum ada pertukaran yang disetujui pada rentang tanggal tersebut.
+              {t("page.shift.ui.noApprovedSwapsInThis")}
             </div>
           ) : (
             <div className="space-y-4">
@@ -238,6 +240,7 @@ const AuditTrailPanel = ({ store, locations }) => {
 };
 
 const SwapApproval = ({ user, store, locations }) => {
+  const { t } = useTranslation();
   const queryClient = useQueryClient();
   const [status, setStatus] = useState("pending");
   const [page, setPage] = useState(1);
@@ -334,8 +337,8 @@ const SwapApproval = ({ user, store, locations }) => {
           { label: "Shift" },
           { label: "Swap Approval" }
         ]}
-        title="Swap Approval"
-        description="Kelola permintaan tukar jadwal shift"
+        title={t("page.shift.list.tabSwap")}
+        description={t("page.shift.ui.manageShiftSwapRequests")}
       />
 
       <div className="grid grid-cols-1 sm:grid-cols-5 gap-4">
@@ -350,7 +353,7 @@ const SwapApproval = ({ user, store, locations }) => {
         <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-3">
           <div className="flex flex-col gap-1.5">
             <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-              Status
+              {t("common.status")}
             </label>
             <Combobox
               options={[
@@ -365,12 +368,12 @@ const SwapApproval = ({ user, store, locations }) => {
                 setStatus(v);
                 setPage(1);
               }}
-              placeholder="Pilih status"
+              placeholder={t("page.shift.ui.selectStatus")}
               searchPlaceholder="Cari..."
             />
           </div>
           <p className="text-xs text-muted-foreground">
-            Menampilkan permintaan ubah jadwal untuk{" "}
+            {t("page.shift.ui.showingScheduleChangeRequestsFor")}{" "}
             <span className="font-medium text-foreground">
               {locationName(store) || `Toko #${store || "-"}`}
             </span>
@@ -380,9 +383,11 @@ const SwapApproval = ({ user, store, locations }) => {
 
       {isError ? (
         <div className="rounded-xl border border-dashed border-border p-10 text-center">
-          <p className="text-sm text-muted-foreground">Gagal memuat permintaan ubah jadwal.</p>
+          <p className="text-sm text-muted-foreground">
+            {t("page.shift.ui.failedToLoadScheduleChange")}
+          </p>
           <Button variant="outline" size="sm" className="mt-3" onClick={() => refetch()}>
-            Muat Ulang
+            {t("common.refresh")}
           </Button>
         </div>
       ) : isLoading || isFetching ? (
@@ -409,10 +414,11 @@ const SwapApproval = ({ user, store, locations }) => {
           <div className="w-12 h-12 rounded-full bg-muted flex items-center justify-center">
             <Inbox size={22} className="text-muted-foreground" />
           </div>
-          <p className="text-sm font-medium text-foreground">Belum ada permintaan ubah jadwal</p>
+          <p className="text-sm font-medium text-foreground">
+            {t("page.shift.ui.noScheduleChangeRequestsYet")}
+          </p>
           <p className="text-xs text-muted-foreground max-w-sm">
-            Permintaan dari karyawan untuk menukar jadwal shift akan muncul di sini untuk
-            dikonfirmasi.
+            {t("page.shift.ui.employeeShiftSwapRequestsAppear")}
           </p>
         </div>
       ) : (
@@ -480,7 +486,9 @@ const SwapApproval = ({ user, store, locations }) => {
                   )}
                   <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
                     <Clock size={11} className="shrink-0" />
-                    <span>Diajukan {fmtDateTime(sw.createdAt)}</span>
+                    <span>
+                      {t("page.shift.ui.submitted")} {fmtDateTime(sw.createdAt)}
+                    </span>
                   </div>
                   {sw.status !== "pending" && sw.decidedByUser && (
                     <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
@@ -490,7 +498,8 @@ const SwapApproval = ({ user, store, locations }) => {
                         <XCircle size={11} className="shrink-0 text-red-500" />
                       )}
                       <span>
-                        Diputus oleh {sw.decidedByUser.fullName || sw.decidedByUser.userName} ·{" "}
+                        {t("page.shift.ui.decidedBy")}{" "}
+                        {sw.decidedByUser.fullName || sw.decidedByUser.userName} ·{" "}
                         {fmtDateTime(sw.decidedAt)}
                       </span>
                     </div>
@@ -505,14 +514,14 @@ const SwapApproval = ({ user, store, locations }) => {
                       className="gap-1.5 text-destructive border-destructive/40 hover:bg-destructive/10"
                       onClick={() => setDecisionTarget({ swap: sw, decision: "rejected" })}>
                       <X size={14} />
-                      Tolak
+                      {t("common.reject")}
                     </Button>
                     <Button
                       size="sm"
                       className="gap-1.5 bg-green-600 hover:bg-green-700 text-white"
                       onClick={() => setDecisionTarget({ swap: sw, decision: "approved" })}>
                       <Check size={14} />
-                      Terima
+                      {t("page.customerOrder.accept")}
                     </Button>
                   </div>
                 )}
@@ -525,7 +534,7 @@ const SwapApproval = ({ user, store, locations }) => {
       {total > 0 && (
         <div className="flex items-center justify-between gap-3">
           <p className="text-xs text-muted-foreground">
-            {total} permintaan · halaman {page} / {totalPages}
+            {total} {t("page.shift.ui.requestsPage")} {page} / {totalPages}
           </p>
           <div className="flex items-center gap-2">
             <Button
@@ -533,14 +542,14 @@ const SwapApproval = ({ user, store, locations }) => {
               size="sm"
               disabled={page <= 1}
               onClick={() => setPage((p) => p - 1)}>
-              Sebelumnya
+              {t("guide.auth.prev")}
             </Button>
             <Button
               variant="outline"
               size="sm"
               disabled={page >= totalPages}
               onClick={() => setPage((p) => p + 1)}>
-              Berikutnya
+              {t("page.shift.swap.next")}
             </Button>
           </div>
         </div>
@@ -570,7 +579,9 @@ const SwapApproval = ({ user, store, locations }) => {
         loading={decideMutation.isLoading}
         onConfirm={confirmDecide}
       />
-      {decideMutation.isLoading && <Loading fullscreen size="lg" label="Menyimpan keputusan..." />}
+      {decideMutation.isLoading && (
+        <Loading fullscreen size="lg" label={t("page.shift.ui.savingDecision")} />
+      )}
     </div>
   );
 };

@@ -200,7 +200,7 @@ const ReportView = ({ data, reportType }) => {
           )}
           {data.store?.phone && (
             <p className="text-xs text-muted-foreground/80 mt-0.5 font-mono">
-              Telp: {data.store.phone}
+              {t("page.cashRegister.ui.phone")} {data.store.phone}
             </p>
           )}
         </div>
@@ -512,7 +512,7 @@ const ReportView = ({ data, reportType }) => {
             className="w-full h-10 rounded-xl flex items-center justify-center gap-2 font-semibold transition-all duration-300 hover:bg-primary hover:text-primary-foreground border-dashed"
             onClick={() => handlePrintReport(uniqueId)}>
             <Printer size={14} />
-            {t("page.cashRegister.xz.print")} Laporan{" "}
+            {t("page.cashRegister.xz.print")} {t("sidebar.laporan")}{" "}
             {reportType === "Z" ? `#${data.register?.id || ""}` : "X"}
           </Button>
         </div>
@@ -703,7 +703,7 @@ const XZReport = () => {
               <Store size={16} />
             </div>
             <label className="text-xs font-bold uppercase tracking-widest text-muted-foreground whitespace-nowrap">
-              Pilih Toko
+              {t("header.selectStore")}
             </label>
           </div>
           <div className="relative w-full sm:w-72">
@@ -711,7 +711,7 @@ const XZReport = () => {
               value={storeFilter}
               onChange={(e) => setStoreFilter(e.target.value)}
               className="w-full h-9 pl-3 pr-8 rounded-lg bg-background border border-border/80 text-xs font-semibold appearance-none outline-none focus:border-primary focus:ring-1 focus:ring-primary/30 transition-all cursor-pointer shadow-sm hover:border-border">
-              <option value="all">Semua Toko</option>
+              <option value="all">{t("header.allStore")}</option>
               {locations.map((loc) => {
                 const id = loc.id || loc._id;
                 return (
@@ -741,13 +741,13 @@ const XZReport = () => {
                   {t("page.cashRegister.xz.xTitle")}
                 </h2>
                 <p className="text-xs text-muted-foreground">
-                  Status kasir saat ini · Tidak ada penyesuaian
+                  {t("page.cashRegister.ui.currentRegisterStatusNoAdjustments")}
                 </p>
               </div>
             </div>
             <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-gradient-to-r from-emerald-100 to-emerald-50 dark:from-emerald-950/60 dark:to-emerald-950/30 text-emerald-700 dark:text-emerald-300 text-xs font-extrabold uppercase tracking-widest shadow-sm border border-emerald-200/50 dark:border-emerald-900/30">
               <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-              Aktif
+              {t("common.active")}
             </span>
           </div>
 
@@ -756,10 +756,11 @@ const XZReport = () => {
               <div className="p-4 bg-accent/40 dark:bg-accent/20 rounded-full w-14 h-14 flex items-center justify-center mx-auto mb-3 text-muted-foreground/30">
                 <Store size={32} />
               </div>
-              <h3 className="font-bold text-sm text-foreground mb-1">Pilih Toko Terlebih Dahulu</h3>
+              <h3 className="font-bold text-sm text-foreground mb-1">
+                {t("page.cashRegister.ui.selectAStoreFirst")}
+              </h3>
               <p className="text-xs text-muted-foreground px-4 leading-relaxed">
-                Pilih toko tertentu pada selector di atas untuk melihat register aktif atau membuka
-                register baru.
+                {t("page.cashRegister.ui.selectAStoreAboveTo")}
               </p>
             </div>
           ) : xLoading ? (
@@ -780,8 +781,7 @@ const XZReport = () => {
                     {t("page.cashRegister.xz.xNote")}
                   </p>
                   <p className="text-xs text-blue-700/80 dark:text-blue-300/70 leading-relaxed">
-                    Laporan X dapat dicetak berkali-kali tanpa mereset transaksi. Gunakan ini untuk
-                    verifikasi harian.
+                    {t("page.cashRegister.ui.theXReportCanBe")}
                   </p>
                 </div>
               </div>
@@ -791,7 +791,9 @@ const XZReport = () => {
               <div className="p-4 bg-accent/40 dark:bg-accent/20 rounded-full w-14 h-14 flex items-center justify-center mx-auto mb-3 text-muted-foreground/30">
                 <ReceiptText size={32} />
               </div>
-              <h3 className="font-bold text-sm text-foreground mb-1">Tidak Ada Register Aktif</h3>
+              <h3 className="font-bold text-sm text-foreground mb-1">
+                {t("page.cashRegister.ui.noActiveRegister")}
+              </h3>
               <p className="text-xs text-muted-foreground px-4 mb-5 leading-relaxed">
                 {t("page.cashRegister.xz.noOpenRegister")}
               </p>
@@ -818,13 +820,13 @@ const XZReport = () => {
                   {t("page.cashRegister.xz.zTitle")}
                 </h2>
                 <p className="text-xs text-muted-foreground">
-                  Laporan akhir shift · Arsip permanen
+                  {t("page.cashRegister.ui.endOfShiftReportPermanent")}
                 </p>
               </div>
             </div>
             <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-gradient-to-r from-red-100 to-red-50 dark:from-red-950/60 dark:to-red-950/30 text-red-700 dark:text-red-300 text-xs font-extrabold uppercase tracking-widest shadow-sm border border-red-200/50 dark:border-red-900/30">
               <span className="w-1.5 h-1.5 rounded-full bg-red-500" />
-              Tertutup
+              {t("page.cashRegister.history.closed")}
             </span>
           </div>
 
@@ -833,10 +835,11 @@ const XZReport = () => {
               <div className="p-4 bg-accent/40 dark:bg-accent/20 rounded-full w-14 h-14 flex items-center justify-center mx-auto mb-3 text-muted-foreground/30">
                 <FileBarChart size={32} />
               </div>
-              <h3 className="font-bold text-sm text-foreground mb-1">Pilih Toko Terlebih Dahulu</h3>
+              <h3 className="font-bold text-sm text-foreground mb-1">
+                {t("page.cashRegister.ui.selectAStoreFirst")}
+              </h3>
               <p className="text-xs text-muted-foreground px-4 leading-relaxed">
-                Pilih toko tertentu pada selector di atas untuk melihat daftar register yang telah
-                ditutup.
+                {t("page.cashRegister.ui.selectAStoreAboveTo2")}
               </p>
             </div>
           ) : (
@@ -900,8 +903,7 @@ const XZReport = () => {
                       {t("page.cashRegister.xz.zHint")}
                     </h4>
                     <p className="text-xs text-muted-foreground max-w-[240px] leading-relaxed font-medium">
-                      Pilih salah satu sesi kasir yang telah ditutup dari daftar di atas untuk
-                      melihat ringkasan final laporan Z beserta perhitungan varians kas.
+                      {t("page.cashRegister.ui.selectAClosedRegisterSession")}
                     </p>
                   </div>
                 )}

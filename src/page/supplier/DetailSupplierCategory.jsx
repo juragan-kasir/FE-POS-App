@@ -110,24 +110,28 @@ const DetailSupplierCategory = () => {
         <Card className="p-5">
           <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wide mb-3 flex items-center gap-2">
             <Info size={14} />
-            Informasi Kategori
+            {t("page.category.form.info")}
           </h3>
           <div className="space-y-2.5 text-sm">
             <div className="flex items-start gap-2">
               <Tag size={16} className="text-muted-foreground mt-0.5 shrink-0" />
-              <span className="text-muted-foreground w-28 shrink-0">Nama Kategori</span>
+              <span className="text-muted-foreground w-28 shrink-0">
+                {t("page.category.form.name")}
+              </span>
               <span className="font-medium">{category.name || "-"}</span>
             </div>
             <div className="flex items-start gap-2">
               <FileText size={16} className="text-muted-foreground mt-0.5 shrink-0" />
-              <span className="text-muted-foreground w-28 shrink-0">Deskripsi</span>
+              <span className="text-muted-foreground w-28 shrink-0">
+                {t("page.role.detail.descLabel")}
+              </span>
               <span className={category.description ? "" : "text-muted-foreground/50"}>
                 {category.description || "-"}
               </span>
             </div>
             <div className="flex items-start gap-2">
               <Activity size={16} className="text-muted-foreground mt-0.5 shrink-0" />
-              <span className="text-muted-foreground w-28 shrink-0">Status</span>
+              <span className="text-muted-foreground w-28 shrink-0">{t("common.status")}</span>
               <span
                 className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold ${
                   isActive ? "bg-green-100 text-green-700" : "bg-red-100 text-red-700"
@@ -142,7 +146,7 @@ const DetailSupplierCategory = () => {
         <Card className="p-5">
           <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wide mb-3 flex items-center gap-2">
             <Clock size={14} />
-            Informasi Data
+            {t("page.supplier.ui.dataInformation")}
           </h3>
           <div className="space-y-2.5 text-sm">
             <div className="flex items-start gap-2">
@@ -197,11 +201,11 @@ const DetailSupplierCategory = () => {
           <div className="flex items-center justify-between gap-2 mb-3">
             <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wide flex items-center gap-2">
               <Building2 size={14} />
-              Supplier dalam Kategori
+              {t("page.supplier.ui.suppliersInCategory")}
             </h3>
             <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-bold bg-primary/10 text-primary">
               <Building2 size={11} />
-              {supplierCount} Supplier
+              {supplierCount} {t("sidebar.supplier")}
             </span>
           </div>
           {suppliers.length === 0 ? (
@@ -209,7 +213,9 @@ const DetailSupplierCategory = () => {
               <div className="w-14 h-14 rounded-2xl bg-muted/50 flex items-center justify-center">
                 <Building2 size={24} className="text-muted-foreground/60" />
               </div>
-              <p className="text-sm text-muted-foreground">Belum ada supplier dalam kategori ini</p>
+              <p className="text-sm text-muted-foreground">
+                {t("page.supplier.ui.noSuppliersInThisCategory")}
+              </p>
             </div>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -227,7 +233,7 @@ const DetailSupplierCategory = () => {
                     <div className="flex items-center gap-3 mt-0.5 flex-wrap">
                       {s.contactPerson && (
                         <span className="text-xs text-muted-foreground truncate">
-                          CP: {s.contactPerson}
+                          {t("page.supplier.ui.contact")} {s.contactPerson}
                         </span>
                       )}
                       {s.phone && (

@@ -771,7 +771,7 @@ const AddCategory = () => {
                         {imagePreview ? (
                           <img
                             src={imagePreview}
-                            alt="Preview"
+                            alt={t("page.product.form.preview")}
                             className="w-full h-full object-cover rounded-lg"
                           />
                         ) : selectedIcon ? (
@@ -1071,8 +1071,8 @@ const AddCategory = () => {
           type="confirm"
           open={confirmSaveModal}
           onOpenChange={setConfirmSaveModal}
-          title="Konfirmasi Simpan"
-          description="Apakah Anda yakin ingin menyimpan data ini?"
+          title={t("common.confirmSave")}
+          description={t("page.supplier.modal.confirmSaveDesc")}
           confirmText="Ya, Simpan"
           onConfirm={() => {
             setConfirmSaveModal(false);
@@ -1084,7 +1084,7 @@ const AddCategory = () => {
           type="error"
           open={errorModal}
           onOpenChange={setErrorModal}
-          title="Error"
+          title={t("page.shift.edit.toast.error")}
           description={modalMessage}
           onConfirm={() => setErrorModal(false)}
         />

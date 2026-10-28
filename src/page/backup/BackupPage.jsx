@@ -388,11 +388,11 @@ const BackupPage = () => {
           <div className="space-y-3 mb-6">
             <div className="flex items-center gap-3 text-sm text-muted-foreground">
               <FileSpreadsheet size={16} className="shrink-0" />
-              <span>Excel (.xlsx) — 12 sheet master data</span>
+              <span>{t("page.backup.ui.excelXlsx12MasterData")}</span>
             </div>
             <div className="flex items-center gap-3 text-sm text-muted-foreground">
               <Database size={16} className="shrink-0" />
-              <span>Kategori, Supplier, Produk, Bahan Baku, Pajak, Diskon, dll</span>
+              <span>{t("page.backup.ui.categoriesSuppliersProductsIngredientsTaxes")}</span>
             </div>
           </div>
 

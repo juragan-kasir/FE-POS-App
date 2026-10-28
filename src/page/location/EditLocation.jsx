@@ -1617,7 +1617,9 @@ const EditLocation = () => {
                             <SelectItem value="LinkedIn">LinkedIn</SelectItem>
                             <SelectItem value="Shopee">Shopee</SelectItem>
                             <SelectItem value="Tokopedia">Tokopedia</SelectItem>
-                            <SelectItem value="Website">Website</SelectItem>
+                            <SelectItem value="Website">
+                              {t("page.supplier.form.website")}
+                            </SelectItem>
                           </SelectContent>
                         </Select>
                         <Input

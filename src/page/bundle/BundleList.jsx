@@ -442,7 +442,7 @@ const BundleList = () => {
       {isSuperAdmin && (
         <div className="flex flex-col gap-1.5">
           <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-            Store
+            {t("page.goodsReceipt.detail.store")}
           </label>
           <StoreFilter
             locations={locData?.data || []}
@@ -458,7 +458,7 @@ const BundleList = () => {
       )}
       <div className="flex flex-col gap-1.5">
         <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-          Cari
+          {t("common.search")}
         </label>
         <SearchInput
           value={search}

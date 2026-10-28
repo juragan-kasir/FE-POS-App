@@ -1026,7 +1026,7 @@ export default function DetailPurchaseOrder() {
                               )}
                               {name}
                               <span className="text-xs font-normal text-muted-foreground">
-                                ({items.length} item)
+                                ({items.length} {t("page.purchaseOrder.ui.items")}
                               </span>
                             </span>
                           </td>
@@ -1541,7 +1541,7 @@ export default function DetailPurchaseOrder() {
                     <div className="flex-1 min-w-0">
                       <p className="text-sm font-medium truncate">{item.name}</p>
                       <p className="text-xs text-muted-foreground">
-                        Max: {item.maxQty} {item.unit}
+                        {t("page.purchaseOrder.ui.max")} {item.maxQty} {item.unit}
                       </p>
                     </div>
                     <Input

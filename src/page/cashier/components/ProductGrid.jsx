@@ -163,7 +163,7 @@ const ProductGridTile = React.memo(function ProductGridTile({
               <span className="px-1.5 py-0.5 rounded-md bg-emerald-500/90 backdrop-blur-sm shadow-sm">
                 <span className="text-xs font-bold text-white flex items-center gap-0.5">
                   <Package size={10} />
-                  Bundle
+                  {t("breadcrumb.bundle")}
                 </span>
               </span>
             )}
@@ -282,7 +282,7 @@ const ProductListTile = React.memo(function ProductListTile({
             {product.isBundle && (
               <span className="px-1.5 py-0.5 rounded-md bg-emerald-500/10 text-emerald-600 text-xs font-bold uppercase tracking-wider shrink-0">
                 <Package size={10} className="inline mr-0.5" />
-                Bundle
+                {t("breadcrumb.bundle")}
               </span>
             )}
           </div>
@@ -745,7 +745,7 @@ const ProductGrid = ({
             type="button"
             onClick={() => setViewMode("grid")}
             aria-pressed={viewMode === "grid"}
-            aria-label="Grid view"
+            aria-label={t("page.cashier.ui.gridView")}
             className={`p-1.5 rounded-lg transition-all ${
               viewMode === "grid"
                 ? "bg-background shadow-sm text-foreground"
@@ -757,7 +757,7 @@ const ProductGrid = ({
             type="button"
             onClick={() => setViewMode("list")}
             aria-pressed={viewMode === "list"}
-            aria-label="List view"
+            aria-label={t("page.cashier.ui.listView")}
             className={`p-1.5 rounded-lg transition-all ${
               viewMode === "list"
                 ? "bg-background shadow-sm text-foreground"
@@ -921,7 +921,9 @@ const ProductGrid = ({
                 )
               ) : (
                 <div className="px-4 lg:px-6 pt-3">
-                  <p className="text-sm text-muted-foreground/60 italic">Produk belum ada</p>
+                  <p className="text-sm text-muted-foreground/60 italic">
+                    {t("page.cashier.ui.noProductsYet")}
+                  </p>
                 </div>
               )}
             </div>

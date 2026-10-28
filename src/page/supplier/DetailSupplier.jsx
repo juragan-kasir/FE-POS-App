@@ -332,21 +332,27 @@ const DetailSupplier = () => {
                 {supplier.contactPerson && (
                   <div className="flex items-center gap-2">
                     <User size={16} className="text-muted-foreground shrink-0" />
-                    <span className="text-muted-foreground w-28 shrink-0">Contact Person</span>
+                    <span className="text-muted-foreground w-28 shrink-0">
+                      {t("document.contactPerson")}
+                    </span>
                     <span className="font-medium">{supplier.contactPerson}</span>
                   </div>
                 )}
                 {supplier.description && (
                   <div className="flex items-start gap-2">
                     <FileText size={16} className="text-muted-foreground mt-0.5 shrink-0" />
-                    <span className="text-muted-foreground w-28 shrink-0">Deskripsi</span>
+                    <span className="text-muted-foreground w-28 shrink-0">
+                      {t("page.role.detail.descLabel")}
+                    </span>
                     <span>{supplier.description}</span>
                   </div>
                 )}
                 {supplier.address && (
                   <div className="flex items-start gap-2">
                     <MapPin size={16} className="text-muted-foreground mt-0.5 shrink-0" />
-                    <span className="text-muted-foreground w-28 shrink-0">Alamat</span>
+                    <span className="text-muted-foreground w-28 shrink-0">
+                      {t("document.address")}
+                    </span>
                     <span>{supplier.address}</span>
                   </div>
                 )}
@@ -355,7 +361,7 @@ const DetailSupplier = () => {
                 <div className="flex items-center gap-2">
                   <CalendarDays size={12} className="shrink-0" />
                   <span>
-                    Dibuat:{" "}
+                    {t("page.supplier.ui.created")}{" "}
                     {supplier.createdAt
                       ? format(new Date(supplier.createdAt), "dd MMM yyyy HH:mm")
                       : "-"}
@@ -364,7 +370,7 @@ const DetailSupplier = () => {
                 <div className="flex items-center gap-2">
                   <CalendarDays size={12} className="shrink-0" />
                   <span>
-                    Diubah:{" "}
+                    {t("page.supplier.ui.modified")}{" "}
                     {supplier.updatedAt
                       ? format(new Date(supplier.updatedAt), "dd MMM yyyy HH:mm")
                       : "-"}
@@ -394,7 +400,7 @@ const DetailSupplier = () => {
             {/* Kanal kontak */}
             <Card className="p-5">
               <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wide mb-3">
-                Kanal Kontak
+                {t("page.supplier.ui.contactChannels")}
               </h3>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 text-sm">
                 {[
@@ -472,7 +478,7 @@ const DetailSupplier = () => {
             <Card className="p-5">
               <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wide mb-3 flex items-center gap-2">
                 <Store size={14} />
-                Cabang Terhubung
+                {t("page.supplier.ui.linkedBranches")}
               </h3>
               {supplier.store?.length > 0 ? (
                 <div className="flex flex-wrap gap-2">
@@ -486,7 +492,9 @@ const DetailSupplier = () => {
                   ))}
                 </div>
               ) : (
-                <p className="text-sm text-muted-foreground/50">Tidak terhubung ke cabang</p>
+                <p className="text-sm text-muted-foreground/50">
+                  {t("page.supplier.ui.notLinkedToABranch")}
+                </p>
               )}
             </Card>
 
@@ -494,11 +502,13 @@ const DetailSupplier = () => {
             <Card className="p-5">
               <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wide mb-3 flex items-center gap-2">
                 <Wallet size={14} />
-                Informasi Pembayaran
+                {t("page.purchasePayment.detail.paymentInfo")}
               </h3>
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
                 <div className="p-3 rounded-lg bg-muted/30">
-                  <p className="text-xs text-muted-foreground mb-1">Tipe Pembayaran</p>
+                  <p className="text-xs text-muted-foreground mb-1">
+                    {t("page.typePayment.list.title")}
+                  </p>
                   <Badge variant="outline" className="capitalize font-semibold">
                     {supplier.paymentType === "cbd"
                       ? "CBD (Bayar Di Muka)"
@@ -508,21 +518,23 @@ const DetailSupplier = () => {
                   </Badge>
                 </div>
                 <div className="p-3 rounded-lg bg-muted/30">
-                  <p className="text-xs text-muted-foreground mb-1">Tempo</p>
+                  <p className="text-xs text-muted-foreground mb-1">
+                    {t("page.supplier.ui.paymentTerms")}
+                  </p>
                   <p className="text-sm font-medium">
                     {supplier.paymentType === "tempo" ? `${supplier.tempoDays ?? 0} hari` : "-"}
                   </p>
                 </div>
                 <div className="p-3 rounded-lg bg-muted/30">
                   <p className="text-xs text-muted-foreground mb-1 flex items-center gap-1">
-                    <Percent size={11} /> Diskon Default
+                    <Percent size={11} /> {t("page.supplier.ui.defaultDiscount")}
                   </p>
                   <p className="text-sm font-medium">{Number(supplier.defaultDiscount || 0)}%</p>
                 </div>
               </div>
               {supplier.defaultDescription && (
                 <p className="text-xs text-muted-foreground italic mt-2.5">
-                  Catatan default: {supplier.defaultDescription}
+                  {t("page.supplier.ui.defaultNote")} {supplier.defaultDescription}
                 </p>
               )}
             </Card>
@@ -746,7 +758,7 @@ const DetailSupplier = () => {
                     <div className="flex flex-col sm:flex-row items-center justify-center sm:justify-between gap-3 pt-4 border-t mt-4">
                       <div className="flex items-center gap-3">
                         <p className="text-xs text-muted-foreground whitespace-nowrap">
-                          Menampilkan {startIdx + 1}–
+                          {t("page.supplier.ui.showing")} {startIdx + 1}–
                           {Math.min(startIdx + productPageSize, totalItems)} dari {totalItems}
                         </p>
                         <Combobox
@@ -875,7 +887,7 @@ const DetailSupplier = () => {
           <Card className="p-5">
             <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wide mb-3 flex items-center gap-2">
               <Landmark size={14} />
-              Rekening Bank
+              {t("page.supplier.bankAccounts.title")}
             </h3>
             {supplier.bankAccounts?.length > 0 ? (
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -901,13 +913,15 @@ const DetailSupplier = () => {
                 <div className="w-14 h-14 rounded-2xl bg-muted/50 flex items-center justify-center">
                   <Landmark size={24} className="text-muted-foreground/60" />
                 </div>
-                <p className="text-sm text-muted-foreground">Belum ada rekening bank terdaftar</p>
+                <p className="text-sm text-muted-foreground">
+                  {t("page.supplier.ui.noBankAccountsRegisteredYet")}
+                </p>
                 <Button
                   variant="success"
                   size="sm"
                   onClick={() => navigate(`/edit-supplier?id=${id}`)}>
                   <Plus size={13} className="mr-1" />
-                  Tambah via Edit Supplier
+                  {t("page.supplier.ui.addViaEditSupplier")}
                 </Button>
               </div>
             )}

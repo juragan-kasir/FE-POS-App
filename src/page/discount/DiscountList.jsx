@@ -313,7 +313,7 @@ const DiscountList = () => {
       render: (item) => {
         const store = item.store;
         if (!store || Array.isArray(store))
-          return <span className="text-xs text-foreground">Semua Toko</span>;
+          return <span className="text-xs text-foreground">{t("header.allStore")}</span>;
         return <span className="text-xs">{store.name || `Store #${store.id}`}</span>;
       }
     },
@@ -648,7 +648,7 @@ const DiscountList = () => {
                   isFiltered={isFiltered}>
                   <div className="flex flex-col gap-1.5">
                     <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-                      Store
+                      {t("page.goodsReceipt.detail.store")}
                     </label>
                     <StoreFilter
                       locations={locData?.data || []}
@@ -684,7 +684,7 @@ const DiscountList = () => {
                   </div>
                   <div className="flex flex-col gap-1.5">
                     <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-                      Cari
+                      {t("common.search")}
                     </label>
                     <SearchInput
                       value={search}

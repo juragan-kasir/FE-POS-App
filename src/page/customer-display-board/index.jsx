@@ -202,7 +202,7 @@ const CustomerDisplayBoard = () => {
             </button>
             <button
               onClick={toggleFullscreen}
-              aria-label="Toggle fullscreen"
+              aria-label={t("page.customerDisplayBoard.ui.toggleFullscreen")}
               className="p-2.5 rounded-xl border border-border bg-card hover:bg-muted transition-colors">
               {isFullscreen ? <Minimize size={18} /> : <Maximize size={18} />}
             </button>

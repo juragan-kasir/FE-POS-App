@@ -108,7 +108,7 @@ const ProductDetailModal = ({ product, open, onOpenChange, onAddToCart }) => {
                   )}
                   {isBundle && (
                     <span className="px-2 py-0.5 rounded-md bg-emerald-500/10 text-emerald-600 text-xs font-bold uppercase">
-                      Bundle
+                      {t("breadcrumb.bundle")}
                     </span>
                   )}
                 </div>

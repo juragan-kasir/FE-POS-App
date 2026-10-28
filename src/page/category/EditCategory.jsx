@@ -541,7 +541,7 @@ const EditCategory = () => {
     : [];
 
   if (categoryLoading) {
-    return <Loading fullscreen size="lg" label="Memuat data..." />;
+    return <Loading fullscreen size="lg" label={t("common.loadingData")} />;
   }
 
   return (
@@ -801,7 +801,7 @@ const EditCategory = () => {
                         {imagePreview ? (
                           <img
                             src={imagePreview}
-                            alt="Preview"
+                            alt={t("page.product.form.preview")}
                             className="w-full h-full object-cover rounded-lg"
                           />
                         ) : selectedIcon ? (
@@ -1125,8 +1125,8 @@ const EditCategory = () => {
           type="confirm"
           open={confirmSaveModal}
           onOpenChange={setConfirmSaveModal}
-          title="Konfirmasi Simpan"
-          description="Apakah Anda yakin ingin menyimpan perubahan ini?"
+          title={t("common.confirmSave")}
+          description={t("page.category.ui.areYouSureYouWant")}
           confirmText="Ya, Simpan"
           onConfirm={() => {
             setConfirmSaveModal(false);

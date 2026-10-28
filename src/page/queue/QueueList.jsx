@@ -308,7 +308,7 @@ const QueueList = () => {
               isFiltered={isFiltered}>
               <div className="flex flex-col gap-1.5">
                 <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-                  Cari
+                  {t("common.search")}
                 </label>
                 <SearchInput
                   value={search}
@@ -322,7 +322,7 @@ const QueueList = () => {
               </div>
               <div className="flex flex-col gap-1.5">
                 <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-                  Filter Status
+                  {t("page.queue.ui.filterStatus")}
                 </label>
                 <Combobox
                   options={statusOptions}
@@ -331,13 +331,13 @@ const QueueList = () => {
                     setStatusFilter(val);
                     setPage(1);
                   }}
-                  placeholder="Filter Status"
+                  placeholder={t("page.queue.ui.filterStatus")}
                   searchPlaceholder="Cari..."
                 />
               </div>
               <div className="flex flex-col gap-1.5">
                 <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-                  Filter Priority
+                  {t("page.queue.ui.filterPriority")}
                 </label>
                 <Combobox
                   options={priorityOptions}
@@ -346,7 +346,7 @@ const QueueList = () => {
                     setPriorityFilter(val);
                     setPage(1);
                   }}
-                  placeholder="Filter Priority"
+                  placeholder={t("page.queue.ui.filterPriority")}
                   searchPlaceholder="Cari..."
                 />
               </div>

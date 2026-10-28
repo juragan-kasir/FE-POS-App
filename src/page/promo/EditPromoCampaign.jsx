@@ -490,7 +490,7 @@ const EditPromoCampaign = () => {
                   </TabsTrigger>
                   <TabsTrigger value="targeting" className="gap-1.5">
                     <SlidersHorizontal size={14} />
-                    Target
+                    {t("page.dashboardSuperAdmin.store.col.target")}
                   </TabsTrigger>
                   <TabsTrigger value="rules" className="gap-1.5">
                     <ListChecks size={14} />
@@ -574,7 +574,7 @@ const EditPromoCampaign = () => {
                   <div className="space-y-4">
                     {isBirthday && (
                       <p className="text-xs text-muted-foreground mb-3">
-                        Tipe birthday menggunakan diskon otomatis sesuai rewards
+                        {t("page.promo.ui.theBirthdayTypeAppliesAn")}
                       </p>
                     )}
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -591,7 +591,7 @@ const EditPromoCampaign = () => {
                           value={form.watch("discountType")}
                           onChange={(v) => form.setValue("discountType", v)}
                           disabled={isBirthday}
-                          placeholder="Pilih tipe diskon"
+                          placeholder={t("page.discount.form.typePlaceholder")}
                           searchPlaceholder="Cari tipe diskon..."
                         />
                       </div>
@@ -628,7 +628,7 @@ const EditPromoCampaign = () => {
                         />
                         {!isPercentage && (
                           <p className="text-xs text-muted-foreground mt-1">
-                            Hanya berlaku untuk tipe Percentage
+                            {t("page.promo.ui.onlyAppliesToThePercentage")}
                           </p>
                         )}
                         <FormDescription>{t("common.optionalField")}</FormDescription>
@@ -649,7 +649,7 @@ const EditPromoCampaign = () => {
                   </div>
                 ) : (
                   <p className="text-sm text-muted-foreground">
-                    Tipe campaign Manual tidak memerlukan pengaturan diskon.
+                    {t("page.promo.ui.aManualCampaignNeedsNo")}
                   </p>
                 )}
               </TabsContent>
@@ -657,7 +657,7 @@ const EditPromoCampaign = () => {
               <TabsContent value="schedule" className="mt-0 space-y-4">
                 {isHappyHour && (
                   <p className="text-xs text-muted-foreground mb-3">
-                    Atur jam mulai dan akhir untuk periode Happy Hour
+                    {t("page.promo.ui.setTheStartAndEnd")}
                   </p>
                 )}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -714,22 +714,22 @@ const EditPromoCampaign = () => {
                     <h3 className="font-semibold text-foreground">{t("page.promo.form.rules")}</h3>
                     {isHappyHour && (
                       <p className="text-xs text-muted-foreground mt-0.5">
-                        Aturan waktu sudah ditentukan dari jadwal Happy Hour
+                        {t("page.promo.ui.theTimeRuleComesFrom")}
                       </p>
                     )}
                     {isBirthday && (
                       <p className="text-xs text-muted-foreground mt-0.5">
-                        Otomas birthday akan aktif otomatis untuk member yang berulang tahun
+                        {t("page.promo.ui.theBirthdayPromoActivatesAutomatically")}
                       </p>
                     )}
                     {isBuyXGetY && (
                       <p className="text-xs text-muted-foreground mt-0.5">
-                        Tambahkan aturan untuk menentukan produk X dan produk Y
+                        {t("page.promo.ui.addARuleToSet")}
                       </p>
                     )}
                     {isSpendGet && (
                       <p className="text-xs text-muted-foreground mt-0.5">
-                        Tambahkan aturan untuk menentukan threshold belanja
+                        {t("page.promo.ui.addARuleToSet2")}
                       </p>
                     )}
                   </div>
@@ -757,7 +757,7 @@ const EditPromoCampaign = () => {
                           ]}
                           value={rule.ruleType}
                           onChange={(v) => updateRule(index, "ruleType", v)}
-                          placeholder="Pilih rule"
+                          placeholder={t("page.promo.ui.selectRule")}
                           searchPlaceholder="Cari rule..."
                         />
                         <Button
@@ -782,12 +782,12 @@ const EditPromoCampaign = () => {
                     </h3>
                     {isBirthday && (
                       <p className="text-xs text-muted-foreground mt-0.5">
-                        Tambahkan reward yang akan diberikan di hari ulang tahun member
+                        {t("page.promo.ui.addTheRewardGivenOn")}
                       </p>
                     )}
                     {isFreeItem && (
                       <p className="text-xs text-muted-foreground mt-0.5">
-                        Tipe free item, tambahkan produk yang akan diberikan sebagai reward
+                        {t("page.promo.ui.freeItemTypeAddThe")}
                       </p>
                     )}
                   </div>
@@ -815,7 +815,7 @@ const EditPromoCampaign = () => {
                           ]}
                           value={reward.rewardType}
                           onChange={(v) => updateReward(index, "rewardType", v)}
-                          placeholder="Pilih reward"
+                          placeholder={t("page.promo.ui.selectReward")}
                           searchPlaceholder="Cari reward..."
                         />
                         <input
@@ -825,7 +825,7 @@ const EditPromoCampaign = () => {
                             updateReward(index, "rewardValue", parseInt(e.target.value) || 0)
                           }
                           className="h-8 w-24 px-2 bg-background border border-input rounded text-sm"
-                          placeholder="Value"
+                          placeholder={t("page.category.value")}
                         />
                         <Button
                           type="button"
@@ -879,10 +879,10 @@ const EditPromoCampaign = () => {
                         value={applicableIds}
                         loading={productsLoading}
                         onChange={setApplicableIds}
-                        placeholder="Pilih produk..."
+                        placeholder={t("page.discount.form.selectProduct")}
                         selectedLabel="produk dipilih"
                         searchPlaceholder="Cari produk..."
-                        emptyMessage="Produk tidak ditemukan"
+                        emptyMessage={t("page.cashier.noProducts")}
                       />
                     ) : null)}
                   {watchedApplicableTo === "specific_categories" &&
@@ -892,10 +892,10 @@ const EditPromoCampaign = () => {
                         value={applicableIds}
                         loading={categoriesLoading}
                         onChange={setApplicableIds}
-                        placeholder="Pilih kategori..."
+                        placeholder={t("page.promo.ui.selectCategory")}
                         selectedLabel="kategori dipilih"
                         searchPlaceholder="Cari kategori..."
-                        emptyMessage="Kategori tidak ditemukan"
+                        emptyMessage={t("page.category.notFound")}
                       />
                     ) : null)}
                   {watchedApplicableTo === "specific_members" && (
@@ -903,10 +903,10 @@ const EditPromoCampaign = () => {
                       options={tierOptions}
                       value={applicableIds}
                       onChange={setApplicableIds}
-                      placeholder="Pilih tier member..."
+                      placeholder={t("page.promo.ui.selectMemberTier")}
                       selectedLabel="tier dipilih"
                       searchPlaceholder="Cari tier..."
-                      emptyMessage="Tier tidak ditemukan"
+                      emptyMessage={t("page.promo.ui.tierNotFound")}
                     />
                   )}
                   <div>
@@ -917,7 +917,7 @@ const EditPromoCampaign = () => {
                       type="number"
                       {...form.register("maxUsageTotal", { valueAsNumber: true })}
                       className="mt-1 w-full h-10 px-3 bg-background border border-input rounded-lg text-sm focus:ring-2 focus:ring-ring outline-none"
-                      placeholder="Unlimited"
+                      placeholder={t("common.unlimited")}
                     />
                     <FormDescription>{t("common.optionalField")}</FormDescription>
                   </div>
@@ -929,7 +929,7 @@ const EditPromoCampaign = () => {
                       type="number"
                       {...form.register("maxUsagePerMember", { valueAsNumber: true })}
                       className="mt-1 w-full h-10 px-3 bg-background border border-input rounded-lg text-sm focus:ring-2 focus:ring-ring outline-none"
-                      placeholder="Unlimited"
+                      placeholder={t("common.unlimited")}
                     />
                     <FormDescription>{t("common.optionalField")}</FormDescription>
                   </div>
@@ -953,7 +953,7 @@ const EditPromoCampaign = () => {
                         {form.watch("autoActivate") ? "Aktif Otomatis" : "Nonaktif"}
                       </p>
                       <p className="text-xs text-muted-foreground">
-                        Aktifkan langsung saat tanggal mulai tercapai
+                        {t("page.promo.ui.activateAutomaticallyOnTheStart")}
                       </p>
                     </div>
                     <Switch
@@ -967,7 +967,7 @@ const EditPromoCampaign = () => {
                         {t("page.promo.form.isCombinable")}
                       </p>
                       <p className="text-xs text-muted-foreground">
-                        Boleh digabung dengan diskon/kampanye lain
+                        {t("page.promo.ui.canBeCombinedWithOther")}
                       </p>
                     </div>
                     <Switch
@@ -978,14 +978,17 @@ const EditPromoCampaign = () => {
                   {!!watchedIsCombinable && (
                     <div className="pt-3 border-t border-border space-y-2">
                       <p className="text-xs font-medium text-foreground">
-                        Promo Aktif — {allStores ? t("header.allStore") : "Toko Terpilih"}
+                        {t("page.promo.ui.activePromo")}{" "}
+                        {allStores ? t("header.allStore") : "Toko Terpilih"}
                       </p>
                       {combinableLoading ? (
-                        <p className="text-xs text-muted-foreground">Memuat promo...</p>
+                        <p className="text-xs text-muted-foreground">
+                          {t("page.promo.ui.loadingPromos")}
+                        </p>
                       ) : combinablePromos.length === 0 ? (
                         <div className="p-3 rounded-lg bg-muted/30 border border-dashed border-muted-foreground/30 text-center">
                           <p className="text-xs text-muted-foreground">
-                            Belum ada promo aktif di toko ini
+                            {t("page.promo.ui.noActivePromosInThis")}
                           </p>
                         </div>
                       ) : (

@@ -183,12 +183,12 @@ const DetailSalesReturn = () => {
                   <thead>
                     <tr className="border-b text-left text-muted-foreground">
                       <th className="pb-2">{t("page.salesReturn.detail.table.product")}</th>
-                      <th className="pb-2 text-right">Price</th>
+                      <th className="pb-2 text-right">{t("document.price")}</th>
                       <th className="pb-2 text-right">{t("page.salesReturn.detail.table.qty")}</th>
                       <th className="pb-2 text-center">
                         {t("page.salesReturn.detail.table.unit")}
                       </th>
-                      <th className="pb-2 text-right">Total Refund</th>
+                      <th className="pb-2 text-right">{t("page.salesReturn.ui.totalRefund")}</th>
                       <th className="pb-2 pl-4">{t("page.salesReturn.detail.table.notes")}</th>
                     </tr>
                   </thead>

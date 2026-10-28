@@ -303,7 +303,7 @@ const WaiterRequestList = () => {
                   variant="ghost"
                   size="icon"
                   className="h-8 w-8 text-green-600"
-                  title="Setujui"
+                  title={t("common.approve")}
                   onClick={() => setApproveTarget(item)}>
                   <Check size={16} />
                 </Button>
@@ -311,7 +311,7 @@ const WaiterRequestList = () => {
                   variant="ghost"
                   size="icon"
                   className="h-8 w-8 text-red-600"
-                  title="Tolak"
+                  title={t("common.reject")}
                   onClick={() => setRejectTarget(item)}>
                   <X size={16} />
                 </Button>
@@ -322,7 +322,7 @@ const WaiterRequestList = () => {
                 variant="ghost"
                 size="icon"
                 className="h-8 w-8 text-blue-600"
-                title="Tandai Selesai"
+                title={t("page.waiterRequest.ui.markDone")}
                 onClick={() => setDoneTarget(item)}>
                 <CheckCheck size={16} />
               </Button>
@@ -348,11 +348,11 @@ const WaiterRequestList = () => {
           },
           { i18nKey: "sidebar.waiterRequest" }
         ]}
-        title="Permintaan Pelayan"
-        description="Kelola permintaan pelayan dari pelanggan (call waiter, sendok, tisu, bill, dll).">
+        title={t("sidebar.waiterRequest")}
+        description={t("page.waiterRequest.ui.handleCustomerRequestsToStaff")}>
         <Button variant="outline" size="sm" className="gap-2" onClick={() => refetch()}>
           <RefreshCw size={16} className={isFetching ? "animate-spin" : ""} />
-          Refresh
+          {t("page.auditLog.refresh")}
         </Button>
       </PageHeader>
 
@@ -390,13 +390,13 @@ const WaiterRequestList = () => {
             isFetching={isFetching}
             toolbar={
               <TableToolbar
-                title="Daftar Permintaan Pelayan"
+                title={t("page.waiterRequest.ui.waiterRequests")}
                 onReset={resetFilters}
                 isFiltered={isFiltered}>
                 {isSuperAdmin && (
                   <div className="flex flex-col gap-1.5">
                     <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-                      Store
+                      {t("page.goodsReceipt.detail.store")}
                     </label>
                     <StoreFilter
                       locations={locData?.data || []}
@@ -412,7 +412,7 @@ const WaiterRequestList = () => {
                 )}
                 <div className="flex flex-col gap-1.5">
                   <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-                    Filter Status
+                    {t("page.waiterRequest.ui.filterStatus")}
                   </label>
                   <Combobox
                     options={statusOptions}
@@ -421,7 +421,7 @@ const WaiterRequestList = () => {
                       setStatusFilter(val);
                       setPage(1);
                     }}
-                    placeholder="Filter Status"
+                    placeholder={t("page.waiterRequest.ui.filterStatus")}
                     searchPlaceholder="Cari..."
                   />
                 </div>
@@ -436,7 +436,7 @@ const WaiterRequestList = () => {
                 setPage(1);
               }
             }}
-            emptyMessage="Belum ada permintaan pelayan."
+            emptyMessage={t("page.waiterRequest.ui.noWaiterRequestsYet")}
           />
         </div>
       )}
@@ -446,7 +446,7 @@ const WaiterRequestList = () => {
         type="confirm"
         open={!!approveTarget}
         onOpenChange={(open) => !open && setApproveTarget(null)}
-        title="Setujui Permintaan"
+        title={t("page.waiterRequest.ui.approveRequest")}
         description={`Setujui permintaan "${typeMeta[approveTarget?.type]?.label || approveTarget?.type}" dari meja ${
           approveTarget?.table?.name || approveTarget?.tableId || "-"
         }?`}
@@ -460,7 +460,7 @@ const WaiterRequestList = () => {
         type="confirm"
         open={!!rejectTarget}
         onOpenChange={(open) => !open && setRejectTarget(null)}
-        title="Tolak Permintaan"
+        title={t("page.waiterRequest.ui.rejectRequest")}
         description={`Tolak permintaan "${typeMeta[rejectTarget?.type]?.label || rejectTarget?.type}" dari meja ${
           rejectTarget?.table?.name || rejectTarget?.tableId || "-"
         }?`}
@@ -475,7 +475,7 @@ const WaiterRequestList = () => {
         type="confirm"
         open={!!doneTarget}
         onOpenChange={(open) => !open && setDoneTarget(null)}
-        title="Tandai Selesai"
+        title={t("page.waiterRequest.ui.markDone")}
         description={`Tandai permintaan "${typeMeta[doneTarget?.type]?.label || doneTarget?.type}" dari meja ${
           doneTarget?.table?.name || doneTarget?.tableId || "-"
         } sebagai selesai?`}

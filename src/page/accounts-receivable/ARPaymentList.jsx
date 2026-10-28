@@ -197,7 +197,7 @@ const ARPaymentList = () => {
           columns={columns}
           data={arList}
           isLoading={isLoading}
-          emptyMessage="Tidak ada piutang yang perlu dibayar"
+          emptyMessage={t("page.accountsReceivable.ui.noReceivablesToPay")}
           emptyIcon={Receipt}
           pagination={{
             page,

@@ -215,8 +215,8 @@ const OvertimeApproval = () => {
           { label: "SDM" },
           { label: "Lembur", i18nKey: "sidebar.overtime" }
         ]}
-        title="Persetujuan Lembur"
-        description="Tinjau pengajuan lembur, putuskan, dan tutup payroll lembur bulanan."
+        title={t("page.overtime.ui.overtimeApproval")}
+        description={t("page.overtime.ui.reviewOvertimeRequestsDecideOn")}
       />
 
       <div className="grid grid-cols-1 sm:grid-cols-4 gap-4">
@@ -231,7 +231,7 @@ const OvertimeApproval = () => {
           {isSuperAdmin && (
             <div className="flex flex-col gap-1.5">
               <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-                Toko
+                {t("document.store")}
               </label>
               <Combobox
                 options={[
@@ -243,14 +243,14 @@ const OvertimeApproval = () => {
                   setGlobalStoreFilter(v);
                   setPage(1);
                 }}
-                placeholder="Pilih toko"
+                placeholder={t("page.table.form.storePlaceholder")}
                 searchPlaceholder="Cari toko..."
               />
             </div>
           )}
           <div className="flex flex-col gap-1.5">
             <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-              Status
+              {t("common.status")}
             </label>
             <Combobox
               options={[
@@ -265,13 +265,13 @@ const OvertimeApproval = () => {
                 setStatus(v);
                 setPage(1);
               }}
-              placeholder="Pilih status"
+              placeholder={t("page.overtime.ui.selectStatus")}
               searchPlaceholder="Cari..."
             />
           </div>
         </div>
         <p className="text-xs text-muted-foreground">
-          Menampilkan pengajuan lembur untuk{" "}
+          {t("page.overtime.ui.showingOvertimeRequestsFor")}{" "}
           <span className="font-medium text-foreground">
             {locationName(store) || `Toko #${store || "-"}`}
           </span>
@@ -280,9 +280,11 @@ const OvertimeApproval = () => {
 
       {isError ? (
         <div className="rounded-xl border border-dashed border-border p-10 text-center">
-          <p className="text-sm text-muted-foreground">Gagal memuat pengajuan lembur.</p>
+          <p className="text-sm text-muted-foreground">
+            {t("page.overtime.ui.failedToLoadOvertimeRequests")}
+          </p>
           <Button variant="outline" size="sm" className="mt-3" onClick={() => refetch()}>
-            Muat Ulang
+            {t("common.refresh")}
           </Button>
         </div>
       ) : isLoading || isFetching ? (
@@ -309,9 +311,11 @@ const OvertimeApproval = () => {
           <div className="w-12 h-12 rounded-full bg-muted flex items-center justify-center">
             <Inbox size={22} className="text-muted-foreground" />
           </div>
-          <p className="text-sm font-medium text-foreground">Belum ada pengajuan lembur</p>
+          <p className="text-sm font-medium text-foreground">
+            {t("page.overtime.ui.noOvertimeRequestsYet2")}
+          </p>
           <p className="text-xs text-muted-foreground max-w-sm">
-            Pengajuan lembur dari karyawan akan muncul di sini untuk disetujui atau ditolak.
+            {t("page.overtime.ui.employeeOvertimeRequestsAppearHere")}
           </p>
         </div>
       ) : (
@@ -375,7 +379,9 @@ const OvertimeApproval = () => {
                 <div className="mt-3 pt-3 border-t border-border/60 space-y-1.5">
                   <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
                     <CircleDashed size={11} className="shrink-0" />
-                    <span>Diajukan {fmtDateTime(ot.createdAt)}</span>
+                    <span>
+                      {t("page.overtime.ui.submitted")} {fmtDateTime(ot.createdAt)}
+                    </span>
                   </div>
                   {ot.decidedByUser && (
                     <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
@@ -385,7 +391,8 @@ const OvertimeApproval = () => {
                         <XCircle size={11} className="shrink-0 text-red-500" />
                       )}
                       <span>
-                        Diputus oleh {ot.decidedByUser.fullName || ot.decidedByUser.userName} ·{" "}
+                        {t("page.overtime.ui.decidedBy")}{" "}
+                        {ot.decidedByUser.fullName || ot.decidedByUser.userName} ·{" "}
                         {fmtDateTime(ot.decidedAt)}
                       </span>
                     </div>
@@ -394,7 +401,7 @@ const OvertimeApproval = () => {
                     <div className="flex items-center gap-1.5 text-xs text-green-600 dark:text-green-400 font-medium">
                       <Landmark size={11} className="shrink-0" />
                       <span>
-                        Sudah diposting ke akuntansi
+                        {t("page.overtime.ui.postedToAccounting")}
                         {(ot.postedAt && ` · ${fmtDateTime(ot.postedAt)}`) || ""}
                       </span>
                     </div>
@@ -412,7 +419,7 @@ const OvertimeApproval = () => {
                         setDecisionTarget({ ot, decision: "rejected" });
                       }}>
                       <X size={14} />
-                      Tolak
+                      {t("common.reject")}
                     </Button>
                     <Button
                       size="sm"
@@ -422,7 +429,7 @@ const OvertimeApproval = () => {
                         setDecisionTarget({ ot, decision: "approved" });
                       }}>
                       <Check size={14} />
-                      Terima
+                      {t("page.customerOrder.accept")}
                     </Button>
                   </div>
                 )}
@@ -435,7 +442,7 @@ const OvertimeApproval = () => {
       {total > 0 && (
         <div className="flex items-center justify-between gap-3">
           <p className="text-xs text-muted-foreground">
-            {total} pengajuan · halaman {page} / {totalPages}
+            {total} {t("page.overtime.ui.requestsPage")} {page} / {totalPages}
           </p>
           <div className="flex items-center gap-2">
             <Button
@@ -443,14 +450,14 @@ const OvertimeApproval = () => {
               size="sm"
               disabled={page <= 1}
               onClick={() => setPage((p) => p - 1)}>
-              Sebelumnya
+              {t("guide.auth.prev")}
             </Button>
             <Button
               variant="outline"
               size="sm"
               disabled={page >= totalPages}
               onClick={() => setPage((p) => p + 1)}>
-              Berikutnya
+              {t("page.shift.swap.next")}
             </Button>
           </div>
         </div>
@@ -463,18 +470,18 @@ const OvertimeApproval = () => {
             <Landmark size={18} />
           </div>
           <div>
-            <h2 className="text-sm font-semibold text-foreground">Tutup Payroll Lembur</h2>
+            <h2 className="text-sm font-semibold text-foreground">
+              {t("page.overtime.ui.closeOvertimePayroll")}
+            </h2>
             <p className="text-xs text-muted-foreground">
-              Gabungkan seluruh lembur disetujui pada bulan terpilih, hitung biaya (jam × rate),
-              lalu buat jurnal akuntansi (Beban Gaji ↔ Hutang Gaji). Data yang sudah diposting tidak
-              dapat diubah.
+              {t("page.overtime.ui.combineAllApprovedOvertimeIn")}
             </p>
           </div>
         </div>
         <div className="mt-4 flex flex-col sm:flex-row sm:items-end gap-3">
           <div className="flex flex-col gap-1.5">
             <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-              Periode
+              {t("page.promo.list.period")}
             </label>
             <Input
               type="month"
@@ -492,7 +499,7 @@ const OvertimeApproval = () => {
             ) : (
               <Landmark size={16} />
             )}
-            Posting Payroll
+            {t("page.overtime.ui.postPayroll")}
           </Button>
         </div>
       </div>
@@ -501,7 +508,7 @@ const OvertimeApproval = () => {
         type="confirm"
         open={decisionTarget?.decision === "approved"}
         onOpenChange={(open) => !open && setDecisionTarget(null)}
-        title="Terima pengajuan lembur?"
+        title={t("page.overtime.ui.approveThisOvertimeRequest")}
         description={`Anda akan menyetujui lembur ${
           decisionTarget?.ot?.employee?.fullName || "karyawan"
         } pada ${fmt(decisionTarget?.ot?.date)} selama ${durationLabel(
@@ -516,7 +523,7 @@ const OvertimeApproval = () => {
         type="form"
         open={decisionTarget?.decision === "rejected"}
         onOpenChange={(open) => !open && setDecisionTarget(null)}
-        title="Tolak pengajuan lembur?"
+        title={t("page.overtime.ui.rejectThisOvertimeRequest")}
         description={`Lembur ${
           decisionTarget?.ot?.employee?.fullName || "karyawan"
         } pada ${fmt(decisionTarget?.ot?.date)} akan ditolak.`}
@@ -527,7 +534,7 @@ const OvertimeApproval = () => {
         onCancel={() => setDecisionTarget(null)}>
         <Textarea
           rows={3}
-          placeholder="Alasan penolakan (opsional)"
+          placeholder={t("page.overtime.ui.rejectionReasonOptional")}
           value={decisionNote}
           onChange={(e) => setDecisionNote(e.target.value)}
           maxLength={FIELD_LIMITS.DESCRIPTION}
@@ -546,7 +553,7 @@ const OvertimeApproval = () => {
         onConfirm={() => payrollMutation.mutate({ store, month: payrollTarget })}
       />
       {(decideMutation.isLoading || payrollMutation.isLoading) && (
-        <Loading fullscreen size="lg" label="Menyimpan..." />
+        <Loading fullscreen size="lg" label={t("common.saving")} />
       )}
     </div>
   );

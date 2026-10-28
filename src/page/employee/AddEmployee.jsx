@@ -625,7 +625,8 @@ const AddEmployee = () => {
                             <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
                               <div className="flex flex-col items-center gap-3">
                                 <label className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
-                                  Foto <span className="text-destructive">*</span>
+                                  {t("page.employee.edit.photo")}{" "}
+                                  <span className="text-destructive">*</span>
                                 </label>
 
                                 <input
@@ -642,7 +643,7 @@ const AddEmployee = () => {
                                     <>
                                       <img
                                         src={previewImage}
-                                        alt="Preview"
+                                        alt={t("page.product.form.preview")}
                                         className="w-full h-full object-cover"
                                       />
                                       <button

@@ -237,7 +237,7 @@ const SupplierComparison = () => {
       <div className="px-4 py-3 border-t border-border bg-muted/30 flex flex-col sm:flex-row justify-between items-center gap-3">
         <div className="flex items-center gap-3">
           <div className="flex items-center gap-2 text-sm text-muted-foreground">
-            <span>Show</span>
+            <span>{t("page.position.list.show")}</span>
             <Combobox
               options={PAGE_SIZES.map((opt) => ({ value: String(opt), label: String(opt) }))}
               value={String(limit)}
@@ -251,7 +251,7 @@ const SupplierComparison = () => {
             <span>entries</span>
           </div>
           <span className="text-sm text-muted-foreground">
-            Menampilkan {firstIdx}-{lastIdx} dari {supplierGroups.length}
+            {t("page.supplier.ui.showing")} {firstIdx}-{lastIdx} dari {supplierGroups.length}
           </span>
         </div>
         <div className="flex gap-1">

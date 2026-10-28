@@ -386,7 +386,9 @@ const DetailGoodsReceipt = () => {
                             <th className="pb-2 text-right font-semibold text-xs">
                               {t("page.goodsReceipt.detail.qtyReceived")}
                             </th>
-                            <th className="pb-2 text-center font-semibold text-xs w-32">Status</th>
+                            <th className="pb-2 text-center font-semibold text-xs w-32">
+                              {t("common.status")}
+                            </th>
                           </tr>
                         </thead>
                         <tbody>

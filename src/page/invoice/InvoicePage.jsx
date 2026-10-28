@@ -521,7 +521,7 @@ const InvoicePage = () => {
               <Store size={40} className="text-primary" />
             </div>
             <h2 className="text-2xl font-bold text-foreground mb-2">{t("page.invoice.title")}</h2>
-            <p className="text-muted-foreground mb-8">Pilih toko</p>
+            <p className="text-muted-foreground mb-8">{t("page.table.form.storePlaceholder")}</p>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
               {locLoading
                 ? [0, 1, 2, 3].map((i) => (
@@ -553,7 +553,9 @@ const InvoicePage = () => {
                       </div>
                       <div className="flex-1 min-w-0">
                         <p className="font-semibold text-foreground">{s.name}</p>
-                        <p className="text-sm text-muted-foreground">Pilih toko</p>
+                        <p className="text-sm text-muted-foreground">
+                          {t("page.table.form.storePlaceholder")}
+                        </p>
                       </div>
                       <ChevronRight
                         size={20}
@@ -649,7 +651,7 @@ const InvoicePage = () => {
                     {logoPreview ? (
                       <img
                         src={logoPreview}
-                        alt="Logo preview"
+                        alt={t("page.invoice.ui.logoPreview")}
                         className="max-w-full max-h-full object-contain p-2"
                       />
                     ) : (
@@ -699,15 +701,16 @@ const InvoicePage = () => {
                 <div className="flex items-center justify-between mb-2">
                   <div className="flex items-center gap-2">
                     <Printer size={18} className="text-primary" />
-                    <h3 className="text-base font-semibold">Ukuran Kertas Thermal Struk</h3>
+                    <h3 className="text-base font-semibold">
+                      {t("page.invoice.ui.thermalReceiptPaperSize")}
+                    </h3>
                   </div>
                   <span className="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-primary/10 text-primary border border-primary/20">
                     {paperSize}
                   </span>
                 </div>
                 <p className="text-xs text-muted-foreground mb-4">
-                  Pilih ukuran standar kertas printer POS kasir (58mm mini atau 80mm standar POS
-                  lebar).
+                  {t("page.invoice.ui.selectThePosPrinterPaper")}
                 </p>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   <div
@@ -729,7 +732,7 @@ const InvoicePage = () => {
                       </span>
                     </div>
                     <p className="text-xs text-muted-foreground">
-                      Printer Bluetooth portabel / thermal POS 58mm compact (~32 kolom).
+                      {t("page.invoice.ui.portableBluetoothCompact58mmThermal")}
                     </p>
                   </div>
                   <div
@@ -753,7 +756,7 @@ const InvoicePage = () => {
                       </span>
                     </div>
                     <p className="text-xs text-muted-foreground">
-                      Printer kasir desktop USB / LAN / Serial 80mm standar (~48 kolom).
+                      {t("page.invoice.ui.standard80mmDesktopUsbLan")}
                     </p>
                   </div>
                 </div>
@@ -764,9 +767,11 @@ const InvoicePage = () => {
                 <div className="flex items-center gap-2">
                   <Type size={18} className="text-primary" />
                   <div>
-                    <h3 className="text-base font-semibold">Tipografi & Kerapatan Struk</h3>
+                    <h3 className="text-base font-semibold">
+                      {t("page.invoice.ui.receiptTypographySpacing")}
+                    </h3>
                     <p className="text-xs text-muted-foreground">
-                      Sesuaikan ukuran font, gaya tulisan, dan kerapatan baris pada struk belanja.
+                      {t("page.invoice.ui.adjustTheReceiptFontSize")}
                     </p>
                   </div>
                 </div>
@@ -775,7 +780,7 @@ const InvoicePage = () => {
                 <div className="space-y-2.5">
                   <div className="flex items-center justify-between">
                     <Label className="text-xs font-semibold text-foreground">
-                      Ukuran Font (Font Size)
+                      {t("page.invoice.ui.fontSize")}
                     </Label>
                     <span className="text-xs font-medium text-muted-foreground">
                       {fontSize === "small"
@@ -818,7 +823,7 @@ const InvoicePage = () => {
                 <div className="space-y-2.5 pt-4 border-t border-border">
                   <div className="flex items-center justify-between">
                     <Label className="text-xs font-semibold text-foreground">
-                      Gaya Tulisan (Font Family)
+                      {t("page.invoice.ui.fontFamily")}
                     </Label>
                     <span className="text-xs font-medium text-muted-foreground">
                       {fontFamily === "sans"
@@ -878,7 +883,7 @@ const InvoicePage = () => {
                 <div className="space-y-2.5 pt-4 border-t border-border">
                   <div className="flex items-center justify-between">
                     <Label className="text-xs font-semibold text-foreground">
-                      Kerapatan Baris (Line Spacing)
+                      {t("page.invoice.ui.lineSpacing")}
                     </Label>
                     <span className="text-xs font-medium text-muted-foreground">
                       {lineSpacing === "compact"

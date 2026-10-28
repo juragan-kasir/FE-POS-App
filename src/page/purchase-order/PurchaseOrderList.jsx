@@ -88,6 +88,7 @@ import { Textarea } from "@/components/ui/textarea";
 import PageHeader from "@/components/ui/PageHeader";
 
 const SupplierExpandableRow = ({ supplier, renderSupplierItems }) => {
+  const { t } = useTranslation();
   const [open, setOpen] = useState(false);
   const total = supplier.items.reduce((sum, it) => sum + (it.quantity || 0) * (it.price || 0), 0);
   return (
@@ -120,7 +121,7 @@ const SupplierExpandableRow = ({ supplier, renderSupplierItems }) => {
           </div>
         </div>
         <div className="text-right shrink-0">
-          <span className="text-xs text-muted-foreground">Total</span>
+          <span className="text-xs text-muted-foreground">{t("document.total")}</span>
           <div className="text-sm font-semibold text-foreground font-mono">
             Rp {total.toLocaleString("id-ID")}
           </div>
@@ -428,19 +429,19 @@ const PurchaseOrderList = () => {
             <thead>
               <tr className="bg-gradient-to-r from-slate-50 to-blue-50/30 dark:from-slate-900 dark:to-blue-950/20">
                 <th className="text-left px-4 py-2.5 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-                  Item
+                  {t("page.invoice.item")}
                 </th>
                 <th className="text-center px-4 py-2.5 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-                  Qty
+                  {t("document.qty")}
                 </th>
                 <th className="text-center px-4 py-2.5 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-                  Satuan
+                  {t("document.unit")}
                 </th>
                 <th className="text-right px-4 py-2.5 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-                  Harga
+                  {t("sidebar.section.harga")}
                 </th>
                 <th className="text-right px-4 py-2.5 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-                  Subtotal
+                  {t("document.subtotal")}
                 </th>
               </tr>
             </thead>
@@ -483,7 +484,7 @@ const PurchaseOrderList = () => {
                 <td
                   colSpan={4}
                   className="px-4 py-2.5 text-right text-sm font-semibold text-foreground">
-                  Grand Total
+                  {t("page.purchaseOrder.detail.grandTotal")}
                 </td>
                 <td className="px-4 py-2.5 text-right font-mono text-sm font-bold text-foreground">
                   Rp {Number(grandTotal).toLocaleString("id-ID")}
@@ -1130,7 +1131,7 @@ const PurchaseOrderList = () => {
                     isFiltered={isFiltered}>
                     <div className="flex flex-col gap-1.5">
                       <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-                        Cari
+                        {t("common.search")}
                       </label>
                       <SearchInput
                         value={search}
@@ -1145,7 +1146,7 @@ const PurchaseOrderList = () => {
                     {isSuperAdmin && (
                       <div className="flex flex-col gap-1.5">
                         <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-                          Store
+                          {t("page.goodsReceipt.detail.store")}
                         </label>
                         <StoreFilter
                           locations={locData?.data || []}
@@ -1243,7 +1244,7 @@ const PurchaseOrderList = () => {
                   if (suppliers.length === 0) {
                     return (
                       <p className="text-sm text-muted-foreground text-center py-4">
-                        Tidak ada item
+                        {t("page.goodsRequest.detail.noItems")}
                       </p>
                     );
                   }
@@ -1627,7 +1628,8 @@ const PurchaseOrderList = () => {
               </div>
               <div className="px-6 py-4 border-t border-border flex items-center justify-between gap-2 bg-muted/20">
                 <p className="text-xs text-muted-foreground">
-                  {returItems.filter((it) => parseFloat(it.returnQty) > 0).length} item dipilih
+                  {returItems.filter((it) => parseFloat(it.returnQty) > 0).length}{" "}
+                  {t("page.purchaseOrder.ui.itemsSelected")}
                 </p>
                 <div className="flex gap-2">
                   <Button
@@ -1821,7 +1823,7 @@ const PurchaseOrderList = () => {
                             <thead>
                               <tr className="bg-muted/50 border-b border-border">
                                 <th className="px-3 py-2.5 text-left text-xs font-semibold text-muted-foreground w-10">
-                                  No
+                                  {t("page.position.table.no")}
                                 </th>
                                 <th className="px-3 py-2.5 text-left text-xs font-semibold text-muted-foreground min-w-40">
                                   {t("page.purchaseOrder.list.returInfo.itemHeader")}

@@ -390,7 +390,7 @@ const EditMember = () => {
                                     {selected.discountPercent}%
                                   </p>
                                   <p className="text-xs text-muted-foreground uppercase tracking-wider">
-                                    Diskon
+                                    {t("sidebar.diskon")}
                                   </p>
                                 </div>
                               )}

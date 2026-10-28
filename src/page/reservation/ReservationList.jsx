@@ -407,7 +407,7 @@ const ReservationList = () => {
                         : [
                             <div key="store">
                               <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground block mb-1.5">
-                                Store
+                                {t("page.goodsReceipt.detail.store")}
                               </label>
                               <StoreFilter
                                 locations={locData?.data || []}

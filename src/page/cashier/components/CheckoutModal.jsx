@@ -1534,7 +1534,7 @@ const CheckoutModal = ({
                 onClick={() => setIsMemberSearchOpen(true)}
                 className="shrink-0 h-10 px-4">
                 <Search size={16} className="mr-2" />
-                Cari Pelanggan
+                {t("page.cashier.ui.searchCustomer")}
               </Button>
               <button
                 onClick={() => setAddCustomerOpen(true)}
@@ -1586,7 +1586,7 @@ const CheckoutModal = ({
                     {selectedCustomer.name || selectedCustomer.Name || "-"}
                   </div>
                   <div className="text-xs text-muted-foreground">
-                    Member:{" "}
+                    {t("page.cashier.ui.member")}{" "}
                     {selectedCustomer.phone ||
                       selectedCustomer.Phone ||
                       selectedCustomer.phoneNumber ||
@@ -1594,7 +1594,7 @@ const CheckoutModal = ({
                   </div>
                 </div>
                 <Button variant="outline" size="sm" onClick={() => setIsMemberSearchOpen(true)}>
-                  Ganti Pelanggan
+                  {t("page.cashier.ui.changeCustomer")}
                 </Button>
               </div>
               {matchedTier && (
@@ -1612,10 +1612,10 @@ const CheckoutModal = ({
                 </div>
               )}
               <div className="flex items-center gap-2 text-xs">
-                <span className="text-muted-foreground">Poin:</span>
+                <span className="text-muted-foreground">{t("page.cashier.ui.points")}</span>
                 <span className="font-medium">{memberPoints.toLocaleString("id-ID")} pts</span>
                 <span className="text-muted-foreground">
-                  Status: {selectedCustomer.status || "Aktif"}
+                  {t("page.cashier.ui.status")} {selectedCustomer.status || "Aktif"}
                 </span>
               </div>
             </div>
@@ -1739,7 +1739,9 @@ const CheckoutModal = ({
           {memberPoints > 0 && (
             <div className="bg-violet-500/5 rounded-xl p-4 border border-violet-500/20 space-y-2">
               <div className="flex items-center justify-between">
-                <label className="text-sm font-medium text-muted-foreground">Redeem Poin</label>
+                <label className="text-sm font-medium text-muted-foreground">
+                  {t("page.memberLoyalty.tabs.redeem")}
+                </label>
                 <span className="text-xs text-violet-500 font-medium">
                   {t("common.available", "Tersedia")}: {memberPoints.toLocaleString("id-ID")} pts
                 </span>
@@ -1762,12 +1764,12 @@ const CheckoutModal = ({
                     setRedeemPoints(String(Math.min(memberPoints, redeemCeiling)));
                   }}
                   className="shrink-0 h-12 px-4 rounded-xl bg-violet-500/10 border border-violet-500/30 text-sm font-semibold text-violet-600 hover:bg-violet-500/20 transition-all">
-                  Max
+                  {t("page.cashier.ui.max")}
                 </button>
               </div>
               {redeemPoints > 0 && (
                 <p className="text-xs text-emerald-500 flex items-center gap-1">
-                  Diskon: Rp {Number(redeemPoints).toLocaleString("id-ID")}
+                  {t("page.cashier.ui.discountRp")} {Number(redeemPoints).toLocaleString("id-ID")}
                 </p>
               )}
             </div>

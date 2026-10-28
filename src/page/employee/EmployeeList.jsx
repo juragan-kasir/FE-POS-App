@@ -423,7 +423,7 @@ const EmployeeList = () => {
                       isFiltered={isFiltered}>
                       <div className="flex flex-col gap-1.5">
                         <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-                          Cari
+                          {t("common.search")}
                         </label>
                         <SearchInput
                           value={search}
@@ -437,7 +437,7 @@ const EmployeeList = () => {
                       </div>
                       <div className="flex flex-col gap-1.5">
                         <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-                          Toko
+                          {t("document.store")}
                         </label>
                         <Combobox
                           options={[
@@ -458,7 +458,7 @@ const EmployeeList = () => {
                       </div>
                       <div className="flex flex-col gap-1.5">
                         <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-                          Posisi
+                          {t("sidebar.posisi")}
                         </label>
                         <Combobox
                           options={[
@@ -479,7 +479,7 @@ const EmployeeList = () => {
                       </div>
                       <div className="flex flex-col gap-1.5">
                         <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-                          Departemen
+                          {t("sidebar.departemen")}
                         </label>
                         <Combobox
                           options={[
@@ -518,28 +518,26 @@ const EmployeeList = () => {
               <div className="bg-gradient-to-br from-primary to-primary/90 rounded-xl p-5 flex flex-col text-primary-foreground mt-6">
                 <div className="flex items-center gap-2 mb-3">
                   <Lightbulb size={18} className="opacity-80" />
-                  <h4 className="text-sm font-bold uppercase tracking-wider opacity-80">Tips</h4>
+                  <h4 className="text-sm font-bold uppercase tracking-wider opacity-80">
+                    {t("common.tips")}
+                  </h4>
                 </div>
                 <ul className="space-y-2">
                   <li className="text-xs leading-relaxed opacity-90 flex items-start gap-2">
                     <span className="text-primary-foreground/60 mt-0.5">•</span>
-                    <span>
-                      Gunakan filter cabang untuk melihat beban kerja per lokasi secara cepat.
-                    </span>
+                    <span>{t("page.employee.ui.useTheBranchFilterTo")}</span>
                   </li>
                   <li className="text-xs leading-relaxed opacity-90 flex items-start gap-2">
                     <span className="text-primary-foreground/60 mt-0.5">•</span>
-                    <span>
-                      Unduh laporan karyawan dalam format Excel melalui menu download data.
-                    </span>
+                    <span>{t("page.employee.ui.downloadTheEmployeeReportAs")}</span>
                   </li>
                   <li className="text-xs leading-relaxed opacity-90 flex items-start gap-2">
                     <span className="text-primary-foreground/60 mt-0.5">•</span>
-                    <span>Pastikan data karyawan selalu diperbarui untuk akurasi penggajian.</span>
+                    <span>{t("page.employee.ui.keepEmployeeDataUpTo")}</span>
                   </li>
                   <li className="text-xs leading-relaxed opacity-90 flex items-start gap-2">
                     <span className="text-primary-foreground/60 mt-0.5">•</span>
-                    <span>Gunakan status aktif/nonaktif untuk mengelola akses karyawan.</span>
+                    <span>{t("page.employee.ui.useTheActiveInactiveStatus")}</span>
                   </li>
                 </ul>
               </div>

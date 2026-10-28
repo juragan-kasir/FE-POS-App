@@ -406,8 +406,8 @@ const EditShift = () => {
                 isSuperAdmin={isSuperAdmin}
                 user={user}
                 t={t}
-                title="Pilih Toko"
-                description="Pilih toko dimana shift ini tersedia"
+                title={t("header.selectStore")}
+                description={t("page.shift.ui.selectTheStoreWhereThis")}
                 noStoreLabel="Belum ada toko"
                 addStoreLabel="Tambah Toko"
                 storeInfoLabel="Toko:"
@@ -491,7 +491,7 @@ const EditShift = () => {
               name="karyawan"
               render={() => (
                 <FormItem>
-                  <FormLabel>Pilih Karyawan</FormLabel>
+                  <FormLabel>{t("page.shift.swap.chooseCoworker")}</FormLabel>
                   {storeIds.length === 0 ? (
                     <div className="flex items-center gap-2 h-10 px-3 rounded-lg border border-dashed border-border bg-muted/20 text-sm text-muted-foreground">
                       <Users size={16} className="shrink-0" />
@@ -587,7 +587,7 @@ const EditShift = () => {
                                           [storeId]: e.target.value
                                         }))
                                       }
-                                      placeholder="Cari nama atau posisi..."
+                                      placeholder={t("page.shift.ui.searchNameOrPosition")}
                                       className="w-full h-8 pl-8 pr-3 rounded-md border border-input bg-background text-xs focus:outline-none focus:ring-1 focus:ring-primary"
                                     />
                                   </div>
@@ -597,7 +597,7 @@ const EditShift = () => {
                                     <div className="flex flex-col items-center gap-2 p-6 text-center">
                                       <Users size={24} className="text-muted-foreground/40" />
                                       <p className="text-xs text-muted-foreground">
-                                        Belum ada karyawan di toko ini
+                                        {t("page.shift.ui.noEmployeesInThisStore")}
                                       </p>
                                     </div>
                                   ) : (
@@ -676,8 +676,9 @@ const EditShift = () => {
                                                 <div className="flex items-center gap-1 mt-0.5 text-xs text-amber-600 dark:text-amber-400">
                                                   <AlertTriangle size={10} className="shrink-0" />
                                                   <span>
-                                                    Sudah ada shift: {hasShift.shiftName} (
-                                                    {hasShift.startTime}-{hasShift.endTime})
+                                                    {t("page.shift.ui.alreadyHasAShift")}{" "}
+                                                    {hasShift.shiftName} ({hasShift.startTime}-
+                                                    {hasShift.endTime})
                                                   </span>
                                                 </div>
                                               )}
@@ -855,8 +856,8 @@ const EditShift = () => {
         type="confirm"
         open={storeRemoveModal}
         onOpenChange={setStoreRemoveModal}
-        title="Hapus Karyawan dari Toko?"
-        description="Beberapa karyawan yang sudah dipilih akan dihapus karena toko tidak lagi dipilih. Lanjutkan?"
+        title={t("page.shift.ui.removeEmployeesFromTheStore")}
+        description={t("page.shift.ui.someSelectedEmployeesWillBe")}
         confirmText="Ya, Lanjutkan"
         onConfirm={confirmStoreRemove}
       />

@@ -361,7 +361,7 @@ const AddAdmin = () => {
               disabled={isSubmitting}
               className="gap-2 w-full sm:w-auto justify-center">
               <Save size={20} className="text-lg" />
-              Simpan sebagai Draft
+              {t("common.saveAsDraft")}
             </Button>
             <Button
               variant="success"
@@ -404,8 +404,8 @@ const AddAdmin = () => {
           type="confirm"
           open={draftModal}
           onOpenChange={setDraftModal}
-          title="Simpan sebagai Draft?"
-          description="Data yang belum lengkap bisa dilengkapi nanti"
+          title={t("common.saveAsDraftTitle")}
+          description={t("common.saveAsDraftDesc")}
           confirmText="Ya, Simpan Draft"
           onConfirm={() => {
             setDraftModal(false);

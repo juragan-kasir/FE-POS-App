@@ -165,7 +165,9 @@ const PriceStoreList = () => {
                   </div>
                   <div className="flex-1 min-w-0">
                     <p className="font-semibold text-foreground">{s.name}</p>
-                    <p className="text-sm text-muted-foreground">Pilih toko</p>
+                    <p className="text-sm text-muted-foreground">
+                      {t("page.table.form.storePlaceholder")}
+                    </p>
                   </div>
                   <ChevronRight
                     size={20}

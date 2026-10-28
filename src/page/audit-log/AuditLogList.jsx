@@ -105,7 +105,7 @@ const AuditLogList = () => {
                 {isSuperAdmin && (
                   <div className="flex flex-col gap-1.5">
                     <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-                      Store
+                      {t("page.goodsReceipt.detail.store")}
                     </label>
                     <StoreFilter
                       locations={(locData?.data || []).filter((l) => l.status === "active")}
@@ -121,7 +121,7 @@ const AuditLogList = () => {
                 )}
                 <div className="flex flex-col gap-1.5">
                   <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-                    Cari
+                    {t("common.search")}
                   </label>
                   <SearchInput
                     value={search}
@@ -136,7 +136,7 @@ const AuditLogList = () => {
                 </div>
                 <div className="flex flex-col gap-1.5">
                   <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-                    Aksi
+                    {t("common.action")}
                   </label>
                   <Combobox
                     value={actionFilter}
@@ -165,7 +165,7 @@ const AuditLogList = () => {
                 </div>
                 <div className="flex flex-col gap-1.5">
                   <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-                    Entitas
+                    {t("page.auditLog.ui.entity")}
                   </label>
                   <Combobox
                     value={entityFilter}
@@ -267,7 +267,11 @@ const AuditLogList = () => {
                         </div>
                       </div>
                       <div className="flex flex-col items-end gap-1 shrink-0 text-xs text-muted-foreground">
-                        {log.ipAddress && <span>IP: {log.ipAddress}</span>}
+                        {log.ipAddress && (
+                          <span>
+                            {t("page.auditLog.ui.ip")} {log.ipAddress}
+                          </span>
+                        )}
                       </div>
                     </div>
                   </Card>

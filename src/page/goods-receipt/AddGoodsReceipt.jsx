@@ -879,13 +879,17 @@ const AddGoodsReceipt = () => {
                               <span className="font-semibold">{po.storeData?.name || "-"}</span>
                             </div>
                             <div>
-                              <span className="text-xs text-muted-foreground block">Supplier</span>
+                              <span className="text-xs text-muted-foreground block">
+                                {t("sidebar.supplier")}
+                              </span>
                               <span className="font-semibold text-xs">
                                 {po.supplierNames?.join(", ") || "-"}
                               </span>
                             </div>
                             <div>
-                              <span className="text-xs text-muted-foreground block">Total</span>
+                              <span className="text-xs text-muted-foreground block">
+                                {t("document.total")}
+                              </span>
                               <span className="font-semibold">
                                 Rp {(po.finalAmount || 0).toLocaleString("id-ID")}
                               </span>
@@ -893,8 +897,9 @@ const AddGoodsReceipt = () => {
                           </div>
                           {po.additionalCost > 0 && (
                             <p className="text-xs text-muted-foreground">
-                              Biaya Tambahan: Rp {po.additionalCost.toLocaleString("id-ID")}{" "}
-                              (dialokasikan proporsional)
+                              {t("page.goodsReceipt.ui.additionalCostRp")}{" "}
+                              {po.additionalCost.toLocaleString("id-ID")}{" "}
+                              {t("page.goodsReceipt.ui.allocatedProportionally")}
                             </p>
                           )}
                         </div>
@@ -1199,7 +1204,7 @@ const AddGoodsReceipt = () => {
                                     value={item.batchNumber || ""}
                                     onChange={(e) => updateItem(idx, "batchNumber", e.target.value)}
                                     className="h-9 text-sm"
-                                    placeholder="No. batch / lot"
+                                    placeholder={t("page.goodsReceipt.add.placeholder.batch")}
                                   />
                                 </div>
                                 <div>

@@ -129,6 +129,7 @@ const WEEKDAYS_ID = ["Min", "Sen", "Sel", "Rab", "Kam", "Jum", "Sab"];
 
 // Kalender bulanan untuk melihat ketersediaan rekan kerja sebelum swap.
 const AvailabilityCalendar = ({ month, busyDates, selectedDate, onSelectDate, disabledDates }) => {
+  const { t } = useTranslation();
   const year = month.getFullYear();
   const mIdx = month.getMonth();
   const first = new Date(year, mIdx, 1);
@@ -185,15 +186,15 @@ const AvailabilityCalendar = ({ month, busyDates, selectedDate, onSelectDate, di
       <div className="flex items-center gap-4 mt-2 pt-2 border-t border-border/60">
         <span className="inline-flex items-center gap-1.5 text-xs text-muted-foreground">
           <span className="w-2.5 h-2.5 rounded bg-amber-100 dark:bg-amber-900/40 inline-block" />
-          Ada shift lain
+          {t("page.shift.ui.hasAnotherShift")}
         </span>
         <span className="inline-flex items-center gap-1.5 text-xs text-muted-foreground">
           <span className="w-2.5 h-2.5 rounded bg-muted inline-block" />
-          Bisa swap
+          {t("page.shift.ui.canSwap")}
         </span>
         <span className="inline-flex items-center gap-1.5 text-xs text-muted-foreground">
           <span className="w-2.5 h-2.5 rounded bg-primary inline-block" />
-          Dipilih
+          {t("page.shift.ui.selected")}
         </span>
       </div>
     </div>

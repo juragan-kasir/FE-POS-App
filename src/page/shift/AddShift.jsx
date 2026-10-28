@@ -435,8 +435,8 @@ const AddShift = () => {
                   isSuperAdmin={isSuperAdmin}
                   user={user}
                   t={t}
-                  title="Pilih Toko*"
-                  description="Pilih toko dimana shift ini tersedia"
+                  title={t("page.shift.ui.selectStore")}
+                  description={t("page.shift.ui.selectTheStoreWhereThis")}
                   noStoreLabel="Belum ada toko"
                   addStoreLabel="Tambah Toko"
                   storeInfoLabel="Toko:"
@@ -453,7 +453,8 @@ const AddShift = () => {
                   render={() => (
                     <FormItem>
                       <FormLabel>
-                        Penempatan Toko <span className="text-destructive">*</span>
+                        {t("page.shift.ui.storeAssignment")}{" "}
+                        <span className="text-destructive">*</span>
                       </FormLabel>
                       {(() => {
                         const ownLoc = locations.find(
@@ -477,7 +478,7 @@ const AddShift = () => {
                             </div>
                             <p className="flex items-center gap-1.5 text-xs text-muted-foreground">
                               <Lock size={12} className="shrink-0" />
-                              Hanya bisa menambahkan shift untuk toko penempatan kamu.
+                              {t("page.shift.ui.youCanOnlyAddShifts")}
                             </p>
                           </div>
                         );
@@ -542,7 +543,7 @@ const AddShift = () => {
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>
-                        Nama Shift <span className="text-destructive">*</span>
+                        {t("page.shift.form.name")} <span className="text-destructive">*</span>
                       </FormLabel>
                       <div className="relative">
                         <CalendarDays
@@ -566,7 +567,7 @@ const AddShift = () => {
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>
-                        Tipe Shift <span className="text-destructive">*</span>
+                        {t("page.shift.ui.shiftType")} <span className="text-destructive">*</span>
                       </FormLabel>
                       <div className="flex gap-2">
                         {SHIFT_TYPES.map((type) => (
@@ -597,7 +598,7 @@ const AddShift = () => {
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>
-                        Tanggal Mulai <span className="text-destructive">*</span>
+                        {t("page.profile.startDate")} <span className="text-destructive">*</span>
                       </FormLabel>
                       <DatePicker date={field.value} setDate={field.onChange} />
                       <FormMessage />
@@ -609,7 +610,7 @@ const AddShift = () => {
                   name="tanggal_selesai"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Tanggal Selesai</FormLabel>
+                      <FormLabel>{t("page.productionOrder.detail.tanggalSelesai")}</FormLabel>
                       <div
                         className={`transition-all duration-200 ${tipeShift === "harian" ? "opacity-50" : ""}`}>
                         <DatePicker
@@ -634,7 +635,7 @@ const AddShift = () => {
                 name="karyawan"
                 render={() => (
                   <FormItem>
-                    <FormLabel>Pilih Karyawan</FormLabel>
+                    <FormLabel>{t("page.shift.swap.chooseCoworker")}</FormLabel>
                     {storeIds.length === 0 ? (
                       <div className="flex items-center gap-2 h-10 px-3 rounded-lg border border-dashed border-border bg-muted/20 text-sm text-muted-foreground">
                         <Users size={16} className="shrink-0" />
@@ -723,7 +724,7 @@ const AddShift = () => {
                                             [storeId]: e.target.value
                                           }))
                                         }
-                                        placeholder="Cari nama atau posisi..."
+                                        placeholder={t("page.shift.ui.searchNameOrPosition")}
                                         className="w-full h-8 pl-8 pr-3 rounded-md border border-input bg-background text-xs focus:outline-none focus:ring-1 focus:ring-primary"
                                       />
                                     </div>
@@ -733,7 +734,7 @@ const AddShift = () => {
                                       <div className="flex flex-col items-center gap-2 p-6 text-center">
                                         <Users size={24} className="text-muted-foreground/40" />
                                         <p className="text-xs text-muted-foreground">
-                                          Belum ada karyawan di toko ini
+                                          {t("page.shift.ui.noEmployeesInThisStore")}
                                         </p>
                                       </div>
                                     ) : (
@@ -1002,8 +1003,8 @@ const AddShift = () => {
         type="confirm"
         open={storeRemoveModal}
         onOpenChange={setStoreRemoveModal}
-        title="Hapus Karyawan dari Toko?"
-        description="Beberapa karyawan yang sudah dipilih akan dihapus karena toko tidak lagi dipilih. Lanjutkan?"
+        title={t("page.shift.ui.removeEmployeesFromTheStore")}
+        description={t("page.shift.ui.someSelectedEmployeesWillBe")}
         confirmText="Ya, Lanjutkan"
         onConfirm={confirmStoreRemove}
       />

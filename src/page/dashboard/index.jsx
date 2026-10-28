@@ -784,7 +784,9 @@ const Dashboard = () => {
                                 {order.tableName}
                               </span>
                             ) : (
-                              <span className="text-muted-foreground">Take Away</span>
+                              <span className="text-muted-foreground">
+                                {t("page.cashier.modal.takeAway")}
+                              </span>
                             )}
                           </td>
                           <td className="px-5 py-3.5 font-medium text-foreground">
@@ -830,7 +832,7 @@ const Dashboard = () => {
                       disabled={orderPage <= 1}
                       onClick={() => setOrderPage((p) => Math.max(1, p - 1))}
                       className="px-2.5 py-1 text-xs rounded border border-border hover:bg-accent disabled:opacity-30 disabled:pointer-events-none">
-                      Prev
+                      {t("common.prev")}
                     </button>
                     {Array.from({ length: recentOrdersPages }, (_, i) => i + 1).map((p) => (
                       <button
@@ -848,7 +850,7 @@ const Dashboard = () => {
                       disabled={orderPage >= recentOrdersPages}
                       onClick={() => setOrderPage((p) => Math.min(recentOrdersPages, p + 1))}
                       className="px-2.5 py-1 text-xs rounded border border-border hover:bg-accent disabled:opacity-30 disabled:pointer-events-none">
-                      Next
+                      {t("common.next")}
                     </button>
                   </div>
                 </div>

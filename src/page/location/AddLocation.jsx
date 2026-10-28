@@ -914,7 +914,7 @@ const AddLocation = () => {
                         <>
                           <img
                             src={previewImage}
-                            alt="Preview"
+                            alt={t("page.product.form.preview")}
                             className="w-full h-auto max-h-[500px] object-contain"
                           />
                           <button
@@ -1480,7 +1480,9 @@ const AddLocation = () => {
                               <SelectItem value="LinkedIn">LinkedIn</SelectItem>
                               <SelectItem value="Shopee">Shopee</SelectItem>
                               <SelectItem value="Tokopedia">Tokopedia</SelectItem>
-                              <SelectItem value="Website">Website</SelectItem>
+                              <SelectItem value="Website">
+                                {t("page.supplier.form.website")}
+                              </SelectItem>
                             </SelectContent>
                           </Select>
                           <Input

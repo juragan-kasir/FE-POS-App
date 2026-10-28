@@ -138,7 +138,7 @@ const SupplierScoreDetail = () => {
                 </div>
                 <span
                   className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-bold ${gradeBadge(score.grade)}`}>
-                  Grade {score.grade}
+                  {t("page.supplierPerformance.list.grade")} {score.grade}
                 </span>
               </div>
             </div>

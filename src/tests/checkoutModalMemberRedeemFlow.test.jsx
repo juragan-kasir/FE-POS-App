@@ -11,7 +11,7 @@ import { getAllMember, getMemberById } from "../services/member";
 import { waitForCheckoutQuote } from "./helpers/checkoutQuote";
 
 // Phase 20 Batch 1: Member Search + Redeem Points payment flow. The search
-// modal (MemberSearchModal), the "Cari Pelanggan"/"Ganti Pelanggan" wiring,
+// modal (MemberSearchModal), the "page.cashier.ui.searchCustomer"/"page.cashier.ui.changeCustomer" wiring,
 // the points display, the redeem input, and the redeemedPoints payload field
 // were already implemented (PR #79) — this suite is the missing permanent
 // regression coverage for that existing, already-working flow, not a new
@@ -96,7 +96,7 @@ const renderModal = (onComplete = jest.fn(), items, subtotal = 100000) => {
 
 const openSearchAndPick = async (member) => {
   getAllMember.mockResolvedValue({ data: [member] });
-  fireEvent.click(screen.getByText("Cari Pelanggan"));
+  fireEvent.click(screen.getByText("page.cashier.ui.searchCustomer"));
   await waitFor(() => expect(screen.getByText("Cari Member")).toBeInTheDocument());
   fireEvent.change(screen.getByPlaceholderText("Nama member"), {
     target: { value: member.name }
@@ -113,15 +113,15 @@ describe("CheckoutModal — member search opens and selection is reflected (Phas
     getMemberById.mockResolvedValue({ data: { totalPoints: 120 } });
   });
 
-  test("Payment Modal shows 'Cari Pelanggan' and no member selected initially", async () => {
+  test("Payment Modal shows 'page.cashier.ui.searchCustomer' and no member selected initially", async () => {
     renderModal();
-    expect(await screen.findByText("Cari Pelanggan")).toBeInTheDocument();
-    expect(screen.queryByText("Ganti Pelanggan")).not.toBeInTheDocument();
+    expect(await screen.findByText("page.cashier.ui.searchCustomer")).toBeInTheDocument();
+    expect(screen.queryByText("page.cashier.ui.changeCustomer")).not.toBeInTheDocument();
   });
 
   test("clicking Cari Pelanggan opens the Member Search Modal", async () => {
     renderModal();
-    fireEvent.click(await screen.findByText("Cari Pelanggan"));
+    fireEvent.click(await screen.findByText("page.cashier.ui.searchCustomer"));
     expect(await screen.findByText("Cari Member")).toBeInTheDocument();
   });
 
@@ -133,7 +133,7 @@ describe("CheckoutModal — member search opens and selection is reflected (Phas
     expect(screen.getByText("Budi Santoso")).toBeInTheDocument();
     expect(screen.getByText(/081234/)).toBeInTheDocument();
     await waitFor(() => expect(screen.getAllByText(/120/).length).toBeGreaterThan(0));
-    expect(screen.getByText("Ganti Pelanggan")).toBeInTheDocument();
+    expect(screen.getByText("page.cashier.ui.changeCustomer")).toBeInTheDocument();
   });
 });
 
@@ -148,14 +148,14 @@ describe("CheckoutModal — redeem points UX follows the existing points>0 contr
     renderModal();
     await openSearchAndPick(siti);
     await waitFor(() => expect(screen.getByText("Siti Aminah")).toBeInTheDocument());
-    expect(screen.queryByText("Redeem Poin")).not.toBeInTheDocument();
+    expect(screen.queryByText("page.memberLoyalty.tabs.redeem")).not.toBeInTheDocument();
   });
 
   test("a member with points > 0 shows the redeem option with the available balance", async () => {
     getMemberById.mockResolvedValue({ data: { totalPoints: 120 } });
     renderModal();
     await openSearchAndPick(budi);
-    expect(await screen.findByText("Redeem Poin")).toBeInTheDocument();
+    expect(await screen.findByText("page.memberLoyalty.tabs.redeem")).toBeInTheDocument();
     expect(screen.getAllByText(/120/).length).toBeGreaterThan(0);
   });
 
@@ -173,7 +173,7 @@ describe("CheckoutModal — redeem points UX follows the existing points>0 contr
 
     fireEvent.change(redeemInput, { target: { value: "50" } });
     expect(redeemInput.value).toBe("50");
-    expect(screen.getByText(/Diskon: Rp 50/)).toBeInTheDocument();
+    expect(screen.getByText(/page.cashier.ui.discountRp 50/)).toBeInTheDocument();
   });
 
   test("redeem input is also capped at the payable total, never producing a negative payable amount", async () => {
@@ -201,14 +201,14 @@ describe("CheckoutModal — redeem points UX follows the existing points>0 contr
     expect(redeemInput.value).toBe("50");
 
     getMemberById.mockResolvedValueOnce({ data: { totalPoints: 0 } });
-    fireEvent.click(screen.getByText("Ganti Pelanggan"));
+    fireEvent.click(screen.getByText("page.cashier.ui.changeCustomer"));
     await openSearchAndPick(siti);
 
     await waitFor(() => expect(screen.getByText("Siti Aminah")).toBeInTheDocument());
     // Siti has 0 points — the redeem section (and Budi's stale 50) must be
     // completely gone, not merely re-rendered with a leftover value.
-    expect(screen.queryByText("Redeem Poin")).not.toBeInTheDocument();
-    expect(screen.queryByText(/Diskon: Rp 50/)).not.toBeInTheDocument();
+    expect(screen.queryByText("page.memberLoyalty.tabs.redeem")).not.toBeInTheDocument();
+    expect(screen.queryByText(/page.cashier.ui.discountRp 50/)).not.toBeInTheDocument();
   });
 });
 
