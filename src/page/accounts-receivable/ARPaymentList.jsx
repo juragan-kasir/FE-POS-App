@@ -237,10 +237,11 @@ const ARPaymentList = () => {
           loading={payMutation.isLoading}>
           <div className="space-y-3">
             <div>
-              <label className="text-sm font-medium">
+              <label htmlFor="arpayment-list-amount-label" className="text-sm font-medium">
                 {t("page.accountsReceivable.list.modal.amountLabel")}
               </label>
               <Input
+                id="arpayment-list-amount-label"
                 type="number"
                 value={payAmount}
                 onChange={(e) => setPayAmount(e.target.value)}

@@ -579,11 +579,13 @@ const DetailExpense = () => {
               />
             </div>
             <div className="space-y-1.5">
-              <Label>{t("page.expense.detail.paymentFormMethod")}</Label>
+              <Label htmlFor="detail-expense-payment-form-method">
+                {t("page.expense.detail.paymentFormMethod")}
+              </Label>
               <Select
                 value={paymentForm.paymentMethod}
                 onValueChange={(v) => setPaymentForm((f) => ({ ...f, paymentMethod: v }))}>
-                <SelectTrigger className="w-full">
+                <SelectTrigger id="detail-expense-payment-form-method" className="w-full">
                   <SelectValue placeholder={t("page.expense.form.paymentMethodPlaceholder")} />
                 </SelectTrigger>
                 <SelectContent>

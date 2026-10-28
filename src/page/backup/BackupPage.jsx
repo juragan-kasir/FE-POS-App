@@ -329,10 +329,13 @@ const BackupPage = () => {
               {t("page.backup.scheduleEnabled")}
             </label>
             <div>
-              <label className="block text-sm font-medium mb-1.5">
+              <label
+                htmlFor="backup-page-schedule-cron"
+                className="block text-sm font-medium mb-1.5">
                 {t("page.backup.scheduleCron")}
               </label>
               <Input
+                id="backup-page-schedule-cron"
                 value={cron}
                 onChange={(e) => setCron(e.target.value)}
                 placeholder="0 0 * * *"
@@ -343,10 +346,13 @@ const BackupPage = () => {
               </p>
             </div>
             <div>
-              <label className="block text-sm font-medium mb-1.5">
+              <label
+                htmlFor="backup-page-schedule-retention"
+                className="block text-sm font-medium mb-1.5">
                 {t("page.backup.scheduleRetention")}
               </label>
               <Input
+                id="backup-page-schedule-retention"
                 type="number"
                 min={0}
                 value={retention}

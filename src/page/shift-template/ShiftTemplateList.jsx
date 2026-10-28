@@ -293,10 +293,13 @@ const ShiftTemplateList = () => {
                   onReset={resetFilters}
                   isFiltered={isFiltered}>
                   <div className="flex flex-col gap-1.5">
-                    <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                    <label
+                      htmlFor="shift-template-list-status"
+                      className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                       {t("page.shiftTemplate.table.status")}
                     </label>
                     <Combobox
+                      id="shift-template-list-status"
                       options={[
                         { value: "all", label: t("common.all") },
                         { value: "active", label: t("common.active") },

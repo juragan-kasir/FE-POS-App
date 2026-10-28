@@ -135,10 +135,13 @@ const AuditLogList = () => {
                   />
                 </div>
                 <div className="flex flex-col gap-1.5">
-                  <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                  <label
+                    htmlFor="audit-log-list-action"
+                    className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                     {t("common.action")}
                   </label>
                   <Combobox
+                    id="audit-log-list-action"
                     value={actionFilter}
                     onChange={(v) => {
                       setActionFilter(v);
@@ -164,10 +167,13 @@ const AuditLogList = () => {
                   />
                 </div>
                 <div className="flex flex-col gap-1.5">
-                  <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                  <label
+                    htmlFor="audit-log-list-entity"
+                    className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                     {t("page.auditLog.ui.entity")}
                   </label>
                   <Combobox
+                    id="audit-log-list-entity"
                     value={entityFilter}
                     onChange={(v) => {
                       setEntityFilter(v);

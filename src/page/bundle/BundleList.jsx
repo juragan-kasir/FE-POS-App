@@ -471,7 +471,9 @@ const BundleList = () => {
         />
       </div>
       <div className="flex flex-col gap-1.5">
-        <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+        <label
+          htmlFor="bundle-list-status"
+          className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
           {t("common.status")}
         </label>
         <Select
@@ -480,7 +482,7 @@ const BundleList = () => {
             setStatusFilter(v);
             setPage(1);
           }}>
-          <SelectTrigger className="w-36 h-9 text-sm">
+          <SelectTrigger id="bundle-list-status" className="w-36 h-9 text-sm">
             <SelectValue placeholder={t("common.status")} />
           </SelectTrigger>
           <SelectContent>

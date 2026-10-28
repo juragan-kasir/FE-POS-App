@@ -579,13 +579,16 @@ const AddGoodsRequest = () => {
               )}
             </div>
             <div className="space-y-2">
-              <Label>{t("page.goodsRequest.add.form.requestedBy")}</Label>
+              <Label htmlFor="add-goods-request-requested-by">
+                {t("page.goodsRequest.add.form.requestedBy")}
+              </Label>
               <div className="relative">
                 <User
                   size={15}
                   className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground"
                 />
                 <Input
+                  id="add-goods-request-requested-by"
                   {...form.register("requestedBy")}
                   placeholder={t("page.goodsRequest.add.placeholder.requestedBy")}
                   className="pl-9"
@@ -671,8 +674,11 @@ const AddGoodsRequest = () => {
           </div>
 
           <div className="space-y-2">
-            <Label>{t("page.goodsRequest.add.form.notesLabel")}</Label>
+            <Label htmlFor="add-goods-request-notes-label">
+              {t("page.goodsRequest.add.form.notesLabel")}
+            </Label>
             <Textarea
+              id="add-goods-request-notes-label"
               rows={2}
               {...form.register("notes")}
               placeholder={t("page.goodsRequest.add.placeholder.notes")}

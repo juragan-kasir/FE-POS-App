@@ -433,10 +433,13 @@ const ReservationList = () => {
                               />
                             </div>,
                             <div key="status">
-                              <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground block mb-1.5">
+                              <label
+                                htmlFor="reservation-list-status"
+                                className="text-xs font-semibold uppercase tracking-wider text-muted-foreground block mb-1.5">
                                 {t("page.reservation.columns.status")}
                               </label>
                               <Combobox
+                                id="reservation-list-status"
                                 options={[
                                   { value: "all", label: t("page.reservation.filter.allStatus") },
                                   { value: "pending", label: t("page.reservation.status.pending") },

@@ -436,10 +436,13 @@ const EmployeeList = () => {
                         />
                       </div>
                       <div className="flex flex-col gap-1.5">
-                        <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                        <label
+                          htmlFor="employee-list-store"
+                          className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                           {t("document.store")}
                         </label>
                         <Combobox
+                          id="employee-list-store"
                           options={[
                             { value: "", label: t("page.employee.list.allStores") },
                             ...(locData?.data || []).map((loc) => ({
@@ -457,10 +460,13 @@ const EmployeeList = () => {
                         />
                       </div>
                       <div className="flex flex-col gap-1.5">
-                        <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                        <label
+                          htmlFor="employee-list-posisi"
+                          className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                           {t("sidebar.posisi")}
                         </label>
                         <Combobox
+                          id="employee-list-posisi"
                           options={[
                             { value: "", label: t("page.employee.list.allPositions") },
                             ...positions.map((pos) => ({
@@ -478,10 +484,13 @@ const EmployeeList = () => {
                         />
                       </div>
                       <div className="flex flex-col gap-1.5">
-                        <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                        <label
+                          htmlFor="employee-list-departemen"
+                          className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                           {t("sidebar.departemen")}
                         </label>
                         <Combobox
+                          id="employee-list-departemen"
                           options={[
                             {
                               value: "",

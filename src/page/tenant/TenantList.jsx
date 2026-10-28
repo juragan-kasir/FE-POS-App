@@ -457,7 +457,9 @@ const TenantList = () => {
                   />
                 </div>
                 <div className="flex flex-col gap-1.5">
-                  <label className={fieldLabelClass}>{t("common.status")}</label>
+                  <label htmlFor="tenant-status-filter" className={fieldLabelClass}>
+                    {t("common.status")}
+                  </label>
                   <Combobox
                     id="tenant-status-filter"
                     options={[

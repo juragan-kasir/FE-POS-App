@@ -374,8 +374,9 @@ const AddBundle = () => {
               />
               <div className="p-6 grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <Label>{t("page.bundle.form.name")} *</Label>
+                  <Label htmlFor="add-bundle-name">{t("page.bundle.form.name")} *</Label>
                   <Input
+                    id="add-bundle-name"
                     value={formData.name}
                     aria-invalid={!!fieldErrors.name}
                     onChange={(e) => updateFormData("name", e.target.value)}
@@ -385,7 +386,7 @@ const AddBundle = () => {
                   <FieldError message={fieldErrors.name} />
                 </div>
                 <div className="space-y-2">
-                  <Label>{t("page.bundle.form.status")}</Label>
+                  <Label htmlFor="add-bundle-status">{t("page.bundle.form.status")}</Label>
                   <div className="flex items-center justify-between gap-3 rounded-lg border border-border p-3">
                     <div>
                       <p className="text-sm font-medium text-foreground">
@@ -397,12 +398,19 @@ const AddBundle = () => {
                           : t("page.bundle.form.inactiveHint")}
                       </p>
                     </div>
-                    <Switch checked={isActive} onCheckedChange={setIsActive} />
+                    <Switch
+                      id="add-bundle-status"
+                      checked={isActive}
+                      onCheckedChange={setIsActive}
+                    />
                   </div>
                 </div>
                 <div className="md:col-span-2 space-y-2">
-                  <Label>{t("page.bundle.form.description")}</Label>
+                  <Label htmlFor="add-bundle-description">
+                    {t("page.bundle.form.description")}
+                  </Label>
                   <Textarea
+                    id="add-bundle-description"
                     value={formData.description}
                     onChange={(e) => updateFormData("description", e.target.value)}
                     placeholder={t("page.bundle.form.descriptionPlaceholder")}
@@ -607,8 +615,11 @@ const AddBundle = () => {
                   </p>
                 </div>
                 <div className="space-y-2">
-                  <Label>{t("page.bundle.form.bundlePrice")} *</Label>
+                  <Label htmlFor="add-bundle-bundle-price">
+                    {t("page.bundle.form.bundlePrice")} *
+                  </Label>
                   <Input
+                    id="add-bundle-bundle-price"
                     type="text"
                     inputMode="numeric"
                     value={formData.bundlePrice ? formatIDR(formData.bundlePrice) : ""}

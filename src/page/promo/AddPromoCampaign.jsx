@@ -520,10 +520,11 @@ const AddPromoCampaign = () => {
               <TabsContent value="general" className="mt-0">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div className="md:col-span-2 space-y-2">
-                    <Label>
+                    <Label htmlFor="add-promo-campaign-name">
                       {t("page.promo.form.name")} <span className="text-destructive">*</span>
                     </Label>
                     <Input
+                      id="add-promo-campaign-name"
                       {...form.register("name")}
                       placeholder={t("page.promo.form.namePlaceholder")}
                       maxLength={FIELD_LIMITS.BUSINESS_NAME}
@@ -535,8 +536,11 @@ const AddPromoCampaign = () => {
                     )}
                   </div>
                   <div className="md:col-span-2 space-y-2">
-                    <Label>{t("page.promo.form.description")}</Label>
+                    <Label htmlFor="add-promo-campaign-description">
+                      {t("page.promo.form.description")}
+                    </Label>
                     <Textarea
+                      id="add-promo-campaign-description"
                       {...form.register("description")}
                       rows={3}
                       placeholder={t("page.promo.form.descriptionPlaceholder")}
@@ -544,8 +548,9 @@ const AddPromoCampaign = () => {
                     />
                   </div>
                   <div className="space-y-2">
-                    <Label>{t("page.promo.form.code")}</Label>
+                    <Label htmlFor="add-promo-campaign-code">{t("page.promo.form.code")}</Label>
                     <Input
+                      id="add-promo-campaign-code"
                       {...form.register("code")}
                       className="uppercase"
                       placeholder={t("page.promo.form.codePlaceholder")}
@@ -554,10 +559,11 @@ const AddPromoCampaign = () => {
                     <FormDescription>{t("common.optionalField")}</FormDescription>
                   </div>
                   <div className="space-y-2">
-                    <Label>
+                    <Label htmlFor="add-promo-campaign-type">
                       {t("page.promo.form.type")} <span className="text-destructive">*</span>
                     </Label>
                     <Combobox
+                      id="add-promo-campaign-type"
                       options={[
                         { value: "happy_hour", label: "Happy Hour" },
                         { value: "birthday", label: "Birthday" },
@@ -585,8 +591,11 @@ const AddPromoCampaign = () => {
                     )}
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       <div className="space-y-2">
-                        <Label>{t("page.promo.form.discountType")}</Label>
+                        <Label htmlFor="add-promo-campaign-discount-type">
+                          {t("page.promo.form.discountType")}
+                        </Label>
                         <Combobox
+                          id="add-promo-campaign-discount-type"
                           options={[
                             { value: "percentage", label: "Percentage" },
                             { value: "fixed", label: "Fixed Amount" },
@@ -631,8 +640,11 @@ const AddPromoCampaign = () => {
                         )}
                       </div>
                       <div className="space-y-2">
-                        <Label>{t("page.promo.form.maxDiscount")}</Label>
+                        <Label htmlFor="add-promo-campaign-max-discount">
+                          {t("page.promo.form.maxDiscount")}
+                        </Label>
                         <Input
+                          id="add-promo-campaign-max-discount"
                           type="text"
                           inputMode="numeric"
                           disabled={!isPercentage}
@@ -658,8 +670,11 @@ const AddPromoCampaign = () => {
                       </div>
                       {(isSpendGet || isBuyXGetY) && (
                         <div className="space-y-2">
-                          <Label>{t("page.promo.form.minPurchase")}</Label>
+                          <Label htmlFor="add-promo-campaign-min-purchase">
+                            {t("page.promo.form.minPurchase")}
+                          </Label>
                           <Input
+                            id="add-promo-campaign-min-purchase"
                             type="text"
                             inputMode="numeric"
                             value={watchedMinPurchase ? formatIDR(watchedMinPurchase) : ""}
@@ -1075,8 +1090,11 @@ const AddPromoCampaign = () => {
                 {/* Penempatan & Batas */}
                 <div className="space-y-4">
                   <div className="space-y-2">
-                    <Label>{t("page.promo.form.applicableTo")}</Label>
+                    <Label htmlFor="add-promo-campaign-applicable-to">
+                      {t("page.promo.form.applicableTo")}
+                    </Label>
                     <Combobox
+                      id="add-promo-campaign-applicable-to"
                       options={[
                         { value: "all", label: "All Products" },
                         { value: "specific_products", label: "Specific Products" },
@@ -1143,8 +1161,11 @@ const AddPromoCampaign = () => {
                       </div>
                     )}
                   <div className="space-y-2">
-                    <Label>{t("page.promo.form.maxUsageTotal")}</Label>
+                    <Label htmlFor="add-promo-campaign-max-usage-total">
+                      {t("page.promo.form.maxUsageTotal")}
+                    </Label>
                     <Input
+                      id="add-promo-campaign-max-usage-total"
                       type="number"
                       {...form.register("maxUsageTotal", { valueAsNumber: true })}
                       placeholder={t("common.unlimited")}
@@ -1152,8 +1173,11 @@ const AddPromoCampaign = () => {
                     <FormDescription>{t("common.optionalField")}</FormDescription>
                   </div>
                   <div className="space-y-2">
-                    <Label>{t("page.promo.form.maxUsagePerMember")}</Label>
+                    <Label htmlFor="add-promo-campaign-max-usage-per-member">
+                      {t("page.promo.form.maxUsagePerMember")}
+                    </Label>
                     <Input
+                      id="add-promo-campaign-max-usage-per-member"
                       type="number"
                       {...form.register("maxUsagePerMember", { valueAsNumber: true })}
                       placeholder={t("common.unlimited")}
@@ -1161,8 +1185,14 @@ const AddPromoCampaign = () => {
                     <FormDescription>{t("common.optionalField")}</FormDescription>
                   </div>
                   <div className="space-y-2">
-                    <Label>{t("page.promo.form.priority")}</Label>
-                    <Input type="number" {...form.register("priority", { valueAsNumber: true })} />
+                    <Label htmlFor="add-promo-campaign-priority">
+                      {t("page.promo.form.priority")}
+                    </Label>
+                    <Input
+                      id="add-promo-campaign-priority"
+                      type="number"
+                      {...form.register("priority", { valueAsNumber: true })}
+                    />
                   </div>
                 </div>
 

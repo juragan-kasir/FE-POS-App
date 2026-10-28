@@ -230,10 +230,13 @@ const OvertimeApproval = () => {
         <div className="flex flex-col sm:flex-row gap-3">
           {isSuperAdmin && (
             <div className="flex flex-col gap-1.5">
-              <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+              <label
+                htmlFor="overtime-approval-store"
+                className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                 {t("document.store")}
               </label>
               <Combobox
+                id="overtime-approval-store"
                 options={[
                   { value: "all", label: "Semua Toko" },
                   ...locations.map((l) => ({ value: String(l.id), label: l.name }))
@@ -249,10 +252,13 @@ const OvertimeApproval = () => {
             </div>
           )}
           <div className="flex flex-col gap-1.5">
-            <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+            <label
+              htmlFor="overtime-approval-status"
+              className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
               {t("common.status")}
             </label>
             <Combobox
+              id="overtime-approval-status"
               options={[
                 { value: "pending", label: "Menunggu" },
                 { value: "approved", label: "Disetujui" },
@@ -480,10 +486,13 @@ const OvertimeApproval = () => {
         </div>
         <div className="mt-4 flex flex-col sm:flex-row sm:items-end gap-3">
           <div className="flex flex-col gap-1.5">
-            <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+            <label
+              htmlFor="overtime-approval-period"
+              className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
               {t("page.promo.list.period")}
             </label>
             <Input
+              id="overtime-approval-period"
               type="month"
               value={payrollMonth}
               onChange={(e) => setPayrollMonth(e.target.value)}

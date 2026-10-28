@@ -683,7 +683,9 @@ const SwapShiftModal = ({
             )}
 
             <div className="mt-4">
-              <label className="text-xs font-semibold text-muted-foreground uppercase tracking-wide mb-1.5 block">
+              <label
+                htmlFor="swap-shift-modal-note"
+                className="text-xs font-semibold text-muted-foreground uppercase tracking-wide mb-1.5 block">
                 {t("page.shift.swap.note")}
               </label>
               <div className="relative">
@@ -692,6 +694,7 @@ const SwapShiftModal = ({
                   className="absolute left-3 top-3 text-muted-foreground/70"
                 />
                 <Textarea
+                  id="swap-shift-modal-note"
                   unstyled
                   value={note}
                   onChange={(e) => setNote(e.target.value)}

@@ -114,8 +114,11 @@ const AdjustIngredientStockModal = ({ ingredient, onClose }) => {
           )}
         </div>
         <div className="flex flex-col gap-1.5">
-          <label className={fieldLabelClass}>{t(`${P}.type`)}</label>
+          <label htmlFor="adjust-ingredient-stock-modal-type" className={fieldLabelClass}>
+            {t(`${P}.type`)}
+          </label>
           <Combobox
+            id="adjust-ingredient-stock-modal-type"
             options={[
               { value: "set", label: t(`${P}.typeSet`) },
               { value: "add", label: t(`${P}.typeAdd`) },

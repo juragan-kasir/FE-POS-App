@@ -506,10 +506,13 @@ const EditPromoCampaign = () => {
               <TabsContent value="general" className="mt-0">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div className="md:col-span-2">
-                    <label className="text-sm font-medium text-foreground">
+                    <label
+                      htmlFor="edit-promo-campaign-name"
+                      className="text-sm font-medium text-foreground">
                       {t("page.promo.form.name")} <span className="text-destructive">*</span>
                     </label>
                     <Input
+                      id="edit-promo-campaign-name"
                       unstyled
                       {...form.register("name")}
                       className="mt-1 w-full h-10 px-3 bg-background border border-input rounded-lg text-sm focus:ring-2 focus:ring-ring outline-none"
@@ -523,10 +526,13 @@ const EditPromoCampaign = () => {
                     )}
                   </div>
                   <div className="md:col-span-2">
-                    <label className="text-sm font-medium text-foreground">
+                    <label
+                      htmlFor="edit-promo-campaign-description"
+                      className="text-sm font-medium text-foreground">
                       {t("page.promo.form.description")}
                     </label>
                     <Textarea
+                      id="edit-promo-campaign-description"
                       unstyled
                       {...form.register("description")}
                       className="mt-1 w-full h-20 px-3 py-2 bg-background border border-input rounded-lg text-sm focus:ring-2 focus:ring-ring outline-none resize-none"
@@ -535,10 +541,13 @@ const EditPromoCampaign = () => {
                     />
                   </div>
                   <div>
-                    <label className="text-sm font-medium text-foreground">
+                    <label
+                      htmlFor="edit-promo-campaign-code"
+                      className="text-sm font-medium text-foreground">
                       {t("page.promo.form.code")}
                     </label>
                     <Input
+                      id="edit-promo-campaign-code"
                       unstyled
                       {...form.register("code")}
                       className="mt-1 w-full h-10 px-3 bg-background border border-input rounded-lg text-sm focus:ring-2 focus:ring-ring outline-none uppercase"
@@ -548,10 +557,13 @@ const EditPromoCampaign = () => {
                     <FormDescription>{t("common.optionalField")}</FormDescription>
                   </div>
                   <div>
-                    <label className="text-sm font-medium text-foreground">
+                    <label
+                      htmlFor="edit-promo-campaign-type"
+                      className="text-sm font-medium text-foreground">
                       {t("page.promo.form.type")} <span className="text-destructive">*</span>
                     </label>
                     <Combobox
+                      id="edit-promo-campaign-type"
                       options={[
                         { value: "happy_hour", label: "Happy Hour" },
                         { value: "birthday", label: "Birthday" },
@@ -579,10 +591,13 @@ const EditPromoCampaign = () => {
                     )}
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       <div>
-                        <label className="text-sm font-medium text-foreground">
+                        <label
+                          htmlFor="edit-promo-campaign-discount-type"
+                          className="text-sm font-medium text-foreground">
                           {t("page.promo.form.discountType")}
                         </label>
                         <Combobox
+                          id="edit-promo-campaign-discount-type"
                           options={[
                             { value: "percentage", label: "Percentage" },
                             { value: "fixed", label: "Fixed Amount" },
@@ -596,10 +611,13 @@ const EditPromoCampaign = () => {
                         />
                       </div>
                       <div>
-                        <label className="text-sm font-medium text-foreground">
+                        <label
+                          htmlFor="edit-promo-campaign-discount-value"
+                          className="text-sm font-medium text-foreground">
                           {t("page.promo.form.discountValue")}
                         </label>
                         <input
+                          id="edit-promo-campaign-discount-value"
                           type="number"
                           {...form.register("discountValue", { valueAsNumber: true })}
                           disabled={isFreeItem || isBirthday}
@@ -612,10 +630,13 @@ const EditPromoCampaign = () => {
                         />
                       </div>
                       <div>
-                        <label className="text-sm font-medium text-foreground">
+                        <label
+                          htmlFor="edit-promo-campaign-max-discount"
+                          className="text-sm font-medium text-foreground">
                           {t("page.promo.form.maxDiscount")}
                         </label>
                         <input
+                          id="edit-promo-campaign-max-discount"
                           type="number"
                           {...form.register("maxDiscount", { valueAsNumber: true })}
                           disabled={!isPercentage}
@@ -635,10 +656,13 @@ const EditPromoCampaign = () => {
                       </div>
                       {(isSpendGet || isBuyXGetY) && (
                         <div>
-                          <label className="text-sm font-medium text-foreground">
+                          <label
+                            htmlFor="edit-promo-campaign-min-purchase"
+                            className="text-sm font-medium text-foreground">
                             {t("page.promo.form.minPurchase")}
                           </label>
                           <input
+                            id="edit-promo-campaign-min-purchase"
                             type="number"
                             {...form.register("minPurchase", { valueAsNumber: true })}
                             className="mt-1 w-full h-10 px-3 bg-background border border-input rounded-lg text-sm focus:ring-2 focus:ring-ring outline-none"
@@ -662,20 +686,26 @@ const EditPromoCampaign = () => {
                 )}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
-                    <label className="text-sm font-medium text-foreground">
+                    <label
+                      htmlFor="edit-promo-campaign-start-date"
+                      className="text-sm font-medium text-foreground">
                       {t("page.promo.form.startDate")} <span className="text-destructive">*</span>
                     </label>
                     <DateInput
+                      id="edit-promo-campaign-start-date"
                       type="datetime-local"
                       {...form.register("startDate")}
                       className="mt-1 w-full h-10 px-3 bg-background border border-input rounded-lg text-sm focus:ring-2 focus:ring-ring outline-none"
                     />
                   </div>
                   <div>
-                    <label className="text-sm font-medium text-foreground">
+                    <label
+                      htmlFor="edit-promo-campaign-end-date"
+                      className="text-sm font-medium text-foreground">
                       {t("page.promo.form.endDate")} <span className="text-destructive">*</span>
                     </label>
                     <DateInput
+                      id="edit-promo-campaign-end-date"
                       type="datetime-local"
                       {...form.register("endDate")}
                       className="mt-1 w-full h-10 px-3 bg-background border border-input rounded-lg text-sm focus:ring-2 focus:ring-ring outline-none"
@@ -684,20 +714,26 @@ const EditPromoCampaign = () => {
                   {isHappyHour && (
                     <>
                       <div>
-                        <label className="text-sm font-medium text-foreground">
+                        <label
+                          htmlFor="edit-promo-campaign-start-time"
+                          className="text-sm font-medium text-foreground">
                           {t("page.promo.form.startTime")}
                         </label>
                         <input
+                          id="edit-promo-campaign-start-time"
                           type="time"
                           {...form.register("startTime")}
                           className="mt-1 w-full h-10 px-3 bg-background border border-input rounded-lg text-sm focus:ring-2 focus:ring-ring outline-none"
                         />
                       </div>
                       <div>
-                        <label className="text-sm font-medium text-foreground">
+                        <label
+                          htmlFor="edit-promo-campaign-end-time"
+                          className="text-sm font-medium text-foreground">
                           {t("page.promo.form.endTime")}
                         </label>
                         <input
+                          id="edit-promo-campaign-end-time"
                           type="time"
                           {...form.register("endTime")}
                           className="mt-1 w-full h-10 px-3 bg-background border border-input rounded-lg text-sm focus:ring-2 focus:ring-ring outline-none"
@@ -845,10 +881,13 @@ const EditPromoCampaign = () => {
                 {/* Penempatan & Batas */}
                 <div className="space-y-4">
                   <div>
-                    <label className="text-sm font-medium text-foreground">
+                    <label
+                      htmlFor="edit-promo-campaign-applicable-to"
+                      className="text-sm font-medium text-foreground">
                       {t("page.promo.form.applicableTo")}
                     </label>
                     <Combobox
+                      id="edit-promo-campaign-applicable-to"
                       options={[
                         { value: "all", label: "All Products" },
                         { value: "specific_products", label: "Specific Products" },
@@ -910,10 +949,13 @@ const EditPromoCampaign = () => {
                     />
                   )}
                   <div>
-                    <label className="text-sm font-medium text-foreground">
+                    <label
+                      htmlFor="edit-promo-campaign-max-usage-total"
+                      className="text-sm font-medium text-foreground">
                       {t("page.promo.form.maxUsageTotal")}
                     </label>
                     <input
+                      id="edit-promo-campaign-max-usage-total"
                       type="number"
                       {...form.register("maxUsageTotal", { valueAsNumber: true })}
                       className="mt-1 w-full h-10 px-3 bg-background border border-input rounded-lg text-sm focus:ring-2 focus:ring-ring outline-none"
@@ -922,10 +964,13 @@ const EditPromoCampaign = () => {
                     <FormDescription>{t("common.optionalField")}</FormDescription>
                   </div>
                   <div>
-                    <label className="text-sm font-medium text-foreground">
+                    <label
+                      htmlFor="edit-promo-campaign-max-usage-per-member"
+                      className="text-sm font-medium text-foreground">
                       {t("page.promo.form.maxUsagePerMember")}
                     </label>
                     <input
+                      id="edit-promo-campaign-max-usage-per-member"
                       type="number"
                       {...form.register("maxUsagePerMember", { valueAsNumber: true })}
                       className="mt-1 w-full h-10 px-3 bg-background border border-input rounded-lg text-sm focus:ring-2 focus:ring-ring outline-none"
@@ -934,10 +979,13 @@ const EditPromoCampaign = () => {
                     <FormDescription>{t("common.optionalField")}</FormDescription>
                   </div>
                   <div>
-                    <label className="text-sm font-medium text-foreground">
+                    <label
+                      htmlFor="edit-promo-campaign-priority"
+                      className="text-sm font-medium text-foreground">
                       {t("page.promo.form.priority")}
                     </label>
                     <input
+                      id="edit-promo-campaign-priority"
                       type="number"
                       {...form.register("priority", { valueAsNumber: true })}
                       className="mt-1 w-full h-10 px-3 bg-background border border-input rounded-lg text-sm focus:ring-2 focus:ring-ring outline-none"

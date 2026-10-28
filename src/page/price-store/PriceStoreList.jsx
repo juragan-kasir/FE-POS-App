@@ -344,10 +344,11 @@ const PriceStoreList = () => {
               </p>
             </div>
             <div>
-              <label className="text-sm font-medium">
+              <label htmlFor="price-store-list-store-price" className="text-sm font-medium">
                 {t("page.priceStore.list.storePrice")} — {storeName}
               </label>
               <Input
+                id="price-store-list-store-price"
                 type="number"
                 value={editPrice}
                 onChange={(e) => setEditPrice(e.target.value)}

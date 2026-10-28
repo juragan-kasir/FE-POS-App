@@ -235,7 +235,9 @@ const LowStockAll = () => {
               />
             </div>,
             <div key="store" className="flex flex-col gap-1.5">
-              <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+              <label
+                htmlFor="low-stock-all-store"
+                className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                 {t("document.store")}
               </label>
               <Select
@@ -244,7 +246,7 @@ const LowStockAll = () => {
                   setGlobalStoreFilter(v);
                   setPage(1);
                 }}>
-                <SelectTrigger className="h-9 text-sm">
+                <SelectTrigger id="low-stock-all-store" className="h-9 text-sm">
                   <SelectValue placeholder={t("header.allStore")} />
                 </SelectTrigger>
                 <SelectContent>
@@ -258,7 +260,9 @@ const LowStockAll = () => {
               </Select>
             </div>,
             <div key="type" className="flex flex-col gap-1.5">
-              <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+              <label
+                htmlFor="low-stock-all-type"
+                className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                 {t("page.profile.type")}
               </label>
               <Select
@@ -267,7 +271,7 @@ const LowStockAll = () => {
                   setTypeFilter(v);
                   setPage(1);
                 }}>
-                <SelectTrigger className="h-9 text-sm">
+                <SelectTrigger id="low-stock-all-type" className="h-9 text-sm">
                   <SelectValue placeholder={t("page.stockHistory.filter.allTypes")} />
                 </SelectTrigger>
                 <SelectContent>

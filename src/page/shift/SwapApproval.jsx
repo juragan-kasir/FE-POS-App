@@ -352,10 +352,13 @@ const SwapApproval = ({ user, store, locations }) => {
       {isAuthorized && (
         <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-3">
           <div className="flex flex-col gap-1.5">
-            <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+            <label
+              htmlFor="swap-approval-status"
+              className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
               {t("common.status")}
             </label>
             <Combobox
+              id="swap-approval-status"
               options={[
                 { value: "pending", label: "Menunggu" },
                 { value: "approved", label: "Disetujui" },

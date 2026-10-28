@@ -356,7 +356,9 @@ const SupplierComparison = () => {
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 md:gap-4">
           <div className="space-y-1.5">
-            <label className="text-xs font-medium text-muted-foreground">
+            <label
+              htmlFor="supplier-comparison-select-product"
+              className="text-xs font-medium text-muted-foreground">
               {t("page.supplier.comparison.selectProduct")}
             </label>
             <Select
@@ -366,7 +368,7 @@ const SupplierComparison = () => {
                 setPage(1);
                 if (val !== "all") setSearchQuery("");
               }}>
-              <SelectTrigger>
+              <SelectTrigger id="supplier-comparison-select-product">
                 <SelectValue placeholder={t("page.supplier.comparison.allProducts")} />
               </SelectTrigger>
               <SelectContent>
@@ -383,7 +385,9 @@ const SupplierComparison = () => {
             </Select>
           </div>
           <div className="space-y-1.5">
-            <label className="text-xs font-medium text-muted-foreground">
+            <label
+              htmlFor="supplier-comparison-search-product"
+              className="text-xs font-medium text-muted-foreground">
               {t("page.supplier.comparison.searchProduct")}
             </label>
             <div className="relative">
@@ -392,6 +396,7 @@ const SupplierComparison = () => {
                 size={14}
               />
               <Input
+                id="supplier-comparison-search-product"
                 placeholder={t("page.supplier.comparison.searchPlaceholder")}
                 value={searchQuery}
                 onChange={(e) => {
@@ -404,7 +409,9 @@ const SupplierComparison = () => {
             </div>
           </div>
           <div className="space-y-1.5">
-            <label className="text-xs font-medium text-muted-foreground">
+            <label
+              htmlFor="supplier-comparison-sort-by"
+              className="text-xs font-medium text-muted-foreground">
               {t("page.supplier.comparison.sortBy")}
             </label>
             <Select
@@ -413,7 +420,7 @@ const SupplierComparison = () => {
                 setSortBy(val);
                 setPage(1);
               }}>
-              <SelectTrigger>
+              <SelectTrigger id="supplier-comparison-sort-by">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>

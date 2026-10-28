@@ -467,10 +467,13 @@ const PositionList = () => {
                       onReset={resetFilters}
                       isFiltered={isFiltered}>
                       <div className="flex flex-col gap-1.5">
-                        <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                        <label
+                          htmlFor="position-list-status"
+                          className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                           {t("common.status")}
                         </label>
                         <Combobox
+                          id="position-list-status"
                           options={[
                             { value: "all", label: t("common.all") },
                             { value: "active", label: t("common.active") },
@@ -487,10 +490,13 @@ const PositionList = () => {
                         />
                       </div>
                       <div className="flex flex-col gap-1.5">
-                        <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                        <label
+                          htmlFor="position-list-department"
+                          className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                           {t("page.position.table.department")}
                         </label>
                         <Combobox
+                          id="position-list-department"
                           options={[
                             {
                               value: "",

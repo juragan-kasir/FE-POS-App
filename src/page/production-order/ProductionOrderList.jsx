@@ -432,10 +432,13 @@ const ProductionOrderList = () => {
                       onReset={resetFilters}
                       isFiltered={isFiltered}>
                       <div className="flex flex-col gap-1.5">
-                        <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                        <label
+                          htmlFor="production-order-list-table-status"
+                          className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                           {t("page.productionOrder.list.tableStatus")}
                         </label>
                         <Combobox
+                          id="production-order-list-table-status"
                           options={[
                             { value: "all", label: t("page.productionOrder.list.filterAll") },
                             ...Object.entries(statusConfig).map(([k, v]) => ({
@@ -519,10 +522,13 @@ const ProductionOrderList = () => {
                 title={t("page.productionOrder.list.modalCompleteTitle")}
                 description={t("page.productionOrder.list.modalCompleteDesc")}>
                 <div className="space-y-3">
-                  <label className="text-sm font-medium">
+                  <label
+                    htmlFor="production-order-list-modal-complete-label"
+                    className="text-sm font-medium">
                     {t("page.productionOrder.list.modalCompleteLabel")}
                   </label>
                   <Input
+                    id="production-order-list-modal-complete-label"
                     type="number"
                     min="1"
                     value={completeQty}

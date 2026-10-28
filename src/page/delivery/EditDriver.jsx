@@ -162,10 +162,11 @@ const EditDriver = () => {
             </h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label className="text-sm font-medium text-foreground">
+                <label htmlFor="edit-driver-name" className="text-sm font-medium text-foreground">
                   {t("page.delivery.driver.form.name")} <span className="text-destructive">*</span>
                 </label>
                 <Input
+                  id="edit-driver-name"
                   unstyled
                   {...form.register("name")}
                   className="mt-1 w-full h-10 px-3 bg-background border border-input rounded-lg text-sm focus:ring-2 focus:ring-ring outline-none"
@@ -179,10 +180,11 @@ const EditDriver = () => {
                 )}
               </div>
               <div>
-                <label className="text-sm font-medium text-foreground">
+                <label htmlFor="edit-driver-phone" className="text-sm font-medium text-foreground">
                   {t("page.delivery.driver.form.phone")} <span className="text-destructive">*</span>
                 </label>
                 <Input
+                  id="edit-driver-phone"
                   unstyled
                   {...form.register("phone")}
                   className="mt-1 w-full h-10 px-3 bg-background border border-input rounded-lg text-sm focus:ring-2 focus:ring-ring outline-none"
@@ -197,10 +199,11 @@ const EditDriver = () => {
                 <p className="text-xs text-muted-foreground mt-1">{t("common.phoneHint")}</p>
               </div>
               <div>
-                <label className="text-sm font-medium text-foreground">
+                <label htmlFor="edit-driver-email" className="text-sm font-medium text-foreground">
                   {t("page.delivery.driver.form.email")}
                 </label>
                 <Input
+                  id="edit-driver-email"
                   unstyled
                   {...form.register("email")}
                   className="mt-1 w-full h-10 px-3 bg-background border border-input rounded-lg text-sm focus:ring-2 focus:ring-ring outline-none"
@@ -210,10 +213,11 @@ const EditDriver = () => {
                 <p className="text-xs text-muted-foreground mt-1">{t("common.optionalField")}</p>
               </div>
               <div>
-                <label className="text-sm font-medium text-foreground">
+                <label htmlFor="edit-driver-status" className="text-sm font-medium text-foreground">
                   {t("page.delivery.driver.form.status")}
                 </label>
                 <Combobox
+                  id="edit-driver-status"
                   value={form.watch("status")}
                   onChange={(val) => form.setValue("status", val)}
                   placeholder={t("page.delivery.driver.form.status")}
@@ -234,11 +238,14 @@ const EditDriver = () => {
             </h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label className="text-sm font-medium text-foreground">
+                <label
+                  htmlFor="edit-driver-vehicle-type"
+                  className="text-sm font-medium text-foreground">
                   {t("page.delivery.driver.form.vehicleType")}{" "}
                   <span className="text-destructive">*</span>
                 </label>
                 <Input
+                  id="edit-driver-vehicle-type"
                   unstyled
                   {...form.register("vehicleType")}
                   className="mt-1 w-full h-10 px-3 bg-background border border-input rounded-lg text-sm focus:ring-2 focus:ring-ring outline-none"
@@ -252,11 +259,14 @@ const EditDriver = () => {
                 )}
               </div>
               <div>
-                <label className="text-sm font-medium text-foreground">
+                <label
+                  htmlFor="edit-driver-vehicle-plate"
+                  className="text-sm font-medium text-foreground">
                   {t("page.delivery.driver.form.vehiclePlate")}{" "}
                   <span className="text-destructive">*</span>
                 </label>
                 <Input
+                  id="edit-driver-vehicle-plate"
                   unstyled
                   {...form.register("vehiclePlate")}
                   className="mt-1 w-full h-10 px-3 bg-background border border-input rounded-lg text-sm focus:ring-2 focus:ring-ring outline-none"
@@ -270,10 +280,11 @@ const EditDriver = () => {
                 )}
               </div>
               <div className="md:col-span-2">
-                <label className="text-sm font-medium text-foreground">
+                <label htmlFor="edit-driver-notes" className="text-sm font-medium text-foreground">
                   {t("page.delivery.driver.form.notes")}
                 </label>
                 <Textarea
+                  id="edit-driver-notes"
                   unstyled
                   {...form.register("notes")}
                   className="mt-1 w-full h-20 px-3 py-2 bg-background border border-input rounded-lg text-sm focus:ring-2 focus:ring-ring outline-none resize-none"

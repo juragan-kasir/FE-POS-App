@@ -650,10 +650,11 @@ const AddStockOpname = () => {
                   <FieldError error={errors.tanggalAudit} />
                 </div>
                 <div className="space-y-2">
-                  <Label>
+                  <Label htmlFor="add-stock-opname-auditor">
                     {t("page.stockOpname.form.auditor")} <span className="text-destructive">*</span>
                   </Label>
                   <Input
+                    id="add-stock-opname-auditor"
                     {...form.register("auditor")}
                     placeholder={t("page.stockOpname.form.auditorPlaceholder")}
                     className={
@@ -981,11 +982,12 @@ const AddStockOpname = () => {
             </Card>
 
             <div className="space-y-2">
-              <Label>
+              <Label htmlFor="add-stock-opname-audit-notes">
                 {t("page.stockOpname.form.auditNotes")}{" "}
                 <span className="text-muted-foreground font-normal">({t("common.optional")})</span>
               </Label>
               <Textarea
+                id="add-stock-opname-audit-notes"
                 {...form.register("catatan")}
                 rows={3}
                 placeholder={t("page.stockOpname.form.auditNotesPlaceholder")}

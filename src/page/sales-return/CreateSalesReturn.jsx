@@ -508,10 +508,11 @@ const CreateSalesReturn = () => {
 
           {/* Reason */}
           <Card className="p-6 space-y-3">
-            <label className="text-sm font-semibold">
+            <label htmlFor="create-sales-return-reason-label" className="text-sm font-semibold">
               {t("page.salesReturn.create.reasonLabel")} <span className="text-destructive">*</span>
             </label>
             <select
+              id="create-sales-return-reason-label"
               value={reason}
               onChange={(e) => setReason(e.target.value)}
               className="w-full px-3 py-2 border rounded-lg text-sm bg-background">
@@ -526,11 +527,14 @@ const CreateSalesReturn = () => {
 
           {/* Refund Method */}
           <Card className="p-6 space-y-3">
-            <label className="text-sm font-semibold">
+            <label
+              htmlFor="create-sales-return-refund-method-label"
+              className="text-sm font-semibold">
               {t("page.salesReturn.create.refundMethodLabel")}{" "}
               <span className="text-destructive">*</span>
             </label>
             <select
+              id="create-sales-return-refund-method-label"
               value={refundMethod}
               onChange={(e) => setRefundMethod(e.target.value)}
               className="w-full px-3 py-2 border rounded-lg text-sm bg-background">
@@ -551,10 +555,11 @@ const CreateSalesReturn = () => {
 
           {/* Notes */}
           <Card className="p-6 space-y-3">
-            <label className="text-sm font-semibold">
+            <label htmlFor="create-sales-return-notes-label" className="text-sm font-semibold">
               {t("page.salesReturn.create.notesLabel")}
             </label>
             <Textarea
+              id="create-sales-return-notes-label"
               unstyled
               value={notes}
               onChange={(e) => setNotes(e.target.value)}

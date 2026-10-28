@@ -485,10 +485,13 @@ const StockOpnameList = () => {
                       </div>
                     )}
                     <div className="flex flex-col gap-1.5">
-                      <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                      <label
+                        htmlFor="stock-opname-list-all-status"
+                        className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                         {t("page.stockOpname.list.allStatus")}
                       </label>
                       <Combobox
+                        id="stock-opname-list-all-status"
                         options={[
                           { value: "all", label: t("page.stockOpname.list.allStatus") },
                           { value: "draft", label: t("page.stockOpname.status.draft") },

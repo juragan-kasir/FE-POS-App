@@ -248,8 +248,11 @@ const AddStockTransfer = () => {
           </div>
 
           <div className="space-y-2">
-            <Label>{t("page.stockTransfer.add.form.transferredBy")}</Label>
+            <Label htmlFor="add-stock-transfer-transferred-by">
+              {t("page.stockTransfer.add.form.transferredBy")}
+            </Label>
             <Input
+              id="add-stock-transfer-transferred-by"
               {...form.register("transferredBy")}
               placeholder={t("page.stockTransfer.add.form.transferredByPlaceholder")}
               maxLength={FIELD_LIMITS.PERSON_NAME}
@@ -258,8 +261,11 @@ const AddStockTransfer = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="space-y-2">
-              <Label>{t("page.stockTransfer.add.form.reason")}</Label>
+              <Label htmlFor="add-stock-transfer-reason">
+                {t("page.stockTransfer.add.form.reason")}
+              </Label>
               <Input
+                id="add-stock-transfer-reason"
                 {...form.register("reason")}
                 placeholder={t("page.stockTransfer.add.form.reasonPlaceholder")}
                 maxLength={FIELD_LIMITS.SHORT_NOTE}
@@ -459,8 +465,11 @@ const AddStockTransfer = () => {
           </div>
 
           <div className="space-y-2">
-            <Label>{t("page.stockTransfer.add.form.notes")}</Label>
+            <Label htmlFor="add-stock-transfer-notes">
+              {t("page.stockTransfer.add.form.notes")}
+            </Label>
             <Textarea
+              id="add-stock-transfer-notes"
               rows={2}
               {...form.register("notes")}
               placeholder={t("page.stockTransfer.add.form.notesPlaceholder")}

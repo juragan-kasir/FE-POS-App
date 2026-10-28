@@ -699,7 +699,7 @@ const AddGoodsReceipt = () => {
                 </div>
 
                 <div className="space-y-2">
-                  <Label>
+                  <Label htmlFor="add-goods-receipt-pic">
                     {t("page.goodsReceipt.add.form.pic")}{" "}
                     <span className="text-xs font-normal text-muted-foreground">
                       ({t("common.optional")})
@@ -711,6 +711,7 @@ const AddGoodsReceipt = () => {
                       onClick={() => setPicOpen(!picOpen)}>
                       <Search size={14} className="mr-2 text-muted-foreground shrink-0" />
                       <input
+                        id="add-goods-receipt-pic"
                         type="text"
                         value={
                           picOpen ? picSearch : selectedPic?.fullName || selectedPic?.userName || ""
@@ -759,13 +760,14 @@ const AddGoodsReceipt = () => {
 
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                   <div className="space-y-2">
-                    <Label>
+                    <Label htmlFor="add-goods-receipt-surat-jalan">
                       {t("page.goodsReceipt.add.form.suratJalan")}{" "}
                       <span className="text-xs font-normal text-muted-foreground">
                         ({t("common.optional")})
                       </span>
                     </Label>
                     <Input
+                      id="add-goods-receipt-surat-jalan"
                       type="text"
                       value={suratJalan}
                       onChange={(e) => setSuratJalan(e.target.value)}
@@ -774,13 +776,14 @@ const AddGoodsReceipt = () => {
                     />
                   </div>
                   <div className="space-y-2">
-                    <Label>
+                    <Label htmlFor="add-goods-receipt-tax-invoice-no">
                       {t("page.goodsReceipt.add.form.taxInvoiceNo")}{" "}
                       <span className="text-xs font-normal text-muted-foreground">
                         ({t("common.optional")})
                       </span>
                     </Label>
                     <Input
+                      id="add-goods-receipt-tax-invoice-no"
                       type="text"
                       value={taxInvoiceNo}
                       onChange={(e) => setTaxInvoiceNo(e.target.value)}
@@ -789,7 +792,7 @@ const AddGoodsReceipt = () => {
                     />
                   </div>
                   <div className="space-y-2">
-                    <Label>
+                    <Label htmlFor="add-goods-receipt-shipping-cost">
                       {t("page.goodsReceipt.add.form.shippingCost")}{" "}
                       <span className="text-xs font-normal text-muted-foreground">
                         ({t("common.optional")})
@@ -800,6 +803,7 @@ const AddGoodsReceipt = () => {
                         Rp
                       </span>
                       <Input
+                        id="add-goods-receipt-shipping-cost"
                         type="text"
                         inputMode="numeric"
                         value={shippingCost ? Number(shippingCost).toLocaleString("id-ID") : ""}

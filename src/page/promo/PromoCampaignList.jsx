@@ -414,10 +414,13 @@ const PromoCampaignList = () => {
               onReset={resetFilters}
               isFiltered={isFiltered}>
               <div className="flex flex-col gap-1.5">
-                <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                <label
+                  htmlFor="promo-campaign-list-filter-status"
+                  className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                   {t("page.promo.ui.filterStatus")}
                 </label>
                 <Combobox
+                  id="promo-campaign-list-filter-status"
                   options={statusOptions}
                   value={statusFilter}
                   onChange={(val) => {
@@ -429,10 +432,13 @@ const PromoCampaignList = () => {
                 />
               </div>
               <div className="flex flex-col gap-1.5">
-                <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                <label
+                  htmlFor="promo-campaign-list-filter-type"
+                  className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                   {t("page.promo.ui.filterType")}
                 </label>
                 <Combobox
+                  id="promo-campaign-list-filter-type"
                   options={typeOptions}
                   value={typeFilter}
                   onChange={(val) => {

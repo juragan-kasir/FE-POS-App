@@ -365,10 +365,13 @@ const DriverList = () => {
               />
             </div>
             <div className="flex flex-col gap-1.5">
-              <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+              <label
+                htmlFor="driver-list-status"
+                className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                 {t("page.delivery.driver.detail.status")}
               </label>
               <Combobox
+                id="driver-list-status"
                 options={statusOptions}
                 value={statusFilter}
                 onChange={(val) => {

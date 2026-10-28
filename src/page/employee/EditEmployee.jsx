@@ -765,11 +765,14 @@ const EditEmployee = () => {
 
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
                           <div className="flex flex-col items-center gap-3">
-                            <label className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
+                            <label
+                              htmlFor="edit-employee-photo"
+                              className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
                               {t("page.employee.edit.photo")}
                             </label>
 
                             <input
+                              id="edit-employee-photo"
                               ref={fileInputRef}
                               type="file"
                               accept="image/*"

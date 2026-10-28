@@ -321,10 +321,13 @@ const QueueList = () => {
                 />
               </div>
               <div className="flex flex-col gap-1.5">
-                <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                <label
+                  htmlFor="queue-list-filter-status"
+                  className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                   {t("page.queue.ui.filterStatus")}
                 </label>
                 <Combobox
+                  id="queue-list-filter-status"
                   options={statusOptions}
                   value={statusFilter}
                   onChange={(val) => {
@@ -336,10 +339,13 @@ const QueueList = () => {
                 />
               </div>
               <div className="flex flex-col gap-1.5">
-                <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                <label
+                  htmlFor="queue-list-filter-priority"
+                  className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                   {t("page.queue.ui.filterPriority")}
                 </label>
                 <Combobox
+                  id="queue-list-filter-priority"
                   options={priorityOptions}
                   value={priorityFilter}
                   onChange={(val) => {

@@ -603,10 +603,13 @@ const CategoryList = () => {
                         />
                       </div>
                       <div className="flex flex-col gap-1.5">
-                        <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                        <label
+                          htmlFor="category-list-status"
+                          className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                           {t("page.category.table.status")}
                         </label>
                         <Combobox
+                          id="category-list-status"
                           options={[
                             { value: "", label: t("page.category.list.statusAll") },
                             { value: "active", label: t("common.active") },

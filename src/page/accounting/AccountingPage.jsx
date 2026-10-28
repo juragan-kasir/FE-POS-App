@@ -153,10 +153,13 @@ const AccountForm = ({ form, onChange, initial }) => {
     <div className="space-y-4">
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
         <div className="space-y-1.5">
-          <label className="text-xs font-medium text-muted-foreground">
+          <label
+            htmlFor="accounting-page-code"
+            className="text-xs font-medium text-muted-foreground">
             {t("page.accounting.accounts.code")}
           </label>
           <Input
+            id="accounting-page-code"
             value={form.code}
             onChange={set("code")}
             placeholder="1000"
@@ -165,18 +168,28 @@ const AccountForm = ({ form, onChange, initial }) => {
           />
         </div>
         <div className="space-y-1.5">
-          <label className="text-xs font-medium text-muted-foreground">
+          <label
+            htmlFor="accounting-page-name"
+            className="text-xs font-medium text-muted-foreground">
             {t("page.accounting.accounts.name")}
           </label>
-          <Input value={form.name} onChange={set("name")} maxLength={FIELD_LIMITS.BUSINESS_NAME} />
+          <Input
+            id="accounting-page-name"
+            value={form.name}
+            onChange={set("name")}
+            maxLength={FIELD_LIMITS.BUSINESS_NAME}
+          />
         </div>
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
         <div className="space-y-1.5">
-          <label className="text-xs font-medium text-muted-foreground">
+          <label
+            htmlFor="accounting-page-type"
+            className="text-xs font-medium text-muted-foreground">
             {t("page.accounting.accounts.type")}
           </label>
           <select
+            id="accounting-page-type"
             value={form.type}
             onChange={set("type")}
             disabled={initial?.isSystem}
@@ -189,10 +202,13 @@ const AccountForm = ({ form, onChange, initial }) => {
           </select>
         </div>
         <div className="space-y-1.5">
-          <label className="text-xs font-medium text-muted-foreground">
+          <label
+            htmlFor="accounting-page-normal-balance"
+            className="text-xs font-medium text-muted-foreground">
             {t("page.accounting.accounts.normalBalance")}
           </label>
           <select
+            id="accounting-page-normal-balance"
             value={form.normalBalance}
             onChange={set("normalBalance")}
             disabled={initial?.isSystem}
@@ -203,10 +219,16 @@ const AccountForm = ({ form, onChange, initial }) => {
         </div>
       </div>
       <div className="space-y-1.5">
-        <label className="text-xs font-medium text-muted-foreground">
+        <label
+          htmlFor="accounting-page-description"
+          className="text-xs font-medium text-muted-foreground">
           {t("page.accounting.accounts.description")}
         </label>
-        <Input value={form.description || ""} onChange={set("description")} />
+        <Input
+          id="accounting-page-description"
+          value={form.description || ""}
+          onChange={set("description")}
+        />
       </div>
     </div>
   );
@@ -703,10 +725,13 @@ const JournalTab = ({ storeId, isAll }) => {
           />
         </div>
         <div className="flex-1 flex flex-col gap-1.5">
-          <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+          <label
+            htmlFor="accounting-page-filter-source"
+            className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
             {t("page.accounting.journal.filterSource")}
           </label>
           <Combobox
+            id="accounting-page-filter-source"
             options={sourceOptions}
             value={sourceType}
             onChange={(v) => {
@@ -919,16 +944,29 @@ const JournalTab = ({ storeId, isAll }) => {
         <form ref={formRef} onSubmit={handleManualSubmit} className="space-y-4">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div className="space-y-1.5">
-              <label className="text-xs font-medium text-muted-foreground">
+              <label
+                htmlFor="accounting-page-date"
+                className="text-xs font-medium text-muted-foreground">
                 {t("page.accounting.journal.date")}
               </label>
-              <DateInput name="date" defaultValue={todayDateOnly()} required />
+              <DateInput
+                id="accounting-page-date"
+                name="date"
+                defaultValue={todayDateOnly()}
+                required
+              />
             </div>
             <div className="space-y-1.5">
-              <label className="text-xs font-medium text-muted-foreground">
+              <label
+                htmlFor="accounting-page-description-2"
+                className="text-xs font-medium text-muted-foreground">
                 {t("page.accounting.journal.description")}
               </label>
-              <Input name="description" maxLength={FIELD_LIMITS.SHORT_NOTE} />
+              <Input
+                id="accounting-page-description-2"
+                name="description"
+                maxLength={FIELD_LIMITS.SHORT_NOTE}
+              />
             </div>
           </div>
           <ManualLines accounts={accData?.data || []} />

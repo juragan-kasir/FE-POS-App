@@ -218,10 +218,13 @@ const CashRegisterOpenClose = () => {
                     <Skeleton className="h-10 w-full rounded-md" />
                   ) : (
                     <>
-                      <Label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                      <Label
+                        htmlFor="cash-register-open-close-select-store"
+                        className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                         {t("page.cashRegister.openClose.selectStore")}
                       </Label>
                       <Combobox
+                        id="cash-register-open-close-select-store"
                         options={storeOptions}
                         value={selectedStore}
                         onChange={setSelectedStore}
@@ -246,7 +249,9 @@ const CashRegisterOpenClose = () => {
             <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-5 gap-6 xl:gap-8">
               <div className="space-y-5 xl:col-span-3">
                 <div className="space-y-2">
-                  <Label className="text-sm font-medium">
+                  <Label
+                    htmlFor="cash-register-open-close-amount-label"
+                    className="text-sm font-medium">
                     {t("page.cashRegister.openClose.amountLabel")}{" "}
                     <span className="text-destructive">*</span>
                   </Label>
@@ -255,6 +260,7 @@ const CashRegisterOpenClose = () => {
                       <Coins size={16} />
                     </div>
                     <Input
+                      id="cash-register-open-close-amount-label"
                       type="text"
                       inputMode="numeric"
                       value={formatIDR(rawBalance === "0" ? "" : rawBalance)}
@@ -297,10 +303,13 @@ const CashRegisterOpenClose = () => {
 
               <div className="space-y-5 xl:col-span-2">
                 <div className="space-y-2">
-                  <Label className="text-sm font-medium">
+                  <Label
+                    htmlFor="cash-register-open-close-notes-label"
+                    className="text-sm font-medium">
                     {t("page.cashRegister.openClose.notesLabel")}
                   </Label>
                   <Textarea
+                    id="cash-register-open-close-notes-label"
                     unstyled
                     rows={4}
                     value={notes}

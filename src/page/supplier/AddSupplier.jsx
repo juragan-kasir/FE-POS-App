@@ -847,10 +847,13 @@ const AddSupplier = () => {
                         <div className="border rounded-lg p-3 space-y-3 bg-muted/30">
                           <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                             <div className="space-y-1">
-                              <label className="text-xs text-muted-foreground">
+                              <label
+                                htmlFor="add-supplier-full-name"
+                                className="text-xs text-muted-foreground">
                                 {t("page.supplier.contacts.fullName", "Nama Lengkap")} *
                               </label>
                               <Input
+                                id="add-supplier-full-name"
                                 placeholder={t("page.supplier.ui.contactName")}
                                 value={contactName}
                                 onChange={(e) => setContactName(e.target.value)}
@@ -858,10 +861,13 @@ const AddSupplier = () => {
                               />
                             </div>
                             <div className="space-y-1">
-                              <label className="text-xs text-muted-foreground">
+                              <label
+                                htmlFor="add-supplier-position"
+                                className="text-xs text-muted-foreground">
                                 {t("page.supplier.contacts.position", "Jabatan")}
                               </label>
                               <Input
+                                id="add-supplier-position"
                                 placeholder={t("document.position")}
                                 value={contactPosition}
                                 onChange={(e) => setContactPosition(e.target.value)}
@@ -869,10 +875,13 @@ const AddSupplier = () => {
                               />
                             </div>
                             <div className="space-y-1">
-                              <label className="text-xs text-muted-foreground">
+                              <label
+                                htmlFor="add-supplier-email"
+                                className="text-xs text-muted-foreground">
                                 {t("page.supplier.contacts.email", "Email")}
                               </label>
                               <Input
+                                id="add-supplier-email"
                                 placeholder="Email"
                                 value={contactEmail}
                                 onChange={(e) => setContactEmail(e.target.value)}
@@ -880,10 +889,13 @@ const AddSupplier = () => {
                               />
                             </div>
                             <div className="space-y-1">
-                              <label className="text-xs text-muted-foreground">
+                              <label
+                                htmlFor="add-supplier-phone"
+                                className="text-xs text-muted-foreground">
                                 {t("page.supplier.contacts.phone", "Telepon")}
                               </label>
                               <Input
+                                id="add-supplier-phone"
                                 placeholder={t("document.phone")}
                                 value={contactPhone}
                                 onChange={(e) => setContactPhone(e.target.value)}
@@ -1132,10 +1144,13 @@ const AddSupplier = () => {
                           <div className="border rounded-lg p-3 space-y-3 bg-muted/30">
                             <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
                               <div className="space-y-1">
-                                <label className="text-xs text-muted-foreground">
+                                <label
+                                  htmlFor="add-supplier-bank-name"
+                                  className="text-xs text-muted-foreground">
                                   {t("page.supplier.bankAccounts.bankName", "Nama Bank")} *
                                 </label>
                                 <Input
+                                  id="add-supplier-bank-name"
                                   placeholder="BCA, Mandiri, BRI..."
                                   value={bankName}
                                   onChange={(e) => setBankName(e.target.value)}
@@ -1143,11 +1158,14 @@ const AddSupplier = () => {
                                 />
                               </div>
                               <div className="space-y-1">
-                                <label className="text-xs text-muted-foreground">
+                                <label
+                                  htmlFor="add-supplier-account-number"
+                                  className="text-xs text-muted-foreground">
                                   {t("page.supplier.bankAccounts.accountNumber", "Nomor Rekening")}{" "}
                                   *
                                 </label>
                                 <Input
+                                  id="add-supplier-account-number"
                                   placeholder="0012345678"
                                   value={accountNumber}
                                   onChange={(e) => setAccountNumber(e.target.value)}
@@ -1155,10 +1173,13 @@ const AddSupplier = () => {
                                 />
                               </div>
                               <div className="space-y-1">
-                                <label className="text-xs text-muted-foreground">
+                                <label
+                                  htmlFor="add-supplier-account-name"
+                                  className="text-xs text-muted-foreground">
                                   {t("page.supplier.bankAccounts.accountName", "Nama Pemilik")} *
                                 </label>
                                 <Input
+                                  id="add-supplier-account-name"
                                   placeholder={t("page.supplier.ui.accountHolderName")}
                                   value={accountName}
                                   onChange={(e) => setAccountName(e.target.value)}
@@ -1501,10 +1522,13 @@ const AddSupplier = () => {
                   <div className="border rounded-lg p-3 space-y-3 bg-muted/30">
                     <div className="grid grid-cols-12 gap-2">
                       <div className="col-span-12 space-y-1">
-                        <label className="text-xs text-muted-foreground">
+                        <label
+                          htmlFor="add-supplier-product-name"
+                          className="text-xs text-muted-foreground">
                           {t("page.supplier.products.productName")}
                         </label>
                         <Input
+                          id="add-supplier-product-name"
                           placeholder={t("page.supplier.products.searchPlaceholder")}
                           value={newProductName}
                           onChange={(e) => setNewProductName(e.target.value)}
@@ -1512,7 +1536,9 @@ const AddSupplier = () => {
                         />
                       </div>
                       <div className="col-span-6 space-y-1">
-                        <label className="text-xs text-muted-foreground">
+                        <label
+                          htmlFor="add-supplier-price"
+                          className="text-xs text-muted-foreground">
                           {t("page.supplier.products.table.price")}
                         </label>
                         <div className="relative">
@@ -1520,6 +1546,7 @@ const AddSupplier = () => {
                             Rp
                           </span>
                           <Input
+                            id="add-supplier-price"
                             type="text"
                             inputMode="numeric"
                             placeholder={t("sidebar.section.harga")}
@@ -1533,10 +1560,13 @@ const AddSupplier = () => {
                         </div>
                       </div>
                       <div className="col-span-6 space-y-1">
-                        <label className="text-xs text-muted-foreground">
+                        <label
+                          htmlFor="add-supplier-unit"
+                          className="text-xs text-muted-foreground">
                           {t("document.unit")}
                         </label>
                         <Combobox
+                          id="add-supplier-unit"
                           options={unitOptions}
                           value={productUnit}
                           onChange={(v) => setProductUnit(v)}
@@ -1545,11 +1575,14 @@ const AddSupplier = () => {
                         />
                       </div>
                       <div className="col-span-6 space-y-1">
-                        <label className="text-xs text-muted-foreground">
+                        <label
+                          htmlFor="add-supplier-lead-time"
+                          className="text-xs text-muted-foreground">
                           {t("page.supplier.comparison.table.leadTime")}
                         </label>
                         <div className="flex gap-1">
                           <Input
+                            id="add-supplier-lead-time"
                             type="text"
                             inputMode="numeric"
                             placeholder="0"
@@ -1576,10 +1609,13 @@ const AddSupplier = () => {
                         </div>
                       </div>
                       <div className="col-span-3 space-y-1">
-                        <label className="text-xs text-muted-foreground">
+                        <label
+                          htmlFor="add-supplier-quality05"
+                          className="text-xs text-muted-foreground">
                           {t("page.supplier.ui.quality05")}
                         </label>
                         <Input
+                          id="add-supplier-quality05"
                           type="text"
                           inputMode="decimal"
                           placeholder="0"
@@ -1596,10 +1632,13 @@ const AddSupplier = () => {
                         />
                       </div>
                       <div className="col-span-3 space-y-1">
-                        <label className="text-xs text-muted-foreground">
+                        <label
+                          htmlFor="add-supplier-min-order"
+                          className="text-xs text-muted-foreground">
                           {t("page.supplier.products.table.minOrder")}
                         </label>
                         <Input
+                          id="add-supplier-min-order"
                           type="text"
                           inputMode="numeric"
                           placeholder="1"
@@ -1610,10 +1649,13 @@ const AddSupplier = () => {
                         />
                       </div>
                       <div className="col-span-12 space-y-1">
-                        <label className="text-xs text-muted-foreground">
+                        <label
+                          htmlFor="add-supplier-notes"
+                          className="text-xs text-muted-foreground">
                           {t("page.supplier.products.notes")}
                         </label>
                         <Textarea
+                          id="add-supplier-notes"
                           placeholder={t("page.supplier.ui.optionalNote")}
                           rows={2}
                           value={productNotes}

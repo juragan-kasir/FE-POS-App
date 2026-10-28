@@ -516,10 +516,13 @@ const TableList = () => {
             onConfirm={handleSave}>
             <div className="space-y-4">
               <div>
-                <label className="text-sm font-medium text-foreground mb-1.5 block">
+                <label
+                  htmlFor="table-list-name"
+                  className="text-sm font-medium text-foreground mb-1.5 block">
                   {t("page.table.form.name")}
                 </label>
                 <Input
+                  id="table-list-name"
                   placeholder={t("page.table.form.namePlaceholder")}
                   value={formName}
                   onChange={(e) => setFormName(e.target.value)}
@@ -527,10 +530,13 @@ const TableList = () => {
                 />
               </div>
               <div>
-                <label className="text-sm font-medium text-foreground mb-1.5 block">
+                <label
+                  htmlFor="table-list-capacity"
+                  className="text-sm font-medium text-foreground mb-1.5 block">
                   {t("page.table.form.capacity")}
                 </label>
                 <Input
+                  id="table-list-capacity"
                   type="number"
                   placeholder="4"
                   value={formCapacity}
@@ -539,11 +545,13 @@ const TableList = () => {
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="text-sm font-medium text-foreground mb-1.5 block">
+                  <label
+                    htmlFor="table-list-area"
+                    className="text-sm font-medium text-foreground mb-1.5 block">
                     {t("page.table.form.area")}
                   </label>
                   <Select value={formArea} onValueChange={setFormArea}>
-                    <SelectTrigger>
+                    <SelectTrigger id="table-list-area">
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
@@ -554,11 +562,13 @@ const TableList = () => {
                   </Select>
                 </div>
                 <div>
-                  <label className="text-sm font-medium text-foreground mb-1.5 block">
+                  <label
+                    htmlFor="table-list-table-type"
+                    className="text-sm font-medium text-foreground mb-1.5 block">
                     {t("page.table.form.tableType")}
                   </label>
                   <Select value={formTableType} onValueChange={setFormTableType}>
-                    <SelectTrigger>
+                    <SelectTrigger id="table-list-table-type">
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
@@ -570,11 +580,13 @@ const TableList = () => {
                 </div>
               </div>
               <div>
-                <label className="text-sm font-medium text-foreground mb-1.5 block">
+                <label
+                  htmlFor="table-list-store"
+                  className="text-sm font-medium text-foreground mb-1.5 block">
                   {t("page.table.form.store")}
                 </label>
                 <Select value={formStore} onValueChange={setFormStore}>
-                  <SelectTrigger>
+                  <SelectTrigger id="table-list-store">
                     <SelectValue placeholder={t("page.table.form.storePlaceholder")} />
                   </SelectTrigger>
                   <SelectContent>
@@ -630,10 +642,13 @@ const TableList = () => {
               }
               statusMutation.mutate({ id: statusTarget.id, reason });
             }}>
-            <label className="text-sm font-medium text-foreground mb-1.5 block">
+            <label
+              htmlFor="table-list-release-reason"
+              className="text-sm font-medium text-foreground mb-1.5 block">
               {t("page.table.releaseReason")}
             </label>
             <Textarea
+              id="table-list-release-reason"
               value={releaseReason}
               onChange={(e) => setReleaseReason(e.target.value)}
               placeholder={t("page.table.releaseReasonPlaceholder")}

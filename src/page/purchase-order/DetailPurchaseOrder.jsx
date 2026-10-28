@@ -1437,8 +1437,11 @@ export default function DetailPurchaseOrder() {
                 </div>
               </div>
               <div className="space-y-2">
-                <Label>{t("page.purchaseOrder.detail.paymentAmount")}</Label>
+                <Label htmlFor="detail-purchase-order-payment-amount">
+                  {t("page.purchaseOrder.detail.paymentAmount")}
+                </Label>
                 <Input
+                  id="detail-purchase-order-payment-amount"
                   type="text"
                   inputMode="numeric"
                   min={1}
@@ -1450,9 +1453,11 @@ export default function DetailPurchaseOrder() {
                 />
               </div>
               <div className="space-y-2">
-                <Label>{t("page.purchaseOrder.detail.paymentMethod")}</Label>
+                <Label htmlFor="detail-purchase-order-payment-method">
+                  {t("page.purchaseOrder.detail.paymentMethod")}
+                </Label>
                 <Select value={payMethod} onValueChange={setPayMethod}>
-                  <SelectTrigger>
+                  <SelectTrigger id="detail-purchase-order-payment-method">
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
@@ -1472,16 +1477,22 @@ export default function DetailPurchaseOrder() {
                 </Select>
               </div>
               <div className="space-y-2">
-                <Label>{t("page.purchaseOrder.detail.paymentDate")}</Label>
+                <Label htmlFor="detail-purchase-order-payment-date">
+                  {t("page.purchaseOrder.detail.paymentDate")}
+                </Label>
                 <DateInput
+                  id="detail-purchase-order-payment-date"
                   type="date"
                   value={payDate}
                   onChange={(e) => setPayDate(e.target.value)}
                 />
               </div>
               <div className="space-y-2">
-                <Label>{t("page.purchaseOrder.detail.reference")}</Label>
+                <Label htmlFor="detail-purchase-order-reference">
+                  {t("page.purchaseOrder.detail.reference")}
+                </Label>
                 <Input
+                  id="detail-purchase-order-reference"
                   value={payRef}
                   onChange={(e) => setPayRef(e.target.value)}
                   placeholder={t("page.purchaseOrder.detail.referencePlaceholder")}
@@ -1567,8 +1578,11 @@ export default function DetailPurchaseOrder() {
               </p>
             )}
             <div className="space-y-2">
-              <Label>{t("page.purchaseOrder.detail.notes")}</Label>
+              <Label htmlFor="detail-purchase-order-notes">
+                {t("page.purchaseOrder.detail.notes")}
+              </Label>
               <Input
+                id="detail-purchase-order-notes"
                 value={returnReason}
                 onChange={(e) => setReturnReason(e.target.value)}
                 placeholder={t("page.purchaseOrder.detail.returnReasonPlaceholder")}
@@ -1576,8 +1590,11 @@ export default function DetailPurchaseOrder() {
               />
             </div>
             <div className="space-y-2">
-              <Label>{t("page.purchaseOrder.detail.returnedBy")}</Label>
+              <Label htmlFor="detail-purchase-order-returned-by">
+                {t("page.purchaseOrder.detail.returnedBy")}
+              </Label>
               <Input
+                id="detail-purchase-order-returned-by"
                 value={returnedByName}
                 onChange={(e) => setReturnedByName(e.target.value)}
                 placeholder={t("page.purchaseOrder.detail.returnedByNamePlaceholder")}

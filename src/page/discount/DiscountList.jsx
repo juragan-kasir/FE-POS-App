@@ -662,10 +662,13 @@ const DiscountList = () => {
                     />
                   </div>
                   <div className="flex flex-col gap-1.5">
-                    <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                    <label
+                      htmlFor="discount-list-status"
+                      className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                       {t("common.status")}
                     </label>
                     <Combobox
+                      id="discount-list-status"
                       options={[
                         { value: "all", label: t("common.all") },
                         { value: "active", label: t("common.active") },

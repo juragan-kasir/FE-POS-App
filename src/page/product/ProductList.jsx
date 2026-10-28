@@ -674,10 +674,13 @@ const ProductList = () => {
                     />
                   </div>
                   <div className="flex flex-col gap-1.5">
-                    <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                    <label
+                      htmlFor="product-list-category"
+                      className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                       {t("page.product.table.category")}
                     </label>
                     <Combobox
+                      id="product-list-category"
                       options={[
                         {
                           value: "",
@@ -695,10 +698,13 @@ const ProductList = () => {
                     />
                   </div>
                   <div className="flex flex-col gap-1.5">
-                    <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                    <label
+                      htmlFor="product-list-status"
+                      className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                       {t("page.product.table.status")}
                     </label>
                     <Combobox
+                      id="product-list-status"
                       options={[
                         { value: "all", label: t("common.all") },
                         { value: "active", label: t("common.active") },
@@ -715,10 +721,13 @@ const ProductList = () => {
                     />
                   </div>
                   <div className="flex flex-col gap-1.5">
-                    <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                    <label
+                      htmlFor="product-list-newest"
+                      className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                       {t("page.product.list.filter.newest")}
                     </label>
                     <Combobox
+                      id="product-list-newest"
                       options={[
                         { value: "", label: t("page.product.list.filter.newest") },
                         { value: "price-asc", label: t("page.product.list.filter.priceLowHigh") },

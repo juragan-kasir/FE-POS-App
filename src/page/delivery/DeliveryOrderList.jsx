@@ -296,10 +296,13 @@ const DeliveryOrderList = () => {
               />
             </div>
             <div className="flex flex-col gap-1.5">
-              <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+              <label
+                htmlFor="delivery-order-list-source"
+                className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                 {t("page.delivery.detail.source")}
               </label>
               <Combobox
+                id="delivery-order-list-source"
                 options={sourceOptions}
                 value={sourceFilter}
                 onChange={(val) => {
@@ -311,10 +314,13 @@ const DeliveryOrderList = () => {
               />
             </div>
             <div className="flex flex-col gap-1.5">
-              <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+              <label
+                htmlFor="delivery-order-list-status"
+                className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                 {t("page.delivery.detail.status")}
               </label>
               <Combobox
+                id="delivery-order-list-status"
                 options={statusOptions}
                 value={statusFilter}
                 onChange={(val) => {
@@ -354,10 +360,13 @@ const DeliveryOrderList = () => {
           }
         }}>
         <div className="mt-2">
-          <label className="text-sm font-medium text-foreground">
+          <label
+            htmlFor="delivery-order-list-cancel-reason"
+            className="text-sm font-medium text-foreground">
             {t("page.delivery.detail.cancelReason")}
           </label>
           <Textarea
+            id="delivery-order-list-cancel-reason"
             unstyled
             value={cancelReason}
             onChange={(e) => setCancelReason(e.target.value)}

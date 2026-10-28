@@ -1173,10 +1173,13 @@ const PurchaseOrderList = () => {
                       />
                     </div>
                     <div className="flex flex-col gap-1.5">
-                      <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                      <label
+                        htmlFor="purchase-order-list-status"
+                        className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                         {t("page.purchaseOrder.list.columns.status")}
                       </label>
                       <Combobox
+                        id="purchase-order-list-status"
                         options={[
                           { value: "all", label: t("common.all") },
                           { value: "draft", label: t("page.purchaseOrder.status.draft") },
@@ -1519,7 +1522,9 @@ const PurchaseOrderList = () => {
                     )}
 
                     <div>
-                      <label className="text-sm font-medium text-foreground block mb-1.5">
+                      <label
+                        htmlFor="purchase-order-list-reason-label"
+                        className="text-sm font-medium text-foreground block mb-1.5">
                         {t("page.purchaseOrder.list.returInfo.reasonLabel")}{" "}
                         <span className="text-destructive">*</span>
                       </label>
@@ -1545,6 +1550,7 @@ const PurchaseOrderList = () => {
                         })}
                       </div>
                       <Textarea
+                        id="purchase-order-list-reason-label"
                         unstyled
                         className="w-full min-h-[100px] px-3 py-2.5 border border-border rounded-lg bg-background text-sm resize-none focus:outline-none focus:ring-2 focus:ring-primary transition-shadow"
                         placeholder={t("page.purchaseOrder.list.returInfo.reasonPlaceholder")}
@@ -1875,7 +1881,9 @@ const PurchaseOrderList = () => {
 
                     <div className="bg-background rounded-xl border border-border p-4 space-y-4">
                       <div className="space-y-2">
-                        <Label className="text-sm font-medium flex items-center gap-1">
+                        <Label
+                          htmlFor="purchase-order-list-dp-payment-amount"
+                          className="text-sm font-medium flex items-center gap-1">
                           {isDpPayment
                             ? t("page.purchaseOrder.detail.dpPaymentAmount")
                             : t("page.purchaseOrder.detail.paymentAmount")}
@@ -1886,6 +1894,7 @@ const PurchaseOrderList = () => {
                             Rp
                           </span>
                           <Input
+                            id="purchase-order-list-dp-payment-amount"
                             type="text"
                             inputMode="numeric"
                             placeholder="0"
@@ -1913,7 +1922,9 @@ const PurchaseOrderList = () => {
                           />
                         </div>
                         <div className="space-y-2">
-                          <Label className="text-sm font-medium">
+                          <Label
+                            htmlFor="purchase-order-list-payment-method"
+                            className="text-sm font-medium">
                             {t("page.purchaseOrder.detail.paymentMethod")}
                           </Label>
                           <Select
@@ -1921,7 +1932,7 @@ const PurchaseOrderList = () => {
                             onValueChange={(value) =>
                               setPayForm({ ...payForm, paymentMethod: value })
                             }>
-                            <SelectTrigger className="h-11">
+                            <SelectTrigger id="purchase-order-list-payment-method" className="h-11">
                               <SelectValue />
                             </SelectTrigger>
                             <SelectContent className="z-[90]">
@@ -1946,10 +1957,13 @@ const PurchaseOrderList = () => {
 
                       <div className="grid grid-cols-2 gap-3">
                         <div className="space-y-2">
-                          <Label className="text-sm font-medium">
+                          <Label
+                            htmlFor="purchase-order-list-reference"
+                            className="text-sm font-medium">
                             {t("page.purchaseOrder.detail.reference")}
                           </Label>
                           <Input
+                            id="purchase-order-list-reference"
                             placeholder={t("page.purchaseOrder.detail.referencePlaceholder")}
                             value={payForm.reference}
                             onChange={(e) => setPayForm({ ...payForm, reference: e.target.value })}
@@ -1958,10 +1972,13 @@ const PurchaseOrderList = () => {
                           />
                         </div>
                         <div className="space-y-2">
-                          <Label className="text-sm font-medium">
+                          <Label
+                            htmlFor="purchase-order-list-notes"
+                            className="text-sm font-medium">
                             {t("page.purchaseOrder.detail.notes")}
                           </Label>
                           <Input
+                            id="purchase-order-list-notes"
                             placeholder={t("page.purchaseOrder.detail.notesPlaceholder")}
                             value={payForm.notes}
                             onChange={(e) => setPayForm({ ...payForm, notes: e.target.value })}

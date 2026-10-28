@@ -405,21 +405,27 @@ const EditGoodsRequest = () => {
           className="bg-card p-4 sm:p-6 rounded-xl border border-border space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="space-y-2">
-              <Label>{t("page.goodsRequest.edit.form.store")}</Label>
+              <Label htmlFor="edit-goods-request-store">
+                {t("page.goodsRequest.edit.form.store")}
+              </Label>
               <Input
+                id="edit-goods-request-store"
                 value={request.storeData?.name || request.store || ""}
                 readOnly
                 className="h-10 bg-muted/50"
               />
             </div>
             <div className="space-y-2">
-              <Label>{t("page.goodsRequest.edit.form.requestedBy")}</Label>
+              <Label htmlFor="edit-goods-request-requested-by">
+                {t("page.goodsRequest.edit.form.requestedBy")}
+              </Label>
               <div className="relative">
                 <User
                   size={15}
                   className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground"
                 />
                 <Input
+                  id="edit-goods-request-requested-by"
                   value={requestedBy}
                   onChange={(e) => setRequestedBy(e.target.value)}
                   placeholder={t("page.goodsRequest.edit.placeholder.requestedBy")}
@@ -597,8 +603,11 @@ const EditGoodsRequest = () => {
           </div>
 
           <div className="space-y-2">
-            <Label>{t("page.goodsRequest.edit.form.notesLabel")}</Label>
+            <Label htmlFor="edit-goods-request-notes-label">
+              {t("page.goodsRequest.edit.form.notesLabel")}
+            </Label>
             <Textarea
+              id="edit-goods-request-notes-label"
               rows={2}
               value={notes}
               onChange={(e) => setNotes(e.target.value)}

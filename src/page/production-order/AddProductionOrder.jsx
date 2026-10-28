@@ -199,11 +199,12 @@ const AddProductionOrder = () => {
         </div>
 
         <div className="space-y-2">
-          <Label>
+          <Label htmlFor="add-production-order-label-jumlah-produksi">
             {t("page.productionOrder.add.labelJumlahProduksi")}{" "}
             <span className="text-destructive">*</span>
           </Label>
           <Input
+            id="add-production-order-label-jumlah-produksi"
             type="number"
             min="1"
             {...form.register("plannedQty")}
@@ -224,8 +225,11 @@ const AddProductionOrder = () => {
         </div>
 
         <div className="space-y-2">
-          <Label>{t("page.productionOrder.add.labelCatatan")}</Label>
+          <Label htmlFor="add-production-order-label-catatan">
+            {t("page.productionOrder.add.labelCatatan")}
+          </Label>
           <Textarea
+            id="add-production-order-label-catatan"
             rows={3}
             {...form.register("notes")}
             placeholder={t("page.productionOrder.add.placeholderCatatan")}

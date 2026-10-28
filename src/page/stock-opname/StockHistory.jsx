@@ -350,10 +350,13 @@ const StockHistory = () => {
                         ),
                         itemType === "ingredient" ? (
                           <div key="ingredient">
-                            <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground block mb-1.5">
+                            <label
+                              htmlFor="stock-history-ingredient"
+                              className="text-xs font-semibold uppercase tracking-wider text-muted-foreground block mb-1.5">
                               {t("page.stockHistory.filter.ingredient")}
                             </label>
                             <Combobox
+                              id="stock-history-ingredient"
                               options={[
                                 { value: "", label: t("page.stockHistory.filter.allIngredients") },
                                 ...ingredients.map((i) => ({
@@ -372,10 +375,13 @@ const StockHistory = () => {
                           </div>
                         ) : (
                           <div key="product">
-                            <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground block mb-1.5">
+                            <label
+                              htmlFor="stock-history-product"
+                              className="text-xs font-semibold uppercase tracking-wider text-muted-foreground block mb-1.5">
                               {t("page.stockHistory.filter.product")}
                             </label>
                             <Combobox
+                              id="stock-history-product"
                               options={[
                                 { value: "", label: t("page.stockHistory.filter.allProducts") },
                                 ...products.map((p) => ({
@@ -394,10 +400,13 @@ const StockHistory = () => {
                           </div>
                         ),
                         <div key="ref">
-                          <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground block mb-1.5">
+                          <label
+                            htmlFor="stock-history-reference-type"
+                            className="text-xs font-semibold uppercase tracking-wider text-muted-foreground block mb-1.5">
                             {t("page.stockHistory.filter.referenceType")}
                           </label>
                           <Combobox
+                            id="stock-history-reference-type"
                             options={referenceTypeOptions}
                             value={referenceFilter}
                             onChange={(v) => {

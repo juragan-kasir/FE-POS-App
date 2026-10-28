@@ -339,10 +339,13 @@ const SupplierScoreList = () => {
                 />
               </div>
               <div className="flex flex-col gap-1.5">
-                <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                <label
+                  htmlFor="supplier-score-list-filter-period"
+                  className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                   {t("page.supplierPerformance.ui.filterPeriod")}
                 </label>
                 <Combobox
+                  id="supplier-score-list-filter-period"
                   options={periodOptions}
                   value={periodFilter}
                   onChange={(val) => {
@@ -354,10 +357,13 @@ const SupplierScoreList = () => {
                 />
               </div>
               <div className="flex flex-col gap-1.5">
-                <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                <label
+                  htmlFor="supplier-score-list-filter-grade"
+                  className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                   {t("page.supplierPerformance.ui.filterGrade")}
                 </label>
                 <Combobox
+                  id="supplier-score-list-filter-grade"
                   options={gradeOptions}
                   value={gradeFilter}
                   onChange={(val) => {
@@ -417,10 +423,13 @@ const SupplierScoreList = () => {
         <div className="space-y-4 mt-4">
           {isSuperAdmin && (
             <div>
-              <label className="text-sm font-medium text-foreground">
+              <label
+                htmlFor="supplier-score-list-store"
+                className="text-sm font-medium text-foreground">
                 {t("page.supplierPerformance.modal.store")}
               </label>
               <Combobox
+                id="supplier-score-list-store"
                 options={[
                   { value: "", label: t("page.supplierPerformance.modal.allStores") },
                   ...locations.map((loc) => ({ value: loc.id, label: loc.name }))
@@ -433,10 +442,13 @@ const SupplierScoreList = () => {
             </div>
           )}
           <div>
-            <label className="text-sm font-medium text-foreground">
+            <label
+              htmlFor="supplier-score-list-supplier"
+              className="text-sm font-medium text-foreground">
               {t("page.supplierPerformance.modal.supplier")}
             </label>
             <Combobox
+              id="supplier-score-list-supplier"
               options={supplierOptions}
               value={calculateForm.supplierId}
               onChange={(v) => setCalculateForm({ ...calculateForm, supplierId: v })}
@@ -445,10 +457,13 @@ const SupplierScoreList = () => {
             />
           </div>
           <div>
-            <label className="text-sm font-medium text-foreground">
+            <label
+              htmlFor="supplier-score-list-period"
+              className="text-sm font-medium text-foreground">
               {t("page.promo.list.period")}
             </label>
             <Combobox
+              id="supplier-score-list-period"
               options={periodOptions.filter((o) => o.value !== "all")}
               value={calculateForm.period}
               onChange={(v) => setCalculateForm({ ...calculateForm, period: v })}

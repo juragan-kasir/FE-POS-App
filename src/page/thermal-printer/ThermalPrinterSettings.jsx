@@ -183,8 +183,9 @@ const ThermalPrinterSettings = () => {
         <h2 className="font-semibold p-4 border-b">{t("page.thermalPrinter.configuration")}</h2>
         <div className="p-4 space-y-4">
           <div>
-            <Label>{t("page.thermalPrinter.type")}</Label>
+            <Label htmlFor="thermal-printer-settings-type">{t("page.thermalPrinter.type")}</Label>
             <Combobox
+              id="thermal-printer-settings-type"
               value={printerConfig.type}
               onChange={(v) => setPrinterConfig({ ...printerConfig, type: v })}
               options={printerTypes.map((t) => ({ value: t.value, label: `${t.icon} ${t.label}` }))}

@@ -461,21 +461,28 @@ const AddTierForm = ({ onSuccess }) => {
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
       <div>
-        <Label>{t("page.memberTier.table.name")}</Label>
-        <Input value={name} onChange={(e) => setName(e.target.value)} required />
+        <Label htmlFor="member-loyalty-name">{t("page.memberTier.table.name")}</Label>
+        <Input
+          id="member-loyalty-name"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          required
+        />
       </div>
       <div className="grid grid-cols-2 gap-4">
         <div>
-          <Label>{t("page.memberTier.detail.minPoints")}</Label>
+          <Label htmlFor="member-loyalty-min-points">{t("page.memberTier.detail.minPoints")}</Label>
           <Input
+            id="member-loyalty-min-points"
             type="number"
             value={minPoints}
             onChange={(e) => setMinPoints(Number(e.target.value))}
           />
         </div>
         <div>
-          <Label>{t("page.memberTier.detail.maxPoints")}</Label>
+          <Label htmlFor="member-loyalty-max-points">{t("page.memberTier.detail.maxPoints")}</Label>
           <Input
+            id="member-loyalty-max-points"
             type="number"
             value={maxPoints}
             onChange={(e) => setMaxPoints(Number(e.target.value))}
@@ -484,22 +491,28 @@ const AddTierForm = ({ onSuccess }) => {
       </div>
       <div className="grid grid-cols-2 gap-4">
         <div>
-          <Label>{t("page.memberLoyalty.ui.discount2")}</Label>
+          <Label htmlFor="member-loyalty-discount2">{t("page.memberLoyalty.ui.discount2")}</Label>
           <Input
+            id="member-loyalty-discount2"
             type="number"
             value={discountPercent}
             onChange={(e) => setDiscountPercent(Number(e.target.value))}
           />
         </div>
         <div>
-          <Label>{t("page.category.form.color")}</Label>
-          <Input type="color" value={color} onChange={(e) => setColor(e.target.value)} />
+          <Label htmlFor="member-loyalty-color">{t("page.category.form.color")}</Label>
+          <Input
+            id="member-loyalty-color"
+            type="color"
+            value={color}
+            onChange={(e) => setColor(e.target.value)}
+          />
         </div>
       </div>
       <div>
-        <Label>{t("common.status")}</Label>
+        <Label htmlFor="member-loyalty-status">{t("common.status")}</Label>
         <Select value={status} onValueChange={setStatus}>
-          <SelectTrigger>
+          <SelectTrigger id="member-loyalty-status">
             <SelectValue />
           </SelectTrigger>
           <SelectContent>
@@ -547,21 +560,32 @@ const EditTierForm = ({ tier, onSuccess }) => {
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
       <div>
-        <Label>{t("page.memberTier.table.name")}</Label>
-        <Input value={name} onChange={(e) => setName(e.target.value)} required />
+        <Label htmlFor="member-loyalty-name-2">{t("page.memberTier.table.name")}</Label>
+        <Input
+          id="member-loyalty-name-2"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          required
+        />
       </div>
       <div className="grid grid-cols-2 gap-4">
         <div>
-          <Label>{t("page.memberTier.detail.minPoints")}</Label>
+          <Label htmlFor="member-loyalty-min-points-2">
+            {t("page.memberTier.detail.minPoints")}
+          </Label>
           <Input
+            id="member-loyalty-min-points-2"
             type="number"
             value={minPoints}
             onChange={(e) => setMinPoints(Number(e.target.value))}
           />
         </div>
         <div>
-          <Label>{t("page.memberTier.detail.maxPoints")}</Label>
+          <Label htmlFor="member-loyalty-max-points-2">
+            {t("page.memberTier.detail.maxPoints")}
+          </Label>
           <Input
+            id="member-loyalty-max-points-2"
             type="number"
             value={maxPoints}
             onChange={(e) => setMaxPoints(Number(e.target.value))}
@@ -570,22 +594,28 @@ const EditTierForm = ({ tier, onSuccess }) => {
       </div>
       <div className="grid grid-cols-2 gap-4">
         <div>
-          <Label>{t("page.memberLoyalty.ui.discount2")}</Label>
+          <Label htmlFor="member-loyalty-discount2-2">{t("page.memberLoyalty.ui.discount2")}</Label>
           <Input
+            id="member-loyalty-discount2-2"
             type="number"
             value={discountPercent}
             onChange={(e) => setDiscountPercent(Number(e.target.value))}
           />
         </div>
         <div>
-          <Label>{t("page.category.form.color")}</Label>
-          <Input type="color" value={color} onChange={(e) => setColor(e.target.value)} />
+          <Label htmlFor="member-loyalty-color-2">{t("page.category.form.color")}</Label>
+          <Input
+            id="member-loyalty-color-2"
+            type="color"
+            value={color}
+            onChange={(e) => setColor(e.target.value)}
+          />
         </div>
       </div>
       <div>
-        <Label>{t("common.status")}</Label>
+        <Label htmlFor="member-loyalty-status-2">{t("common.status")}</Label>
         <Select value={status} onValueChange={setStatus}>
-          <SelectTrigger>
+          <SelectTrigger id="member-loyalty-status-2">
             <SelectValue />
           </SelectTrigger>
           <SelectContent>

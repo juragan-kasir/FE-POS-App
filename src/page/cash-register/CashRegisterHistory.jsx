@@ -470,7 +470,7 @@ const CashRegisterHistory = () => {
         loading={closeMut.isLoading}
         onConfirm={() => closeMut.mutate()}>
         <div className="space-y-2">
-          <Label className="text-sm font-medium">
+          <Label htmlFor="cash-register-history-closing-balance" className="text-sm font-medium">
             {t("page.cashRegister.current.closingBalance")}{" "}
             <span className="text-destructive">*</span>
           </Label>
@@ -479,6 +479,7 @@ const CashRegisterHistory = () => {
               <Coins size={16} />
             </div>
             <Input
+              id="cash-register-history-closing-balance"
               type="text"
               inputMode="numeric"
               value={formatIDR(rawClosing === "0" ? "" : rawClosing)}

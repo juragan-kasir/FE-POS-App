@@ -328,10 +328,13 @@ const AccountsReceivableList = () => {
               loading={payMutation.isLoading}>
               <div className="space-y-3">
                 <div>
-                  <label className="text-sm font-medium">
+                  <label
+                    htmlFor="accounts-receivable-list-amount-label"
+                    className="text-sm font-medium">
                     {t("page.accountsReceivable.list.modal.amountLabel")}
                   </label>
                   <Input
+                    id="accounts-receivable-list-amount-label"
                     type="number"
                     value={payAmount}
                     onChange={(e) => setPayAmount(e.target.value)}

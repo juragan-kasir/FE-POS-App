@@ -357,10 +357,13 @@ const SalesReturnList = () => {
                       </div>
                     )}
                     <div className="flex flex-col gap-1.5">
-                      <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                      <label
+                        htmlFor="sales-return-list-all-status"
+                        className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                         {t("page.salesReturn.list.filter.allStatus")}
                       </label>
                       <Combobox
+                        id="sales-return-list-all-status"
                         options={[
                           { value: "all", label: t("page.salesReturn.list.filter.allStatus") },
                           ...Object.entries(statusCfg).map(([k]) => ({

@@ -225,10 +225,13 @@ const MyOvertime = () => {
 
       {isSuperAdmin && (
         <div className="flex flex-col gap-1.5 max-w-xs">
-          <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+          <label
+            htmlFor="my-overtime-store"
+            className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
             {t("document.store")}
           </label>
           <Combobox
+            id="my-overtime-store"
             options={[
               { value: "all", label: "Semua Toko" },
               ...locations.map((l) => ({ value: String(l.id), label: l.name }))
@@ -262,10 +265,13 @@ const MyOvertime = () => {
           </div>
 
           <div className="space-y-1.5">
-            <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+            <label
+              htmlFor="my-overtime-shift"
+              className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
               {t("sidebar.shift")}
             </label>
             <Combobox
+              id="my-overtime-shift"
               options={shiftOptions}
               value={form.shift_id}
               onChange={(v) => setForm((f) => ({ ...f, shift_id: v }))}
@@ -279,10 +285,13 @@ const MyOvertime = () => {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div className="space-y-1.5">
-              <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+              <label
+                htmlFor="my-overtime-date"
+                className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                 {t("document.date")}
               </label>
               <Input
+                id="my-overtime-date"
                 type="date"
                 value={form.date}
                 onChange={(e) => setForm((f) => ({ ...f, date: e.target.value }))}
@@ -297,20 +306,26 @@ const MyOvertime = () => {
               </div>
             </div>
             <div className="space-y-1.5">
-              <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+              <label
+                htmlFor="my-overtime-start-time"
+                className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                 {t("page.shift.form.startTime")}
               </label>
               <Input
+                id="my-overtime-start-time"
                 type="time"
                 value={form.start_time}
                 onChange={(e) => setForm((f) => ({ ...f, start_time: e.target.value }))}
               />
             </div>
             <div className="space-y-1.5">
-              <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+              <label
+                htmlFor="my-overtime-end-time"
+                className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                 {t("page.shift.form.endTime")}
               </label>
               <Input
+                id="my-overtime-end-time"
                 type="time"
                 value={form.end_time}
                 onChange={(e) => setForm((f) => ({ ...f, end_time: e.target.value }))}
@@ -319,10 +334,13 @@ const MyOvertime = () => {
           </div>
 
           <div className="space-y-1.5">
-            <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+            <label
+              htmlFor="my-overtime-notes"
+              className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
               {t("page.bom.detail.notes")}
             </label>
             <Textarea
+              id="my-overtime-notes"
               rows={3}
               placeholder={t("page.overtime.ui.reasonOvertimeWorkDetailsOptional")}
               value={form.note}
