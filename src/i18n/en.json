@@ -9318,5 +9318,7 @@
   "page.cashier.ui.gridView": "Grid view",
   "page.cashier.ui.listView": "List view",
   "page.cashier.ui.noProductsYet": "No products yet",
-  "page.shift.ui.notYet": "Not yet"
+  "page.shift.ui.notYet": "Not yet",
+  "page.member.pointHistory.totalPoints": "Total Points: {{points}}",
+  "page.priceStore.list.empty": "This store has no products yet."
 }

@@ -9318,5 +9318,7 @@
   "page.cashier.ui.gridView": "Tampilan grid",
   "page.cashier.ui.listView": "Tampilan daftar",
   "page.cashier.ui.noProductsYet": "Produk belum ada",
-  "page.shift.ui.notYet": "Belum"
+  "page.shift.ui.notYet": "Belum",
+  "page.member.pointHistory.totalPoints": "Total Poin: {{points}}",
+  "page.priceStore.list.empty": "Toko ini belum punya produk."
 }
