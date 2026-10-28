@@ -40,7 +40,7 @@ const LoginPage = () => {
   const location = useLocation();
   const [showPassword, setShowPassword] = useState(false);
   const [_, setCookie] = useCookies();
-  const [isLoading, setIsLoading] = useState(false);
+  const [loginState, setLoginState] = useState("idle");
   const [rememberMe, setRememberMe] = useState(false);
   const [guideOpen, setGuideOpen] = useState(
     location.state?.openGuide && location.state?.guideContext === "login"
@@ -115,7 +115,7 @@ const LoginPage = () => {
   });
 
   const mutateLogin = useMutation(login, {
-    onMutate: () => setIsLoading(true),
+    onMutate: () => setLoginState("submitting"),
     onSuccess: (success) => {
       // A response landing while a session is ending must not write credentials.
       if (isSessionEnding()) return;
@@ -134,31 +134,23 @@ const LoginPage = () => {
       // ponytail: strip accessMenu to fit 4KB cookie limit, canAccess falls back to sessionStorage
       const { accessMenu, ...userSlim } = user;
       setCookie("user", userSlim, { path: "/" });
-      setIsLoading(false);
-      setTimeout(() => {
-        toast.success(t("page.login.toast.success"), {
-          description: t("page.login.toast.successDescription")
-        });
-      }, 1000);
+      setLoginState("success");
       // Full page load, not router navigation: the app boots fresh for the new
       // user — StoreProvider and SocketProvider read the new cookies/token and
       // the query cache starts empty.
       setTimeout(() => {
         const role = success.user?.roleType;
         sessionNavigation.replace(getRoleDashboard(role));
-      }, 2000);
+      }, 1000);
     },
     onError: (err) => {
-      setIsLoading(false);
       const message = err.response?.data?.message || err.message;
       setTimeout(() => {
+        setLoginState("idle");
         toast.error(t("page.login.toast.error"), {
           description: message
         });
-      }, 1500);
-      setTimeout(() => {
-        setIsLoading(false);
-      }, 2000);
+      }, 400);
     }
   });
 
@@ -378,7 +370,13 @@ const LoginPage = () => {
 
       <AuthGuideModal open={guideOpen} onOpenChange={setGuideOpen} context="login" />
 
-      {isLoading && <Loading fullscreen size="lg" label={t("common.loadingData")} />}
+      {loginState !== "idle" && (
+        <Loading
+          fullscreen
+          size="lg"
+          label={t(loginState === "success" ? "page.login.toast.success" : "common.loadingData")}
+        />
+      )}
     </div>
   );
 };
