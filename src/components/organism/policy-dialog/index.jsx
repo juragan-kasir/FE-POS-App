@@ -79,7 +79,7 @@ const policyContent = {
       sections: [
         {
           heading: "Penerimaan Ketentuan",
-          body: "Dengan mendaftar dan menggunakan platform Kinetic Ledger, Anda menyetujui syarat dan ketentuan ini. Jika Anda tidak setuju dengan bagian mana pun, jangan gunakan layanan kami."
+          body: "Dengan mendaftar dan menggunakan platform Juragan Kasir, Anda menyetujui syarat dan ketentuan ini. Jika Anda tidak setuju dengan bagian mana pun, jangan gunakan layanan kami."
         },
         {
           heading: "Akun Pengguna",
@@ -108,7 +108,7 @@ const policyContent = {
       sections: [
         {
           heading: "Acceptance of Terms",
-          body: "By registering and using the Kinetic Ledger platform, you agree to these terms and conditions. If you do not agree with any part, do not use our services."
+          body: "By registering and using the Juragan Kasir platform, you agree to these terms and conditions. If you do not agree with any part, do not use our services."
         },
         {
           heading: "User Account",

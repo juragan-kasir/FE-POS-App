@@ -11,6 +11,7 @@ import {
   Cell
 } from "recharts";
 import SectionCard from "./SectionCard";
+import { useTranslation } from "react-i18next";
 import { formatCurrencyRupiah } from "@/utils/formatter-currency";
 import HorizontalScrollArea from "@/components/ui/HorizontalScrollArea";
 
@@ -26,6 +27,7 @@ const COLORS = [
 ];
 
 const StorePerformance = ({ storePerformance, totalRevenue }) => {
+  const { t } = useTranslation();
   const list = storePerformance || [];
   const chartData = list.map((s) => ({
     name: s.storeName,
@@ -36,11 +38,13 @@ const StorePerformance = ({ storePerformance, totalRevenue }) => {
   return (
     <SectionCard
       icon={Trophy}
-      title="Perbandingan Performa Store"
-      subtitle="Ranking store berdasarkan pendapatan pada periode ini"
+      title={t("page.dashboardSuperAdmin.store.title")}
+      subtitle={t("page.dashboardSuperAdmin.store.subtitle")}
       bodyClassName="space-y-5">
       {list.length === 0 ? (
-        <p className="text-sm text-muted-foreground text-center py-8">Belum ada data store</p>
+        <p className="text-sm text-muted-foreground text-center py-8">
+          {t("page.dashboardSuperAdmin.store.empty")}
+        </p>
       ) : (
         <>
           <div className="h-[260px]">
@@ -60,8 +64,8 @@ const StorePerformance = ({ storePerformance, totalRevenue }) => {
                   tick={{ fill: "hsl(var(--muted-foreground))", fontSize: 11 }}
                   tickFormatter={(val) =>
                     val >= 1000000
-                      ? `Rp${(val / 1000000).toFixed(1)}Jt`
-                      : `Rp${(val / 1000).toFixed(0)}K`
+                      ? `Rp${(val / 1000000).toFixed(1)}${t("page.dashboardSuperAdmin.short.million")}`
+                      : `Rp${(val / 1000).toFixed(0)}${t("page.dashboardSuperAdmin.short.thousand")}`
                   }
                 />
                 <Tooltip
@@ -71,7 +75,10 @@ const StorePerformance = ({ storePerformance, totalRevenue }) => {
                     borderRadius: "8px",
                     fontSize: "12px"
                   }}
-                  formatter={(value) => [formatCurrencyRupiah(value), "Pendapatan"]}
+                  formatter={(value) => [
+                    formatCurrencyRupiah(value),
+                    t("page.dashboardSuperAdmin.store.col.revenue")
+                  ]}
                 />
                 <Bar dataKey="revenue" radius={[4, 4, 0, 0]}>
                   {chartData.map((entry, i) => (
@@ -86,14 +93,30 @@ const StorePerformance = ({ storePerformance, totalRevenue }) => {
             <table className="w-full text-sm">
               <thead>
                 <tr className="bg-muted/50 text-muted-foreground">
-                  <th className="text-left px-3 py-2.5 font-medium rounded-l-lg">Store</th>
-                  <th className="text-right px-3 py-2.5 font-medium">Pendapatan</th>
-                  <th className="text-right px-3 py-2.5 font-medium">Order</th>
-                  <th className="text-right px-3 py-2.5 font-medium">AOV</th>
-                  <th className="text-right px-3 py-2.5 font-medium">Expense</th>
-                  <th className="text-right px-3 py-2.5 font-medium">Net</th>
-                  <th className="text-right px-3 py-2.5 font-medium">Share</th>
-                  <th className="text-right px-3 py-2.5 font-medium rounded-r-lg">Target</th>
+                  <th className="text-left px-3 py-2.5 font-medium rounded-l-lg">
+                    {t("page.dashboardSuperAdmin.store.col.store")}
+                  </th>
+                  <th className="text-right px-3 py-2.5 font-medium">
+                    {t("page.dashboardSuperAdmin.store.col.revenue")}
+                  </th>
+                  <th className="text-right px-3 py-2.5 font-medium">
+                    {t("page.dashboardSuperAdmin.store.col.orders")}
+                  </th>
+                  <th className="text-right px-3 py-2.5 font-medium">
+                    {t("page.dashboardSuperAdmin.store.col.aov")}
+                  </th>
+                  <th className="text-right px-3 py-2.5 font-medium">
+                    {t("page.dashboardSuperAdmin.store.col.expense")}
+                  </th>
+                  <th className="text-right px-3 py-2.5 font-medium">
+                    {t("page.dashboardSuperAdmin.store.col.net")}
+                  </th>
+                  <th className="text-right px-3 py-2.5 font-medium">
+                    {t("page.dashboardSuperAdmin.store.col.share")}
+                  </th>
+                  <th className="text-right px-3 py-2.5 font-medium rounded-r-lg">
+                    {t("page.dashboardSuperAdmin.store.col.target")}
+                  </th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-border">

@@ -8,31 +8,35 @@ import {
   Store
 } from "lucide-react";
 import SectionCard from "./SectionCard";
+import { useTranslation } from "react-i18next";
 import { formatCurrencyRupiah } from "@/utils/formatter-currency";
 
-const timeAgo = (iso) => {
-  if (!iso) return "";
-  const diff = Date.now() - new Date(iso).getTime();
-  const min = Math.floor(diff / 60000);
-  if (min < 1) return "baru saja";
-  if (min < 60) return `${min} mnt lalu`;
-  const hr = Math.floor(min / 60);
-  if (hr < 24) return `${hr} jam lalu`;
-  const day = Math.floor(hr / 24);
-  return `${day} hari lalu`;
-};
-
-const fmtDateTime = (iso) =>
-  iso
-    ? new Date(iso).toLocaleDateString("id-ID", {
-        day: "2-digit",
-        month: "short",
-        hour: "2-digit",
-        minute: "2-digit"
-      })
-    : "—";
-
 const ActivitySection = ({ activity }) => {
+  const { t, i18n } = useTranslation();
+  const locale = i18n.language === "en" ? "en-US" : "id-ID";
+
+  const timeAgo = (iso) => {
+    if (!iso) return "";
+    const diff = Date.now() - new Date(iso).getTime();
+    const min = Math.floor(diff / 60000);
+    if (min < 1) return t("page.dashboardSuperAdmin.activity.justNow");
+    if (min < 60) return t("page.dashboardSuperAdmin.activity.minutesAgo", { count: min });
+    const hr = Math.floor(min / 60);
+    if (hr < 24) return t("page.dashboardSuperAdmin.activity.hoursAgo", { count: hr });
+    const day = Math.floor(hr / 24);
+    return t("page.dashboardSuperAdmin.activity.daysAgo", { count: day });
+  };
+
+  const fmtDateTime = (iso) =>
+    iso
+      ? new Date(iso).toLocaleDateString(locale, {
+          day: "2-digit",
+          month: "short",
+          hour: "2-digit",
+          minute: "2-digit"
+        })
+      : "—";
+
   const orders = activity?.recentOrders || [];
   const payments = activity?.recentPayments || [];
   const audit = activity?.recentAudit || [];
@@ -40,17 +44,18 @@ const ActivitySection = ({ activity }) => {
   return (
     <SectionCard
       icon={Activity}
-      title="Aktivitas Terkini"
-      subtitle="Transaksi, pembayaran, dan log audit terbaru di semua store"
+      title={t("page.dashboardSuperAdmin.activity.title")}
+      subtitle={t("page.dashboardSuperAdmin.activity.subtitle")}
       bodyClassName="grid grid-cols-1 lg:grid-cols-3 gap-5">
       <div>
         <p className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider mb-3 flex items-center gap-1.5">
-          <ShoppingCart size={13} className="text-primary" /> Order Terbaru
+          <ShoppingCart size={13} className="text-primary" />{" "}
+          {t("page.dashboardSuperAdmin.activity.recentOrders")}
         </p>
         <div className="space-y-2.5">
           {orders.length === 0 && (
             <p className="text-sm text-muted-foreground text-center py-4 bg-muted/30 rounded-lg">
-              Belum ada order
+              {t("page.dashboardSuperAdmin.activity.noOrders")}
             </p>
           )}
           {orders.map((o) => (
@@ -84,12 +89,12 @@ const ActivitySection = ({ activity }) => {
       <div>
         <p className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider mb-3 flex items-center gap-1.5">
           <ArrowDownLeft size={13} className="text-emerald-600" />
-          Pembayaran Terbaru
+          {t("page.dashboardSuperAdmin.activity.recentPayments")}
         </p>
         <div className="space-y-2.5">
           {payments.length === 0 && (
             <p className="text-sm text-muted-foreground text-center py-4 bg-muted/30 rounded-lg">
-              Belum ada pembayaran
+              {t("page.dashboardSuperAdmin.activity.noPayments")}
             </p>
           )}
           {payments.map((p) => (
@@ -129,19 +134,20 @@ const ActivitySection = ({ activity }) => {
 
       <div>
         <p className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider mb-3 flex items-center gap-1.5">
-          <ScrollText size={13} className="text-violet-500" /> Audit Log
+          <ScrollText size={13} className="text-violet-500" />{" "}
+          {t("page.dashboardSuperAdmin.activity.auditLog")}
         </p>
         <div className="space-y-2.5">
           {audit.length === 0 && (
             <p className="text-sm text-muted-foreground text-center py-4 bg-muted/30 rounded-lg">
-              Belum ada aktivitas
+              {t("page.dashboardSuperAdmin.activity.noActivity")}
             </p>
           )}
           {audit.map((a) => (
             <div key={a.id} className="rounded-lg bg-muted/40 px-3 py-2.5 space-y-1">
               <div className="flex items-center justify-between gap-2">
                 <span className="text-sm font-medium text-foreground truncate">
-                  {a.userName || "System"}
+                  {a.userName || t("page.dashboardSuperAdmin.activity.system")}
                 </span>
                 <span className="text-[10px] font-semibold uppercase bg-violet-100 text-violet-700 dark:bg-violet-900/30 dark:text-violet-400 px-1.5 py-0.5 rounded shrink-0">
                   {a.action}

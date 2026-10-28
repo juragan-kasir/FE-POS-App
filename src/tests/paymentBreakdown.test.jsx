@@ -1,6 +1,25 @@
 import React from "react";
+import fs from "fs";
 import { render, screen } from "@testing-library/react";
 import PaymentBreakdown from "@/components/dashboard-super-admin/PaymentBreakdown";
+
+// Resolve keys against the runtime dictionary (public/locales) so assertions
+// use the real ID copy users see.
+const RUNTIME_ID = JSON.parse(fs.readFileSync("public/locales/id/translation.json", "utf8"));
+const mockLocale = new Map(Object.entries(RUNTIME_ID));
+
+jest.mock("react-i18next", () => ({
+  useTranslation: () => ({
+    t: (k, opts) => {
+      const v = mockLocale.get(k);
+      if (typeof v !== "string") return k;
+      return v.replace(/{{\s*(\w+)\s*}}/g, (m, name) =>
+        opts && opts[name] != null ? String(opts[name]) : m
+      );
+    },
+    i18n: { language: "id" }
+  })
+}));
 
 globalThis.ResizeObserver = class {
   observe() {}
