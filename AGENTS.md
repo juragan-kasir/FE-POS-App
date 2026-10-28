@@ -121,7 +121,103 @@ Root config files: `vite.config.js`, `tailwind.config.js`, `postcss.config.js`, 
 - `PANDUAN-SUPER-ADMIN.md` — (Indonesian) business-level super admin guide with status/state machines per feature.
 - `layout.md` — the layout design system for UI work.
 
-## 12. User workflow preferences (repo owner)
+## 12. Repo owner workflow preferences
 
-- Do NOT run Jest for small/trivial changes (copy tweaks, locale keys, single-file UI edits, config changes) unless the change alters application logic or the user explicitly asks. Lightweight checks (Prettier/ESLint/JSON parse) are enough there; mention that tests were skipped.
-- Don't pause to ask for confirmation on small, reversible edits — just make them and report.
+These rules override generic defaults. When a rule here conflicts with a habit, follow the rule.
+
+### 12.1 Operating mode
+
+- Act, don't ask, on small reversible edits (copy, locale keys, styling, single-component UI changes, config tweaks). Make the change, then report.
+- Ask before acting only when the change is:
+  - irreversible or wide-reaching (deleting files, renaming shared modules, dependency changes, git history rewrites);
+  - ambiguous, with two reasonable readings that would produce different code;
+  - a change to a shared contract used elsewhere (API payload shape, Redux state shape, route paths, design-system component props).
+- Before editing, read the target file and its direct imports. Understand the existing pattern before adding to it.
+- Do not add new dependencies without asking.
+
+### 12.2 Verification (tests are off by default)
+
+- Do not write or run tests unless the owner explicitly asks.
+- Instead, run the cheapest checks that prove the change works:
+  - Prettier and ESLint on every touched file;
+  - JSON parse on edited locale/config files;
+  - a build (`vite build`) when files were moved, renamed, or exports changed.
+- Never leave existing tests broken. If you rename or remove an export or change a function signature, search the test files for it and update the references (no new test cases).
+- Before reporting, self-review the diff against §12.3. Fix what fails; don't report it as a to-do.
+- In the report, state: `Tests: skipped (§12)`, which checks ran, and any high-risk areas the owner should eyeball manually: money/amount formatting, auth and permissions, transaction flows, data shown to end users.
+
+### 12.3 Code standards (senior level)
+
+**No comments**
+- Write no comments in new code: no explanatory, rationale, TODO, or "changed this because" comments. The code must explain itself through names and structure; reasoning goes in the reply, PR description, or docs.
+- Leave pre-existing comments (including "ponytail" notes) untouched.
+
+**Size and responsibility**
+- One function or component = one job. If you need "and" to describe it, split it.
+- Soft limits: functions ~30 lines, components ~150 lines. Over the limit means extract.
+- Move non-trivial state logic out of components into custom hooks (`useX`).
+
+**Reuse before writing (DRY)**
+- Before writing any helper, search `src/lib`, `src/utils`, `src/constants`, `src/hooks`, and existing components. Reuse or extend what exists.
+- Never hand-roll a UI primitive the BN design system already provides.
+- If the same logic appears twice, extract it on the second occurrence.
+
+**No magic values**
+- No magic strings or numbers. Use named constants in `src/constants/<domain>.js`.
+- Allowed literals: `0`, `1`, `-1`, `''`, `true`/`false`, and array indexes.
+- User-facing text always goes through locale keys, including Yup validation messages.
+
+**Naming**
+- Names say what, not how: `activeAccounts`, not `filteredData`.
+- Booleans: `is`/`has`/`should`/`can`. Handlers: `handleX`; props receiving them: `onX`. Selectors: `selectX`. Hooks: `useX`.
+- No abbreviations except widely known ones (`id`, `url`, `api`).
+
+**Control flow**
+- Early returns and guard clauses over nesting. Max two levels of nesting.
+- No nested ternaries. No `else` after `return`.
+- Prefer lookup maps over long `if/else` or `switch` chains.
+
+**React**
+- Don't store derived state; compute it during render.
+- No `useEffect` for data transformation or syncing state from props; use it only for real side effects.
+- Memoize (`useMemo`, `useCallback`, `React.memo`) only for expensive work or stable references passed to memoized children, not by default.
+- Stable, unique keys; never array index for lists that can reorder or change.
+
+**Redux Toolkit / Formik / Yup**
+- Follow the existing slice pattern (`createSlice`, colocated selectors, existing async pattern). Keep the store serializable.
+- Yup schemas live in their own module next to the form, not inline in the component.
+
+**Data and errors**
+- Pure helpers, immutable updates, no side effects during render.
+- No silent `catch`. Route errors through the project's existing error-handling pattern.
+
+**Consistency and scope**
+- Match the conventions already in the file over personal preference. Consistency beats cleverness.
+- Refactor adjacent code toward these standards only where you touch it. Don't rewrite unrelated parts of a file, and keep refactors distinguishable from the feature change in the report.
+
+### 12.4 Continuous learning (get smarter every session)
+
+Lessons live in `.claude/lessons.md`. This is how mistakes stop repeating.
+
+- **Read** `.claude/lessons.md` at the start of every task, before planning.
+- **Write** a lesson when:
+  - the owner corrects you or rejects a change;
+  - you discover a non-obvious repo convention, pitfall, or helper that would have saved time;
+  - a check fails for a reason that will recur.
+- **Format**, one line each, grouped by area:
+  `- [area] Do X, not Y — because Z. (YYYY-MM-DD)`
+- Record only reusable rules, never one-off task details.
+- Before adding, check for an existing lesson on the same point. Update it instead of duplicating.
+- **Prune:** keep the file under ~60 lines. Merge overlaps and delete lessons that no longer apply.
+- **Promote:** when a lesson has been applied three or more times or is clearly a hard rule, propose moving it into this steering file. Ask before editing the steering file.
+- End every task report with `Lesson logged: …` or `Lesson logged: none`.
+
+### 12.5 Report format
+
+Keep it short:
+
+1. **Changed:** files touched, one line each.
+2. **Why:** the reasoning that would otherwise have been code comments.
+3. **Checks:** what ran and the result. `Tests: skipped (§12)`.
+4. **Eyeball:** high-risk areas for manual review, if any.
+5. **Lesson logged:** the new or updated lesson, or `none`.
