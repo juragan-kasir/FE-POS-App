@@ -69,7 +69,10 @@ const CustomerDisplayBoard = () => {
   const [thankYouEvent, setThankYouEvent] = useState(null);
   const [qrisEvent, setQrisEvent] = useState(null);
 
-  const { data: locsData } = useLocations("active", { enabled: !!storeId, retry: 1 });
+  const { data: locsData, isLoading: storeLoading } = useLocations("active", {
+    enabled: !!storeId,
+    retry: 1
+  });
   const locationList = locsData?.data || locsData || [];
   const storeName = locationList.find((l) => storeIdsEqual(l.id, storeId))?.name || "";
 
@@ -174,7 +177,11 @@ const CustomerDisplayBoard = () => {
               <div className="flex items-center gap-2 flex-wrap">
                 <p className="text-sm text-muted-foreground flex items-center gap-1.5">
                   <Store size={13} />
-                  {storeName || t("page.customerDisplayBoard.store")}
+                  {storeLoading ? (
+                    <span className="inline-block h-4 w-32 animate-pulse rounded-md bg-muted align-middle" />
+                  ) : (
+                    storeName || t("page.customerDisplayBoard.store")
+                  )}
                 </p>
                 {tableName && (
                   <span className="inline-flex items-center gap-1.5 rounded-full bg-primary/10 text-primary px-3 py-0.5 text-sm font-bold">
