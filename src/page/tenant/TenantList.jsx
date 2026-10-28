@@ -437,6 +437,10 @@ const TenantList = () => {
             isLoading={isLoading || isFetching}
             emptyMessage={t(`${P}.empty`)}
             emptyIcon={Building2}
+            emptyAction={{
+              label: t("breadcrumb.add"),
+              onClick: () => setFormTarget({ tenant: null })
+            }}
             toolbar={
               <TableToolbar title={t(`${P}.title`)} onReset={resetFilters} isFiltered={isFiltered}>
                 <div className="flex flex-col gap-1.5">

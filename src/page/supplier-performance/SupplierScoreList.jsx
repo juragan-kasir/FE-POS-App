@@ -237,6 +237,15 @@ const SupplierScoreList = () => {
     }
   ];
 
+  const openCalculate = () => {
+    setCalculateForm({
+      storeId: storeFilter !== "all" && storeFilter !== "" ? Number(storeFilter) : "",
+      supplierId: "",
+      period: "monthly"
+    });
+    setCalculateModal(true);
+  };
+
   return (
     <div className="space-y-6">
       <PageHeader
@@ -255,15 +264,7 @@ const SupplierScoreList = () => {
         title={t("page.supplierPerformance.list.title")}
         description={t("page.supplierPerformance.list.description")}>
         {canAccess(user, MENU_KEY, "create") && (
-          <Button
-            onClick={() => {
-              setCalculateForm({
-                storeId: storeFilter !== "all" && storeFilter !== "" ? Number(storeFilter) : "",
-                supplierId: "",
-                period: "monthly"
-              });
-              setCalculateModal(true);
-            }}>
+          <Button onClick={openCalculate}>
             <Calculator size={16} className="mr-2" />
             {t("page.supplierPerformance.list.calculateButton")}
           </Button>
@@ -308,6 +309,14 @@ const SupplierScoreList = () => {
           columns={columns}
           data={data?.data || []}
           isLoading={isLoading || isFetching}
+          emptyAction={
+            canAccess(user, MENU_KEY, "create")
+              ? {
+                  label: t("page.supplierPerformance.list.calculateButton"),
+                  onClick: openCalculate
+                }
+              : undefined
+          }
           isError={isError}
           onRetry={refetch}
           toolbar={

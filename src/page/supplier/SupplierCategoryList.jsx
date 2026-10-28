@@ -381,6 +381,7 @@ const SupplierCategoryList = () => {
           isLoading={isLoading || isFetching}
           emptyMessage={t("page.supplierCategory.empty")}
           emptyIcon={FolderOpen}
+          emptyAction={{ label: t("page.supplierCategory.add"), onClick: handleCreate }}
           toolbar={
             <TableToolbar
               title={t("page.supplierCategory.title")}

@@ -355,6 +355,18 @@ const TableList = () => {
     }
   ];
 
+  const canAddTable =
+    canAccess(user, MENU_KEY, "add") && isSuperAdmin && (locData?.data || []).length > 0;
+  const openAddTable = () => {
+    setShowAddModal(true);
+    setEditTarget(null);
+    setFormName("");
+    setFormCapacity(4);
+    setFormArea("indoor");
+    setFormTableType("regular");
+    setFormStore(isSuperAdmin ? "" : locationParam);
+  };
+
   return (
     <div className="space-y-6">
       <PageHeader
@@ -368,19 +380,8 @@ const TableList = () => {
         ]}
         title={t("page.table.list.title")}
         description={t("page.table.list.description")}>
-        {canAccess(user, MENU_KEY, "add") && isSuperAdmin && (locData?.data || []).length > 0 && (
-          <Button
-            variant="success"
-            onClick={() => {
-              setShowAddModal(true);
-              setEditTarget(null);
-              setFormName("");
-              setFormCapacity(4);
-              setFormArea("indoor");
-              setFormTableType("regular");
-              setFormStore(isSuperAdmin ? "" : locationParam);
-            }}
-            className="gap-2">
+        {canAddTable && (
+          <Button variant="success" onClick={openAddTable} className="gap-2">
             <Plus size={18} />
             {t("page.table.button.add")}
           </Button>
@@ -444,6 +445,11 @@ const TableList = () => {
                   isLoading={isLoading || isFetching}
                   emptyIcon={Sofa}
                   emptyMessage={t("page.table.list.empty")}
+                  emptyAction={
+                    canAddTable
+                      ? { label: t("page.table.button.add"), onClick: openAddTable }
+                      : undefined
+                  }
                   toolbar={
                     <TableToolbar
                       title={t("page.table.list.title")}

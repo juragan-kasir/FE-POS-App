@@ -371,6 +371,10 @@ const CashRegisterHistory = () => {
             isLoading={isLoading}
             emptyMessage={t("page.cashRegister.history.empty")}
             emptyIcon={Receipt}
+            emptyAction={{
+              label: t("page.cashRegister.history.openRegister"),
+              onClick: () => navigate("/cash-register/open-close")
+            }}
             toolbar={
               <div className="flex flex-wrap lg:flex-nowrap items-end gap-3 w-full">
                 <h4 className="text-base font-semibold text-foreground shrink-0 self-center mr-1">
