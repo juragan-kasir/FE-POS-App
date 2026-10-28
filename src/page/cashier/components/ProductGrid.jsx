@@ -50,7 +50,7 @@ const RecipePortionsBadge = ({ portions, limitedBy, linkedItem = false }) => {
           ? t("page.cashier.product.limitedBy", { names: limitedBy })
           : undefined
       }
-      className={`text-[9px] font-semibold ${portions <= LOW_PORTIONS ? "text-amber-500" : "text-muted-foreground"}`}>
+      className={`text-xs font-semibold ${portions <= LOW_PORTIONS ? "text-amber-500" : "text-muted-foreground"}`}>
       {t(linkedItem ? "page.cashier.product.itemStockLeft" : "page.cashier.product.portionsLeft", {
         count: portions
       })}
@@ -122,12 +122,12 @@ const ProductGridTile = React.memo(function ProductGridTile({
           )}
           {cartCount > 0 && (
             <div className="absolute -top-1.5 right-8 w-6 h-6 rounded-full bg-primary shadow-lg shadow-primary/30 flex items-center justify-center z-10">
-              <span className="text-primary-foreground text-[10px] font-bold">{cartCount}</span>
+              <span className="text-primary-foreground text-xs font-bold">{cartCount}</span>
             </div>
           )}
           {!product.isAvailable && (
             <div className="absolute inset-0 bg-black/40 backdrop-blur-[2px] rounded-lg flex items-center justify-center">
-              <span className="text-[10px] font-bold text-white bg-destructive/90 px-2 py-1 rounded-md uppercase tracking-wider">
+              <span className="text-xs font-bold text-white bg-destructive/90 px-2 py-1 rounded-md uppercase tracking-wider">
                 {t("page.cashier.product.notFound")}
               </span>
             </div>
@@ -138,7 +138,7 @@ const ProductGridTile = React.memo(function ProductGridTile({
                 title={
                   limitedBy ? t("page.cashier.product.limitedBy", { names: limitedBy }) : undefined
                 }
-                className="text-[10px] font-bold text-white bg-destructive/90 px-2 py-1 rounded-md uppercase tracking-wider">
+                className="text-xs font-bold text-white bg-destructive/90 px-2 py-1 rounded-md uppercase tracking-wider">
                 {t(outOfStockLabel(recipePortions, linkedItem))}
               </span>
             </div>
@@ -146,23 +146,23 @@ const ProductGridTile = React.memo(function ProductGridTile({
           <div className="absolute top-1.5 left-1.5 flex flex-col gap-1">
             {withChoices && (
               <span className="px-1.5 py-0.5 rounded-md bg-amber-500/90 backdrop-blur-sm shadow-sm">
-                <span className="text-[9px] font-bold text-white uppercase tracking-wider flex items-center gap-0.5">
-                  <Tag size={8} />
+                <span className="text-xs font-bold text-white uppercase tracking-wider flex items-center gap-0.5">
+                  <Tag size={10} />
                   {t("page.cashier.variant")}
                 </span>
               </span>
             )}
             {product.point > 0 && (
               <span className="px-1.5 py-0.5 rounded-md bg-violet-500/90 backdrop-blur-sm shadow-sm">
-                <span className="text-[9px] font-bold text-white flex items-center gap-0.5">
+                <span className="text-xs font-bold text-white flex items-center gap-0.5">
                   {product.point} pts
                 </span>
               </span>
             )}
             {product.isBundle && (
               <span className="px-1.5 py-0.5 rounded-md bg-emerald-500/90 backdrop-blur-sm shadow-sm">
-                <span className="text-[9px] font-bold text-white flex items-center gap-0.5">
-                  <Package size={8} />
+                <span className="text-xs font-bold text-white flex items-center gap-0.5">
+                  <Package size={10} />
                   Bundle
                 </span>
               </span>
@@ -174,7 +174,7 @@ const ProductGridTile = React.memo(function ProductGridTile({
             {product.nameProduct || product.name || t("page.cashier.unnamedProduct")}
           </p>
           {product.brand && (
-            <p className="text-[10px] text-muted-foreground/60 truncate">{product.brand}</p>
+            <p className="text-xs text-muted-foreground/60 truncate">{product.brand}</p>
           )}
           <div className="flex items-center gap-2">
             <p className="text-sm font-bold text-primary">
@@ -184,7 +184,7 @@ const ProductGridTile = React.memo(function ProductGridTile({
               product.stock !== undefined &&
               Number(product.stock) > 0 &&
               Number(product.stock) <= Number(product.minStock) && (
-                <span className="text-[9px] text-amber-500 font-semibold">
+                <span className="text-xs text-amber-500 font-semibold">
                   {t("page.cashier.stock")} {product.stock}
                 </span>
               )}
@@ -274,14 +274,14 @@ const ProductListTile = React.memo(function ProductListTile({
               {product.nameProduct || product.name || t("page.cashier.unnamedProduct")}
             </p>
             {withChoices && (
-              <span className="px-1.5 py-0.5 rounded-md bg-amber-500/10 text-amber-500 text-[9px] font-bold uppercase tracking-wider shrink-0">
-                <Tag size={8} className="inline mr-0.5" />
+              <span className="px-1.5 py-0.5 rounded-md bg-amber-500/10 text-amber-500 text-xs font-bold uppercase tracking-wider shrink-0">
+                <Tag size={10} className="inline mr-0.5" />
                 {t("page.cashier.variant")}
               </span>
             )}
             {product.isBundle && (
-              <span className="px-1.5 py-0.5 rounded-md bg-emerald-500/10 text-emerald-600 text-[9px] font-bold uppercase tracking-wider shrink-0">
-                <Package size={8} className="inline mr-0.5" />
+              <span className="px-1.5 py-0.5 rounded-md bg-emerald-500/10 text-emerald-600 text-xs font-bold uppercase tracking-wider shrink-0">
+                <Package size={10} className="inline mr-0.5" />
                 Bundle
               </span>
             )}
@@ -294,7 +294,7 @@ const ProductListTile = React.memo(function ProductListTile({
               linkedItem={linkedItem}
             />
             {outOfStock && recipePortions != null && (
-              <span className="text-[9px] font-semibold text-destructive">
+              <span className="text-xs font-semibold text-destructive">
                 {t(outOfStockLabel(recipePortions, linkedItem))}
               </span>
             )}
@@ -302,7 +302,7 @@ const ProductListTile = React.memo(function ProductListTile({
         </div>
         {cartCount > 0 && (
           <div className="w-6 h-6 rounded-full bg-primary shadow-sm flex items-center justify-center shrink-0">
-            <span className="text-primary-foreground text-[10px] font-bold">{cartCount}</span>
+            <span className="text-primary-foreground text-xs font-bold">{cartCount}</span>
           </div>
         )}
         <p className="text-sm font-bold text-primary shrink-0">

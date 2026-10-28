@@ -282,7 +282,7 @@ const PriceStoreList = () => {
                           {p.categoryData?.name || p.nameCategory || "-"}
                         </td>
                         <td className="py-3">
-                          <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-primary/10 text-primary">
+                          <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-bold uppercase tracking-wider bg-primary/10 text-primary">
                             {p.tipeProduk || "menu"}
                           </span>
                         </td>

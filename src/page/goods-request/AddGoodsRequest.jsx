@@ -238,7 +238,7 @@ const GoodsRequestGroup = ({
                       disabled={!supplier}
                     />
                     {item.name && !selectedItemValue(item) && (
-                      <p className="text-[10px] text-muted-foreground mt-1 truncate">{item.name}</p>
+                      <p className="text-xs text-muted-foreground mt-1 truncate">{item.name}</p>
                     )}
                   </td>
                   <td className="px-3 py-2">

@@ -406,7 +406,7 @@ const ReservationList = () => {
                           ]
                         : [
                             <div key="store">
-                              <label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground block mb-1.5">
+                              <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground block mb-1.5">
                                 Store
                               </label>
                               <StoreFilter
@@ -421,7 +421,7 @@ const ReservationList = () => {
                               />
                             </div>,
                             <div key="date">
-                              <label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground block mb-1.5">
+                              <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground block mb-1.5">
                                 {t("page.reservation.columns.date")}
                               </label>
                               <DatePicker
@@ -433,7 +433,7 @@ const ReservationList = () => {
                               />
                             </div>,
                             <div key="status">
-                              <label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground block mb-1.5">
+                              <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground block mb-1.5">
                                 {t("page.reservation.columns.status")}
                               </label>
                               <Combobox

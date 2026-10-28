@@ -1874,7 +1874,7 @@ const EditLocation = () => {
                             }`}>
                             {emp.fullName}
                             {isSelected && (
-                              <span className="ml-2 inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-semibold uppercase tracking-wide bg-muted text-muted-foreground border border-border">
+                              <span className="ml-2 inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold uppercase tracking-wide bg-muted text-muted-foreground border border-border">
                                 {t("page.location.form.managerCurrentLabel")}
                               </span>
                             )}
@@ -1887,7 +1887,7 @@ const EditLocation = () => {
                         <td className="px-4 py-3">
                           {position ? (
                             <span
-                              className={`inline-flex items-center px-2.5 py-1 rounded-full text-[11px] font-semibold uppercase tracking-wide border ${getPositionBadge(position)} ${isSelected ? "opacity-60" : ""}`}>
+                              className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold uppercase tracking-wide border ${getPositionBadge(position)} ${isSelected ? "opacity-60" : ""}`}>
                               {position}
                             </span>
                           ) : (

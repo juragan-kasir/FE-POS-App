@@ -357,7 +357,7 @@ const DashboardUser = () => {
                   <p className="text-lg font-bold text-foreground">
                     {todayShift.nama_shift || "Shift"}
                   </p>
-                  <span className="px-2 py-0.5 rounded-full bg-muted text-muted-foreground text-[10px] font-semibold capitalize">
+                  <span className="px-2 py-0.5 rounded-full bg-muted text-muted-foreground text-xs font-semibold capitalize">
                     {todayShift.tipe_shift || "harian"}
                   </span>
                 </div>
@@ -489,7 +489,7 @@ const DashboardUser = () => {
                 </span>
                 <div className="mt-3 grid grid-cols-2 gap-3">
                   <div>
-                    <p className="text-[11px] font-semibold uppercase tracking-wide text-muted-foreground">
+                    <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
                       Penjualan
                     </p>
                     <p className="text-base font-bold text-foreground mt-0.5">
@@ -497,7 +497,7 @@ const DashboardUser = () => {
                     </p>
                   </div>
                   <div>
-                    <p className="text-[11px] font-semibold uppercase tracking-wide text-muted-foreground">
+                    <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
                       Transaksi
                     </p>
                     <p className="text-base font-bold text-foreground mt-0.5">
@@ -506,7 +506,7 @@ const DashboardUser = () => {
                   </div>
                 </div>
                 <div className="mt-3">
-                  <p className="text-[11px] font-semibold uppercase tracking-wide text-muted-foreground">
+                  <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
                     Kas yang diharapkan
                   </p>
                   <p className="text-sm font-semibold text-foreground mt-0.5">
@@ -624,7 +624,7 @@ const DashboardUser = () => {
               onClick={() => navigate("/notification")}>
               Lihat Semua Notifikasi
               {unread > 0 && (
-                <span className="ml-1.5 rounded-full bg-red-500 text-white text-[10px] px-1.5 py-0.5 font-bold">
+                <span className="ml-1.5 rounded-full bg-red-500 text-white text-xs px-1.5 py-0.5 font-bold">
                   {unread}
                 </span>
               )}
@@ -731,7 +731,7 @@ const DashboardUser = () => {
                   {s.note && (
                     <p className="mt-1.5 text-xs text-muted-foreground line-clamp-2">{s.note}</p>
                   )}
-                  <p className="mt-2 text-[11px] text-muted-foreground">
+                  <p className="mt-2 text-xs text-muted-foreground">
                     {isRequester ? "Kamu mengajukan" : "Diajukan untukmu"} ·{" "}
                     {s.createdAt
                       ? new Date(s.createdAt).toLocaleString("id-ID", {

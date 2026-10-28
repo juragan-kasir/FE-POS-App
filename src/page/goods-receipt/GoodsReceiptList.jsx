@@ -206,7 +206,7 @@ const GoodsReceiptList = () => {
         const sc = statusMap[item.status] || statusMap.draft;
         return (
           <span
-            className={`inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold uppercase ${sc.class}`}>
+            className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-bold uppercase ${sc.class}`}>
             {t(`page.goodsReceipt.list.status.${item.status || "draft"}`)}
           </span>
         );
@@ -413,7 +413,7 @@ const GoodsReceiptList = () => {
                       onReset={resetFilters}
                       isFiltered={isFiltered}>
                       <div className="flex flex-col gap-1.5">
-                        <label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
+                        <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                           Cari
                         </label>
                         <SearchInput
@@ -428,7 +428,7 @@ const GoodsReceiptList = () => {
                       </div>
                       {isSuperAdmin && (
                         <div className="flex flex-col gap-1.5">
-                          <label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
+                          <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                             Store
                           </label>
                           <Combobox
@@ -453,7 +453,7 @@ const GoodsReceiptList = () => {
                         </div>
                       )}
                       <div className="flex flex-col gap-1.5">
-                        <label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
+                        <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                           {t("common.status")}
                         </label>
                         <Combobox

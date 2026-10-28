@@ -1856,7 +1856,7 @@ const CheckoutModal = ({
                               />
                               <span className="text-sm font-semibold">{tier.name}</span>
                             </div>
-                            <span className="text-[10px] text-muted-foreground mt-1 block">
+                            <span className="text-xs text-muted-foreground mt-1 block">
                               {tier.discountPercent > 0
                                 ? `${tier.discountPercent}% ${t("page.cashier.discount")}`
                                 : "-"}
@@ -1876,7 +1876,7 @@ const CheckoutModal = ({
                                         size={10}
                                         className="text-emerald-500 mt-0.5 shrink-0"
                                       />
-                                      <span className="text-[11px] text-muted-foreground">{b}</span>
+                                      <span className="text-xs text-muted-foreground">{b}</span>
                                     </div>
                                   ))}
                                 </div>

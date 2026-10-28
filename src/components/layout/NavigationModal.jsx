@@ -202,7 +202,7 @@ const NavigationModal = ({ open, onOpenChange, categories = [], onNavigate }) =>
                           {group.sectionSetupHint.steps.map((step, i) => (
                             <span
                               key={i}
-                              className="text-[11px] text-muted-foreground flex items-center gap-1">
+                              className="text-xs text-muted-foreground flex items-center gap-1">
                               <span className="inline-flex items-center justify-center w-4 h-4 rounded-full bg-primary/10 text-primary text-[9px] font-bold">
                                 {i + 1}
                               </span>
@@ -226,7 +226,7 @@ const NavigationModal = ({ open, onOpenChange, categories = [], onNavigate }) =>
                       <React.Fragment key={sub.title || "__all"}>
                         {sub.title && (
                           <div className="px-2 mt-4 mb-2">
-                            <span className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
+                            <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                               {sub.title}
                             </span>
                           </div>

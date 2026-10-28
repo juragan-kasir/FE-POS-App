@@ -200,7 +200,7 @@ const DetailDepartment = () => {
                     <div key={pos.id} className="flex items-center justify-between text-sm">
                       <span className="font-medium">{pos.name}</span>
                       <span
-                        className={`text-[10px] font-semibold uppercase tracking-tight px-2 py-0.5 rounded-full border ${
+                        className={`text-xs font-semibold uppercase tracking-tight px-2 py-0.5 rounded-full border ${
                           pos.status === "active"
                             ? "bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400 border-green-200 dark:border-green-800"
                             : pos.status === "draft"

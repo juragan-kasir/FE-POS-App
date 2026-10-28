@@ -283,7 +283,7 @@ const LowStock = () => {
                                   </TableCell>
                                   <TableCell>
                                     <span
-                                      className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold border ${status.cls}`}>
+                                      className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-bold border ${status.cls}`}>
                                       <span
                                         className={`w-1.5 h-1.5 rounded-full ${p.stock <= 0 ? "bg-red-500" : "bg-orange-500"}`}
                                       />
@@ -365,7 +365,7 @@ const LowStock = () => {
                                       </TableCell>
                                       <TableCell>
                                         <span
-                                          className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold border ${status.cls}`}>
+                                          className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-bold border ${status.cls}`}>
                                           <span
                                             className={`w-1.5 h-1.5 rounded-full ${i.stock <= 0 ? "bg-red-500" : "bg-orange-500"}`}
                                           />

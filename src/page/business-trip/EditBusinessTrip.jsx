@@ -692,7 +692,7 @@ const EditBusinessTrip = () => {
                                 <p className="text-sm font-semibold text-foreground">
                                   {fmtMoney(itemTotal(i))}
                                 </p>
-                                <p className="text-[10px] text-muted-foreground">
+                                <p className="text-xs text-muted-foreground">
                                   {Number(items?.[i]?.qty || 0)} x{" "}
                                   {fmtMoney(Number(items?.[i]?.tarif || 0))}
                                 </p>

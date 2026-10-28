@@ -514,7 +514,7 @@ const EditGoodsRequest = () => {
                               disabled={!group.supplier}
                             />
                             {item.name && !selectedItemValue(item, group.supplier) && (
-                              <p className="text-[10px] text-muted-foreground mt-1 truncate">
+                              <p className="text-xs text-muted-foreground mt-1 truncate">
                                 {item.name}
                               </p>
                             )}

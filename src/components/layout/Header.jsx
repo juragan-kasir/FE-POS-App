@@ -94,19 +94,19 @@ const StoreSelector = ({ cookie, setCookie }) => {
 
       {open && (
         <div className="absolute top-full mt-1 left-0 right-0 md:left-auto md:right-auto md:w-64 bg-card border border-border rounded-xl shadow-lg z-50 py-1 max-h-72 overflow-y-auto">
-          <p className="px-2 sm:px-3 py-1.5 sm:py-2 text-[9px] sm:text-[10px] font-bold uppercase tracking-wider text-muted-foreground">
+          <p className="px-2 sm:px-3 py-1.5 sm:py-2 text-xs font-bold uppercase tracking-wider text-muted-foreground">
             {t("header.selectStore")}
           </p>
           {locations.length === 0 ? (
             <div className="px-3 sm:px-4 py-3 sm:py-6 text-center space-y-2 sm:space-y-3">
               <Store size={20} className="sm:size-[24px] mx-auto text-muted-foreground" />
-              <p className="text-[9px] sm:text-sm text-muted-foreground">{t("header.noStore")}</p>
+              <p className="text-xs sm:text-sm text-muted-foreground">{t("header.noStore")}</p>
               <button
                 onClick={() => {
                   setOpen(false);
                   window.location.assign("/add-location");
                 }}
-                className="text-[9px] sm:text-sm font-medium text-primary hover:underline">
+                className="text-xs sm:text-sm font-medium text-primary hover:underline">
                 + {t("header.addStore")}
               </button>
             </div>
@@ -117,7 +117,7 @@ const StoreSelector = ({ cookie, setCookie }) => {
                   setActiveStore("", "");
                   setOpen(false);
                 }}
-                className={`w-full flex items-center gap-2 sm:gap-3 px-2 sm:px-3 py-1.5 sm:py-2.5 text-[9px] sm:text-sm transition-colors hover:bg-accent ${
+                className={`w-full flex items-center gap-2 sm:gap-3 px-2 sm:px-3 py-1.5 sm:py-2.5 text-xs sm:text-sm transition-colors hover:bg-accent ${
                   !activeStoreId ? "bg-primary/10 text-primary font-medium" : "text-foreground"
                 }`}>
                 <Globe
@@ -135,7 +135,7 @@ const StoreSelector = ({ cookie, setCookie }) => {
                   <button
                     key={id}
                     onClick={() => handleSelect(loc)}
-                    className={`w-full flex items-center gap-2 sm:gap-3 px-2 sm:px-3 py-1.5 sm:py-2.5 text-[9px] sm:text-sm transition-colors hover:bg-accent ${
+                    className={`w-full flex items-center gap-2 sm:gap-3 px-2 sm:px-3 py-1.5 sm:py-2.5 text-xs sm:text-sm transition-colors hover:bg-accent ${
                       isSelected ? "bg-primary/10 text-primary font-medium" : "text-foreground"
                     }`}>
                     <Store
@@ -202,7 +202,7 @@ export const UserDropdown = () => {
   const avatarButton = (onClick) => (
     <button
       onClick={onClick}
-      className="h-7 w-7 sm:h-8 sm:w-8 rounded-full overflow-hidden border-2 border-primary flex items-center justify-center bg-accent text-foreground text-[10px] sm:text-xs font-bold shrink-0 hover:brightness-90 transition-all">
+      className="h-7 w-7 sm:h-8 sm:w-8 rounded-full overflow-hidden border-2 border-primary flex items-center justify-center bg-accent text-foreground text-xs font-bold shrink-0 hover:brightness-90 transition-all">
       {userImage ? (
         <img src={userImage} alt={userName} className="h-full w-full object-cover" />
       ) : (
@@ -228,12 +228,10 @@ export const UserDropdown = () => {
         {open && (
           <div className="absolute top-full mt-2 right-0 w-48 sm:w-56 bg-card border border-border rounded-xl shadow-lg z-50 py-2 overflow-hidden">
             <div className="px-3 sm:px-4 py-2 sm:py-3 border-b border-border">
-              <p className="text-[11px] sm:text-sm font-semibold text-foreground truncate">
+              <p className="text-xs sm:text-sm font-semibold text-foreground truncate">
                 {userFullName}
               </p>
-              <p className="text-[10px] sm:text-[11px] text-muted-foreground capitalize">
-                {userRoleName}
-              </p>
+              <p className="text-xs text-muted-foreground capitalize">{userRoleName}</p>
             </div>
 
             <button
@@ -306,7 +304,7 @@ export const UserDropdown = () => {
                     <button
                       key={lang.code}
                       onClick={() => updateTranslation(lang.code)}
-                      className={`px-2.5 py-1 text-[10px] font-bold tracking-widest rounded-full transition-all duration-200 ${
+                      className={`px-2.5 py-1 text-xs font-bold tracking-widest rounded-full transition-all duration-200 ${
                         translation === lang.code
                           ? "bg-foreground text-background shadow-sm"
                           : "text-muted-foreground hover:text-foreground"
@@ -507,8 +505,8 @@ const Header = ({ onMenuToggle, onOpenPalette, sidebarCollapsed }) => {
             onClick={onOpenPalette}
             className="hidden md:flex items-center gap-2 bg-muted/50 hover:bg-accent px-5 lg:px-6 py-1.5 rounded-lg lg:rounded-full border border-border transition-colors text-muted-foreground text-sm w-full max-w-xs lg:max-w-sm">
             <Search size={14} className="lg:size-[16px] shrink-0" />
-            <span className="text-[11px] lg:text-sm">{t("header.search")}</span>
-            <kbd className="hidden lg:inline-flex items-center gap-0.5 px-1.5 py-0.5 text-[10px] font-mono bg-background rounded border border-border ml-4">
+            <span className="text-xs lg:text-sm">{t("header.search")}</span>
+            <kbd className="hidden lg:inline-flex items-center gap-0.5 px-1.5 py-0.5 text-xs font-mono bg-background rounded border border-border ml-4">
               <span>⌘</span>K
             </kbd>
           </button>
@@ -532,7 +530,7 @@ const Header = ({ onMenuToggle, onOpenPalette, sidebarCollapsed }) => {
               <button
                 key={lang.code}
                 onClick={() => updateTranslation(lang.code)}
-                className={`px-1.5 sm:px-2 py-0.5 sm:py-1 text-[9px] sm:text-[10px] font-bold tracking-widest rounded-full transition-all duration-200 ${
+                className={`px-1.5 sm:px-2 py-0.5 sm:py-1 text-xs font-bold tracking-widest rounded-full transition-all duration-200 ${
                   translation === lang.code
                     ? "bg-foreground text-background shadow-sm"
                     : "text-muted-foreground hover:text-foreground"

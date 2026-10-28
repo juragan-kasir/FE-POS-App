@@ -251,7 +251,7 @@ const AttendanceModal = ({
                     <p className="text-sm font-semibold text-foreground">Lokasi Terverifikasi</p>
                     <span
                       className={cn(
-                        "ml-auto shrink-0 rounded-full px-2.5 py-0.5 text-[11px] font-semibold",
+                        "ml-auto shrink-0 rounded-full px-2.5 py-0.5 text-xs font-semibold",
                         levelInfo?.cls
                       )}>
                       {levelInfo?.label}
@@ -259,7 +259,7 @@ const AttendanceModal = ({
                   </div>
                   <div className="grid grid-cols-2 divide-x divide-border/50">
                     <div className="px-4 py-3">
-                      <p className="text-[11px] font-semibold uppercase tracking-wide text-muted-foreground">
+                      <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
                         Lat / Long
                       </p>
                       <p className="mt-0.5 text-[13px] font-mono font-medium text-foreground">
@@ -269,13 +269,13 @@ const AttendanceModal = ({
                       </p>
                     </div>
                     <div className="px-4 py-3">
-                      <p className="text-[11px] font-semibold uppercase tracking-wide text-muted-foreground">
+                      <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
                         Akurasi GPS
                       </p>
                       <p className="mt-0.5 text-[13px] font-mono font-medium text-foreground">
                         ± {Math.round(location.accuracy)} m
                       </p>
-                      <p className="mt-0.5 text-[11px] text-muted-foreground">
+                      <p className="mt-0.5 text-xs text-muted-foreground">
                         {location.samples} sampel, tanpa cache
                       </p>
                     </div>

@@ -188,7 +188,7 @@ const ResetPasswordPage = () => {
                 <button
                   type="button"
                   onClick={() => updateTranslation("id")}
-                  className={`px-2.5 py-1 md:px-3 md:py-1 text-[10px] md:text-[11px] font-bold tracking-widest rounded-full transition-all duration-200 focus:outline-none ${
+                  className={`px-2.5 py-1 md:px-3 md:py-1 text-xs font-bold tracking-widest rounded-full transition-all duration-200 focus:outline-none ${
                     translation === "id"
                       ? "bg-foreground text-background shadow-sm"
                       : "text-muted-foreground hover:text-foreground"
@@ -198,7 +198,7 @@ const ResetPasswordPage = () => {
                 <button
                   type="button"
                   onClick={() => updateTranslation("en")}
-                  className={`px-2.5 py-1 md:px-3 md:py-1 text-[10px] md:text-[11px] font-bold tracking-widest rounded-full transition-all duration-200 focus:outline-none ${
+                  className={`px-2.5 py-1 md:px-3 md:py-1 text-xs font-bold tracking-widest rounded-full transition-all duration-200 focus:outline-none ${
                     translation === "en"
                       ? "bg-foreground text-background shadow-sm"
                       : "text-muted-foreground hover:text-foreground"
@@ -217,7 +217,7 @@ const ResetPasswordPage = () => {
               <button
                 type="button"
                 onClick={() => setGuideOpen(true)}
-                className="hidden sm:inline-flex text-[11px] md:text-xs text-muted-foreground hover:text-foreground transition-colors font-medium">
+                className="hidden sm:inline-flex text-xs text-muted-foreground hover:text-foreground transition-colors font-medium">
                 {translationMemo.help}
               </button>
             </div>
@@ -295,7 +295,7 @@ const ResetPasswordPage = () => {
                         name="email"
                         render={({ field }) => (
                           <FormItem data-tour="auth-email">
-                            <FormLabel className="text-[10px] md:text-[11px] text-muted-foreground font-semibold uppercase tracking-[0.1em]">
+                            <FormLabel className="text-xs text-muted-foreground font-semibold uppercase tracking-[0.1em]">
                               {translationMemo.email}
                             </FormLabel>
                             <div className="relative group">
@@ -322,7 +322,7 @@ const ResetPasswordPage = () => {
                             name="newPassword"
                             render={({ field }) => (
                               <FormItem data-tour="auth-password">
-                                <FormLabel className="text-[10px] md:text-[11px] text-muted-foreground font-semibold uppercase tracking-[0.1em]">
+                                <FormLabel className="text-xs text-muted-foreground font-semibold uppercase tracking-[0.1em]">
                                   {translationMemo.newPassword}
                                 </FormLabel>
                                 <div className="relative group">
@@ -357,7 +357,7 @@ const ResetPasswordPage = () => {
                             name="confirmPassword"
                             render={({ field }) => (
                               <FormItem>
-                                <FormLabel className="text-[10px] md:text-[11px] text-muted-foreground font-semibold uppercase tracking-[0.1em]">
+                                <FormLabel className="text-xs text-muted-foreground font-semibold uppercase tracking-[0.1em]">
                                   {translationMemo.confirmationNewPassword}
                                 </FormLabel>
                                 <div className="relative group">
@@ -429,7 +429,7 @@ const ResetPasswordPage = () => {
                   <span className="text-xs md:text-sm font-medium text-foreground truncate">
                     {translationMemo.secureSSL}
                   </span>
-                  <span className="text-[10px] md:text-xs text-muted-foreground leading-none">
+                  <span className="text-xs text-muted-foreground leading-none">
                     {translationMemo.secureSSLDesc}
                   </span>
                 </div>
@@ -440,7 +440,7 @@ const ResetPasswordPage = () => {
                   <span className="text-xs md:text-sm font-medium text-foreground truncate">
                     {translationMemo.faReady}
                   </span>
-                  <span className="text-[10px] md:text-xs text-muted-foreground leading-none">
+                  <span className="text-xs text-muted-foreground leading-none">
                     {translationMemo.faReadyDesc}
                   </span>
                 </div>

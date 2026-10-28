@@ -102,7 +102,7 @@ const KpiCards = ({ summary }) => {
         return (
           <div key={card.key} className="bg-card rounded-xl border border-border p-4 shadow-sm">
             <div className="flex items-start justify-between mb-3">
-              <p className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider">
+              <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
                 {card.label}
               </p>
               <Icon size={18} className={card.color} />

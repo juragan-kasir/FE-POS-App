@@ -1058,7 +1058,7 @@ const AddPurchaseOrder = () => {
                                         disabled={!group.supplier}
                                       />
                                       {item.name && !selectedItemValue(item, group.supplier) && (
-                                        <p className="text-[10px] text-muted-foreground mt-1 truncate">
+                                        <p className="text-xs text-muted-foreground mt-1 truncate">
                                           {item.name}
                                         </p>
                                       )}
@@ -1123,7 +1123,7 @@ const AddPurchaseOrder = () => {
                                             { unit: item.unit || "pcs" }
                                           )}
                                         />
-                                        <p className="text-[10px] text-muted-foreground text-center mt-0.5">
+                                        <p className="text-xs text-muted-foreground text-center mt-0.5">
                                           {t("page.purchaseOrder.add.conversionPlaceholder", {
                                             unit: item.unit || "pcs"
                                           })}
@@ -1145,7 +1145,7 @@ const AddPurchaseOrder = () => {
                                         <p className="text-sm font-semibold text-foreground">
                                           Rp {(item.qty * item.price).toLocaleString("id-ID")}
                                         </p>
-                                        <p className="text-[10px] text-muted-foreground">
+                                        <p className="text-xs text-muted-foreground">
                                           {item.qty} x {formatIDR(item.price)}
                                         </p>
                                       </div>

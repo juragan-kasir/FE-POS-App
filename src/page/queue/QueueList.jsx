@@ -307,7 +307,7 @@ const QueueList = () => {
               onReset={resetFilters}
               isFiltered={isFiltered}>
               <div className="flex flex-col gap-1.5">
-                <label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
+                <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                   Cari
                 </label>
                 <SearchInput
@@ -321,7 +321,7 @@ const QueueList = () => {
                 />
               </div>
               <div className="flex flex-col gap-1.5">
-                <label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
+                <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                   Filter Status
                 </label>
                 <Combobox
@@ -336,7 +336,7 @@ const QueueList = () => {
                 />
               </div>
               <div className="flex flex-col gap-1.5">
-                <label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
+                <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                   Filter Priority
                 </label>
                 <Combobox

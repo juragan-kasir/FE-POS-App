@@ -478,7 +478,7 @@ const AddMemberTier = () => {
                   />
                 </div>
                 <div>
-                  <p className="text-[10px] font-semibold text-muted-foreground uppercase tracking-widest">
+                  <p className="text-xs font-semibold text-muted-foreground uppercase tracking-widest">
                     {t("page.memberTier.add.previewBadge")}
                   </p>
                   <h4 className="text-lg font-bold text-foreground">

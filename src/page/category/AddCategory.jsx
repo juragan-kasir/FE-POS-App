@@ -964,7 +964,7 @@ const AddCategory = () => {
                             }`}>
                             <DynamicIcon name={ic.icon} size={22} />
                           </div>
-                          <span className="text-[10px] text-muted-foreground font-medium text-center leading-tight">
+                          <span className="text-xs text-muted-foreground font-medium text-center leading-tight">
                             {ic.label}
                           </span>
                         </button>
@@ -1001,7 +1001,7 @@ const AddCategory = () => {
                                   }`}>
                                   <DynamicIcon name={ic.icon} size={22} />
                                 </div>
-                                <span className="text-[10px] text-muted-foreground font-medium text-center leading-tight">
+                                <span className="text-xs text-muted-foreground font-medium text-center leading-tight">
                                   {ic.label}
                                 </span>
                               </button>

@@ -527,7 +527,7 @@ const EditShift = () => {
                                 <p className="text-sm font-medium text-foreground truncate">
                                   {storeLoc?.name || `Toko #${storeId}`}
                                 </p>
-                                <p className="text-[11px] text-muted-foreground">
+                                <p className="text-xs text-muted-foreground">
                                   {storeEmps.length} karyawan
                                   {selectedCount > 0 && (
                                     <span className="text-primary font-medium">
@@ -661,19 +661,19 @@ const EditShift = () => {
                                               </p>
                                               <div className="flex items-center gap-2 mt-0.5">
                                                 {posName && (
-                                                  <span className="inline-flex items-center gap-1 text-[11px] text-muted-foreground">
+                                                  <span className="inline-flex items-center gap-1 text-xs text-muted-foreground">
                                                     <Briefcase size={10} className="shrink-0" />
                                                     <span className="truncate">{posName}</span>
                                                   </span>
                                                 )}
                                                 {deptName && (
-                                                  <span className="text-[11px] text-muted-foreground truncate">
+                                                  <span className="text-xs text-muted-foreground truncate">
                                                     {deptName}
                                                   </span>
                                                 )}
                                               </div>
                                               {isDisabled && hasShift && (
-                                                <div className="flex items-center gap-1 mt-0.5 text-[11px] text-amber-600 dark:text-amber-400">
+                                                <div className="flex items-center gap-1 mt-0.5 text-xs text-amber-600 dark:text-amber-400">
                                                   <AlertTriangle size={10} className="shrink-0" />
                                                   <span>
                                                     Sudah ada shift: {hasShift.shiftName} (

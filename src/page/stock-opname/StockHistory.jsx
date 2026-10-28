@@ -206,7 +206,7 @@ const StockHistory = () => {
     };
     return (
       <span
-        className={`inline-block px-2 py-0.5 rounded text-[10px] font-bold uppercase ${safeGet(map, type, "bg-muted text-muted-foreground")}`}>
+        className={`inline-block px-2 py-0.5 rounded text-xs font-bold uppercase ${safeGet(map, type, "bg-muted text-muted-foreground")}`}>
         {safeGet(labels, type) || type}
       </span>
     );
@@ -237,7 +237,7 @@ const StockHistory = () => {
           <span className="flex flex-col">
             <span className="font-medium text-sm">{h.ingredientName || "-"}</span>
             {h.productData?.nameProduct && (
-              <span className="text-[11px] text-muted-foreground">
+              <span className="text-xs text-muted-foreground">
                 {t("page.stockHistory.item.forMenu", { name: h.productData.nameProduct })}
               </span>
             )}
@@ -333,7 +333,7 @@ const StockHistory = () => {
                     : [
                         isSuperAdmin && (
                           <div key="store">
-                            <label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground block mb-1.5">
+                            <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground block mb-1.5">
                               {t("header.selectStore") || "Store"}
                             </label>
                             <StoreFilter
@@ -350,7 +350,7 @@ const StockHistory = () => {
                         ),
                         itemType === "ingredient" ? (
                           <div key="ingredient">
-                            <label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground block mb-1.5">
+                            <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground block mb-1.5">
                               {t("page.stockHistory.filter.ingredient")}
                             </label>
                             <Combobox
@@ -372,7 +372,7 @@ const StockHistory = () => {
                           </div>
                         ) : (
                           <div key="product">
-                            <label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground block mb-1.5">
+                            <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground block mb-1.5">
                               {t("page.stockHistory.filter.product")}
                             </label>
                             <Combobox
@@ -394,7 +394,7 @@ const StockHistory = () => {
                           </div>
                         ),
                         <div key="ref">
-                          <label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground block mb-1.5">
+                          <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground block mb-1.5">
                             {t("page.stockHistory.filter.referenceType")}
                           </label>
                           <Combobox
@@ -409,7 +409,7 @@ const StockHistory = () => {
                           />
                         </div>,
                         <div key="start">
-                          <label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground block mb-1.5">
+                          <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground block mb-1.5">
                             {t("page.stockHistory.filter.startDate")}
                           </label>
                           <DatePicker
@@ -421,7 +421,7 @@ const StockHistory = () => {
                           />
                         </div>,
                         <div key="end">
-                          <label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground block mb-1.5">
+                          <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground block mb-1.5">
                             {t("page.stockHistory.filter.endDate")}
                           </label>
                           <DatePicker

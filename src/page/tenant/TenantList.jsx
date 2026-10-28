@@ -61,7 +61,7 @@ const TenantStatusPill = ({ status }) => {
   const { t } = useTranslation();
   return (
     <span
-      className={`inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold ${
+      className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-bold ${
         STATUS_STYLES[status] || STATUS_STYLES.suspended
       }`}>
       {t(`${P}.status.${status}`, { defaultValue: status })}
@@ -95,7 +95,7 @@ const errorMessage = (t, error) => {
   return { field: null, message: t(`${P}.error.generic`) };
 };
 
-const fieldLabelClass = "text-[11px] font-semibold uppercase tracking-wider text-muted-foreground";
+const fieldLabelClass = "text-xs font-semibold uppercase tracking-wider text-muted-foreground";
 
 const TenantFormModal = ({ open, tenant, onClose }) => {
   const { t } = useTranslation();

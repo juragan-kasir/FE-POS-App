@@ -207,7 +207,7 @@ const RoleManagement = () => {
                           <Shield size={16} className="text-primary" aria-hidden="true" />
                           <span className="text-sm font-semibold text-foreground">{row.name}</span>
                           {isProtected(row) && (
-                            <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[10px] font-bold bg-amber-100 text-amber-700 uppercase tracking-wider">
+                            <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-xs font-bold bg-amber-100 text-amber-700 uppercase tracking-wider">
                               <Lock size={10} aria-hidden="true" />
                               {row.isSystem ? t("page.role.badge.system") : t("common.default")}
                             </span>
@@ -387,7 +387,7 @@ const RoleManagement = () => {
                       onReset={resetFilters}
                       isFiltered={isFiltered}>
                       <div className="flex flex-col gap-1.5">
-                        <label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
+                        <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                           {t("common.search")}
                         </label>
                         <SearchInput
@@ -402,7 +402,7 @@ const RoleManagement = () => {
                         />
                       </div>
                       <div className="flex flex-col gap-1.5">
-                        <label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
+                        <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                           {t("common.status")}
                         </label>
                         <Combobox

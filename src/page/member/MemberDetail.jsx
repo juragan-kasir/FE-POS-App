@@ -393,7 +393,7 @@ const MemberDetail = () => {
                     }}
                   />
                 </div>
-                <p className="text-[11px] text-muted-foreground mt-1">
+                <p className="text-xs text-muted-foreground mt-1">
                   {t("page.member.detail.nextTier", {
                     tier: nextTier,
                     points: pointsRemaining.toLocaleString()

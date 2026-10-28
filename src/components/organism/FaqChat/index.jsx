@@ -158,7 +158,7 @@ function FaqChat() {
                   <h2 className="font-semibold text-sm text-foreground">
                     {mode === MODE.AI ? "AI Analisa" : "FAQ Chat"}
                   </h2>
-                  <p className="text-[11px] text-muted-foreground">
+                  <p className="text-xs text-muted-foreground">
                     {mode === MODE.AI
                       ? "Tanya AI soal bisnis toko"
                       : "Tanya seputar penggunaan POS"}

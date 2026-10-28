@@ -43,7 +43,7 @@ const FinanceSection = ({ finance, summary }) => {
 
   const statBlock = (label, value, sub, color = "text-foreground") => (
     <div className="bg-muted/40 rounded-lg p-3">
-      <p className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider mb-1">
+      <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-1">
         {label}
       </p>
       <p className={`text-lg font-bold ${color}`}>{value}</p>
@@ -158,7 +158,7 @@ const FinanceSection = ({ finance, summary }) => {
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-5 pt-5 border-t border-border">
           <div>
-            <p className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider mb-3 flex items-center gap-1.5">
+            <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-3 flex items-center gap-1.5">
               <ArrowDownRight size={13} className="text-emerald-600" />
               {t("page.dashboardSuperAdmin.finance.expenseByCategory")}
             </p>
@@ -191,7 +191,7 @@ const FinanceSection = ({ finance, summary }) => {
           </div>
 
           <div>
-            <p className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider mb-3 flex items-center gap-1.5">
+            <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-3 flex items-center gap-1.5">
               <Building2 size={13} className="text-orange-600" />
               {t("page.dashboardSuperAdmin.finance.arByCustomer")}
             </p>
@@ -220,7 +220,7 @@ const FinanceSection = ({ finance, summary }) => {
           </div>
 
           <div>
-            <p className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider mb-3 flex items-center gap-1.5">
+            <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-3 flex items-center gap-1.5">
               <CalendarClock size={13} className="text-amber-600" />
               {t("page.dashboardSuperAdmin.finance.apBySupplier")}
             </p>

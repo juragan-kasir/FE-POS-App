@@ -59,7 +59,7 @@ const OperationsSection = ({ operations }) => {
       bodyClassName="space-y-5">
       <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
         <div className="bg-muted/40 rounded-lg p-3">
-          <p className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider mb-1 flex items-center gap-1">
+          <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-1 flex items-center gap-1">
             <Boxes size={12} /> {t("page.dashboardSuperAdmin.ops.stockValue")}
           </p>
           <p className="text-base font-bold text-foreground">
@@ -67,7 +67,7 @@ const OperationsSection = ({ operations }) => {
           </p>
         </div>
         <div className="bg-muted/40 rounded-lg p-3">
-          <p className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider mb-1 flex items-center gap-1">
+          <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-1 flex items-center gap-1">
             <Banknote size={12} /> {t("page.dashboardSuperAdmin.ops.openRegisters")}
           </p>
           <p className="text-base font-bold text-foreground">
@@ -80,7 +80,7 @@ const OperationsSection = ({ operations }) => {
           </p>
         </div>
         <div className="bg-muted/40 rounded-lg p-3">
-          <p className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider mb-1 flex items-center gap-1">
+          <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-1 flex items-center gap-1">
             <ListOrdered size={12} /> {t("page.dashboardSuperAdmin.ops.queue")}
           </p>
           <p className="text-base font-bold text-foreground">
@@ -91,7 +91,7 @@ const OperationsSection = ({ operations }) => {
           </p>
         </div>
         <div className="bg-muted/40 rounded-lg p-3">
-          <p className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider mb-1 flex items-center gap-1">
+          <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-1 flex items-center gap-1">
             <CalendarCheck2 size={12} /> {t("page.dashboardSuperAdmin.ops.reservationsToday")}
           </p>
           <p className="text-base font-bold text-foreground">
@@ -99,7 +99,7 @@ const OperationsSection = ({ operations }) => {
           </p>
         </div>
         <div className="bg-muted/40 rounded-lg p-3">
-          <p className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider mb-1 flex items-center gap-1">
+          <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-1 flex items-center gap-1">
             <Factory size={12} /> {t("page.dashboardSuperAdmin.ops.production")}
           </p>
           <div className="flex flex-wrap gap-1 mt-1">
@@ -111,14 +111,14 @@ const OperationsSection = ({ operations }) => {
             {prodSummary.map((s) => (
               <span
                 key={s.status}
-                className={`px-1.5 py-0.5 rounded text-[10px] font-semibold ${s.bg} ${s.color}`}>
+                className={`px-1.5 py-0.5 rounded text-xs font-semibold ${s.bg} ${s.color}`}>
                 {t(`page.dashboardSuperAdmin.ops.status.${s.status}`)}: {s.count}
               </span>
             ))}
           </div>
         </div>
         <div className="bg-muted/40 rounded-lg p-3">
-          <p className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider mb-1 flex items-center gap-1">
+          <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-1 flex items-center gap-1">
             <AlertTriangle size={12} /> {t("page.dashboardSuperAdmin.ops.lowStock")}
           </p>
           <p className="text-base font-bold text-destructive">
@@ -128,7 +128,7 @@ const OperationsSection = ({ operations }) => {
       </div>
 
       <div>
-        <p className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider mb-2 flex items-center gap-1.5">
+        <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2 flex items-center gap-1.5">
           <AlertTriangle size={13} className="text-destructive" />
           {t("page.dashboardSuperAdmin.ops.lowStockItems")}
         </p>
@@ -163,7 +163,7 @@ const OperationsSection = ({ operations }) => {
                     <td className="px-3 py-2.5 font-medium text-foreground">{item.name}</td>
                     <td className="px-3 py-2.5">
                       <span
-                        className={`px-1.5 py-0.5 rounded text-[10px] font-semibold uppercase ${
+                        className={`px-1.5 py-0.5 rounded text-xs font-semibold uppercase ${
                           item.type === "product"
                             ? "bg-primary/10 text-primary"
                             : "bg-violet-100 text-violet-700 dark:bg-violet-900/30 dark:text-violet-400"

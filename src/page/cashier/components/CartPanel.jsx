@@ -198,7 +198,7 @@ const CartLineItem = React.memo(function CartLineItem({
               {isEditing ? (
                 <div className="flex items-center gap-1">
                   <div className="relative">
-                    <span className="text-[10px] text-muted-foreground absolute left-1.5 top-1/2 -translate-y-1/2">
+                    <span className="text-xs text-muted-foreground absolute left-1.5 top-1/2 -translate-y-1/2">
                       Rp
                     </span>
                     <input
@@ -247,12 +247,12 @@ const CartLineItem = React.memo(function CartLineItem({
             </div>
           </div>
           {hasError && (
-            <p className="text-[10px] text-destructive mt-1">{t("page.cashier.invalidPrice")}</p>
+            <p className="text-xs text-destructive mt-1">{t("page.cashier.invalidPrice")}</p>
           )}
           {item.discount > 0 && (
             <div className="flex items-center gap-1 mt-1.5">
               <Percent size={10} className="text-emerald-500" />
-              <span className="text-[10px] text-emerald-500 font-medium">
+              <span className="text-xs text-emerald-500 font-medium">
                 {t("page.cashier.discountLabel")} {item.discount}%
               </span>
             </div>

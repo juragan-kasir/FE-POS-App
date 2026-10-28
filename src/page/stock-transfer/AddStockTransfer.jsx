@@ -352,7 +352,7 @@ const AddStockTransfer = () => {
                                               {p.nameProduct}
                                             </span>
                                             {p.barcode && (
-                                              <span className="text-[10px] text-muted-foreground truncate">
+                                              <span className="text-xs text-muted-foreground truncate">
                                                 {p.barcode}
                                               </span>
                                             )}
@@ -369,7 +369,7 @@ const AddStockTransfer = () => {
                               </PopoverContent>
                             </Popover>
                             {selectedProduct && (
-                              <span className="shrink-0 text-[10px] font-mono text-muted-foreground bg-muted/40 px-2 py-1 rounded-md border border-border/50">
+                              <span className="shrink-0 text-xs font-mono text-muted-foreground bg-muted/40 px-2 py-1 rounded-md border border-border/50">
                                 {t("page.stockTransfer.add.table.stock")}:{" "}
                                 {selectedProduct.stock ?? 0}
                               </span>

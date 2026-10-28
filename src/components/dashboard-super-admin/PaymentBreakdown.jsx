@@ -95,7 +95,7 @@ const PaymentBreakdown = ({ paymentBreakdown }) => {
 
       {byMethod.length > 0 && (
         <div className="mt-4 pt-4 border-t border-border">
-          <p className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider mb-2">
+          <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2">
             {t("page.dashboardSuperAdmin.payment.methodDetail")}
           </p>
           <div className="flex flex-wrap gap-1.5">

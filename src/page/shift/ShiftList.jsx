@@ -180,7 +180,7 @@ const ShiftList = () => {
           </div>
           <div>
             <p className="font-medium text-foreground">{row.nama_shift || "-"}</p>
-            <p className="text-[11px] text-muted-foreground capitalize">
+            <p className="text-xs text-muted-foreground capitalize">
               {SHIFT_TYPES.includes(row.tipe_shift)
                 ? safeGet(SHIFT_TYPE_LABELS, row.tipe_shift, row.tipe_shift)
                 : safeGet(SHIFT_TYPE_LABELS, DEFAULT_SHIFT_TYPE, DEFAULT_SHIFT_TYPE)}
@@ -229,7 +229,7 @@ const ShiftList = () => {
             </span>
           </div>
           {row.tanggal_selesai && (
-            <p className="text-[11px] text-muted-foreground mt-0.5 ml-4">
+            <p className="text-xs text-muted-foreground mt-0.5 ml-4">
               s/d{" "}
               {new Date(row.tanggal_selesai).toLocaleDateString("id-ID", {
                 day: "numeric",
@@ -398,7 +398,7 @@ const ShiftList = () => {
               <Shuffle size={14} />
               {t("page.shift.list.tabSwap")}
               {pendingSwaps > 0 && (
-                <span className="inline-flex items-center justify-center min-w-5 h-5 px-1.5 rounded-full bg-primary text-primary-foreground text-[11px] font-bold">
+                <span className="inline-flex items-center justify-center min-w-5 h-5 px-1.5 rounded-full bg-primary text-primary-foreground text-xs font-bold">
                   {pendingSwaps}
                 </span>
               )}
@@ -468,7 +468,7 @@ const ShiftList = () => {
                         <p className="text-sm font-semibold text-amber-800 dark:text-amber-300">
                           {expiringShifts.length} {t("page.shift.list.expiring")}
                         </p>
-                        <span className="ml-auto text-[11px] text-amber-700/80 dark:text-amber-400/80">
+                        <span className="ml-auto text-xs text-amber-700/80 dark:text-amber-400/80">
                           {t("page.shift.list.expiringHint")}
                         </span>
                       </div>
@@ -499,7 +499,7 @@ const ShiftList = () => {
                                       {s.nama_shift || "-"}
                                     </p>
                                     <span
-                                      className={`shrink-0 inline-flex items-center px-1.5 py-0.5 rounded-full text-[10px] font-semibold ${badgeClass}`}>
+                                      className={`shrink-0 inline-flex items-center px-1.5 py-0.5 rounded-full text-xs font-semibold ${badgeClass}`}>
                                       {isPast
                                         ? "Sudah berakhir"
                                         : diff === 0
@@ -509,27 +509,27 @@ const ShiftList = () => {
                                             : `${diff} hari lagi`}
                                     </span>
                                   </div>
-                                  <p className="text-[11px] text-muted-foreground mt-0.5 flex items-center gap-1 truncate">
+                                  <p className="text-xs text-muted-foreground mt-0.5 flex items-center gap-1 truncate">
                                     <Store size={10} className="shrink-0" />
                                     {storeName || `Toko #${s.store || "-"}`}
                                   </p>
                                 </div>
                               </div>
                               <div className="mt-2.5 pt-2.5 border-t border-border/60 space-y-1.5">
-                                <div className="flex items-center gap-1.5 text-[11px] text-muted-foreground">
+                                <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
                                   <Clock3 size={10} className="shrink-0" />
                                   <span className="font-mono">
                                     {s.jam_mulai?.slice(0, 5)} - {s.jam_selesai?.slice(0, 5)}
                                   </span>
                                 </div>
-                                <div className="flex items-center gap-1.5 text-[11px] text-muted-foreground">
+                                <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
                                   <CalendarDays size={10} className="shrink-0" />
                                   <span>
                                     {s.tanggal_mulai ? fmtShort(s.tanggal_mulai) : "-"} –{" "}
                                     {s.tanggal_selesai ? fmtShort(s.tanggal_selesai) : "-"}
                                   </span>
                                 </div>
-                                <div className="flex items-center gap-1.5 text-[11px] text-muted-foreground">
+                                <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
                                   <Users size={10} className="shrink-0" />
                                   <span>{s.karyawan?.length || 0} karyawan</span>
                                 </div>
@@ -538,7 +538,7 @@ const ShiftList = () => {
                                 type="button"
                                 variant="ghost"
                                 size="sm"
-                                className="mt-2.5 w-full h-7 gap-1.5 text-[11px] text-blue-600 dark:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/20"
+                                className="mt-2.5 w-full h-7 gap-1.5 text-xs text-blue-600 dark:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/20"
                                 onClick={() => setExtendTarget(s)}>
                                 <RefreshCcw size={11} />
                                 {t("page.shift.list.extend")}
@@ -569,7 +569,7 @@ const ShiftList = () => {
                           isFiltered={isFiltered}>
                           {isSuperAdmin && (
                             <div className="flex flex-col gap-1.5">
-                              <label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
+                              <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                                 Store
                               </label>
                               <Combobox
@@ -591,7 +591,7 @@ const ShiftList = () => {
                             </div>
                           )}
                           <div className="flex flex-col gap-1.5">
-                            <label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
+                            <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                               {t("common.status")}
                             </label>
                             <Combobox
@@ -611,7 +611,7 @@ const ShiftList = () => {
                             />
                           </div>
                           <div className="flex flex-col gap-1.5">
-                            <label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
+                            <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                               Cari
                             </label>
                             <SearchInput

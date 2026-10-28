@@ -731,13 +731,13 @@ const EditGoodsReceipt = () => {
                     onClick={() => docInputRef.current?.click()}
                     className="h-20 rounded-lg border-2 border-dashed border-border hover:border-primary transition-all flex flex-col items-center justify-center gap-1 text-muted-foreground hover:text-primary bg-muted/30">
                     <CloudUpload size={18} />
-                    <span className="text-[11px] font-medium">
+                    <span className="text-xs font-medium">
                       {t("page.goodsReceipt.add.form.docAdd")}
                     </span>
                   </button>
                 )}
               </div>
-              <p className="text-[11px] text-muted-foreground">
+              <p className="text-xs text-muted-foreground">
                 {t("page.goodsReceipt.add.form.docHint")}
               </p>
             </div>
@@ -798,7 +798,7 @@ const EditGoodsReceipt = () => {
                   placeholder="0"
                 />
               </div>
-              <p className="text-[11px] text-muted-foreground">
+              <p className="text-xs text-muted-foreground">
                 {t("page.goodsReceipt.add.form.shippingHint")}
               </p>
             </div>
@@ -987,7 +987,7 @@ const EditGoodsReceipt = () => {
                                 {parseFloat(item.conversionToBase) || 1}
                               </span>
                               {parseFloat(item.qtyReceived) > 0 && (
-                                <p className="text-[10px] text-muted-foreground mt-0.5">
+                                <p className="text-xs text-muted-foreground mt-0.5">
                                   ={" "}
                                   {(
                                     parseFloat(item.qtyReceived) * (item.conversionToBase || 1)
@@ -1037,11 +1037,11 @@ const EditGoodsReceipt = () => {
                             const val = parseFloat(item.qtyReceived) || 0;
                             if (val <= 0 || max <= 0) return null;
                             return val >= max ? (
-                              <p className="text-[10px] font-medium text-emerald-600 mt-0.5 text-right">
+                              <p className="text-xs font-medium text-emerald-600 mt-0.5 text-right">
                                 {t("page.goodsReceipt.add.status.pas")}
                               </p>
                             ) : (
-                              <p className="text-[10px] font-medium text-amber-600 mt-0.5 text-right">
+                              <p className="text-xs font-medium text-amber-600 mt-0.5 text-right">
                                 {t("page.goodsReceipt.add.status.kurang", { qty: max - val })}
                               </p>
                             );
@@ -1143,7 +1143,7 @@ const EditGoodsReceipt = () => {
                         {totalQty.toLocaleString("id-ID")} unit
                       </span>
                       <span
-                        className={`px-2 py-0.5 rounded-full text-[11px] font-medium ${
+                        className={`px-2 py-0.5 rounded-full text-xs font-medium ${
                           g.status === "completed"
                             ? "bg-emerald-100 text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-400"
                             : "bg-amber-100 text-amber-700 dark:bg-amber-950/40 dark:text-amber-400"

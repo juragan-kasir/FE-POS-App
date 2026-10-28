@@ -177,7 +177,7 @@ const RegisterPage = () => {
                 <button
                   type="button"
                   onClick={() => updateTranslation("id")}
-                  className={`px-2.5 py-1 md:px-3 md:py-1 text-[10px] md:text-[11px] font-bold tracking-widest rounded-full transition-all duration-200 focus:outline-none ${
+                  className={`px-2.5 py-1 md:px-3 md:py-1 text-xs font-bold tracking-widest rounded-full transition-all duration-200 focus:outline-none ${
                     translation === "id"
                       ? "bg-foreground text-background shadow-sm"
                       : "text-muted-foreground hover:text-foreground"
@@ -187,7 +187,7 @@ const RegisterPage = () => {
                 <button
                   type="button"
                   onClick={() => updateTranslation("en")}
-                  className={`px-2.5 py-1 md:px-3 md:py-1 text-[10px] md:text-[11px] font-bold tracking-widest rounded-full transition-all duration-200 focus:outline-none ${
+                  className={`px-2.5 py-1 md:px-3 md:py-1 text-xs font-bold tracking-widest rounded-full transition-all duration-200 focus:outline-none ${
                     translation === "en"
                       ? "bg-foreground text-background shadow-sm"
                       : "text-muted-foreground hover:text-foreground"
@@ -205,7 +205,7 @@ const RegisterPage = () => {
               <button
                 type="button"
                 onClick={() => setGuideOpen(true)}
-                className="hidden sm:inline-flex text-[11px] md:text-xs text-muted-foreground hover:text-foreground transition-colors font-medium">
+                className="hidden sm:inline-flex text-xs text-muted-foreground hover:text-foreground transition-colors font-medium">
                 {translationMemo.help}
               </button>
             </div>
@@ -240,7 +240,7 @@ const RegisterPage = () => {
                     name="userName"
                     render={({ field }) => (
                       <FormItem data-tour="auth-username">
-                        <FormLabel className="text-[10px] md:text-[11px] text-muted-foreground font-semibold uppercase tracking-[0.1em]">
+                        <FormLabel className="text-xs text-muted-foreground font-semibold uppercase tracking-[0.1em]">
                           {translationMemo.userName}
                         </FormLabel>
                         <div className="relative group">
@@ -265,7 +265,7 @@ const RegisterPage = () => {
                     name="email"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel className="text-[10px] md:text-[11px] text-muted-foreground font-semibold uppercase tracking-[0.1em]">
+                        <FormLabel className="text-xs text-muted-foreground font-semibold uppercase tracking-[0.1em]">
                           {translationMemo.email}
                         </FormLabel>
                         <div className="relative group">
@@ -290,7 +290,7 @@ const RegisterPage = () => {
                     name="store"
                     render={({ field }) => (
                       <FormItem data-tour="auth-location">
-                        <FormLabel className="text-[10px] md:text-[11px] text-muted-foreground font-semibold uppercase tracking-[0.1em]">
+                        <FormLabel className="text-xs text-muted-foreground font-semibold uppercase tracking-[0.1em]">
                           {translationMemo.location}
                         </FormLabel>
                         <div className="relative group">
@@ -339,7 +339,7 @@ const RegisterPage = () => {
                       name="password"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel className="text-[10px] md:text-[11px] text-muted-foreground font-semibold uppercase tracking-[0.1em]">
+                          <FormLabel className="text-xs text-muted-foreground font-semibold uppercase tracking-[0.1em]">
                             {translationMemo.password}
                           </FormLabel>
                           <div className="relative group">
@@ -374,7 +374,7 @@ const RegisterPage = () => {
                       name="confirmPassword"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel className="text-[10px] md:text-[11px] text-muted-foreground font-semibold uppercase tracking-[0.1em]">
+                          <FormLabel className="text-xs text-muted-foreground font-semibold uppercase tracking-[0.1em]">
                             {translationMemo.confirmationPassword}
                           </FormLabel>
                           <div className="relative group">
@@ -431,7 +431,7 @@ const RegisterPage = () => {
                 </p>
                 <div className="flex items-center justify-center gap-1.5 md:gap-2">
                   <ShieldCheck className="w-4 h-4 md:w-5 md:h-5 text-muted-foreground" />
-                  <span className="text-[10px] md:text-xs text-muted-foreground font-medium uppercase tracking-wider">
+                  <span className="text-xs text-muted-foreground font-medium uppercase tracking-wider">
                     {translationMemo.enterpriseSecure}
                   </span>
                 </div>

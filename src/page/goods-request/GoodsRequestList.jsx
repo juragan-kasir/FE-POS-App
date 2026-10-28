@@ -219,7 +219,7 @@ const GoodsRequestList = () => {
         const sc = statusMap[item.status] || statusMap.pending;
         return (
           <span
-            className={`inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold uppercase ${sc.class}`}>
+            className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-bold uppercase ${sc.class}`}>
             {t(`page.goodsRequest.list.status.${item.status || "pending"}`)}
           </span>
         );
@@ -372,7 +372,7 @@ const GoodsRequestList = () => {
             className="border border-border rounded-xl overflow-hidden bg-card">
             <div className="flex items-center gap-3 px-4 py-3 bg-muted/40 border-b">
               <span className="font-semibold text-foreground">{g.supplierName}</span>
-              <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-medium bg-blue-50 text-blue-700 dark:bg-blue-900/20 dark:text-blue-400 border border-blue-200 dark:border-blue-800">
+              <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-blue-50 text-blue-700 dark:bg-blue-900/20 dark:text-blue-400 border border-blue-200 dark:border-blue-800">
                 {g.items.length}{" "}
                 {g.items.length > 1
                   ? t("page.goodsRequest.list.items")
@@ -383,13 +383,13 @@ const GoodsRequestList = () => {
               <table className="w-full text-sm">
                 <thead>
                   <tr className="bg-gradient-to-r from-slate-50 to-blue-50/30 dark:from-slate-900 dark:to-blue-950/20">
-                    <th className="text-left px-4 py-2.5 text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
+                    <th className="text-left px-4 py-2.5 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                       {t("page.goodsRequest.list.table.item")}
                     </th>
-                    <th className="text-center px-4 py-2.5 text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
+                    <th className="text-center px-4 py-2.5 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                       {t("page.goodsRequest.list.table.qty")}
                     </th>
-                    <th className="text-center px-4 py-2.5 text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
+                    <th className="text-center px-4 py-2.5 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                       {t("page.goodsRequest.list.table.unit")}
                     </th>
                   </tr>
@@ -576,7 +576,7 @@ const GoodsRequestList = () => {
                       onReset={resetFilters}
                       isFiltered={isFiltered}>
                       <div className="flex flex-col gap-1.5">
-                        <label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
+                        <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                           Cari
                         </label>
                         <SearchInput
@@ -591,7 +591,7 @@ const GoodsRequestList = () => {
                       </div>
                       {isSuperAdmin && (
                         <div className="flex flex-col gap-1.5">
-                          <label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
+                          <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                             Store
                           </label>
                           <Combobox
@@ -616,7 +616,7 @@ const GoodsRequestList = () => {
                         </div>
                       )}
                       <div className="flex flex-col gap-1.5">
-                        <label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
+                        <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                           {t("common.status")}
                         </label>
                         <Combobox

@@ -88,7 +88,7 @@ const statusBadge = (status) => {
   };
   return (
     <span
-      className={`shrink-0 inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-semibold border capitalize ${safeGet(map, status, map.pending)}`}>
+      className={`shrink-0 inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-semibold border capitalize ${safeGet(map, status, map.pending)}`}>
       {safeGet(labels, status, status)}
     </span>
   );
@@ -203,7 +203,7 @@ const AuditTrailPanel = ({ store, locations }) => {
                 .sort((a, b) => (a[0] < b[0] ? 1 : -1))
                 .map(([day, items]) => (
                   <div key={day}>
-                    <p className="text-[11px] font-bold uppercase tracking-wide text-muted-foreground mb-2">
+                    <p className="text-xs font-bold uppercase tracking-wide text-muted-foreground mb-2">
                       {day}
                     </p>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
@@ -349,7 +349,7 @@ const SwapApproval = ({ user, store, locations }) => {
       {isAuthorized && (
         <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-3">
           <div className="flex flex-col gap-1.5">
-            <label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
+            <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
               Status
             </label>
             <Combobox
@@ -440,10 +440,8 @@ const SwapApproval = ({ user, store, locations }) => {
                     <p className="font-medium text-sm text-foreground truncate mt-1.5">
                       {reqUser?.fullName || reqUser?.userName || "-"}
                     </p>
-                    <p className="text-[11px] text-muted-foreground truncate">
-                      {roleLabel(reqUser)}
-                    </p>
-                    <p className="text-[11px] text-muted-foreground truncate mt-1 font-mono">
+                    <p className="text-xs text-muted-foreground truncate">{roleLabel(reqUser)}</p>
+                    <p className="text-xs text-muted-foreground truncate mt-1 font-mono">
                       {shiftLabel(sw.requesterShift)}
                     </p>
                   </div>
@@ -451,7 +449,7 @@ const SwapApproval = ({ user, store, locations }) => {
                     <div className="w-7 h-7 rounded-full bg-primary/10 text-primary flex items-center justify-center">
                       <ArrowRightLeft size={14} />
                     </div>
-                    <span className="text-[10px] text-muted-foreground mt-1">TUKAR</span>
+                    <span className="text-xs text-muted-foreground mt-1">TUKAR</span>
                   </div>
                   <div className="min-w-0 text-right">
                     <div className="flex justify-end">
@@ -460,10 +458,8 @@ const SwapApproval = ({ user, store, locations }) => {
                     <p className="font-medium text-sm text-foreground truncate mt-1.5">
                       {tgtUser?.fullName || tgtUser?.userName || "-"}
                     </p>
-                    <p className="text-[11px] text-muted-foreground truncate">
-                      {roleLabel(tgtUser)}
-                    </p>
-                    <p className="text-[11px] text-muted-foreground truncate mt-1 font-mono">
+                    <p className="text-xs text-muted-foreground truncate">{roleLabel(tgtUser)}</p>
+                    <p className="text-xs text-muted-foreground truncate mt-1 font-mono">
                       {shiftLabel(sw.targetShift)}
                     </p>
                   </div>
@@ -482,12 +478,12 @@ const SwapApproval = ({ user, store, locations }) => {
                       <span className="line-clamp-2">{sw.note}</span>
                     </div>
                   )}
-                  <div className="flex items-center gap-1.5 text-[11px] text-muted-foreground">
+                  <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
                     <Clock size={11} className="shrink-0" />
                     <span>Diajukan {fmtDateTime(sw.createdAt)}</span>
                   </div>
                   {sw.status !== "pending" && sw.decidedByUser && (
-                    <div className="flex items-center gap-1.5 text-[11px] text-muted-foreground">
+                    <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
                       {sw.status === "approved" ? (
                         <BadgeCheck size={11} className="shrink-0 text-green-500" />
                       ) : (

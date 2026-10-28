@@ -253,7 +253,7 @@ const LocationList = () => {
         };
         return (
           <span
-            className={`inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold capitalize ${safeGet(
+            className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-bold capitalize ${safeGet(
               styles,
               status,
               styles.inactive
@@ -510,7 +510,7 @@ const LocationList = () => {
                     onReset={resetFilters}
                     isFiltered={isFiltered}>
                     <div className="flex flex-col gap-1.5">
-                      <label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
+                      <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                         Cari
                       </label>
                       <SearchInput
@@ -525,7 +525,7 @@ const LocationList = () => {
                       />
                     </div>
                     <div className="flex flex-col gap-1.5">
-                      <label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
+                      <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                         {t("common.status")}
                       </label>
                       <Combobox
@@ -545,7 +545,7 @@ const LocationList = () => {
                       />
                     </div>
                     <div className="flex flex-col gap-1.5">
-                      <label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
+                      <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                         {t("page.location.button.viewMap")}
                       </label>
                       <Button

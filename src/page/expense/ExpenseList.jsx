@@ -340,7 +340,7 @@ const ExpenseList = () => {
           <div className="flex flex-col">
             <span className="font-medium text-foreground">{item.description || "-"}</span>
             {item.frequency && (
-              <span className="inline-flex w-fit items-center px-2 py-0.5 rounded-full text-[10px] font-semibold bg-blue-100 text-blue-700 mt-0.5">
+              <span className="inline-flex w-fit items-center px-2 py-0.5 rounded-full text-xs font-semibold bg-blue-100 text-blue-700 mt-0.5">
                 {t("page.expense.list.recurring")} ·{" "}
                 {t(
                   `page.expense.form.frequency${item.frequency.charAt(0).toUpperCase()}${item.frequency.slice(1)}`
@@ -353,13 +353,13 @@ const ExpenseList = () => {
               </span>
             )}
             {item.employee?.fullName && (
-              <span className="inline-flex w-fit items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-semibold bg-teal-100 text-teal-700 mt-0.5">
+              <span className="inline-flex w-fit items-center gap-1 px-2 py-0.5 rounded-full text-xs font-semibold bg-teal-100 text-teal-700 mt-0.5">
                 <Users size={10} />
                 {item.employee.fullName}
               </span>
             )}
             {item.paymentMethod && (
-              <span className="inline-flex w-fit items-center px-2 py-0.5 rounded-full text-[10px] font-semibold bg-purple-100 text-purple-700 mt-0.5">
+              <span className="inline-flex w-fit items-center px-2 py-0.5 rounded-full text-xs font-semibold bg-purple-100 text-purple-700 mt-0.5">
                 {getPaymentLabel(item.paymentMethod)}
               </span>
             )}
@@ -385,7 +385,7 @@ const ExpenseList = () => {
           {getStatusBadge(item.status)}
           {item.status === "approved" && (
             <span
-              className={`inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-semibold ${
+              className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold ${
                 item.isPaid ? "bg-teal-100 text-teal-700" : "bg-amber-100 text-amber-700"
               }`}>
               {item.isPaid
@@ -394,7 +394,7 @@ const ExpenseList = () => {
             </span>
           )}
           {item.isActive === false && (
-            <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-semibold bg-muted text-muted-foreground">
+            <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold bg-muted text-muted-foreground">
               {t("page.expense.list.statusArchived")}
             </span>
           )}

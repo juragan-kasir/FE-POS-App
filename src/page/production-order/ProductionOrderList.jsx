@@ -204,7 +204,7 @@ const ProductionOrderList = () => {
         const cfg = statusConfig[item.status] || statusConfig.draft;
         return (
           <span
-            className={`inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold uppercase ${cfg.class}`}>
+            className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-bold uppercase ${cfg.class}`}>
             {cfg.label}
           </span>
         );
@@ -432,7 +432,7 @@ const ProductionOrderList = () => {
                       onReset={resetFilters}
                       isFiltered={isFiltered}>
                       <div className="flex flex-col gap-1.5">
-                        <label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
+                        <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                           {t("page.productionOrder.list.tableStatus")}
                         </label>
                         <Combobox
@@ -453,7 +453,7 @@ const ProductionOrderList = () => {
                         />
                       </div>
                       <div className="flex flex-col gap-1.5">
-                        <label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
+                        <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                           Cari
                         </label>
                         <SearchInput

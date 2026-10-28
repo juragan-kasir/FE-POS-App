@@ -194,12 +194,12 @@ const ReportView = ({ data, reportType }) => {
             {data.store?.name || t("page.cashRegister.xz.storeFallback")}
           </p>
           {data.store?.address && (
-            <p className="text-[11px] text-muted-foreground leading-relaxed px-4">
+            <p className="text-xs text-muted-foreground leading-relaxed px-4">
               {data.store.address}
             </p>
           )}
           {data.store?.phone && (
-            <p className="text-[11px] text-muted-foreground/80 mt-0.5 font-mono">
+            <p className="text-xs text-muted-foreground/80 mt-0.5 font-mono">
               Telp: {data.store.phone}
             </p>
           )}
@@ -225,7 +225,7 @@ const ReportView = ({ data, reportType }) => {
           <Row
             label={t("page.cashRegister.xz.cashier")}
             value={
-              <span className="inline-flex items-center gap-1.5 bg-accent/60 px-2 py-0.5 rounded text-[11px] text-foreground font-semibold">
+              <span className="inline-flex items-center gap-1.5 bg-accent/60 px-2 py-0.5 rounded text-xs text-foreground font-semibold">
                 <User size={11} className="text-muted-foreground" />
                 {data.cashier?.fullName || "-"}
               </span>
@@ -259,7 +259,7 @@ const ReportView = ({ data, reportType }) => {
             label={t("page.cashRegister.xz.status")}
             value={
               <span
-                className={`inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider ${
+                className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-bold uppercase tracking-wider ${
                   data.register?.status === "open"
                     ? "bg-emerald-100 text-emerald-800 dark:bg-emerald-950/40 dark:text-emerald-400"
                     : "bg-muted text-muted-foreground"
@@ -276,7 +276,7 @@ const ReportView = ({ data, reportType }) => {
 
         {/* Sales Metrics Section */}
         <div className="space-y-1 my-3">
-          <p className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground/80 mb-2">
+          <p className="text-xs font-bold uppercase tracking-widest text-muted-foreground/80 mb-2">
             {t("page.cashRegister.xz.summaryTitle")}
           </p>
           <Row
@@ -327,7 +327,7 @@ const ReportView = ({ data, reportType }) => {
         {salesByProduct.length > 0 && (
           <>
             <div className="space-y-1.5 my-3">
-              <p className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground/80 mb-2">
+              <p className="text-xs font-bold uppercase tracking-widest text-muted-foreground/80 mb-2">
                 {t("page.cashRegister.xz.salesByProductTitle")}
               </p>
               <div className="space-y-1">
@@ -339,7 +339,7 @@ const ReportView = ({ data, reportType }) => {
                       <span className="block text-foreground font-semibold truncate">
                         {p.productName || "-"}
                       </span>
-                      <span className="block text-[10px] font-mono text-muted-foreground">
+                      <span className="block text-xs font-mono text-muted-foreground">
                         {p.sku ? `${p.sku} · ` : ""}
                         {p.quantity} × {formatIDR(p.unitPrice)}
                       </span>
@@ -357,7 +357,7 @@ const ReportView = ({ data, reportType }) => {
 
         {/* Payments breakdown */}
         <div className="space-y-1.5 my-3">
-          <p className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground/80 mb-2">
+          <p className="text-xs font-bold uppercase tracking-widest text-muted-foreground/80 mb-2">
             {t("page.cashRegister.xz.paymentTitle")}
           </p>
           {Object.entries(paymentGroups).length > 0 ? (
@@ -371,7 +371,7 @@ const ReportView = ({ data, reportType }) => {
                       <CreditCard size={13} className="text-blue-500/80" />
                     )}
                     {type}{" "}
-                    <span className="text-[10px] bg-accent text-accent-foreground px-1.5 py-0.2 rounded font-mono font-medium">
+                    <span className="text-xs bg-accent text-accent-foreground px-1.5 py-0.2 rounded font-mono font-medium">
                       ({p.count})
                     </span>
                   </span>
@@ -390,7 +390,7 @@ const ReportView = ({ data, reportType }) => {
           <>
             <Dashed />
             <div className="space-y-1.5 my-3">
-              <p className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground/80 mb-2">
+              <p className="text-xs font-bold uppercase tracking-widest text-muted-foreground/80 mb-2">
                 {t("page.cashRegister.xz.outsideTitle")}
               </p>
               <div className="space-y-1">
@@ -399,7 +399,7 @@ const ReportView = ({ data, reportType }) => {
                     <span className="text-xs text-muted-foreground font-medium flex items-center gap-1.5">
                       <span className="w-1.5 h-1.5 rounded-full bg-amber-500/70" />
                       {t(`page.cashRegister.detail.reason.${b.code}`, b.code)}{" "}
-                      <span className="text-[10px] bg-accent text-accent-foreground px-1.5 py-0.2 rounded font-mono font-medium">
+                      <span className="text-xs bg-accent text-accent-foreground px-1.5 py-0.2 rounded font-mono font-medium">
                         ({b.count})
                       </span>
                     </span>
@@ -417,7 +417,7 @@ const ReportView = ({ data, reportType }) => {
           <>
             <Dashed />
             <div className="space-y-1.5 my-3">
-              <p className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground/80 mb-2">
+              <p className="text-xs font-bold uppercase tracking-widest text-muted-foreground/80 mb-2">
                 {t("page.cashRegister.xz.expenseTitle")} ({formatIDR(summary.totalExpenses)})
               </p>{" "}
               <div className="space-y-1">
@@ -426,7 +426,7 @@ const ReportView = ({ data, reportType }) => {
                     <span className="text-xs text-muted-foreground font-medium flex items-center gap-1.5">
                       <span className="w-1.5 h-1.5 rounded-full bg-destructive/70" />
                       {e.category}{" "}
-                      <span className="text-[10px] bg-accent text-accent-foreground px-1.5 py-0.2 rounded font-mono font-medium">
+                      <span className="text-xs bg-accent text-accent-foreground px-1.5 py-0.2 rounded font-mono font-medium">
                         ({e.count})
                       </span>
                     </span>
@@ -484,7 +484,7 @@ const ReportView = ({ data, reportType }) => {
                 {t("page.cashRegister.xz.variance")}
               </span>
               <span
-                className={`font-mono text-[11px] font-bold px-2 py-0.5 rounded-md ${
+                className={`font-mono text-xs font-bold px-2 py-0.5 rounded-md ${
                   summary.variance > 0
                     ? "bg-emerald-100 text-emerald-800 dark:bg-emerald-950/40 dark:text-emerald-400"
                     : summary.variance < 0
@@ -499,7 +499,7 @@ const ReportView = ({ data, reportType }) => {
         </div>
 
         <div className="pt-4 border-t border-dashed border-border/80 text-center mb-2">
-          <p className="text-[10px] text-muted-foreground tracking-wide font-medium">
+          <p className="text-xs text-muted-foreground tracking-wide font-medium">
             {t("page.cashRegister.xz.footer")}
           </p>
         </div>
@@ -745,7 +745,7 @@ const XZReport = () => {
                 </p>
               </div>
             </div>
-            <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-gradient-to-r from-emerald-100 to-emerald-50 dark:from-emerald-950/60 dark:to-emerald-950/30 text-emerald-700 dark:text-emerald-300 text-[10px] font-extrabold uppercase tracking-widest shadow-sm border border-emerald-200/50 dark:border-emerald-900/30">
+            <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-gradient-to-r from-emerald-100 to-emerald-50 dark:from-emerald-950/60 dark:to-emerald-950/30 text-emerald-700 dark:text-emerald-300 text-xs font-extrabold uppercase tracking-widest shadow-sm border border-emerald-200/50 dark:border-emerald-900/30">
               <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
               Aktif
             </span>
@@ -776,10 +776,10 @@ const XZReport = () => {
               <div className="flex items-start gap-2.5 mx-auto bg-gradient-to-r from-blue-50 to-blue-50/50 dark:from-blue-950/20 dark:to-blue-950/10 p-3 rounded-xl border border-blue-200/60 dark:border-blue-900/40 shadow-sm">
                 <span className="text-blue-500 text-lg flex-shrink-0 mt-0">ℹ️</span>
                 <div>
-                  <p className="text-[11px] font-semibold text-blue-900 dark:text-blue-200 mb-0.5">
+                  <p className="text-xs font-semibold text-blue-900 dark:text-blue-200 mb-0.5">
                     {t("page.cashRegister.xz.xNote")}
                   </p>
-                  <p className="text-[10px] text-blue-700/80 dark:text-blue-300/70 leading-relaxed">
+                  <p className="text-xs text-blue-700/80 dark:text-blue-300/70 leading-relaxed">
                     Laporan X dapat dicetak berkali-kali tanpa mereset transaksi. Gunakan ini untuk
                     verifikasi harian.
                   </p>
@@ -822,7 +822,7 @@ const XZReport = () => {
                 </p>
               </div>
             </div>
-            <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-gradient-to-r from-red-100 to-red-50 dark:from-red-950/60 dark:to-red-950/30 text-red-700 dark:text-red-300 text-[10px] font-extrabold uppercase tracking-widest shadow-sm border border-red-200/50 dark:border-red-900/30">
+            <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-gradient-to-r from-red-100 to-red-50 dark:from-red-950/60 dark:to-red-950/30 text-red-700 dark:text-red-300 text-xs font-extrabold uppercase tracking-widest shadow-sm border border-red-200/50 dark:border-red-900/30">
               <span className="w-1.5 h-1.5 rounded-full bg-red-500" />
               Tertutup
             </span>
@@ -842,7 +842,7 @@ const XZReport = () => {
           ) : (
             <div className="bg-card rounded-2xl border border-border/80 shadow-sm mx-auto overflow-hidden">
               <div className="p-3 bg-gradient-to-r from-accent/30 to-accent/10 dark:from-accent/15 dark:to-accent/5 border-b border-border/40 flex items-center gap-4">
-                <label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground/90 whitespace-nowrap">
+                <label className="text-xs font-bold uppercase tracking-widest text-muted-foreground/90 whitespace-nowrap">
                   {t("page.cashRegister.xz.selectRegister")}
                 </label>
                 {registers.length > 0 ? (
@@ -899,7 +899,7 @@ const XZReport = () => {
                     <h4 className="text-xs font-bold text-foreground mb-1.5">
                       {t("page.cashRegister.xz.zHint")}
                     </h4>
-                    <p className="text-[11px] text-muted-foreground max-w-[240px] leading-relaxed font-medium">
+                    <p className="text-xs text-muted-foreground max-w-[240px] leading-relaxed font-medium">
                       Pilih salah satu sesi kasir yang telah ditutup dari daftar di atas untuk
                       melihat ringkasan final laporan Z beserta perhitungan varians kas.
                     </p>

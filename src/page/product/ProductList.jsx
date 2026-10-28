@@ -323,7 +323,7 @@ const ProductList = () => {
         const badge = getAvailableBadge(product);
         return (
           <span
-            className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-tight ${badge.className}`}>
+            className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold uppercase tracking-tight ${badge.className}`}>
             {badge.label}
           </span>
         );
@@ -335,7 +335,7 @@ const ProductList = () => {
         const available = product.isAvailable !== false;
         return (
           <span
-            className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-tight ${
+            className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold uppercase tracking-tight ${
               available
                 ? "bg-emerald-100 text-emerald-800 dark:bg-emerald-900/30 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800"
                 : "bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400 border border-red-200 dark:border-red-800"
@@ -384,7 +384,7 @@ const ProductList = () => {
         const badge = getProductStatusBadge(product);
         return (
           <span
-            className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-tight ${badge.className}`}>
+            className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold uppercase tracking-tight ${badge.className}`}>
             {badge.label}
           </span>
         );
@@ -645,7 +645,7 @@ const ProductList = () => {
                   onReset={resetFilters}
                   isFiltered={isFiltered}>
                   <div className="flex flex-col gap-1.5">
-                    <label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
+                    <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                       Cari
                     </label>
                     <SearchInput
@@ -659,7 +659,7 @@ const ProductList = () => {
                     />
                   </div>
                   <div className="flex flex-col gap-1.5">
-                    <label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
+                    <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                       Store
                     </label>
                     <StoreFilter
@@ -674,7 +674,7 @@ const ProductList = () => {
                     />
                   </div>
                   <div className="flex flex-col gap-1.5">
-                    <label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
+                    <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                       {t("page.product.table.category")}
                     </label>
                     <Combobox
@@ -695,7 +695,7 @@ const ProductList = () => {
                     />
                   </div>
                   <div className="flex flex-col gap-1.5">
-                    <label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
+                    <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                       {t("page.product.table.status")}
                     </label>
                     <Combobox
@@ -715,7 +715,7 @@ const ProductList = () => {
                     />
                   </div>
                   <div className="flex flex-col gap-1.5">
-                    <label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
+                    <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                       {t("page.product.list.filter.newest")}
                     </label>
                     <Combobox

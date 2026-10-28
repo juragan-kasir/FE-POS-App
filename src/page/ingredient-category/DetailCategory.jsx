@@ -453,7 +453,7 @@ const DetailIngredientCategory = () => {
                         </div>
                       </div>
                       <span
-                        className={`shrink-0 inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold ${ingSt.badge}`}>
+                        className={`shrink-0 inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-bold ${ingSt.badge}`}>
                         {(() => {
                           const IngIcon = ingSt.icon;
                           return IngIcon && <IngIcon size={10} />;

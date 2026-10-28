@@ -660,7 +660,7 @@ const InvoicePage = () => {
                     ) : (
                       <div className="text-center text-muted-foreground">
                         <ImagePlus size={28} className="mx-auto mb-1" />
-                        <p className="text-[10px]">{t("page.invoice.noLogo")}</p>
+                        <p className="text-xs">{t("page.invoice.noLogo")}</p>
                       </div>
                     )}
                   </div>
@@ -692,7 +692,7 @@ const InvoicePage = () => {
                         {t("page.invoice.deleteLogo")}
                       </Button>
                     )}
-                    <p className="text-[11px] text-muted-foreground mt-1">
+                    <p className="text-xs text-muted-foreground mt-1">
                       {t("page.invoice.logoFormat")}
                     </p>
                   </div>
@@ -811,7 +811,7 @@ const InvoicePage = () => {
                             <div className="w-2 h-2 rounded-full bg-primary" />
                           )}
                         </div>
-                        <span className="text-[10px] text-muted-foreground block mt-0.5">
+                        <span className="text-xs text-muted-foreground block mt-0.5">
                           {opt.desc}
                         </span>
                       </button>
@@ -871,7 +871,7 @@ const InvoicePage = () => {
                             <div className="w-2 h-2 rounded-full bg-primary" />
                           )}
                         </div>
-                        <span className="text-[10px] text-muted-foreground block mt-0.5">
+                        <span className="text-xs text-muted-foreground block mt-0.5">
                           {opt.desc}
                         </span>
                       </button>
@@ -914,7 +914,7 @@ const InvoicePage = () => {
                             <div className="w-2 h-2 rounded-full bg-primary" />
                           )}
                         </div>
-                        <span className="text-[10px] text-muted-foreground block mt-0.5">
+                        <span className="text-xs text-muted-foreground block mt-0.5">
                           {opt.desc}
                         </span>
                       </button>
@@ -936,7 +936,7 @@ const InvoicePage = () => {
                   rows={4}
                   maxLength={FIELD_LIMITS.DESCRIPTION}
                 />
-                <p className="text-[11px] text-muted-foreground mt-2">
+                <p className="text-xs text-muted-foreground mt-2">
                   {t("page.invoice.footerDescription")}
                 </p>
               </div>

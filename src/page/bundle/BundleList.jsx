@@ -264,7 +264,7 @@ const BundleList = () => {
           )}
           <div>
             <p className="font-medium text-sm">{row.name}</p>
-            <p className="text-[10px] text-muted-foreground">{row.sku}</p>
+            <p className="text-xs text-muted-foreground">{row.sku}</p>
           </div>
         </div>
       )
@@ -300,7 +300,7 @@ const BundleList = () => {
     {
       header: t("page.bundle.table.discount"),
       render: (row) => (
-        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-red-100 text-red-700 border border-red-200">
+        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-bold bg-red-100 text-red-700 border border-red-200">
           <Zap size={10} />
           {row.discountPercentage > 0 ? `${row.discountPercentage}%` : "-"}
         </span>
@@ -349,7 +349,7 @@ const BundleList = () => {
         const s = statusBadge(row.status);
         return (
           <span
-            className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold border ${s.bg}`}>
+            className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-bold border ${s.bg}`}>
             <span className={`w-1.5 h-1.5 rounded-full ${s.dot}`} />
             {s.label}
           </span>
@@ -441,7 +441,7 @@ const BundleList = () => {
     <TableToolbar title={t("page.bundle.title")} onReset={resetFilters} isFiltered={isFiltered}>
       {isSuperAdmin && (
         <div className="flex flex-col gap-1.5">
-          <label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
+          <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
             Store
           </label>
           <StoreFilter
@@ -457,7 +457,7 @@ const BundleList = () => {
         </div>
       )}
       <div className="flex flex-col gap-1.5">
-        <label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
+        <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
           Cari
         </label>
         <SearchInput
@@ -471,7 +471,7 @@ const BundleList = () => {
         />
       </div>
       <div className="flex flex-col gap-1.5">
-        <label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
+        <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
           {t("common.status")}
         </label>
         <Select
@@ -615,7 +615,7 @@ const BundleList = () => {
         }}>
         {statusTarget && statusTarget.status !== "active" && (
           <div className="space-y-3 rounded-lg border border-border bg-muted/40 p-3">
-            <p className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
+            <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
               {t("page.bundle.list.validity")}
             </p>
             <div className="grid grid-cols-12 gap-2 items-end">

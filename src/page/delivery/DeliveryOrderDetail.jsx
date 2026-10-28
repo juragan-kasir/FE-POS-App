@@ -203,7 +203,7 @@ const DeliveryOrderDetail = () => {
                   {t("page.delivery.detail.status")}
                 </p>
                 <span
-                  className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-tight ${statusBadge(order.status)}`}>
+                  className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold uppercase tracking-tight ${statusBadge(order.status)}`}>
                   {t(`page.delivery.status.${order.status}`)}
                 </span>
               </div>
@@ -292,7 +292,7 @@ const DeliveryOrderDetail = () => {
                   <div className="pb-4">
                     <div className="flex items-center gap-2">
                       <span
-                        className={`inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-tight ${statusBadge(history.status)}`}>
+                        className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-bold uppercase tracking-tight ${statusBadge(history.status)}`}>
                         {t(`page.delivery.status.${history.status}`)}
                       </span>
                       <span className="text-xs text-muted-foreground">

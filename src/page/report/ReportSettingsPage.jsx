@@ -236,7 +236,7 @@ const ReportSettingsPage = () => {
     const { Icon, style } = TYPE_META[col.type] || TYPE_META.string;
     return (
       <span
-        className={`inline-flex flex-shrink-0 items-center gap-1 rounded-full px-2 py-0.5 text-[11px] font-medium ${style}`}>
+        className={`inline-flex flex-shrink-0 items-center gap-1 rounded-full px-2 py-0.5 text-xs font-medium ${style}`}>
         <Icon size={11} />
         {t(`page.reportSettings.columnType.${col.type}`)}
       </span>
@@ -312,7 +312,7 @@ const ReportSettingsPage = () => {
                       />
                     ) : configs[r.key] ? (
                       <span
-                        className={`shrink-0 text-[10px] font-medium ${active ? "text-primary-foreground/80" : "text-muted-foreground"}`}>
+                        className={`shrink-0 text-xs font-medium ${active ? "text-primary-foreground/80" : "text-muted-foreground"}`}>
                         {t("page.reportSettings.customized")}
                       </span>
                     ) : null}
@@ -460,7 +460,7 @@ const ReportSettingsPage = () => {
                           {active && <Check size={16} />}
                         </span>
                         <span
-                          className={`text-[11px] ${active ? "font-semibold text-foreground" : "text-muted-foreground"}`}>
+                          className={`text-xs ${active ? "font-semibold text-foreground" : "text-muted-foreground"}`}>
                           {name}
                         </span>
                       </button>

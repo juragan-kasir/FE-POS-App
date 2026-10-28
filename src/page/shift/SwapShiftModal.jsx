@@ -144,13 +144,13 @@ const AvailabilityCalendar = ({ month, busyDates, selectedDate, onSelectDate, di
         <p className="text-sm font-semibold text-foreground">
           {safeGet(MONTHS_ID, mIdx, mIdx)} {year}
         </p>
-        <span className="text-[10px] text-muted-foreground font-medium">
+        <span className="text-xs text-muted-foreground font-medium">
           {busyDates.size > 0 ? `${busyDates.size} hari sibuk` : "Semua kosong"}
         </span>
       </div>
       <div className="grid grid-cols-7 gap-1 text-center mb-1">
         {WEEKDAYS_ID.map((w) => (
-          <span key={w} className="text-[10px] font-semibold text-muted-foreground">
+          <span key={w} className="text-xs font-semibold text-muted-foreground">
             {w}
           </span>
         ))}
@@ -183,15 +183,15 @@ const AvailabilityCalendar = ({ month, busyDates, selectedDate, onSelectDate, di
         })}
       </div>
       <div className="flex items-center gap-4 mt-2 pt-2 border-t border-border/60">
-        <span className="inline-flex items-center gap-1.5 text-[10px] text-muted-foreground">
+        <span className="inline-flex items-center gap-1.5 text-xs text-muted-foreground">
           <span className="w-2.5 h-2.5 rounded bg-amber-100 dark:bg-amber-900/40 inline-block" />
           Ada shift lain
         </span>
-        <span className="inline-flex items-center gap-1.5 text-[10px] text-muted-foreground">
+        <span className="inline-flex items-center gap-1.5 text-xs text-muted-foreground">
           <span className="w-2.5 h-2.5 rounded bg-muted inline-block" />
           Bisa swap
         </span>
-        <span className="inline-flex items-center gap-1.5 text-[10px] text-muted-foreground">
+        <span className="inline-flex items-center gap-1.5 text-xs text-muted-foreground">
           <span className="w-2.5 h-2.5 rounded bg-primary inline-block" />
           Dipilih
         </span>
@@ -423,7 +423,7 @@ const SwapShiftModal = ({
                       {fmtTime(ownShift.jam_mulai)} - {fmtTime(ownShift.jam_selesai)}
                     </p>
                   </div>
-                  <span className="shrink-0 rounded-full bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400 text-[11px] font-semibold px-2.5 py-1">
+                  <span className="shrink-0 rounded-full bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400 text-xs font-semibold px-2.5 py-1">
                     {partLabel(ownPart)}
                   </span>
                 </div>
@@ -439,7 +439,7 @@ const SwapShiftModal = ({
                   {t("page.shift.swap.chooseDate")}
                 </h3>
                 {ownDates.length > 0 && !dateValid && (
-                  <span className="rounded-full bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400 text-[11px] font-semibold px-2 py-0.5">
+                  <span className="rounded-full bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400 text-xs font-semibold px-2 py-0.5">
                     {t("page.shift.swap.dateOutOfRange")}
                   </span>
                 )}
@@ -476,7 +476,7 @@ const SwapShiftModal = ({
               <h3 className="text-sm font-semibold text-foreground">
                 {t("page.shift.swap.chooseTarget")}
               </h3>
-              <span className="rounded-full bg-muted text-muted-foreground text-[11px] font-semibold px-2 py-0.5">
+              <span className="rounded-full bg-muted text-muted-foreground text-xs font-semibold px-2 py-0.5">
                 {targetOptions.length}
               </span>
             </div>
@@ -507,7 +507,7 @@ const SwapShiftModal = ({
                       <p className="font-semibold text-sm text-foreground truncate">
                         {s.nama_shift || "-"}
                       </p>
-                      <span className="shrink-0 rounded-full bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400 text-[10px] font-semibold px-2 py-0.5">
+                      <span className="shrink-0 rounded-full bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400 text-xs font-semibold px-2 py-0.5">
                         {partLabel(shiftPart(s.jam_mulai))}
                       </span>
                     </div>
@@ -531,7 +531,7 @@ const SwapShiftModal = ({
               <div className="flex items-center gap-2 rounded-xl border border-border bg-muted/30 px-3 py-2">
                 <Clock size={14} className="text-primary shrink-0" />
                 <div className="leading-tight">
-                  <p className="text-[10px] text-muted-foreground uppercase font-semibold">
+                  <p className="text-xs text-muted-foreground uppercase font-semibold">
                     {t("page.shift.swap.yourShift")}
                   </p>
                   <p className="text-xs font-semibold text-foreground">
@@ -551,7 +551,7 @@ const SwapShiftModal = ({
               <div className="flex items-center gap-2 rounded-xl border border-primary/40 bg-primary/5 px-3 py-2">
                 <Clock size={14} className="text-primary shrink-0" />
                 <div className="leading-tight">
-                  <p className="text-[10px] text-primary uppercase font-semibold">
+                  <p className="text-xs text-primary uppercase font-semibold">
                     {t("page.shift.swap.targetShift")}
                   </p>
                   <p className="text-xs font-semibold text-foreground">
@@ -631,7 +631,7 @@ const SwapShiftModal = ({
                         <p className="text-xs text-muted-foreground truncate">{role || "-"}</p>
                       </div>
                       <div className="shrink-0 text-right">
-                        <span className="inline-flex items-center gap-1 rounded-full bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400 text-[10px] font-semibold px-2 py-0.5">
+                        <span className="inline-flex items-center gap-1 rounded-full bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400 text-xs font-semibold px-2 py-0.5">
                           {t("page.shift.swap.coworkerOn")}
                         </span>
                         <div
@@ -670,7 +670,7 @@ const SwapShiftModal = ({
                           className="flex items-center gap-2 text-xs font-medium text-amber-700/90 dark:text-amber-400/90">
                           <Clock size={11} className="shrink-0" />
                           <span className="truncate">{bs.nama_shift || "-"}</span>
-                          <span className="font-mono text-[11px] text-amber-600/80 dark:text-amber-400/70 shrink-0">
+                          <span className="font-mono text-xs text-amber-600/80 dark:text-amber-400/70 shrink-0">
                             {fmtTime(bs.jam_mulai)} - {fmtTime(bs.jam_selesai)}
                           </span>
                         </li>

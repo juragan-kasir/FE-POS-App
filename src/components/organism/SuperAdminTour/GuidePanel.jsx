@@ -185,7 +185,7 @@ const GuidePanel = ({ onClose }) => {
                                         <Badge
                                           key={action}
                                           variant="secondary"
-                                          className={`text-[10px] px-1.5 py-0 h-4 gap-0.5 font-normal ${config.color}`}>
+                                          className={`text-xs px-1.5 py-0 h-4 gap-0.5 font-normal ${config.color}`}>
                                           <ActionIcon size={10} />
                                           <span>{t(config.labelKey)}</span>
                                         </Badge>
@@ -220,14 +220,12 @@ const GuidePanel = ({ onClose }) => {
 
         {/* Footer */}
         <div className="px-5 py-3 border-t flex items-center justify-between">
-          <span className="text-[11px] text-muted-foreground">
+          <span className="text-xs text-muted-foreground">
             {t("guide.panel.totalPages", {
               count: guideData.reduce((sum, c) => sum + c.pages.length, 0)
             })}
           </span>
-          <span className="text-[11px] text-muted-foreground">
-            {t("guide.panel.clickToNavigate")}
-          </span>
+          <span className="text-xs text-muted-foreground">{t("guide.panel.clickToNavigate")}</span>
         </div>
       </Card>
     </div>

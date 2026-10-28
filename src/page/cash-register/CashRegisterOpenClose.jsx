@@ -216,7 +216,7 @@ const CashRegisterOpenClose = () => {
                     <Skeleton className="h-10 w-full rounded-md" />
                   ) : (
                     <>
-                      <Label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
+                      <Label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                         {t("page.cashRegister.openClose.selectStore")}
                       </Label>
                       <Combobox

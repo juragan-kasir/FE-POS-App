@@ -914,14 +914,14 @@ const EditPurchaseOrder = () => {
                         <p className="text-blue-500 dark:text-blue-400 mb-0.5">
                           {t("page.purchaseOrder.edit.grStatus")}
                         </p>
-                        <span className="inline-block px-2 py-0.5 rounded-full text-[10px] font-bold capitalize bg-blue-100 text-blue-700 dark:bg-blue-900 dark:text-blue-300">
+                        <span className="inline-block px-2 py-0.5 rounded-full text-xs font-bold capitalize bg-blue-100 text-blue-700 dark:bg-blue-900 dark:text-blue-300">
                           {goodsRequestData.status}
                         </span>
                       </div>
                     </div>
                     {goodsRequestData.items && goodsRequestData.items.length > 0 && (
                       <div className="border-t border-blue-200 dark:border-blue-800 pt-2">
-                        <p className="text-[10px] text-blue-500 dark:text-blue-400 font-medium uppercase tracking-wider mb-1.5">
+                        <p className="text-xs text-blue-500 dark:text-blue-400 font-medium uppercase tracking-wider mb-1.5">
                           {t("page.purchaseOrder.edit.requestedItems")}
                         </p>
                         <div className="space-y-1">
@@ -941,7 +941,7 @@ const EditPurchaseOrder = () => {
                     )}
                     {goodsRequestData.notes && (
                       <div className="border-t border-blue-200 dark:border-blue-800 pt-2">
-                        <p className="text-[10px] text-blue-500 dark:text-blue-400 font-medium uppercase tracking-wider mb-0.5">
+                        <p className="text-xs text-blue-500 dark:text-blue-400 font-medium uppercase tracking-wider mb-0.5">
                           {t("page.purchaseOrder.edit.grNotes")}
                         </p>
                         <p className="text-xs text-blue-700 dark:text-blue-300">
@@ -1084,7 +1084,7 @@ const EditPurchaseOrder = () => {
                                     disabled={!group.supplier}
                                   />
                                   {item.name && !selectedItemValue(item, group.supplier) && (
-                                    <p className="text-[10px] text-muted-foreground mt-1 truncate">
+                                    <p className="text-xs text-muted-foreground mt-1 truncate">
                                       {item.name}
                                     </p>
                                   )}
@@ -1149,7 +1149,7 @@ const EditPurchaseOrder = () => {
                                         }
                                       )}
                                     />
-                                    <p className="text-[10px] text-muted-foreground text-center mt-0.5">
+                                    <p className="text-xs text-muted-foreground text-center mt-0.5">
                                       {t("page.purchaseOrder.add.conversionPlaceholder", {
                                         unit: item.unit || "pcs"
                                       })}
@@ -1171,7 +1171,7 @@ const EditPurchaseOrder = () => {
                                     <p className="text-sm font-semibold text-foreground">
                                       Rp {(item.qty * item.price).toLocaleString("id-ID")}
                                     </p>
-                                    <p className="text-[10px] text-muted-foreground">
+                                    <p className="text-xs text-muted-foreground">
                                       {item.qty} x {formatIDR(item.price)}
                                     </p>
                                   </div>

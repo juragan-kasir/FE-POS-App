@@ -57,7 +57,7 @@ const CollapsiblePanel = ({
           {Icon && <Icon size={16} className="text-primary shrink-0" aria-hidden="true" />}
           <span className="text-sm font-semibold text-foreground truncate">{title}</span>
           {count != null && (
-            <span className="rounded-full bg-primary/10 px-2 py-0.5 text-[11px] font-semibold text-primary tabular-nums">
+            <span className="rounded-full bg-primary/10 px-2 py-0.5 text-xs font-semibold text-primary tabular-nums">
               {count}
             </span>
           )}

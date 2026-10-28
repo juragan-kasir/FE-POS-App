@@ -1048,7 +1048,7 @@ export default function DetailPurchaseOrder() {
                                   {item.unit || ""}
                                 </span>
                                 {item.conversionToBase && Number(item.conversionToBase) !== 1 && (
-                                  <p className="text-[10px] text-muted-foreground">
+                                  <p className="text-xs text-muted-foreground">
                                     {t("page.purchaseOrder.detail.conversionHint", {
                                       unit: item.unit || "pcs",
                                       qty: item.conversionToBase
@@ -1632,7 +1632,7 @@ export default function DetailPurchaseOrder() {
                     </div>
                     <div className="px-2 py-1 flex items-center gap-1">
                       <CloudUpload size={10} className="text-muted-foreground shrink-0" />
-                      <span className="text-[10px] text-muted-foreground truncate">
+                      <span className="text-xs text-muted-foreground truncate">
                         {d.file?.name || `doc-${idx + 1}`}
                       </span>
                     </div>
@@ -1644,7 +1644,7 @@ export default function DetailPurchaseOrder() {
                     onClick={() => docInputRef.current?.click()}
                     className="aspect-[4/3] rounded-lg border-2 border-dashed border-border hover:border-primary transition-all flex flex-col items-center justify-center gap-1 text-muted-foreground hover:text-primary bg-muted/20">
                     <CloudUpload size={18} />
-                    <span className="text-[10px] font-medium">
+                    <span className="text-xs font-medium">
                       {t("page.goodsReceipt.add.form.docAdd")}
                     </span>
                   </button>

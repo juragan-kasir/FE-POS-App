@@ -200,7 +200,7 @@ const LowStockAll = () => {
         const status = getStockStatus(row.stock);
         return (
           <span
-            className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold border ${status.cls}`}>
+            className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-bold border ${status.cls}`}>
             <span
               className={`w-1.5 h-1.5 rounded-full ${row.stock <= 0 ? "bg-red-500" : "bg-orange-500"}`}
             />
@@ -221,7 +221,7 @@ const LowStockAll = () => {
           ]
         : [
             <div key="search" className="flex flex-col gap-1.5">
-              <label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
+              <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                 Cari
               </label>
               <SearchInput
@@ -235,7 +235,7 @@ const LowStockAll = () => {
               />
             </div>,
             <div key="store" className="flex flex-col gap-1.5">
-              <label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
+              <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                 Toko
               </label>
               <Select
@@ -258,7 +258,7 @@ const LowStockAll = () => {
               </Select>
             </div>,
             <div key="type" className="flex flex-col gap-1.5">
-              <label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
+              <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                 Tipe
               </label>
               <Select

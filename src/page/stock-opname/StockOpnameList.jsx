@@ -234,7 +234,7 @@ const StockOpnameList = () => {
       align: "center",
       render: (item) => (
         <div className="flex items-center justify-center gap-2">
-          <div className="w-7 h-7 rounded-full bg-secondary/20 text-secondary flex items-center justify-center text-[10px] font-bold">
+          <div className="w-7 h-7 rounded-full bg-secondary/20 text-secondary flex items-center justify-center text-xs font-bold">
             {item.auditor
               ?.split(" ")
               .map((n) => n[0])
@@ -260,7 +260,7 @@ const StockOpnameList = () => {
         const statusStyle = safeGet(statusColors, status, statusColors.draft);
         return (
           <span
-            className={`inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-tight ${statusStyle.bg}`}>
+            className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-bold uppercase tracking-tight ${statusStyle.bg}`}>
             <span className={`w-1.5 h-1.5 rounded-full ${statusStyle.dot} mr-1.5`} />
             {statusStyle.label}
           </span>
@@ -469,7 +469,7 @@ const StockOpnameList = () => {
                     isFiltered={isFiltered}>
                     {isSuperAdmin && (
                       <div className="flex flex-col gap-1.5">
-                        <label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
+                        <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                           Store
                         </label>
                         <StoreFilter
@@ -485,7 +485,7 @@ const StockOpnameList = () => {
                       </div>
                     )}
                     <div className="flex flex-col gap-1.5">
-                      <label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
+                      <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                         {t("page.stockOpname.list.allStatus")}
                       </label>
                       <Combobox
@@ -505,7 +505,7 @@ const StockOpnameList = () => {
                       />
                     </div>
                     <div className="flex flex-col gap-1.5">
-                      <label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
+                      <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                         Cari
                       </label>
                       <SearchInput

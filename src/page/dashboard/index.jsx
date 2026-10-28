@@ -928,7 +928,7 @@ const Dashboard = () => {
                               style={{ width: `${pct}%` }}
                             />
                           </div>
-                          <span className="text-[11px] text-muted-foreground w-8 text-right">
+                          <span className="text-xs text-muted-foreground w-8 text-right">
                             {m.orders}x
                           </span>
                         </div>
@@ -955,7 +955,7 @@ const Dashboard = () => {
               </div>
               <div className="flex items-center gap-4">
                 <div className="text-right">
-                  <p className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider">
+                  <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
                     {t("page.dashboard.expenseTotal")}
                   </p>
                   <p className="text-lg font-bold text-destructive">

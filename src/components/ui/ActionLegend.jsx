@@ -12,7 +12,7 @@ const ActionLegend = ({ items = [], className }) => {
         "flex flex-wrap items-center gap-x-5 gap-y-1.5 px-4 py-2.5 border-b border-border bg-muted/30",
         className
       )}>
-      <span className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
+      <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
         {t("common.legend")}
       </span>
       {items.map((item, index) => (

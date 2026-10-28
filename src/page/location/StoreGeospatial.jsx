@@ -280,7 +280,7 @@ const StoreGeospatial = () => {
                           <div className="flex items-center gap-1.5">
                             <Building2 size={12} className="text-muted-foreground shrink-0" />
                             <span
-                              className={`text-[10px] font-semibold px-1.5 py-0.5 rounded ${
+                              className={`text-xs font-semibold px-1.5 py-0.5 rounded ${
                                 safeGet(categoryColors, category) ||
                                 "bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400"
                               }`}>
@@ -289,7 +289,7 @@ const StoreGeospatial = () => {
                           </div>
                           <div className="flex items-center gap-1.5">
                             <span
-                              className={`text-[10px] font-bold px-1.5 py-0.5 rounded-full ${
+                              className={`text-xs font-bold px-1.5 py-0.5 rounded-full ${
                                 isActive
                                   ? "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400"
                                   : "bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400"
@@ -297,7 +297,7 @@ const StoreGeospatial = () => {
                               {isActive ? t("common.active") : t("common.inactive")}
                             </span>
                           </div>
-                          <p className="text-[10px] text-muted-foreground font-mono">
+                          <p className="text-xs text-muted-foreground font-mono">
                             {lat.toFixed(6)}, {lng.toFixed(6)}
                           </p>
                         </div>
@@ -359,7 +359,7 @@ const StoreGeospatial = () => {
             </div>
             <div className="flex gap-2 ml-4">
               {Object.entries(categoryColors).map(([cat, cls]) => (
-                <span key={cat} className={`text-[10px] font-semibold px-2 py-0.5 rounded ${cls}`}>
+                <span key={cat} className={`text-xs font-semibold px-2 py-0.5 rounded ${cls}`}>
                   {cat}
                 </span>
               ))}

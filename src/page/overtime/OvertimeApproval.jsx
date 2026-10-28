@@ -102,7 +102,7 @@ const statusBadge = (status) => {
   };
   return (
     <span
-      className={`shrink-0 inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-semibold border capitalize ${safeGet(map, status, map.pending)}`}>
+      className={`shrink-0 inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-semibold border capitalize ${safeGet(map, status, map.pending)}`}>
       {safeGet(labels, status, status)}
     </span>
   );
@@ -230,7 +230,7 @@ const OvertimeApproval = () => {
         <div className="flex flex-col sm:flex-row gap-3">
           {isSuperAdmin && (
             <div className="flex flex-col gap-1.5">
-              <label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
+              <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                 Toko
               </label>
               <Combobox
@@ -249,7 +249,7 @@ const OvertimeApproval = () => {
             </div>
           )}
           <div className="flex flex-col gap-1.5">
-            <label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
+            <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
               Status
             </label>
             <Combobox
@@ -338,7 +338,7 @@ const OvertimeApproval = () => {
                     <p className="font-medium text-sm text-foreground truncate">
                       {emp?.fullName || emp?.userName || `Karyawan #${ot.employee_id}`}
                     </p>
-                    <p className="text-[11px] text-muted-foreground truncate">{roleLabel(emp)}</p>
+                    <p className="text-xs text-muted-foreground truncate">{roleLabel(emp)}</p>
                   </div>
                   <span className="ml-auto shrink-0">
                     <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-lg bg-primary/10 text-primary text-xs font-semibold">
@@ -373,12 +373,12 @@ const OvertimeApproval = () => {
                 )}
 
                 <div className="mt-3 pt-3 border-t border-border/60 space-y-1.5">
-                  <div className="flex items-center gap-1.5 text-[11px] text-muted-foreground">
+                  <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
                     <CircleDashed size={11} className="shrink-0" />
                     <span>Diajukan {fmtDateTime(ot.createdAt)}</span>
                   </div>
                   {ot.decidedByUser && (
-                    <div className="flex items-center gap-1.5 text-[11px] text-muted-foreground">
+                    <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
                       {ot.status === "approved" ? (
                         <BadgeCheck size={11} className="shrink-0 text-green-500" />
                       ) : (
@@ -391,7 +391,7 @@ const OvertimeApproval = () => {
                     </div>
                   )}
                   {ot.accounting_status === "posted" && (
-                    <div className="flex items-center gap-1.5 text-[11px] text-green-600 dark:text-green-400 font-medium">
+                    <div className="flex items-center gap-1.5 text-xs text-green-600 dark:text-green-400 font-medium">
                       <Landmark size={11} className="shrink-0" />
                       <span>
                         Sudah diposting ke akuntansi
@@ -473,7 +473,7 @@ const OvertimeApproval = () => {
         </div>
         <div className="mt-4 flex flex-col sm:flex-row sm:items-end gap-3">
           <div className="flex flex-col gap-1.5">
-            <label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
+            <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
               Periode
             </label>
             <Input

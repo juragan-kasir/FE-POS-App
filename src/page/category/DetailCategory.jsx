@@ -303,7 +303,7 @@ const DetailCategory = () => {
                         Rp{p.price?.toLocaleString("id-ID") || "0"}
                       </p>
                       {p.costPrice > 0 && (
-                        <p className="text-[11px] text-muted-foreground/70 line-through">
+                        <p className="text-xs text-muted-foreground/70 line-through">
                           Rp{(p.costPrice ?? 0).toLocaleString("id-ID")}
                         </p>
                       )}
@@ -335,7 +335,7 @@ const DetailCategory = () => {
                     <div className="flex items-center gap-1.5">
                       <span className="text-muted-foreground/60 w-16 shrink-0">Status</span>
                       <span
-                        className={`inline-flex items-center gap-1 px-1.5 py-0.5 rounded-full text-[10px] font-semibold ${
+                        className={`inline-flex items-center gap-1 px-1.5 py-0.5 rounded-full text-xs font-semibold ${
                           p.status === "active"
                             ? "bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400"
                             : "bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400"

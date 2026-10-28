@@ -85,12 +85,12 @@ const fmtClock = (absenAt) =>
 
 const presenceBadge = ({ done, notDoneLabel }) =>
   done ? (
-    <span className="inline-flex items-center gap-1 rounded-full bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400 px-2 py-0.5 text-[11px] font-semibold">
+    <span className="inline-flex items-center gap-1 rounded-full bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400 px-2 py-0.5 text-xs font-semibold">
       <CheckCircle2 size={11} />
       Sudah
     </span>
   ) : (
-    <span className="inline-flex items-center gap-1 rounded-full bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400 px-2 py-0.5 text-[11px] font-semibold">
+    <span className="inline-flex items-center gap-1 rounded-full bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400 px-2 py-0.5 text-xs font-semibold">
       <XCircle size={11} />
       {notDoneLabel || "Belum"}
     </span>
@@ -419,13 +419,13 @@ const DetailShift = () => {
         {/* Ringkasan */}
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 mb-5">
           <div className="rounded-xl border border-border/60 bg-muted/30 px-4 py-3">
-            <p className="text-[11px] font-semibold uppercase tracking-wide text-muted-foreground">
+            <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
               Total Karyawan
             </p>
             <p className="text-xl font-bold text-foreground mt-0.5">{counts.total}</p>
           </div>
           <div className="rounded-xl border border-green-200 dark:border-green-800 bg-green-50 dark:bg-green-900/10 px-4 py-3">
-            <p className="text-[11px] font-semibold uppercase tracking-wide text-green-700 dark:text-green-400">
+            <p className="text-xs font-semibold uppercase tracking-wide text-green-700 dark:text-green-400">
               Absen Masuk
             </p>
             <p className="text-xl font-bold text-green-700 dark:text-green-400 mt-0.5">
@@ -433,7 +433,7 @@ const DetailShift = () => {
             </p>
           </div>
           <div className="rounded-xl border border-red-200 dark:border-red-800 bg-red-50 dark:bg-red-900/10 px-4 py-3">
-            <p className="text-[11px] font-semibold uppercase tracking-wide text-red-700 dark:text-red-400">
+            <p className="text-xs font-semibold uppercase tracking-wide text-red-700 dark:text-red-400">
               Belum Absen Masuk
             </p>
             <p className="text-xl font-bold text-red-700 dark:text-red-400 mt-0.5">
@@ -441,7 +441,7 @@ const DetailShift = () => {
             </p>
           </div>
           <div className="rounded-xl border border-green-200 dark:border-green-800 bg-green-50 dark:bg-green-900/10 px-4 py-3">
-            <p className="text-[11px] font-semibold uppercase tracking-wide text-green-700 dark:text-green-400">
+            <p className="text-xs font-semibold uppercase tracking-wide text-green-700 dark:text-green-400">
               Absen Keluar
             </p>
             <p className="text-xl font-bold text-green-700 dark:text-green-400 mt-0.5">
@@ -449,7 +449,7 @@ const DetailShift = () => {
             </p>
           </div>
           <div className="rounded-xl border border-amber-200 dark:border-amber-800 bg-amber-50 dark:bg-amber-900/10 px-4 py-3">
-            <p className="text-[11px] font-semibold uppercase tracking-wide text-amber-700 dark:text-amber-400">
+            <p className="text-xs font-semibold uppercase tracking-wide text-amber-700 dark:text-amber-400">
               Belum Absen Keluar
             </p>
             <p className="text-xl font-bold text-amber-700 dark:text-amber-400 mt-0.5">
@@ -460,7 +460,7 @@ const DetailShift = () => {
 
         {mismatch.length > 0 && (
           <div className="mb-4 rounded-lg border border-amber-200 dark:border-amber-800 bg-amber-50 dark:bg-amber-900/10 px-3 py-2.5">
-            <p className="text-[11px] font-medium text-amber-800 dark:text-amber-300 flex items-start gap-1.5">
+            <p className="text-xs font-medium text-amber-800 dark:text-amber-300 flex items-start gap-1.5">
               <Store size={11} className="shrink-0 mt-0.5" />
               <span>
                 {mismatch.length} karyawan tidak sesuai dengan toko shift ini (
@@ -471,7 +471,7 @@ const DetailShift = () => {
           </div>
         )}
         {resolvedCount > 0 && resolvedCount < matching.length && (
-          <p className="mb-4 text-[11px] text-muted-foreground">
+          <p className="mb-4 text-xs text-muted-foreground">
             {resolvedCount} dari {matching.length} karyawan ditemukan di daftar karyawan.
           </p>
         )}
@@ -488,40 +488,40 @@ const DetailShift = () => {
             <table className="w-full min-w-[1200px] border-collapse text-sm">
               <thead>
                 <tr className="border-b border-border bg-muted/40 text-left">
-                  <th className="px-3 py-2.5 text-[11px] font-bold uppercase tracking-wide text-muted-foreground w-10">
+                  <th className="px-3 py-2.5 text-xs font-bold uppercase tracking-wide text-muted-foreground w-10">
                     No
                   </th>
-                  <th className="px-3 py-2.5 text-[11px] font-bold uppercase tracking-wide text-muted-foreground">
+                  <th className="px-3 py-2.5 text-xs font-bold uppercase tracking-wide text-muted-foreground">
                     Karyawan
                   </th>
-                  <th className="px-3 py-2.5 text-[11px] font-bold uppercase tracking-wide text-muted-foreground">
+                  <th className="px-3 py-2.5 text-xs font-bold uppercase tracking-wide text-muted-foreground">
                     Username
                   </th>
-                  <th className="px-3 py-2.5 text-[11px] font-bold uppercase tracking-wide text-muted-foreground">
+                  <th className="px-3 py-2.5 text-xs font-bold uppercase tracking-wide text-muted-foreground">
                     Role
                   </th>
-                  <th className="px-3 py-2.5 text-[11px] font-bold uppercase tracking-wide text-muted-foreground">
+                  <th className="px-3 py-2.5 text-xs font-bold uppercase tracking-wide text-muted-foreground">
                     Jabatan
                   </th>
-                  <th className="px-3 py-2.5 text-[11px] font-bold uppercase tracking-wide text-muted-foreground">
+                  <th className="px-3 py-2.5 text-xs font-bold uppercase tracking-wide text-muted-foreground">
                     Departemen
                   </th>
-                  <th className="px-3 py-2.5 text-[11px] font-bold uppercase tracking-wide text-muted-foreground">
+                  <th className="px-3 py-2.5 text-xs font-bold uppercase tracking-wide text-muted-foreground">
                     Toko
                   </th>
-                  <th className="px-3 py-2.5 text-[11px] font-bold uppercase tracking-wide text-muted-foreground">
+                  <th className="px-3 py-2.5 text-xs font-bold uppercase tracking-wide text-muted-foreground">
                     Absen Masuk
                   </th>
-                  <th className="px-3 py-2.5 text-[11px] font-bold uppercase tracking-wide text-muted-foreground">
+                  <th className="px-3 py-2.5 text-xs font-bold uppercase tracking-wide text-muted-foreground">
                     Jam Masuk
                   </th>
-                  <th className="px-3 py-2.5 text-[11px] font-bold uppercase tracking-wide text-muted-foreground">
+                  <th className="px-3 py-2.5 text-xs font-bold uppercase tracking-wide text-muted-foreground">
                     Absen Keluar
                   </th>
-                  <th className="px-3 py-2.5 text-[11px] font-bold uppercase tracking-wide text-muted-foreground">
+                  <th className="px-3 py-2.5 text-xs font-bold uppercase tracking-wide text-muted-foreground">
                     Jam Keluar
                   </th>
-                  <th className="px-3 py-2.5 text-[11px] font-bold uppercase tracking-wide text-muted-foreground">
+                  <th className="px-3 py-2.5 text-xs font-bold uppercase tracking-wide text-muted-foreground">
                     Kehadiran
                   </th>
                 </tr>
@@ -592,17 +592,17 @@ const DetailShift = () => {
                       </td>
                       <td className="px-3 py-2.5">
                         {checkIn && checkOut ? (
-                          <span className="inline-flex items-center gap-1 rounded-full bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400 px-2 py-0.5 text-[11px] font-semibold">
+                          <span className="inline-flex items-center gap-1 rounded-full bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400 px-2 py-0.5 text-xs font-semibold">
                             <CheckCircle2 size={11} />
                             Hadir penuh
                           </span>
                         ) : checkIn ? (
-                          <span className="inline-flex items-center gap-1 rounded-full bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400 px-2 py-0.5 text-[11px] font-semibold">
+                          <span className="inline-flex items-center gap-1 rounded-full bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400 px-2 py-0.5 text-xs font-semibold">
                             <LogIn size={11} />
                             Belum pulang
                           </span>
                         ) : (
-                          <span className="inline-flex items-center gap-1 rounded-full bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400 px-2 py-0.5 text-[11px] font-semibold">
+                          <span className="inline-flex items-center gap-1 rounded-full bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400 px-2 py-0.5 text-xs font-semibold">
                             <LogOut size={11} />
                             Belum masuk
                           </span>

@@ -196,7 +196,7 @@ const CashierTablePanel = ({ store, onClose }) => {
                   <div className="flex items-center gap-2">
                     <span className="font-semibold">{tb.name}</span>
                     <span
-                      className={`rounded-full px-2 py-0.5 text-[11px] font-medium ${STATUS_STYLE[tb.status] || STATUS_STYLE.maintenance}`}>
+                      className={`rounded-full px-2 py-0.5 text-xs font-medium ${STATUS_STYLE[tb.status] || STATUS_STYLE.maintenance}`}>
                       {t(`page.table.status.${tb.status}`, tb.status)}
                     </span>
                   </div>

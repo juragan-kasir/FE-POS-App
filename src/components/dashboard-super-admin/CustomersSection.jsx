@@ -20,13 +20,13 @@ const CustomersSection = ({ customers }) => {
       bodyClassName="space-y-5">
       <div className="grid grid-cols-2 gap-3">
         <div className="bg-muted/40 rounded-lg p-3">
-          <p className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider mb-1">
+          <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-1">
             {t("page.dashboardSuperAdmin.customers.totalMembers")}
           </p>
           <p className="text-lg font-bold text-foreground">{customers?.totalMembers || 0}</p>
         </div>
         <div className="bg-muted/40 rounded-lg p-3">
-          <p className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider mb-1">
+          <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-1">
             {t("page.dashboardSuperAdmin.customers.newMembers")}
           </p>
           <p className="text-lg font-bold text-emerald-600 flex items-center gap-1.5">
@@ -39,7 +39,7 @@ const CustomersSection = ({ customers }) => {
       </div>
 
       <div>
-        <p className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider mb-2 flex items-center gap-1.5">
+        <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2 flex items-center gap-1.5">
           <Crown size={13} className="text-amber-500" />
           {t("page.dashboardSuperAdmin.customers.tierDistribution")}
         </p>
@@ -76,7 +76,7 @@ const CustomersSection = ({ customers }) => {
       </div>
 
       <div>
-        <p className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider mb-2">
+        <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2">
           {t("page.dashboardSuperAdmin.customers.topMembers")}
         </p>
         {topMembers.length === 0 ? (

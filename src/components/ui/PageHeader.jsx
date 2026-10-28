@@ -119,24 +119,24 @@ const PageHeader = ({
             {showMeta && (
               <div className="flex flex-wrap items-center gap-2 mt-2">
                 {roleName && (
-                  <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-primary/10 text-primary text-[11px] font-medium capitalize">
+                  <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-primary/10 text-primary text-xs font-medium capitalize">
                     <Tag size={11} />
                     {roleName}
                   </span>
                 )}
                 {positionName && (
-                  <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-muted text-muted-foreground text-[11px] font-medium">
+                  <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-muted text-muted-foreground text-xs font-medium">
                     <Briefcase size={11} />
                     {positionName}
                   </span>
                 )}
                 {storeName && (
-                  <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-muted text-muted-foreground text-[11px] font-medium">
+                  <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-muted text-muted-foreground text-xs font-medium">
                     <Store size={11} />
                     {storeName}
                   </span>
                 )}
-                <span className="inline-flex items-center gap-1 text-[11px] text-muted-foreground capitalize">
+                <span className="inline-flex items-center gap-1 text-xs text-muted-foreground capitalize">
                   <CalendarDays size={11} />
                   {todayLabel}
                 </span>

@@ -175,7 +175,7 @@ const ExtendShiftModal = ({ open, onOpenChange, shift, locationName, onSave, isS
               {shift?.tipe_shift === "mingguan" && daysLeft !== null && (
                 <span
                   className={cn(
-                    "text-[11px] font-medium",
+                    "text-xs font-medium",
                     daysLeft <= 2
                       ? "text-red-600 dark:text-red-400"
                       : daysLeft <= 5
@@ -218,7 +218,7 @@ const ExtendShiftModal = ({ open, onOpenChange, shift, locationName, onSave, isS
                 placeholder="Pilih tanggal"
               />
               {!tanggalMulai && (
-                <p className="text-[11px] text-red-600 dark:text-red-400 mt-1">Wajib diisi</p>
+                <p className="text-xs text-red-600 dark:text-red-400 mt-1">Wajib diisi</p>
               )}
             </div>
             <div>
@@ -237,7 +237,7 @@ const ExtendShiftModal = ({ open, onOpenChange, shift, locationName, onSave, isS
                   placeholder="Pilih tanggal"
                 />
               </div>
-              <p className="text-[11px] text-muted-foreground mt-1">
+              <p className="text-xs text-muted-foreground mt-1">
                 {isMingguan ? "Atur tanggal berakhir shift" : "Hanya untuk shift mingguan"}
               </p>
             </div>
@@ -265,7 +265,7 @@ const ExtendShiftModal = ({ open, onOpenChange, shift, locationName, onSave, isS
               </button>
             ))}
           </div>
-          <p className="text-[11px] text-muted-foreground mt-1.5 flex items-center gap-1">
+          <p className="text-xs text-muted-foreground mt-1.5 flex items-center gap-1">
             <Info size={11} className="shrink-0" />
             {isMingguan
               ? "Shift berjalan mingguan dengan tanggal selesai."
@@ -280,7 +280,7 @@ const ExtendShiftModal = ({ open, onOpenChange, shift, locationName, onSave, isS
             <span className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">
               Karyawan dalam Shift ini
             </span>
-            <span className="ml-auto inline-flex items-center justify-center h-5 min-w-5 px-1.5 rounded-full bg-primary/10 text-primary text-[11px] font-bold">
+            <span className="ml-auto inline-flex items-center justify-center h-5 min-w-5 px-1.5 rounded-full bg-primary/10 text-primary text-xs font-bold">
               {matching.length}
             </span>
           </div>
@@ -314,7 +314,7 @@ const ExtendShiftModal = ({ open, onOpenChange, shift, locationName, onSave, isS
                     <p className="flex-1 min-w-0 truncate text-xs font-semibold text-muted-foreground">
                       {g.label}
                     </p>
-                    <span className="shrink-0 ml-auto inline-flex items-center justify-center h-5 min-w-5 px-1 rounded-md bg-background border border-border text-[10px] font-bold text-muted-foreground">
+                    <span className="shrink-0 ml-auto inline-flex items-center justify-center h-5 min-w-5 px-1 rounded-md bg-background border border-border text-xs font-bold text-muted-foreground">
                       {g.members.length}
                     </span>
                   </div>
@@ -338,7 +338,7 @@ const ExtendShiftModal = ({ open, onOpenChange, shift, locationName, onSave, isS
                           <p className="text-sm font-medium text-foreground truncate">
                             {emp.fullName || emp.name || "-"}
                           </p>
-                          <div className="flex items-center gap-2 text-[11px] text-muted-foreground flex-wrap">
+                          <div className="flex items-center gap-2 text-xs text-muted-foreground flex-wrap">
                             {emp.positionData?.name && (
                               <span className="inline-flex items-center gap-1 min-w-0">
                                 <Briefcase size={10} className="shrink-0" />
@@ -363,9 +363,9 @@ const ExtendShiftModal = ({ open, onOpenChange, shift, locationName, onSave, isS
                         </div>
                         <div className="flex-1 min-w-0">
                           <p className="font-medium text-foreground/70">Karyawan #{key}</p>
-                          <p className="text-[11px]">Data tidak ditemukan dalam daftar karyawan</p>
+                          <p className="text-xs">Data tidak ditemukan dalam daftar karyawan</p>
                         </div>
-                        <span className="shrink-0 rounded-md bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400 px-1.5 py-0.5 text-[10px] font-medium">
+                        <span className="shrink-0 rounded-md bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400 px-1.5 py-0.5 text-xs font-medium">
                           Tidak ditemukan
                         </span>
                       </div>
@@ -377,7 +377,7 @@ const ExtendShiftModal = ({ open, onOpenChange, shift, locationName, onSave, isS
           )}
           {mismatch.length > 0 && (
             <div className="px-4 py-2 border-t border-amber-200/70 dark:border-amber-800/60 bg-amber-50 dark:bg-amber-900/10">
-              <p className="text-[11px] text-amber-800 dark:text-amber-300 flex items-start gap-1.5">
+              <p className="text-xs text-amber-800 dark:text-amber-300 flex items-start gap-1.5">
                 <Info size={11} className="shrink-0 mt-0.5" />
                 <span>
                   {mismatch.length} karyawan (
@@ -389,7 +389,7 @@ const ExtendShiftModal = ({ open, onOpenChange, shift, locationName, onSave, isS
           )}
           {!empLoading && unknownCount > 0 && (
             <div className="px-4 py-2 bg-muted/40 border-t border-border">
-              <p className="text-[11px] text-muted-foreground flex items-center gap-1.5">
+              <p className="text-xs text-muted-foreground flex items-center gap-1.5">
                 <Info size={11} className="shrink-0" />
                 {resolvedCount === 0
                   ? "Belum ada data karyawan yang cocok. Pastikan data karyawan tersedia pada toko ini."

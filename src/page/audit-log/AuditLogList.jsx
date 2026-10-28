@@ -121,7 +121,7 @@ const AuditLogList = () => {
                 isFiltered={isFiltered}>
                 {isSuperAdmin && (
                   <div className="flex flex-col gap-1.5">
-                    <label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
+                    <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                       Store
                     </label>
                     <StoreFilter
@@ -137,7 +137,7 @@ const AuditLogList = () => {
                   </div>
                 )}
                 <div className="flex flex-col gap-1.5">
-                  <label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
+                  <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                     Cari
                   </label>
                   <SearchInput
@@ -152,7 +152,7 @@ const AuditLogList = () => {
                   />
                 </div>
                 <div className="flex flex-col gap-1.5">
-                  <label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
+                  <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                     Aksi
                   </label>
                   <Combobox
@@ -181,7 +181,7 @@ const AuditLogList = () => {
                   />
                 </div>
                 <div className="flex flex-col gap-1.5">
-                  <label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
+                  <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                     Entitas
                   </label>
                   <Combobox
@@ -237,7 +237,7 @@ const AuditLogList = () => {
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-2 flex-wrap">
                           <span
-                            className={`px-2 py-0.5 rounded text-[10px] font-bold ${
+                            className={`px-2 py-0.5 rounded text-xs font-bold ${
                               log.action === "create"
                                 ? "bg-emerald-100 text-emerald-700"
                                 : log.action === "update"
@@ -268,7 +268,7 @@ const AuditLogList = () => {
                               <span className="text-muted-foreground">:#{log.entityId}</span>
                             )}
                           </span>
-                          <span className="px-2 py-0.5 bg-muted text-[10px] rounded">
+                          <span className="px-2 py-0.5 bg-muted text-xs rounded">
                             <Clock size={10} className="mr-1 inline" />
                             {new Date(log.createdAt).toLocaleString("id-ID")}
                           </span>

@@ -80,7 +80,7 @@ export const VarianceApprovalBadge = ({ status }) => {
   const Icon = cfg.icon;
   return (
     <span
-      className={`inline-flex items-center gap-1 rounded-full border px-2 py-0.5 text-[10px] font-bold uppercase ${cfg.className}`}>
+      className={`inline-flex items-center gap-1 rounded-full border px-2 py-0.5 text-xs font-bold uppercase ${cfg.className}`}>
       <Icon size={12} aria-hidden="true" />
       {t(cfg.labelKey)}
     </span>

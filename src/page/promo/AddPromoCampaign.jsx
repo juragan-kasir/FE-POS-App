@@ -648,7 +648,7 @@ const AddPromoCampaign = () => {
                           className={`${moneyInputCls} ${!isPercentage ? "bg-muted cursor-not-allowed" : ""}`}
                         />
                         {!isPercentage && (
-                          <p className="text-[11px] text-muted-foreground">
+                          <p className="text-xs text-muted-foreground">
                             Hanya berlaku untuk tipe Percentage
                           </p>
                         )}
@@ -782,7 +782,7 @@ const AddPromoCampaign = () => {
                         </button>
                       ))}
                     </div>
-                    <p className="text-[11px] text-muted-foreground">
+                    <p className="text-xs text-muted-foreground">
                       Kosongkan jika berlaku setiap hari
                     </p>
                   </div>
@@ -925,7 +925,7 @@ const AddPromoCampaign = () => {
                           </div>
                         )}
                         {["time", "birthday", "first_purchase"].includes(rule.ruleType) && (
-                          <p className="text-[11px] text-muted-foreground">
+                          <p className="text-xs text-muted-foreground">
                             Aturan ini tidak memerlukan pengaturan tambahan
                           </p>
                         )}
@@ -1093,7 +1093,7 @@ const AddPromoCampaign = () => {
                       searchPlaceholder="Cari penerapan..."
                     />
                     {!storeReady && (
-                      <p className="text-[11px] text-muted-foreground">
+                      <p className="text-xs text-muted-foreground">
                         {t("page.bundle.form.storeSection.desc")}
                       </p>
                     )}
@@ -1216,7 +1216,7 @@ const AddPromoCampaign = () => {
                               <span className="text-xs font-medium text-foreground truncate">
                                 {promo.name}
                               </span>
-                              <span className="text-[10px] px-1.5 py-0.5 rounded bg-primary/10 text-primary font-medium shrink-0">
+                              <span className="text-xs px-1.5 py-0.5 rounded bg-primary/10 text-primary font-medium shrink-0">
                                 {CAMPAIGN_TYPE_LABELS[promo.type] || promo.type}
                               </span>
                             </div>

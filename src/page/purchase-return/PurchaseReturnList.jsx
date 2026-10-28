@@ -164,12 +164,12 @@ const PurchaseReturnList = () => {
         return (
           <div className="inline-flex flex-col items-center gap-1">
             <span
-              className={`inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold uppercase ${sc.class}`}>
+              className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-bold uppercase ${sc.class}`}>
               {t(`page.purchaseReturn.status.${item.status}`)}
             </span>
             {res && (
               <span
-                className={`inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-semibold ${
+                className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold ${
                   res === "replacement"
                     ? "bg-indigo-100 text-indigo-700 dark:bg-indigo-900/30 dark:text-indigo-400"
                     : "bg-sky-100 text-sky-700 dark:bg-sky-900/30 dark:text-sky-400"
@@ -355,7 +355,7 @@ const PurchaseReturnList = () => {
                     onReset={resetFilters}
                     isFiltered={isFiltered}>
                     <div className="flex flex-col gap-1.5">
-                      <label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
+                      <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                         {t("page.purchaseReturn.list.filter.search")}
                       </label>
                       <SearchInput
@@ -370,7 +370,7 @@ const PurchaseReturnList = () => {
                     </div>
                     {isSuperAdmin && (
                       <div className="flex flex-col gap-1.5">
-                        <label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
+                        <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                           {t("page.purchaseReturn.list.filter.store")}
                         </label>
                         <StoreFilter
@@ -386,7 +386,7 @@ const PurchaseReturnList = () => {
                       </div>
                     )}
                     <div className="flex flex-col gap-1.5">
-                      <label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
+                      <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                         {t("page.purchaseReturn.list.filter.date")}
                       </label>
                       <DatePicker
@@ -399,7 +399,7 @@ const PurchaseReturnList = () => {
                       />
                     </div>
                     <div className="flex flex-col gap-1.5">
-                      <label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
+                      <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                         {t("page.purchaseReturn.list.filter.status")}
                       </label>
                       <Combobox

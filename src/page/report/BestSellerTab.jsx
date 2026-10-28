@@ -143,7 +143,7 @@ const BestSellerTab = ({ t, data, isLoading }) => {
                 </p>
                 <div className="grid grid-cols-2 gap-3">
                   <div className="bg-white/10 p-3 rounded-lg">
-                    <p className="text-[10px] text-white/60 uppercase tracking-widest">
+                    <p className="text-xs text-white/60 uppercase tracking-widest">
                       {t("page.report.bestSeller.share")}
                     </p>
                     <p className="text-lg font-bold">
@@ -153,7 +153,7 @@ const BestSellerTab = ({ t, data, isLoading }) => {
                     </p>
                   </div>
                   <div className="bg-white/10 p-3 rounded-lg">
-                    <p className="text-[10px] text-white/60 uppercase tracking-widest">
+                    <p className="text-xs text-white/60 uppercase tracking-widest">
                       {t("common.status")}
                     </p>
                     <p className="text-lg font-bold">{t("page.report.bestSeller.lead")}</p>

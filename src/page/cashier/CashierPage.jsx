@@ -616,7 +616,7 @@ const CashierPage = () => {
                         {tablesNotAvailable > 0 && (
                           <span
                             data-testid="tables-not-available-badge"
-                            className="absolute -top-1.5 -right-1.5 bg-amber-500 text-white text-[10px] font-bold rounded-full min-w-5 h-5 px-1 flex items-center justify-center">
+                            className="absolute -top-1.5 -right-1.5 bg-amber-500 text-white text-xs font-bold rounded-full min-w-5 h-5 px-1 flex items-center justify-center">
                             {tablesNotAvailable}
                           </span>
                         )}

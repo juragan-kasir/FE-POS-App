@@ -391,7 +391,7 @@ const DetailGoodsRequest = () => {
                               <span className="font-semibold text-foreground">
                                 {g.supplierName}
                               </span>
-                              <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-medium bg-blue-50 text-blue-700 dark:bg-blue-900/20 dark:text-blue-400 border border-blue-200 dark:border-blue-800">
+                              <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-blue-50 text-blue-700 dark:bg-blue-900/20 dark:text-blue-400 border border-blue-200 dark:border-blue-800">
                                 {g.items.length}{" "}
                                 {g.items.length > 1
                                   ? t("page.goodsRequest.detail.items")
@@ -437,11 +437,11 @@ const DetailGoodsRequest = () => {
                                         <td className="px-4 py-2">{name}</td>
                                         <td className="px-4 py-2">
                                           {isIngredient ? (
-                                            <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold uppercase bg-amber-100 text-amber-800 dark:bg-amber-900/30 dark:text-amber-400">
+                                            <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-bold uppercase bg-amber-100 text-amber-800 dark:bg-amber-900/30 dark:text-amber-400">
                                               {t("page.goodsRequest.detail.typeIngredient")}
                                             </span>
                                           ) : (
-                                            <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold uppercase bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400">
+                                            <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-bold uppercase bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400">
                                               {t("page.goodsRequest.detail.typeProduct")}
                                             </span>
                                           )}

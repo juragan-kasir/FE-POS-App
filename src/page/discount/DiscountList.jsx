@@ -647,7 +647,7 @@ const DiscountList = () => {
                   onReset={resetFilters}
                   isFiltered={isFiltered}>
                   <div className="flex flex-col gap-1.5">
-                    <label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
+                    <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                       Store
                     </label>
                     <StoreFilter
@@ -662,7 +662,7 @@ const DiscountList = () => {
                     />
                   </div>
                   <div className="flex flex-col gap-1.5">
-                    <label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
+                    <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                       {t("common.status")}
                     </label>
                     <Combobox
@@ -683,7 +683,7 @@ const DiscountList = () => {
                     />
                   </div>
                   <div className="flex flex-col gap-1.5">
-                    <label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
+                    <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                       Cari
                     </label>
                     <SearchInput

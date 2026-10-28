@@ -217,7 +217,7 @@ const EmployeeList = () => {
       align: "center",
       render: (row) => (
         <span
-          className={`inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-tight border ${
+          className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-bold uppercase tracking-tight border ${
             row.status === "active"
               ? "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400 border-green-200 dark:border-green-800"
               : row.status === "draft"
@@ -422,7 +422,7 @@ const EmployeeList = () => {
                       onReset={resetFilters}
                       isFiltered={isFiltered}>
                       <div className="flex flex-col gap-1.5">
-                        <label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
+                        <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                           Cari
                         </label>
                         <SearchInput
@@ -436,7 +436,7 @@ const EmployeeList = () => {
                         />
                       </div>
                       <div className="flex flex-col gap-1.5">
-                        <label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
+                        <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                           Toko
                         </label>
                         <Combobox
@@ -457,7 +457,7 @@ const EmployeeList = () => {
                         />
                       </div>
                       <div className="flex flex-col gap-1.5">
-                        <label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
+                        <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                           Posisi
                         </label>
                         <Combobox
@@ -478,7 +478,7 @@ const EmployeeList = () => {
                         />
                       </div>
                       <div className="flex flex-col gap-1.5">
-                        <label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
+                        <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                           Departemen
                         </label>
                         <Combobox

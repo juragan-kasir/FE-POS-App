@@ -273,7 +273,7 @@ const NotificationPage = () => {
                               className={`text-sm ${!notif.isRead ? "font-semibold text-foreground" : "text-foreground"}`}>
                               {notif.title}
                             </p>
-                            <span className="text-[11px] text-muted-foreground whitespace-nowrap shrink-0">
+                            <span className="text-xs text-muted-foreground whitespace-nowrap shrink-0">
                               {formatTime(notif.createdAt)}
                             </span>
                           </div>

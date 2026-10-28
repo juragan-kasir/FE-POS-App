@@ -76,7 +76,7 @@ const statusBadge = (status) => {
   };
   return (
     <span
-      className={`shrink-0 inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-semibold border capitalize ${safeGet(map, status, map.pending)}`}>
+      className={`shrink-0 inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-semibold border capitalize ${safeGet(map, status, map.pending)}`}>
       {safeGet(labels, status, status)}
     </span>
   );
@@ -225,7 +225,7 @@ const MyOvertime = () => {
 
       {isSuperAdmin && (
         <div className="flex flex-col gap-1.5 max-w-xs">
-          <label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
+          <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
             Toko
           </label>
           <Combobox
@@ -260,7 +260,7 @@ const MyOvertime = () => {
           </div>
 
           <div className="space-y-1.5">
-            <label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
+            <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
               Shift
             </label>
             <Combobox
@@ -271,15 +271,13 @@ const MyOvertime = () => {
               searchPlaceholder="Cari shift..."
             />
             {myShifts.length === 0 && (
-              <p className="text-[11px] text-red-500">
-                Anda belum terdaftar di shift aktif toko ini.
-              </p>
+              <p className="text-xs text-red-500">Anda belum terdaftar di shift aktif toko ini.</p>
             )}
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div className="space-y-1.5">
-              <label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
+              <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                 Tanggal
               </label>
               <Input
@@ -289,7 +287,7 @@ const MyOvertime = () => {
               />
             </div>
             <div className="space-y-1.5">
-              <label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
+              <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                 Durasi (auto)
               </label>
               <div className="h-9 rounded-lg border border-border bg-muted/30 px-3 flex items-center text-sm font-medium text-foreground">
@@ -297,7 +295,7 @@ const MyOvertime = () => {
               </div>
             </div>
             <div className="space-y-1.5">
-              <label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
+              <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                 Jam Mulai
               </label>
               <Input
@@ -307,7 +305,7 @@ const MyOvertime = () => {
               />
             </div>
             <div className="space-y-1.5">
-              <label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
+              <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                 Jam Selesai
               </label>
               <Input
@@ -319,7 +317,7 @@ const MyOvertime = () => {
           </div>
 
           <div className="space-y-1.5">
-            <label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
+            <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
               Catatan
             </label>
             <Textarea
@@ -416,14 +414,14 @@ const MyOvertime = () => {
                     <p className="text-xs text-muted-foreground line-clamp-2">{ot.note}</p>
                   )}
                   <div className="flex items-center justify-between gap-2 pt-1 border-t border-border/50">
-                    <p className="text-[11px] text-muted-foreground">
+                    <p className="text-xs text-muted-foreground">
                       Diajukan {fmtDateTime(ot.createdAt)}
                     </p>
                     {ot.status === "pending" && (
                       <Button
                         size="sm"
                         variant="danger"
-                        className="h-7 px-2.5 text-[11px] text-destructive border-destructive/40 hover:bg-destructive/10"
+                        className="h-7 px-2.5 text-xs text-destructive border-destructive/40 hover:bg-destructive/10"
                         onClick={() => setCancelTarget(ot)}>
                         Batalkan
                       </Button>

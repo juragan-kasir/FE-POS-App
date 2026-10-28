@@ -333,7 +333,7 @@ const CashRegisterDetail = () => {
                   <td className="px-4 py-3 text-right font-mono">{formatIDR(o.totalPrice)}</td>
                   <td className="px-4 py-3 text-center">
                     <span
-                      className={`inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold uppercase ${orderStatusBadge(o.status)}`}>
+                      className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-bold uppercase ${orderStatusBadge(o.status)}`}>
                       {o.status}
                     </span>
                     {(() => {
@@ -342,7 +342,7 @@ const CashRegisterDetail = () => {
                       const included = eligibility === "included";
                       return (
                         <div
-                          className={`mt-1 text-[10px] font-semibold ${
+                          className={`mt-1 text-xs font-semibold ${
                             included ? "text-green-700" : "text-amber-700"
                           }`}>
                           {included
@@ -356,7 +356,7 @@ const CashRegisterDetail = () => {
                   </td>
                   <td className="px-4 py-3 text-center">
                     <span
-                      className={`inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold uppercase ${
+                      className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-bold uppercase ${
                         inPeriod ? "bg-green-100 text-green-800" : "bg-amber-100 text-amber-800"
                       }`}>
                       {inPeriod
@@ -394,7 +394,7 @@ const CashRegisterDetail = () => {
                                   <td className="px-3 py-1.5">
                                     {it.productName || "-"}
                                     {it.notes && (
-                                      <span className="block text-[10px] text-muted-foreground">
+                                      <span className="block text-xs text-muted-foreground">
                                         {it.notes}
                                       </span>
                                     )}

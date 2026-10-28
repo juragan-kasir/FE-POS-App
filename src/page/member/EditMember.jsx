@@ -389,7 +389,7 @@ const EditMember = () => {
                                     style={{ color: selected.color || "#6366f1" }}>
                                     {selected.discountPercent}%
                                   </p>
-                                  <p className="text-[10px] text-muted-foreground uppercase tracking-wider">
+                                  <p className="text-xs text-muted-foreground uppercase tracking-wider">
                                     Diskon
                                   </p>
                                 </div>
@@ -403,7 +403,7 @@ const EditMember = () => {
                             <div
                               className="px-4 py-3 border-t"
                               style={{ borderColor: `${selected.color || "#6366f1"}15` }}>
-                              <p className="text-[10px] font-semibold text-muted-foreground uppercase tracking-wider mb-2">
+                              <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2">
                                 {t("page.member.benefits")}
                               </p>
                               <ul className="space-y-1.5">

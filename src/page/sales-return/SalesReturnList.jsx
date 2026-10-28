@@ -198,7 +198,7 @@ const SalesReturnList = () => {
         const statusKey = statusCfg[item.status] ? item.status : "pending";
         return (
           <span
-            className={`inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold uppercase ${sc.class}`}>
+            className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-bold uppercase ${sc.class}`}>
             {t(`page.salesReturn.status.${statusKey}`)}
           </span>
         );
@@ -341,7 +341,7 @@ const SalesReturnList = () => {
                     isFiltered={isFiltered}>
                     {isSuperAdmin && (
                       <div className="flex flex-col gap-1.5">
-                        <label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
+                        <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                           {t("page.salesReturn.list.filter.store")}
                         </label>
                         <StoreFilter
@@ -357,7 +357,7 @@ const SalesReturnList = () => {
                       </div>
                     )}
                     <div className="flex flex-col gap-1.5">
-                      <label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
+                      <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                         {t("page.salesReturn.list.filter.allStatus")}
                       </label>
                       <Combobox
@@ -378,7 +378,7 @@ const SalesReturnList = () => {
                       />
                     </div>
                     <div className="flex flex-col gap-1.5">
-                      <label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
+                      <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                         {t("page.salesReturn.list.filter.search")}
                       </label>
                       <SearchInput

@@ -321,7 +321,7 @@ const DetailExpense = () => {
                         : t("page.expense.detail.employeeTitle")}
                     </h3>
                     {isSalary && (
-                      <span className="inline-flex px-2 py-0.5 rounded-full text-[10px] font-bold uppercase bg-primary/10 text-primary">
+                      <span className="inline-flex px-2 py-0.5 rounded-full text-xs font-bold uppercase bg-primary/10 text-primary">
                         {t("page.expense.form.salary.badge")}
                       </span>
                     )}
@@ -385,7 +385,7 @@ const DetailExpense = () => {
                         </p>
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                           <div className="rounded-lg border border-primary/40 bg-primary/5 p-3">
-                            <p className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider mb-1">
+                            <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-1">
                               {t("page.expense.form.salary.monthlySalary")}
                             </p>
                             <p className="text-base font-bold text-primary">
@@ -393,7 +393,7 @@ const DetailExpense = () => {
                             </p>
                           </div>
                           <div className="rounded-lg border border-border bg-background p-3">
-                            <p className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider mb-1">
+                            <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-1">
                               {t("page.expense.form.salary.dailySalary")}
                             </p>
                             <p className="text-base font-bold text-foreground">
@@ -440,7 +440,7 @@ const DetailExpense = () => {
                     {t("page.expense.detail.paymentLogTitle")}
                   </h3>
                   {item.isPaid && (
-                    <span className="inline-flex px-2 py-0.5 rounded-full text-[10px] font-bold uppercase bg-teal-100 text-teal-700">
+                    <span className="inline-flex px-2 py-0.5 rounded-full text-xs font-bold uppercase bg-teal-100 text-teal-700">
                       {t("page.expense.list.statusPaid")}
                     </span>
                   )}
@@ -464,10 +464,10 @@ const DetailExpense = () => {
                           )}
                         </div>
                         <div className="text-right shrink-0">
-                          <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-semibold bg-purple-100 text-purple-700 capitalize">
+                          <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold bg-purple-100 text-purple-700 capitalize">
                             {p.paymentMethod || "-"}
                           </span>
-                          <p className="text-[11px] text-muted-foreground mt-1">
+                          <p className="text-xs text-muted-foreground mt-1">
                             {t("page.expense.detail.paymentBy")}{" "}
                             {p.createdByUser?.fullName || p.createdByUser?.userName || "-"}
                           </p>
