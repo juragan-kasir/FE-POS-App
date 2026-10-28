@@ -66,6 +66,7 @@ import { useLocations } from "@/queries/useLocations";
 import NoStore from "@/components/ui/NoStore";
 import { FIELD_LIMITS } from "@/constants/fieldLimits";
 import { Textarea } from "@/components/ui/textarea";
+import { handleCashierShortcut } from "./shortcuts";
 
 const CashierPage = () => {
   const { t } = useTranslation();
@@ -215,7 +216,9 @@ const CashierPage = () => {
     const handleKeyDown = (e) => {
       if (e.key === "Escape") {
         setShowCartMobile(false);
+        return;
       }
+      handleCashierShortcut(e);
     };
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
@@ -619,6 +622,8 @@ const CashierPage = () => {
                         variant="outline"
                         size="sm"
                         className="relative rounded-xl border-border/60 bg-card/60 hover:border-primary/40 hover:bg-primary/5 hover:text-primary transition-all"
+                        data-shortcut="tables"
+                        aria-keyshortcuts="F9"
                         onClick={() => setShowTables(true)}>
                         <Armchair size={16} />
                         <span className="hidden lg:inline">{t("page.cashier.tables.button")}</span>

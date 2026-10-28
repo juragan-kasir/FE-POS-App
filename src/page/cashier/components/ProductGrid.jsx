@@ -695,6 +695,9 @@ const ProductGrid = ({
               />
               <input
                 ref={activeInputRef}
+                data-shortcut="search"
+                aria-keyshortcuts="F2"
+                title="F2"
                 type="text"
                 value={search}
                 onChange={(e) => onSearchChange(e.target.value)}
@@ -719,6 +722,9 @@ const ProductGrid = ({
               />
               <input
                 ref={activeInputRef}
+                data-shortcut="search"
+                aria-keyshortcuts="F2"
+                title="F2"
                 type="text"
                 value={barcode}
                 onChange={(e) => onBarcodeChange(e.target.value)}
