@@ -56,7 +56,7 @@ const statusMap = {
     class: "bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400"
   },
   cancelled: {
-    class: "bg-gray-100 text-gray-700 dark:bg-gray-800/40 dark:text-gray-400"
+    class: "bg-muted text-foreground"
   }
 };
 
@@ -401,9 +401,7 @@ const GoodsRequestList = () => {
                       key={it.id || i}
                       className={cn(
                         "transition-colors",
-                        i % 2 === 0
-                          ? "bg-white dark:bg-slate-950"
-                          : "bg-slate-50/50 dark:bg-slate-900/50",
+                        i % 2 === 0 ? "bg-background" : "bg-muted/50",
                         "hover:bg-blue-50/50 dark:hover:bg-blue-950/20"
                       )}>
                       <td className="px-4 py-2.5 font-medium text-foreground">

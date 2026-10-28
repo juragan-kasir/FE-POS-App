@@ -186,7 +186,7 @@ const DetailDriver = () => {
               ) : driver.status === "busy" ? (
                 <Clock size={18} className="text-orange-600" />
               ) : driver.status === "draft" ? (
-                <FileEdit size={18} className="text-slate-500" />
+                <FileEdit size={18} className="text-muted-foreground" />
               ) : (
                 <Ban size={18} className="text-red-600" />
               )}
@@ -197,7 +197,7 @@ const DetailDriver = () => {
                     : driver.status === "busy"
                       ? "text-orange-600"
                       : driver.status === "draft"
-                        ? "text-slate-500"
+                        ? "text-muted-foreground"
                         : "text-red-600"
                 }`}>
                 {t(`page.delivery.driver.status.${driver.status}`)}

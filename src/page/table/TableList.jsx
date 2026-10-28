@@ -58,7 +58,7 @@ const statusColors = {
   available: "bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-400",
   occupied: "bg-red-100 text-red-800 dark:bg-red-900/20 dark:text-red-400",
   reserved: "bg-yellow-100 text-yellow-800 dark:bg-yellow-900/20 dark:text-yellow-400",
-  maintenance: "bg-slate-100 text-slate-700 dark:bg-slate-900/20 dark:text-slate-400"
+  maintenance: "bg-muted text-foreground"
 };
 
 const TableList = () => {

@@ -47,7 +47,7 @@ const statusBadge = (status) => {
       "bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400 border border-red-200 dark:border-red-800",
     done: "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400 border border-green-200 dark:border-green-800"
   };
-  return safeGet(map, status, "bg-gray-100 text-gray-800 dark:bg-gray-900/30 dark:text-gray-400");
+  return safeGet(map, status, "bg-muted text-foreground");
 };
 
 const WaiterRequestList = () => {

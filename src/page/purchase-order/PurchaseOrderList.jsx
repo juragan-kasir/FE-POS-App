@@ -138,7 +138,7 @@ const PurchaseOrderList = () => {
   const statusMap = {
     draft: {
       label: t("page.purchaseOrder.status.draft"),
-      class: "bg-gray-100 text-gray-800 dark:bg-gray-900/20 dark:text-gray-400"
+      class: "bg-muted text-foreground"
     },
     pending: {
       label: t("page.purchaseOrder.status.pending"),
@@ -453,9 +453,7 @@ const PurchaseOrderList = () => {
                     key={it.id || i}
                     className={cn(
                       "transition-colors",
-                      i % 2 === 0
-                        ? "bg-white dark:bg-slate-950"
-                        : "bg-slate-50/50 dark:bg-slate-900/50",
+                      i % 2 === 0 ? "bg-background" : "bg-muted/50",
                       "hover:bg-blue-50/50 dark:hover:bg-blue-950/20"
                     )}>
                     <td
@@ -544,7 +542,7 @@ const PurchaseOrderList = () => {
           className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-medium border whitespace-nowrap ${
             po.isFromGoodsRequest
               ? "bg-indigo-50 text-indigo-700 border-indigo-200 dark:bg-indigo-900/30 dark:text-indigo-400 dark:border-indigo-800"
-              : "bg-gray-100 text-gray-600 border-gray-200 dark:bg-gray-900/40 dark:text-gray-400 dark:border-gray-800"
+              : "bg-muted text-muted-foreground border-border"
           }`}>
           {po.isFromGoodsRequest
             ? t("page.purchaseOrder.list.source.fromGoodsRequest")

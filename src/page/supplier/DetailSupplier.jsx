@@ -675,7 +675,7 @@ const DetailSupplier = () => {
                                       className={
                                         i < Math.floor(Number(product.qualityRating) || 0)
                                           ? "fill-yellow-400 text-yellow-400"
-                                          : "text-gray-300"
+                                          : "text-muted-foreground"
                                       }
                                     />
                                   ))}
@@ -738,7 +738,7 @@ const DetailSupplier = () => {
                                   className={
                                     i < Math.floor(Number(product.qualityRating) || 0)
                                       ? "fill-yellow-400 text-yellow-400"
-                                      : "text-gray-300"
+                                      : "text-muted-foreground"
                                   }
                                 />
                               ))}

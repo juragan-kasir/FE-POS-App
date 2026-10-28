@@ -52,7 +52,7 @@ const paymentStatusConfig = {
     color: "bg-red-500/10 text-red-600 dark:text-red-400 border-red-500/30"
   },
   refunded: {
-    color: "bg-slate-500/10 text-slate-600 dark:text-slate-400 border-slate-500/30"
+    color: "bg-muted-foreground/10 text-muted-foreground border-border"
   }
 };
 

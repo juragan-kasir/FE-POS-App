@@ -42,7 +42,7 @@ const ParkedCartCard = ({ cart, onResume, onCancel, isBusy }) => {
         <span className="text-sm font-bold text-foreground">#{cart.id}</span>
         <span
           className={`text-xs font-semibold px-2 py-0.5 rounded-full text-white ${
-            isExpired ? "bg-slate-400" : "bg-amber-500"
+            isExpired ? "bg-muted-foreground" : "bg-amber-500"
           }`}>
           {isExpired
             ? t("page.cashier.parkedCart.expired", "Expired")

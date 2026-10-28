@@ -135,7 +135,7 @@ const typeIcons = {
   },
   shift_created: {
     icon: FileText,
-    bg: "bg-muted dark:bg-gray-900/40",
+    bg: "bg-muted",
     color: "text-muted-foreground"
   },
   discount_created: {
@@ -147,7 +147,7 @@ const typeIcons = {
 
 const defaultIcon = {
   icon: Bell,
-  bg: "bg-muted dark:bg-gray-900/40",
+  bg: "bg-muted",
   color: "text-muted-foreground"
 };
 

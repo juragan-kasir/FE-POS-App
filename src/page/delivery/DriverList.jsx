@@ -57,12 +57,10 @@ const statusBadge = (status) => {
     active:
       "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400 border border-green-200 dark:border-green-800",
     busy: "bg-orange-100 text-orange-800 dark:bg-orange-900/30 dark:text-orange-400 border border-orange-200 dark:border-orange-800",
-    offline:
-      "bg-muted text-gray-600 dark:bg-gray-900/30 dark:text-muted-foreground border border-gray-200 dark:border-gray-800",
+    offline: "bg-muted text-muted-foreground border border-border",
     inactive:
       "bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400 border border-red-200 dark:border-red-800",
-    draft:
-      "bg-slate-100 text-slate-700 dark:bg-slate-900/30 dark:text-slate-400 border border-slate-200 dark:border-slate-800"
+    draft: "bg-muted text-foreground border border-border"
   };
   return safeGet(map, status, "bg-muted text-muted-foreground");
 };

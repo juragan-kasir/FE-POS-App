@@ -212,7 +212,7 @@ const SupplierComparison = () => {
       } else if (i === fullStars && hasHalf) {
         stars.push(<Star key={i} size={14} className="fill-yellow-400/50 text-yellow-400" />);
       } else {
-        stars.push(<Star key={i} size={14} className="text-gray-300" />);
+        stars.push(<Star key={i} size={14} className="text-muted-foreground" />);
       }
     }
     return stars;

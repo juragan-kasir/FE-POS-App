@@ -48,7 +48,7 @@ const icons = [
 
 const colors = [
   { name: "amber", value: "#f59e0b", tailwind: "bg-amber-400" },
-  { name: "slate", value: "#64748b", tailwind: "bg-slate-400" },
+  { name: "slate", value: "#64748b", tailwind: "bg-muted-foreground" },
   { name: "indigo", value: "#6366f1", tailwind: "bg-indigo-500" },
   { name: "emerald", value: "#10b981", tailwind: "bg-emerald-500" },
   { name: "rose", value: "#f43f5e", tailwind: "bg-rose-500" }

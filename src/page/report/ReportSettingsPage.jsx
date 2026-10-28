@@ -570,7 +570,7 @@ const ReportSettingsPage = () => {
               <TabsContent
                 key={variant}
                 value={variant}
-                className="mt-3 min-h-0 flex-1 overflow-auto rounded-lg border border-border bg-slate-100 p-3 dark:bg-slate-900">
+                className="mt-3 min-h-0 flex-1 overflow-auto rounded-lg border border-border bg-muted p-3">
                 <div className="mx-auto max-w-3xl overflow-hidden rounded-md shadow-sm">
                   {draft && (
                     <ReportPreview

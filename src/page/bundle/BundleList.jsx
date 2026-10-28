@@ -184,8 +184,8 @@ const BundleList = () => {
         label: t("common.active")
       },
       draft: {
-        bg: "bg-slate-100 text-slate-700 border-slate-200 dark:bg-slate-900/30 dark:text-slate-400",
-        dot: "bg-slate-500",
+        bg: "bg-muted text-foreground border-border",
+        dot: "bg-muted-foreground",
         label: t("common.draft")
       },
       inactive: {

@@ -128,7 +128,7 @@ export default function DetailPurchaseOrder() {
   const statusMap = {
     draft: {
       label: t("page.purchaseOrder.status.draft"),
-      class: "bg-gray-100 text-gray-800 dark:bg-gray-900/20 dark:text-gray-400"
+      class: "bg-muted text-foreground"
     },
     pending: {
       label: t("page.purchaseOrder.status.pending"),

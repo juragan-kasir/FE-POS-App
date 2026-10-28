@@ -45,8 +45,7 @@ const statusBadge = (status) => {
       "bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400 border border-red-200 dark:border-red-800",
     no_show:
       "bg-orange-100 text-orange-800 dark:bg-orange-900/30 dark:text-orange-400 border border-orange-200 dark:border-orange-800",
-    expired:
-      "bg-muted text-muted-foreground dark:bg-gray-900/30 dark:text-muted-foreground border border-gray-200 dark:border-gray-800"
+    expired: "bg-muted text-muted-foreground border border-border"
   };
   return safeGet(map, status, "bg-muted text-muted-foreground");
 };

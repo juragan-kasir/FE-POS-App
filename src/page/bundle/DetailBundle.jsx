@@ -68,8 +68,8 @@ const DetailBundle = () => {
         label: t("common.active")
       },
       draft: {
-        bg: "bg-slate-100 text-slate-700 border-slate-200",
-        dot: "bg-slate-500",
+        bg: "bg-muted text-foreground border-border",
+        dot: "bg-muted-foreground",
         label: t("common.draft")
       },
       inactive: {

@@ -76,8 +76,7 @@ const statusBadge = (status) => {
       "bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400 border-green-200 dark:border-green-800",
     rejected:
       "bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400 border-red-200 dark:border-red-800",
-    expired:
-      "bg-slate-200 text-slate-600 dark:bg-slate-800 dark:text-slate-400 border-slate-300 dark:border-slate-700",
+    expired: "bg-muted text-muted-foreground border-border",
     cancelled: "bg-muted text-muted-foreground border-border"
   };
   const labels = {
@@ -345,7 +344,7 @@ const SwapApproval = ({ user, store, locations }) => {
         {statItem("Menunggu", stats.pending || 0, "text-amber-600 dark:text-amber-400")}
         {statItem("Disetujui", stats.approved || 0, "text-green-600 dark:text-green-400")}
         {statItem("Ditolak", stats.rejected || 0, "text-red-600 dark:text-red-400")}
-        {statItem("Kedaluwarsa", stats.expired || 0, "text-slate-600 dark:text-slate-400")}
+        {statItem("Kedaluwarsa", stats.expired || 0, "text-muted-foreground")}
         {statItem("Total", stats.total || 0, "text-foreground")}
       </div>
 

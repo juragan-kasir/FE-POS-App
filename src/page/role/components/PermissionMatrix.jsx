@@ -127,7 +127,7 @@ const PermissionMatrix = ({ groups, permissions, onToggle, onSelectAll, footerNo
                     <table className="w-full text-left border-collapse">
                       <thead>
                         <tr className="bg-muted/10">
-                          <th className="px-6 py-3 text-xs font-bold text-foreground uppercase tracking-wider w-56 bg-slate-100 dark:bg-slate-800">
+                          <th className="px-6 py-3 text-xs font-bold text-foreground uppercase tracking-wider w-56 bg-muted">
                             {t("page.role.detail.menuColumn")}
                           </th>
                           {visibleActions.map((action) => (

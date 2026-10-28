@@ -342,7 +342,7 @@ const ThermalPrinterSettings = () => {
         <h2 className="font-semibold p-4 border-b">{t("page.thermalPrinter.preview")}</h2>
         <div className="p-4">
           <div
-            className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded p-4 font-mono text-sm max-w-xs mx-auto"
+            className="bg-background border border-border rounded p-4 font-mono text-sm max-w-xs mx-auto"
             style={{ width: "200px", fontSize: "11px", lineHeight: "1.4" }}>
             <pre className="text-left whitespace-pre-wrap" style={{ fontSize: "10px" }}>
               {`TOKO CONTOH

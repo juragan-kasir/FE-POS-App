@@ -223,7 +223,7 @@ const OvertimeApproval = () => {
         {statItem("Menunggu", stats.pending || 0, "text-amber-600 dark:text-amber-400")}
         {statItem("Disetujui", stats.approved || 0, "text-green-600 dark:text-green-400")}
         {statItem("Ditolak", stats.rejected || 0, "text-red-600 dark:text-red-400")}
-        {statItem("Dibatalkan", stats.cancelled || 0, "text-slate-600 dark:text-slate-400")}
+        {statItem("Dibatalkan", stats.cancelled || 0, "text-muted-foreground")}
       </div>
 
       <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-3">
