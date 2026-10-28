@@ -20,6 +20,7 @@ import StatCard from "@/components/ui/StatCard";
 import PageHeader from "@/components/ui/PageHeader";
 import Modal from "@/components/organism/modal";
 import { canAccess } from "@/utils/permission";
+import i18next from "i18next";
 
 const formatDate = (dateStr) => {
   if (!dateStr) return "-";
@@ -44,12 +45,42 @@ const formatDate = (dateStr) => {
 };
 
 const statusOptions = [
-  { value: "all", label: "All" },
-  { value: "active", label: "Active" },
-  { value: "busy", label: "Busy" },
-  { value: "offline", label: "Offline" },
-  { value: "inactive", label: "Inactive" },
-  { value: "draft", label: "Draft" }
+  {
+    value: "all",
+    get label() {
+      return i18next.t("common.all");
+    }
+  },
+  {
+    value: "active",
+    get label() {
+      return i18next.t("page.location.map.active");
+    }
+  },
+  {
+    value: "busy",
+    get label() {
+      return i18next.t("page.delivery.driver.stats.busy");
+    }
+  },
+  {
+    value: "offline",
+    get label() {
+      return i18next.t("offline.offlineMode");
+    }
+  },
+  {
+    value: "inactive",
+    get label() {
+      return i18next.t("page.location.map.inactive");
+    }
+  },
+  {
+    value: "draft",
+    get label() {
+      return i18next.t("common.draft");
+    }
+  }
 ];
 
 const statusBadge = (status) => {

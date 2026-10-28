@@ -17,14 +17,45 @@ import AbortController from "@/components/organism/abort-controller";
 import Modal from "@/components/organism/modal";
 import PageHeader from "@/components/ui/PageHeader";
 import HorizontalScrollArea from "@/components/ui/HorizontalScrollArea";
+import i18next from "i18next";
 
 const statusDetail = {
-  sent: { label: "Sent", class: "bg-blue-100 text-blue-800" },
-  received: { label: "Received", class: "bg-green-100 text-green-800" },
-  cancelled: { label: "Cancelled", class: "bg-red-100 text-red-800" },
-  pending: { label: "Pending", class: "bg-yellow-100 text-yellow-800" },
-  approved: { label: "Approved", class: "bg-green-100 text-green-800" },
-  rejected: { label: "Rejected", class: "bg-red-100 text-red-800" }
+  sent: {
+    get label() {
+      return i18next.t("page.stockTransfer.ui.sent");
+    },
+    class: "bg-blue-100 text-blue-800"
+  },
+  received: {
+    get label() {
+      return i18next.t("page.purchaseOrder.status.received");
+    },
+    class: "bg-green-100 text-green-800"
+  },
+  cancelled: {
+    get label() {
+      return i18next.t("page.purchaseOrder.status.cancelled");
+    },
+    class: "bg-red-100 text-red-800"
+  },
+  pending: {
+    get label() {
+      return i18next.t("page.expense.list.pending");
+    },
+    class: "bg-yellow-100 text-yellow-800"
+  },
+  approved: {
+    get label() {
+      return i18next.t("page.expense.list.approved");
+    },
+    class: "bg-green-100 text-green-800"
+  },
+  rejected: {
+    get label() {
+      return i18next.t("page.expense.list.rejected");
+    },
+    class: "bg-red-100 text-red-800"
+  }
 };
 
 const DetailStockTransfer = () => {

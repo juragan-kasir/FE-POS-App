@@ -221,7 +221,7 @@ const DashboardUser = () => {
       seenApprovedRef.current.add(s.id);
       const other =
         String(s.requesterId) === String(currentUserId) ? s.requesterUser : s.targetUser;
-      toast.success("Pertukaran Shift Berhasil", {
+      toast.success(t("page.dashboardUser.ui.shiftSwapDone"), {
         description: `Pertukaran shift kamu dengan ${
           other?.fullName || "rekan kerja"
         } telah disetujui.`
@@ -680,24 +680,24 @@ const DashboardUser = () => {
               const statusCfg =
                 s.status === "pending"
                   ? {
-                      label: "Sedang Diproses",
+                      label: t("page.dashboardUser.ui.inProgress3"),
                       cls: "bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400",
                       icon: Loader2
                     }
                   : s.status === "approved"
                     ? {
-                        label: "Berhasil",
+                        label: t("common.success"),
                         cls: "bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400",
                         icon: CheckCircle2
                       }
                     : s.status === "rejected"
                       ? {
-                          label: "Ditolak",
+                          label: t("businessTrip.status.rejected"),
                           cls: "bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400",
                           icon: XCircle
                         }
                       : {
-                          label: "Dibatalkan",
+                          label: t("page.delivery.stats.cancelled"),
                           cls: "bg-muted text-muted-foreground dark:bg-muted/60 dark:text-muted-foreground",
                           icon: CircleDashed
                         };

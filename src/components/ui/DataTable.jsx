@@ -414,7 +414,7 @@ const DataTable = ({
               role="group"
               aria-label={t("common.rowsPerPage", { defaultValue: "Rows per page" })}
               className="flex items-center gap-2 text-sm text-muted-foreground">
-              <span aria-hidden="true">Show</span>
+              <span aria-hidden="true">{t("page.position.list.show")}</span>
               <Combobox
                 options={pageSizeOptions.map((opt) => ({ value: String(opt), label: String(opt) }))}
                 value={String(pageSize || 10)}

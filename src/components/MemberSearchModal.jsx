@@ -7,8 +7,10 @@ import { useQuery } from "react-query";
 import { getAllMember } from "@/services/member";
 import { useCookies } from "react-cookie";
 import HorizontalScrollArea from "@/components/ui/HorizontalScrollArea";
+import { useTranslation } from "react-i18next";
 
 export default function MemberSearchModal({ open, onClose, onSelect }) {
+  const { t } = useTranslation();
   const [cookie] = useCookies();
   const [memberNumber, setMemberNumber] = useState("");
   const [memberName, setMemberName] = useState("");
@@ -40,23 +42,25 @@ export default function MemberSearchModal({ open, onClose, onSelect }) {
     <Dialog open={open} onOpenChange={(o) => !o && onClose()}>
       <DialogContent className="max-w-lg max-h-[80vh] flex flex-col overflow-hidden p-0">
         <div className="px-6 py-4 border-b border-border/50">
-          <DialogTitle>Cari Member</DialogTitle>
+          <DialogTitle>{t("component.memberSearchModal.ui.searchMember")}</DialogTitle>
         </div>
         <div className="p-6 space-y-4 flex-1 overflow-y-auto">
           <div className="space-y-3">
             <div>
-              <label className="block text-sm font-medium mb-1">Nomor Member</label>
+              <label className="block text-sm font-medium mb-1">
+                {t("component.memberSearchModal.ui.memberNumber")}
+              </label>
               <Input
-                placeholder="Nomor HP / Member"
+                placeholder={t("component.memberSearchModal.ui.phoneMemberNo")}
                 value={memberNumber}
                 onChange={(e) => setMemberNumber(e.target.value)}
                 onKeyDown={handleKeyDown}
               />
             </div>
             <div>
-              <label className="block text-sm font-medium mb-1">Nama</label>
+              <label className="block text-sm font-medium mb-1">{t("document.name")}</label>
               <Input
-                placeholder="Nama member"
+                placeholder={t("component.memberSearchModal.ui.memberName")}
                 value={memberName}
                 onChange={(e) => setMemberName(e.target.value)}
                 onKeyDown={handleKeyDown}
@@ -68,29 +72,31 @@ export default function MemberSearchModal({ open, onClose, onSelect }) {
               ) : (
                 <Search size={16} className="mr-2" />
               )}
-              Search
+              {t("common.search")}
             </Button>
           </div>
 
           {!searchParams && !isLoading && (
             <div className="text-center py-4 text-sm text-muted-foreground">
-              Silakan cari member.
+              {t("component.memberSearchModal.ui.searchForAMember")}
             </div>
           )}
           {isLoading && (
-            <div className="text-center py-4 text-sm text-muted-foreground">Mencari member...</div>
+            <div className="text-center py-4 text-sm text-muted-foreground">
+              {t("component.memberSearchModal.ui.searchingMembers")}
+            </div>
           )}
           {isError && (
             <div className="text-center py-4 text-sm text-destructive">
-              Gagal mencari member.{" "}
+              {t("component.memberSearchModal.ui.failedToSearchMembers")}{" "}
               <button onClick={() => refetch()} className="underline">
-                Coba Lagi
+                {t("common.retry")}
               </button>
             </div>
           )}
           {searchParams && !isLoading && !isError && members.length === 0 && (
             <div className="text-center py-4 text-sm text-muted-foreground">
-              Member tidak ditemukan.
+              {t("component.memberSearchModal.ui.memberNotFound")}
             </div>
           )}
           {members.length > 0 && (
@@ -98,10 +104,10 @@ export default function MemberSearchModal({ open, onClose, onSelect }) {
               <table className="w-full text-sm">
                 <thead className="bg-muted/50">
                   <tr>
-                    <th className="px-3 py-2 text-left font-medium">Member</th>
-                    <th className="px-3 py-2 text-left font-medium">Nama</th>
-                    <th className="px-3 py-2 text-right font-medium">Poin</th>
-                    <th className="px-3 py-2 text-left font-medium">Status</th>
+                    <th className="px-3 py-2 text-left font-medium">{t("breadcrumb.member")}</th>
+                    <th className="px-3 py-2 text-left font-medium">{t("document.name")}</th>
+                    <th className="px-3 py-2 text-right font-medium">{t("page.member.ui.pts")}</th>
+                    <th className="px-3 py-2 text-left font-medium">{t("common.status")}</th>
                   </tr>
                 </thead>
                 <tbody>

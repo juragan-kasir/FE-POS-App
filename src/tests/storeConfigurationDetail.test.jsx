@@ -136,7 +136,7 @@ describe("permission gate", () => {
   test("without store.manage renders Access Denied and fetches nothing", () => {
     mockPermission = { ...mockPermission, canManageStores: false };
     renderPage();
-    expect(screen.getByText("Akses Ditolak")).toBeInTheDocument();
+    expect(screen.getByText("error.forbiddenTitle")).toBeInTheDocument();
     expect(mockGetStoreConfigurationById).not.toHaveBeenCalled();
   });
 });
@@ -169,7 +169,7 @@ describe("detail load", () => {
   test("403 renders Access Denied", async () => {
     mockGetStoreConfigurationById.mockRejectedValue(httpError(403, { code: "FORBIDDEN" }));
     renderPage();
-    expect(await screen.findByText("Akses Ditolak")).toBeInTheDocument();
+    expect(await screen.findByText("error.forbiddenTitle")).toBeInTheDocument();
   });
 
   test("404 renders the not-found state", async () => {
@@ -321,7 +321,7 @@ describe("save", () => {
     mockEditStoreConfiguration.mockRejectedValue(httpError(403, { code: "FORBIDDEN" }));
     renderPage();
     await editAndConfirm();
-    expect(await screen.findByText("Akses Ditolak")).toBeInTheDocument();
+    expect(await screen.findByText("error.forbiddenTitle")).toBeInTheDocument();
   });
 
   test("other failures keep the edits and show an error toast", async () => {

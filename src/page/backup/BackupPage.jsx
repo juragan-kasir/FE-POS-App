@@ -439,12 +439,12 @@ const BackupPage = () => {
 
           <ul className="space-y-2 mb-6">
             {[
-              { label: "Produk", href: "/product-list" },
-              { label: "Kategori", href: "/category-list" },
-              { label: "Supplier", href: "/supplier" },
-              { label: "Bahan Baku", href: "/ingredient" },
-              { label: "Pajak", href: "/tax-list" },
-              { label: "Metode Pembayaran", href: "/type-payment-list" }
+              { label: t("sidebar.produk"), href: "/product-list" },
+              { label: t("common.category"), href: "/category-list" },
+              { label: t("sidebar.supplier"), href: "/supplier" },
+              { label: t("sidebar.bahanBaku"), href: "/ingredient" },
+              { label: t("sidebar.pajak"), href: "/tax-list" },
+              { label: t("sidebar.metodePembayaran"), href: "/type-payment-list" }
             ].map((item) => (
               <li key={item.href}>
                 <a

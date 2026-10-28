@@ -329,7 +329,7 @@ const EditDiscount = () => {
   const onSubmit = (values) => {
     const extraErrors = [];
     if (isSuperAdmin && !allStores && selectedStores.length === 0) {
-      form.setError("store", { message: "Toko harus dipilih" });
+      form.setError("store", { message: t("page.purchaseOrder.add.validation.store") });
       extraErrors.push({ name: "store" });
     }
 

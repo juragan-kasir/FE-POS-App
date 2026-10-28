@@ -317,7 +317,7 @@ const DetailCategory = () => {
                     {p.brand && (
                       <div className="flex items-center gap-1.5">
                         <span className="text-muted-foreground/60 w-16 shrink-0">
-                          {t("tour.brand")}
+                          {t("common.ui.brand")}
                         </span>
                         <span className="font-medium text-foreground/80 truncate">{p.brand}</span>
                       </div>

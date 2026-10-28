@@ -122,7 +122,7 @@ const LocationList = () => {
 
   const targetMutation = useMutation(({ id, dailyTarget }) => editLocation({ id, dailyTarget }), {
     onSuccess: () => {
-      toast.success(t("common.success"), { description: "Target updated" });
+      toast.success(t("common.success"), { description: t("page.location.ui.targetUpdated") });
       setTargetModal({ open: false, location: null, value: 0 });
       queryClient.invalidateQueries(["locations"]);
       queryClient.invalidateQueries(qk.locations.all());

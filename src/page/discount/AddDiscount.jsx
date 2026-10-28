@@ -315,7 +315,7 @@ const AddDiscount = () => {
 
   const onSubmit = (values) => {
     if (isSuperAdmin && !allStores && selectedStores.length === 0) {
-      form.setError("store", { message: "Toko harus dipilih" });
+      form.setError("store", { message: t("page.purchaseOrder.add.validation.store") });
     }
 
     const extraErrors = [];

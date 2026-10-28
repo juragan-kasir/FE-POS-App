@@ -429,7 +429,7 @@ const DetailShift = () => {
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 mb-5">
           <div className="rounded-xl border border-border/60 bg-muted/30 px-4 py-3">
             <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
-              {t("guide.employee.s16b")}
+              {t("common.ui.totalEmployees")}
             </p>
             <p className="text-xl font-bold text-foreground mt-0.5">{counts.total}</p>
           </div>

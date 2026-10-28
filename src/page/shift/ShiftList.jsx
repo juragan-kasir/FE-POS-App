@@ -114,7 +114,7 @@ const ShiftList = () => {
 
   const extendMutation = useMutation((payload) => editShift({ id: payload.id, ...payload.data }), {
     onSuccess: () => {
-      toast.success("Berhasil", { description: "Periode shift berhasil diperpanjang." });
+      toast.success(t("common.success"), { description: t("page.shift.ui.shiftPeriodExtended") });
       queryClient.invalidateQueries(["shifts"]);
       setExtendTarget(null);
     },
@@ -323,7 +323,7 @@ const ShiftList = () => {
       stickyRight: true,
       legend: [
         { icon: Eye, label: t("common.detail") },
-        { icon: CalendarClock, label: "Perpanjang" },
+        { icon: CalendarClock, label: t("page.discount.list.extend.title") },
         { icon: Edit, label: t("common.edit") },
         { icon: Trash2, label: t("common.delete") }
       ],
@@ -338,7 +338,7 @@ const ShiftList = () => {
               onClick: () => navigate(`/detail-shift?id=${row.id || row._id}`)
             },
             {
-              label: "Perpanjang shift",
+              label: t("page.shift.ui.extendShift"),
               icon: CalendarClock,
               onClick: () => setExtendTarget(row),
               hidden: !canAccess(user, MENU_KEY, "edit")

@@ -61,6 +61,6 @@ const renderRoute = (path) =>
 describe("admin-only route guards", () => {
   test.each(adminOnlyPaths)("%s denies a kasir account", (path) => {
     renderRoute(path);
-    expect(screen.getByText("Akses Ditolak")).toBeInTheDocument();
+    expect(screen.getByText("error.forbiddenTitle")).toBeInTheDocument();
   });
 });

@@ -6,6 +6,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { searchFaq, askAi } from "@/services/faq";
+import i18next from "i18next";
+import { useTranslation } from "react-i18next";
 
 // ponytail: backdrop sederhana, upgrade ke <Dialog /> kalo butuh aksesibilitas lebih
 
@@ -26,18 +28,23 @@ const MODE = { FAQ: "faq", AI: "ai" };
 const GREETINGS = {
   [MODE.FAQ]: {
     role: "bot",
-    text: "Halo! Ada yang bisa dibantu? Pilih topik di bawah atau ketik pertanyaan.",
+    get text() {
+      return i18next.t("component.faqChat.ui.hiHowCanWeHelp");
+    },
     quickReplies: FAQ_TOPICS
   },
   [MODE.AI]: {
     role: "bot",
-    text: "Mode AI aktif. Tanya apa aja soal analisa toko, revenue, stok, dll. Saya jawab pake AI."
+    get text() {
+      return i18next.t("component.faqChat.ui.aiModeIsOnAsk");
+    }
   }
 };
 
 export const FAQ_CHAT_OPEN = "faq-chat:open";
 
 function FaqChat() {
+  const { t } = useTranslation();
   const [open, setOpen] = useState(false);
   const [mode, setMode] = useState(MODE.FAQ);
   const [messages, setMessages] = useState([GREETINGS[MODE.FAQ]]);
@@ -91,7 +98,9 @@ function FaqChat() {
           if (results.length === 0) {
             addMessage({
               role: "bot",
-              text: "Tidak ditemukan di FAQ. Coba ganti kata kunci atau aktifkan mode AI."
+              get text() {
+                return i18next.t("component.faqChat.ui.notFoundInTheFaq");
+              }
             });
           } else {
             results.forEach((item) => {
@@ -102,7 +111,9 @@ function FaqChat() {
       } catch {
         addMessage({
           role: "bot",
-          text: "Maaf, terjadi kesalahan. Coba lagi nanti."
+          get text() {
+            return i18next.t("component.faqChat.ui.sorrySomethingWentWrongPlease");
+          }
         });
       } finally {
         setLoading(false);
@@ -139,7 +150,7 @@ function FaqChat() {
         <button
           onClick={() => setOpen(true)}
           className="fixed bottom-6 right-6 z-40 flex items-center justify-center w-14 h-14 rounded-full bg-primary text-primary-foreground shadow-lg hover:shadow-xl hover:scale-105 active:scale-95 transition-all"
-          title="Tanya FAQ">
+          title={t("component.faqChat.ui.askTheFaq")}>
           <MessageCircle size={24} />
         </button>
       )}
@@ -188,7 +199,7 @@ function FaqChat() {
                   size="icon"
                   className="h-7 w-7"
                   onClick={handleReset}
-                  title="Reset percakapan">
+                  title={t("component.faqChat.ui.resetConversation")}>
                   <ChevronDown size={14} />
                 </Button>
                 <Button variant="ghost" size="icon" className="h-7 w-7" onClick={handleClose}>
@@ -228,7 +239,7 @@ function FaqChat() {
                 {loading && (
                   <div className="flex justify-start">
                     <div className="bg-muted text-muted-foreground rounded-2xl rounded-bl-md px-4 py-2.5 text-sm">
-                      <span className="animate-pulse">Mengetik...</span>
+                      <span className="animate-pulse">{t("component.faqChat.ui.typing")}</span>
                     </div>
                   </div>
                 )}
@@ -257,7 +268,7 @@ function FaqChat() {
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 onKeyDown={handleKeyDown}
-                placeholder="Ketik pertanyaan..."
+                placeholder={t("component.faqChat.ui.typeAQuestion")}
                 className="h-9 text-sm flex-1"
                 disabled={loading}
               />

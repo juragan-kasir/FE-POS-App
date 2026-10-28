@@ -159,7 +159,7 @@ export default function SupplierPaymentModal({
               ]}
               value={payMethod}
               onChange={(v) => setPayMethod(v)}
-              placeholder="Pilih metode..."
+              placeholder={t("component.supplierPaymentModal.ui.selectMethod")}
               searchPlaceholder="Cari metode..."
             />
           </div>

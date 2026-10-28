@@ -29,37 +29,47 @@ describe("MemberSearchModal", () => {
 
   test("renders search inputs and button", () => {
     renderModal();
-    expect(screen.getByText("Cari Member")).toBeInTheDocument();
-    expect(screen.getByPlaceholderText("Nomor HP / Member")).toBeInTheDocument();
-    expect(screen.getByPlaceholderText("Nama member")).toBeInTheDocument();
-    expect(screen.getByText("Search")).toBeInTheDocument();
+    expect(screen.getByText("component.memberSearchModal.ui.searchMember")).toBeInTheDocument();
+    expect(
+      screen.getByPlaceholderText("component.memberSearchModal.ui.phoneMemberNo")
+    ).toBeInTheDocument();
+    expect(
+      screen.getByPlaceholderText("component.memberSearchModal.ui.memberName")
+    ).toBeInTheDocument();
+    expect(screen.getByText("common.search")).toBeInTheDocument();
   });
 
   test("initial state prompts the cashier to search before any request is made", () => {
     renderModal();
-    expect(screen.getByText("Silakan cari member.")).toBeInTheDocument();
+    expect(screen.getByText("component.memberSearchModal.ui.searchForAMember")).toBeInTheDocument();
     expect(memberService.getAllMember).not.toHaveBeenCalled();
   });
 
   test("shows an error state with a retry action when the search request fails", async () => {
     memberService.getAllMember.mockRejectedValue(new Error("network down"));
     renderModal();
-    fireEvent.change(screen.getByPlaceholderText("Nama member"), { target: { value: "Budi" } });
-    fireEvent.click(screen.getByText("Search"));
-    await waitFor(() => expect(screen.getByText(/Gagal mencari member\./)).toBeInTheDocument());
-    expect(screen.getByText("Coba Lagi")).toBeInTheDocument();
+    fireEvent.change(screen.getByPlaceholderText("component.memberSearchModal.ui.memberName"), {
+      target: { value: "Budi" }
+    });
+    fireEvent.click(screen.getByText("common.search"));
+    await waitFor(() =>
+      expect(
+        screen.getByText(/component.memberSearchModal.ui.failedToSearchMembers/)
+      ).toBeInTheDocument()
+    );
+    expect(screen.getByText("common.retry")).toBeInTheDocument();
 
     memberService.getAllMember.mockResolvedValue({
-      data: [{ id: 1, name: "Budi", phoneNumber: "081234", point: 120, status: "Aktif" }]
+      data: [{ id: 1, name: "Budi", phoneNumber: "081234", point: 120, status: "common.active" }]
     });
-    fireEvent.click(screen.getByText("Coba Lagi"));
+    fireEvent.click(screen.getByText("common.retry"));
     await waitFor(() => expect(screen.getByText("Budi")).toBeInTheDocument());
   });
 
   test("Escape closes the modal", () => {
     const onClose = jest.fn();
     renderModal(jest.fn(), onClose);
-    fireEvent.keyDown(screen.getByPlaceholderText("Nomor HP / Member"), {
+    fireEvent.keyDown(screen.getByPlaceholderText("component.memberSearchModal.ui.phoneMemberNo"), {
       key: "Escape",
       code: "Escape"
     });
@@ -68,13 +78,13 @@ describe("MemberSearchModal", () => {
 
   test("search by member number", async () => {
     memberService.getAllMember.mockResolvedValue({
-      data: [{ id: 1, name: "Budi", phoneNumber: "081234", point: 120, status: "Aktif" }]
+      data: [{ id: 1, name: "Budi", phoneNumber: "081234", point: 120, status: "common.active" }]
     });
     renderModal();
-    fireEvent.change(screen.getByPlaceholderText("Nomor HP / Member"), {
+    fireEvent.change(screen.getByPlaceholderText("component.memberSearchModal.ui.phoneMemberNo"), {
       target: { value: "081234" }
     });
-    fireEvent.click(screen.getByText("Search"));
+    fireEvent.click(screen.getByText("common.search"));
     await waitFor(() =>
       expect(memberService.getAllMember).toHaveBeenCalledWith(
         expect.objectContaining({ phoneNumber: "081234" })
@@ -84,11 +94,13 @@ describe("MemberSearchModal", () => {
 
   test("search by name", async () => {
     memberService.getAllMember.mockResolvedValue({
-      data: [{ id: 2, name: "Siti", phoneNumber: "081235", point: 50, status: "Aktif" }]
+      data: [{ id: 2, name: "Siti", phoneNumber: "081235", point: 50, status: "common.active" }]
     });
     renderModal();
-    fireEvent.change(screen.getByPlaceholderText("Nama member"), { target: { value: "Siti" } });
-    fireEvent.click(screen.getByText("Search"));
+    fireEvent.change(screen.getByPlaceholderText("component.memberSearchModal.ui.memberName"), {
+      target: { value: "Siti" }
+    });
+    fireEvent.click(screen.getByText("common.search"));
     await waitFor(() =>
       expect(memberService.getAllMember).toHaveBeenCalledWith(
         expect.objectContaining({ nameMember: "Siti" })
@@ -99,28 +111,38 @@ describe("MemberSearchModal", () => {
   test("shows loading", async () => {
     memberService.getAllMember.mockImplementation(() => new Promise(() => {}));
     renderModal();
-    fireEvent.change(screen.getByPlaceholderText("Nama member"), { target: { value: "Budi" } });
-    fireEvent.click(screen.getByText("Search"));
-    expect(await screen.findByText("Mencari member...")).toBeInTheDocument();
+    fireEvent.change(screen.getByPlaceholderText("component.memberSearchModal.ui.memberName"), {
+      target: { value: "Budi" }
+    });
+    fireEvent.click(screen.getByText("common.search"));
+    expect(
+      await screen.findByText("component.memberSearchModal.ui.searchingMembers")
+    ).toBeInTheDocument();
   });
 
   test("shows empty", async () => {
     memberService.getAllMember.mockResolvedValue({ data: [] });
     renderModal();
-    fireEvent.change(screen.getByPlaceholderText("Nama member"), { target: { value: "Unknown" } });
-    fireEvent.click(screen.getByText("Search"));
-    await waitFor(() => expect(screen.getByText("Member tidak ditemukan.")).toBeInTheDocument());
+    fireEvent.change(screen.getByPlaceholderText("component.memberSearchModal.ui.memberName"), {
+      target: { value: "Unknown" }
+    });
+    fireEvent.click(screen.getByText("common.search"));
+    await waitFor(() =>
+      expect(screen.getByText("component.memberSearchModal.ui.memberNotFound")).toBeInTheDocument()
+    );
   });
 
   test("click row selects member and closes", async () => {
     const onSelect = jest.fn();
     const onClose = jest.fn();
     memberService.getAllMember.mockResolvedValue({
-      data: [{ id: 1, name: "Budi", phoneNumber: "081234", point: 120, status: "Aktif" }]
+      data: [{ id: 1, name: "Budi", phoneNumber: "081234", point: 120, status: "common.active" }]
     });
     renderModal(onSelect, onClose);
-    fireEvent.change(screen.getByPlaceholderText("Nama member"), { target: { value: "Budi" } });
-    fireEvent.click(screen.getByText("Search"));
+    fireEvent.change(screen.getByPlaceholderText("component.memberSearchModal.ui.memberName"), {
+      target: { value: "Budi" }
+    });
+    fireEvent.click(screen.getByText("common.search"));
     await waitFor(() => expect(screen.getByText("Budi")).toBeInTheDocument());
     fireEvent.click(screen.getByText("Budi"));
     expect(onSelect).toHaveBeenCalledWith(expect.objectContaining({ name: "Budi" }));

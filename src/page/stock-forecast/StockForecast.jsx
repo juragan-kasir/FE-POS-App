@@ -87,7 +87,7 @@ const StockForecast = () => {
   const runForecastMutation = useMutation({
     mutationFn: (payload) => runForecast(payload),
     onSuccess: () => {
-      toast.success("Forecast berhasil dijalankan");
+      toast.success(t("page.stockForecast.ui.forecastCompleted"));
       queryClient.invalidateQueries(["stock-forecast"]);
     },
     onError: (err) => {
@@ -104,7 +104,7 @@ const StockForecast = () => {
   const writeOffMutation = useMutation({
     mutationFn: (payload) => postWriteOffExpired(payload),
     onSuccess: (res) => {
-      toast.success("Write-off selesai", {
+      toast.success(t("page.stockForecast.ui.writeOffDone"), {
         description: `${res.total || 0} unit dari batch kedaluwarsa dihapus`
       });
       queryClient.invalidateQueries(["expiring-soon"]);
@@ -114,7 +114,7 @@ const StockForecast = () => {
       setWriteoffModal(false);
     },
     onError: (err) => {
-      toast.error("Write-off gagal", {
+      toast.error(t("page.stockForecast.ui.writeOffFailed"), {
         description: err?.message || err?.response?.data?.message
       });
     }
@@ -125,10 +125,12 @@ const StockForecast = () => {
   };
 
   const getStockoutRisk = (daysUntil) => {
-    if (daysUntil <= 0) return { variant: "destructive", label: "Habis" };
-    if (daysUntil <= 7) return { variant: "secondary", label: "Kritis" };
-    if (daysUntil <= 14) return { variant: "outline", label: "Mendekati" };
-    return { variant: "default", label: "Aman" };
+    if (daysUntil <= 0)
+      return { variant: "destructive", label: t("page.stockOpname.status.habis") };
+    if (daysUntil <= 7) return { variant: "secondary", label: t("page.stockForecast.ui.critical") };
+    if (daysUntil <= 14)
+      return { variant: "outline", label: t("page.stockForecast.ui.approaching") };
+    return { variant: "default", label: t("page.product.detail.safe") };
   };
 
   return (

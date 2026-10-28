@@ -565,12 +565,12 @@ const AddPromoCampaign = () => {
                     <Combobox
                       id="add-promo-campaign-type"
                       options={[
-                        { value: "happy_hour", label: "Happy Hour" },
-                        { value: "birthday", label: "Birthday" },
-                        { value: "buy_x_get_y", label: "Buy X Get Y" },
-                        { value: "spend_get", label: "Spend & Get" },
-                        { value: "manual", label: "Manual" },
-                        { value: "automatic", label: "Automatic" }
+                        { value: "happy_hour", label: t("page.discount.form.promoType.happyHour") },
+                        { value: "birthday", label: t("page.promo.ui.birthday") },
+                        { value: "buy_x_get_y", label: t("page.promo.ui.buyXGetY") },
+                        { value: "spend_get", label: t("page.promo.ui.spendGet") },
+                        { value: "manual", label: t("page.backup.triggerManual") },
+                        { value: "automatic", label: t("page.recipeHpp.status.auto") }
                       ]}
                       value={form.watch("type")}
                       onChange={(v) => form.setValue("type", v)}
@@ -597,9 +597,9 @@ const AddPromoCampaign = () => {
                         <Combobox
                           id="add-promo-campaign-discount-type"
                           options={[
-                            { value: "percentage", label: "Percentage" },
-                            { value: "fixed", label: "Fixed Amount" },
-                            { value: "free_item", label: "Free Item" }
+                            { value: "percentage", label: t("page.discount.form.percent") },
+                            { value: "fixed", label: t("page.promo.ui.fixedAmount") },
+                            { value: "free_item", label: t("page.promo.ui.freeItem") }
                           ]}
                           value={form.watch("discountType")}
                           onChange={(v) => form.setValue("discountType", v)}
@@ -844,12 +844,15 @@ const AddPromoCampaign = () => {
                           <div className="flex-1">
                             <Combobox
                               options={[
-                                { value: "time", label: "Waktu" },
-                                { value: "birthday", label: "Birthday" },
-                                { value: "buy_x_get_y", label: "Buy X Get Y" },
-                                { value: "spend_threshold", label: "Minimal Belanja" },
-                                { value: "member_tier", label: "Tier Member" },
-                                { value: "first_purchase", label: "Pembelian Pertama" }
+                                { value: "time", label: t("page.dashboard.table.time") },
+                                { value: "birthday", label: t("page.promo.ui.birthday") },
+                                { value: "buy_x_get_y", label: t("page.promo.ui.buyXGetY") },
+                                {
+                                  value: "spend_threshold",
+                                  label: t("page.discount.form.minPurchase")
+                                },
+                                { value: "member_tier", label: t("common.ui.memberTiers") },
+                                { value: "first_purchase", label: t("page.promo.ui.firstPurchase") }
                               ]}
                               value={rule.ruleType}
                               onChange={(v) => updateRule(index, "ruleType", v)}
@@ -939,7 +942,7 @@ const AddPromoCampaign = () => {
                         )}
                         {rule.ruleType === "member_tier" && (
                           <div className="space-y-1">
-                            <Label className="text-xs">{t("guide.tier.s25a")}</Label>
+                            <Label className="text-xs">{t("common.ui.memberTiers")}</Label>
                             <Combobox
                               options={tierOptions}
                               value={rule.condition.tierId ? String(rule.condition.tierId) : ""}
@@ -990,12 +993,21 @@ const AddPromoCampaign = () => {
                               <Label className="text-xs">{t("page.promo.ui.rewardType")}</Label>
                               <Combobox
                                 options={[
-                                  { value: "discount_percentage", label: "Diskon %" },
-                                  { value: "discount_fixed", label: "Diskon Nominal" },
-                                  { value: "free_item", label: "Produk Gratis" },
-                                  { value: "buy_x_get_y", label: "Buy X Get Y" },
-                                  { value: "points_multiplier", label: "Kelipatan Poin" },
-                                  { value: "cashback", label: "Cashback" }
+                                  {
+                                    value: "discount_percentage",
+                                    label: t("page.memberLoyalty.ui.discount2")
+                                  },
+                                  {
+                                    value: "discount_fixed",
+                                    label: t("page.promo.ui.fixedDiscount")
+                                  },
+                                  { value: "free_item", label: t("page.promo.ui.freeProduct") },
+                                  { value: "buy_x_get_y", label: t("page.promo.ui.buyXGetY") },
+                                  {
+                                    value: "points_multiplier",
+                                    label: t("page.promo.ui.pointsMultiplier")
+                                  },
+                                  { value: "cashback", label: t("page.promo.ui.cashback") }
                                 ]}
                                 value={reward.rewardType}
                                 onChange={(v) => updateReward(index, "rewardType", v)}
@@ -1104,10 +1116,13 @@ const AddPromoCampaign = () => {
                     <Combobox
                       id="add-promo-campaign-applicable-to"
                       options={[
-                        { value: "all", label: "All Products" },
-                        { value: "specific_products", label: "Specific Products" },
-                        { value: "specific_categories", label: "Specific Categories" },
-                        { value: "specific_members", label: "Specific Members" }
+                        { value: "all", label: t("page.supplier.comparison.allProducts") },
+                        { value: "specific_products", label: t("page.promo.ui.specificProducts") },
+                        {
+                          value: "specific_categories",
+                          label: t("page.promo.ui.specificCategories")
+                        },
+                        { value: "specific_members", label: t("page.promo.ui.specificMembers") }
                       ]}
                       value={form.watch("applicableTo")}
                       onChange={(v) => {

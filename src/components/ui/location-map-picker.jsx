@@ -7,6 +7,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { MapContainer, TileLayer, Marker, Popup, useMapEvents, useMap } from "react-leaflet";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
+import { useTranslation } from "react-i18next";
 
 // Fix for default marker icons in React Leaflet
 delete L.Icon.Default.prototype._getIconUrl;
@@ -36,6 +37,7 @@ const MapUpdater = ({ lat, lng }) => {
 };
 
 const LocationMapPicker = ({ lat, lng, onChange, height = "200px", width = "100%" }) => {
+  const { t } = useTranslation();
   const mapRef = useRef(null);
   const defaultLat = lat !== undefined && lat !== null ? lat : -6.2088;
   const defaultLng = lng !== undefined && lng !== null ? lng : 106.8456;
@@ -74,7 +76,7 @@ const LocationMapPicker = ({ lat, lng, onChange, height = "200px", width = "100%
   return (
     <div className="space-y-2">
       <div className="text-sm text-muted-foreground">
-        Klik di peta atau seret marker untuk menentukan lokasi toko
+        {t("component.locationMapPicker.ui.clickTheMapOrDrag")}
       </div>
       <div
         className="border border-border rounded-lg overflow-hidden relative z-0"
@@ -100,10 +102,16 @@ const LocationMapPicker = ({ lat, lng, onChange, height = "200px", width = "100%
             }}>
             <Popup>
               <div className="text-sm">
-                <p>📍 Koordinat toko</p>
-                <p>Lat: {position[0]?.toFixed(6) || "0.000000"}</p>
-                <p>Lng: {position[1]?.toFixed(6) || "0.000000"}</p>
-                <p className="text-xs text-muted-foreground mt-1">Seret untuk mengubah posisi</p>
+                <p>{t("component.locationMapPicker.ui.storeCoordinates")}</p>
+                <p>
+                  {t("component.locationMapPicker.ui.lat")} {position[0]?.toFixed(6) || "0.000000"}
+                </p>
+                <p>
+                  {t("component.locationMapPicker.ui.lng")} {position[1]?.toFixed(6) || "0.000000"}
+                </p>
+                <p className="text-xs text-muted-foreground mt-1">
+                  {t("component.locationMapPicker.ui.dragToChangeThePosition")}
+                </p>
               </div>
             </Popup>
           </Marker>
@@ -113,10 +121,12 @@ const LocationMapPicker = ({ lat, lng, onChange, height = "200px", width = "100%
       </div>
       <div className="flex items-center gap-4 text-xs text-muted-foreground">
         <div>
-          <span className="font-medium">Latitude:</span> {position[0]?.toFixed(6) || "0.000000"}
+          <span className="font-medium">{t("component.locationMapPicker.ui.latitude")}</span>{" "}
+          {position[0]?.toFixed(6) || "0.000000"}
         </div>
         <div>
-          <span className="font-medium">Longitude:</span> {position[1]?.toFixed(6) || "0.000000"}
+          <span className="font-medium">{t("component.locationMapPicker.ui.longitude")}</span>{" "}
+          {position[1]?.toFixed(6) || "0.000000"}
         </div>
       </div>
     </div>

@@ -21,32 +21,43 @@ import { Skeleton } from "@/components/ui/skeleton";
 import ScrollRail from "@/components/ui/ScrollRail";
 import CollapsiblePanel from "@/components/ui/CollapsiblePanel";
 import VoidOrderDialog from "@/components/organism/VoidOrderDialog";
+import i18next from "i18next";
 
 const statusConfig = {
   pending: {
     color: "bg-amber-500",
     textColor: "text-amber-600 dark:text-amber-400",
-    label: "Pending"
+    get label() {
+      return i18next.t("page.expense.list.pending");
+    }
   },
   confirmed: {
     color: "bg-blue-500",
     textColor: "text-blue-600 dark:text-blue-400",
-    label: "Confirmed"
+    get label() {
+      return i18next.t("page.cashier.orderQueue.status.confirmed");
+    }
   },
   preparing: {
     color: "bg-blue-500",
     textColor: "text-blue-600 dark:text-blue-400",
-    label: "Preparing"
+    get label() {
+      return i18next.t("page.cashier.orderQueue.status.preparing");
+    }
   },
   ready: {
     color: "bg-emerald-500",
     textColor: "text-emerald-600 dark:text-emerald-400",
-    label: "Ready"
+    get label() {
+      return i18next.t("page.cashier.orderQueue.status.ready");
+    }
   },
   served: {
     color: "bg-purple-500",
     textColor: "text-purple-600 dark:text-purple-400",
-    label: "Served"
+    get label() {
+      return i18next.t("page.cashier.orderQueue.status.served");
+    }
   }
 };
 

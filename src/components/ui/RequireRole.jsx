@@ -7,6 +7,7 @@ import { getRoleDashboard } from "@/utils/role";
 import { hasMenuAccess } from "@/utils/permission";
 import { useUserSession } from "@/hooks/useUserSession";
 import { endSession, SESSION_END_REASON } from "@/services/session";
+import { useTranslation } from "react-i18next";
 
 const roleLabels = {
   super_admin: "Super Admin",
@@ -17,6 +18,7 @@ const roleLabels = {
 };
 
 export const AccessDenied = () => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const [cookie] = useCookies();
   const user = cookie?.user;
@@ -30,23 +32,23 @@ export const AccessDenied = () => {
       <div className="flex h-20 w-20 items-center justify-center rounded-2xl border bg-muted/60 text-destructive shadow-sm">
         <ShieldAlert className="h-10 w-10" strokeWidth={1.5} />
       </div>
-      <p className="text-2xl font-bold text-foreground">Akses Ditolak</p>
+      <p className="text-2xl font-bold text-foreground">{t("error.forbiddenTitle")}</p>
       <p className="max-w-md text-sm text-muted-foreground leading-relaxed">
-        Anda tidak memiliki izin untuk mengakses halaman ini.
+        {t("component.requireRole.ui.youDoNotHavePermission")}
         {user?.roleType ? ` (Role: ${roleLabels[user.roleType] || user.roleType})` : ""}
       </p>
       <div className="mt-2 flex flex-wrap items-center justify-center gap-3">
         <Button variant="danger" size="sm" onClick={() => navigate(-1)}>
-          <ArrowLeft size={15} className="mr-1.5" /> Kembali
+          <ArrowLeft size={15} className="mr-1.5" /> {t("common.back")}
         </Button>
         <Button
           variant="outline"
           size="sm"
           onClick={() => navigate(getRoleDashboard(user?.roleType))}>
-          Ke Dashboard Saya
+          {t("component.requireRole.ui.goToMyDashboard")}
         </Button>
         <Button variant="ghost" size="sm" className="text-destructive" onClick={handleLogout}>
-          <LogOut size={15} className="mr-1.5" /> Logout
+          <LogOut size={15} className="mr-1.5" /> {t("header.logout")}
         </Button>
       </div>
     </div>

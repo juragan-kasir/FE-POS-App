@@ -132,12 +132,12 @@ const LowStockAll = () => {
   const getStockStatus = (stock) => {
     if (stock <= 0) {
       return {
-        label: "Habis",
+        label: t("page.stockOpname.status.habis"),
         cls: "bg-red-100 text-red-700 border-red-200 dark:bg-red-900/30 dark:text-red-400"
       };
     }
     return {
-      label: "Menipis",
+      label: t("page.stockOpname.status.menipis"),
       cls: "bg-orange-100 text-orange-700 border-orange-200 dark:bg-orange-900/30 dark:text-orange-400"
     };
   };

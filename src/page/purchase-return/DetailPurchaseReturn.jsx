@@ -22,20 +22,27 @@ import { getDocumentSpecForPurchaseReturn } from "@/components/document/document
 import AbortController from "@/components/organism/abort-controller";
 import PageHeader from "@/components/ui/PageHeader";
 import HorizontalScrollArea from "@/components/ui/HorizontalScrollArea";
+import i18next from "i18next";
 
 const statusBadge = {
   pending: {
-    label: "Pending",
+    get label() {
+      return i18next.t("page.expense.list.pending");
+    },
     class: "bg-yellow-100 text-yellow-800 dark:bg-yellow-900/20 dark:text-yellow-400",
     icon: Clock
   },
   approved: {
-    label: "Approved",
+    get label() {
+      return i18next.t("page.expense.list.approved");
+    },
     class: "bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-400",
     icon: CheckCircle2
   },
   rejected: {
-    label: "Rejected",
+    get label() {
+      return i18next.t("page.expense.list.rejected");
+    },
     class: "bg-red-100 text-red-800 dark:bg-red-900/20 dark:text-red-400",
     icon: XCircle
   }
