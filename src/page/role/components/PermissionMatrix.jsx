@@ -71,10 +71,13 @@ const PermissionMatrix = ({ groups, permissions, onToggle, onSelectAll, footerNo
           </label>
         </div>
         <div className="flex flex-col gap-1.5">
-          <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+          <label
+            htmlFor="permission-matrix-search-label"
+            className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
             {t("page.role.matrix.searchLabel")}
           </label>
           <SearchInput
+            id="permission-matrix-search-label"
             value={query}
             onChange={setQuery}
             placeholder={t("page.role.matrix.searchPlaceholder")}

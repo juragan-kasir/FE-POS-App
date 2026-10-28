@@ -444,8 +444,11 @@ const TenantList = () => {
             toolbar={
               <TableToolbar title={t(`${P}.title`)} onReset={resetFilters} isFiltered={isFiltered}>
                 <div className="flex flex-col gap-1.5">
-                  <label className={fieldLabelClass}>{t("common.search")}</label>
+                  <label htmlFor="tenant-list-search" className={fieldLabelClass}>
+                    {t("common.search")}
+                  </label>
                   <SearchInput
+                    id="tenant-list-search"
                     value={search}
                     onChange={(value) => {
                       setSearch(value);

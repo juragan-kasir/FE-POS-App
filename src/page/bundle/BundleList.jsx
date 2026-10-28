@@ -457,10 +457,13 @@ const BundleList = () => {
         </div>
       )}
       <div className="flex flex-col gap-1.5">
-        <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+        <label
+          htmlFor="bundle-list-search"
+          className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
           {t("common.search")}
         </label>
         <SearchInput
+          id="bundle-list-search"
           value={search}
           onChange={(val) => {
             setSearch(val);

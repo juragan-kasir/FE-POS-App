@@ -312,10 +312,13 @@ const ExpenseCategoryList = () => {
                       onReset={resetFilters}
                       isFiltered={isFiltered}>
                       <div className="flex flex-col gap-1.5">
-                        <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                        <label
+                          htmlFor="expense-category-list-search"
+                          className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                           {t("common.search")}
                         </label>
                         <SearchInput
+                          id="expense-category-list-search"
                           value={search}
                           onChange={(val) => setSearch(val)}
                           placeholder={t("page.expenseCategory.list.search")}

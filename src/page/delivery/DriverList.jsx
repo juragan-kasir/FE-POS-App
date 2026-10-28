@@ -349,10 +349,13 @@ const DriverList = () => {
             onReset={resetFilters}
             isFiltered={isFiltered}>
             <div className="flex flex-col gap-1.5">
-              <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+              <label
+                htmlFor="driver-list-search"
+                className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                 {t("common.search")}
               </label>
               <SearchInput
+                id="driver-list-search"
                 value={search}
                 onChange={(val) => {
                   setSearch(val);

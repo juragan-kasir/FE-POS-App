@@ -715,10 +715,13 @@ const JournalTab = ({ storeId, isAll }) => {
 
       <div className="flex flex-col lg:flex-row lg:items-end gap-3">
         <div className="flex-1 flex flex-col gap-1.5">
-          <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+          <label
+            htmlFor="accounting-page-search"
+            className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
             {t("common.search")}
           </label>
           <SearchInput
+            id="accounting-page-search"
             value={search}
             onChange={setSearch}
             placeholder={t("page.accounting.journal.searchPlaceholder")}

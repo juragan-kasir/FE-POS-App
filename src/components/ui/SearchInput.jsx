@@ -4,6 +4,7 @@ import { Input } from "@/components/ui/input";
 import { useDebounce } from "@/hooks/useDebounce";
 
 export function SearchInput({
+  id,
   value,
   onChange,
   placeholder = "Search...",
@@ -47,6 +48,7 @@ export function SearchInput({
           className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground"
         />
         <Input
+          id={id}
           ref={inputRef}
           placeholder={placeholder}
           value={localValue}

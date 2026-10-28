@@ -348,10 +348,13 @@ const PurchaseReturnList = () => {
                     onReset={resetFilters}
                     isFiltered={isFiltered}>
                     <div className="flex flex-col gap-1.5">
-                      <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                      <label
+                        htmlFor="purchase-return-list-search"
+                        className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                         {t("page.purchaseReturn.list.filter.search")}
                       </label>
                       <SearchInput
+                        id="purchase-return-list-search"
                         value={search}
                         onChange={(val) => {
                           setSearch(val);

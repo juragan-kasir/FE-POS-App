@@ -381,10 +381,13 @@ const SalesReturnList = () => {
                       />
                     </div>
                     <div className="flex flex-col gap-1.5">
-                      <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                      <label
+                        htmlFor="sales-return-list-search"
+                        className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                         {t("page.salesReturn.list.filter.search")}
                       </label>
                       <SearchInput
+                        id="sales-return-list-search"
                         value={search}
                         onChange={(val) => {
                           setSearch(val);
