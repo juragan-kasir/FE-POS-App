@@ -207,10 +207,13 @@ const ExtendShiftModal = ({ open, onOpenChange, shift, locationName, onSave, isS
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-medium text-foreground mb-1.5">
+              <label
+                htmlFor="extend-shift-modal-start-date"
+                className="block text-sm font-medium text-foreground mb-1.5">
                 {t("page.profile.startDate")} <span className="text-destructive">*</span>
               </label>
               <DatePicker
+                id="extend-shift-modal-start-date"
                 date={tanggalMulai}
                 setDate={setTanggalMulai}
                 minDate={today}
@@ -223,7 +226,9 @@ const ExtendShiftModal = ({ open, onOpenChange, shift, locationName, onSave, isS
               )}
             </div>
             <div>
-              <label className="block text-sm font-medium text-foreground mb-1.5">
+              <label
+                htmlFor="extend-shift-modal-tanggal-selesai"
+                className="block text-sm font-medium text-foreground mb-1.5">
                 {t("page.productionOrder.detail.tanggalSelesai")}
               </label>
               <div
@@ -232,6 +237,7 @@ const ExtendShiftModal = ({ open, onOpenChange, shift, locationName, onSave, isS
                   !isMingguan && "opacity-50 pointer-events-none"
                 )}>
                 <DatePicker
+                  id="extend-shift-modal-tanggal-selesai"
                   date={tanggalSelesai}
                   setDate={isMingguan ? setTanggalSelesai : () => {}}
                   minDate={tanggalMulai || today}

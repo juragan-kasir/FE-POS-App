@@ -1162,10 +1162,13 @@ const PurchaseOrderList = () => {
                       </div>
                     )}
                     <div className="flex flex-col gap-1.5">
-                      <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                      <label
+                        htmlFor="purchase-order-list-po-date"
+                        className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                         {t("page.purchaseOrder.list.columns.poDate")}
                       </label>
                       <DatePicker
+                        id="purchase-order-list-po-date"
                         date={dateFilter}
                         setDate={(date) => {
                           setDateFilter(date);
@@ -1914,10 +1917,13 @@ const PurchaseOrderList = () => {
 
                       <div className="grid grid-cols-2 gap-3">
                         <div className="space-y-2">
-                          <Label className="text-sm font-medium">
+                          <Label
+                            htmlFor="purchase-order-list-payment-date"
+                            className="text-sm font-medium">
                             {t("page.purchaseOrder.detail.paymentDate")}
                           </Label>
                           <DatePicker
+                            id="purchase-order-list-payment-date"
                             date={payForm.paymentDate}
                             setDate={(date) => setPayForm({ ...payForm, paymentDate: date })}
                           />

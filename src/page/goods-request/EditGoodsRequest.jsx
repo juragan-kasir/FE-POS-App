@@ -436,19 +436,23 @@ const EditGoodsRequest = () => {
               </div>
             </div>
             <div className="space-y-2">
-              <Label>{t("page.goodsRequest.edit.form.requestDate")}</Label>
+              <Label htmlFor="edit-goods-request-request-date">
+                {t("page.goodsRequest.edit.form.requestDate")}
+              </Label>
               <DatePicker
+                id="edit-goods-request-request-date"
                 date={requestDate}
                 setDate={setRequestDate}
                 placeholder={t("page.goodsRequest.edit.form.requestDate")}
               />
             </div>
             <div id="edit-goods-request-neededDate" className="space-y-2">
-              <Label>
+              <Label htmlFor="edit-goods-request-needed-date">
                 {t("page.goodsRequest.edit.form.neededDate")}{" "}
                 <span className="text-destructive">*</span>
               </Label>
               <DatePicker
+                id="edit-goods-request-needed-date"
                 date={neededDate}
                 setDate={setNeededDate}
                 placeholder={t("page.goodsRequest.edit.placeholder.neededDate")}

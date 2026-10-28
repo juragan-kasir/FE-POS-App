@@ -421,10 +421,13 @@ const ReservationList = () => {
                               />
                             </div>,
                             <div key="date">
-                              <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground block mb-1.5">
+                              <label
+                                htmlFor="reservation-list-date"
+                                className="text-xs font-semibold uppercase tracking-wider text-muted-foreground block mb-1.5">
                                 {t("page.reservation.columns.date")}
                               </label>
                               <DatePicker
+                                id="reservation-list-date"
                                 date={dateFilter}
                                 setDate={(date) => {
                                   setDateFilter(date);

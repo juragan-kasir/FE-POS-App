@@ -382,10 +382,13 @@ const PurchaseReturnList = () => {
                       </div>
                     )}
                     <div className="flex flex-col gap-1.5">
-                      <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                      <label
+                        htmlFor="purchase-return-list-date"
+                        className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                         {t("page.purchaseReturn.list.filter.date")}
                       </label>
                       <DatePicker
+                        id="purchase-return-list-date"
                         date={dateFilter}
                         setDate={(date) => {
                           setDateFilter(date);

@@ -418,10 +418,13 @@ const StockHistory = () => {
                           />
                         </div>,
                         <div key="start">
-                          <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground block mb-1.5">
+                          <label
+                            htmlFor="stock-history-start-date"
+                            className="text-xs font-semibold uppercase tracking-wider text-muted-foreground block mb-1.5">
                             {t("page.stockHistory.filter.startDate")}
                           </label>
                           <DatePicker
+                            id="stock-history-start-date"
                             date={startDate}
                             setDate={(date) => {
                               setStartDate(date);
@@ -430,10 +433,13 @@ const StockHistory = () => {
                           />
                         </div>,
                         <div key="end">
-                          <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground block mb-1.5">
+                          <label
+                            htmlFor="stock-history-end-date"
+                            className="text-xs font-semibold uppercase tracking-wider text-muted-foreground block mb-1.5">
                             {t("page.stockHistory.filter.endDate")}
                           </label>
                           <DatePicker
+                            id="stock-history-end-date"
                             date={endDate}
                             setDate={(date) => {
                               setEndDate(date);

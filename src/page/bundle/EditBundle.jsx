@@ -491,8 +491,11 @@ const EditBundle = () => {
                   <div className="md:col-span-2 border-t border-border pt-4" />
 
                   <div className="space-y-2 md:col-span-1">
-                    <Label>{t("page.bundle.form.validFrom")}</Label>
+                    <Label htmlFor="edit-bundle-valid-from">
+                      {t("page.bundle.form.validFrom")}
+                    </Label>
                     <DatePicker
+                      id="edit-bundle-valid-from"
                       date={validFromDate}
                       setDate={setValidFromDate}
                       placeholder={t("page.bundle.form.validFrom")}
@@ -502,8 +505,11 @@ const EditBundle = () => {
                     <TimePicker value={validFromTime} onChange={setValidFromTime} />
                   </div>
                   <div className="space-y-2 md:col-span-1">
-                    <Label>{t("page.bundle.form.validUntil")}</Label>
+                    <Label htmlFor="edit-bundle-valid-until">
+                      {t("page.bundle.form.validUntil")}
+                    </Label>
                     <DatePicker
+                      id="edit-bundle-valid-until"
                       date={validUntilDate}
                       setDate={setValidUntilDate}
                       minDate={validFromDate || undefined}

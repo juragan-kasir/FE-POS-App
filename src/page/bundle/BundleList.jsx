@@ -625,8 +625,11 @@ const BundleList = () => {
             </p>
             <div className="grid grid-cols-12 gap-2 items-end">
               <div className="col-span-6 space-y-1">
-                <Label className="text-xs">{t("page.bundle.form.validFrom")}</Label>
+                <Label htmlFor="bundle-list-valid-from" className="text-xs">
+                  {t("page.bundle.form.validFrom")}
+                </Label>
                 <DatePicker
+                  id="bundle-list-valid-from"
                   date={activateForm.fromDate}
                   setDate={(d) => setActivateForm((f) => ({ ...f, fromDate: d }))}
                   placeholder={t("page.bundle.form.validFrom")}
@@ -641,8 +644,11 @@ const BundleList = () => {
             </div>
             <div className="grid grid-cols-12 gap-2 items-end">
               <div className="col-span-6 space-y-1">
-                <Label className="text-xs">{t("page.bundle.form.validUntil")}</Label>
+                <Label htmlFor="bundle-list-valid-until" className="text-xs">
+                  {t("page.bundle.form.validUntil")}
+                </Label>
                 <DatePicker
+                  id="bundle-list-valid-until"
                   date={activateForm.untilDate}
                   setDate={(d) => setActivateForm((f) => ({ ...f, untilDate: d }))}
                   minDate={activateForm.fromDate || undefined}

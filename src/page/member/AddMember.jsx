@@ -238,10 +238,13 @@ const AddMember = () => {
                     <p className="text-xs text-muted-foreground">{t("common.phoneHintMin")}</p>
                   </div>
                   <div className="flex flex-col gap-1.5">
-                    <label className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
+                    <label
+                      htmlFor="add-member-date-of-birth"
+                      className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
                       {t("page.member.add.dateOfBirth")} <span className="text-destructive">*</span>
                     </label>
                     <DatePicker
+                      id="add-member-date-of-birth"
                       date={form.birthDate}
                       setDate={(date) => setForm({ ...form, birthDate: date })}
                     />
