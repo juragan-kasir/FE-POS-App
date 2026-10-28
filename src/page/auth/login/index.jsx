@@ -81,6 +81,7 @@ const LoginPage = () => {
       userName: t("translation:userNameOrEmail"),
       password: t("translation:password"),
       btnLogin: t("translation:btnLogin"),
+      descAuth: t("translation:descAuth"),
       placeholderInputUser: t("translation:placeholder.input.login.username"),
       placeholderInputPassword: t("translation:placeholder.input.login.password"),
       errorMessageUserName: t("translation:formError.input.login.username"),
@@ -91,7 +92,10 @@ const LoginPage = () => {
       registerNow: t("translation:registerNow"),
       help: t("translation:help")
     }),
-    [t]
+    // ponytail: `t` tidak berubah identitas saat backend selesai memuat
+    // translation.json (mis. setelah reload penuh saat logout) — tanpa `ready`,
+    // memo membeku dengan snapshot key mentah dan descAuth tampil sebagai "descAuth".
+    [t, ready]
   );
 
   const formSchema = useMemo(() => {
@@ -237,6 +241,7 @@ const LoginPage = () => {
               <h1 className="text-2xl font-semibold tracking-tight text-foreground">
                 {t("page.login.heading")}
               </h1>
+              <p className="mt-1.5 text-sm text-muted-foreground">{translationMemo.descAuth}</p>
             </div>
 
             <Form {...form}>

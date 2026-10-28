@@ -3235,6 +3235,7 @@
   "userNameOrEmail": "Username or Email",
   "password": "Password",
   "btnLogin": "Login",
+  "descAuth": "Sign in to keep running your store.",
   "placeholder.input.login.username": "Enter username or email",
   "placeholder.input.login.password": "Enter password",
   "formError.input.login.username": "Username or email is required",

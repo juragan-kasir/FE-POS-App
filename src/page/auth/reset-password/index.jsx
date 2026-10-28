@@ -42,7 +42,7 @@ import AuthGuideModal from "@/components/organism/AuthGuideModal";
 import { FIELD_LIMITS } from "@/constants/fieldLimits";
 
 const ResetPasswordPage = () => {
-  const { t } = useTranslation();
+  const { t, ready } = useTranslation();
   const navigate = useNavigate();
   const location = useLocation();
   const [searchParams] = useSearchParams();
@@ -95,7 +95,7 @@ const ResetPasswordPage = () => {
       invalidTokenTitle: t("page.resetPassword.invalidTokenTitle"),
       invalidTokenDesc: t("page.resetPassword.invalidTokenDesc")
     }),
-    [t]
+    [t, ready]
   );
 
   const formSchema = useMemo(

@@ -44,7 +44,7 @@ import AuthGuideModal from "@/components/organism/AuthGuideModal";
 import { FIELD_LIMITS } from "@/constants/fieldLimits";
 
 const RegisterPage = () => {
-  const { t } = useTranslation();
+  const { t, ready } = useTranslation();
   const navigate = useNavigate();
   const location = useLocation();
   const [showPassword, setShowPassword] = useState(false);
@@ -108,7 +108,7 @@ const RegisterPage = () => {
       errorConfirmation: t("translation:formError.input.register.confirmationPassword"),
       errorPasswordMatch: t("translation:formError.input.register.validationConfirmationPassword")
     }),
-    [t]
+    [t, ready]
   );
 
   const formSchema = useMemo(

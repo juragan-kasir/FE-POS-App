@@ -3016,6 +3016,7 @@
   "userNameOrEmail": "Username atau Email",
   "password": "Kata Sandi",
   "btnLogin": "Masuk",
+  "descAuth": "Masuk untuk lanjut kelola toko Anda.",
   "placeholder.input.login.username": "Masukkan username atau email",
   "placeholder.input.login.password": "Masukkan kata sandi",
   "formError.input.login.username": "Username atau email wajib diisi",
