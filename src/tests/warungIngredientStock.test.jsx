@@ -135,7 +135,10 @@ describe("IngredientStockSummary", () => {
         store="all"
         needsStore
         isSuperAdmin
-        locations={[{ id: "loc-01", name: "Toko Pusat" }]}
+        locations={[
+          { id: "loc-01", name: "Toko Pusat" },
+          { id: "loc-02", name: "Toko Cabang" }
+        ]}
         storeFilter="all"
         onStoreChange={onStoreChange}
       />
@@ -149,6 +152,22 @@ describe("IngredientStockSummary", () => {
     fireEvent.click(await screen.findByRole("option", { name: "Toko Pusat" }));
 
     expect(onStoreChange).toHaveBeenCalledWith("1");
+  });
+
+  test("with a single store the summary selects it instead of asking", () => {
+    const onStoreChange = jest.fn();
+    wrap(
+      <IngredientStockSummary
+        store="all"
+        needsStore
+        isSuperAdmin
+        locations={[{ id: "loc-01", name: "Toko Pusat" }]}
+        storeFilter="all"
+        onStoreChange={onStoreChange}
+      />
+    );
+    expect(onStoreChange).toHaveBeenCalledWith("1");
+    expect(screen.queryByRole("combobox")).toBeNull();
   });
 
   test("shows ledger figures, unknown opening stock as a dash, and menu portions separately", async () => {
