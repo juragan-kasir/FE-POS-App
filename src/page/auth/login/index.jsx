@@ -172,77 +172,82 @@ const LoginPage = () => {
     }`;
 
   return (
-    <div className="relative flex min-h-svh flex-col bg-background text-foreground transition-colors duration-300">
-      {/* Soft brand glow instead of a dark panel: light, quiet, and the green of the logo. */}
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-x-0 top-0 h-[420px] bg-[radial-gradient(60%_100%_at_50%_0%,rgba(22,163,74,0.10),transparent)] dark:bg-[radial-gradient(60%_100%_at_50%_0%,rgba(22,163,74,0.14),transparent)]"
-      />
-
-      {/* Top controls */}
-      <header className="relative z-10 flex items-center justify-end gap-2 px-5 py-4 md:px-8 md:py-5">
-        <button
-          type="button"
-          onClick={() => setGuideOpen(true)}
-          className="flex h-8 items-center gap-1.5 rounded-lg px-2.5 text-xs font-medium text-muted-foreground transition-colors hover:bg-muted hover:text-foreground focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-600/30">
-          <HelpCircle className="h-4 w-4" />
-          <span className="hidden sm:inline">{translationMemo.help}</span>
-        </button>
-        <div className="flex items-center rounded-lg bg-muted p-0.5">
-          <button
-            type="button"
-            onClick={() => updateTranslation("id")}
-            className={langButtonClass(translation === "id")}>
-            ID
-          </button>
-          <button
-            type="button"
-            onClick={() => updateTranslation("en")}
-            className={langButtonClass(translation === "en")}>
-            EN
-          </button>
-        </div>
-        <button
-          type="button"
-          aria-label={t("header.toggleTheme")}
-          onClick={toggleTheme}
-          className="flex h-8 w-8 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:bg-muted hover:text-foreground focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-600/30">
-          <Sun className="hidden h-4 w-4 dark:block" />
-          <Moon className="block h-4 w-4 dark:hidden" />
-        </button>
-      </header>
-
-      <main className="relative z-10 flex flex-1 items-center justify-center px-5 pb-10 pt-2 md:pt-0">
-        <div className="w-full max-w-[400px]">
-          {/* Brand: logo + the hook */}
-          <div className="mb-8 text-center">
-            <img
-              src={logoFull}
-              alt="Juragan Kasir"
-              className="mx-auto h-auto w-32 dark:hidden md:w-36"
-            />
-            <img
-              src={logoFullDark}
-              alt="Juragan Kasir"
-              className="mx-auto hidden h-auto w-32 dark:block md:w-36"
-            />
-            <h2 className="mt-6 text-balance text-2xl font-semibold tracking-tight text-foreground md:text-[28px]">
+    <div className="flex min-h-svh bg-background text-foreground transition-colors duration-300">
+      {/* Brand panel (desktop): light tint, not a dark block. Logo, hook, what the product does. */}
+      <section className="relative hidden w-1/2 overflow-hidden border-r border-border/60 bg-gradient-to-br from-emerald-50 via-white to-slate-50 lg:flex dark:from-emerald-950/30 dark:via-background dark:to-background">
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute -left-32 -top-32 h-[480px] w-[480px] rounded-full bg-emerald-400/15 blur-3xl"
+        />
+        <div className="relative z-10 flex w-full flex-col justify-between p-10 xl:p-14">
+          <img src={logoFull} alt="Juragan Kasir" className="h-auto w-36 dark:hidden" />
+          <img src={logoFullDark} alt="Juragan Kasir" className="hidden h-auto w-36 dark:block" />
+          <div className="max-w-md">
+            <h2 className="text-balance text-4xl font-semibold leading-[1.15] tracking-tight text-foreground xl:text-5xl">
               {t("page.login.tagline")}
             </h2>
-            <p className="mx-auto mt-2 max-w-sm text-balance text-sm leading-relaxed text-muted-foreground">
+            <p className="mt-4 text-balance text-base leading-relaxed text-muted-foreground">
               {t("page.login.taglineSub")}
             </p>
           </div>
+          <p className="text-xs text-muted-foreground/70">juragankasir.com</p>
+        </div>
+      </section>
 
-          {/* Login card: the one thing this page is for */}
-          <div className="rounded-2xl border border-border/70 bg-card p-6 shadow-[0_1px_2px_rgba(15,23,42,0.04),0_12px_32px_-12px_rgba(15,23,42,0.12)] sm:p-8">
-            <div className="mb-6">
-              <h1 className="text-lg font-semibold tracking-tight text-foreground">
+      {/* Form side */}
+      <section className="flex w-full flex-col lg:w-1/2">
+        <header className="flex items-center justify-end gap-2 px-5 py-4 md:px-8 md:py-5">
+          <button
+            type="button"
+            onClick={() => setGuideOpen(true)}
+            className="flex h-8 items-center gap-1.5 rounded-lg px-2.5 text-xs font-medium text-muted-foreground transition-colors hover:bg-muted hover:text-foreground focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-600/30">
+            <HelpCircle className="h-4 w-4" />
+            <span className="hidden sm:inline">{translationMemo.help}</span>
+          </button>
+          <div className="flex items-center rounded-lg bg-muted p-0.5">
+            <button
+              type="button"
+              onClick={() => updateTranslation("id")}
+              className={langButtonClass(translation === "id")}>
+              ID
+            </button>
+            <button
+              type="button"
+              onClick={() => updateTranslation("en")}
+              className={langButtonClass(translation === "en")}>
+              EN
+            </button>
+          </div>
+          <button
+            type="button"
+            aria-label={t("header.toggleTheme")}
+            onClick={toggleTheme}
+            className="flex h-8 w-8 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:bg-muted hover:text-foreground focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-600/30">
+            <Sun className="hidden h-4 w-4 dark:block" />
+            <Moon className="block h-4 w-4 dark:hidden" />
+          </button>
+        </header>
+
+        <main className="flex flex-1 items-center justify-center px-5 pb-12 md:px-10">
+          <div className="w-full max-w-sm">
+            {/* Mobile: compact brand, the form stays above the fold */}
+            <div className="mb-8 lg:hidden">
+              <img src={logoFull} alt="Juragan Kasir" className="h-auto w-24 dark:hidden" />
+              <img
+                src={logoFullDark}
+                alt="Juragan Kasir"
+                className="hidden h-auto w-24 dark:block"
+              />
+              <p className="mt-3 text-sm font-medium text-emerald-700 dark:text-emerald-400">
+                {t("page.login.tagline")}
+              </p>
+            </div>
+
+            <div className="mb-8">
+              <h1 className="text-2xl font-semibold tracking-tight text-foreground">
                 {t("page.login.heading")}
               </h1>
-              <p className="mt-1 text-balance text-sm text-muted-foreground">
-                {translationMemo.descAuth}
-              </p>
+              <p className="mt-1.5 text-sm text-muted-foreground">{translationMemo.descAuth}</p>
             </div>
 
             <Form {...form}>
@@ -313,7 +318,7 @@ const LoginPage = () => {
 
                 <div
                   data-tour="auth-options"
-                  className="flex flex-wrap items-center justify-between gap-3 pt-1">
+                  className="flex flex-wrap items-center justify-between gap-3">
                   <div className="flex items-center gap-2">
                     <Checkbox
                       id="remember-me"
@@ -343,28 +348,28 @@ const LoginPage = () => {
                 </Button>
               </form>
             </Form>
-          </div>
 
-          <div className="mt-6 text-center">
-            {isPublicRegistrationEnabled() ? (
-              <p className="text-sm text-muted-foreground">
-                {translationMemo.noAccount}
-                <button
-                  type="button"
-                  onClick={() => navigate("/register")}
-                  className="ml-1 font-semibold text-emerald-700 hover:underline dark:text-emerald-400">
-                  {translationMemo.registerNow}
-                </button>
-              </p>
-            ) : (
-              // D-08: accounts come from the store owner, not self sign-up.
-              <p className="mx-auto max-w-xs text-sm leading-relaxed text-muted-foreground">
-                {t("page.login.accountFromOwner")}
-              </p>
-            )}
+            <div className="mt-8 border-t border-border/60 pt-6">
+              {isPublicRegistrationEnabled() ? (
+                <p className="text-sm text-muted-foreground">
+                  {translationMemo.noAccount}
+                  <button
+                    type="button"
+                    onClick={() => navigate("/register")}
+                    className="ml-1 font-semibold text-emerald-700 hover:underline dark:text-emerald-400">
+                    {translationMemo.registerNow}
+                  </button>
+                </p>
+              ) : (
+                // D-08: accounts come from the store owner, not self sign-up.
+                <p className="text-sm leading-relaxed text-muted-foreground">
+                  {t("page.login.accountFromOwner")}
+                </p>
+              )}
+            </div>
           </div>
-        </div>
-      </main>
+        </main>
+      </section>
 
       <AuthGuideModal open={guideOpen} onOpenChange={setGuideOpen} context="login" />
 

@@ -8820,7 +8820,7 @@
   "page.login.accountFromOwner": "No account yet? Ask the store owner to create your staff account.",
   "page.login.heading": "Welcome back",
   "page.login.tagline": "Busier sales. Clearer profit.",
-  "page.login.taglineSub": "Cashier, stock, and reports in one app — from a single stall to dozens of branches.",
+  "page.login.taglineSub": "Cashier, stock, and reports in one app. From a single stall to dozens of branches.",
   "page.login.showPassword": "Show password",
   "page.login.hidePassword": "Hide password",
   "common.deleteConfirmDesc": "Are you sure you want to delete {{name}}? This cannot be undone.",

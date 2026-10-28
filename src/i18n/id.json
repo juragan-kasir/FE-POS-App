@@ -8820,7 +8820,7 @@
   "page.login.accountFromOwner": "Belum punya akun? Minta pemilik toko untuk membuatkan akun karyawan Anda.",
   "page.login.heading": "Selamat datang kembali",
   "page.login.tagline": "Jualan makin laris, cuan makin jelas.",
-  "page.login.taglineSub": "Kasir, stok, dan laporan dalam satu aplikasi — dari satu warung sampai puluhan cabang.",
+  "page.login.taglineSub": "Kasir, stok, dan laporan dalam satu aplikasi. Dari satu warung sampai puluhan cabang.",
   "page.login.showPassword": "Tampilkan kata sandi",
   "page.login.hidePassword": "Sembunyikan kata sandi",
   "common.deleteConfirmDesc": "Yakin ingin menghapus {{name}}? Tindakan ini tidak dapat dibatalkan.",
