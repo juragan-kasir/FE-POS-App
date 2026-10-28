@@ -11,6 +11,7 @@ import NoStore from "@/components/ui/NoStore";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useTranslation } from "react-i18next";
+import { toast } from "sonner";
 import {
   Clock,
   ChefHat,
@@ -170,7 +171,17 @@ const KitchenDisplay = () => {
 
   const updateMut = useMutation(
     ({ orderId, itemId, status }) => updateOrderItemStatus(orderId, itemId, status),
-    { onSuccess: () => queryClient.invalidateQueries(["kitchen-orders"]) }
+    {
+      onSuccess: () => queryClient.invalidateQueries(["kitchen-orders"]),
+      onError: (error, variables) => {
+        toast.error(t("page.kitchenDisplay.updateFailed"), {
+          action: {
+            label: t("common.retry"),
+            onClick: () => updateMut.mutate(variables)
+          }
+        });
+      }
+    }
   );
 
   const isItemLoading = (itemId) => updateMut.isLoading && updateMut.variables?.itemId === itemId;

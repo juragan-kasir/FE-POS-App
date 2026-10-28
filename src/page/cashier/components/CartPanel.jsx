@@ -15,7 +15,8 @@ import {
   X,
   Package,
   PackageX,
-  Archive
+  Archive,
+  AlertCircle
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -281,6 +282,8 @@ const CartPanel = ({
   subtotal,
   taxRate,
   taxAmount,
+  taxUnavailable = false,
+  onRetryTax,
   onIncrement,
   onDecrement,
   onDelete,
@@ -458,19 +461,33 @@ const CartPanel = ({
                     <span className="font-medium text-foreground">Rp {formatPrice(taxAmount)}</span>
                   </div>
                 )}
+                {taxUnavailable && (
+                  <div className="flex items-center justify-between gap-2 text-sm">
+                    <span className="flex items-center gap-1.5 text-amber-700 dark:text-amber-400">
+                      <AlertCircle size={14} className="shrink-0" aria-hidden="true" />
+                      {t("page.cashier.taxUnavailable")}
+                    </span>
+                    <button
+                      type="button"
+                      onClick={onRetryTax}
+                      className="text-xs font-semibold underline underline-offset-2 text-foreground">
+                      {t("common.retry")}
+                    </button>
+                  </div>
+                )}
                 <div className="border-t border-border/30 pt-2 flex items-center justify-between">
                   <span className="text-sm font-semibold text-foreground">
                     {t("page.cashier.total")}
                   </span>
                   <span className="font-bold text-foreground text-lg">
-                    Rp {formatPrice(subtotal + taxAmount)}
+                    {taxUnavailable ? "—" : `Rp ${formatPrice(subtotal + (taxAmount || 0))}`}
                   </span>
                 </div>
               </div>
             )}
             <Button
               onClick={onCheckout}
-              disabled={isLoading || isEmpty}
+              disabled={isLoading || isEmpty || taxUnavailable}
               className="w-full h-11 rounded-xl font-semibold text-sm relative overflow-hidden group/btn">
               <div className="absolute inset-0 bg-gradient-to-r from-primary via-primary to-primary/90 opacity-90 group-hover/btn:opacity-100 transition-opacity" />
               <span className="relative flex items-center justify-center gap-2">
@@ -536,6 +553,8 @@ CartPanel.propTypes = {
   subtotal: PropTypes.number,
   taxRate: PropTypes.number,
   taxAmount: PropTypes.number,
+  taxUnavailable: PropTypes.bool,
+  onRetryTax: PropTypes.func,
   onIncrement: PropTypes.func,
   onDecrement: PropTypes.func,
   onDelete: PropTypes.func,

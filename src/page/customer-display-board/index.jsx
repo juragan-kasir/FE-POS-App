@@ -151,7 +151,8 @@ const CustomerDisplayBoard = () => {
   const totalItems = cart?.totalItems ?? items.reduce((sum, i) => sum + (i.count || 0), 0);
   const subtotal = cart?.subtotal ?? 0;
   const taxAmount = cart?.taxAmount ?? 0;
-  const total = cart?.total ?? subtotal + taxAmount;
+  const taxUnavailable = cart?.taxUnavailable === true;
+  const total = taxUnavailable ? null : (cart?.total ?? subtotal + taxAmount);
 
   const toggleFullscreen = () => {
     if (document.fullscreenElement) {
@@ -259,22 +260,38 @@ const CustomerDisplayBoard = () => {
               </span>
               <span className="font-semibold text-foreground">{formatIDR(subtotal)}</span>
             </div>
-            {taxAmount > 0 && (
+            {taxUnavailable ? (
               <div className="flex items-center justify-between text-lg">
                 <span className="text-muted-foreground">
-                  {t("page.customerDisplayBoard.tax", {
-                    rate: Math.round((cart?.taxRate || 0) * 100)
-                  })}
+                  {t("page.customerDisplayBoard.taxUnavailable")}
                 </span>
-                <span className="font-semibold text-foreground">{formatIDR(taxAmount)}</span>
+                <span className="font-semibold text-amber-600 dark:text-amber-400">—</span>
               </div>
+            ) : (
+              taxAmount > 0 && (
+                <div className="flex items-center justify-between text-lg">
+                  <span className="text-muted-foreground">
+                    {t("page.customerDisplayBoard.tax", {
+                      rate: Math.round((cart?.taxRate || 0) * 100)
+                    })}
+                  </span>
+                  <span className="font-semibold text-foreground">{formatIDR(taxAmount)}</span>
+                </div>
+              )
             )}
             <div className="border-t border-border pt-3 flex items-center justify-between">
               <span className="text-lg font-semibold text-foreground">
                 {t("page.customerDisplayBoard.total")}
               </span>
-              <span className="font-black text-2xl text-foreground">{formatIDR(total)}</span>
+              <span className="font-black text-2xl text-foreground">
+                {taxUnavailable ? "—" : formatIDR(total)}
+              </span>
             </div>
+            {taxUnavailable && (
+              <p className="text-xs text-muted-foreground text-right">
+                {t("page.customerDisplayBoard.totalPending")}
+              </p>
+            )}
           </div>
         )}
       </main>

@@ -286,7 +286,7 @@ describe("CheckoutModal — quote-stage PRICE_CHANGED", () => {
       }
     ]);
 
-    expect(await screen.findByText("Rp 110.000")).toBeInTheDocument();
+    expect((await screen.findAllByText("Rp 110.000")).length).toBeGreaterThan(0);
     fireEvent.click(await screen.findByText("Card"));
     await waitFor(() => expect(confirmButton()).not.toBeDisabled());
     fireEvent.click(confirmButton());
