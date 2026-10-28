@@ -181,6 +181,13 @@ const LoginPage = () => {
 
       {/* Top controls */}
       <header className="relative z-10 flex items-center justify-end gap-2 px-5 py-4 md:px-8 md:py-5">
+        <button
+          type="button"
+          onClick={() => setGuideOpen(true)}
+          className="flex h-8 items-center gap-1.5 rounded-lg px-2.5 text-xs font-medium text-muted-foreground transition-colors hover:bg-muted hover:text-foreground focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-600/30">
+          <HelpCircle className="h-4 w-4" />
+          <span className="hidden sm:inline">{translationMemo.help}</span>
+        </button>
         <div className="flex items-center rounded-lg bg-muted p-0.5">
           <button
             type="button"
@@ -219,16 +226,19 @@ const LoginPage = () => {
               alt="Juragan Kasir"
               className="mx-auto hidden h-auto w-32 dark:block md:w-36"
             />
-            <p className="mt-5 text-[15px] font-medium tracking-tight text-foreground/80">
+            <h2 className="mt-6 text-balance text-2xl font-semibold tracking-tight text-foreground md:text-[28px]">
               {t("page.login.tagline")}
+            </h2>
+            <p className="mx-auto mt-2 max-w-sm text-balance text-sm leading-relaxed text-muted-foreground">
+              {t("page.login.taglineSub")}
             </p>
           </div>
 
           {/* Login card: the one thing this page is for */}
           <div className="rounded-2xl border border-border/70 bg-card p-6 shadow-[0_1px_2px_rgba(15,23,42,0.04),0_12px_32px_-12px_rgba(15,23,42,0.12)] sm:p-8">
             <div className="mb-6">
-              <h1 className="text-xl font-semibold tracking-tight text-foreground">
-                {translationMemo.title}
+              <h1 className="text-lg font-semibold tracking-tight text-foreground">
+                {t("page.login.heading")}
               </h1>
               <p className="mt-1 text-balance text-sm text-muted-foreground">
                 {translationMemo.descAuth}
@@ -355,20 +365,6 @@ const LoginPage = () => {
           </div>
         </div>
       </main>
-
-      {/* Footer: what the product does + help */}
-      <footer className="relative z-10 flex flex-col items-center gap-2 px-5 pb-6 text-center sm:flex-row sm:justify-between sm:px-8">
-        <p className="max-w-md text-balance text-xs text-muted-foreground/80 sm:max-w-none sm:text-left">
-          {t("page.login.taglineSub")}
-        </p>
-        <button
-          type="button"
-          onClick={() => setGuideOpen(true)}
-          className="inline-flex items-center gap-1.5 rounded-md px-2 py-1 text-xs font-medium text-muted-foreground transition-colors hover:bg-muted hover:text-foreground">
-          <HelpCircle className="h-3.5 w-3.5" />
-          {translationMemo.help}
-        </button>
-      </footer>
 
       <AuthGuideModal open={guideOpen} onOpenChange={setGuideOpen} context="login" />
 
