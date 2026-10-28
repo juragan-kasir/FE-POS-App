@@ -200,6 +200,18 @@ describe("Counter sale payment reference (DR-23 §D)", () => {
     });
   });
 
+  test("QRIS confirmation says it is a manual confirmation, not a scanned code", async () => {
+    renderModal();
+    await pickMethod("QRIS");
+    await waitFor(() => expect(confirmButton()).not.toBeDisabled());
+    fireEvent.click(confirmButton());
+    await screen.findByText("page.cashier.qris.confirmReceived");
+
+    expect(screen.getByText("page.cashier.qris.manualTitle")).toBeInTheDocument();
+    expect(screen.getByText("page.cashier.qris.confirmWarning")).toBeInTheDocument();
+    expect(screen.queryByText("page.cashier.qris.onBoard")).not.toBeInTheDocument();
+  });
+
   test("a reused QRIS reference keeps the pending QRIS so the cashier can correct it", async () => {
     createOrder.mockRejectedValueOnce(refusal(409, "DUPLICATE_REFERENCE"));
     renderModal();

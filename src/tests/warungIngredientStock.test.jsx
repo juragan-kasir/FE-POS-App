@@ -20,6 +20,7 @@ class ResizeObserverStub {
   disconnect() {}
 }
 if (!globalThis.ResizeObserver) globalThis.ResizeObserver = ResizeObserverStub;
+if (!Element.prototype.scrollIntoView) Element.prototype.scrollIntoView = () => {};
 
 jest.mock("react-router-dom", () => ({
   ...jest.requireActual("react-router-dom"),
@@ -127,10 +128,27 @@ describe("AdjustIngredientStockModal", () => {
 });
 
 describe("IngredientStockSummary", () => {
-  test("asks a global admin to pick a store instead of mixing stores", () => {
-    wrap(<IngredientStockSummary store="all" needsStore />);
+  test("asks a global admin to pick a store instead of mixing stores", async () => {
+    const onStoreChange = jest.fn();
+    wrap(
+      <IngredientStockSummary
+        store="all"
+        needsStore
+        isSuperAdmin
+        locations={[{ id: "loc-01", name: "Toko Pusat" }]}
+        storeFilter="all"
+        onStoreChange={onStoreChange}
+      />
+    );
     expect(screen.getByText("page.ingredient.summary.pickStore")).toBeInTheDocument();
+    expect(screen.getByLabelText("page.ingredient.summary.startDate")).toBeInTheDocument();
+    expect(screen.getByLabelText("page.ingredient.summary.endDate")).toBeInTheDocument();
     expect(getIngredientStockSummary).not.toHaveBeenCalled();
+
+    fireEvent.click(screen.getByRole("combobox"));
+    fireEvent.click(await screen.findByRole("option", { name: "Toko Pusat" }));
+
+    expect(onStoreChange).toHaveBeenCalledWith("1");
   });
 
   test("shows ledger figures, unknown opening stock as a dash, and menu portions separately", async () => {

@@ -8,8 +8,12 @@ import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 
 const VariantModal = ({ product, onSelect, onClose }) => {
   const { t } = useTranslation();
-  const [selectedOption, setSelectedOption] = useState(null);
-  const [selectedModifier, setSelectedModifier] = useState(null);
+  // Legacy products have one flat variant list; option products can have
+  // several groups, so each group keeps its own choice. Modifiers are
+  // additive and may be selected together.
+  const [selectedVariant, setSelectedVariant] = useState(null);
+  const [selectedOptions, setSelectedOptions] = useState({});
+  const [selectedModifiers, setSelectedModifiers] = useState([]);
 
   const hasVariants = product?.variant?.length > 0;
   const hasOptions = product?.isOption && product?.options?.length > 0;
@@ -28,15 +32,21 @@ const VariantModal = ({ product, onSelect, onClose }) => {
 
   const productImage = product?.image || product?.imageProduct || product?.photo || null;
 
+  const optionValues = useMemo(() => Object.values(selectedOptions), [selectedOptions]);
+
   const totalPrice = useMemo(() => {
     const base = Number(product?.price) || 0;
-    const optPrice = Number(selectedOption?.price) || 0;
-    const modPrice = Number(selectedModifier?.price) || 0;
-    return base + optPrice + modPrice;
-  }, [product, selectedOption, selectedModifier]);
+    const variantPrice = Number(selectedVariant?.price) || 0;
+    const optionsPrice = optionValues.reduce((sum, opt) => sum + (Number(opt?.price) || 0), 0);
+    const modifiersPrice = selectedModifiers.reduce(
+      (sum, mod) => sum + (Number(mod?.price) || 0),
+      0
+    );
+    return base + variantPrice + optionsPrice + modifiersPrice;
+  }, [product, selectedVariant, optionValues, selectedModifiers]);
 
   const needsOption = hasVariants || hasOptions;
-  const canAdd = needsOption ? !!selectedOption : true;
+  const canAdd = hasOptions ? optionValues.length > 0 : needsOption ? !!selectedVariant : true;
 
   if (!product) return null;
 
@@ -93,16 +103,17 @@ const VariantModal = ({ product, onSelect, onClose }) => {
               {product.variant
                 .filter((v) => v != null && (v.nameVariant || v.name))
                 .map((v, idx) => {
-                  const isSelected = selectedOption?.label === (v.nameVariant || v.name);
+                  const isSelected = selectedVariant?.label === (v.nameVariant || v.name);
                   const stock = v.stock != null ? Number(v.stock) : null;
                   const outOfStock = stock !== null && stock <= 0;
                   return (
                     <button
                       key={v.nameVariant || idx}
+                      aria-pressed={isSelected}
                       onClick={() =>
                         !outOfStock &&
-                        setSelectedOption(
-                          selectedOption?.label === (v.nameVariant || v.name)
+                        setSelectedVariant(
+                          selectedVariant?.label === (v.nameVariant || v.name)
                             ? null
                             : { label: v.nameVariant || v.name, price: v.price, image: v.image }
                         )
@@ -160,63 +171,72 @@ const VariantModal = ({ product, onSelect, onClose }) => {
               <p className="text-sm font-semibold text-foreground border-b border-border/30 pb-1">
                 {t("page.kitchenDisplay.optionsLabel")}
               </p>
-              {product.options.map((group) => (
-                <div key={group.id || group.name}>
-                  <p className="text-xs font-medium text-muted-foreground mb-1.5">{group.name}</p>
-                  <div className="space-y-1.5 pl-2">
-                    {group.options
-                      ?.filter((o) => o.name)
-                      .map((opt, idx) => {
-                        const isSelected = selectedOption?.label === `${group.name} - ${opt.name}`;
-                        const stock = opt.stock != null ? Number(opt.stock) : null;
-                        const outOfStock = stock !== null && stock <= 0;
-                        return (
-                          <button
-                            key={opt.name || idx}
-                            onClick={() =>
-                              !outOfStock &&
-                              setSelectedOption(
-                                selectedOption?.label === `${group.name} - ${opt.name}`
-                                  ? null
-                                  : {
-                                      label: `${group.name} - ${opt.name}`,
+              {product.options.map((group, groupIndex) => {
+                const groupKey = String(group.id ?? group.name ?? groupIndex);
+                return (
+                  <div key={groupKey}>
+                    <p className="text-xs font-medium text-muted-foreground mb-1.5">{group.name}</p>
+                    <div className="space-y-1.5 pl-2">
+                      {group.options
+                        ?.filter((o) => o.name)
+                        .map((opt, idx) => {
+                          const label = `${group.name} - ${opt.name}`;
+                          const isSelected = selectedOptions[groupKey]?.label === label;
+                          const stock = opt.stock != null ? Number(opt.stock) : null;
+                          const outOfStock = stock !== null && stock <= 0;
+                          return (
+                            <button
+                              key={opt.name || idx}
+                              aria-pressed={isSelected}
+                              onClick={() => {
+                                if (outOfStock) return;
+                                setSelectedOptions((prev) => {
+                                  const next = { ...prev };
+                                  if (next[groupKey]?.label === label) {
+                                    delete next[groupKey];
+                                  } else {
+                                    next[groupKey] = {
+                                      label,
                                       price: opt.price,
                                       stock: opt.stock
-                                    }
-                              )
-                            }
-                            disabled={outOfStock}
-                            className={`w-full flex items-center gap-3 p-2.5 rounded-lg border transition-all text-left ${
-                              outOfStock
-                                ? "border-border/20 bg-muted/30 opacity-50 cursor-not-allowed"
-                                : isSelected
-                                  ? "border-primary bg-primary/10"
-                                  : "border-border/30 bg-card/50 hover:border-border/60 hover:bg-accent/50"
-                            }`}>
-                            <div className="flex-1 min-w-0">
-                              <p className="text-sm">{opt.name}</p>
-                              <div className="flex items-center gap-2">
-                                <p className="text-xs text-muted-foreground">
-                                  +Rp {formatPrice(opt.price)}
-                                </p>
-                                {stock !== null && (
-                                  <p
-                                    className={`text-xs ${outOfStock ? "text-destructive" : "text-muted-foreground/60"}`}>
-                                    {t("page.cashier.stock")}: {stock}
+                                    };
+                                  }
+                                  return next;
+                                });
+                              }}
+                              disabled={outOfStock}
+                              className={`w-full flex items-center gap-3 p-2.5 rounded-lg border transition-all text-left ${
+                                outOfStock
+                                  ? "border-border/20 bg-muted/30 opacity-50 cursor-not-allowed"
+                                  : isSelected
+                                    ? "border-primary bg-primary/10"
+                                    : "border-border/30 bg-card/50 hover:border-border/60 hover:bg-accent/50"
+                              }`}>
+                              <div className="flex-1 min-w-0">
+                                <p className="text-sm">{opt.name}</p>
+                                <div className="flex items-center gap-2">
+                                  <p className="text-xs text-muted-foreground">
+                                    +Rp {formatPrice(opt.price)}
                                   </p>
-                                )}
+                                  {stock !== null && (
+                                    <p
+                                      className={`text-xs ${outOfStock ? "text-destructive" : "text-muted-foreground/60"}`}>
+                                      {t("page.cashier.stock")}: {stock}
+                                    </p>
+                                  )}
+                                </div>
                               </div>
-                            </div>
-                            {isSelected && <Check size={14} className="text-primary shrink-0" />}
-                            {outOfStock && (
-                              <PackageOpen size={14} className="text-destructive/60 shrink-0" />
-                            )}
-                          </button>
-                        );
-                      })}
+                              {isSelected && <Check size={14} className="text-primary shrink-0" />}
+                              {outOfStock && (
+                                <PackageOpen size={14} className="text-destructive/60 shrink-0" />
+                              )}
+                            </button>
+                          );
+                        })}
+                    </div>
                   </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
           )}
 
@@ -229,20 +249,21 @@ const VariantModal = ({ product, onSelect, onClose }) => {
               {product.modifiers
                 .filter((m) => m.name)
                 .map((m, idx) => {
-                  const isSelected = selectedModifier?.label === m.name;
+                  const isSelected = selectedModifiers.some((mod) => mod.label === m.name);
                   const stock = m.stock != null ? Number(m.stock) : null;
                   const outOfStock = stock !== null && stock <= 0;
                   return (
                     <button
                       key={m.id || m.name || idx}
-                      onClick={() =>
-                        !outOfStock &&
-                        setSelectedModifier(
-                          selectedModifier?.label === m.name
-                            ? null
-                            : { label: m.name, price: m.price, stock: m.stock }
-                        )
-                      }
+                      aria-pressed={isSelected}
+                      onClick={() => {
+                        if (outOfStock) return;
+                        setSelectedModifiers((prev) =>
+                          prev.some((mod) => mod.label === m.name)
+                            ? prev.filter((mod) => mod.label !== m.name)
+                            : [...prev, { label: m.name, price: m.price, stock: m.stock }]
+                        );
+                      }}
                       disabled={outOfStock}
                       className={`w-full flex items-center gap-3 p-2.5 rounded-lg border transition-all text-left ${
                         outOfStock
@@ -295,17 +316,19 @@ const VariantModal = ({ product, onSelect, onClose }) => {
           <Button
             variant="success"
             onClick={() => {
-              // W3-4 (K3): option and modifier are kept as separate selections
-              // so checkout sends them exactly as the server prices them
-              // (base + option markup + modifier markup = totalPrice).
+              // W3-4 (K3): every option group and every selected modifier is
+              // kept as its own entry so checkout sends them exactly as the
+              // server prices them (base + option markups + modifier markups).
+              const optionLabels = selectedVariant
+                ? [selectedVariant.label]
+                : optionValues.map((opt) => opt.label);
+              const modifierLabels = selectedModifiers.map((mod) => mod.label);
               const choice = {
-                label:
-                  [selectedOption?.label, selectedModifier?.label].filter(Boolean).join(" + ") ||
-                  null,
+                label: [...optionLabels, ...modifierLabels].filter(Boolean).join(" + ") || null,
                 price: totalPrice,
-                image: selectedOption?.image || null,
-                options: selectedOption?.label ? [{ name: selectedOption.label }] : [],
-                modifiers: selectedModifier?.label ? [{ name: selectedModifier.label }] : []
+                image: selectedVariant?.image || null,
+                options: optionLabels.filter(Boolean).map((name) => ({ name })),
+                modifiers: modifierLabels.filter(Boolean).map((name) => ({ name }))
               };
               onSelect(choice);
             }}

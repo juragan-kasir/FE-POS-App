@@ -415,6 +415,13 @@ const IngredientList = () => {
               <IngredientStockSummary
                 store={isSuperAdmin ? storeFilter : user?.store}
                 needsStore={isSuperAdmin && (!storeFilter || storeFilter === "all")}
+                isSuperAdmin={isSuperAdmin}
+                locations={locData?.data || []}
+                storeFilter={storeFilter}
+                onStoreChange={(value) => {
+                  setGlobalStoreFilter(value);
+                  setPage(1);
+                }}
               />
             )}
           </TabsContent>

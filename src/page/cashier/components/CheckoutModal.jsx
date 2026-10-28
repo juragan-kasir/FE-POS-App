@@ -19,12 +19,13 @@ import {
   RotateCcw,
   Search,
   Plus,
-  UserPlus
+  UserPlus,
+  ShoppingBag
 } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button";
 import { Combobox } from "@/components/ui/combobox";
-import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogDescription, DialogTitle } from "@/components/ui/dialog";
 import { quoteOrder, createOrder, getOrderById } from "@/services/order";
 import {
   checkoutAttempts,
@@ -140,6 +141,7 @@ const CheckoutModal = ({
   const [selectedTable, setSelectedTable] = useState(null);
   const [partySize, setPartySize] = useState("");
   const [qrisPending, setQrisPending] = useState(false);
+  const [closeConfirmOpen, setCloseConfirmOpen] = useState(false);
   const [pendingPayload, setPendingPayload] = useState(null);
   // D2: the checkout (quoted inputs + tender + table) a pending QRIS was
   // issued for. Confirmation is only valid while the checkout is unchanged.
@@ -1137,6 +1139,32 @@ const CheckoutModal = ({
         (paymentMethod !== "cash" || cashAmountNum >= remainingTotal) &&
         (isQrisPayment || referenceReady)));
 
+  const hasUnsavedCheckout =
+    qrisPending ||
+    Boolean(paymentMethod) ||
+    referenceInput.trim() !== "" ||
+    cashAmount.trim() !== "" ||
+    Boolean(selectedCustomer) ||
+    Boolean(selectedDiscount) ||
+    promoCode.trim() !== "" ||
+    Number(redeemPoints) > 0 ||
+    orderType !== "take-away" ||
+    Boolean(selectedTable) ||
+    partySize.trim() !== "";
+
+  const requestClose = useCallback(() => {
+    if (hasUnsavedCheckout) {
+      setCloseConfirmOpen(true);
+      return;
+    }
+    onClose();
+  }, [hasUnsavedCheckout, onClose]);
+
+  const discardCheckout = useCallback(() => {
+    setCloseConfirmOpen(false);
+    onClose();
+  }, [onClose]);
+
   return (
     // F9-04: migrated onto the project's accessible Dialog primitive —
     // the manual window-keydown Escape handler (removed) is superseded by
@@ -1144,7 +1172,7 @@ const CheckoutModal = ({
     // the topmost of two stacked dialogs (this modal + the nested
     // add-customer dialog below), matching the prior "closes whichever
     // layer is on top" behavior without extra code.
-    <Dialog open onOpenChange={(open) => !open && onClose()}>
+    <Dialog open onOpenChange={(open) => !open && requestClose()}>
       <DialogContent
         className="max-w-2xl max-h-[90vh] flex flex-col overflow-hidden p-0"
         withX={false}>
@@ -1153,12 +1181,57 @@ const CheckoutModal = ({
             <Receipt size={20} className="text-primary" />
             <DialogTitle className="text-lg font-bold">{t("page.cashier.payment")}</DialogTitle>
           </div>
-          <button onClick={onClose} className="p-1.5 rounded-lg hover:bg-accent transition-colors">
-            <X size={18} />
+          <button
+            onClick={requestClose}
+            aria-label={t("common.close")}
+            className="p-1.5 rounded-lg hover:bg-accent transition-colors">
+            <X size={18} aria-hidden="true" />
           </button>
         </div>
 
         <div className="flex-1 overflow-y-auto p-6 space-y-5">
+          {items.length > 0 && (
+            <div className="overflow-hidden rounded-xl border border-border/40 bg-background">
+              <div className="flex items-center justify-between border-b border-border/40 px-4 py-2.5">
+                <span className="flex items-center gap-1.5 text-sm font-semibold">
+                  <ShoppingBag size={14} className="text-muted-foreground" aria-hidden="true" />
+                  {t("page.cashier.checkoutItemsTitle")}
+                </span>
+                <span className="text-xs text-muted-foreground">
+                  {t("page.cashier.checkoutItemsCount", { count: items.length })}
+                </span>
+              </div>
+              <ul className="max-h-36 divide-y divide-border/30 overflow-y-auto">
+                {items.map((item, index) => {
+                  const lineTotal =
+                    Number(item.totalPrice) || Number(item.price) * Number(item.count) || 0;
+                  return (
+                    <li
+                      key={item.cartKey || item.idProduct || index}
+                      className="flex items-start justify-between gap-3 px-4 py-2">
+                      <div className="min-w-0">
+                        <p className="truncate text-sm font-medium text-foreground">
+                          {item.nameProduct}
+                        </p>
+                        {item.variantName && (
+                          <p className="truncate text-xs text-muted-foreground">
+                            {item.variantName}
+                          </p>
+                        )}
+                      </div>
+                      <div className="shrink-0 text-right">
+                        <p className="text-sm font-medium tabular-nums text-foreground">
+                          Rp {formatPrice(lineTotal)}
+                        </p>
+                        <p className="text-xs text-muted-foreground">×{item.count}</p>
+                      </div>
+                    </li>
+                  );
+                })}
+              </ul>
+            </div>
+          )}
+
           <div className="bg-muted/40 rounded-xl p-4 border border-border/40 space-y-1.5">
             <div className="flex items-center justify-between text-sm">
               <span className="text-muted-foreground">{t("page.cashier.subtotal")}</span>
@@ -1791,6 +1864,32 @@ const CheckoutModal = ({
           )}
         </div>
 
+        {closeConfirmOpen && (
+          <Dialog open onOpenChange={(open) => !open && setCloseConfirmOpen(false)}>
+            <DialogContent className="max-w-md p-0" withX={false}>
+              <div className="p-5 space-y-2">
+                <DialogTitle className="font-semibold">
+                  {t("page.cashier.checkoutDiscardTitle")}
+                </DialogTitle>
+                <DialogDescription>{t("page.cashier.checkoutDiscardDesc")}</DialogDescription>
+                {qrisPending && (
+                  <p className="rounded-lg border border-amber-500/30 bg-amber-500/10 px-3 py-2 text-sm text-amber-700 dark:text-amber-400">
+                    {t("page.cashier.checkoutDiscardQris")}
+                  </p>
+                )}
+              </div>
+              <div className="flex flex-col-reverse gap-2 px-5 pb-5 sm:flex-row sm:justify-end">
+                <Button variant="outline" onClick={() => setCloseConfirmOpen(false)}>
+                  {t("page.cashier.keepEditing")}
+                </Button>
+                <Button variant="destructive" onClick={discardCheckout}>
+                  {t("page.cashier.discardCheckout")}
+                </Button>
+              </div>
+            </DialogContent>
+          </Dialog>
+        )}
+
         {/* F9-04: a second, independent Dialog for the add-customer
             sub-flow — Radix supports these stacked, and closes only the
             topmost one on Escape, matching the prior "closes whichever
@@ -2127,16 +2226,27 @@ const CheckoutModal = ({
           )}
           {qrisPending && isQrisPayment ? (
             <>
-              <div className="flex items-start gap-2 rounded-xl bg-primary/10 border border-primary/20 px-3 py-2.5 text-sm">
-                <Smartphone size={16} className="text-primary mt-0.5 shrink-0" />
+              <div className="flex items-start gap-2 rounded-xl bg-amber-50 border border-amber-200 px-3 py-2.5 text-sm dark:bg-amber-900/20 dark:border-amber-800/50">
+                <Wallet
+                  size={16}
+                  className="text-amber-600 dark:text-amber-400 mt-0.5 shrink-0"
+                  aria-hidden="true"
+                />
                 <div>
-                  <p className="font-semibold text-primary">
-                    {t("page.cashier.qris.onBoard", "QRIS ditampilkan di layar pelanggan")}
+                  <p className="font-semibold text-amber-800 dark:text-amber-300">
+                    {t("page.cashier.qris.manualTitle", "Pembayaran manual")}
                   </p>
                   <p className="text-xs text-muted-foreground">
                     {t(
-                      "page.cashier.qris.waiting",
-                      "Tunggu pembayaran pelanggan, lalu konfirmasi di bawah."
+                      "page.cashier.qris.manualDesc",
+                      "Minta pelanggan membayar, lalu masukkan nomor referensi setelah dana diterima."
+                    )}
+                  </p>
+                  <p className="mt-1.5 flex items-start gap-1 text-xs font-medium text-amber-700 dark:text-amber-400">
+                    <AlertCircle size={14} className="mt-0.5 shrink-0" aria-hidden="true" />
+                    {t(
+                      "page.cashier.qris.confirmWarning",
+                      "Jangan konfirmasi sebelum dana benar-benar diterima."
                     )}
                   </p>
                 </div>
