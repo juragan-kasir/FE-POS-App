@@ -1,3 +1,5 @@
+import { dateLocale } from "@/lib/locale";
+
 // The ONE receipt design. The invoice-settings preview, the cashier's
 // on-screen receipt and the browser print all render the element built
 // here, so what is previewed is exactly what comes out of the printer.
@@ -115,7 +117,7 @@ export const buildAddressLines = (fields = {}, visibility = {}) => {
 const formatDate = (date) => {
   const d = date ? new Date(date) : null;
   if (!d || Number.isNaN(d.getTime())) return "";
-  return d.toLocaleString("id-ID", {
+  return d.toLocaleString(dateLocale(), {
     day: "2-digit",
     month: "short",
     year: "numeric",

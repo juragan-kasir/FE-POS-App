@@ -13,6 +13,7 @@ import { Loading } from "@/components/ui/loading";
 import AbortController from "@/components/organism/abort-controller";
 import Modal from "@/components/organism/modal";
 import PageHeader from "@/components/ui/PageHeader";
+import { dateLocale } from "@/lib/locale";
 
 const DetailBundle = () => {
   const { t } = useTranslation();
@@ -306,7 +307,7 @@ const DetailBundle = () => {
                     {t("page.bundle.form.validFrom")}
                   </span>
                   <span className="text-sm">
-                    {new Date(bundle.validFrom).toLocaleDateString("id-ID")}
+                    {new Date(bundle.validFrom).toLocaleDateString(dateLocale())}
                   </span>
                 </div>
               )}
@@ -316,7 +317,7 @@ const DetailBundle = () => {
                     {t("page.bundle.form.validUntil")}
                   </span>
                   <span className="text-sm">
-                    {new Date(bundle.validUntil).toLocaleDateString("id-ID")}
+                    {new Date(bundle.validUntil).toLocaleDateString(dateLocale())}
                   </span>
                 </div>
               )}

@@ -94,7 +94,7 @@ describe("explicit logout paths → one session boundary", () => {
     );
 
     expect(screen.queryByText("secret")).not.toBeInTheDocument();
-    fireEvent.click(screen.getByText("Logout"));
+    fireEvent.click(screen.getByText("header.logout"));
 
     expect(mockEndSession).toHaveBeenCalledTimes(1);
     expect(mockEndSession).toHaveBeenCalledWith({ reason: "logout", revoke: true });

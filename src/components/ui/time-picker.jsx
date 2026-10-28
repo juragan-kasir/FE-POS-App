@@ -13,6 +13,8 @@ import {
 } from "@/components/ui/command";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import i18next from "i18next";
+import { useTranslation } from "react-i18next";
 
 function generateTimeSlots() {
   const slots = [];
@@ -29,16 +31,37 @@ function generateTimeSlots() {
 const TIME_SLOTS = generateTimeSlots();
 
 const TIME_PRESETS = [
-  { label: "Pagi", value: "08:00" },
-  { label: "Siang", value: "12:00" },
-  { label: "Sore", value: "17:00" },
-  { label: "Malam", value: "20:00" }
+  {
+    get label() {
+      return i18next.t("component.timePicker.ui.morning");
+    },
+    value: "08:00"
+  },
+  {
+    get label() {
+      return i18next.t("component.timePicker.ui.afternoon");
+    },
+    value: "12:00"
+  },
+  {
+    get label() {
+      return i18next.t("component.timePicker.ui.evening");
+    },
+    value: "17:00"
+  },
+  {
+    get label() {
+      return i18next.t("component.timePicker.ui.night");
+    },
+    value: "20:00"
+  }
 ];
 
 export const TimePicker = React.forwardRef(function TimePicker(
   { id, value, onChange, placeholder = "Pilih jam", disabled = false, slots },
   ref
 ) {
+  const { t } = useTranslation();
   const [open, setOpen] = React.useState(false);
 
   return (
@@ -63,9 +86,9 @@ export const TimePicker = React.forwardRef(function TimePicker(
       </PopoverTrigger>
       <PopoverContent className="w-[--radix-popover-trigger-width] p-0" align="start">
         <Command>
-          <CommandInput placeholder="Cari jam..." />
+          <CommandInput placeholder={t("component.timePicker.ui.searchTime")} />
           <CommandList>
-            <CommandEmpty>Tidak ada jam</CommandEmpty>
+            <CommandEmpty>{t("component.timePicker.ui.noTimes")}</CommandEmpty>
             {!value && (
               <CommandGroup heading="Cepat">
                 <div className="grid grid-cols-4 gap-1.5 p-2">

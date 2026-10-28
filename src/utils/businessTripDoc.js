@@ -1,3 +1,5 @@
+import { dateLocale } from "@/lib/locale";
+
 const fmtNum = (n) => Number(n || 0).toLocaleString("id-ID");
 
 const fmtDate = (v) => {
@@ -5,7 +7,7 @@ const fmtDate = (v) => {
   const d = new Date(v);
   return isNaN(d.getTime())
     ? "-"
-    : d.toLocaleDateString("id-ID", { day: "numeric", month: "long", year: "numeric" });
+    : d.toLocaleDateString(dateLocale(), { day: "numeric", month: "long", year: "numeric" });
 };
 
 export const buildTripRows = (trip, t = (k) => k) => {

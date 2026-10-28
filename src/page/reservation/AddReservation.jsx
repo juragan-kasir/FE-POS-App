@@ -233,7 +233,7 @@ const AddReservation = () => {
             href: "/reservation",
             i18nKey: "breadcrumb.reservation"
           },
-          { label: "Tambah Reservasi" }
+          { label: t("page.reservation.addButton") }
         ]}
         title={t("page.reservation.addButton")}
         description={t("page.reservation.ui.createANewTableReservation")}

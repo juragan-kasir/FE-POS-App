@@ -21,6 +21,7 @@ import {
   taxRowScope
 } from "@/utils/taxEffective";
 import { useLocations } from "@/queries/useLocations";
+import { dateLocale } from "@/lib/locale";
 
 const statusBadge = (status, t) => {
   if (status === "active")
@@ -267,7 +268,7 @@ const DetailTaxConfig = () => {
               </div>
               <p className="text-sm font-medium">
                 {tax?.createdAt
-                  ? new Date(tax.createdAt).toLocaleDateString("id-ID", {
+                  ? new Date(tax.createdAt).toLocaleDateString(dateLocale(), {
                       year: "numeric",
                       month: "long",
                       day: "numeric",
@@ -282,7 +283,7 @@ const DetailTaxConfig = () => {
                 </p>
                 <p className="text-sm font-medium">
                   {tax?.updatedAt
-                    ? new Date(tax.updatedAt).toLocaleDateString("id-ID", {
+                    ? new Date(tax.updatedAt).toLocaleDateString(dateLocale(), {
                         year: "numeric",
                         month: "long",
                         day: "numeric",

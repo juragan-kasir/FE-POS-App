@@ -70,14 +70,14 @@ const TableQRModal = ({ open, onOpenChange, table }) => {
             variant="outline"
             size="sm"
             onClick={() => navigator.clipboard.writeText(orderUrl)}>
-            Salin Tautan
+            {t("component.tableQRModal.ui.copyLink")}
           </Button>
           <Button variant="outline" size="sm" onClick={handlePrint}>
             <Printer size={18} className="mr-1" />
-            Print
+            {t("common.print")}
           </Button>
           <Button size="sm" onClick={() => window.open(orderUrl, "_blank")}>
-            Buka Halaman
+            {t("component.tableQRModal.ui.openPage")}
           </Button>
         </div>
       </div>

@@ -16,6 +16,7 @@ import NoStore from "@/components/ui/NoStore";
 import PageHeader from "@/components/ui/PageHeader";
 import AbortController from "@/components/organism/abort-controller";
 import { useLocations } from "@/queries/useLocations";
+import { dateLocale } from "@/lib/locale";
 
 const PurchasePaymentList = () => {
   const { t } = useTranslation();
@@ -51,7 +52,7 @@ const PurchasePaymentList = () => {
       render: (p) => (
         <span className="text-muted-foreground">
           {p.paymentDate
-            ? new Date(p.paymentDate).toLocaleDateString("id-ID", {
+            ? new Date(p.paymentDate).toLocaleDateString(dateLocale(), {
                 year: "numeric",
                 month: "short",
                 day: "numeric"

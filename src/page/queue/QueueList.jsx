@@ -16,23 +16,79 @@ import StatCard from "@/components/ui/StatCard";
 import PageHeader from "@/components/ui/PageHeader";
 import TableToolbar from "@/components/ui/TableToolbar";
 import Modal from "@/components/organism/modal";
+import i18next from "i18next";
 
 const statusOptions = [
-  { value: "all", label: "All" },
-  { value: "waiting", label: "Waiting" },
-  { value: "seated", label: "Seated" },
-  { value: "cancelled", label: "Cancelled" },
-  { value: "no_show", label: "No Show" },
-  { value: "expired", label: "Expired" }
+  {
+    value: "all",
+    get label() {
+      return i18next.t("common.all");
+    }
+  },
+  {
+    value: "waiting",
+    get label() {
+      return i18next.t("page.queue.ui.waiting");
+    }
+  },
+  {
+    value: "seated",
+    get label() {
+      return i18next.t("page.queue.ui.seated");
+    }
+  },
+  {
+    value: "cancelled",
+    get label() {
+      return i18next.t("page.purchaseOrder.status.cancelled");
+    }
+  },
+  {
+    value: "no_show",
+    get label() {
+      return i18next.t("page.reservation.status.noShow");
+    }
+  },
+  {
+    value: "expired",
+    get label() {
+      return i18next.t("page.bundle.list.expired");
+    }
+  }
 ];
 
 const priorityOptions = [
-  { value: "all", label: "All" },
-  { value: "normal", label: "Normal" },
+  {
+    value: "all",
+    get label() {
+      return i18next.t("common.all");
+    }
+  },
+  {
+    value: "normal",
+    get label() {
+      return i18next.t("page.queue.ui.normal");
+    }
+  },
   { value: "vip", label: "VIP" },
-  { value: "elderly", label: "Elderly" },
-  { value: "pregnant", label: "Pregnant" },
-  { value: "disabled", label: "Disabled" }
+  {
+    value: "elderly",
+    get label() {
+      return i18next.t("page.queue.ui.elderly");
+    }
+  },
+  {
+    value: "pregnant",
+    get label() {
+      return i18next.t("page.queue.ui.pregnant");
+    }
+  },
+  {
+    value: "disabled",
+    get label() {
+      return i18next.t("page.queue.ui.priorityDisabled");
+    }
+  }
 ];
 
 const statusBadge = (status) => {
@@ -112,7 +168,7 @@ const QueueList = () => {
     {
       onSuccess: () => {
         toast.success(t("common.success"), {
-          description: "Customer marked as seated"
+          description: t("page.queue.ui.customerMarkedAsSeated")
         });
         queryClient.invalidateQueries(["queue-list"]);
         queryClient.invalidateQueries(["queue-stats"]);
@@ -129,7 +185,7 @@ const QueueList = () => {
   const cancelMutation = useMutation(({ id }) => updateQueueStatus(id, { status: "cancelled" }), {
     onSuccess: () => {
       toast.success(t("common.success"), {
-        description: "Queue entry cancelled"
+        description: t("page.queue.ui.queueEntryCancelled")
       });
       queryClient.invalidateQueries(["queue-list"]);
       queryClient.invalidateQueries(["queue-stats"]);

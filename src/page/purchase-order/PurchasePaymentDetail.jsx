@@ -9,45 +9,65 @@ import { Skeleton } from "@/components/ui/skeleton";
 import AbortController from "@/components/organism/abort-controller";
 import PageHeader from "@/components/ui/PageHeader";
 import HorizontalScrollArea from "@/components/ui/HorizontalScrollArea";
+import i18next from "i18next";
+import { dateLocale } from "@/lib/locale";
 
 const methodBadge = {
   cash: {
-    label: "Cash",
+    get label() {
+      return i18next.t("page.purchaseOrder.paymentMethod.cash");
+    },
     class: "bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-400"
   },
   transfer: {
-    label: "Transfer",
+    get label() {
+      return i18next.t("page.dashboard.payTransfer");
+    },
     class: "bg-blue-100 text-blue-800 dark:bg-blue-900/20 dark:text-blue-400"
   },
   giro: {
-    label: "Giro",
+    get label() {
+      return i18next.t("page.purchaseOrder.paymentMethod.giro");
+    },
     class: "bg-purple-100 text-purple-800 dark:bg-purple-900/20 dark:text-purple-400"
   },
   other: {
-    label: "Other",
+    get label() {
+      return i18next.t("page.purchaseOrder.paymentMethod.other");
+    },
     class: "bg-muted text-foreground"
   }
 };
 
 const poStatusBadge = {
   draft: {
-    label: "Draft",
+    get label() {
+      return i18next.t("common.draft");
+    },
     class: "bg-muted text-foreground"
   },
   pending: {
-    label: "Pending",
+    get label() {
+      return i18next.t("page.expense.list.pending");
+    },
     class: "bg-yellow-100 text-yellow-800 dark:bg-yellow-900/20 dark:text-yellow-400"
   },
   ordered: {
-    label: "Ordered",
+    get label() {
+      return i18next.t("page.purchaseOrder.status.ordered");
+    },
     class: "bg-blue-100 text-blue-800 dark:bg-blue-900/20 dark:text-blue-400"
   },
   received: {
-    label: "Received",
+    get label() {
+      return i18next.t("page.purchaseOrder.status.received");
+    },
     class: "bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-400"
   },
   cancelled: {
-    label: "Cancelled",
+    get label() {
+      return i18next.t("page.purchaseOrder.status.cancelled");
+    },
     class: "bg-red-100 text-red-800 dark:bg-red-900/20 dark:text-red-400"
   }
 };
@@ -170,7 +190,7 @@ const PurchasePaymentDetail = () => {
                     </Row>
                     <Row label={t("page.purchasePayment.detail.paymentDate")}>
                       {payment.paymentDate
-                        ? new Date(payment.paymentDate).toLocaleDateString("id-ID", {
+                        ? new Date(payment.paymentDate).toLocaleDateString(dateLocale(), {
                             weekday: "long",
                             year: "numeric",
                             month: "long",
@@ -253,7 +273,7 @@ const PurchasePaymentDetail = () => {
                       </td>
                       <td className="py-2 text-right">
                         {payment.createdAt
-                          ? new Date(payment.createdAt).toLocaleDateString("id-ID", {
+                          ? new Date(payment.createdAt).toLocaleDateString(dateLocale(), {
                               year: "numeric",
                               month: "short",
                               day: "numeric",
@@ -269,7 +289,7 @@ const PurchasePaymentDetail = () => {
                       </td>
                       <td className="py-2 text-right">
                         {payment.updatedAt
-                          ? new Date(payment.updatedAt).toLocaleDateString("id-ID", {
+                          ? new Date(payment.updatedAt).toLocaleDateString(dateLocale(), {
                               year: "numeric",
                               month: "short",
                               day: "numeric",

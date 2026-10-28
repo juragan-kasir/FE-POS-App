@@ -9,6 +9,7 @@ import { Card } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { getDiscountById } from "@/services/discount";
 import { useLocations } from "@/queries/useLocations";
+import { dateLocale } from "@/lib/locale";
 
 const statusBadge = (status, t) => {
   if (status === "active")
@@ -76,7 +77,7 @@ const DetailDiscount = () => {
 
   const formatDate = (dateStr) => {
     if (!dateStr) return "-";
-    return new Date(dateStr).toLocaleDateString("id-ID", {
+    return new Date(dateStr).toLocaleDateString(dateLocale(), {
       year: "numeric",
       month: "long",
       day: "numeric",

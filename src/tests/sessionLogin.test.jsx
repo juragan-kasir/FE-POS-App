@@ -129,7 +129,7 @@ describe("one-time session notice", () => {
     renderLogin();
 
     await waitFor(() => expect(toast.error).toHaveBeenCalledTimes(1));
-    expect(toast.error.mock.calls[0][0]).toBe("Sesi Berakhir");
+    expect(toast.error.mock.calls[0][0]).toBe("page.auth.ui.sessionEnded");
     expect(toast.success).not.toHaveBeenCalled();
     expect(sessionStorage.getItem(session.SESSION_NOTICE_KEY)).toBeNull();
   });

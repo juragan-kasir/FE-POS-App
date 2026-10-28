@@ -97,11 +97,13 @@ const renderModal = (onComplete = jest.fn(), items, subtotal = 100000) => {
 const openSearchAndPick = async (member) => {
   getAllMember.mockResolvedValue({ data: [member] });
   fireEvent.click(screen.getByText("page.cashier.ui.searchCustomer"));
-  await waitFor(() => expect(screen.getByText("Cari Member")).toBeInTheDocument());
-  fireEvent.change(screen.getByPlaceholderText("Nama member"), {
+  await waitFor(() =>
+    expect(screen.getByText("component.memberSearchModal.ui.searchMember")).toBeInTheDocument()
+  );
+  fireEvent.change(screen.getByPlaceholderText("component.memberSearchModal.ui.memberName"), {
     target: { value: member.name }
   });
-  fireEvent.click(screen.getByText("Search"));
+  fireEvent.click(screen.getByText("common.search"));
   await waitFor(() => expect(screen.getByText(member.name)).toBeInTheDocument());
   fireEvent.click(screen.getByText(member.name));
 };
@@ -122,14 +124,18 @@ describe("CheckoutModal — member search opens and selection is reflected (Phas
   test("clicking Cari Pelanggan opens the Member Search Modal", async () => {
     renderModal();
     fireEvent.click(await screen.findByText("page.cashier.ui.searchCustomer"));
-    expect(await screen.findByText("Cari Member")).toBeInTheDocument();
+    expect(
+      await screen.findByText("component.memberSearchModal.ui.searchMember")
+    ).toBeInTheDocument();
   });
 
   test("selecting a member closes the search modal and shows name, member number and points in the Payment Modal", async () => {
     renderModal();
     await openSearchAndPick(budi);
 
-    expect(screen.queryByText("Cari Member")).not.toBeInTheDocument();
+    expect(
+      screen.queryByText("component.memberSearchModal.ui.searchMember")
+    ).not.toBeInTheDocument();
     expect(screen.getByText("Budi Santoso")).toBeInTheDocument();
     expect(screen.getByText(/081234/)).toBeInTheDocument();
     await waitFor(() => expect(screen.getAllByText(/120/).length).toBeGreaterThan(0));

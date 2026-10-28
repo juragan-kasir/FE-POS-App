@@ -95,7 +95,7 @@ const MemberLoyalty = () => {
   const deleteTierMutation = useMutation({
     mutationFn: deleteMemberTier,
     onSuccess: () => {
-      toast.success("Tier berhasil dihapus");
+      toast.success(t("page.memberLoyalty.ui.tierDeleted"));
       queryClient.invalidateQueries(["member-tiers"]);
       setDeleteTierTarget(null);
     },
@@ -116,7 +116,7 @@ const MemberLoyalty = () => {
     mutationFn: ({ phoneNumber, points }) =>
       addMemberPoints(phoneNumber, { points: -Math.abs(points) }),
     onSuccess: () => {
-      toast.success("Poin berhasil diredeem");
+      toast.success(t("page.memberLoyalty.ui.pointsRedeemed"));
       queryClient.invalidateQueries(["members-loyalty"]);
       queryClient.invalidateQueries(["member-detail-loyalty"]);
       setRedeemPoints("");
@@ -128,13 +128,13 @@ const MemberLoyalty = () => {
   const handleRedeemPoints = (memberId) => {
     const points = Number(redeemPoints);
     if (!points || points <= 0) {
-      toast.error("Jumlah poin harus lebih dari 0");
+      toast.error(t("page.memberLoyalty.ui.pointsMustBeGreaterThan"));
       return;
     }
     const member = members.find((m) => m.id === memberId);
     if (!member) return;
     if (points > (member.totalPoints || 0)) {
-      toast.error("Poin tidak cukup");
+      toast.error(t("page.memberLoyalty.ui.notEnoughPoints"));
       return;
     }
     redeemMutation.mutate({ phoneNumber: member.phoneNumber, points });
@@ -202,12 +202,12 @@ const MemberLoyalty = () => {
           ) : (
             <Card>
               <CardHeader className="flex flex-row items-center justify-between">
-                <CardTitle>{t("guide.tier.s25a")}</CardTitle>
+                <CardTitle>{t("common.ui.memberTiers")}</CardTitle>
                 <Dialog>
                   <DialogTrigger asChild>
                     <Button variant="success">
                       <Plus className="w-4 h-4 mr-2" />
-                      {t("guide.tier.s25e")}
+                      {t("common.ui.addTier")}
                     </Button>
                   </DialogTrigger>
                   <DialogContent>
@@ -295,7 +295,7 @@ const MemberLoyalty = () => {
             <Card>
               <CardHeader>
                 <div className="flex items-center justify-between">
-                  <CardTitle>{t("guide.member.s15a")}</CardTitle>
+                  <CardTitle>{t("common.ui.members")}</CardTitle>
                   <Input
                     placeholder={t("page.memberLoyalty.ui.searchMembers")}
                     value={search}
@@ -439,7 +439,7 @@ const AddTierForm = ({ onSuccess }) => {
   const addTier = useMutation({
     mutationFn: (payload) => addMemberTier(payload),
     onSuccess: () => {
-      toast.success("Tier berhasil ditambahkan");
+      toast.success(t("page.memberLoyalty.ui.tierAdded"));
       onSuccess();
     },
     onError: (err) => toast.error(err?.message || "Gagal menambahkan tier")
@@ -540,7 +540,7 @@ const EditTierForm = ({ tier, onSuccess }) => {
   const editTier = useMutation({
     mutationFn: (payload) => editMemberTier({ id: tier.id, ...payload }),
     onSuccess: () => {
-      toast.success("Tier berhasil diperbarui");
+      toast.success(t("page.memberLoyalty.ui.tierUpdated"));
       onSuccess();
     },
     onError: (err) => toast.error(err?.message || "Gagal memperbarui tier")

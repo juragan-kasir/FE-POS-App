@@ -61,7 +61,7 @@ describe("RequireMenuAccess", () => {
 
   test("admin without menu access sees AccessDenied", () => {
     renderGuard();
-    expect(screen.getByText("Akses Ditolak")).toBeInTheDocument();
+    expect(screen.getByText("error.forbiddenTitle")).toBeInTheDocument();
     expect(screen.queryByText("HALAMAN-LOKASI")).not.toBeInTheDocument();
   });
 });

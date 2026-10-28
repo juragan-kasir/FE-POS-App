@@ -26,10 +26,13 @@ import {
 import AbortController from "@/components/organism/abort-controller";
 import StoreFilter from "@/components/ui/StoreFilter";
 import { useLocations } from "@/queries/useLocations";
+import i18next from "i18next";
 
 const statusConfig = {
   pending: {
-    label: "Menunggu",
+    get label() {
+      return i18next.t("common.pending");
+    },
     icon: Clock,
     color: "bg-amber-50 border-amber-200 dark:bg-amber-950/20 dark:border-amber-800",
     badge: "bg-amber-100 text-amber-700 dark:bg-amber-900 dark:text-amber-300",
@@ -37,7 +40,9 @@ const statusConfig = {
     nextLabel: "Ambil"
   },
   preparing: {
-    label: "Dimasak",
+    get label() {
+      return i18next.t("page.kitchenDisplay.status.preparing");
+    },
     icon: CookingPot,
     color: "bg-blue-50 border-blue-200 dark:bg-blue-950/20 dark:border-blue-800",
     badge: "bg-blue-100 text-blue-700 dark:bg-blue-900 dark:text-blue-300",
@@ -45,7 +50,9 @@ const statusConfig = {
     nextLabel: "Selesai"
   },
   ready: {
-    label: "Siap Saji",
+    get label() {
+      return i18next.t("page.kitchenDisplay.status.ready");
+    },
     icon: CheckCircle2,
     color: "bg-green-50 border-green-200 dark:bg-green-950/20 dark:border-green-800",
     badge: "bg-green-100 text-green-700 dark:bg-green-900 dark:text-green-300",

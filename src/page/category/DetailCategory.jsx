@@ -10,6 +10,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import Modal from "@/components/organism/modal";
 import { getCategoryById, getAllCategory } from "@/services/category";
 import { getAllProduct } from "@/services/product";
+import { dateLocale } from "@/lib/locale";
 
 const statusBadge = (status, t) => {
   if (status === "active")
@@ -249,7 +250,7 @@ const DetailCategory = () => {
               </div>
               <p className="text-sm font-medium">
                 {category.createdAt
-                  ? new Date(category.createdAt).toLocaleDateString("id-ID", {
+                  ? new Date(category.createdAt).toLocaleDateString(dateLocale(), {
                       year: "numeric",
                       month: "long",
                       day: "numeric",
@@ -317,7 +318,7 @@ const DetailCategory = () => {
                     {p.brand && (
                       <div className="flex items-center gap-1.5">
                         <span className="text-muted-foreground/60 w-16 shrink-0">
-                          {t("tour.brand")}
+                          {t("common.ui.brand")}
                         </span>
                         <span className="font-medium text-foreground/80 truncate">{p.brand}</span>
                       </div>

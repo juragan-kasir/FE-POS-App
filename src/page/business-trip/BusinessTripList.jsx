@@ -24,6 +24,7 @@ import { Combobox } from "@/components/ui/combobox";
 import AbortController from "@/components/organism/abort-controller";
 import StatCard from "@/components/ui/StatCard";
 import TableActions from "@/components/ui/TableActions";
+import { dateLocale } from "@/lib/locale";
 
 const statusMap = {
   draft: {
@@ -49,7 +50,7 @@ const parseDate = (d) => {
 const formatDate = (d) => {
   const date = parseDate(d);
   return date
-    ? date.toLocaleDateString("id-ID", { day: "numeric", month: "short", year: "numeric" })
+    ? date.toLocaleDateString(dateLocale(), { day: "numeric", month: "short", year: "numeric" })
     : "-";
 };
 
@@ -57,9 +58,9 @@ const formatDateTime = (d) => {
   const date = parseDate(d);
   if (!date) return "-";
   return (
-    date.toLocaleDateString("id-ID", { day: "numeric", month: "short", year: "numeric" }) +
+    date.toLocaleDateString(dateLocale(), { day: "numeric", month: "short", year: "numeric" }) +
     ", " +
-    date.toLocaleTimeString("id-ID", { hour: "2-digit", minute: "2-digit" })
+    date.toLocaleTimeString(dateLocale(), { hour: "2-digit", minute: "2-digit" })
   );
 };
 

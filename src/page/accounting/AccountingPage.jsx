@@ -57,6 +57,7 @@ import {
 import HorizontalScrollArea from "@/components/ui/HorizontalScrollArea";
 import { useLocations } from "@/queries/useLocations";
 import { FIELD_LIMITS, CURRENT_DB_LIMITS } from "@/constants/fieldLimits";
+import { dateLocale } from "@/lib/locale";
 
 const formatIDR = (num) => {
   if (num == null || isNaN(num)) return "Rp 0";
@@ -65,7 +66,7 @@ const formatIDR = (num) => {
 
 const formatDate = (d) => {
   if (!d) return "-";
-  return new Date(d).toLocaleString("id-ID", {
+  return new Date(d).toLocaleString(dateLocale(), {
     day: "2-digit",
     month: "short",
     year: "numeric"

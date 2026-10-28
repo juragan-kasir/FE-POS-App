@@ -184,13 +184,13 @@ const AuditLogList = () => {
                     }}
                     options={[
                       { value: "", label: t("page.auditLog.allEntities") },
-                      { value: "order", label: "Order" },
-                      { value: "product", label: "Product" },
-                      { value: "member", label: "Member" },
-                      { value: "memberTier", label: "Member Tier" },
-                      { value: "user", label: "User" },
-                      { value: "payment", label: "Payment" },
-                      { value: "cashRegister", label: "Cash Register" }
+                      { value: "order", label: t("page.salesReturn.create.orderLabel") },
+                      { value: "product", label: t("sidebar.section.product") },
+                      { value: "member", label: t("breadcrumb.member") },
+                      { value: "memberTier", label: t("sidebar.memberTier") },
+                      { value: "user", label: t("page.role.type.user") },
+                      { value: "payment", label: t("breadcrumb.payment") },
+                      { value: "cashRegister", label: t("sidebar.cashRegister") }
                     ]}
                     className="w-full sm:w-48"
                   />

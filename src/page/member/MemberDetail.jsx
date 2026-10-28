@@ -30,6 +30,7 @@ import { useTranslation } from "react-i18next";
 import AbortController from "@/components/organism/abort-controller";
 import PageHeader from "@/components/ui/PageHeader";
 import HorizontalScrollArea from "@/components/ui/HorizontalScrollArea";
+import { dateLocale } from "@/lib/locale";
 
 const getInitials = (name) => {
   if (!name) return "?";
@@ -234,7 +235,7 @@ const MemberDetail = () => {
   const joinDate = member.joinDate || member.createdAt || "-";
   const formattedJoinDate =
     joinDate !== "-"
-      ? new Date(joinDate).toLocaleDateString("id-ID", {
+      ? new Date(joinDate).toLocaleDateString(dateLocale(), {
           day: "numeric",
           month: "short",
           year: "numeric"
@@ -512,7 +513,7 @@ const MemberDetail = () => {
                           </td>
                           <td className="px-4 py-3 text-sm text-muted-foreground">
                             {trx.date
-                              ? new Date(trx.date).toLocaleDateString("id-ID", {
+                              ? new Date(trx.date).toLocaleDateString(dateLocale(), {
                                   day: "numeric",
                                   month: "short",
                                   year: "numeric"
@@ -614,11 +615,14 @@ const MemberDetail = () => {
                             <tr key={pt.id || idx} className="hover:bg-muted/20 transition-colors">
                               <td className="px-4 py-3 text-sm text-muted-foreground">
                                 {pt.date || pt.createdAt
-                                  ? new Date(pt.date || pt.createdAt).toLocaleDateString("id-ID", {
-                                      day: "numeric",
-                                      month: "short",
-                                      year: "numeric"
-                                    })
+                                  ? new Date(pt.date || pt.createdAt).toLocaleDateString(
+                                      dateLocale(),
+                                      {
+                                        day: "numeric",
+                                        month: "short",
+                                        year: "numeric"
+                                      }
+                                    )
                                   : "-"}
                               </td>
                               <td className="px-4 py-3 text-sm text-foreground">

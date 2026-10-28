@@ -23,22 +23,78 @@ import TableToolbar from "@/components/ui/TableToolbar";
 import Modal from "@/components/organism/modal";
 import { canAccess } from "@/utils/permission";
 import { useLocations } from "@/queries/useLocations";
+import i18next from "i18next";
 
 const periodOptions = [
-  { value: "all", label: "All Periods" },
-  { value: "monthly", label: "Monthly" },
-  { value: "quarterly", label: "Quarterly" },
-  { value: "yearly", label: "Yearly" },
-  { value: "all_time", label: "All Time" }
+  {
+    value: "all",
+    get label() {
+      return i18next.t("page.supplierPerformance.ui.allPeriods");
+    }
+  },
+  {
+    value: "monthly",
+    get label() {
+      return i18next.t("page.report.sales.monthly");
+    }
+  },
+  {
+    value: "quarterly",
+    get label() {
+      return i18next.t("page.supplierPerformance.ui.quarterly");
+    }
+  },
+  {
+    value: "yearly",
+    get label() {
+      return i18next.t("page.expense.form.frequencyYearly");
+    }
+  },
+  {
+    value: "all_time",
+    get label() {
+      return i18next.t("page.supplierPerformance.ui.allTime");
+    }
+  }
 ];
 
 const gradeOptions = [
-  { value: "all", label: "All Grades" },
-  { value: "A", label: "Grade A" },
-  { value: "B", label: "Grade B" },
-  { value: "C", label: "Grade C" },
-  { value: "D", label: "Grade D" },
-  { value: "F", label: "Grade F" }
+  {
+    value: "all",
+    get label() {
+      return i18next.t("page.supplierPerformance.ui.allGrades");
+    }
+  },
+  {
+    value: "A",
+    get label() {
+      return i18next.t("page.supplierPerformance.ui.gradeA");
+    }
+  },
+  {
+    value: "B",
+    get label() {
+      return i18next.t("page.supplierPerformance.ui.gradeB");
+    }
+  },
+  {
+    value: "C",
+    get label() {
+      return i18next.t("page.supplierPerformance.ui.gradeC");
+    }
+  },
+  {
+    value: "D",
+    get label() {
+      return i18next.t("page.supplierPerformance.ui.gradeD");
+    }
+  },
+  {
+    value: "F",
+    get label() {
+      return i18next.t("page.supplierPerformance.ui.gradeF");
+    }
+  }
 ];
 
 const gradeBadge = (grade) => {

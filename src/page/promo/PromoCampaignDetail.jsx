@@ -31,6 +31,7 @@ import {
   User
 } from "lucide-react";
 import LoadErrorBanner from "@/components/ui/LoadErrorBanner";
+import { dateLocale } from "@/lib/locale";
 
 const typeIcon = (type) => {
   const map = {
@@ -52,13 +53,13 @@ const formatDate = (dateString) => {
     const d = new Date(dateString);
     if (isNaN(d.getTime())) return "-";
     return (
-      d.toLocaleDateString("id-ID", {
+      d.toLocaleDateString(dateLocale(), {
         day: "numeric",
         month: "long",
         year: "numeric"
       }) +
       " " +
-      d.toLocaleTimeString("id-ID", {
+      d.toLocaleTimeString(dateLocale(), {
         hour: "2-digit",
         minute: "2-digit"
       })
@@ -161,22 +162,22 @@ const PromoCampaignDetail = () => {
       active: {
         bg: "bg-green-100 text-green-700 border-green-200",
         dot: "bg-green-500",
-        label: "Aktif"
+        label: t("common.active")
       },
       paused: {
         bg: "bg-yellow-100 text-yellow-700 border-yellow-200",
         dot: "bg-yellow-500",
-        label: "Dijeda"
+        label: t("page.promo.ui.paused")
       },
       draft: {
         bg: "bg-muted text-muted-foreground border-border",
         dot: "bg-muted-foreground/50",
-        label: "Draft"
+        label: t("common.draft")
       },
       expired: {
         bg: "bg-red-100 text-red-700 border-red-200",
         dot: "bg-red-500",
-        label: "Kedaluwarsa"
+        label: t("page.report.export.status.expired")
       }
     };
     return safeGet(config, status, config.draft);

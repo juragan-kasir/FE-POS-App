@@ -44,6 +44,7 @@ import StatCard from "@/components/ui/StatCard";
 import NoStore from "@/components/ui/NoStore";
 import { useLocations } from "@/queries/useLocations";
 import PageHeader from "@/components/ui/PageHeader";
+import { dateLocale } from "@/lib/locale";
 
 const formatDate = (dateStr) => {
   if (!dateStr) return "-";
@@ -51,9 +52,9 @@ const formatDate = (dateStr) => {
     const d = new Date(dateStr);
     if (isNaN(d.getTime())) return "-";
     return (
-      d.toLocaleDateString("id-ID", { day: "numeric", month: "short", year: "numeric" }) +
+      d.toLocaleDateString(dateLocale(), { day: "numeric", month: "short", year: "numeric" }) +
       " " +
-      d.toLocaleTimeString("id-ID", { hour: "2-digit", minute: "2-digit" })
+      d.toLocaleTimeString(dateLocale(), { hour: "2-digit", minute: "2-digit" })
     );
   } catch {
     return "-";

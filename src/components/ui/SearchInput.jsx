@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { Search, X, Loader2 } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { useDebounce } from "@/hooks/useDebounce";
+import { useTranslation } from "react-i18next";
 
 export function SearchInput({
   id,
@@ -12,6 +13,7 @@ export function SearchInput({
   className = "",
   debounceDelay = 300
 }) {
+  const { t } = useTranslation();
   const [localValue, setLocalValue] = useState(value);
   const debouncedValue = useDebounce(localValue, debounceDelay);
   const inputRef = useRef(null);
@@ -59,7 +61,7 @@ export function SearchInput({
           <button
             type="button"
             onClick={handleClear}
-            aria-label="Clear search"
+            aria-label={t("common.ui.clearSearch")}
             className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors">
             <X size={14} />
           </button>

@@ -1025,9 +1025,18 @@ const AddSupplier = () => {
                               </FormLabel>
                               <Combobox
                                 options={[
-                                  { value: "cbd", label: "CBD (Cash Before Delivery)" },
-                                  { value: "cad", label: "CAD (Cash After Delivery)" },
-                                  { value: "tempo", label: "Tempo (Kredit)" }
+                                  {
+                                    value: "cbd",
+                                    label: t("page.supplier.ui.cbdCashBeforeDelivery")
+                                  },
+                                  {
+                                    value: "cad",
+                                    label: t("page.supplier.ui.cadCashAfterDelivery")
+                                  },
+                                  {
+                                    value: "tempo",
+                                    label: t("page.supplier.ui.paymentTermsCredit")
+                                  }
                                 ]}
                                 value={field.value}
                                 onChange={field.onChange}
@@ -1370,8 +1379,11 @@ const AddSupplier = () => {
                               </FormLabel>
                               <Combobox
                                 options={[
-                                  { value: "purchase", label: "Pembelian" },
-                                  { value: "service", label: "Jasa" }
+                                  { value: "purchase", label: t("sidebar.section.pembelian") },
+                                  {
+                                    value: "service",
+                                    label: t("page.product.add.productType.service")
+                                  }
                                 ]}
                                 value={field.value || ""}
                                 onChange={field.onChange}
@@ -1596,9 +1608,9 @@ const AddSupplier = () => {
                           <div className="flex-1 min-w-0">
                             <Combobox
                               options={[
-                                { value: "hari", label: "Hari" },
-                                { value: "jam", label: "Jam" },
-                                { value: "menit", label: "Menit" }
+                                { value: "hari", label: t("page.businessTrip.detail.day") },
+                                { value: "jam", label: t("page.supplier.ui.hours") },
+                                { value: "menit", label: t("page.supplier.ui.minutes") }
                               ]}
                               value={productLeadTimeUnit}
                               onChange={(v) => setProductLeadTimeUnit(v)}

@@ -3,6 +3,7 @@ import { ChevronLeft, ChevronRight, MoreHorizontal } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 import { buttonVariants } from "./button";
+import i18next from "i18next";
 
 const Pagination = ({ className, ...props }) => (
   <nav
@@ -41,23 +42,23 @@ PaginationLink.displayName = "PaginationLink";
 
 const PaginationPrevious = ({ className, ...props }) => (
   <PaginationLink
-    aria-label="Go to previous page"
+    aria-label={i18next.t("component.pagination.ui.goToPreviousPage")}
     size="default"
     className={cn("gap-1 pl-2.5", className)}
     {...props}>
     <ChevronLeft className="h-4 w-4" />
-    <span>Previous</span>
+    <span>{i18next.t("common.ui.previous")}</span>
   </PaginationLink>
 );
 PaginationPrevious.displayName = "PaginationPrevious";
 
 const PaginationNext = ({ className, ...props }) => (
   <PaginationLink
-    aria-label="Go to next page"
+    aria-label={i18next.t("component.pagination.ui.goToNextPage")}
     size="default"
     className={cn("gap-1 pr-2.5", className)}
     {...props}>
-    <span>Next</span>
+    <span>{i18next.t("common.next")}</span>
     <ChevronRight className="h-4 w-4" />
   </PaginationLink>
 );
@@ -69,7 +70,7 @@ const PaginationEllipsis = ({ className, ...props }) => (
     className={cn("flex h-9 w-9 items-center justify-center", className)}
     {...props}>
     <MoreHorizontal className="h-4 w-4" />
-    <span className="sr-only">More pages</span>
+    <span className="sr-only">{i18next.t("component.pagination.ui.morePages")}</span>
   </span>
 );
 PaginationEllipsis.displayName = "PaginationEllipsis";

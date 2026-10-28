@@ -19,13 +19,44 @@ import { Combobox } from "@/components/ui/combobox";
 import { toast } from "sonner";
 import { testPrint, getPrinterStatus, configurePrinter } from "@/services/thermalPrinter";
 import PageHeader from "@/components/ui/PageHeader";
+import i18next from "i18next";
 
 const printerTypes = [
-  { value: "auto", label: "Otomatis (Disarankan)", icon: "🔍" },
-  { value: "network", label: "Jaringan (LAN/WiFi)", icon: "🌐" },
-  { value: "usb", label: "USB (Thermal Printer)", icon: "🔌" },
-  { value: "bluetooth", label: "Bluetooth (macOS)", icon: "📱" },
-  { value: "file", label: "File (Testing)", icon: "📄" }
+  {
+    value: "auto",
+    get label() {
+      return i18next.t("page.thermalPrinter.ui.automaticRecommended");
+    },
+    icon: "🔍"
+  },
+  {
+    value: "network",
+    get label() {
+      return i18next.t("page.thermalPrinter.ui.networkLanWifi");
+    },
+    icon: "🌐"
+  },
+  {
+    value: "usb",
+    get label() {
+      return i18next.t("page.thermalPrinter.ui.usbThermalPrinter");
+    },
+    icon: "🔌"
+  },
+  {
+    value: "bluetooth",
+    get label() {
+      return i18next.t("page.thermalPrinter.ui.bluetoothMacos");
+    },
+    icon: "📱"
+  },
+  {
+    value: "file",
+    get label() {
+      return i18next.t("page.thermalPrinter.ui.fileTesting");
+    },
+    icon: "📄"
+  }
 ];
 
 const ThermalPrinterSettings = () => {

@@ -9,6 +9,7 @@ import { Card } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { getTableById } from "@/services/table";
 import PageHeader from "@/components/ui/PageHeader";
+import { dateLocale } from "@/lib/locale";
 
 const statusBadge = (status, t) => {
   const colors = {
@@ -200,7 +201,7 @@ const DetailTable = () => {
               </div>
               <p className="text-sm font-medium">
                 {table?.createdAt
-                  ? new Date(table.createdAt).toLocaleDateString("id-ID", {
+                  ? new Date(table.createdAt).toLocaleDateString(dateLocale(), {
                       year: "numeric",
                       month: "long",
                       day: "numeric",
@@ -215,7 +216,7 @@ const DetailTable = () => {
                 </p>
                 <p className="text-sm font-medium">
                   {table?.updatedAt
-                    ? new Date(table.updatedAt).toLocaleDateString("id-ID", {
+                    ? new Date(table.updatedAt).toLocaleDateString(dateLocale(), {
                         year: "numeric",
                         month: "long",
                         day: "numeric",

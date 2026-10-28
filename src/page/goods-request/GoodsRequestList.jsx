@@ -44,6 +44,7 @@ import { cn } from "@/lib/utils";
 import HorizontalScrollArea from "@/components/ui/HorizontalScrollArea";
 import { useLocations } from "@/queries/useLocations";
 import PageHeader from "@/components/ui/PageHeader";
+import { dateLocale } from "@/lib/locale";
 
 const statusMap = {
   pending: {
@@ -208,7 +209,11 @@ const GoodsRequestList = () => {
         if (isNaN(d.getTime())) return <span className="text-sm text-muted-foreground">-</span>;
         return (
           <span className="text-sm font-mono text-muted-foreground">
-            {d.toLocaleDateString("id-ID", { day: "numeric", month: "short", year: "numeric" })}
+            {d.toLocaleDateString(dateLocale(), {
+              day: "numeric",
+              month: "short",
+              year: "numeric"
+            })}
           </span>
         );
       }
@@ -234,8 +239,12 @@ const GoodsRequestList = () => {
         if (isNaN(d.getTime())) return <span className="text-sm text-muted-foreground">-</span>;
         return (
           <span className="text-sm font-mono text-muted-foreground">
-            {d.toLocaleDateString("id-ID", { day: "numeric", month: "short", year: "numeric" })}{" "}
-            {d.toLocaleTimeString("id-ID", { hour: "2-digit", minute: "2-digit" })}
+            {d.toLocaleDateString(dateLocale(), {
+              day: "numeric",
+              month: "short",
+              year: "numeric"
+            })}{" "}
+            {d.toLocaleTimeString(dateLocale(), { hour: "2-digit", minute: "2-digit" })}
           </span>
         );
       }

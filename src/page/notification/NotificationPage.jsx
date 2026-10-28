@@ -26,6 +26,7 @@ import { getAllNotifications, markAsRead, markAllAsRead } from "@/services/notif
 import { useSocket } from "@/services/socket";
 import Modal from "@/components/organism/modal";
 import AbortController from "@/components/organism/abort-controller";
+import { dateLocale } from "@/lib/locale";
 
 const typeIcons = {
   employee_created: {
@@ -197,7 +198,7 @@ const NotificationPage = () => {
   const formatFullDate = (dateStr) => {
     if (!dateStr) return "-";
     try {
-      return new Date(dateStr).toLocaleDateString("id-ID", {
+      return new Date(dateStr).toLocaleDateString(dateLocale(), {
         day: "numeric",
         month: "long",
         year: "numeric",

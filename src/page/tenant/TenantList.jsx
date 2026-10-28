@@ -29,6 +29,7 @@ import AbortController from "@/components/organism/abort-controller";
 import { createTenant, deleteTenant, getTenants, updateTenant } from "@/services/tenant";
 import { useTenantManagePermission } from "@/hooks/useTenantManagePermission";
 import { FIELD_LIMITS } from "@/constants/fieldLimits";
+import { dateLocale } from "@/lib/locale";
 
 export const TENANTS_QUERY_KEY = "tenants";
 const DEFAULT_LIMIT = 10;
@@ -71,7 +72,7 @@ const TenantStatusPill = ({ status }) => {
 
 const formatDate = (value) =>
   value
-    ? new Date(value).toLocaleDateString("id-ID", {
+    ? new Date(value).toLocaleDateString(dateLocale(), {
         day: "numeric",
         month: "short",
         year: "numeric",

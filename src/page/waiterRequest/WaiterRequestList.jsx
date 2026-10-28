@@ -20,21 +20,73 @@ import StoreFilter from "@/components/ui/StoreFilter";
 import Modal from "@/components/organism/modal";
 import AbortController from "@/components/organism/abort-controller";
 import { useLocations } from "@/queries/useLocations";
+import i18next from "i18next";
+import { dateLocale } from "@/lib/locale";
 
 const statusOptions = [
-  { value: "all", label: "Semua" },
-  { value: "pending", label: "Pending" },
-  { value: "approved", label: "Approved" },
-  { value: "rejected", label: "Rejected" },
-  { value: "done", label: "Done" }
+  {
+    value: "all",
+    get label() {
+      return i18next.t("common.all");
+    }
+  },
+  {
+    value: "pending",
+    get label() {
+      return i18next.t("page.expense.list.pending");
+    }
+  },
+  {
+    value: "approved",
+    get label() {
+      return i18next.t("page.expense.list.approved");
+    }
+  },
+  {
+    value: "rejected",
+    get label() {
+      return i18next.t("page.expense.list.rejected");
+    }
+  },
+  {
+    value: "done",
+    get label() {
+      return i18next.t("page.waiterRequest.ui.statusDone");
+    }
+  }
 ];
 
 const typeMeta = {
-  sendok: { label: "Sendok", icon: "🥄" },
-  tisu: { label: "Tisu", icon: "🧻" },
-  refill: { label: "Refill", icon: "🥤" },
-  bill: { label: "Bill", icon: "🧾" },
-  call: { label: "Panggil Pelayan", icon: "🧑‍🍳" }
+  sendok: {
+    get label() {
+      return i18next.t("page.waiterRequest.ui.cutlery");
+    },
+    icon: "🥄"
+  },
+  tisu: {
+    get label() {
+      return i18next.t("page.waiterRequest.ui.tissues");
+    },
+    icon: "🧻"
+  },
+  refill: {
+    get label() {
+      return i18next.t("page.waiterRequest.ui.refill");
+    },
+    icon: "🥤"
+  },
+  bill: {
+    get label() {
+      return i18next.t("page.waiterRequest.ui.bill");
+    },
+    icon: "🧾"
+  },
+  call: {
+    get label() {
+      return i18next.t("page.waiterRequest.ui.callWaiter");
+    },
+    icon: "🧑‍🍳"
+  }
 };
 
 const statusBadge = (status) => {
@@ -170,7 +222,7 @@ const WaiterRequestList = () => {
       // useRoomSubscription above.
       const onNew = (req) => {
         if (req?.status === "pending") {
-          toast.success("Permintaan Pelayan Baru", {
+          toast.success(t("page.waiterRequest.ui.newWaiterRequest"), {
             description: `${typeMeta[req.type]?.label || req.type} dari meja ${
               req.table?.name || req.tableId || "-"
             }`
@@ -279,8 +331,8 @@ const WaiterRequestList = () => {
         const d = new Date(row.original.createdAt);
         return (
           <div className="text-sm text-muted-foreground">
-            {d.toLocaleDateString("id-ID", { day: "numeric", month: "short" })},{" "}
-            {d.toLocaleTimeString("id-ID", { hour: "2-digit", minute: "2-digit" })}
+            {d.toLocaleDateString(dateLocale(), { day: "numeric", month: "short" })},{" "}
+            {d.toLocaleTimeString(dateLocale(), { hour: "2-digit", minute: "2-digit" })}
           </div>
         );
       }

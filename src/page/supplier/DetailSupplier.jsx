@@ -234,18 +234,18 @@ const DetailSupplier = () => {
 
   const taxInfo = [
     {
-      label: "Tax Include",
+      label: t("page.supplier.ui.taxIncluded"),
       icon: Receipt,
       value: supplier.taxInclude ? "Ya" : "Tidak"
     },
     {
-      label: "Tipe Pajak",
+      label: t("page.taxConfig.form.type"),
       icon: Receipt,
       value: supplier.taxType ? String(supplier.taxType).toUpperCase() : null,
       badge: true
     },
     {
-      label: "Transaksi Pajak",
+      label: t("page.supplier.ui.taxTransaction"),
       icon: Receipt,
       value: supplier.taxTransactionType
         ? supplier.taxTransactionType === "purchase"
@@ -255,8 +255,8 @@ const DetailSupplier = () => {
             : String(supplier.taxTransactionType)
         : null
     },
-    { label: "NPWP / Tax Number", icon: CreditCard, value: supplier.taxNumber },
-    { label: "Nama Pajak", icon: Receipt, value: supplier.taxName },
+    { label: t("page.supplier.ui.npwpTaxNumber"), icon: CreditCard, value: supplier.taxNumber },
+    { label: t("page.taxConfig.form.name"), icon: Receipt, value: supplier.taxName },
     { label: "NITKU", icon: CreditCard, value: supplier.nitku }
   ];
 
@@ -406,13 +406,13 @@ const DetailSupplier = () => {
                 {[
                   {
                     icon: Phone,
-                    label: "Telepon",
+                    label: t("document.phone"),
                     value: supplier.phone,
                     href: supplier.phone ? `tel:${supplier.phone}` : null
                   },
                   {
                     icon: Smartphone,
-                    label: "Mobile",
+                    label: t("page.supplier.form.mobile"),
                     value: supplier.mobile,
                     href: supplier.mobile ? `tel:${supplier.mobile}` : null
                   },
@@ -432,13 +432,13 @@ const DetailSupplier = () => {
                   },
                   {
                     icon: Printer,
-                    label: "Fax",
+                    label: t("page.supplier.form.fax"),
                     value: supplier.fax,
                     href: null
                   },
                   {
                     icon: Globe,
-                    label: "Website",
+                    label: t("page.supplier.form.website"),
                     value: supplier.website,
                     href: supplier.website
                       ? supplier.website.startsWith("http")
