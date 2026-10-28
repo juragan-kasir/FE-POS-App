@@ -281,18 +281,6 @@ const EditGoodsRequest = () => {
     }
   });
 
-  const allItems = useMemo(
-    () =>
-      groups.flatMap((g) =>
-        g.items.map((it) => ({
-          name: it.name,
-          qty: it.qty,
-          supplier: g.supplier
-        }))
-      ),
-    [groups]
-  );
-
   // Validation messages sit under the field they belong to (they used to
   // be toasts that vanished); each one clears as soon as its field is fixed.
   const validateRequest = () => {
@@ -635,7 +623,7 @@ const EditGoodsRequest = () => {
               variant="success"
               type="button"
               className="w-full sm:w-auto justify-center"
-              disabled={isSubmitting || updateMutation.isLoading || allItems.length === 0}
+              disabled={isSubmitting || updateMutation.isLoading}
               onClick={() => setConfirmModal(true)}>
               <Save size={16} className="mr-1" />{" "}
               {updateMutation.isLoading

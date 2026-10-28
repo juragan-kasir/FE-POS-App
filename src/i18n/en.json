@@ -9505,5 +9505,7 @@
   "common.ui.memberTiers": "Member Tiers",
   "common.ui.addTier": "Add Tier",
   "common.ui.brand": "Brand",
-  "page.stockTransfer.add.singleStore": "A stock transfer needs at least two stores (source and destination). There is only one active store now."
+  "page.stockTransfer.add.singleStore": "A stock transfer needs at least two stores (source and destination). There is only one active store now.",
+  "page.stockAdjustment.form.pickStoreHint": "Pick a store first to load its products.",
+  "page.supplier.detail.noBalanceToPay": "There is no balance to pay to this supplier."
 }

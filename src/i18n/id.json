@@ -9505,5 +9505,7 @@
   "common.ui.memberTiers": "Tier Member",
   "common.ui.addTier": "Tambah Tier",
   "common.ui.brand": "Brand",
-  "page.stockTransfer.add.singleStore": "Transfer stok butuh minimal dua toko (asal dan tujuan). Saat ini hanya ada satu toko aktif."
+  "page.stockTransfer.add.singleStore": "Transfer stok butuh minimal dua toko (asal dan tujuan). Saat ini hanya ada satu toko aktif.",
+  "page.stockAdjustment.form.pickStoreHint": "Pilih toko dulu untuk memuat produk.",
+  "page.supplier.detail.noBalanceToPay": "Tidak ada hutang yang perlu dibayar ke supplier ini."
 }

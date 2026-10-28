@@ -474,18 +474,6 @@ const AddGoodsRequest = () => {
     );
   }, [getValues, storeId, groupFields]);
 
-  const allItems = useMemo(
-    () =>
-      (getValues("groups") || []).flatMap((g) =>
-        (g.items || []).map((it) => ({
-          name: it.name,
-          qty: it.qty,
-          supplier: g.supplier
-        }))
-      ),
-    [getValues, groupFields]
-  );
-
   const doSubmit = async (data) => {
     setIsSubmitting(true);
     try {
@@ -705,7 +693,7 @@ const AddGoodsRequest = () => {
               variant="success"
               type="button"
               className="w-full sm:w-auto justify-center"
-              disabled={isSubmitting || allItems.length === 0}
+              disabled={isSubmitting}
               onClick={async () => {
                 const ok = await trigger();
                 if (!ok) return;

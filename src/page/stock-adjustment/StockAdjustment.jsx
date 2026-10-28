@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useQuery, useQueryClient } from "react-query";
 import { useForm, Controller } from "react-hook-form";
@@ -38,6 +38,7 @@ import UserGuide from "@/components/organism/UserGuide";
 import { useLocations } from "@/queries/useLocations";
 import { FIELD_LIMITS } from "@/constants/fieldLimits";
 import LoadErrorBanner from "@/components/ui/LoadErrorBanner";
+import { useSingleStore } from "@/hooks/useSingleStore";
 
 const StockAdjustment = () => {
   const { t } = useTranslation();
@@ -107,6 +108,13 @@ const StockAdjustment = () => {
       ? selectedStore
       : ""
     : store;
+
+  // One store: preselect it (the store filter is hidden then, so "all" would
+  // leave the product list empty and Save disabled with nothing to pick).
+  const singleStore = useSingleStore();
+  useEffect(() => {
+    if (singleStore && !queryStore) setValue("store", String(singleStore.id));
+  }, [singleStore, queryStore]);
 
   const { data: productsData, isLoading: productsLoading } = useQuery(
     ["products-adjustment", queryStore],
@@ -320,6 +328,11 @@ const StockAdjustment = () => {
                     className="w-full sm:w-auto justify-center">
                     {t("page.stockAdjustment.form.cancel")}
                   </Button>
+                  {isSuperAdmin && !queryStore && (
+                    <p className="text-sm text-muted-foreground sm:mr-auto self-center">
+                      {t("page.stockAdjustment.form.pickStoreHint")}
+                    </p>
+                  )}
                   <Button
                     variant="success"
                     type="submit"
