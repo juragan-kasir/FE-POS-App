@@ -25,6 +25,7 @@ import HorizontalScrollArea from "@/components/ui/HorizontalScrollArea";
 import { FIELD_LIMITS } from "@/constants/fieldLimits";
 import { useFormExit } from "@/hooks/useLeaveGuard";
 import LoadErrorBanner from "@/components/ui/LoadErrorBanner";
+import { FieldError } from "@/components/ui/field-error";
 
 const unitOptions = [
   { value: "pcs", label: "pcs" },
@@ -67,6 +68,7 @@ const EditGoodsRequest = () => {
   const [requestedBy, setRequestedBy] = useState("");
   const [requestDate, setRequestDate] = useState(null);
   const [neededDate, setNeededDate] = useState(null);
+  const [showFormErrors, setShowFormErrors] = useState(false);
   const [notes, setNotes] = useState("");
   const [groups, setGroups] = useState([emptyGroup()]);
   const [loaded, setLoaded] = useState(false);
@@ -291,35 +293,34 @@ const EditGoodsRequest = () => {
     [groups]
   );
 
-  const doSubmit = () => {
+  // Validation messages sit under the field they belong to (they used to
+  // be toasts that vanished); each one clears as soon as its field is fixed.
+  const validateRequest = () => {
     const validItems = [];
     for (const g of groups) {
       for (const it of g.items) {
         if (it.name.trim() && it.qty > 0) validItems.push({ ...it, supplier: g.supplier });
       }
     }
-    if (validItems.length === 0) {
-      toast.error(t("page.goodsRequest.edit.toast.validation"), {
-        description: t("page.goodsRequest.edit.toast.itemRequired")
-      });
-      return;
-    }
-    if (validItems.some((it) => !it.supplier)) {
-      toast.error(t("page.goodsRequest.edit.toast.validation"), {
-        description: t("page.goodsRequest.edit.toast.supplierRequired")
-      });
-      return;
-    }
-    if (!neededDate) {
-      toast.error(t("page.goodsRequest.edit.toast.validation"), {
-        description: t("page.goodsRequest.edit.toast.neededDateRequired")
-      });
-      return;
-    }
-    if (requestDate && neededDate && neededDate < requestDate) {
-      toast.error(t("page.goodsRequest.edit.toast.validation"), {
-        description: t("page.goodsRequest.edit.toast.neededDateBeforeRequest")
-      });
+    const errs = {};
+    if (validItems.length === 0) errs.items = t("page.goodsRequest.edit.toast.itemRequired");
+    else if (validItems.some((it) => !it.supplier))
+      errs.items = t("page.goodsRequest.edit.toast.supplierRequired");
+    if (!neededDate) errs.neededDate = t("page.goodsRequest.edit.toast.neededDateRequired");
+    else if (requestDate && neededDate < requestDate)
+      errs.neededDate = t("page.goodsRequest.edit.toast.neededDateBeforeRequest");
+    return { validItems, errs };
+  };
+  const formErrors = showFormErrors ? validateRequest().errs : {};
+
+  const doSubmit = () => {
+    const { validItems, errs } = validateRequest();
+    const first = ["neededDate", "items"].find((k) => errs[k]);
+    if (first) {
+      setShowFormErrors(true);
+      const field = document.getElementById(`edit-goods-request-${first}`);
+      field?.scrollIntoView({ behavior: "smooth", block: "center" });
+      field?.querySelector("button, input")?.focus({ preventScroll: true });
       return;
     }
     updateMutation.mutate({
@@ -442,7 +443,7 @@ const EditGoodsRequest = () => {
                 placeholder={t("page.goodsRequest.edit.form.requestDate")}
               />
             </div>
-            <div className="space-y-2">
+            <div id="edit-goods-request-neededDate" className="space-y-2">
               <Label>
                 {t("page.goodsRequest.edit.form.neededDate")}{" "}
                 <span className="text-destructive">*</span>
@@ -453,13 +454,15 @@ const EditGoodsRequest = () => {
                 placeholder={t("page.goodsRequest.edit.placeholder.neededDate")}
                 minDate={requestDate || undefined}
               />
+              <FieldError message={formErrors.neededDate} />
             </div>
           </div>
 
-          <div className="space-y-2">
+          <div id="edit-goods-request-items" className="space-y-2">
             <Label>
               {t("page.goodsRequest.edit.form.items")} <span className="text-destructive">*</span>
             </Label>
+            <FieldError message={formErrors.items} />
 
             {groups.map((group, gIdx) => (
               <div key={gIdx} className="border rounded-lg overflow-hidden">

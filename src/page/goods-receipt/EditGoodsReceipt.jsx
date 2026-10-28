@@ -47,6 +47,7 @@ import { useLocations } from "@/queries/useLocations";
 import { FIELD_LIMITS } from "@/constants/fieldLimits";
 import { formatDateOnly } from "@/utils/dateOnly";
 import { useFormExit } from "@/hooks/useLeaveGuard";
+import { FieldError } from "@/components/ui/field-error";
 
 const EditGoodsReceipt = () => {
   const dirtyRef = useDomDirtyTracking();
@@ -72,6 +73,9 @@ const EditGoodsReceipt = () => {
   const [loaded, setLoaded] = useState(false);
   const [ingredientFocusIdx, setIngredientFocusIdx] = useState(null);
   const [missingFieldsModal, setMissingFieldsModal] = useState(false);
+  // Item problems are shown under the items section (they were toasts) and
+  // cleared as soon as the items change.
+  const [itemsError, setItemsError] = useState("");
   const [missingFields, setMissingFields] = useState([]);
   const [picSearch, setPicSearch] = useState("");
   const [picOpen, setPicOpen] = useState(false);
@@ -413,31 +417,33 @@ const EditGoodsReceipt = () => {
     setItems((prev) => prev.filter((_, i) => i !== idx));
   };
 
+  const showItemsError = (message) => {
+    setItemsError(message);
+    document
+      .getElementById("edit-goods-receipt-items")
+      ?.scrollIntoView({ behavior: "smooth", block: "center" });
+  };
+
   const updateItem = (idx, field, value) => {
+    setItemsError("");
     setItems((prev) => prev.map((item, i) => (i !== idx ? item : { ...item, [field]: value })));
   };
 
   const doSubmit = async (saveAsDraft = false) => {
     if (!poId || items.length === 0) {
-      toast.error(t("page.goodsReceipt.edit.toast.validation"), {
-        description: t("page.goodsReceipt.edit.toast.poRequired")
-      });
+      showItemsError(t("page.goodsReceipt.edit.toast.poRequired"));
       return;
     }
     const validItems = items.filter(
       (it) => parseFloat(it.qtyReceived) > 0 && (it.ingredientName || it.ingredient)
     );
     if (validItems.length === 0) {
-      toast.error(t("page.goodsReceipt.edit.toast.validation"), {
-        description: t("page.goodsReceipt.edit.toast.itemRequired")
-      });
+      showItemsError(t("page.goodsReceipt.edit.toast.itemRequired"));
       return;
     }
     const overItem = validItems.find((it) => parseFloat(it.qtyReceived) > getItemRemaining(it));
     if (overItem) {
-      toast.error(t("page.goodsReceipt.edit.toast.validation"), {
-        description: t("page.goodsReceipt.add.toast.qtyExceed")
-      });
+      showItemsError(t("page.goodsReceipt.add.toast.qtyExceed"));
       return;
     }
     // tanggal terima tidak boleh sebelum tanggal PO
@@ -810,7 +816,7 @@ const EditGoodsReceipt = () => {
             </div>
           </div>
 
-          <div className="space-y-2">
+          <div id="edit-goods-receipt-items" className="space-y-2">
             <div className="flex items-center justify-between gap-2">
               <Label>{t("page.goodsReceipt.edit.form.items")}</Label>
               <div className="flex items-center gap-2">
@@ -845,6 +851,7 @@ const EditGoodsReceipt = () => {
                 )}
               </div>
             </div>
+            <FieldError message={itemsError} />
             {loadingPo ? (
               <div className="flex items-center justify-center py-8 text-sm text-muted-foreground">
                 {t("page.goodsReceipt.edit.loading.items")}

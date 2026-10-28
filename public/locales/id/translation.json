@@ -9521,5 +9521,7 @@
   "page.cashier.ui.noProductsYet": "Produk belum ada",
   "page.shift.ui.notYet": "Belum",
   "page.member.pointHistory.totalPoints": "Total Poin: {{points}}",
-  "page.priceStore.list.empty": "Toko ini belum punya produk."
+  "page.priceStore.list.empty": "Toko ini belum punya produk.",
+  "page.salesReturn.create.errors.itemsRequired": "Pilih minimal satu item yang diretur.",
+  "page.salesReturn.create.errors.reasonRequired": "Pilih alasan retur."
 }
