@@ -18,6 +18,8 @@ import {
   AlertTriangle
 } from "lucide-react";
 import PageHeader from "@/components/ui/PageHeader";
+import { FAQ_CHAT_OPEN } from "@/components/organism/FaqChat";
+import { Button } from "@/components/ui/button";
 
 const faqItems = [
   {
@@ -177,9 +179,12 @@ const Support = () => {
               </div>
               <h3 className="font-semibold text-foreground mb-1">{t("page.support.chatTitle")}</h3>
               <p className="text-sm text-muted-foreground mb-3">{t("page.support.chatDesc")}</p>
-              <button className="text-sm font-semibold text-primary hover:underline">
+              <Button
+                variant="link"
+                className="h-auto p-0 font-semibold"
+                onClick={() => window.dispatchEvent(new Event(FAQ_CHAT_OPEN))}>
                 {t("page.support.startChat")}
-              </button>
+              </Button>
             </div>
           </div>
 
