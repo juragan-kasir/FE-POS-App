@@ -149,7 +149,9 @@ const PageHeader = ({
           // scrollbar: on a tablet the clipped last button (often "Tambah …")
           // was unreachable unless the user guessed to swipe the header.
           <div className="min-w-0">
-            <div className="flex flex-wrap items-center gap-2 lg:justify-end">{children}</div>
+            <div data-page-actions className="flex flex-wrap items-center gap-2 lg:justify-end">
+              {children}
+            </div>
           </div>
         )}
       </div>
