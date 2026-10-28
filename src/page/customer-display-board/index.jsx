@@ -15,6 +15,7 @@ import {
 import ThankYouModal from "./ThankYouModal";
 import QrisPaymentModal from "./QrisPaymentModal";
 import { useLocations } from "@/queries/useLocations";
+import { Button } from "@/components/ui/button";
 
 const EVENT_RECENCY_MS = 30000;
 
@@ -193,19 +194,23 @@ const CustomerDisplayBoard = () => {
                 {totalItems}
               </p>
             </div>
-            <button
+            <Button
+              variant="outline"
+              size="icon"
               onClick={toggleTheme}
               aria-label={t("header.toggleTheme")}
-              className="p-2.5 rounded-xl border border-border bg-card hover:bg-muted transition-colors">
+              className="rounded-xl">
               <Sun size={18} className="hidden dark:block" />
               <Moon size={18} className="block dark:hidden" />
-            </button>
-            <button
+            </Button>
+            <Button
+              variant="outline"
+              size="icon"
               onClick={toggleFullscreen}
               aria-label={t("page.customerDisplayBoard.ui.toggleFullscreen")}
-              className="p-2.5 rounded-xl border border-border bg-card hover:bg-muted transition-colors">
+              className="rounded-xl">
               {isFullscreen ? <Minimize size={18} /> : <Maximize size={18} />}
-            </button>
+            </Button>
           </div>
         </div>
       </header>

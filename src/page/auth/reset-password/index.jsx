@@ -188,7 +188,8 @@ const ResetPasswordPage = () => {
                 <button
                   type="button"
                   onClick={() => updateTranslation("id")}
-                  className={`px-2.5 py-1 md:px-3 md:py-1 text-xs font-bold tracking-widest rounded-full transition-all duration-200 focus:outline-none ${
+                  aria-pressed={translation === "id"}
+                  className={`px-2.5 py-1 md:px-3 md:py-1 text-xs font-bold tracking-widest rounded-full transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring ${
                     translation === "id"
                       ? "bg-foreground text-background shadow-sm"
                       : "text-muted-foreground hover:text-foreground"
@@ -198,7 +199,8 @@ const ResetPasswordPage = () => {
                 <button
                   type="button"
                   onClick={() => updateTranslation("en")}
-                  className={`px-2.5 py-1 md:px-3 md:py-1 text-xs font-bold tracking-widest rounded-full transition-all duration-200 focus:outline-none ${
+                  aria-pressed={translation === "en"}
+                  className={`px-2.5 py-1 md:px-3 md:py-1 text-xs font-bold tracking-widest rounded-full transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring ${
                     translation === "en"
                       ? "bg-foreground text-background shadow-sm"
                       : "text-muted-foreground hover:text-foreground"
@@ -210,16 +212,18 @@ const ResetPasswordPage = () => {
               <button
                 type="button"
                 onClick={toggleTheme}
-                className="w-9 h-9 md:w-10 md:h-10 flex items-center justify-center rounded-full text-muted-foreground hover:text-foreground hover:bg-muted transition-all duration-200 focus:outline-none">
+                aria-label={t("header.toggleTheme")}
+                className="w-9 h-9 md:w-10 md:h-10 flex items-center justify-center rounded-full text-muted-foreground hover:text-foreground hover:bg-muted transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
                 <Sun className="w-4 h-4 md:w-5 md:h-5 hidden dark:block" />
                 <Moon className="w-4 h-4 md:w-5 md:h-5 block dark:hidden" />
               </button>
-              <button
+              <Button
                 type="button"
+                variant="link"
                 onClick={() => setGuideOpen(true)}
-                className="hidden sm:inline-flex text-xs text-muted-foreground hover:text-foreground transition-colors font-medium">
+                className="h-auto p-0 font-medium hidden sm:inline-flex text-xs text-muted-foreground hover:text-foreground transition-colors">
                 {translationMemo.help}
-              </button>
+              </Button>
             </div>
           </div>
         </nav>
@@ -303,7 +307,7 @@ const ResetPasswordPage = () => {
                               <Input
                                 {...field}
                                 disabled={isResetMode}
-                                placeholder="nama@perusahaan.com"
+                                placeholder={t("page.resetPassword.emailPlaceholder")}
                                 className="w-full pl-10 md:pl-12 pr-3.5 md:pr-4 h-10 text-sm md:text-base rounded-md border-border/60 bg-background focus:border-foreground focus-visible:ring-0 focus-visible:ring-offset-0 transition-all duration-300 disabled:opacity-60"
                                 maxLength={FIELD_LIMITS.EMAIL}
                               />
@@ -336,6 +340,11 @@ const ResetPasswordPage = () => {
                                   <button
                                     type="button"
                                     onClick={() => setShowNewPassword(!showNewPassword)}
+                                    aria-label={t(
+                                      showNewPassword
+                                        ? "page.login.hidePassword"
+                                        : "page.login.showPassword"
+                                    )}
                                     className="absolute right-3.5 md:right-4 top-1/2 -translate-y-1/2 text-muted-foreground/60 hover:text-foreground transition-colors">
                                     {showNewPassword ? (
                                       <EyeOff className="w-4 h-4 md:w-5 md:h-5" />
@@ -371,6 +380,11 @@ const ResetPasswordPage = () => {
                                   <button
                                     type="button"
                                     onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                                    aria-label={t(
+                                      showConfirmPassword
+                                        ? "page.login.hidePassword"
+                                        : "page.login.showPassword"
+                                    )}
                                     className="absolute right-3.5 md:right-4 top-1/2 -translate-y-1/2 text-muted-foreground/60 hover:text-foreground transition-colors">
                                     {showConfirmPassword ? (
                                       <EyeOff className="w-4 h-4 md:w-5 md:h-5" />
@@ -411,13 +425,14 @@ const ResetPasswordPage = () => {
 
               {/* Back to Login */}
               <div className="mt-6 md:mt-xl">
-                <button
+                <Button
                   type="button"
+                  variant="link"
                   onClick={() => navigate("/")}
-                  className="inline-flex items-center gap-2 text-xs md:text-sm text-foreground hover:text-foreground/80 font-medium transition-all">
+                  className="h-auto p-0 font-medium inline-flex items-center gap-2 text-xs md:text-sm text-foreground hover:text-foreground/80  transition-all">
                   <ArrowLeft className="w-4 h-4" />
                   {translationMemo.backToLogin}
-                </button>
+                </Button>
               </div>
             </div>
 
@@ -456,18 +471,20 @@ const ResetPasswordPage = () => {
               {t("page.login.copyright", { year: new Date().getFullYear() })}
             </span>
             <div className="flex gap-4 md:gap-lg">
-              <button
+              <Button
                 type="button"
+                variant="link"
                 onClick={() => setPrivacyOpen(true)}
-                className="text-xs md:text-sm text-muted-foreground hover:text-foreground transition-colors">
+                className="h-auto p-0 font-medium text-xs md:text-sm text-muted-foreground hover:text-foreground transition-colors">
                 {translationMemo.privacyPolicy}
-              </button>
-              <button
+              </Button>
+              <Button
                 type="button"
+                variant="link"
                 onClick={() => setTermsOpen(true)}
-                className="text-xs md:text-sm text-muted-foreground hover:text-foreground transition-colors">
+                className="h-auto p-0 font-medium text-xs md:text-sm text-muted-foreground hover:text-foreground transition-colors">
                 {translationMemo.termsConditions}
-              </button>
+              </Button>
             </div>
           </div>
         </footer>

@@ -9523,5 +9523,6 @@
   "page.member.pointHistory.totalPoints": "Total Points: {{points}}",
   "page.priceStore.list.empty": "This store has no products yet.",
   "page.salesReturn.create.errors.itemsRequired": "Select at least one item to return.",
-  "page.salesReturn.create.errors.reasonRequired": "Select a return reason."
+  "page.salesReturn.create.errors.reasonRequired": "Select a return reason.",
+  "page.resetPassword.emailPlaceholder": "name@company.com"
 }

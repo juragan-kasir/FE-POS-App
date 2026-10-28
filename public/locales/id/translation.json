@@ -9523,5 +9523,6 @@
   "page.member.pointHistory.totalPoints": "Total Poin: {{points}}",
   "page.priceStore.list.empty": "Toko ini belum punya produk.",
   "page.salesReturn.create.errors.itemsRequired": "Pilih minimal satu item yang diretur.",
-  "page.salesReturn.create.errors.reasonRequired": "Pilih alasan retur."
+  "page.salesReturn.create.errors.reasonRequired": "Pilih alasan retur.",
+  "page.resetPassword.emailPlaceholder": "nama@perusahaan.com"
 }
