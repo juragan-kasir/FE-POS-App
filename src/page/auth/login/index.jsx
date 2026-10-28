@@ -81,7 +81,6 @@ const LoginPage = () => {
       userName: t("translation:userNameOrEmail"),
       password: t("translation:password"),
       btnLogin: t("translation:btnLogin"),
-      descAuth: t("translation:descAuth"),
       placeholderInputUser: t("translation:placeholder.input.login.username"),
       placeholderInputPassword: t("translation:placeholder.input.login.password"),
       errorMessageUserName: t("translation:formError.input.login.username"),
@@ -238,7 +237,6 @@ const LoginPage = () => {
               <h1 className="text-2xl font-semibold tracking-tight text-foreground">
                 {t("page.login.heading")}
               </h1>
-              <p className="mt-1.5 text-sm text-muted-foreground">{translationMemo.descAuth}</p>
             </div>
 
             <Form {...form}>
