@@ -120,3 +120,8 @@ Root config files: `vite.config.js`, `tailwind.config.js`, `postcss.config.js`, 
 - `docs/agent-architecture.md` — runtime deep-dive: provider tree, full request journey through the axios interceptors, Zustand store inventory, access-control layers, build-time globals.
 - `PANDUAN-SUPER-ADMIN.md` — (Indonesian) business-level super admin guide with status/state machines per feature.
 - `layout.md` — the layout design system for UI work.
+
+## 12. User workflow preferences (repo owner)
+
+- Do NOT run Jest for small/trivial changes (copy tweaks, locale keys, single-file UI edits, config changes) unless the change alters application logic or the user explicitly asks. Lightweight checks (Prettier/ESLint/JSON parse) are enough there; mention that tests were skipped.
+- Don't pause to ask for confirmation on small, reversible edits — just make them and report.
