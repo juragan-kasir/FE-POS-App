@@ -29,6 +29,7 @@ import {
 } from "@/components/ui/dialog";
 import { FIELD_LIMITS } from "@/constants/fieldLimits";
 import { Textarea } from "@/components/ui/textarea";
+import { dateLocale } from "@/lib/locale";
 
 const fmtTime = (t) => (t ? String(t).slice(0, 5) : "??:??");
 
@@ -41,7 +42,7 @@ const toISODate = (d) => {
 
 const fmtDateShort = (iso) =>
   iso
-    ? new Date(`${iso}T00:00:00`).toLocaleDateString("id-ID", {
+    ? new Date(`${iso}T00:00:00`).toLocaleDateString(dateLocale(), {
         day: "numeric",
         month: "short"
       })

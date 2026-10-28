@@ -38,11 +38,28 @@ import DashboardAlerts from "@/components/dashboard/DashboardAlerts";
 import HorizontalScrollArea from "@/components/ui/HorizontalScrollArea";
 import PageHeader from "@/components/ui/PageHeader";
 import { Button } from "@/components/ui/button";
+import i18next from "i18next";
+import { dateLocale } from "@/lib/locale";
 
 const FILTERS = [
-  { key: "daily", label: "Harian" },
-  { key: "weekly", label: "Mingguan" },
-  { key: "monthly", label: "Bulanan" }
+  {
+    key: "daily",
+    get label() {
+      return i18next.t("page.expense.form.frequencyDaily");
+    }
+  },
+  {
+    key: "weekly",
+    get label() {
+      return i18next.t("page.report.sales.weekly");
+    }
+  },
+  {
+    key: "monthly",
+    get label() {
+      return i18next.t("page.report.sales.monthly");
+    }
+  }
 ];
 
 const statusBadge = (status) => {
@@ -412,7 +429,7 @@ const Dashboard = () => {
   const recentExpenses = d.recentExpenses || [];
   const formatDate = (iso) =>
     iso
-      ? new Date(iso).toLocaleDateString("id-ID", {
+      ? new Date(iso).toLocaleDateString(dateLocale(), {
           day: "numeric",
           month: "short",
           year: "numeric",

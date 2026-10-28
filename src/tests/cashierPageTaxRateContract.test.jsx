@@ -74,7 +74,12 @@ jest.mock("../page/cashier/components/OrderQueue", () => () => null);
 jest.mock("../page/cashier/components/CollectPaymentModal", () => () => null);
 jest.mock("../page/cashier/components/ParkedCartPanel", () => () => null);
 jest.mock("../page/cashier/components/CartPanel", () => {
-  const MockCartPanel = (props) => <div data-testid="cart-panel-tax-rate">{props.taxRate}</div>;
+  const MockCartPanel = (props) => (
+    <>
+      <div data-testid="cart-panel-tax-rate">{props.taxRate}</div>
+      <div data-testid="cart-panel-tax-unavailable">{String(props.taxUnavailable)}</div>
+    </>
+  );
   return MockCartPanel;
 });
 
@@ -118,5 +123,18 @@ describe("CashierPage tax rate consistency (F-SMOKE-01)", () => {
     await waitFor(() => expect(getCustomerTaxRate).toHaveBeenCalled());
     const panels = await screen.findAllByTestId("cart-panel-tax-rate");
     panels.forEach((panel) => expect(panel).toHaveTextContent("0.07"));
+  });
+
+  test("a failed tax lookup is marked unavailable instead of silently showing 0%", async () => {
+    getCustomerTaxRate.mockRejectedValue(new Error("offline"));
+
+    renderCashierPage();
+
+    await waitFor(() => expect(getCustomerTaxRate).toHaveBeenCalled());
+    const unavailable = await screen.findAllByTestId("cart-panel-tax-unavailable");
+    unavailable.forEach((panel) => expect(panel).toHaveTextContent("true"));
+
+    const rates = await screen.findAllByTestId("cart-panel-tax-rate");
+    rates.forEach((panel) => expect(panel).not.toHaveTextContent("0"));
   });
 });

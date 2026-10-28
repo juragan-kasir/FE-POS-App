@@ -27,6 +27,7 @@ import { Card } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import PropTypes from "prop-types";
 import { formatQuantity } from "@/utils/quantity";
+import { dateLocale } from "@/lib/locale";
 
 const DetailRow = ({ icon: Icon, label, value }) => (
   <div className="flex items-start gap-3 py-3 border-b border-border last:border-b-0">
@@ -339,7 +340,7 @@ const DetailIngredient = () => {
                       </span>
                       <span className="text-xs font-semibold text-foreground">
                         {ingredient.createdAt
-                          ? new Date(ingredient.createdAt).toLocaleDateString("id-ID", {
+                          ? new Date(ingredient.createdAt).toLocaleDateString(dateLocale(), {
                               day: "numeric",
                               month: "long",
                               year: "numeric"
@@ -353,7 +354,7 @@ const DetailIngredient = () => {
                       </span>
                       <span className="text-xs font-semibold text-foreground">
                         {ingredient.updatedAt
-                          ? new Date(ingredient.updatedAt).toLocaleDateString("id-ID", {
+                          ? new Date(ingredient.updatedAt).toLocaleDateString(dateLocale(), {
                               day: "numeric",
                               month: "long",
                               year: "numeric"

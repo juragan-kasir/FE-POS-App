@@ -36,6 +36,7 @@ import TableToolbar from "@/components/ui/TableToolbar";
 import StatCard from "@/components/ui/StatCard";
 import { canAccess } from "@/utils/permission";
 import { useLocations } from "@/queries/useLocations";
+import { dateLocale } from "@/lib/locale";
 
 const positionColors = {
   manager: "bg-primary text-primary-foreground",
@@ -245,7 +246,7 @@ const EmployeeList = () => {
       render: (row) => (
         <span className="text-sm text-muted-foreground whitespace-nowrap">
           {row.createdAt
-            ? new Date(row.createdAt).toLocaleDateString("id-ID", {
+            ? new Date(row.createdAt).toLocaleDateString(dateLocale(), {
                 year: "numeric",
                 month: "short",
                 day: "numeric"
@@ -267,7 +268,7 @@ const EmployeeList = () => {
       render: (row) => (
         <span className="text-sm text-muted-foreground whitespace-nowrap">
           {row.updatedAt
-            ? new Date(row.updatedAt).toLocaleDateString("id-ID", {
+            ? new Date(row.updatedAt).toLocaleDateString(dateLocale(), {
                 year: "numeric",
                 month: "short",
                 day: "numeric"

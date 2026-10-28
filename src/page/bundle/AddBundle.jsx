@@ -287,7 +287,7 @@ const AddBundle = () => {
       const payloadForCheck = buildPayload();
       if (payloadForCheck.items.length === 0) {
         toast.error(t("common.error"), {
-          description: "Minimal harus ada 1 item bundle"
+          description: t("page.bundle.ui.aBundleNeedsAtLeast")
         });
         return;
       }

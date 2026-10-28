@@ -21,6 +21,7 @@ import { format } from "date-fns";
 import AbortController from "@/components/organism/abort-controller";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useLocations } from "@/queries/useLocations";
+import { dateLocale } from "@/lib/locale";
 
 const formatDate = (dateStr) => {
   if (!dateStr) return "-";
@@ -28,13 +29,13 @@ const formatDate = (dateStr) => {
     const d = new Date(dateStr);
     if (isNaN(d.getTime())) return "-";
     return (
-      d.toLocaleDateString("id-ID", {
+      d.toLocaleDateString(dateLocale(), {
         day: "numeric",
         month: "short",
         year: "numeric"
       }) +
       " " +
-      d.toLocaleTimeString("id-ID", {
+      d.toLocaleTimeString(dateLocale(), {
         hour: "2-digit",
         minute: "2-digit"
       })

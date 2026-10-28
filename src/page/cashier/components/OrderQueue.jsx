@@ -2,7 +2,16 @@ import React, { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import PropTypes from "prop-types";
 import { useTranslation } from "react-i18next";
 import { useMutation, useQuery, useQueryClient } from "react-query";
-import { Clock, Utensils, ShoppingBag, Wallet, Ban, Undo2, ClipboardList } from "lucide-react";
+import {
+  Clock,
+  Utensils,
+  ShoppingBag,
+  Wallet,
+  Ban,
+  Undo2,
+  ClipboardList,
+  AlertCircle
+} from "lucide-react";
 import { toast } from "sonner";
 import { getOrdersByStore, updateOrderStatus } from "@/services/order";
 import { getCurrentCashRegister } from "@/services/cash-register";
@@ -12,32 +21,43 @@ import { Skeleton } from "@/components/ui/skeleton";
 import ScrollRail from "@/components/ui/ScrollRail";
 import CollapsiblePanel from "@/components/ui/CollapsiblePanel";
 import VoidOrderDialog from "@/components/organism/VoidOrderDialog";
+import i18next from "i18next";
 
 const statusConfig = {
   pending: {
     color: "bg-amber-500",
     textColor: "text-amber-600 dark:text-amber-400",
-    label: "Pending"
+    get label() {
+      return i18next.t("page.expense.list.pending");
+    }
   },
   confirmed: {
     color: "bg-blue-500",
     textColor: "text-blue-600 dark:text-blue-400",
-    label: "Confirmed"
+    get label() {
+      return i18next.t("page.cashier.orderQueue.status.confirmed");
+    }
   },
   preparing: {
     color: "bg-blue-500",
     textColor: "text-blue-600 dark:text-blue-400",
-    label: "Preparing"
+    get label() {
+      return i18next.t("page.cashier.orderQueue.status.preparing");
+    }
   },
   ready: {
     color: "bg-emerald-500",
     textColor: "text-emerald-600 dark:text-emerald-400",
-    label: "Ready"
+    get label() {
+      return i18next.t("page.cashier.orderQueue.status.ready");
+    }
   },
   served: {
     color: "bg-purple-500",
     textColor: "text-purple-600 dark:text-purple-400",
-    label: "Served"
+    get label() {
+      return i18next.t("page.cashier.orderQueue.status.served");
+    }
   }
 };
 
@@ -309,38 +329,58 @@ const OrderQueue = ({ store, onLoadOrder, onCollectPayment, canVoid = false }) =
   // gap, not an oversight — see the Phase 20 Batch 2 report.
   const pollFallback = connected && roomOk ? false : 30000;
 
-  const { data: pendingOrders, isLoading: pendingLoading } = useQuery(
-    ["cashier-orders-pending", store],
-    () => fetchOrders("pending"),
-    { enabled: !!store, refetchInterval: pollFallback }
-  );
+  const {
+    data: pendingOrders,
+    isLoading: pendingLoading,
+    isError: pendingError,
+    refetch: refetchPending
+  } = useQuery(["cashier-orders-pending", store], () => fetchOrders("pending"), {
+    enabled: !!store,
+    refetchInterval: pollFallback
+  });
 
-  const { data: confirmedOrders, isLoading: confirmedLoading } = useQuery(
-    ["cashier-orders-confirmed", store],
-    () => fetchOrders("confirmed"),
-    { enabled: !!store, refetchInterval: 30000 }
-  );
+  const {
+    data: confirmedOrders,
+    isLoading: confirmedLoading,
+    isError: confirmedError,
+    refetch: refetchConfirmed
+  } = useQuery(["cashier-orders-confirmed", store], () => fetchOrders("confirmed"), {
+    enabled: !!store,
+    refetchInterval: 30000
+  });
 
-  const { data: preparingOrders, isLoading: preparingLoading } = useQuery(
-    ["cashier-orders-preparing", store],
-    () => fetchOrders("preparing"),
-    { enabled: !!store, refetchInterval: pollFallback }
-  );
+  const {
+    data: preparingOrders,
+    isLoading: preparingLoading,
+    isError: preparingError,
+    refetch: refetchPreparing
+  } = useQuery(["cashier-orders-preparing", store], () => fetchOrders("preparing"), {
+    enabled: !!store,
+    refetchInterval: pollFallback
+  });
 
-  const { data: readyOrders, isLoading: readyLoading } = useQuery(
-    ["cashier-orders-ready", store],
-    () => fetchOrders("ready"),
-    { enabled: !!store, refetchInterval: pollFallback }
-  );
+  const {
+    data: readyOrders,
+    isLoading: readyLoading,
+    isError: readyError,
+    refetch: refetchReady
+  } = useQuery(["cashier-orders-ready", store], () => fetchOrders("ready"), {
+    enabled: !!store,
+    refetchInterval: pollFallback
+  });
 
   // P5-03: a served QR order must stay reachable in the queue for payment —
   // it has the same payment/collect-payment semantics as every other
   // unpaid order listed here.
-  const { data: servedOrders, isLoading: servedLoading } = useQuery(
-    ["cashier-orders-served", store],
-    () => fetchOrders("served"),
-    { enabled: !!store, refetchInterval: pollFallback }
-  );
+  const {
+    data: servedOrders,
+    isLoading: servedLoading,
+    isError: servedError,
+    refetch: refetchServed
+  } = useQuery(["cashier-orders-served", store], () => fetchOrders("served"), {
+    enabled: !!store,
+    refetchInterval: pollFallback
+  });
 
   const invalidatePending = useCallback(() => {
     queryClient.invalidateQueries(["cashier-orders-pending", store]);
@@ -488,6 +528,14 @@ const OrderQueue = ({ store, onLoadOrder, onCollectPayment, canVoid = false }) =
 
   const isLoading =
     pendingLoading || confirmedLoading || preparingLoading || readyLoading || servedLoading;
+  const queueError = pendingError || confirmedError || preparingError || readyError || servedError;
+  const refetchQueue = useCallback(() => {
+    refetchPending();
+    refetchConfirmed();
+    refetchPreparing();
+    refetchReady();
+    refetchServed();
+  }, [refetchPending, refetchConfirmed, refetchPreparing, refetchReady, refetchServed]);
 
   if (!store) return null;
 
@@ -547,6 +595,24 @@ const OrderQueue = ({ store, onLoadOrder, onCollectPayment, canVoid = false }) =
 
   return (
     <div className="shrink-0">
+      {queueError && !isLoading && (
+        <div
+          role="alert"
+          className="mx-4 lg:mx-6 mt-3 flex items-start gap-2 rounded-xl border border-destructive/30 bg-destructive/10 px-3 py-2.5 text-sm text-destructive">
+          <AlertCircle size={16} className="mt-0.5 shrink-0" aria-hidden="true" />
+          <span className="flex-1">
+            {visibleOrders.length > 0
+              ? t("page.cashier.orderQueue.refreshFailed")
+              : t("page.cashier.orderQueue.loadFailed")}
+          </span>
+          <button
+            type="button"
+            onClick={refetchQueue}
+            className="shrink-0 font-semibold underline underline-offset-2">
+            {t("common.retry")}
+          </button>
+        </div>
+      )}
       {isLoading ? (
         <OrderQueueSkeleton />
       ) : visibleOrders.length > 0 ? (

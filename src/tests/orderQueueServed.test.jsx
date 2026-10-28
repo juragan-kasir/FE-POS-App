@@ -85,8 +85,9 @@ describe("OrderQueue — P5-03 served order payment reachability", () => {
     renderQueue();
     await waitFor(() => expect(screen.getByText("#00077")).toBeInTheDocument());
 
-    expect(screen.getByText("Served")).toBeInTheDocument();
-    expect(screen.queryByText("Pending")).not.toBeInTheDocument();
+    // Indonesian runtime copy (status labels follow the language).
+    expect(screen.getByText("Disajikan")).toBeInTheDocument();
+    expect(screen.queryByText("Menunggu")).not.toBeInTheDocument();
   });
 
   test("existing pending/confirmed/preparing/ready behavior is preserved", async () => {

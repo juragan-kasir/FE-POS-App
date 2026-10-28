@@ -32,6 +32,7 @@ import {
   SelectValue
 } from "@/components/ui/select";
 import { useLocations } from "@/queries/useLocations";
+import { dateLocale } from "@/lib/locale";
 
 const BundleList = () => {
   const { t } = useTranslation();
@@ -219,13 +220,13 @@ const BundleList = () => {
       const d = new Date(dateStr);
       if (isNaN(d.getTime())) return "-";
       return (
-        d.toLocaleDateString("id-ID", {
+        d.toLocaleDateString(dateLocale(), {
           day: "numeric",
           month: "short",
           year: "numeric"
         }) +
         " " +
-        d.toLocaleTimeString("id-ID", {
+        d.toLocaleTimeString(dateLocale(), {
           hour: "2-digit",
           minute: "2-digit"
         })

@@ -66,6 +66,7 @@ import { useLocations } from "@/queries/useLocations";
 import NoStore from "@/components/ui/NoStore";
 import { FIELD_LIMITS } from "@/constants/fieldLimits";
 import { Textarea } from "@/components/ui/textarea";
+import { handleCashierShortcut } from "./shortcuts";
 
 const CashierPage = () => {
   const { t } = useTranslation();
@@ -215,7 +216,9 @@ const CashierPage = () => {
     const handleKeyDown = (e) => {
       if (e.key === "Escape") {
         setShowCartMobile(false);
+        return;
       }
+      handleCashierShortcut(e);
     };
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
@@ -343,14 +346,22 @@ const CashierPage = () => {
   // instead of re-deriving it locally from the raw tax-config list — a
   // re-derivation that had no equivalent to the backend's 11% default and
   // so silently showed 0% whenever no active ppn row existed.
-  const { data: customerTaxRateData, isLoading: taxLoading } = useQuery(
-    ["cashier-customer-tax-rate", store],
-    () => getCustomerTaxRate(store),
-    { enabled: !!store }
-  );
+  const {
+    data: customerTaxRateData,
+    isLoading: taxLoading,
+    refetch: refetchTaxRate
+  } = useQuery(["cashier-customer-tax-rate", store], () => getCustomerTaxRate(store), {
+    enabled: !!store
+  });
 
-  const taxRate = (customerTaxRateData?.data?.rate || 0) / 100;
-  const taxAmount = Math.round(subtotal * taxRate);
+  // Never present a failed tax lookup as 0%: checkout will charge the
+  // server-resolved rate, so an unresolved rate makes the cart total
+  // unavailable until the operator retries.
+  const rawTaxRate = customerTaxRateData?.data?.rate;
+  const taxRateResolved = rawTaxRate != null && Number.isFinite(Number(rawTaxRate));
+  const taxRate = taxRateResolved ? Number(rawTaxRate) / 100 : null;
+  const taxAmount = taxRate != null ? Math.round(subtotal * taxRate) : null;
+  const taxUnavailable = !taxLoading && !taxRateResolved;
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -361,7 +372,8 @@ const CashierPage = () => {
           subtotal,
           taxRate,
           taxAmount,
-          total: subtotal + taxAmount,
+          taxUnavailable,
+          total: taxUnavailable ? null : subtotal + (taxAmount || 0),
           tableName: selectedTable?.name || "",
           items: cartOrder.map((item) => ({
             cartKey: item.cartKey || item.id,
@@ -377,7 +389,7 @@ const CashierPage = () => {
       );
     }, 150);
     return () => clearTimeout(timer);
-  }, [cartOrder, totalItems, subtotal, taxRate, taxAmount, selectedTable]);
+  }, [cartOrder, totalItems, subtotal, taxRate, taxAmount, taxUnavailable, selectedTable]);
 
   const queryClient = useQueryClient();
 
@@ -610,6 +622,8 @@ const CashierPage = () => {
                         variant="outline"
                         size="sm"
                         className="relative rounded-xl border-border/60 bg-card/60 hover:border-primary/40 hover:bg-primary/5 hover:text-primary transition-all"
+                        data-shortcut="tables"
+                        aria-keyshortcuts="F9"
                         onClick={() => setShowTables(true)}>
                         <Armchair size={16} />
                         <span className="hidden lg:inline">{t("page.cashier.tables.button")}</span>
@@ -783,6 +797,8 @@ const CashierPage = () => {
                   subtotal={subtotal}
                   taxRate={taxRate}
                   taxAmount={taxAmount}
+                  taxUnavailable={taxUnavailable}
+                  onRetryTax={refetchTaxRate}
                   onIncrement={orderList.getState().incrementOrder}
                   onDecrement={orderList.getState().decrementOrder}
                   onDelete={orderList.getState().handleDeleteOrder}
@@ -819,6 +835,8 @@ const CashierPage = () => {
                 subtotal={subtotal}
                 taxRate={taxRate}
                 taxAmount={taxAmount}
+                taxUnavailable={taxUnavailable}
+                onRetryTax={refetchTaxRate}
                 onIncrement={orderList.getState().incrementOrder}
                 onDecrement={orderList.getState().decrementOrder}
                 onDelete={orderList.getState().handleDeleteOrder}

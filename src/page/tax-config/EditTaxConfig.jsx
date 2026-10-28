@@ -32,11 +32,22 @@ import MissingFieldsModal from "@/components/organism/MissingFieldsModal";
 import { getMissingFields } from "@/lib/validation";
 import { useLocations } from "@/queries/useLocations";
 import { FIELD_LIMITS } from "@/constants/fieldLimits";
+import i18next from "i18next";
 
 const taxTypes = [
   { value: "ppn", label: "PPN" },
-  { value: "other", label: "PPh" },
-  { value: "service_charge", label: "Non-Pajak" }
+  {
+    value: "other",
+    get label() {
+      return i18next.t("page.taxConfig.ui.incomeTaxPph");
+    }
+  },
+  {
+    value: "service_charge",
+    get label() {
+      return i18next.t("page.taxConfig.ui.nonTax");
+    }
+  }
 ];
 
 const EditTaxConfigSkeleton = () => {

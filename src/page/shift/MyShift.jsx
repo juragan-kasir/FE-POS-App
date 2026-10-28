@@ -32,6 +32,7 @@ import { safeGet } from "@/lib/safe-lookup";
 import PageHeader from "@/components/ui/PageHeader";
 import { DEFAULT_SHIFT_TYPE, SHIFT_TYPE_LABELS, SHIFT_TYPES } from "@/constants/shiftTypes";
 import { useLocations } from "@/queries/useLocations";
+import { dateLocale } from "@/lib/locale";
 
 const DAY_MS = 86400000;
 
@@ -39,7 +40,7 @@ const fmtDate = (d) => {
   if (!d) return "-";
   const date = new Date(d);
   if (isNaN(date.getTime())) return "-";
-  return date.toLocaleDateString("id-ID", {
+  return date.toLocaleDateString(dateLocale(), {
     day: "numeric",
     month: "short",
     year: "numeric"
@@ -158,7 +159,7 @@ const MyShift = () => {
       seenApprovedRef.current.add(s.id);
       const other =
         String(s.requesterId) === String(currentUserId) ? s.requesterUser : s.targetUser;
-      toast.success("Pertukaran Shift Berhasil", {
+      toast.success(t("page.shift.ui.shiftSwapDone"), {
         description: `Pertukaran shift kamu dengan ${
           other?.fullName || "rekan kerja"
         } telah disetujui.`
@@ -495,43 +496,46 @@ const MyShift = () => {
               const statusCfg =
                 s.status === "pending"
                   ? {
-                      label: "Sedang Diproses",
+                      label: t("page.shift.ui.inProgress2"),
                       cls: "bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400",
                       icon: Loader2
                     }
                   : s.status === "approved"
                     ? {
-                        label: "Berhasil",
+                        label: t("common.success"),
                         cls: "bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400",
                         icon: CheckCircle2
                       }
                     : s.status === "rejected"
                       ? {
-                          label: "Ditolak",
+                          label: t("businessTrip.status.rejected"),
                           cls: "bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400",
                           icon: XCircle
                         }
                       : {
-                          label: "Dibatalkan",
+                          label: t("page.delivery.stats.cancelled"),
                           cls: "bg-muted text-muted-foreground dark:bg-muted/60 dark:text-muted-foreground",
                           icon: CircleDashed
                         };
               const StatusIcon = statusCfg.icon;
               const dateTxt = s.tanggal_mulai
                 ? s.tanggal_mulai === s.tanggal_selesai
-                  ? new Date(`${s.tanggal_mulai}T00:00:00`).toLocaleDateString("id-ID", {
+                  ? new Date(`${s.tanggal_mulai}T00:00:00`).toLocaleDateString(dateLocale(), {
                       day: "numeric",
                       month: "short",
                       year: "numeric"
                     })
-                  : `${new Date(`${s.tanggal_mulai}T00:00:00`).toLocaleDateString("id-ID", {
+                  : `${new Date(`${s.tanggal_mulai}T00:00:00`).toLocaleDateString(dateLocale(), {
                       day: "numeric",
                       month: "short"
-                    })} – ${new Date(`${s.tanggal_selesai}T00:00:00`).toLocaleDateString("id-ID", {
-                      day: "numeric",
-                      month: "short",
-                      year: "numeric"
-                    })}`
+                    })} – ${new Date(`${s.tanggal_selesai}T00:00:00`).toLocaleDateString(
+                      dateLocale(),
+                      {
+                        day: "numeric",
+                        month: "short",
+                        year: "numeric"
+                      }
+                    )}`
                 : "-";
               return (
                 <div
@@ -564,7 +568,7 @@ const MyShift = () => {
                   <p className="mt-2 text-xs text-muted-foreground">
                     {isRequester ? "Kamu mengajukan" : "Diajukan untukmu"} ·{" "}
                     {s.createdAt
-                      ? new Date(s.createdAt).toLocaleString("id-ID", {
+                      ? new Date(s.createdAt).toLocaleString(dateLocale(), {
                           day: "numeric",
                           month: "short",
                           hour: "2-digit",

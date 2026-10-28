@@ -36,6 +36,7 @@ import { FIELD_LIMITS } from "@/constants/fieldLimits";
 import { Textarea } from "@/components/ui/textarea";
 import { createdId } from "@/utils/createdRecord";
 import LoadErrorBanner from "@/components/ui/LoadErrorBanner";
+import { dateLocale } from "@/lib/locale";
 
 const reasonKeys = [
   "damaged",
@@ -692,7 +693,7 @@ const OrderPicker = ({ isLoading, orders, onSelect }) => {
                 </p>
                 <p className="text-xs text-muted-foreground truncate">
                   {o.createdAt
-                    ? new Date(o.createdAt).toLocaleDateString("id-ID", {
+                    ? new Date(o.createdAt).toLocaleDateString(dateLocale(), {
                         day: "numeric",
                         month: "short",
                         year: "numeric",

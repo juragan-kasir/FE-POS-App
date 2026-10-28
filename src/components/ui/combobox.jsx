@@ -13,6 +13,7 @@ import {
   CommandList
 } from "@/components/ui/command";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { useTranslation } from "react-i18next";
 
 export function Combobox({
   id,
@@ -27,6 +28,7 @@ export function Combobox({
   onClear,
   className
 }) {
+  const { t } = useTranslation();
   const [open, setOpen] = React.useState(false);
 
   const selected = options.find((opt) => opt.value === value);
@@ -45,7 +47,7 @@ export function Combobox({
           {loading ? (
             <span className="flex items-center gap-2 text-muted-foreground">
               <Loader2 className="h-4 w-4 animate-spin" />
-              Memuat...
+              {t("page.employee.add.loading")}
             </span>
           ) : selected ? (
             // Long labels (store names) truncate inside the field instead of
@@ -63,7 +65,7 @@ export function Combobox({
               <span
                 role="button"
                 tabIndex={0}
-                aria-label="Clear"
+                aria-label={t("common.clear")}
                 onClick={(e) => {
                   e.stopPropagation();
                   e.preventDefault();

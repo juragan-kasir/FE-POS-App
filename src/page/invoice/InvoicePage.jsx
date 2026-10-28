@@ -792,9 +792,21 @@ const InvoicePage = () => {
                   </div>
                   <div className="grid grid-cols-3 gap-2">
                     {[
-                      { key: "small", label: "Kecil", desc: "Kompak & hemat kertas" },
-                      { key: "normal", label: "Standar", desc: "Seimbang & nyaman" },
-                      { key: "large", label: "Besar", desc: "Ekstra jelas terbaca" }
+                      {
+                        key: "small",
+                        label: t("page.invoice.ui.small"),
+                        desc: t("page.invoice.ui.compactPaperSaving")
+                      },
+                      {
+                        key: "normal",
+                        label: t("page.discount.form.promoType.standard"),
+                        desc: t("page.invoice.ui.balancedComfortable")
+                      },
+                      {
+                        key: "large",
+                        label: t("page.invoice.ui.large"),
+                        desc: t("page.invoice.ui.extraLegible")
+                      }
                     ].map((opt) => (
                       <button
                         key={opt.key}
@@ -837,21 +849,21 @@ const InvoicePage = () => {
                     {[
                       {
                         key: "monospace",
-                        label: "Monospace",
+                        label: t("page.invoice.ui.monospace"),
                         fontCls: "font-mono",
-                        desc: "Klasik POS Thermal"
+                        desc: t("page.invoice.ui.classicPosThermal")
                       },
                       {
                         key: "sans",
-                        label: "Sans-Serif",
+                        label: t("page.invoice.ui.sansSerif"),
                         fontCls: "font-sans",
-                        desc: "Modern & Bersih"
+                        desc: t("page.invoice.ui.modernClean")
                       },
                       {
                         key: "serif",
-                        label: "Serif",
+                        label: t("page.invoice.ui.serif"),
                         fontCls: "font-serif",
-                        desc: "Formal & Elegan"
+                        desc: t("page.invoice.ui.formalElegant")
                       }
                     ].map((opt) => (
                       <button
@@ -895,9 +907,21 @@ const InvoicePage = () => {
                   </div>
                   <div className="grid grid-cols-3 gap-2">
                     {[
-                      { key: "compact", label: "Rapat", desc: "Hemat ruang kertas" },
-                      { key: "normal", label: "Standar", desc: "Jarak baris normal" },
-                      { key: "relaxed", label: "Longgar", desc: "Lega & berjarak" }
+                      {
+                        key: "compact",
+                        label: t("page.invoice.ui.tight"),
+                        desc: t("page.invoice.ui.savesPaper")
+                      },
+                      {
+                        key: "normal",
+                        label: t("page.discount.form.promoType.standard"),
+                        desc: t("page.invoice.ui.normalLineSpacing")
+                      },
+                      {
+                        key: "relaxed",
+                        label: t("page.invoice.ui.loose"),
+                        desc: t("page.invoice.ui.airySpaced")
+                      }
                     ].map((opt) => (
                       <button
                         key={opt.key}

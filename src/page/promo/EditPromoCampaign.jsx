@@ -565,12 +565,12 @@ const EditPromoCampaign = () => {
                     <Combobox
                       id="edit-promo-campaign-type"
                       options={[
-                        { value: "happy_hour", label: "Happy Hour" },
-                        { value: "birthday", label: "Birthday" },
-                        { value: "buy_x_get_y", label: "Buy X Get Y" },
-                        { value: "spend_get", label: "Spend & Get" },
-                        { value: "manual", label: "Manual" },
-                        { value: "automatic", label: "Automatic" }
+                        { value: "happy_hour", label: t("page.discount.form.promoType.happyHour") },
+                        { value: "birthday", label: t("page.promo.ui.birthday") },
+                        { value: "buy_x_get_y", label: t("page.promo.ui.buyXGetY") },
+                        { value: "spend_get", label: t("page.promo.ui.spendGet") },
+                        { value: "manual", label: t("page.backup.triggerManual") },
+                        { value: "automatic", label: t("page.recipeHpp.status.auto") }
                       ]}
                       value={form.watch("type")}
                       onChange={(v) => form.setValue("type", v)}
@@ -599,9 +599,9 @@ const EditPromoCampaign = () => {
                         <Combobox
                           id="edit-promo-campaign-discount-type"
                           options={[
-                            { value: "percentage", label: "Percentage" },
-                            { value: "fixed", label: "Fixed Amount" },
-                            { value: "free_item", label: "Free Item" }
+                            { value: "percentage", label: t("page.discount.form.percent") },
+                            { value: "fixed", label: t("page.promo.ui.fixedAmount") },
+                            { value: "free_item", label: t("page.promo.ui.freeItem") }
                           ]}
                           value={form.watch("discountType")}
                           onChange={(v) => form.setValue("discountType", v)}
@@ -784,12 +784,12 @@ const EditPromoCampaign = () => {
                         className="flex items-center gap-3 p-3 bg-background rounded-lg border border-border">
                         <Combobox
                           options={[
-                            { value: "time", label: "Time" },
-                            { value: "birthday", label: "Birthday" },
-                            { value: "buy_x_get_y", label: "Buy X Get Y" },
-                            { value: "spend_threshold", label: "Spend Threshold" },
-                            { value: "member_tier", label: "Member Tier" },
-                            { value: "first_purchase", label: "First Purchase" }
+                            { value: "time", label: t("page.dashboard.table.time") },
+                            { value: "birthday", label: t("page.promo.ui.birthday") },
+                            { value: "buy_x_get_y", label: t("page.promo.ui.buyXGetY") },
+                            { value: "spend_threshold", label: t("page.promo.ui.spendThreshold") },
+                            { value: "member_tier", label: t("sidebar.memberTier") },
+                            { value: "first_purchase", label: t("page.promo.ui.firstPurchase") }
                           ]}
                           value={rule.ruleType}
                           onChange={(v) => updateRule(index, "ruleType", v)}
@@ -842,12 +842,18 @@ const EditPromoCampaign = () => {
                         className="flex items-center gap-3 p-3 bg-background rounded-lg border border-border">
                         <Combobox
                           options={[
-                            { value: "discount_percentage", label: "Discount %" },
-                            { value: "discount_fixed", label: "Discount Fixed" },
-                            { value: "free_item", label: "Free Item" },
-                            { value: "buy_x_get_y", label: "Buy X Get Y" },
-                            { value: "points_multiplier", label: "Points Multiplier" },
-                            { value: "cashback", label: "Cashback" }
+                            {
+                              value: "discount_percentage",
+                              label: t("page.memberLoyalty.ui.discount2")
+                            },
+                            { value: "discount_fixed", label: t("page.promo.ui.fixedDiscount") },
+                            { value: "free_item", label: t("page.promo.ui.freeItem") },
+                            { value: "buy_x_get_y", label: t("page.promo.ui.buyXGetY") },
+                            {
+                              value: "points_multiplier",
+                              label: t("page.promo.ui.pointsMultiplier")
+                            },
+                            { value: "cashback", label: t("page.promo.ui.cashback") }
                           ]}
                           value={reward.rewardType}
                           onChange={(v) => updateReward(index, "rewardType", v)}
@@ -889,10 +895,13 @@ const EditPromoCampaign = () => {
                     <Combobox
                       id="edit-promo-campaign-applicable-to"
                       options={[
-                        { value: "all", label: "All Products" },
-                        { value: "specific_products", label: "Specific Products" },
-                        { value: "specific_categories", label: "Specific Categories" },
-                        { value: "specific_members", label: "Specific Members" }
+                        { value: "all", label: t("page.supplier.comparison.allProducts") },
+                        { value: "specific_products", label: t("page.promo.ui.specificProducts") },
+                        {
+                          value: "specific_categories",
+                          label: t("page.promo.ui.specificCategories")
+                        },
+                        { value: "specific_members", label: t("page.promo.ui.specificMembers") }
                       ]}
                       value={form.watch("applicableTo")}
                       onChange={(v) => {

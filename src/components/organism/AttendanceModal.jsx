@@ -18,6 +18,8 @@ import { getTrustedLocation, getAccuracyLevel } from "@/utils/geo";
 import { clockAttendance } from "@/services/attendance";
 import { cn } from "@/lib/utils";
 import { safeGet } from "@/lib/safe-lookup";
+import i18next from "i18next";
+import { useTranslation } from "react-i18next";
 
 // matrix CSS peta agar konten tetap di atas tile
 const LEAFLET_Z_STYLES = `
@@ -44,15 +46,21 @@ const ERROR_MESSAGE = {
 
 const LEVEL_LABEL = {
   good: {
-    label: "Akurat",
+    get label() {
+      return i18next.t("component.attendanceModal.ui.accurate");
+    },
     cls: "bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400"
   },
   ok: {
-    label: "Cukup akurat",
+    get label() {
+      return i18next.t("component.attendanceModal.ui.fairlyAccurate");
+    },
     cls: "bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400"
   },
   poor: {
-    label: "Kurang akurat",
+    get label() {
+      return i18next.t("component.attendanceModal.ui.lowAccuracy");
+    },
     cls: "bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400"
   }
 };
@@ -83,6 +91,7 @@ const AttendanceModal = ({
   shiftName,
   onSuccess
 }) => {
+  const { t } = useTranslation();
   const [phase, setPhase] = useState("idle");
   const [location, setLocation] = useState(null);
   const [error, setError] = useState(null);
@@ -150,8 +159,7 @@ const AttendanceModal = ({
               {isCheckIn ? "Absen Masuk" : "Absen Pulang"}
             </DialogTitle>
             <DialogDescription>
-              Verifikasi lokasi dengan GPS sebelum melakukan absensi. Lokasi palsu (Fake GPS) akan
-              ditolak dan dicatat sebagai mencurigakan.
+              {t("component.attendanceModal.ui.verifyYourLocationWithGps")}
             </DialogDescription>
           </DialogHeader>
         </div>
@@ -193,9 +201,11 @@ const AttendanceModal = ({
                 {phase === "locating" && (
                   <>
                     <Loader2 size={28} className="animate-spin text-primary" />
-                    <p className="text-sm font-semibold text-foreground">Mendapatkan lokasi GPS…</p>
+                    <p className="text-sm font-semibold text-foreground">
+                      {t("component.attendanceModal.ui.gettingGpsLocation")}
+                    </p>
                     <p className="text-xs text-muted-foreground">
-                      Ambil beberapa sampel untuk memastikan lokasi terpercaya. Pastikan GPS aktif.
+                      {t("component.attendanceModal.ui.severalSamplesAreTakenTo")}
                     </p>
                     <div className="w-full max-w-[260px] space-y-2">
                       <Skeleton className="h-3 w-full rounded-full" />
@@ -209,21 +219,23 @@ const AttendanceModal = ({
                     <div className="w-12 h-12 rounded-full bg-destructive/10 flex items-center justify-center">
                       <Satellite size={24} className="text-destructive/80" />
                     </div>
-                    <p className="text-sm font-semibold text-destructive">Lokasi tidak valid</p>
+                    <p className="text-sm font-semibold text-destructive">
+                      {t("component.attendanceModal.ui.invalidLocation")}
+                    </p>
                     <p className="text-xs text-muted-foreground leading-relaxed">
                       {safeGet(ERROR_MESSAGE, error, ERROR_MESSAGE.unreliable)}
                     </p>
                     <p className="text-xs text-muted-foreground flex items-center gap-1">
                       <Clock3 size={12} />
-                      Waktu absen tidak dicatat saat verifikasi gagal.
+                      {t("component.attendanceModal.ui.noAttendanceTimeIsRecorded")}
                     </p>
                     <div className="flex gap-3 pt-1">
                       <Button type="button" variant="danger" onClick={() => onOpenChange(false)}>
-                        Batal
+                        {t("common.cancel")}
                       </Button>
                       <Button type="button" onClick={() => setRunKey((k) => k + 1)}>
                         <RefreshCcw size={14} className="mr-1.5" />
-                        Coba Lagi
+                        {t("common.retry")}
                       </Button>
                     </div>
                   </>
@@ -248,7 +260,9 @@ const AttendanceModal = ({
                 <div className="rounded-2xl border border-border/70 bg-muted/30 overflow-hidden">
                   <div className="flex items-center gap-2.5 px-4 py-3 border-b border-border/50 bg-primary/5">
                     <BadgeCheck size={18} className="text-green-600 shrink-0" />
-                    <p className="text-sm font-semibold text-foreground">Lokasi Terverifikasi</p>
+                    <p className="text-sm font-semibold text-foreground">
+                      {t("component.attendanceModal.ui.locationVerified")}
+                    </p>
                     <span
                       className={cn(
                         "ml-auto shrink-0 rounded-full px-2.5 py-0.5 text-xs font-semibold",
@@ -260,7 +274,7 @@ const AttendanceModal = ({
                   <div className="grid grid-cols-2 divide-x divide-border/50">
                     <div className="px-4 py-3">
                       <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
-                        Lat / Long
+                        {t("component.attendanceModal.ui.latLong")}
                       </p>
                       <p className="mt-0.5 text-[13px] font-mono font-medium text-foreground">
                         {location.latitude.toFixed(6)}
@@ -270,13 +284,13 @@ const AttendanceModal = ({
                     </div>
                     <div className="px-4 py-3">
                       <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
-                        Akurasi GPS
+                        {t("component.attendanceModal.ui.gpsAccuracy")}
                       </p>
                       <p className="mt-0.5 text-[13px] font-mono font-medium text-foreground">
                         ± {Math.round(location.accuracy)} m
                       </p>
                       <p className="mt-0.5 text-xs text-muted-foreground">
-                        {location.samples} sampel, tanpa cache
+                        {location.samples} {t("component.attendanceModal.ui.samplesNoCache")}
                       </p>
                     </div>
                   </div>
@@ -284,12 +298,12 @@ const AttendanceModal = ({
 
                 <p className="flex items-center gap-1.5 text-xs text-muted-foreground">
                   <Lock size={12} className="shrink-0 text-green-600" />
-                  Titik lokasi diambil langsung dari perangkat.
+                  {t("component.attendanceModal.ui.theLocationIsReadDirectly")}
                 </p>
 
                 <div className="mt-auto flex flex-col-reverse sm:flex-row lg:flex-col gap-3 pt-2">
                   <Button type="button" variant="danger" onClick={() => onOpenChange(false)}>
-                    Batal
+                    {t("common.cancel")}
                   </Button>
                   <Button
                     type="button"
@@ -309,7 +323,7 @@ const AttendanceModal = ({
             {phase === "idle" && (
               <div className="flex items-center gap-2 text-sm text-muted-foreground">
                 <Clock3 size={14} />
-                Menunggu verifikasi lokasi…
+                {t("component.attendanceModal.ui.waitingForLocationVerification")}
               </div>
             )}
           </div>

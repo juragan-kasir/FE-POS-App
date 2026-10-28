@@ -34,19 +34,20 @@ import Modal from "@/components/organism/modal";
 import { useLocations } from "@/queries/useLocations";
 import { FIELD_LIMITS } from "@/constants/fieldLimits";
 import { todayDateOnly } from "@/utils/dateOnly";
+import { dateLocale } from "@/lib/locale";
 
 const fmt = (d) => {
   if (!d) return "-";
   const date = new Date(d);
   if (isNaN(date.getTime())) return "-";
-  return date.toLocaleDateString("id-ID", { day: "numeric", month: "short", year: "numeric" });
+  return date.toLocaleDateString(dateLocale(), { day: "numeric", month: "short", year: "numeric" });
 };
 
 const fmtDateTime = (d) => {
   if (!d) return "-";
   const date = new Date(d);
   if (isNaN(date.getTime())) return "-";
-  return date.toLocaleDateString("id-ID", {
+  return date.toLocaleDateString(dateLocale(), {
     day: "numeric",
     month: "short",
     year: "numeric",
@@ -147,7 +148,7 @@ const OvertimeApproval = () => {
     ({ id, decision, note }) => updateOvertimeStatus({ id, status: decision, note }),
     {
       onSuccess: (_res, vars) => {
-        toast.success("Berhasil", {
+        toast.success(t("common.success"), {
           description:
             vars.decision === "approved"
               ? "Pengajuan lembur disetujui."
@@ -155,7 +156,9 @@ const OvertimeApproval = () => {
         });
       },
       onError: (err) => {
-        toast.error("Gagal", { description: err?.response?.data?.message || err.message });
+        toast.error(t("common.error"), {
+          description: err?.response?.data?.message || err.message
+        });
       },
       onSettled: () => {
         setDecisionTarget(null);
@@ -169,14 +172,16 @@ const OvertimeApproval = () => {
     ({ store: s, month }) => postOvertimePayroll({ store: s, month }),
     {
       onSuccess: (res) => {
-        toast.success("Berhasil", {
+        toast.success(t("common.success"), {
           description: `${res?.data?.posted || 0} lembur diposting, total Rp ${fmtMoney(
             res?.data?.totalAmount
           )}.`
         });
       },
       onError: (err) => {
-        toast.error("Gagal", { description: err?.response?.data?.message || err.message });
+        toast.error(t("common.error"), {
+          description: err?.response?.data?.message || err.message
+        });
       },
       onSettled: () => {
         setPayrollTarget(null);
@@ -238,7 +243,7 @@ const OvertimeApproval = () => {
               <Combobox
                 id="overtime-approval-store"
                 options={[
-                  { value: "all", label: "Semua Toko" },
+                  { value: "all", label: t("header.allStore") },
                   ...locations.map((l) => ({ value: String(l.id), label: l.name }))
                 ]}
                 value={storeFilter}
@@ -260,11 +265,11 @@ const OvertimeApproval = () => {
             <Combobox
               id="overtime-approval-status"
               options={[
-                { value: "pending", label: "Menunggu" },
-                { value: "approved", label: "Disetujui" },
-                { value: "rejected", label: "Ditolak" },
-                { value: "cancelled", label: "Dibatalkan" },
-                { value: "", label: "Semua" }
+                { value: "pending", label: t("common.pending") },
+                { value: "approved", label: t("businessTrip.status.approved") },
+                { value: "rejected", label: t("businessTrip.status.rejected") },
+                { value: "cancelled", label: t("page.delivery.stats.cancelled") },
+                { value: "", label: t("common.all") }
               ]}
               value={status}
               onChange={(v) => {
@@ -456,7 +461,7 @@ const OvertimeApproval = () => {
               size="sm"
               disabled={page <= 1}
               onClick={() => setPage((p) => p - 1)}>
-              {t("guide.auth.prev")}
+              {t("common.ui.previous")}
             </Button>
             <Button
               variant="outline"

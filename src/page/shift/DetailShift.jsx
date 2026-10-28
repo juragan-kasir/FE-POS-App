@@ -31,6 +31,7 @@ import PageHeader from "@/components/ui/PageHeader";
 import HorizontalScrollArea from "@/components/ui/HorizontalScrollArea";
 import { useLocations } from "@/queries/useLocations";
 import LoadErrorBanner from "@/components/ui/LoadErrorBanner";
+import { dateLocale } from "@/lib/locale";
 
 const statusBadge = (status, t) => {
   if (status === "active" || status === true || status === 1)
@@ -57,7 +58,7 @@ const statusBadge = (status, t) => {
 
 const fmtDate = (d, withTime = false) =>
   d
-    ? new Date(d).toLocaleDateString("id-ID", {
+    ? new Date(d).toLocaleDateString(dateLocale(), {
         day: "numeric",
         month: "long",
         year: "numeric",
@@ -81,7 +82,7 @@ const InfoRow = ({ icon: Icon, label, children, iconClass }) => (
 
 const fmtClock = (absenAt) =>
   absenAt
-    ? new Date(absenAt).toLocaleTimeString("id-ID", { hour: "2-digit", minute: "2-digit" })
+    ? new Date(absenAt).toLocaleTimeString(dateLocale(), { hour: "2-digit", minute: "2-digit" })
     : "-";
 
 const presenceBadge = ({ done, doneLabel, notDoneLabel }) =>
@@ -429,7 +430,7 @@ const DetailShift = () => {
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 mb-5">
           <div className="rounded-xl border border-border/60 bg-muted/30 px-4 py-3">
             <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
-              {t("guide.employee.s16b")}
+              {t("common.ui.totalEmployees")}
             </p>
             <p className="text-xl font-bold text-foreground mt-0.5">{counts.total}</p>
           </div>

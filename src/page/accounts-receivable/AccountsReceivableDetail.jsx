@@ -13,12 +13,34 @@ import DataTable from "@/components/ui/DataTable";
 import { formatCurrencyRupiah } from "@/utils/formatter-currency";
 import AbortController from "@/components/organism/abort-controller";
 import PageHeader from "@/components/ui/PageHeader";
+import i18next from "i18next";
+import { dateLocale } from "@/lib/locale";
 
 const STATUS_MAP = {
-  UNPAID: { label: "Belum Dibayar", color: "bg-yellow-100 text-yellow-800" },
-  PARTIAL: { label: "Sebagian Dibayar", color: "bg-blue-100 text-blue-800" },
-  PAID: { label: "Lunas", color: "bg-green-100 text-green-800" },
-  OVERDUE: { label: "Jatuh Tempo", color: "bg-red-100 text-red-800" }
+  UNPAID: {
+    get label() {
+      return i18next.t("page.accountsReceivable.list.status.unpaid");
+    },
+    color: "bg-yellow-100 text-yellow-800"
+  },
+  PARTIAL: {
+    get label() {
+      return i18next.t("page.accountsReceivable.ui.partiallyPaid");
+    },
+    color: "bg-blue-100 text-blue-800"
+  },
+  PAID: {
+    get label() {
+      return i18next.t("page.expense.list.statusPaid");
+    },
+    color: "bg-green-100 text-green-800"
+  },
+  OVERDUE: {
+    get label() {
+      return i18next.t("page.apDashboard.po.dueDate");
+    },
+    color: "bg-red-100 text-red-800"
+  }
 };
 
 const AccountsReceivableDetail = () => {
@@ -45,7 +67,7 @@ const AccountsReceivableDetail = () => {
     {
       header: t("page.accountsReceivable.detail.paymentTable.date"),
       render: (p) =>
-        new Date(p.paymentDate).toLocaleDateString("id-ID", {
+        new Date(p.paymentDate).toLocaleDateString(dateLocale(), {
           day: "numeric",
           month: "short",
           year: "numeric",
@@ -180,7 +202,9 @@ const AccountsReceivableDetail = () => {
                       {t("page.accountsReceivable.detail.field.tanggalInvoice")}
                     </span>
                     <span>
-                      {ar.invoiceDate ? new Date(ar.invoiceDate).toLocaleDateString("id-ID") : "-"}
+                      {ar.invoiceDate
+                        ? new Date(ar.invoiceDate).toLocaleDateString(dateLocale())
+                        : "-"}
                     </span>
                   </div>
                   <Separator />
@@ -189,7 +213,7 @@ const AccountsReceivableDetail = () => {
                       {t("page.accountsReceivable.detail.field.jatuhTempo")}
                     </span>
                     <span>
-                      {ar.dueDate ? new Date(ar.dueDate).toLocaleDateString("id-ID") : "-"}
+                      {ar.dueDate ? new Date(ar.dueDate).toLocaleDateString(dateLocale()) : "-"}
                     </span>
                   </div>
                   <Separator />

@@ -24,6 +24,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { SearchInput } from "@/components/ui/SearchInput";
 import { getIngredientCategoryById } from "@/services/ingredientCategory";
 import { formatCurrencyRupiah } from "@/utils/formatter-currency";
+import { dateLocale } from "@/lib/locale";
 
 const rupiah = (value) => formatCurrencyRupiah(Number(value) || 0);
 
@@ -113,7 +114,7 @@ const DetailIngredientCategory = () => {
 
   const formatDate = (d) =>
     d
-      ? new Date(d).toLocaleString("id-ID", {
+      ? new Date(d).toLocaleString(dateLocale(), {
           day: "numeric",
           month: "short",
           year: "numeric",
@@ -134,7 +135,7 @@ const DetailIngredientCategory = () => {
     {
       key: "lowStock",
       icon: AlertTriangle,
-      label: "Stok Menipis",
+      label: t("sidebar.lowStock"),
       value: lowStockCount,
       tone:
         lowStockCount > 0
@@ -145,7 +146,7 @@ const DetailIngredientCategory = () => {
     {
       key: "value",
       icon: Wallet,
-      label: "Estimasi Nilai Persediaan",
+      label: t("page.ingredientCategory.ui.estimatedInventoryValue"),
       value: rupiah(totalValue),
       tone: "text-emerald-600 bg-emerald-100 dark:text-emerald-400 dark:bg-emerald-900/30"
     }
@@ -406,7 +407,7 @@ const DetailIngredientCategory = () => {
                   </p>
                 </div>
                 <Button variant="success" size="sm" onClick={() => navigate("/add-ingredient")}>
-                  {t("guide.ingredient.s14d")}
+                  {t("common.ui.addIngredient")}
                 </Button>
               </div>
             ) : filteredIngredients.length === 0 ? (

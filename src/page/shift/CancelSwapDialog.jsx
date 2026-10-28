@@ -26,8 +26,8 @@ const CancelSwapDialog = ({ open, onOpenChange, swap, onSuccess }) => {
 
   const cancelMutation = useMutation(cancelShiftSwap, {
     onSuccess: (data) => {
-      toast.success("Pembatalan Berhasil", {
-        description: "Permintaan tukar shift telah dibatalkan."
+      toast.success(t("page.shift.ui.cancelled"), {
+        description: t("page.shift.ui.theShiftSwapRequestWas")
       });
       queryClient.invalidateQueries({
         predicate: isSwapQuery,
@@ -37,7 +37,7 @@ const CancelSwapDialog = ({ open, onOpenChange, swap, onSuccess }) => {
       onOpenChange(false);
     },
     onError: (err) => {
-      toast.error("Gagal Membatalkan", {
+      toast.error(t("page.shift.ui.cancellationFailed"), {
         description: err?.response?.data?.message || err.message
       });
     }

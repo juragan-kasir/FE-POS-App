@@ -25,30 +25,44 @@ import { Combobox } from "@/components/ui/combobox";
 import StoreFilter from "@/components/ui/StoreFilter";
 import PageHeader from "@/components/ui/PageHeader";
 import { useLocations } from "@/queries/useLocations";
+import i18next from "i18next";
+import { dateLocale } from "@/lib/locale";
 
 const statusCfg = {
   sent: {
-    label: "Sent",
+    get label() {
+      return i18next.t("page.stockTransfer.ui.sent");
+    },
     class: "bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400"
   },
   received: {
-    label: "Received",
+    get label() {
+      return i18next.t("page.purchaseOrder.status.received");
+    },
     class: "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400"
   },
   cancelled: {
-    label: "Cancelled",
+    get label() {
+      return i18next.t("page.purchaseOrder.status.cancelled");
+    },
     class: "bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400"
   },
   pending: {
-    label: "Pending",
+    get label() {
+      return i18next.t("page.expense.list.pending");
+    },
     class: "bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400"
   },
   approved: {
-    label: "Approved",
+    get label() {
+      return i18next.t("page.expense.list.approved");
+    },
     class: "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400"
   },
   rejected: {
-    label: "Rejected",
+    get label() {
+      return i18next.t("page.expense.list.rejected");
+    },
     class: "bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400"
   }
 };
@@ -157,7 +171,9 @@ const StockTransferList = () => {
       header: t("page.stockTransfer.list.header.expectedArrival"),
       render: (item) => (
         <span className="text-xs font-mono text-muted-foreground">
-          {item.expectedArrival ? new Date(item.expectedArrival).toLocaleDateString("id-ID") : "-"}
+          {item.expectedArrival
+            ? new Date(item.expectedArrival).toLocaleDateString(dateLocale())
+            : "-"}
         </span>
       )
     },

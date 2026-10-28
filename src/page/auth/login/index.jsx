@@ -65,9 +65,9 @@ const LoginPage = () => {
   useEffect(() => {
     if (!sessionNotice || !ready) return;
     if (sessionNotice === SESSION_END_REASON.EXPIRED) {
-      toast.error("Sesi Berakhir", {
+      toast.error(t("page.auth.ui.sessionEnded"), {
         id: "session-end-notice",
-        description: "Sesi login Anda telah berakhir. Silakan login kembali untuk melanjutkan."
+        description: t("page.auth.ui.yourSessionHasEndedPlease")
       });
     } else if (sessionNotice === SESSION_END_REASON.LOGOUT) {
       toast.success(t("header.logoutSuccessTitle"), { id: "session-end-notice" });

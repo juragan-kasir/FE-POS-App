@@ -40,6 +40,7 @@ import { useTranslation } from "react-i18next";
 import { canAccess } from "@/utils/permission";
 import TableActions from "@/components/ui/TableActions";
 import { useLocations } from "@/queries/useLocations";
+import { dateLocale } from "@/lib/locale";
 
 const defaultLevel = {
   bg: "bg-muted/30 text-muted-foreground border border-border",
@@ -283,7 +284,7 @@ const MemberList = () => {
       render: (item) => (
         <span className="text-sm text-muted-foreground">
           {item.createdAt
-            ? new Date(item.createdAt).toLocaleString("id-ID", {
+            ? new Date(item.createdAt).toLocaleString(dateLocale(), {
                 day: "numeric",
                 month: "short",
                 year: "numeric",
@@ -307,7 +308,7 @@ const MemberList = () => {
       render: (item) => (
         <span className="text-sm text-muted-foreground">
           {item.updatedAt
-            ? new Date(item.updatedAt).toLocaleString("id-ID", {
+            ? new Date(item.updatedAt).toLocaleString(dateLocale(), {
                 day: "numeric",
                 month: "short",
                 year: "numeric",

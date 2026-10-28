@@ -59,6 +59,7 @@ import {
   DialogFooter
 } from "@/components/ui/dialog";
 import { useLocations } from "@/queries/useLocations";
+import { dateLocale } from "@/lib/locale";
 
 const PROMO_TYPE_LABELS = {
   bogo: "BOGO",
@@ -278,7 +279,7 @@ const DiscountList = () => {
   const formatDate = (dateStr) => {
     if (!dateStr) return "-";
     const d = new Date(dateStr);
-    return d.toLocaleDateString("id-ID", { day: "numeric", month: "short", year: "numeric" });
+    return d.toLocaleDateString(dateLocale(), { day: "numeric", month: "short", year: "numeric" });
   };
 
   const columns = [
@@ -832,14 +833,14 @@ const DiscountList = () => {
         description={t("page.discount.list.extend.confirmDesc", {
           name: extendTarget?.name || "",
           startDate: extendStartDate
-            ? extendStartDate.toLocaleDateString("id-ID", {
+            ? extendStartDate.toLocaleDateString(dateLocale(), {
                 day: "numeric",
                 month: "long",
                 year: "numeric"
               })
             : "",
           endDate: extendEndDate
-            ? extendEndDate.toLocaleDateString("id-ID", {
+            ? extendEndDate.toLocaleDateString(dateLocale(), {
                 day: "numeric",
                 month: "long",
                 year: "numeric"

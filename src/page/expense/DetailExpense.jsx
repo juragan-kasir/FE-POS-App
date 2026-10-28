@@ -43,6 +43,7 @@ import Modal from "@/components/organism/modal";
 import PageHeader from "@/components/ui/PageHeader";
 import { isSalaryCategoryName } from "@/lib/salary-category";
 import { FIELD_LIMITS } from "@/constants/fieldLimits";
+import { dateLocale } from "@/lib/locale";
 
 const statusBadge = {
   draft: "bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400",
@@ -60,7 +61,7 @@ const getStatusLabel = (t) => ({
 
 const fmtDate = (date) =>
   date
-    ? new Date(date).toLocaleDateString("id-ID", {
+    ? new Date(date).toLocaleDateString(dateLocale(), {
         year: "numeric",
         month: "long",
         day: "numeric",

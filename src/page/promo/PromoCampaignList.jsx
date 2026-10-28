@@ -38,24 +38,90 @@ import TableToolbar from "@/components/ui/TableToolbar";
 import { Combobox } from "@/components/ui/combobox";
 import Modal from "@/components/organism/modal";
 import { canAccess } from "@/utils/permission";
+import i18next from "i18next";
 
 const statusOptions = [
-  { value: "all", label: "All" },
-  { value: "draft", label: "Draft" },
-  { value: "active", label: "Active" },
-  { value: "paused", label: "Paused" },
-  { value: "expired", label: "Expired" },
-  { value: "cancelled", label: "Cancelled" }
+  {
+    value: "all",
+    get label() {
+      return i18next.t("common.all");
+    }
+  },
+  {
+    value: "draft",
+    get label() {
+      return i18next.t("common.draft");
+    }
+  },
+  {
+    value: "active",
+    get label() {
+      return i18next.t("page.location.map.active");
+    }
+  },
+  {
+    value: "paused",
+    get label() {
+      return i18next.t("page.promo.ui.paused");
+    }
+  },
+  {
+    value: "expired",
+    get label() {
+      return i18next.t("page.bundle.list.expired");
+    }
+  },
+  {
+    value: "cancelled",
+    get label() {
+      return i18next.t("page.purchaseOrder.status.cancelled");
+    }
+  }
 ];
 
 const typeOptions = [
-  { value: "all", label: "All Types" },
-  { value: "happy_hour", label: "Happy Hour" },
-  { value: "birthday", label: "Birthday" },
-  { value: "buy_x_get_y", label: "Buy X Get Y" },
-  { value: "spend_get", label: "Spend & Get" },
-  { value: "manual", label: "Manual" },
-  { value: "automatic", label: "Automatic" }
+  {
+    value: "all",
+    get label() {
+      return i18next.t("page.stockHistory.filter.allTypes");
+    }
+  },
+  {
+    value: "happy_hour",
+    get label() {
+      return i18next.t("page.discount.form.promoType.happyHour");
+    }
+  },
+  {
+    value: "birthday",
+    get label() {
+      return i18next.t("page.promo.ui.birthday");
+    }
+  },
+  {
+    value: "buy_x_get_y",
+    get label() {
+      return i18next.t("page.promo.ui.buyXGetY");
+    }
+  },
+  {
+    value: "spend_get",
+    get label() {
+      return i18next.t("page.promo.ui.spendGet");
+    }
+  },
+  {
+    value: "manual",
+    get label() {
+      return i18next.t("page.backup.triggerManual");
+    }
+  },
+  {
+    value: "automatic",
+    get label() {
+      return i18next.t("page.recipeHpp.status.auto");
+    }
+  }
 ];
 
 const statusBadge = (status) => {

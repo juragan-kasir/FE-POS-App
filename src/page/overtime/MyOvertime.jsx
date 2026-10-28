@@ -20,19 +20,20 @@ import { Loading } from "@/components/ui/loading";
 import Modal from "@/components/organism/modal";
 import { useLocations } from "@/queries/useLocations";
 import { FIELD_LIMITS } from "@/constants/fieldLimits";
+import { dateLocale } from "@/lib/locale";
 
 const fmtDate = (d) => {
   if (!d) return "-";
   const date = new Date(d);
   if (isNaN(date.getTime())) return "-";
-  return date.toLocaleDateString("id-ID", { day: "numeric", month: "short", year: "numeric" });
+  return date.toLocaleDateString(dateLocale(), { day: "numeric", month: "short", year: "numeric" });
 };
 
 const fmtDateTime = (d) => {
   if (!d) return "-";
   const date = new Date(d);
   if (isNaN(date.getTime())) return "-";
-  return date.toLocaleDateString("id-ID", {
+  return date.toLocaleDateString(dateLocale(), {
     day: "numeric",
     month: "short",
     year: "numeric",
@@ -161,23 +162,25 @@ const MyOvertime = () => {
 
   const createMutation = useMutation(createOvertime, {
     onSuccess: (res) => {
-      toast.success("Berhasil", { description: res?.message || "Pengajuan lembur dikirim." });
+      toast.success(t("common.success"), {
+        description: res?.message || "Pengajuan lembur dikirim."
+      });
       setForm((f) => ({ ...f, start_time: "", end_time: "", note: "" }));
       queryClient.invalidateQueries(["my-overtime"]);
     },
     onError: (err) => {
-      toast.error("Gagal", { description: err?.response?.data?.message || err.message });
+      toast.error(t("common.error"), { description: err?.response?.data?.message || err.message });
     }
   });
 
   const cancelMutation = useMutation(cancelOvertime, {
     onSuccess: (res) => {
-      toast.success("Berhasil", { description: res?.message || "Pengajuan dibatalkan." });
+      toast.success(t("common.success"), { description: res?.message || "Pengajuan dibatalkan." });
       setCancelTarget(null);
       queryClient.invalidateQueries(["my-overtime"]);
     },
     onError: (err) => {
-      toast.error("Gagal", { description: err?.response?.data?.message || err.message });
+      toast.error(t("common.error"), { description: err?.response?.data?.message || err.message });
     }
   });
 
@@ -233,7 +236,7 @@ const MyOvertime = () => {
           <Combobox
             id="my-overtime-store"
             options={[
-              { value: "all", label: "Semua Toko" },
+              { value: "all", label: t("header.allStore") },
               ...locations.map((l) => ({ value: String(l.id), label: l.name }))
             ]}
             value={storeFilter}
@@ -469,7 +472,7 @@ const MyOvertime = () => {
                   size="sm"
                   disabled={page <= 1}
                   onClick={() => setPage((p) => p - 1)}>
-                  {t("guide.auth.prev")}
+                  {t("common.ui.previous")}
                 </Button>
                 <Button
                   variant="outline"

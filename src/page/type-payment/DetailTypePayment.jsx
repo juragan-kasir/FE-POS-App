@@ -10,13 +10,14 @@ import { Card } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { TipsCard } from "@/components/ui/tips-card";
 import PageHeader from "@/components/ui/PageHeader";
+import { dateLocale } from "@/lib/locale";
 
 const formatDate = (dateStr) => {
   if (!dateStr) return "-";
   try {
     const d = new Date(dateStr);
     if (isNaN(d.getTime())) return "-";
-    return d.toLocaleDateString("id-ID", {
+    return d.toLocaleDateString(dateLocale(), {
       day: "numeric",
       month: "long",
       year: "numeric",

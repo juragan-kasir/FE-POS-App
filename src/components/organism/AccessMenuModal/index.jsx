@@ -241,7 +241,7 @@ export default function AccessMenuModal({
 
         <div className="flex items-center justify-between py-2">
           <p className="text-xs text-muted-foreground">
-            Centang aksi yang ingin diberikan untuk setiap menu.
+            {t("component.accessMenuModal.ui.tickTheActionsToGrant")}
           </p>
           <label className="flex items-center gap-2 cursor-pointer select-none group">
             <input
@@ -251,7 +251,7 @@ export default function AccessMenuModal({
               className="w-4 h-4 rounded border-border text-primary focus:ring-primary"
             />
             <span className="text-xs font-semibold text-muted-foreground group-hover:text-primary transition-colors">
-              Pilih Semua
+              {t("page.role.edit.selectAll")}
             </span>
           </label>
         </div>
@@ -289,7 +289,7 @@ export default function AccessMenuModal({
                       <thead>
                         <tr className="bg-muted/10">
                           <th className="px-4 py-2 text-xs font-bold text-foreground uppercase tracking-wider w-48 bg-slate-100 dark:bg-slate-800">
-                            Menu
+                            {t("page.cashier.menu")}
                           </th>
                           {visibleActions.map((action) => (
                             <th
@@ -361,11 +361,11 @@ export default function AccessMenuModal({
 
         <DialogFooter>
           <Button type="button" variant="danger" onClick={() => onOpenChange(false)}>
-            Batal
+            {t("common.cancel")}
           </Button>
           <Button variant="success" type="button" onClick={handleSave} disabled={saving}>
             {saving && <Loader className="mr-2 h-4 w-4 animate-spin" />}
-            Simpan Izin
+            {t("component.accessMenuModal.ui.savePermissions")}
           </Button>
         </DialogFooter>
       </DialogContent>

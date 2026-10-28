@@ -38,6 +38,7 @@ import { isInventoryItemMode } from "@/lib/inventory-mode";
 import { costRatios, effectiveHpp, pickRecipeCosting } from "@/lib/recipe-costing";
 import ProductPreview from "./ProductPreview";
 import { safeGet } from "@/lib/safe-lookup";
+import { dateLocale } from "@/lib/locale";
 
 const formatPrice = (value) => {
   if (value == null || isNaN(value)) return "0";
@@ -62,7 +63,7 @@ const ReviewStars = ({ value, size = 14 }) => {
 
 const formatReviewTime = (value) =>
   value
-    ? new Date(value).toLocaleDateString("id-ID", {
+    ? new Date(value).toLocaleDateString(dateLocale(), {
         year: "numeric",
         month: "short",
         day: "numeric",
@@ -73,7 +74,7 @@ const formatReviewTime = (value) =>
 
 const formatDate = (value) =>
   value
-    ? new Date(value).toLocaleDateString("id-ID", {
+    ? new Date(value).toLocaleDateString(dateLocale(), {
         year: "numeric",
         month: "long",
         day: "numeric",

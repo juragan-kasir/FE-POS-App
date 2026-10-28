@@ -26,6 +26,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import AbortController from "@/components/organism/abort-controller";
 import NoStore from "@/components/ui/NoStore";
 import { useLocations } from "@/queries/useLocations";
+import { dateLocale } from "@/lib/locale";
 
 const formatIDR = (num) => {
   if (num == null || isNaN(num)) return "Rp 0";
@@ -235,7 +236,7 @@ const ReportView = ({ data, reportType }) => {
             label={t("page.cashRegister.xz.openedAt")}
             value={
               data.register?.openedAt
-                ? new Date(data.register.openedAt).toLocaleString("id-ID", {
+                ? new Date(data.register.openedAt).toLocaleString(dateLocale(), {
                     day: "2-digit",
                     month: "short",
                     hour: "2-digit",
@@ -247,7 +248,7 @@ const ReportView = ({ data, reportType }) => {
           {data.register?.closedAt && (
             <Row
               label={t("page.cashRegister.xz.closedAt")}
-              value={new Date(data.register.closedAt).toLocaleString("id-ID", {
+              value={new Date(data.register.closedAt).toLocaleString(dateLocale(), {
                 day: "2-digit",
                 month: "short",
                 hour: "2-digit",
@@ -859,7 +860,7 @@ const XZReport = () => {
                         <option key={r.id} value={r.id}>
                           #{r.id} · {r.userData?.fullName || "-"} ·{" "}
                           {r.openedAt && !isNaN(new Date(r.openedAt).getTime())
-                            ? new Date(r.openedAt).toLocaleDateString("id-ID", {
+                            ? new Date(r.openedAt).toLocaleDateString(dateLocale(), {
                                 day: "2-digit",
                                 month: "short",
                                 year: "numeric"

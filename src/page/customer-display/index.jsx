@@ -3,6 +3,7 @@ import { useSearchParams } from "react-router-dom";
 import { Store, ShoppingBag, Clock, QrCode } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { axiosInstance } from "@/services";
+import { dateLocale } from "@/lib/locale";
 
 const getStatusLabel = (t) => ({
   pending: t("page.customerDisplay.statusPending"),
@@ -100,7 +101,7 @@ const CustomerDisplay = () => {
                   <p className="text-xs text-gray-500">
                     <Clock size={12} className="inline mr-1" />
                     {order.createdAt && !isNaN(new Date(order.createdAt).getTime())
-                      ? new Date(order.createdAt).toLocaleTimeString("id-ID")
+                      ? new Date(order.createdAt).toLocaleTimeString(dateLocale())
                       : ""}
                   </p>
                 </div>

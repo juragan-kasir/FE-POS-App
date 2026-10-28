@@ -34,6 +34,7 @@ import StatCard from "@/components/ui/StatCard";
 import NoStore from "@/components/ui/NoStore";
 import { roleTypeLabelKey } from "./rolePermissions";
 import { useLocations } from "@/queries/useLocations";
+import { dateLocale } from "@/lib/locale";
 
 const RoleManagement = () => {
   const { t } = useTranslation();
@@ -307,7 +308,7 @@ const RoleManagement = () => {
                       render: (row) => (
                         <span className="text-sm font-mono text-muted-foreground">
                           {row.createdAt
-                            ? new Date(row.createdAt).toLocaleDateString("id-ID", {
+                            ? new Date(row.createdAt).toLocaleDateString(dateLocale(), {
                                 day: "numeric",
                                 month: "short",
                                 year: "numeric",
@@ -323,7 +324,7 @@ const RoleManagement = () => {
                       render: (row) => (
                         <span className="text-sm font-mono text-muted-foreground">
                           {row.updatedAt
-                            ? new Date(row.updatedAt).toLocaleDateString("id-ID", {
+                            ? new Date(row.updatedAt).toLocaleDateString(dateLocale(), {
                                 day: "numeric",
                                 month: "short",
                                 year: "numeric",

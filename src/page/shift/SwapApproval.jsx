@@ -23,12 +23,13 @@ import { Loading } from "@/components/ui/loading";
 import Modal from "@/components/organism/modal";
 import PageHeader from "@/components/ui/PageHeader";
 import { useTranslation } from "react-i18next";
+import { dateLocale } from "@/lib/locale";
 
 const fmt = (d) => {
   if (!d) return "-";
   const date = new Date(d);
   if (isNaN(date.getTime())) return "-";
-  return date.toLocaleDateString("id-ID", { day: "numeric", month: "short", year: "numeric" });
+  return date.toLocaleDateString(dateLocale(), { day: "numeric", month: "short", year: "numeric" });
 };
 
 const fmtTime = (t) => (t ? String(t).slice(0, 5) : "??:??");
@@ -37,7 +38,7 @@ const fmtDateTime = (d) => {
   if (!d) return "-";
   const date = new Date(d);
   if (isNaN(date.getTime())) return "-";
-  return date.toLocaleDateString("id-ID", {
+  return date.toLocaleDateString(dateLocale(), {
     day: "numeric",
     month: "short",
     year: "numeric",
@@ -280,7 +281,7 @@ const SwapApproval = ({ user, store, locations }) => {
         return { snapshot };
       },
       onSuccess: (_res, vars) => {
-        toast.success("Berhasil", {
+        toast.success(t("common.success"), {
           description:
             vars.decision === "approved"
               ? "Permintaan ubah jadwal disetujui."
@@ -293,7 +294,9 @@ const SwapApproval = ({ user, store, locations }) => {
         (ctx?.snapshot || []).forEach(([key, value]) => {
           queryClient.setQueryData(key, value);
         });
-        toast.error("Gagal", { description: err?.response?.data?.message || err.message });
+        toast.error(t("common.error"), {
+          description: err?.response?.data?.message || err.message
+        });
       },
       onSettled: () => {
         setDecisionTarget(null);
@@ -333,8 +336,8 @@ const SwapApproval = ({ user, store, locations }) => {
             href: "/dashboard-super-admin",
             i18nKey: "breadcrumb.home"
           },
-          { label: "Shift" },
-          { label: "Swap Approval" }
+          { label: t("sidebar.shift") },
+          { label: t("page.shift.list.tabSwap") }
         ]}
         title={t("page.shift.list.tabSwap")}
         description={t("page.shift.ui.manageShiftSwapRequests")}
@@ -359,11 +362,11 @@ const SwapApproval = ({ user, store, locations }) => {
             <Combobox
               id="swap-approval-status"
               options={[
-                { value: "pending", label: "Menunggu" },
-                { value: "approved", label: "Disetujui" },
-                { value: "rejected", label: "Ditolak" },
-                { value: "expired", label: "Kedaluwarsa" },
-                { value: "", label: "Semua" }
+                { value: "pending", label: t("common.pending") },
+                { value: "approved", label: t("businessTrip.status.approved") },
+                { value: "rejected", label: t("businessTrip.status.rejected") },
+                { value: "expired", label: t("page.report.export.status.expired") },
+                { value: "", label: t("common.all") }
               ]}
               value={status}
               onChange={(v) => {
@@ -544,7 +547,7 @@ const SwapApproval = ({ user, store, locations }) => {
               size="sm"
               disabled={page <= 1}
               onClick={() => setPage((p) => p - 1)}>
-              {t("guide.auth.prev")}
+              {t("common.ui.previous")}
             </Button>
             <Button
               variant="outline"

@@ -320,7 +320,9 @@ const NavigationModal = ({ open, onOpenChange, categories = [], onNavigate }) =>
               pilih
             </span>
           </div>
-          <span>{filtered.length} menu tersedia</span>
+          <span>
+            {filtered.length} {t("component.navigationModal.ui.menusAvailable")}
+          </span>
         </div>
       </DialogContent>
     </Dialog>

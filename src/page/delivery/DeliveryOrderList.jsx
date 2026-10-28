@@ -21,23 +21,79 @@ import Modal from "@/components/organism/modal";
 import { canAccess } from "@/utils/permission";
 import { FIELD_LIMITS } from "@/constants/fieldLimits";
 import { Textarea } from "@/components/ui/textarea";
+import i18next from "i18next";
 
 const statusOptions = [
-  { value: "all", label: "All" },
-  { value: "pending", label: "Pending" },
-  { value: "assigned", label: "Assigned" },
-  { value: "picked_up", label: "Picked Up" },
-  { value: "in_transit", label: "In Transit" },
-  { value: "delivered", label: "Delivered" },
-  { value: "cancelled", label: "Cancelled" }
+  {
+    value: "all",
+    get label() {
+      return i18next.t("common.all");
+    }
+  },
+  {
+    value: "pending",
+    get label() {
+      return i18next.t("page.expense.list.pending");
+    }
+  },
+  {
+    value: "assigned",
+    get label() {
+      return i18next.t("page.delivery.stats.assigned");
+    }
+  },
+  {
+    value: "picked_up",
+    get label() {
+      return i18next.t("page.delivery.status.pickedUp");
+    }
+  },
+  {
+    value: "in_transit",
+    get label() {
+      return i18next.t("page.delivery.stats.inTransit");
+    }
+  },
+  {
+    value: "delivered",
+    get label() {
+      return i18next.t("page.delivery.stats.delivered");
+    }
+  },
+  {
+    value: "cancelled",
+    get label() {
+      return i18next.t("page.purchaseOrder.status.cancelled");
+    }
+  }
 ];
 
 const sourceOptions = [
-  { value: "all", label: "All" },
+  {
+    value: "all",
+    get label() {
+      return i18next.t("common.all");
+    }
+  },
   { value: "pos", label: "POS" },
-  { value: "qr", label: "QR Order" },
-  { value: "manual", label: "Manual" },
-  { value: "online", label: "Online" }
+  {
+    value: "qr",
+    get label() {
+      return i18next.t("navigation.qrOrder");
+    }
+  },
+  {
+    value: "manual",
+    get label() {
+      return i18next.t("page.backup.triggerManual");
+    }
+  },
+  {
+    value: "online",
+    get label() {
+      return i18next.t("page.delivery.source.online");
+    }
+  }
 ];
 
 const statusBadge = (status) => {
