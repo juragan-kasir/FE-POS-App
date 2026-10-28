@@ -373,11 +373,17 @@ const CartPanel = ({
                 {onParkCart && (
                   <button
                     type="button"
+                    data-shortcut="park"
+                    aria-keyshortcuts="F8"
+                    title="F8"
                     onClick={onParkCart}
                     disabled={isParkingCart}
                     className="flex items-center gap-1 text-xs font-medium text-muted-foreground hover:text-primary transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
                     <Archive size={14} />
                     {t("page.cashier.parkCart", "Park Cart")}
+                    <kbd className="ml-1 rounded border border-border px-1 font-mono text-xs leading-4">
+                      F8
+                    </kbd>
                   </button>
                 )}
                 {onClearCart && (
@@ -486,6 +492,8 @@ const CartPanel = ({
               </div>
             )}
             <Button
+              data-shortcut="checkout"
+              aria-keyshortcuts="F4"
               onClick={onCheckout}
               disabled={isLoading || isEmpty || taxUnavailable}
               className="w-full h-11 rounded-xl font-semibold text-sm relative overflow-hidden group/btn">
@@ -493,6 +501,9 @@ const CartPanel = ({
               <span className="relative flex items-center justify-center gap-2">
                 <DollarSign size={16} />
                 {t("page.cashier.checkout")}
+                <kbd className="rounded border border-primary-foreground/40 px-1 font-mono text-xs leading-4 opacity-80">
+                  F4
+                </kbd>
               </span>
             </Button>
           </div>
