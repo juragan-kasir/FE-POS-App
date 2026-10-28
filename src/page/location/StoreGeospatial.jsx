@@ -6,12 +6,11 @@ const LEAFLET_Z_STYLES = `
 import { safeGet } from "@/lib/safe-lookup";
 import React, { useState, useMemo } from "react";
 import { useQuery } from "react-query";
-import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
-import { ArrowLeft, Store, MapPin, Navigation, Building2 } from "lucide-react";
+import { Store, MapPin, Navigation, Building2 } from "lucide-react";
 import { Combobox } from "@/components/ui/combobox";
 import { getAllLocationTable } from "@/services/location";
 import { Button } from "@/components/ui/button";
@@ -19,6 +18,7 @@ import { Card } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import AbortController from "@/components/organism/abort-controller";
 import { useLocations } from "@/queries/useLocations";
+import PageHeader from "@/components/ui/PageHeader";
 
 // const item = {
 //   hidden: { opacity: 0, y: 20 },
@@ -73,12 +73,11 @@ const categoryColors = {
   "Main Branch": "bg-purple-100 text-purple-800 dark:bg-purple-900/30 dark:text-purple-400",
   Branch: "bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400",
   Warehouse: "bg-amber-100 text-amber-800 dark:bg-amber-900/30 dark:text-amber-400",
-  Office: "bg-gray-100 text-gray-800 dark:bg-gray-900/30 dark:text-gray-400"
+  Office: "bg-muted text-foreground"
 };
 
 const StoreGeospatial = () => {
   const { t } = useTranslation();
-  const navigate = useNavigate();
   const [statusFilter, setStatusFilter] = useState("all");
   const [categoryFilter, setCategoryFilter] = useState("all");
 
@@ -137,25 +136,16 @@ const StoreGeospatial = () => {
 
   return (
     <div className="space-y-6">
-      <nav className="flex items-center gap-2 text-sm text-muted-foreground">
-        <button
-          onClick={() => navigate("/location-list")}
-          className="font-medium hover:text-primary transition-colors flex items-center gap-1">
-          <ArrowLeft size={16} />
-          {t("page.location.list.title")}
-        </button>
-        <span className="text-xs">/</span>
-        <span className="font-semibold text-foreground">{t("page.location.list.title")}</span>
-      </nav>
-
-      <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
-        <div>
-          <h1 className="text-2xl font-bold text-foreground">{t("page.location.list.title")}</h1>
-          <p className="text-sm text-muted-foreground mt-1">
-            {t("page.location.list.description")}
-          </p>
-        </div>
-      </div>
+      <PageHeader
+        breadcrumbs={[
+          { label: t("breadcrumb.home"), href: "/dashboard-super-admin" },
+          { label: t("page.location.list.title"), href: "/location-list" },
+          { label: t("sidebar.storeGeospatial") }
+        ]}
+        title={t("sidebar.storeGeospatial")}
+        description={t("guide.page.storeGeospatial.desc")}
+        backLink="/location-list"
+      />
 
       <Card className="p-4">
         {isLoading ? (
@@ -280,7 +270,7 @@ const StoreGeospatial = () => {
                           <div className="flex items-center gap-1.5">
                             <Building2 size={12} className="text-muted-foreground shrink-0" />
                             <span
-                              className={`text-[10px] font-semibold px-1.5 py-0.5 rounded ${
+                              className={`text-xs font-semibold px-1.5 py-0.5 rounded ${
                                 safeGet(categoryColors, category) ||
                                 "bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400"
                               }`}>
@@ -289,7 +279,7 @@ const StoreGeospatial = () => {
                           </div>
                           <div className="flex items-center gap-1.5">
                             <span
-                              className={`text-[10px] font-bold px-1.5 py-0.5 rounded-full ${
+                              className={`text-xs font-bold px-1.5 py-0.5 rounded-full ${
                                 isActive
                                   ? "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400"
                                   : "bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400"
@@ -297,7 +287,7 @@ const StoreGeospatial = () => {
                               {isActive ? t("common.active") : t("common.inactive")}
                             </span>
                           </div>
-                          <p className="text-[10px] text-muted-foreground font-mono">
+                          <p className="text-xs text-muted-foreground font-mono">
                             {lat.toFixed(6)}, {lng.toFixed(6)}
                           </p>
                         </div>
@@ -359,7 +349,7 @@ const StoreGeospatial = () => {
             </div>
             <div className="flex gap-2 ml-4">
               {Object.entries(categoryColors).map(([cat, cls]) => (
-                <span key={cat} className={`text-[10px] font-semibold px-2 py-0.5 rounded ${cls}`}>
+                <span key={cat} className={`text-xs font-semibold px-2 py-0.5 rounded ${cls}`}>
                   {cat}
                 </span>
               ))}

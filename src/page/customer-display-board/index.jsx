@@ -15,6 +15,7 @@ import {
 import ThankYouModal from "./ThankYouModal";
 import QrisPaymentModal from "./QrisPaymentModal";
 import { useLocations } from "@/queries/useLocations";
+import { Button } from "@/components/ui/button";
 
 const EVENT_RECENCY_MS = 30000;
 
@@ -68,7 +69,10 @@ const CustomerDisplayBoard = () => {
   const [thankYouEvent, setThankYouEvent] = useState(null);
   const [qrisEvent, setQrisEvent] = useState(null);
 
-  const { data: locsData } = useLocations("active", { enabled: !!storeId, retry: 1 });
+  const { data: locsData, isLoading: storeLoading } = useLocations("active", {
+    enabled: !!storeId,
+    retry: 1
+  });
   const locationList = locsData?.data || locsData || [];
   const storeName = locationList.find((l) => storeIdsEqual(l.id, storeId))?.name || "";
 
@@ -173,7 +177,11 @@ const CustomerDisplayBoard = () => {
               <div className="flex items-center gap-2 flex-wrap">
                 <p className="text-sm text-muted-foreground flex items-center gap-1.5">
                   <Store size={13} />
-                  {storeName || t("page.customerDisplayBoard.store")}
+                  {storeLoading ? (
+                    <span className="inline-block h-4 w-32 animate-pulse rounded-md bg-muted align-middle" />
+                  ) : (
+                    storeName || t("page.customerDisplayBoard.store")
+                  )}
                 </p>
                 {tableName && (
                   <span className="inline-flex items-center gap-1.5 rounded-full bg-primary/10 text-primary px-3 py-0.5 text-sm font-bold">
@@ -193,19 +201,23 @@ const CustomerDisplayBoard = () => {
                 {totalItems}
               </p>
             </div>
-            <button
+            <Button
+              variant="outline"
+              size="icon"
               onClick={toggleTheme}
               aria-label={t("header.toggleTheme")}
-              className="p-2.5 rounded-xl border border-border bg-card hover:bg-muted transition-colors">
+              className="rounded-xl">
               <Sun size={18} className="hidden dark:block" />
               <Moon size={18} className="block dark:hidden" />
-            </button>
-            <button
+            </Button>
+            <Button
+              variant="outline"
+              size="icon"
               onClick={toggleFullscreen}
-              aria-label="Toggle fullscreen"
-              className="p-2.5 rounded-xl border border-border bg-card hover:bg-muted transition-colors">
+              aria-label={t("page.customerDisplayBoard.ui.toggleFullscreen")}
+              className="rounded-xl">
               {isFullscreen ? <Minimize size={18} /> : <Maximize size={18} />}
-            </button>
+            </Button>
           </div>
         </div>
       </header>

@@ -35,6 +35,8 @@ const GREETINGS = {
   }
 };
 
+export const FAQ_CHAT_OPEN = "faq-chat:open";
+
 function FaqChat() {
   const [open, setOpen] = useState(false);
   const [mode, setMode] = useState(MODE.FAQ);
@@ -42,6 +44,14 @@ function FaqChat() {
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
   const scrollRef = useRef(null);
+
+  // Other screens (e.g. the Support page's "Start chat") open the chat with
+  // window.dispatchEvent(new Event(FAQ_CHAT_OPEN)).
+  useEffect(() => {
+    const openChat = () => setOpen(true);
+    window.addEventListener(FAQ_CHAT_OPEN, openChat);
+    return () => window.removeEventListener(FAQ_CHAT_OPEN, openChat);
+  }, []);
 
   // auto-scroll ke bawah pas message baru
   useEffect(() => {
@@ -158,7 +168,7 @@ function FaqChat() {
                   <h2 className="font-semibold text-sm text-foreground">
                     {mode === MODE.AI ? "AI Analisa" : "FAQ Chat"}
                   </h2>
-                  <p className="text-[11px] text-muted-foreground">
+                  <p className="text-xs text-muted-foreground">
                     {mode === MODE.AI
                       ? "Tanya AI soal bisnis toko"
                       : "Tanya seputar penggunaan POS"}

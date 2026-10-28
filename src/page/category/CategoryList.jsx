@@ -218,18 +218,18 @@ const CategoryList = () => {
                 {cat.value && (
                   <span
                     title={t("page.category.value")}
-                    className="hidden xl:inline-flex text-[10px] font-mono px-1.5 py-0.5 rounded bg-muted text-muted-foreground border border-border/60 shrink-0">
+                    className="hidden xl:inline-flex text-xs font-mono px-1.5 py-0.5 rounded bg-muted text-muted-foreground border border-border/60 shrink-0">
                     {cat.value}
                   </span>
                 )}
               </span>
               {description && (
-                <span className="text-[11px] text-muted-foreground truncate max-w-[220px]">
+                <span className="text-xs text-muted-foreground truncate max-w-[220px]">
                   {description}
                 </span>
               )}
               {!description && parent && (
-                <span className="text-[11px] text-muted-foreground truncate max-w-[220px]">
+                <span className="text-xs text-muted-foreground truncate max-w-[220px]">
                   ↳ {parent.name}
                 </span>
               )}
@@ -254,13 +254,13 @@ const CategoryList = () => {
             {shown.map((s) => (
               <span
                 key={s.id}
-                className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-medium border border-border bg-muted/50 text-foreground/80">
+                className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium border border-border bg-muted/50 text-foreground/80">
                 <Store size={14} className="text-muted-foreground" />
                 {s.name || `Store #${s.id}`}
               </span>
             ))}
             {stores.length > 2 && (
-              <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-semibold bg-primary/10 text-primary border border-primary/20">
+              <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold bg-primary/10 text-primary border border-primary/20">
                 +{stores.length - 2}
               </span>
             )}
@@ -280,7 +280,7 @@ const CategoryList = () => {
                 : "bg-muted text-muted-foreground border border-border"
             }`}>
             <Package size={12} />
-            {count} Item
+            {count} {t("page.invoice.item")}
           </span>
         );
       }
@@ -319,7 +319,7 @@ const CategoryList = () => {
       header: t("common.createdBy"),
       render: (cat) => (
         <div className="flex items-center gap-2">
-          <div className="w-7 h-7 rounded-full bg-primary/10 text-primary flex items-center justify-center text-[10px] font-bold shrink-0">
+          <div className="w-7 h-7 rounded-full bg-primary/10 text-primary flex items-center justify-center text-xs font-bold shrink-0">
             {(cat.createdByUser?.fullName || cat.createdByUser?.userName || "?")
               .slice(0, 2)
               .toUpperCase()}
@@ -343,7 +343,7 @@ const CategoryList = () => {
         if (!name) return <span className="text-sm text-muted-foreground italic">-</span>;
         return (
           <div className="flex items-center gap-2">
-            <div className="w-7 h-7 rounded-full bg-muted text-foreground/70 flex items-center justify-center text-[10px] font-bold shrink-0">
+            <div className="w-7 h-7 rounded-full bg-muted text-foreground/70 flex items-center justify-center text-xs font-bold shrink-0">
               {name.slice(0, 2).toUpperCase()}
             </div>
             <span className="text-sm text-muted-foreground">{name}</span>
@@ -573,8 +573,8 @@ const CategoryList = () => {
                       isFiltered={isFiltered}>
                       {isSuperAdmin && (
                         <div className="flex flex-col gap-1.5">
-                          <label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
-                            Store
+                          <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                            {t("page.goodsReceipt.detail.store")}
                           </label>
                           <StoreFilter
                             locations={locData?.data || []}
@@ -589,10 +589,13 @@ const CategoryList = () => {
                         </div>
                       )}
                       <div className="flex flex-col gap-1.5">
-                        <label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
-                          Cari
+                        <label
+                          htmlFor="category-list-search"
+                          className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                          {t("common.search")}
                         </label>
                         <SearchInput
+                          id="category-list-search"
                           value={search}
                           onChange={(val) => {
                             setSearch(val);
@@ -603,10 +606,13 @@ const CategoryList = () => {
                         />
                       </div>
                       <div className="flex flex-col gap-1.5">
-                        <label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
+                        <label
+                          htmlFor="category-list-status"
+                          className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                           {t("page.category.table.status")}
                         </label>
                         <Combobox
+                          id="category-list-status"
                           options={[
                             { value: "", label: t("page.category.list.statusAll") },
                             { value: "active", label: t("common.active") },

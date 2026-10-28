@@ -26,7 +26,7 @@ const RupiahPrefix = () => (
 
 const Chip = ({ className, children }) => (
   <span
-    className={`absolute right-3 top-1/2 -translate-y-1/2 text-[10px] font-bold px-1.5 py-0.5 rounded ${className}`}>
+    className={`absolute right-3 top-1/2 -translate-y-1/2 text-xs font-bold px-1.5 py-0.5 rounded ${className}`}>
     {children}
   </span>
 );

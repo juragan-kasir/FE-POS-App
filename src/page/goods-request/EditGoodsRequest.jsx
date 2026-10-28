@@ -24,6 +24,8 @@ import { Loading } from "@/components/ui/loading";
 import HorizontalScrollArea from "@/components/ui/HorizontalScrollArea";
 import { FIELD_LIMITS } from "@/constants/fieldLimits";
 import { useFormExit } from "@/hooks/useLeaveGuard";
+import LoadErrorBanner from "@/components/ui/LoadErrorBanner";
+import { FieldError } from "@/components/ui/field-error";
 
 const unitOptions = [
   { value: "pcs", label: "pcs" },
@@ -66,6 +68,7 @@ const EditGoodsRequest = () => {
   const [requestedBy, setRequestedBy] = useState("");
   const [requestDate, setRequestDate] = useState(null);
   const [neededDate, setNeededDate] = useState(null);
+  const [showFormErrors, setShowFormErrors] = useState(false);
   const [notes, setNotes] = useState("");
   const [groups, setGroups] = useState([emptyGroup()]);
   const [loaded, setLoaded] = useState(false);
@@ -290,35 +293,34 @@ const EditGoodsRequest = () => {
     [groups]
   );
 
-  const doSubmit = () => {
+  // Validation messages sit under the field they belong to (they used to
+  // be toasts that vanished); each one clears as soon as its field is fixed.
+  const validateRequest = () => {
     const validItems = [];
     for (const g of groups) {
       for (const it of g.items) {
         if (it.name.trim() && it.qty > 0) validItems.push({ ...it, supplier: g.supplier });
       }
     }
-    if (validItems.length === 0) {
-      toast.error(t("page.goodsRequest.edit.toast.validation"), {
-        description: t("page.goodsRequest.edit.toast.itemRequired")
-      });
-      return;
-    }
-    if (validItems.some((it) => !it.supplier)) {
-      toast.error(t("page.goodsRequest.edit.toast.validation"), {
-        description: t("page.goodsRequest.edit.toast.supplierRequired")
-      });
-      return;
-    }
-    if (!neededDate) {
-      toast.error(t("page.goodsRequest.edit.toast.validation"), {
-        description: t("page.goodsRequest.edit.toast.neededDateRequired")
-      });
-      return;
-    }
-    if (requestDate && neededDate && neededDate < requestDate) {
-      toast.error(t("page.goodsRequest.edit.toast.validation"), {
-        description: t("page.goodsRequest.edit.toast.neededDateBeforeRequest")
-      });
+    const errs = {};
+    if (validItems.length === 0) errs.items = t("page.goodsRequest.edit.toast.itemRequired");
+    else if (validItems.some((it) => !it.supplier))
+      errs.items = t("page.goodsRequest.edit.toast.supplierRequired");
+    if (!neededDate) errs.neededDate = t("page.goodsRequest.edit.toast.neededDateRequired");
+    else if (requestDate && neededDate < requestDate)
+      errs.neededDate = t("page.goodsRequest.edit.toast.neededDateBeforeRequest");
+    return { validItems, errs };
+  };
+  const formErrors = showFormErrors ? validateRequest().errs : {};
+
+  const doSubmit = () => {
+    const { validItems, errs } = validateRequest();
+    const first = ["neededDate", "items"].find((k) => errs[k]);
+    if (first) {
+      setShowFormErrors(true);
+      const field = document.getElementById(`edit-goods-request-${first}`);
+      field?.scrollIntoView({ behavior: "smooth", block: "center" });
+      field?.querySelector("button, input")?.focus({ preventScroll: true });
       return;
     }
     updateMutation.mutate({
@@ -394,6 +396,7 @@ const EditGoodsRequest = () => {
           dynamicInfo={false}>
           <UserGuide guideKey="add-goods-request" mode="edit" />
         </PageHeader>
+        <LoadErrorBanner />
 
         <form
           onSubmit={(e) => {
@@ -403,21 +406,27 @@ const EditGoodsRequest = () => {
           className="bg-card p-4 sm:p-6 rounded-xl border border-border space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="space-y-2">
-              <Label>{t("page.goodsRequest.edit.form.store")}</Label>
+              <Label htmlFor="edit-goods-request-store">
+                {t("page.goodsRequest.edit.form.store")}
+              </Label>
               <Input
+                id="edit-goods-request-store"
                 value={request.storeData?.name || request.store || ""}
                 readOnly
                 className="h-10 bg-muted/50"
               />
             </div>
             <div className="space-y-2">
-              <Label>{t("page.goodsRequest.edit.form.requestedBy")}</Label>
+              <Label htmlFor="edit-goods-request-requested-by">
+                {t("page.goodsRequest.edit.form.requestedBy")}
+              </Label>
               <div className="relative">
                 <User
                   size={15}
                   className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground"
                 />
                 <Input
+                  id="edit-goods-request-requested-by"
                   value={requestedBy}
                   onChange={(e) => setRequestedBy(e.target.value)}
                   placeholder={t("page.goodsRequest.edit.placeholder.requestedBy")}
@@ -427,31 +436,37 @@ const EditGoodsRequest = () => {
               </div>
             </div>
             <div className="space-y-2">
-              <Label>{t("page.goodsRequest.edit.form.requestDate")}</Label>
+              <Label htmlFor="edit-goods-request-request-date">
+                {t("page.goodsRequest.edit.form.requestDate")}
+              </Label>
               <DatePicker
+                id="edit-goods-request-request-date"
                 date={requestDate}
                 setDate={setRequestDate}
                 placeholder={t("page.goodsRequest.edit.form.requestDate")}
               />
             </div>
-            <div className="space-y-2">
-              <Label>
+            <div id="edit-goods-request-neededDate" className="space-y-2">
+              <Label htmlFor="edit-goods-request-needed-date">
                 {t("page.goodsRequest.edit.form.neededDate")}{" "}
                 <span className="text-destructive">*</span>
               </Label>
               <DatePicker
+                id="edit-goods-request-needed-date"
                 date={neededDate}
                 setDate={setNeededDate}
                 placeholder={t("page.goodsRequest.edit.placeholder.neededDate")}
                 minDate={requestDate || undefined}
               />
+              <FieldError message={formErrors.neededDate} />
             </div>
           </div>
 
-          <div className="space-y-2">
+          <div id="edit-goods-request-items" className="space-y-2">
             <Label>
               {t("page.goodsRequest.edit.form.items")} <span className="text-destructive">*</span>
             </Label>
+            <FieldError message={formErrors.items} />
 
             {groups.map((group, gIdx) => (
               <div key={gIdx} className="border rounded-lg overflow-hidden">
@@ -514,7 +529,7 @@ const EditGoodsRequest = () => {
                               disabled={!group.supplier}
                             />
                             {item.name && !selectedItemValue(item, group.supplier) && (
-                              <p className="text-[10px] text-muted-foreground mt-1 truncate">
+                              <p className="text-xs text-muted-foreground mt-1 truncate">
                                 {item.name}
                               </p>
                             )}
@@ -595,8 +610,11 @@ const EditGoodsRequest = () => {
           </div>
 
           <div className="space-y-2">
-            <Label>{t("page.goodsRequest.edit.form.notesLabel")}</Label>
+            <Label htmlFor="edit-goods-request-notes-label">
+              {t("page.goodsRequest.edit.form.notesLabel")}
+            </Label>
             <Textarea
+              id="edit-goods-request-notes-label"
               rows={2}
               value={notes}
               onChange={(e) => setNotes(e.target.value)}

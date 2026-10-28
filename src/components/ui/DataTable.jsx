@@ -348,7 +348,7 @@ const DataTable = ({
                         {col.statusChip && (
                           <span
                             className={cn(
-                              "inline-flex items-center gap-1 text-[10px] font-bold rounded-full",
+                              "inline-flex items-center gap-1 text-xs font-bold rounded-full",
                               col.statusChip.value === "success"
                                 ? "bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400"
                                 : col.statusChip.value === "warning"

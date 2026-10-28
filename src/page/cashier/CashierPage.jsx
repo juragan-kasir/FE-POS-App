@@ -616,7 +616,7 @@ const CashierPage = () => {
                         {tablesNotAvailable > 0 && (
                           <span
                             data-testid="tables-not-available-badge"
-                            className="absolute -top-1.5 -right-1.5 bg-amber-500 text-white text-[10px] font-bold rounded-full min-w-5 h-5 px-1 flex items-center justify-center">
+                            className="absolute -top-1.5 -right-1.5 bg-amber-500 text-white text-xs font-bold rounded-full min-w-5 h-5 px-1 flex items-center justify-center">
                             {tablesNotAvailable}
                           </span>
                         )}
@@ -682,7 +682,9 @@ const CashierPage = () => {
                 <h2 className="text-2xl font-bold text-foreground mb-2">
                   {t("page.cashier.storeName")}
                 </h2>
-                <p className="text-muted-foreground mb-8">Pilih toko</p>
+                <p className="text-muted-foreground mb-8">
+                  {t("page.table.form.storePlaceholder")}
+                </p>
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                   {locsLoading
                     ? [0, 1, 2, 3].map((i) => (
@@ -709,7 +711,9 @@ const CashierPage = () => {
                           </div>
                           <div className="flex-1 min-w-0">
                             <p className="font-semibold text-foreground">{loc.name}</p>
-                            <p className="text-sm text-muted-foreground">Pilih toko</p>
+                            <p className="text-sm text-muted-foreground">
+                              {t("page.table.form.storePlaceholder")}
+                            </p>
                           </div>
                           <ChevronRight
                             size={20}

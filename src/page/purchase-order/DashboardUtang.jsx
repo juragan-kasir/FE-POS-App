@@ -453,8 +453,9 @@ const DashboardUtang = () => {
                   {selectedSupplier?.supplierName} — {t("page.apDashboard.detailTitle")}
                 </DialogTitle>
                 <DialogDescription>
-                  {supplierPOs.length} outstanding PO{supplierPOs.length !== 1 ? "s" : ""} — total
-                  outstanding:{" "}
+                  {supplierPOs.length} {t("page.purchaseOrder.ui.outstandingPos")}
+                  {supplierPOs.length !== 1 ? "s" : ""}{" "}
+                  {t("page.purchaseOrder.ui.totalOutstanding")}{" "}
                   <strong>Rp {(selectedSupplier?.outstanding || 0).toLocaleString("id-ID")}</strong>
                 </DialogDescription>
               </DialogHeader>

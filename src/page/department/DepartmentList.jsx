@@ -158,7 +158,7 @@ const DepartmentList = () => {
       align: "center",
       render: (department) => (
         <span
-          className={`inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-tight border ${
+          className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-bold uppercase tracking-tight border ${
             department.status === "active"
               ? "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400 border-green-200 dark:border-green-800"
               : department.status === "draft"
@@ -464,10 +464,13 @@ const DepartmentList = () => {
                       onReset={resetFilters}
                       isFiltered={isFiltered}>
                       <div className="flex flex-col gap-1.5">
-                        <label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
+                        <label
+                          htmlFor="department-list-status"
+                          className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                           {t("page.department.table.status")}
                         </label>
                         <Combobox
+                          id="department-list-status"
                           options={[
                             { value: "all", label: t("common.all") },
                             { value: "active", label: t("common.active") },
@@ -484,10 +487,13 @@ const DepartmentList = () => {
                         />
                       </div>
                       <div className="flex flex-col gap-1.5">
-                        <label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
-                          Cari
+                        <label
+                          htmlFor="department-list-search"
+                          className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                          {t("common.search")}
                         </label>
                         <SearchInput
+                          id="department-list-search"
                           value={search}
                           onChange={(val) => {
                             setSearch(val);

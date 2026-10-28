@@ -93,7 +93,7 @@ const HorizontalScrollArea = ({
           <p className="flex min-w-0 items-center gap-1.5 text-xs text-muted-foreground">
             <MoveHorizontal size={14} className="shrink-0 text-primary" aria-hidden="true" />
             <span className="truncate">{t("common.tableScrollHint")}</span>
-            <kbd className="hidden shrink-0 rounded border border-border bg-card px-1.5 py-0.5 font-sans text-[10px] font-medium text-muted-foreground lg:inline">
+            <kbd className="hidden shrink-0 rounded border border-border bg-card px-1.5 py-0.5 font-sans text-xs font-medium text-muted-foreground lg:inline">
               {t("common.tableScrollShortcut")}
             </kbd>
           </p>

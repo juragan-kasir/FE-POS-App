@@ -52,7 +52,7 @@ const paymentStatusConfig = {
     color: "bg-red-500/10 text-red-600 dark:text-red-400 border-red-500/30"
   },
   refunded: {
-    color: "bg-slate-500/10 text-slate-600 dark:text-slate-400 border-slate-500/30"
+    color: "bg-muted-foreground/10 text-muted-foreground border-border"
   }
 };
 
@@ -137,7 +137,7 @@ const OrderCard = ({
           #{order.orderNumber?.slice(-5) || order.id}
         </span>
         <span
-          className={`text-[10px] font-semibold px-2 py-0.5 rounded-full ${status.color} text-white`}>
+          className={`text-xs font-semibold px-2 py-0.5 rounded-full ${status.color} text-white`}>
           {t(`page.cashier.orderQueue.status.${order.status}`, status.label)}
         </span>
       </div>
@@ -151,13 +151,12 @@ const OrderCard = ({
       </div>
       <div className="flex flex-wrap items-center gap-1 mb-1.5">
         {order.paymentStatus && (
-          <span
-            className={`text-[10px] font-medium px-1.5 py-0.5 rounded-full border ${payCfg.color}`}>
+          <span className={`text-xs font-medium px-1.5 py-0.5 rounded-full border ${payCfg.color}`}>
             {t(`page.cashier.orderQueue.paymentStatus.${order.paymentStatus}`, order.paymentStatus)}
           </span>
         )}
         {order.source && order.source !== "pos" && (
-          <span className="text-[10px] font-medium px-1.5 py-0.5 rounded-full border border-border/60 text-muted-foreground uppercase">
+          <span className="text-xs font-medium px-1.5 py-0.5 rounded-full border border-border/60 text-muted-foreground uppercase">
             {t(`page.delivery.source.${order.source}`, order.source)}
           </span>
         )}
@@ -166,7 +165,7 @@ const OrderCard = ({
         <span className="text-xs text-muted-foreground">
           {itemCount} {t("page.cashier.orderQueue.items")}
         </span>
-        <span className="text-[10px] text-muted-foreground/70 flex items-center gap-1">
+        <span className="text-xs text-muted-foreground/70 flex items-center gap-1">
           <Clock size={10} />
           {timeAgo(order.createdAt, t)}
         </span>
@@ -517,7 +516,7 @@ const OrderQueue = ({ store, onLoadOrder, onCollectPayment, canVoid = false }) =
     return (
       <div key={meta.railTestId}>
         {showLabel && (
-          <div className="px-4 lg:px-6 mb-1 text-[11px] font-semibold uppercase tracking-wide text-muted-foreground">
+          <div className="px-4 lg:px-6 mb-1 text-xs font-semibold uppercase tracking-wide text-muted-foreground">
             {t(meta.labelKey)}
           </div>
         )}

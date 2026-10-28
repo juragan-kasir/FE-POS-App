@@ -102,13 +102,13 @@ const ProductDetailModal = ({ product, open, onOpenChange, onAddToCart }) => {
                 <div className="flex items-center gap-2 mt-2 flex-wrap">
                   <span className="text-lg font-bold text-primary">Rp {formatPrice(price)}</span>
                   {isPromo && (
-                    <span className="px-2 py-0.5 rounded-md bg-amber-500/10 text-amber-600 text-[10px] font-bold uppercase">
+                    <span className="px-2 py-0.5 rounded-md bg-amber-500/10 text-amber-600 text-xs font-bold uppercase">
                       {t("page.cashier.promo", "Promo")}
                     </span>
                   )}
                   {isBundle && (
-                    <span className="px-2 py-0.5 rounded-md bg-emerald-500/10 text-emerald-600 text-[10px] font-bold uppercase">
-                      Bundle
+                    <span className="px-2 py-0.5 rounded-md bg-emerald-500/10 text-emerald-600 text-xs font-bold uppercase">
+                      {t("breadcrumb.bundle")}
                     </span>
                   )}
                 </div>
@@ -135,7 +135,7 @@ const ProductDetailModal = ({ product, open, onOpenChange, onAddToCart }) => {
           <div className="grid grid-cols-2 gap-3">
             {category && (
               <div className="bg-muted/30 rounded-lg px-3 py-2.5 border border-border/30">
-                <p className="text-[10px] font-semibold text-muted-foreground uppercase tracking-wider">
+                <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
                   {t("page.product.form.category", "Kategori")}
                 </p>
                 <p className="text-sm font-medium text-foreground mt-0.5 flex items-center gap-1.5">
@@ -146,7 +146,7 @@ const ProductDetailModal = ({ product, open, onOpenChange, onAddToCart }) => {
             )}
             {sku && (
               <div className="bg-muted/30 rounded-lg px-3 py-2.5 border border-border/30">
-                <p className="text-[10px] font-semibold text-muted-foreground uppercase tracking-wider">
+                <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
                   SKU
                 </p>
                 <p className="text-sm font-medium text-foreground mt-0.5 font-mono">{sku}</p>
@@ -154,7 +154,7 @@ const ProductDetailModal = ({ product, open, onOpenChange, onAddToCart }) => {
             )}
             {stock !== undefined && (
               <div className="bg-muted/30 rounded-lg px-3 py-2.5 border border-border/30">
-                <p className="text-[10px] font-semibold text-muted-foreground uppercase tracking-wider">
+                <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
                   {t("page.product.form.stock", "Stok")}
                 </p>
                 <p
@@ -171,7 +171,7 @@ const ProductDetailModal = ({ product, open, onOpenChange, onAddToCart }) => {
             )}
             {estimatedTime && (
               <div className="bg-muted/30 rounded-lg px-3 py-2.5 border border-border/30">
-                <p className="text-[10px] font-semibold text-muted-foreground uppercase tracking-wider">
+                <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
                   {t("page.product.form.estimationTime", "Estimasi")}
                 </p>
                 <p className="text-sm font-medium text-foreground mt-0.5 flex items-center gap-1.5">

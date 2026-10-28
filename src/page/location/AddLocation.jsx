@@ -87,6 +87,7 @@ import { useTenantManagePermission } from "@/hooks/useTenantManagePermission";
 import { FIELD_LIMITS } from "@/constants/fieldLimits";
 import { useFormExit } from "@/hooks/useLeaveGuard";
 import { createdId } from "@/utils/createdRecord";
+import LoadErrorBanner from "@/components/ui/LoadErrorBanner";
 
 const days = [
   { id: "monday", label: "common.day.monday" },
@@ -692,6 +693,7 @@ const AddLocation = () => {
         onBack={requestLeave}>
         <UserGuide guideKey="add-location" />
       </PageHeader>
+      <LoadErrorBanner />
 
       {/* Form Card */}
       {isIdGenerating ? (
@@ -912,7 +914,7 @@ const AddLocation = () => {
                         <>
                           <img
                             src={previewImage}
-                            alt="Preview"
+                            alt={t("page.product.form.preview")}
                             className="w-full h-auto max-h-[500px] object-contain"
                           />
                           <button
@@ -1478,7 +1480,9 @@ const AddLocation = () => {
                               <SelectItem value="LinkedIn">LinkedIn</SelectItem>
                               <SelectItem value="Shopee">Shopee</SelectItem>
                               <SelectItem value="Tokopedia">Tokopedia</SelectItem>
-                              <SelectItem value="Website">Website</SelectItem>
+                              <SelectItem value="Website">
+                                {t("page.supplier.form.website")}
+                              </SelectItem>
                             </SelectContent>
                           </Select>
                           <Input
@@ -1741,7 +1745,7 @@ const AddLocation = () => {
                             }`}>
                             {emp.fullName}
                             {isSelected && (
-                              <span className="ml-2 inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-semibold uppercase tracking-wide bg-muted text-muted-foreground border border-border">
+                              <span className="ml-2 inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold uppercase tracking-wide bg-muted text-muted-foreground border border-border">
                                 {t("page.location.form.managerCurrentLabel")}
                               </span>
                             )}
@@ -1756,7 +1760,7 @@ const AddLocation = () => {
                         <td className="px-4 py-3">
                           {position ? (
                             <span
-                              className={`inline-flex items-center px-2.5 py-1 rounded-full text-[11px] font-semibold uppercase tracking-wide border ${getPositionBadge(position)} ${isSelected ? "opacity-60" : ""}`}>
+                              className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold uppercase tracking-wide border ${getPositionBadge(position)} ${isSelected ? "opacity-60" : ""}`}>
                               {position}
                             </span>
                           ) : (

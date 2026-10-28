@@ -68,8 +68,8 @@ const DetailBundle = () => {
         label: t("common.active")
       },
       draft: {
-        bg: "bg-slate-100 text-slate-700 border-slate-200",
-        dot: "bg-slate-500",
+        bg: "bg-muted text-foreground border-border",
+        dot: "bg-muted-foreground",
         label: t("common.draft")
       },
       inactive: {
@@ -123,18 +123,18 @@ const DetailBundle = () => {
         description={
           <div className="flex items-center gap-2 flex-wrap">
             <span
-              className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold border ${s.bg}`}>
+              className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-bold border ${s.bg}`}>
               <span className={`w-1.5 h-1.5 rounded-full ${s.dot}`} />
               {s.label}
             </span>
             {expiryStatus === "expiring" && (
-              <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-orange-100 text-orange-800 dark:bg-orange-900/30 dark:text-orange-400">
+              <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-bold bg-orange-100 text-orange-800 dark:bg-orange-900/30 dark:text-orange-400">
                 <Clock size={12} />
                 {t("page.bundle.list.expiringSoon")}
               </span>
             )}
             {expiryStatus === "expired" && (
-              <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400">
+              <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-bold bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400">
                 <XCircle size={12} />
                 {t("page.bundle.list.expired")}
               </span>

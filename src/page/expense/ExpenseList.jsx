@@ -54,6 +54,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import Modal from "@/components/organism/modal";
 import { safeGet } from "@/lib/safe-lookup";
 import { useLocations } from "@/queries/useLocations";
+import PageHeader from "@/components/ui/PageHeader";
 
 const ExpenseList = () => {
   const { t } = useTranslation();
@@ -340,7 +341,7 @@ const ExpenseList = () => {
           <div className="flex flex-col">
             <span className="font-medium text-foreground">{item.description || "-"}</span>
             {item.frequency && (
-              <span className="inline-flex w-fit items-center px-2 py-0.5 rounded-full text-[10px] font-semibold bg-blue-100 text-blue-700 mt-0.5">
+              <span className="inline-flex w-fit items-center px-2 py-0.5 rounded-full text-xs font-semibold bg-blue-100 text-blue-700 mt-0.5">
                 {t("page.expense.list.recurring")} ·{" "}
                 {t(
                   `page.expense.form.frequency${item.frequency.charAt(0).toUpperCase()}${item.frequency.slice(1)}`
@@ -353,13 +354,13 @@ const ExpenseList = () => {
               </span>
             )}
             {item.employee?.fullName && (
-              <span className="inline-flex w-fit items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-semibold bg-teal-100 text-teal-700 mt-0.5">
+              <span className="inline-flex w-fit items-center gap-1 px-2 py-0.5 rounded-full text-xs font-semibold bg-teal-100 text-teal-700 mt-0.5">
                 <Users size={10} />
                 {item.employee.fullName}
               </span>
             )}
             {item.paymentMethod && (
-              <span className="inline-flex w-fit items-center px-2 py-0.5 rounded-full text-[10px] font-semibold bg-purple-100 text-purple-700 mt-0.5">
+              <span className="inline-flex w-fit items-center px-2 py-0.5 rounded-full text-xs font-semibold bg-purple-100 text-purple-700 mt-0.5">
                 {getPaymentLabel(item.paymentMethod)}
               </span>
             )}
@@ -385,7 +386,7 @@ const ExpenseList = () => {
           {getStatusBadge(item.status)}
           {item.status === "approved" && (
             <span
-              className={`inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-semibold ${
+              className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold ${
                 item.isPaid ? "bg-teal-100 text-teal-700" : "bg-amber-100 text-amber-700"
               }`}>
               {item.isPaid
@@ -394,7 +395,7 @@ const ExpenseList = () => {
             </span>
           )}
           {item.isActive === false && (
-            <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-semibold bg-muted text-muted-foreground">
+            <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold bg-muted text-muted-foreground">
               {t("page.expense.list.statusArchived")}
             </span>
           )}
@@ -567,44 +568,32 @@ const ExpenseList = () => {
 
   return (
     <div className="space-y-6">
-      <div>
-        <nav className="flex items-center gap-2 text-sm text-muted-foreground">
-          <button
-            onClick={() => navigate("/dashboard-super-admin")}
-            className="hover:text-foreground transition-colors">
-            {t("breadcrumb.home")}
-          </button>
-          <span className="text-xs">/</span>
-          <span className="text-primary font-semibold">{t("page.expense.list.title")}</span>
-        </nav>
-      </div>
-
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-4">
-        <div>
-          <h1 className="text-2xl font-bold text-foreground">{t("page.expense.list.title")}</h1>
-          <p className="text-sm text-muted-foreground mt-1">{t("page.expense.list.description")}</p>
-        </div>
-        <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
-          {canAccess(user, MENU_KEY, "add") && !!locationParam && (
-            <Button
-              variant="outline"
-              onClick={() => setSalaryModal(true)}
-              disabled={salaryMutation.isLoading}
-              className="gap-2">
-              <Users size={18} />
-              {salaryMutation.isLoading
-                ? t("button.processing")
-                : t("page.expense.list.generateSalary")}
-            </Button>
-          )}
-          {canAccess(user, MENU_KEY, "add") && (
-            <Button variant="success" onClick={() => navigate("/add-expense")} className="gap-2">
-              <Plus size={18} />
-              {t("page.expense.button.add")}
-            </Button>
-          )}
-        </div>
-      </div>
+      <PageHeader
+        breadcrumbs={[
+          { label: t("breadcrumb.home"), href: "/dashboard-super-admin" },
+          { label: t("page.expense.list.title") }
+        ]}
+        title={t("page.expense.list.title")}
+        description={t("page.expense.list.description")}>
+        {canAccess(user, MENU_KEY, "add") && !!locationParam && (
+          <Button
+            variant="outline"
+            onClick={() => setSalaryModal(true)}
+            disabled={salaryMutation.isLoading}
+            className="gap-2">
+            <Users size={18} />
+            {salaryMutation.isLoading
+              ? t("button.processing")
+              : t("page.expense.list.generateSalary")}
+          </Button>
+        )}
+        {canAccess(user, MENU_KEY, "add") && (
+          <Button variant="success" onClick={() => navigate("/add-expense")} className="gap-2">
+            <Plus size={18} />
+            {t("page.expense.button.add")}
+          </Button>
+        )}
+      </PageHeader>
 
       {isError ? (
         <AbortController refetch={refetch} />

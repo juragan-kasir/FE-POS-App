@@ -11,6 +11,7 @@ import {
   DialogTitle,
   DialogDescription
 } from "@/components/ui/dialog";
+import { useTranslation } from "react-i18next";
 
 const isSwapQuery = (query) => {
   const key = query.queryKey;
@@ -20,6 +21,7 @@ const isSwapQuery = (query) => {
 };
 
 const CancelSwapDialog = ({ open, onOpenChange, swap, onSuccess }) => {
+  const { t } = useTranslation();
   const queryClient = useQueryClient();
 
   const cancelMutation = useMutation(cancelShiftSwap, {
@@ -52,11 +54,10 @@ const CancelSwapDialog = ({ open, onOpenChange, swap, onSuccess }) => {
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
             <ArrowRightLeft size={18} className="text-primary" />
-            Batalkan Tukar Shift
+            {t("page.shift.ui.cancelShiftSwap")}
           </DialogTitle>
           <DialogDescription className="text-sm text-muted-foreground">
-            Kamu yakin ingin membatalkan permintaan tukar shift ini? Permintaan yang masih berstatus
-            Sedang Diproses akan dibatalkan dan tidak dapat dilanjutkan.
+            {t("page.shift.ui.cancelThisShiftSwapRequest")}
           </DialogDescription>
         </DialogHeader>
 
@@ -79,7 +80,7 @@ const CancelSwapDialog = ({ open, onOpenChange, swap, onSuccess }) => {
             size="sm"
             disabled={cancelMutation.isLoading}
             onClick={() => onOpenChange(false)}>
-            Tidak
+            {t("common.no")}
           </Button>
           <Button
             size="sm"

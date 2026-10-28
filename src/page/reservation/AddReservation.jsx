@@ -43,6 +43,7 @@ import UserGuide from "@/components/organism/UserGuide";
 import { FIELD_LIMITS } from "@/constants/fieldLimits";
 import { useFormExit } from "@/hooks/useLeaveGuard";
 import { createdId } from "@/utils/createdRecord";
+import LoadErrorBanner from "@/components/ui/LoadErrorBanner";
 
 const DAY_NAMES = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"];
 
@@ -234,12 +235,13 @@ const AddReservation = () => {
           },
           { label: "Tambah Reservasi" }
         ]}
-        title="Tambah Reservasi"
-        description="Buat reservasi meja baru"
+        title={t("page.reservation.addButton")}
+        description={t("page.reservation.ui.createANewTableReservation")}
         onBack={requestLeave}
         dynamicInfo={false}>
         <UserGuide guideKey="add-reservation" />
       </PageHeader>
+      <LoadErrorBanner />
 
       <Card className="p-6">
         <Form {...form}>
@@ -247,7 +249,7 @@ const AddReservation = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="col-span-full">
                 <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider mb-4">
-                  Detail Reservasi
+                  {t("page.reservation.detailTitle")}
                 </h3>
               </div>
               <FormField
@@ -256,11 +258,11 @@ const AddReservation = () => {
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>
-                      Toko <span className="text-destructive">*</span>
+                      {t("document.store")} <span className="text-destructive">*</span>
                     </FormLabel>
                     <Select onValueChange={field.onChange} value={field.value}>
                       <SelectTrigger>
-                        <SelectValue placeholder="Pilih toko" />
+                        <SelectValue placeholder={t("page.table.form.storePlaceholder")} />
                       </SelectTrigger>
                       <SelectContent>
                         {stores.map((s) => (
@@ -280,7 +282,7 @@ const AddReservation = () => {
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>
-                      Tanggal <span className="text-destructive">*</span>
+                      {t("document.date")} <span className="text-destructive">*</span>
                     </FormLabel>
                     <DatePicker
                       date={field.value}
@@ -300,11 +302,11 @@ const AddReservation = () => {
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>
-                      Jam Mulai <span className="text-destructive">*</span>
+                      {t("page.shift.form.startTime")} <span className="text-destructive">*</span>
                     </FormLabel>
                     <TimePicker
                       {...field}
-                      placeholder="Pilih jam mulai"
+                      placeholder={t("page.discount.form.placeholder.startTime")}
                       slots={timeSlots}
                       disabled={detailLoading}
                     />
@@ -317,10 +319,10 @@ const AddReservation = () => {
                 name="endTime"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Jam Selesai</FormLabel>
+                    <FormLabel>{t("page.shift.form.endTime")}</FormLabel>
                     <TimePicker
                       {...field}
-                      placeholder="Pilih jam selesai"
+                      placeholder={t("page.discount.form.placeholder.endTime")}
                       slots={timeSlots}
                       disabled={detailLoading}
                     />
@@ -337,10 +339,11 @@ const AddReservation = () => {
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>
-                      Nama Customer <span className="text-destructive">*</span>
+                      {t("page.cashier.addCustomerName")}{" "}
+                      <span className="text-destructive">*</span>
                     </FormLabel>
                     <Input
-                      placeholder="Nama customer"
+                      placeholder={t("page.reservation.ui.customerName")}
                       {...field}
                       maxLength={FIELD_LIMITS.PERSON_NAME}
                     />
@@ -353,7 +356,7 @@ const AddReservation = () => {
                 name="customerPhone"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>No. Telepon</FormLabel>
+                    <FormLabel>{t("page.member.table.phone")}</FormLabel>
                     <Input placeholder="08123456789" maxLength={FIELD_LIMITS.PHONE} {...field} />
                     <FormMessage />
                     <FormDescription>{t("common.phoneHint")}</FormDescription>
@@ -383,7 +386,8 @@ const AddReservation = () => {
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>
-                      Jumlah Tamu <span className="text-destructive">*</span>
+                      {t("page.reservation.edit.form.guestCount")}{" "}
+                      <span className="text-destructive">*</span>
                     </FormLabel>
                     <Input
                       type="number"
@@ -405,7 +409,7 @@ const AddReservation = () => {
                 name="tableId"
                 render={({ field }) => (
                   <FormItem className="col-span-full">
-                    <FormLabel>Meja</FormLabel>
+                    <FormLabel>{t("sidebar.meja")}</FormLabel>
                     <Select onValueChange={field.onChange} value={field.value}>
                       <SelectTrigger>
                         <SelectValue
@@ -413,18 +417,22 @@ const AddReservation = () => {
                         />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="none">Tidak pilih meja</SelectItem>
-                        {availableTables.map((t) => {
-                          const unavailable = t.status !== "available";
+                        <SelectItem value="none">
+                          {t("page.reservation.edit.form.noTable")}
+                        </SelectItem>
+                        {availableTables.map((table) => {
+                          const unavailable = table.status !== "available";
                           return (
                             <SelectItem
-                              key={t.id}
-                              value={String(t.id)}
+                              key={table.id}
+                              value={String(table.id)}
                               disabled={unavailable}
                               className={unavailable ? "text-muted-foreground" : ""}>
-                              {t.name} (Kap. {t.capacity})
+                              {table.name} {t("page.reservation.ui.cap")} {table.capacity})
                               {unavailable && (
-                                <span className="text-destructive ml-1">- Not Available</span>
+                                <span className="text-destructive ml-1">
+                                  {t("page.reservation.ui.notAvailable")}
+                                </span>
                               )}
                             </SelectItem>
                           );
@@ -433,12 +441,16 @@ const AddReservation = () => {
                     </Select>
                     {!selectedStore ? (
                       <p className="text-xs text-muted-foreground mt-1">
-                        Pilih toko terlebih dahulu
+                        {t("page.bom.add.form.selectStoreFirst")}
                       </p>
                     ) : loadingTables ? (
-                      <p className="text-xs text-muted-foreground mt-1">Memuat meja...</p>
+                      <p className="text-xs text-muted-foreground mt-1">
+                        {t("page.reservation.ui.loadingTables")}
+                      </p>
                     ) : availableTables.length === 0 ? (
-                      <p className="text-xs text-destructive mt-1">Meja tidak tersedia</p>
+                      <p className="text-xs text-destructive mt-1">
+                        {t("page.reservation.ui.noTablesAvailable")}
+                      </p>
                     ) : null}
                     <FormMessage />
                   </FormItem>
@@ -450,9 +462,9 @@ const AddReservation = () => {
               name="notes"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Catatan</FormLabel>
+                  <FormLabel>{t("page.bom.detail.notes")}</FormLabel>
                   <Textarea
-                    placeholder="Catatan reservasi"
+                    placeholder={t("page.reservation.ui.reservationNote")}
                     rows={3}
                     {...field}
                     maxLength={FIELD_LIMITS.DESCRIPTION}
@@ -494,8 +506,8 @@ const AddReservation = () => {
           type="confirm"
           open={confirmSaveModal}
           onOpenChange={setConfirmSaveModal}
-          title="Konfirmasi Simpan"
-          description="Apakah Anda yakin ingin menyimpan data ini?"
+          title={t("common.confirmSave")}
+          description={t("page.supplier.modal.confirmSaveDesc")}
           confirmText="Ya, Simpan"
           onConfirm={() => {
             setConfirmSaveModal(false);
@@ -509,8 +521,8 @@ const AddReservation = () => {
         type="confirm"
         open={cancelModal}
         onOpenChange={setCancelModal}
-        title="Batalkan?"
-        description="Perubahan yang belum disimpan akan hilang."
+        title={t("page.expense.add.cancelTitle")}
+        description={t("page.role.edit.discardDesc")}
         confirmText="Ya, Batalkan"
         onConfirm={() => setTimeout(leave, 150)}
       />

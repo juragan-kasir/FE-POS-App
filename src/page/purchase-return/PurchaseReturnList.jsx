@@ -27,6 +27,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { Combobox } from "@/components/ui/combobox";
 import { DatePicker } from "@/components/ui/date-picker";
 import { useLocations } from "@/queries/useLocations";
+import PageHeader from "@/components/ui/PageHeader";
 
 const statusCfg = {
   pending: {
@@ -164,12 +165,12 @@ const PurchaseReturnList = () => {
         return (
           <div className="inline-flex flex-col items-center gap-1">
             <span
-              className={`inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold uppercase ${sc.class}`}>
+              className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-bold uppercase ${sc.class}`}>
               {t(`page.purchaseReturn.status.${item.status}`)}
             </span>
             {res && (
               <span
-                className={`inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-semibold ${
+                className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold ${
                   res === "replacement"
                     ? "bg-indigo-100 text-indigo-700 dark:bg-indigo-900/30 dark:text-indigo-400"
                     : "bg-sky-100 text-sky-700 dark:bg-sky-900/30 dark:text-sky-400"
@@ -274,25 +275,17 @@ const PurchaseReturnList = () => {
 
   return (
     <div className="space-y-6">
-      <div>
-        <nav className="flex items-center gap-2 text-sm text-muted-foreground">
-          <button
-            onClick={() => navigate("/dashboard-super-admin")}
-            className="hover:text-foreground">
-            {t("page.purchaseReturn.list.breadcrumb.dashboard")}
-          </button>
-          <span className="text-xs">/</span>
-          <span className="text-primary font-semibold">{t("page.purchaseReturn.list.title")}</span>
-        </nav>
-      </div>
-      <div>
-        <div>
-          <h1 className="text-2xl font-bold">{t("page.purchaseReturn.list.title")}</h1>
-          <p className="text-sm text-muted-foreground mt-1">
-            {t("page.purchaseReturn.list.subtitle")}
-          </p>
-        </div>
-      </div>
+      <PageHeader
+        breadcrumbs={[
+          {
+            label: t("page.purchaseReturn.list.breadcrumb.dashboard"),
+            href: "/dashboard-super-admin"
+          },
+          { label: t("page.purchaseReturn.list.title") }
+        ]}
+        title={t("page.purchaseReturn.list.title")}
+        description={t("page.purchaseReturn.list.subtitle")}
+      />
 
       {locData && (locData?.data || []).length === 0 ? (
         <NoStore />
@@ -355,10 +348,13 @@ const PurchaseReturnList = () => {
                     onReset={resetFilters}
                     isFiltered={isFiltered}>
                     <div className="flex flex-col gap-1.5">
-                      <label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
+                      <label
+                        htmlFor="purchase-return-list-search"
+                        className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                         {t("page.purchaseReturn.list.filter.search")}
                       </label>
                       <SearchInput
+                        id="purchase-return-list-search"
                         value={search}
                         onChange={(val) => {
                           setSearch(val);
@@ -370,7 +366,7 @@ const PurchaseReturnList = () => {
                     </div>
                     {isSuperAdmin && (
                       <div className="flex flex-col gap-1.5">
-                        <label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
+                        <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                           {t("page.purchaseReturn.list.filter.store")}
                         </label>
                         <StoreFilter
@@ -386,10 +382,13 @@ const PurchaseReturnList = () => {
                       </div>
                     )}
                     <div className="flex flex-col gap-1.5">
-                      <label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
+                      <label
+                        htmlFor="purchase-return-list-date"
+                        className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                         {t("page.purchaseReturn.list.filter.date")}
                       </label>
                       <DatePicker
+                        id="purchase-return-list-date"
                         date={dateFilter}
                         setDate={(date) => {
                           setDateFilter(date);
@@ -399,10 +398,13 @@ const PurchaseReturnList = () => {
                       />
                     </div>
                     <div className="flex flex-col gap-1.5">
-                      <label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
+                      <label
+                        htmlFor="purchase-return-list-status"
+                        className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                         {t("page.purchaseReturn.list.filter.status")}
                       </label>
                       <Combobox
+                        id="purchase-return-list-status"
                         options={[
                           {
                             value: "all",

@@ -38,6 +38,7 @@ import { getMissingFields } from "@/lib/validation";
 import { useTranslation } from "react-i18next";
 import { FIELD_LIMITS } from "@/constants/fieldLimits";
 import { createdId } from "@/utils/createdRecord";
+import LoadErrorBanner from "@/components/ui/LoadErrorBanner";
 
 const AddExpenseCategory = () => {
   const { t } = useTranslation();
@@ -156,6 +157,7 @@ const AddExpenseCategory = () => {
           dynamicInfo={false}>
           <UserGuide guideKey="add-expense-category" />
         </PageHeader>
+        <LoadErrorBanner />
 
         <Card className="p-6">
           <Form {...form}>

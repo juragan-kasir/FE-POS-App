@@ -2,16 +2,7 @@ import React, { useState, useMemo, useEffect } from "react";
 import { useQuery } from "react-query";
 import { useNavigate } from "react-router-dom";
 import { useStore } from "@/contexts/StoreContext";
-import {
-  LayoutDashboard,
-  RefreshCw,
-  Store,
-  CalendarDays,
-  Building2,
-  Info,
-  BellRing,
-  Calendar
-} from "lucide-react";
+import { RefreshCw, Store, CalendarDays, Building2, Info, BellRing, Calendar } from "lucide-react";
 import { getSuperAdminDashboard } from "@/services/dashboard";
 import { getUpcomingPayments } from "@/services/expense";
 import { useTranslation } from "react-i18next";
@@ -36,14 +27,9 @@ import ActivitySection from "@/components/dashboard-super-admin/ActivitySection"
 import { formatCurrencyRupiah } from "@/utils/formatter-currency";
 import { buildDashboardQueryParams } from "@/lib/dashboard-query";
 import { useLocations } from "@/queries/useLocations";
+import PageHeader from "@/components/ui/PageHeader";
 
-const PRESETS = [
-  { key: "7d", label: "7 Hari" },
-  { key: "30d", label: "30 Hari" },
-  { key: "thisMonth", label: "Bulan Ini" },
-  { key: "lastMonth", label: "Bulan Lalu" },
-  { key: "all", label: "Semua" }
-];
+const PRESETS = ["7d", "30d", "thisMonth", "lastMonth", "all"];
 
 const getRange = (key) => {
   const now = new Date();
@@ -51,36 +37,33 @@ const getRange = (key) => {
   if (key === "7d") {
     return {
       startDate: new Date(todayStart.getTime() - 6 * 86400000).toISOString(),
-      endDate: now.toISOString(),
-      label: "7 hari terakhir"
+      endDate: now.toISOString()
     };
   }
   if (key === "30d") {
     return {
       startDate: new Date(todayStart.getTime() - 29 * 86400000).toISOString(),
-      endDate: now.toISOString(),
-      label: "30 hari terakhir"
+      endDate: now.toISOString()
     };
   }
   if (key === "thisMonth") {
     return {
       startDate: new Date(now.getFullYear(), now.getMonth(), 1).toISOString(),
-      endDate: now.toISOString(),
-      label: `bulan ${now.toLocaleDateString("id-ID", { month: "long", year: "numeric" })}`
+      endDate: now.toISOString()
     };
   }
   if (key === "lastMonth") {
     return {
       startDate: new Date(now.getFullYear(), now.getMonth() - 1, 1).toISOString(),
-      endDate: new Date(now.getFullYear(), now.getMonth(), 0, 23, 59, 59, 999).toISOString(),
-      label: "bulan lalu"
+      endDate: new Date(now.getFullYear(), now.getMonth(), 0, 23, 59, 59, 999).toISOString()
     };
   }
-  return { startDate: null, endDate: null, label: "seluruh periode" };
+  return { startDate: null, endDate: null };
 };
 
 const DashboardSuperAdmin = () => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const locale = i18n.language === "en" ? "en-US" : "id-ID";
   const { activeStoreId, setActiveStore } = useStore();
   const navigate = useNavigate();
   const [preset, setPreset] = useState("thisMonth");
@@ -119,9 +102,15 @@ const DashboardSuperAdmin = () => {
   const summary = d.summary || {};
   const selectedStoreName = locations.find((l) => String(l.id) === String(storeFilter))?.name;
 
+  // The period label follows the active language, so it is derived here
+  // instead of being stored with the range.
+  const rangeLabel = t(`page.dashboardSuperAdmin.range.${preset}`, {
+    month: new Date().toLocaleDateString(locale, { month: "long", year: "numeric" })
+  });
+
   useEffect(() => {
-    document.title = "Dashboard Super Admin - POS";
-  }, []);
+    document.title = t("page.dashboardSuperAdmin.documentTitle");
+  }, [t]);
 
   const handlePreset = (key) => {
     setPreset(key);
@@ -130,96 +119,83 @@ const DashboardSuperAdmin = () => {
 
   return (
     <div className="space-y-6">
-      {/* Header + global filter */}
-      <div className="bg-card rounded-xl border border-border p-5 shadow-sm">
-        <div className="flex flex-wrap items-start justify-between gap-4">
-          <div className="flex items-start gap-3">
-            <div className="h-11 w-11 rounded-xl bg-primary/10 flex items-center justify-center text-primary shrink-0">
-              <LayoutDashboard size={22} />
-            </div>
-            <div>
-              <h1 className="text-xl font-bold text-foreground">Dashboard Super Admin</h1>
-              <p className="text-sm text-muted-foreground">
-                Ringkasan bisnis multi-store · pendapatan, pembayaran, keuangan, operasional, dan
-                pelanggan
-              </p>
-            </div>
-          </div>
+      <PageHeader
+        title={t("page.dashboardSuperAdmin.title")}
+        description={t("page.dashboardSuperAdmin.subtitle")}
+        dynamicInfo={false}>
+        <div className="flex bg-muted rounded-lg p-0.5">
+          {PRESETS.map((key) => (
+            <button
+              key={key}
+              onClick={() => handlePreset(key)}
+              className={`px-3 py-1.5 text-xs font-medium rounded-md transition-colors ${
+                preset === key
+                  ? "bg-background text-foreground shadow-sm"
+                  : "text-muted-foreground hover:text-foreground"
+              }`}>
+              {t(`page.dashboardSuperAdmin.preset.${key}`)}
+            </button>
+          ))}
+        </div>
 
-          <div className="flex flex-wrap items-center gap-3">
-            <div className="flex bg-muted rounded-lg p-0.5">
-              {PRESETS.map((p) => (
-                <button
-                  key={p.key}
-                  onClick={() => handlePreset(p.key)}
-                  className={`px-3 py-1.5 text-xs font-medium rounded-md transition-colors ${
-                    preset === p.key
-                      ? "bg-background text-foreground shadow-sm"
-                      : "text-muted-foreground hover:text-foreground"
-                  }`}>
-                  {p.label}
-                </button>
+        <div className="flex items-center gap-2">
+          <Store size={16} className="text-muted-foreground shrink-0" />
+          <Select
+            value={storeFilter || "all"}
+            onValueChange={(v) => {
+              if (v === "all") setActiveStore("", "");
+              else setActiveStore(v, "");
+            }}>
+            <SelectTrigger className="w-[180px]">
+              <SelectValue placeholder={t("page.dashboardSuperAdmin.allStores")} />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">{t("page.dashboardSuperAdmin.allStores")}</SelectItem>
+              {locations.map((loc) => (
+                <SelectItem key={loc.id} value={String(loc.id)}>
+                  {loc.name}
+                </SelectItem>
               ))}
-            </div>
-
-            <div className="flex items-center gap-2">
-              <Store size={16} className="text-muted-foreground shrink-0" />
-              <Select
-                value={storeFilter || "all"}
-                onValueChange={(v) => {
-                  if (v === "all") setActiveStore("", "");
-                  else setActiveStore(v, "");
-                }}>
-                <SelectTrigger className="w-[180px]">
-                  <SelectValue placeholder="Semua Toko" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="all">Semua Toko</SelectItem>
-                  {locations.map((loc) => (
-                    <SelectItem key={loc.id} value={String(loc.id)}>
-                      {loc.name}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
-
-            <div className="flex items-center gap-2 text-sm text-muted-foreground">
-              <CalendarDays size={15} />
-              <span className="capitalize">{dateRange.label}</span>
-            </div>
-
-            <Button
-              variant="outline"
-              size="sm"
-              className="gap-1.5"
-              onClick={() => refetch()}
-              disabled={isFetching}>
-              <RefreshCw size={14} className={isFetching ? "animate-spin" : ""} />
-              Muat Ulang
-            </Button>
-          </div>
+            </SelectContent>
+          </Select>
         </div>
 
-        <div className="mt-4 pt-4 border-t border-border flex flex-wrap items-center gap-x-5 gap-y-1.5 text-xs text-muted-foreground">
-          <span className="inline-flex items-center gap-1.5">
-            <Building2 size={13} />
-            {storeFilter ? selectedStoreName || `Store #${storeFilter}` : "Semua store"}
-          </span>
-          <span className="inline-flex items-center gap-1.5">
-            <CalendarDays size={13} />
-            Periode:{" "}
-            {dateRange.startDate
-              ? `${new Date(dateRange.startDate).toLocaleDateString("id-ID")} – ${new Date(
-                  dateRange.endDate
-                ).toLocaleDateString("id-ID")}`
-              : "Semua waktu"}
-          </span>
-          <span className="inline-flex items-center gap-1.5">
-            <Info size={13} />
-            {d.meta?.storeCount || 0} store aktif
-          </span>
-        </div>
+        <Button
+          variant="outline"
+          size="sm"
+          className="gap-1.5"
+          onClick={() => refetch()}
+          disabled={isFetching}>
+          <RefreshCw size={14} className={isFetching ? "animate-spin" : ""} />
+          {t("page.dashboardSuperAdmin.reload")}
+        </Button>
+      </PageHeader>
+
+      <div className="flex flex-wrap items-center gap-x-5 gap-y-1.5 text-xs text-muted-foreground">
+        <span className="inline-flex items-center gap-1.5 capitalize">
+          <CalendarDays size={13} />
+          {rangeLabel}
+        </span>
+        <span className="inline-flex items-center gap-1.5">
+          <Building2 size={13} />
+          {storeFilter
+            ? selectedStoreName ||
+              t("page.dashboardSuperAdmin.meta.storeFallback", { id: storeFilter })
+            : t("page.dashboardSuperAdmin.meta.allStores")}
+        </span>
+        <span className="inline-flex items-center gap-1.5">
+          <CalendarDays size={13} />
+          {t("page.dashboardSuperAdmin.meta.period")}{" "}
+          {dateRange.startDate
+            ? `${new Date(dateRange.startDate).toLocaleDateString(locale)} – ${new Date(
+                dateRange.endDate
+              ).toLocaleDateString(locale)}`
+            : t("page.dashboardSuperAdmin.meta.allTime")}
+        </span>
+        <span className="inline-flex items-center gap-1.5">
+          <Info size={13} />
+          {t("page.dashboardSuperAdmin.meta.activeStores", { count: d.meta?.storeCount || 0 })}
+        </span>
       </div>
 
       {upcomingCount > 0 && (
@@ -268,7 +244,7 @@ const DashboardSuperAdmin = () => {
           <KpiCards summary={summary} />
 
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-            <SalesTrendChart kpiTrend={d.kpiTrend} filterLabel={dateRange.label} />
+            <SalesTrendChart kpiTrend={d.kpiTrend} filterLabel={rangeLabel} />
             <PaymentBreakdown paymentBreakdown={d.paymentBreakdown} />
           </div>
 
@@ -289,14 +265,17 @@ const DashboardSuperAdmin = () => {
 
           <div className="flex items-center justify-between px-2 text-xs text-muted-foreground">
             <span>
-              Total pendapatan:{" "}
+              {t("page.dashboardSuperAdmin.footer.totalRevenue")}{" "}
               <span className="font-semibold text-foreground">
                 {formatCurrencyRupiah(summary.revenue)}
               </span>
             </span>
             <span>
-              {summary.orders} order · {summary.itemsSold} item terjual · {summary.totalMembers}{" "}
-              member
+              {t("page.dashboardSuperAdmin.footer.summary", {
+                orders: summary.orders,
+                items: summary.itemsSold,
+                members: summary.totalMembers
+              })}
             </span>
           </div>
         </>

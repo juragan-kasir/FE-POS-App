@@ -267,11 +267,11 @@ const KitchenDisplay = () => {
                                     <span className="font-bold text-sm truncate">
                                       #{order.orderNumber || order.id}
                                     </span>
-                                    <span className="text-[10px] font-semibold px-1.5 py-0.5 rounded-full bg-background border border-border shrink-0">
+                                    <span className="text-xs font-semibold px-1.5 py-0.5 rounded-full bg-background border border-border shrink-0">
                                       {colQty} {t("page.kitchenDisplay.itemUnit")}
                                     </span>
                                   </div>
-                                  <span className="text-[10px] text-muted-foreground shrink-0">
+                                  <span className="text-xs text-muted-foreground shrink-0">
                                     {timeAgo(order.createdAt)}
                                   </span>
                                 </div>
@@ -314,7 +314,7 @@ const KitchenDisplay = () => {
                                             </span>
                                           )}
                                           {item.bundleName && (
-                                            <span className="text-[10px] px-1.5 py-0.5 rounded bg-muted text-muted-foreground shrink-0">
+                                            <span className="text-xs px-1.5 py-0.5 rounded bg-muted text-muted-foreground shrink-0">
                                               {item.bundleName}
                                             </span>
                                           )}
@@ -323,25 +323,25 @@ const KitchenDisplay = () => {
                                           {formatIDR(item.price)}
                                         </p>
                                         {item.notes && (
-                                          <p className="text-[11px] text-amber-600 dark:text-amber-400 mt-1">
+                                          <p className="text-xs text-amber-600 dark:text-amber-400 mt-1">
                                             <StickyNote size={11} className="inline mr-0.5" />
                                             {t("page.kitchenDisplay.notesLabel")}: {item.notes}
                                           </p>
                                         )}
                                         {item.options?.length > 0 && (
-                                          <p className="text-[11px] text-muted-foreground mt-1">
+                                          <p className="text-xs text-muted-foreground mt-1">
                                             {t("page.kitchenDisplay.optionsLabel")}:{" "}
                                             {item.options.map((o) => o.name || o).join(", ")}
                                           </p>
                                         )}
                                         {item.modifiers?.length > 0 && (
-                                          <p className="text-[11px] text-muted-foreground mt-1">
+                                          <p className="text-xs text-muted-foreground mt-1">
                                             {t("page.kitchenDisplay.modifiersLabel")}:{" "}
                                             {item.modifiers.map((m) => m.name || m).join(", ")}
                                           </p>
                                         )}
                                         {item.stationDapur && (
-                                          <p className="text-[11px] text-muted-foreground mt-1">
+                                          <p className="text-xs text-muted-foreground mt-1">
                                             {t("page.kitchenDisplay.stationLabel")}:{" "}
                                             {item.stationDapur}
                                           </p>
@@ -373,7 +373,7 @@ const KitchenDisplay = () => {
                                   {formatIDR(colTotal)}
                                 </span>
                               </div>
-                              <div className="px-3 pb-2 flex items-center justify-between gap-2 text-[10px] text-muted-foreground">
+                              <div className="px-3 pb-2 flex items-center justify-between gap-2 text-xs text-muted-foreground">
                                 <span className="uppercase">{order.paymentMethod || "-"}</span>
                                 <span
                                   className={`px-1.5 py-0.5 rounded-full font-semibold uppercase ${

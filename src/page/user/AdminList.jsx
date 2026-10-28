@@ -8,6 +8,7 @@ import { getAllUsers, changeUserStatus } from "@/services/user";
 import ChangeUserStoreModal from "./ChangeUserStoreModal";
 import { Button } from "@/components/ui/button";
 import { SearchInput } from "@/components/ui/SearchInput";
+import DataTable from "@/components/ui/DataTable";
 import TableToolbar from "@/components/ui/TableToolbar";
 import TableActions from "@/components/ui/TableActions";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -21,8 +22,6 @@ import {
   UserPlus,
   Download,
   MapPin,
-  ChevronLeft,
-  ChevronRight,
   ArrowRight,
   ShieldAlert,
   Sparkles
@@ -33,8 +32,9 @@ import Modal from "@/components/organism/modal";
 import StatCard from "@/components/ui/StatCard";
 import TableActionLegend from "@/components/ui/TableActionLegend";
 import PageHeader from "@/components/ui/PageHeader";
-import HorizontalScrollArea from "@/components/ui/HorizontalScrollArea";
 import { useLocations } from "@/queries/useLocations";
+import { toCsv, downloadCsv } from "@/lib/csv";
+import { todayDateOnly } from "@/utils/dateOnly";
 
 const getStatus = (user, t) => {
   const statusConfig = {
@@ -124,7 +124,7 @@ const AdminList = () => {
   const user = cookie?.user;
   const MENU_KEY = "/user-list";
   const [page, setPage] = useState(1);
-  const [limit] = useState(10);
+  const [limit, setLimit] = useState(10);
   const [search, setSearch] = useState("");
 
   const isFiltered = search !== "";
@@ -186,6 +186,128 @@ const AdminList = () => {
   const users = data?.data || data?.users || [];
   const total = data?.total || data?.pagination?.total || 0;
   const totalPages = data?.pagination?.totalPages || Math.ceil(total / limit) || 1;
+
+  // The list endpoint returns every user, so the export is built from the
+  // rows already loaded (same columns as the table).
+  const exportUsers = () => {
+    const csv = toCsv(users, [
+      { header: t("page.user.adminList.tableAdmin"), value: (u) => u.fullName || u.userName },
+      { header: "Username", value: (u) => u.userName },
+      { header: "Email", value: (u) => u.email },
+      { header: t("page.user.adminList.tableStore"), value: (u) => storeNameOf(u) },
+      { header: t("page.user.adminList.tableRole"), value: (u) => u.roleType || "admin" },
+      { header: t("common.status"), value: (u) => getStatus(u, t).label }
+    ]);
+    downloadCsv(`users-${todayDateOnly()}.csv`, csv);
+  };
+
+  const columns = [
+    {
+      header: t("page.user.adminList.tableAdmin"),
+      render: (u) => (
+        <div className="flex items-center gap-3">
+          <div
+            className={`w-10 h-10 rounded-full ${avatarBg(u.fullName || u.userName)} flex items-center justify-center text-sm font-bold`}>
+            {getInitials(u.fullName || u.userName)}
+          </div>
+          <div>
+            <p className="text-sm font-semibold text-foreground">{u.fullName || u.userName}</p>
+            <p className="text-xs text-muted-foreground">{u.email}</p>
+          </div>
+        </div>
+      )
+    },
+    {
+      header: t("page.user.adminList.tableStore"),
+      render: (u) => (
+        <div className="flex items-center gap-2">
+          <MapPin size={18} className="text-muted-foreground" />
+          <span className="text-sm text-muted-foreground">{storeNameOf(u) || "-"}</span>
+        </div>
+      )
+    },
+    {
+      header: t("page.user.adminList.tableRole"),
+      render: (u) => {
+        const role = u.roleType || "admin";
+        return (
+          <span
+            className={`inline-block px-3 py-1 rounded-full text-xs font-semibold ${getRoleClass(role)}`}>
+            {role.replace("_", " ").replace(/\b\w/g, (l) => l.toUpperCase())}
+          </span>
+        );
+      }
+    },
+    {
+      header: t("common.status"),
+      render: (u) => {
+        const status = getStatus(u, t);
+        return (
+          <span
+            className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold ${status.bg}`}>
+            <span className={`w-1.5 h-1.5 rounded-full ${status.dot}`} />
+            {status.label}
+          </span>
+        );
+      }
+    },
+    {
+      header: t("common.actions"),
+      align: "right",
+      render: (u) =>
+        u.status === "pending" || u.isActive === null ? (
+          <div className="flex justify-end items-center gap-2">
+            <Button
+              size="sm"
+              onClick={() => setStatusModal({ id: u.id, status: "active" })}
+              className="h-8 text-xs gap-1">
+              {t("page.user.adminList.activate")}
+            </Button>
+            <TableActions
+              align="right"
+              visible={2}
+              items={[
+                {
+                  label: t("common.deactivate"),
+                  iconName: "close",
+                  danger: true,
+                  onClick: () => setStatusModal({ id: u.id, status: "inactive" })
+                },
+                ...storeActions(u)
+              ]}
+            />
+          </div>
+        ) : (
+          <div className="flex justify-end">
+            <TableActions
+              align="right"
+              items={[
+                // Status-driven toggle through the same confirmation modal:
+                // active -> Nonaktifkan, otherwise -> Aktifkan ("active" also
+                // re-enables disabled/inactive/draft rows on the BE).
+                ...(u.status === "active"
+                  ? [
+                      {
+                        label: t("common.deactivate"),
+                        iconName: "close",
+                        danger: true,
+                        onClick: () => setStatusModal({ id: u.id, status: "inactive" })
+                      }
+                    ]
+                  : [
+                      {
+                        label: t("common.activate"),
+                        iconName: "check",
+                        onClick: () => setStatusModal({ id: u.id, status: "active" })
+                      }
+                    ]),
+                ...storeActions(u)
+              ]}
+            />
+          </div>
+        )
+    }
+  ];
 
   return (
     <div data-tour="page-users" className="space-y-6">
@@ -271,30 +393,32 @@ const AdminList = () => {
               </div>
             )}
 
-            <div
-              data-tour="user-table"
-              className="bg-card rounded-xl shadow-sm border border-border overflow-hidden">
-              <div className="px-6 py-5 border-b border-border bg-muted/30">
-                <div className="flex justify-between items-center gap-3">
-                  <h4 className="text-base font-semibold text-foreground">
-                    {t("page.user.adminList.tableTitle")}
-                  </h4>
-                  <div className="flex gap-3">
-                    {canAccess(user, MENU_KEY, "export") && (
-                      <Button variant="general" size="sm" className="gap-2 h-9">
-                        <Download size={18} className="text-base" />
-                        {t("page.user.adminList.exportCsv")}
-                      </Button>
-                    )}
-                  </div>
-                </div>
-                <div className="mt-4">
-                  <TableToolbar onReset={resetFilters} isFiltered={isFiltered}>
+            <div data-tour="user-table">
+              <DataTable
+                columns={columns}
+                data={users}
+                isLoading={isLoading || isFetching}
+                rowKey={(u) => u.id || u._id}
+                emptyIcon={ShieldCheck}
+                emptyMessage={t("page.user.adminList.empty")}
+                emptyAction={
+                  canAccess(user, MENU_KEY, "add")
+                    ? { label: t("page.user.button.add"), onClick: () => navigate("/add-user") }
+                    : undefined
+                }
+                toolbar={
+                  <TableToolbar
+                    title={t("page.user.adminList.tableTitle")}
+                    onReset={resetFilters}
+                    isFiltered={isFiltered}>
                     <div className="flex flex-col gap-1.5">
-                      <label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
-                        Cari
+                      <label
+                        htmlFor="admin-list-search"
+                        className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                        {t("common.search")}
                       </label>
                       <SearchInput
+                        id="admin-list-search"
                         value={search}
                         onChange={(val) => {
                           setSearch(val);
@@ -304,256 +428,31 @@ const AdminList = () => {
                         isLoading={isFetching}
                       />
                     </div>
+                    {canAccess(user, MENU_KEY, "export") && (
+                      <Button
+                        variant="general"
+                        size="sm"
+                        className="gap-2 h-9"
+                        onClick={exportUsers}
+                        disabled={users.length === 0}>
+                        <Download size={18} className="text-base" />
+                        {t("page.user.adminList.exportCsv")}
+                      </Button>
+                    )}
                   </TableToolbar>
-                </div>
-              </div>
-
-              {isLoading ? (
-                <HorizontalScrollArea>
-                  <table className="w-full text-left border-collapse">
-                    <thead>
-                      <tr className="bg-muted/10">
-                        <th className="px-6 py-4 border-b border-border">
-                          <Skeleton className="h-3 w-24" />
-                        </th>
-                        <th className="px-6 py-4 border-b border-border">
-                          <Skeleton className="h-3 w-16" />
-                        </th>
-                        <th className="px-6 py-4 border-b border-border">
-                          <Skeleton className="h-3 w-12" />
-                        </th>
-                        <th className="px-6 py-4 border-b border-border">
-                          <Skeleton className="h-3 w-14" />
-                        </th>
-                        <th className="px-6 py-4 border-b border-border text-right">
-                          <Skeleton className="h-3 w-16 ml-auto" />
-                        </th>
-                      </tr>
-                    </thead>
-                    <tbody className="divide-y divide-border">
-                      {[...Array(6)].map((_, i) => (
-                        <tr key={i}>
-                          <td className="px-6 py-4">
-                            <div className="flex items-center gap-3">
-                              <Skeleton className="w-10 h-10 rounded-full" />
-                              <div>
-                                <Skeleton className="h-4 w-28 mb-1" />
-                                <Skeleton className="h-3 w-36" />
-                              </div>
-                            </div>
-                          </td>
-                          <td className="px-6 py-4">
-                            <div className="flex items-center gap-2">
-                              <Skeleton className="h-4 w-4" />
-                              <Skeleton className="h-4 w-24" />
-                            </div>
-                          </td>
-                          <td className="px-6 py-4">
-                            <Skeleton className="h-5 w-20 rounded-full" />
-                          </td>
-                          <td className="px-6 py-4">
-                            <Skeleton className="h-5 w-20 rounded-full" />
-                          </td>
-                          <td className="px-6 py-4 text-right">
-                            <Skeleton className="h-8 w-16 rounded ml-auto" />
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </HorizontalScrollArea>
-              ) : (
-                <HorizontalScrollArea>
-                  <table className="w-full text-left border-collapse">
-                    <thead>
-                      <tr className="bg-muted/10">
-                        <th className="px-6 py-4 text-xs font-semibold text-muted-foreground uppercase tracking-wider border-b border-border">
-                          {t("page.user.adminList.tableAdmin")}
-                        </th>
-                        <th className="px-6 py-4 text-xs font-semibold text-muted-foreground uppercase tracking-wider border-b border-border">
-                          {t("page.user.adminList.tableStore")}
-                        </th>
-                        <th className="px-6 py-4 text-xs font-semibold text-muted-foreground uppercase tracking-wider border-b border-border">
-                          {t("page.user.adminList.tableRole")}
-                        </th>
-                        <th className="px-6 py-4 text-xs font-semibold text-muted-foreground uppercase tracking-wider border-b border-border">
-                          {t("common.status")}
-                        </th>
-                        <th className="px-6 py-4 text-xs font-semibold text-muted-foreground uppercase tracking-wider border-b border-border text-right">
-                          {t("common.actions")}
-                        </th>
-                      </tr>
-                    </thead>
-                    <tbody className="divide-y divide-border">
-                      {users.length === 0 ? (
-                        <tr>
-                          <td colSpan={5} className="px-6 py-12 text-center text-muted-foreground">
-                            <ShieldCheck size={36} className="text-4xl block mb-2" />
-                            {t("page.user.adminList.empty")}
-                          </td>
-                        </tr>
-                      ) : (
-                        users.map((user) => {
-                          const status = getStatus(user, t);
-                          const role = user.roleType || "admin";
-                          return (
-                            <tr
-                              key={user.id || user._id}
-                              className="hover:bg-muted/20 transition-colors group">
-                              <td className="px-6 py-4">
-                                <div className="flex items-center gap-3">
-                                  <div
-                                    className={`w-10 h-10 rounded-full ${avatarBg(user.fullName || user.userName)} flex items-center justify-center text-sm font-bold`}>
-                                    {getInitials(user.fullName || user.userName)}
-                                  </div>
-                                  <div>
-                                    <p className="text-sm font-semibold text-foreground">
-                                      {user.fullName || user.userName}
-                                    </p>
-                                    <p className="text-xs text-muted-foreground">{user.email}</p>
-                                  </div>
-                                </div>
-                              </td>
-                              <td className="px-6 py-4">
-                                <div className="flex items-center gap-2">
-                                  <MapPin size={18} className="text-muted-foreground text-base" />
-                                  <span className="text-sm text-muted-foreground">
-                                    {storeNameOf(user) || "-"}
-                                  </span>
-                                </div>
-                              </td>
-                              <td className="px-6 py-4">
-                                <span
-                                  className={`inline-block px-3 py-1 rounded-full text-xs font-semibold ${getRoleClass(role)}`}>
-                                  {role.replace("_", " ").replace(/\b\w/g, (l) => l.toUpperCase())}
-                                </span>
-                              </td>
-                              <td className="px-6 py-4">
-                                <span
-                                  className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold ${status.bg}`}>
-                                  <span className={`w-1.5 h-1.5 rounded-full ${status.dot}`} />
-                                  {status.label}
-                                </span>
-                              </td>
-                              <td className="px-6 py-4 text-right">
-                                {user.status === "pending" || user.isActive === null ? (
-                                  <div className="flex justify-end items-center gap-2">
-                                    <Button
-                                      variant="outline"
-                                      size="sm"
-                                      onClick={() =>
-                                        setStatusModal({ id: user.id, status: "active" })
-                                      }
-                                      className="h-8 text-xs gap-1 bg-primary text-primary-foreground hover:brightness-110 border-0">
-                                      {t("page.user.adminList.activate")}
-                                    </Button>
-                                    <TableActions
-                                      align="right"
-                                      visible={2}
-                                      items={[
-                                        {
-                                          label: t("common.deactivate"),
-                                          iconName: "close",
-                                          danger: true,
-                                          onClick: () =>
-                                            setStatusModal({ id: user.id, status: "inactive" })
-                                        },
-                                        ...storeActions(user)
-                                      ]}
-                                    />
-                                  </div>
-                                ) : (
-                                  <div className="flex justify-end">
-                                    <TableActions
-                                      align="right"
-                                      items={[
-                                        // Status-driven toggle via the existing
-                                        // status-confirmation flow (same modal +
-                                        // mutation as the pending branch above):
-                                        // active -> Nonaktifkan, otherwise -> Aktifkan.
-                                        // "active" also enables (BE treats it as
-                                        // enable), so disabled/inactive/draft rows
-                                        // all recover through Aktifkan.
-                                        ...(user.status === "active"
-                                          ? [
-                                              {
-                                                label: t("common.deactivate"),
-                                                iconName: "close",
-                                                danger: true,
-                                                onClick: () =>
-                                                  setStatusModal({
-                                                    id: user.id,
-                                                    status: "inactive"
-                                                  })
-                                              }
-                                            ]
-                                          : [
-                                              {
-                                                label: t("common.activate"),
-                                                iconName: "check",
-                                                onClick: () =>
-                                                  setStatusModal({ id: user.id, status: "active" })
-                                              }
-                                            ]),
-                                        ...storeActions(user)
-                                      ]}
-                                    />
-                                  </div>
-                                )}
-                              </td>
-                            </tr>
-                          );
-                        })
-                      )}
-                    </tbody>
-                  </table>
-                </HorizontalScrollArea>
-              )}
-
-              <div className="px-6 py-4 border-t border-border flex justify-between items-center bg-muted/10">
-                <span className="text-xs text-muted-foreground">
-                  {t("page.user.adminList.showing", { count: users.length, total })}
-                </span>
-                <div className="flex gap-1">
-                  <button
-                    onClick={() => setPage(Math.max(1, page - 1))}
-                    disabled={page <= 1}
-                    className="p-2 rounded-lg hover:bg-muted text-muted-foreground disabled:opacity-30 transition-colors">
-                    <ChevronLeft size={20} className="text-lg" />
-                  </button>
-                  {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
-                    const pageNum = i + 1;
-                    return (
-                      <button
-                        key={pageNum}
-                        onClick={() => setPage(pageNum)}
-                        className={`w-10 h-10 rounded-lg text-sm font-semibold transition-colors ${
-                          page === pageNum
-                            ? "bg-primary text-primary-foreground"
-                            : "hover:bg-muted text-muted-foreground"
-                        }`}>
-                        {pageNum}
-                      </button>
-                    );
-                  })}
-                  {totalPages > 5 && (
-                    <>
-                      <span className="px-2 py-2 text-muted-foreground text-sm">...</span>
-                      <button
-                        onClick={() => setPage(totalPages)}
-                        className="w-10 h-10 rounded-lg hover:bg-muted text-muted-foreground text-sm font-semibold transition-colors">
-                        {totalPages}
-                      </button>
-                    </>
-                  )}
-                  <button
-                    onClick={() => setPage(Math.min(totalPages, page + 1))}
-                    disabled={page >= totalPages}
-                    className="p-2 rounded-lg hover:bg-muted text-muted-foreground disabled:opacity-30 transition-colors">
-                    <ChevronRight size={20} className="text-lg" />
-                  </button>
-                </div>
-              </div>
+                }
+                pagination={{
+                  page,
+                  totalPages,
+                  total,
+                  onPageChange: setPage,
+                  pageSize: limit,
+                  onPageSizeChange: (v) => {
+                    setLimit(v);
+                    setPage(1);
+                  }
+                }}
+              />
             </div>
 
             <TableActionLegend
@@ -573,7 +472,10 @@ const AdminList = () => {
                   <p className="text-sm text-muted-foreground mb-6 leading-relaxed">
                     {t("page.user.adminList.securityDesc")}
                   </p>
-                  <Button variant="link" className="gap-2 p-0 h-auto text-primary font-semibold">
+                  <Button
+                    variant="link"
+                    className="gap-2 p-0 h-auto text-primary font-semibold"
+                    onClick={() => navigate("/support")}>
                     {t("page.user.adminList.learnSecurity")}
                     <ArrowRight size={20} className="text-lg" />
                   </Button>
@@ -593,9 +495,12 @@ const AdminList = () => {
                     {t("page.user.adminList.quickHelpDesc")}
                   </p>
                 </div>
-                <button className="mt-6 w-full py-3 bg-white/10 text-white rounded-lg hover:bg-white/20 transition-colors text-sm font-semibold">
+                <Button
+                  variant="ghost"
+                  className="mt-6 w-full py-3 bg-white/10 text-white hover:bg-white/20 hover:text-white font-semibold"
+                  onClick={() => navigate("/support")}>
                   {t("page.user.adminList.contactSuccess")}
-                </button>
+                </Button>
               </div>
             </div>
           </>

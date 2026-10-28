@@ -43,7 +43,7 @@ const FloatingTourButton = () => {
           <LifeBuoy size={18} className="animate-pulse" />
         </div>
         <div className="flex flex-col items-start leading-tight">
-          <span className="text-[10px] font-medium opacity-80 uppercase tracking-wider">
+          <span className="text-xs font-medium opacity-80 uppercase tracking-wider">
             {t("tour.brand")}
           </span>
           <span className="text-sm font-semibold">{t("tour.startGuide")}</span>

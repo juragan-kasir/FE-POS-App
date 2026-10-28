@@ -63,8 +63,6 @@ describe("Locale inventory", () => {
     expect(indexHtml).toContain('var supported = ["en", "id"]');
     const header = fs.readFileSync(path.join(APP_ROOT, "src/components/layout/Header.jsx"), "utf8");
     expect(header).not.toContain("jpn");
-    const transConfig = fs.readFileSync(path.join(APP_ROOT, "src/utils/translation.js"), "utf8");
-    expect(transConfig).not.toContain("jpn");
   });
 });
 

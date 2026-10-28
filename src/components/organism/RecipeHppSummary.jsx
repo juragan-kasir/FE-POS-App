@@ -22,7 +22,7 @@ export const HppStatusBadge = ({ status }) => {
     <span
       data-testid="hpp-status"
       data-status={key}
-      className={`inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-semibold border ${STATUS_STYLE[key]}`}>
+      className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold border ${STATUS_STYLE[key]}`}>
       {t(`page.recipeHpp.status.${key}`)}
     </span>
   );

@@ -22,6 +22,7 @@ import AbortController from "@/components/organism/abort-controller";
 import StatCard from "@/components/ui/StatCard";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useLocations } from "@/queries/useLocations";
+import PageHeader from "@/components/ui/PageHeader";
 
 const STATUS_LABELS = {
   UNPAID: { label: "Belum Dibayar", color: "bg-yellow-100 text-yellow-800" },
@@ -170,32 +171,14 @@ const AccountsReceivableList = () => {
 
   return (
     <div className="space-y-6">
-      <div>
-        <nav className="flex items-center gap-2 text-sm text-muted-foreground">
-          <button
-            onClick={() => navigate("/dashboard-super-admin")}
-            className="hover:text-foreground transition-colors">
-            {t("breadcrumb.home")}
-          </button>
-          <span className="text-xs">/</span>
-          <span className="text-primary font-semibold">
-            {t("page.accountsReceivable.list.breadcrumb")}
-          </span>
-        </nav>
-      </div>
-
-      <div>
-        <div className="flex items-center justify-between">
-          <div>
-            <h1 className="text-2xl font-bold text-foreground">
-              {t("page.accountsReceivable.list.title")}
-            </h1>
-            <p className="text-sm text-muted-foreground mt-1">
-              {t("page.accountsReceivable.list.subtitle")}
-            </p>
-          </div>
-        </div>
-      </div>
+      <PageHeader
+        breadcrumbs={[
+          { label: t("breadcrumb.home"), href: "/dashboard-super-admin" },
+          { label: t("page.accountsReceivable.list.breadcrumb") }
+        ]}
+        title={t("page.accountsReceivable.list.title")}
+        description={t("page.accountsReceivable.list.subtitle")}
+      />
 
       {locData && (locData?.data || []).length === 0 ? (
         <NoStore />
@@ -345,10 +328,13 @@ const AccountsReceivableList = () => {
               loading={payMutation.isLoading}>
               <div className="space-y-3">
                 <div>
-                  <label className="text-sm font-medium">
+                  <label
+                    htmlFor="accounts-receivable-list-amount-label"
+                    className="text-sm font-medium">
                     {t("page.accountsReceivable.list.modal.amountLabel")}
                   </label>
                   <Input
+                    id="accounts-receivable-list-amount-label"
                     type="number"
                     value={payAmount}
                     onChange={(e) => setPayAmount(e.target.value)}

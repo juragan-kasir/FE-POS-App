@@ -238,7 +238,7 @@ const MyShift = () => {
           <div className="min-w-0 flex-1">
             <div className="flex flex-wrap items-center gap-2">
               <p className="font-semibold text-foreground truncate">{s.nama_shift || "-"}</p>
-              <span className="px-2 py-0.5 rounded-full bg-muted text-muted-foreground text-[10px] font-semibold capitalize">
+              <span className="px-2 py-0.5 rounded-full bg-muted text-muted-foreground text-xs font-semibold capitalize">
                 {SHIFT_TYPES.includes(s.tipe_shift)
                   ? safeGet(SHIFT_TYPE_LABELS, s.tipe_shift, s.tipe_shift)
                   : safeGet(SHIFT_TYPE_LABELS, DEFAULT_SHIFT_TYPE, DEFAULT_SHIFT_TYPE)}
@@ -257,7 +257,7 @@ const MyShift = () => {
             </span>
             {cat === "ongoing" && (
               <span
-                className={`inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[10px] font-semibold ${
+                className={`inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-xs font-semibold ${
                   hasCheckedIn && hasCheckedOut
                     ? "bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400"
                     : hasCheckedIn
@@ -267,17 +267,17 @@ const MyShift = () => {
                 {hasCheckedIn && hasCheckedOut ? (
                   <>
                     <CheckCircle2 size={10} />
-                    Absen Masuk & Pulang
+                    {t("page.shift.ui.clockInOut")}
                   </>
                 ) : hasCheckedIn ? (
                   <>
                     <CheckCircle2 size={10} />
-                    Absen Masuk • Belum Pulang
+                    {t("page.shift.ui.clockedInNotClockedOut")}
                   </>
                 ) : (
                   <>
                     <CircleDashed size={10} />
-                    Belum Absen
+                    {t("page.shift.ui.notClockedIn")}
                   </>
                 )}
               </span>
@@ -318,12 +318,12 @@ const MyShift = () => {
                   ) : hasCheckedIn ? (
                     <>
                       <LogOut size={13} />
-                      Absen Pulang
+                      {t("page.shift.ui.clockOut")}
                     </>
                   ) : (
                     <>
                       <Fingerprint size={13} />
-                      Absen Masuk
+                      {t("page.shift.ui.clockIn")}
                     </>
                   )}
                 </Button>
@@ -456,7 +456,7 @@ const MyShift = () => {
                   <h2 className="text-sm font-bold uppercase tracking-wide text-muted-foreground">
                     {t(`page.shift.myShift.${secKey}`)}
                   </h2>
-                  <span className="rounded-full bg-muted text-muted-foreground text-[11px] font-semibold px-2 py-0.5">
+                  <span className="rounded-full bg-muted text-muted-foreground text-xs font-semibold px-2 py-0.5">
                     {list.length}
                   </span>
                 </div>
@@ -475,9 +475,12 @@ const MyShift = () => {
                 <ArrowRightLeft size={18} />
               </div>
               <div>
-                <h2 className="text-sm font-semibold text-foreground">Pertukaran Shift</h2>
+                <h2 className="text-sm font-semibold text-foreground">
+                  {t("page.shift.ui.shiftSwaps")}
+                </h2>
                 <p className="text-xs text-muted-foreground">
-                  {mySwaps.filter((s) => s.status === "pending").length} sedang diproses ·{" "}
+                  {mySwaps.filter((s) => s.status === "pending").length}{" "}
+                  {t("page.shift.ui.inProgress")}{" "}
                   {mySwaps.filter((s) => s.status === "approved").length} berhasil
                 </p>
               </div>
@@ -558,7 +561,7 @@ const MyShift = () => {
                   {s.note && (
                     <p className="mt-1.5 text-xs text-muted-foreground line-clamp-2">{s.note}</p>
                   )}
-                  <p className="mt-2 text-[11px] text-muted-foreground">
+                  <p className="mt-2 text-xs text-muted-foreground">
                     {isRequester ? "Kamu mengajukan" : "Diajukan untukmu"} ·{" "}
                     {s.createdAt
                       ? new Date(s.createdAt).toLocaleString("id-ID", {
@@ -577,7 +580,7 @@ const MyShift = () => {
                         className="h-8 gap-1.5 text-xs text-red-600 dark:text-red-400 hover:text-red-600 dark:hover:text-red-400"
                         onClick={() => setCancelSwap(s)}>
                         <XCircle size={13} />
-                        Batalkan
+                        {t("page.goodsRequest.list.cancel")}
                       </Button>
                     </div>
                   )}

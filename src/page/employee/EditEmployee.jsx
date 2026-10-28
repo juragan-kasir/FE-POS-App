@@ -765,11 +765,14 @@ const EditEmployee = () => {
 
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
                           <div className="flex flex-col items-center gap-3">
-                            <label className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
+                            <label
+                              htmlFor="edit-employee-photo"
+                              className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
                               {t("page.employee.edit.photo")}
                             </label>
 
                             <input
+                              id="edit-employee-photo"
                               ref={fileInputRef}
                               type="file"
                               accept="image/*"
@@ -783,7 +786,7 @@ const EditEmployee = () => {
                                 <>
                                   <img
                                     src={previewImage}
-                                    alt="Preview"
+                                    alt={t("page.product.form.preview")}
                                     className="w-full h-full object-cover"
                                   />
                                   <button
@@ -1733,8 +1736,8 @@ const EditEmployee = () => {
         type="confirm"
         open={confirmSaveModal}
         onOpenChange={setConfirmSaveModal}
-        title="Konfirmasi Simpan"
-        description="Apakah Anda yakin ingin menyimpan perubahan data ini?"
+        title={t("common.confirmSave")}
+        description={t("page.employee.ui.areYouSureYouWant")}
         confirmText="Ya, Simpan"
         onConfirm={() => {
           setConfirmSaveModal(false);

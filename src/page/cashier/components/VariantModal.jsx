@@ -158,7 +158,7 @@ const VariantModal = ({ product, onSelect, onClose }) => {
           {hasOptions && (
             <div className="space-y-3">
               <p className="text-sm font-semibold text-foreground border-b border-border/30 pb-1">
-                Options
+                {t("page.kitchenDisplay.optionsLabel")}
               </p>
               {product.options.map((group) => (
                 <div key={group.id || group.name}>
@@ -224,7 +224,7 @@ const VariantModal = ({ product, onSelect, onClose }) => {
           {hasModifiers && (
             <div className="space-y-2">
               <p className="text-sm font-semibold text-foreground border-b border-border/30 pb-1">
-                Modifiers
+                {t("page.product.detail.modifiers")}
               </p>
               {product.modifiers
                 .filter((m) => m.name)
@@ -289,7 +289,7 @@ const VariantModal = ({ product, onSelect, onClose }) => {
 
         <div className="border-t border-border/50 p-4 shrink-0 space-y-2">
           <div className="flex items-center justify-between px-1">
-            <span className="text-sm text-muted-foreground">Total</span>
+            <span className="text-sm text-muted-foreground">{t("document.total")}</span>
             <span className="text-lg font-bold text-primary">Rp {formatPrice(totalPrice)}</span>
           </div>
           <Button

@@ -151,8 +151,9 @@ const LinkRow = ({ store, link, onChange, productName, showStoreName }) => {
       {showStoreName && <p className="text-sm font-semibold text-foreground">{store.name}</p>}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
         <div className="md:col-span-2 space-y-1">
-          <Label>{t(`${P}.item`)}</Label>
+          <Label htmlFor="inventory-link-field-item">{t(`${P}.item`)}</Label>
           <Combobox
+            id="inventory-link-field-item"
             options={[
               { value: "", label: t(isLoading ? `${P}.loading` : `${P}.selectItem`) },
               ...items.map((i) => ({

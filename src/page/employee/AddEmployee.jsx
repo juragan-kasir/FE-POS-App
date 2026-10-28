@@ -69,6 +69,7 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { useLocations } from "@/queries/useLocations";
 import { FIELD_LIMITS } from "@/constants/fieldLimits";
 import { useFormExit } from "@/hooks/useLeaveGuard";
+import LoadErrorBanner from "@/components/ui/LoadErrorBanner";
 
 const AddEmployee = () => {
   const navigate = useNavigate();
@@ -546,6 +547,7 @@ const AddEmployee = () => {
             onBack={requestLeave}>
             <UserGuide guideKey="add-employee" />
           </PageHeader>
+          <LoadErrorBanner />
         </div>
       </div>
       <div>
@@ -622,11 +624,15 @@ const AddEmployee = () => {
 
                             <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
                               <div className="flex flex-col items-center gap-3">
-                                <label className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
-                                  Foto <span className="text-destructive">*</span>
+                                <label
+                                  htmlFor="add-employee-photo"
+                                  className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
+                                  {t("page.employee.edit.photo")}{" "}
+                                  <span className="text-destructive">*</span>
                                 </label>
 
                                 <input
+                                  id="add-employee-photo"
                                   ref={fileInputRef}
                                   type="file"
                                   accept="image/*"
@@ -640,7 +646,7 @@ const AddEmployee = () => {
                                     <>
                                       <img
                                         src={previewImage}
-                                        alt="Preview"
+                                        alt={t("page.product.form.preview")}
                                         className="w-full h-full object-cover"
                                       />
                                       <button

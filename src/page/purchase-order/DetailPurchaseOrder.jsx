@@ -128,7 +128,7 @@ export default function DetailPurchaseOrder() {
   const statusMap = {
     draft: {
       label: t("page.purchaseOrder.status.draft"),
-      class: "bg-gray-100 text-gray-800 dark:bg-gray-900/20 dark:text-gray-400"
+      class: "bg-muted text-foreground"
     },
     pending: {
       label: t("page.purchaseOrder.status.pending"),
@@ -1026,7 +1026,7 @@ export default function DetailPurchaseOrder() {
                               )}
                               {name}
                               <span className="text-xs font-normal text-muted-foreground">
-                                ({items.length} item)
+                                ({items.length} {t("page.purchaseOrder.ui.items")}
                               </span>
                             </span>
                           </td>
@@ -1048,7 +1048,7 @@ export default function DetailPurchaseOrder() {
                                   {item.unit || ""}
                                 </span>
                                 {item.conversionToBase && Number(item.conversionToBase) !== 1 && (
-                                  <p className="text-[10px] text-muted-foreground">
+                                  <p className="text-xs text-muted-foreground">
                                     {t("page.purchaseOrder.detail.conversionHint", {
                                       unit: item.unit || "pcs",
                                       qty: item.conversionToBase
@@ -1437,8 +1437,11 @@ export default function DetailPurchaseOrder() {
                 </div>
               </div>
               <div className="space-y-2">
-                <Label>{t("page.purchaseOrder.detail.paymentAmount")}</Label>
+                <Label htmlFor="detail-purchase-order-payment-amount">
+                  {t("page.purchaseOrder.detail.paymentAmount")}
+                </Label>
                 <Input
+                  id="detail-purchase-order-payment-amount"
                   type="text"
                   inputMode="numeric"
                   min={1}
@@ -1450,9 +1453,11 @@ export default function DetailPurchaseOrder() {
                 />
               </div>
               <div className="space-y-2">
-                <Label>{t("page.purchaseOrder.detail.paymentMethod")}</Label>
+                <Label htmlFor="detail-purchase-order-payment-method">
+                  {t("page.purchaseOrder.detail.paymentMethod")}
+                </Label>
                 <Select value={payMethod} onValueChange={setPayMethod}>
-                  <SelectTrigger>
+                  <SelectTrigger id="detail-purchase-order-payment-method">
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
@@ -1472,16 +1477,22 @@ export default function DetailPurchaseOrder() {
                 </Select>
               </div>
               <div className="space-y-2">
-                <Label>{t("page.purchaseOrder.detail.paymentDate")}</Label>
+                <Label htmlFor="detail-purchase-order-payment-date">
+                  {t("page.purchaseOrder.detail.paymentDate")}
+                </Label>
                 <DateInput
+                  id="detail-purchase-order-payment-date"
                   type="date"
                   value={payDate}
                   onChange={(e) => setPayDate(e.target.value)}
                 />
               </div>
               <div className="space-y-2">
-                <Label>{t("page.purchaseOrder.detail.reference")}</Label>
+                <Label htmlFor="detail-purchase-order-reference">
+                  {t("page.purchaseOrder.detail.reference")}
+                </Label>
                 <Input
+                  id="detail-purchase-order-reference"
                   value={payRef}
                   onChange={(e) => setPayRef(e.target.value)}
                   placeholder={t("page.purchaseOrder.detail.referencePlaceholder")}
@@ -1541,7 +1552,7 @@ export default function DetailPurchaseOrder() {
                     <div className="flex-1 min-w-0">
                       <p className="text-sm font-medium truncate">{item.name}</p>
                       <p className="text-xs text-muted-foreground">
-                        Max: {item.maxQty} {item.unit}
+                        {t("page.purchaseOrder.ui.max")} {item.maxQty} {item.unit}
                       </p>
                     </div>
                     <Input
@@ -1567,8 +1578,11 @@ export default function DetailPurchaseOrder() {
               </p>
             )}
             <div className="space-y-2">
-              <Label>{t("page.purchaseOrder.detail.notes")}</Label>
+              <Label htmlFor="detail-purchase-order-notes">
+                {t("page.purchaseOrder.detail.notes")}
+              </Label>
               <Input
+                id="detail-purchase-order-notes"
                 value={returnReason}
                 onChange={(e) => setReturnReason(e.target.value)}
                 placeholder={t("page.purchaseOrder.detail.returnReasonPlaceholder")}
@@ -1576,8 +1590,11 @@ export default function DetailPurchaseOrder() {
               />
             </div>
             <div className="space-y-2">
-              <Label>{t("page.purchaseOrder.detail.returnedBy")}</Label>
+              <Label htmlFor="detail-purchase-order-returned-by">
+                {t("page.purchaseOrder.detail.returnedBy")}
+              </Label>
               <Input
+                id="detail-purchase-order-returned-by"
                 value={returnedByName}
                 onChange={(e) => setReturnedByName(e.target.value)}
                 placeholder={t("page.purchaseOrder.detail.returnedByNamePlaceholder")}
@@ -1632,7 +1649,7 @@ export default function DetailPurchaseOrder() {
                     </div>
                     <div className="px-2 py-1 flex items-center gap-1">
                       <CloudUpload size={10} className="text-muted-foreground shrink-0" />
-                      <span className="text-[10px] text-muted-foreground truncate">
+                      <span className="text-xs text-muted-foreground truncate">
                         {d.file?.name || `doc-${idx + 1}`}
                       </span>
                     </div>
@@ -1644,7 +1661,7 @@ export default function DetailPurchaseOrder() {
                     onClick={() => docInputRef.current?.click()}
                     className="aspect-[4/3] rounded-lg border-2 border-dashed border-border hover:border-primary transition-all flex flex-col items-center justify-center gap-1 text-muted-foreground hover:text-primary bg-muted/20">
                     <CloudUpload size={18} />
-                    <span className="text-[10px] font-medium">
+                    <span className="text-xs font-medium">
                       {t("page.goodsReceipt.add.form.docAdd")}
                     </span>
                   </button>

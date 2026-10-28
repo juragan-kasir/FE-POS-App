@@ -52,11 +52,14 @@ export const useLengthCount = ({ value, defaultValue, onChange, forwardedRef }) 
   return { ref, length, handleChange };
 };
 
-export const LengthCounter = ({ length, maxLength, id }) => {
+export const LengthCounter = ({ length, maxLength, id, className }) => {
   const { t } = useTranslation();
   const atLimit = length >= maxLength;
   return (
-    <div id={id} className="mt-1 flex items-start justify-between gap-2 text-xs" aria-live="polite">
+    <div
+      id={id}
+      className={cn("mt-1 flex items-start justify-between gap-2 text-xs", className)}
+      aria-live="polite">
       <span className={cn("text-destructive", !atLimit && "invisible")}>
         {t("common.maxLengthReached")}
       </span>

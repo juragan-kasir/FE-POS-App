@@ -141,12 +141,12 @@ const ProductImageGallery = ({ images = [], onChange, maxImages = 6, compact = f
                 className="w-full h-full object-cover"
               />
               {idx === 0 && (
-                <div className="absolute top-2 left-2 flex items-center gap-1 bg-primary text-primary-foreground px-2 py-0.5 rounded-full text-[10px] font-semibold shadow-sm">
+                <div className="absolute top-2 left-2 flex items-center gap-1 bg-primary text-primary-foreground px-2 py-0.5 rounded-full text-xs font-semibold shadow-sm">
                   <Star size={10} fill="currentColor" />
                   {t("page.product.form.imgMain")}
                 </div>
               )}
-              <div className="absolute bottom-2 left-2 bg-black/60 backdrop-blur-sm text-white px-2 py-0.5 rounded-md text-[10px] font-medium shadow-sm">
+              <div className="absolute bottom-2 left-2 bg-black/60 backdrop-blur-sm text-white px-2 py-0.5 rounded-md text-xs font-medium shadow-sm">
                 {idx + 1}
               </div>
               <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors" />
@@ -201,20 +201,20 @@ const ProductImageGallery = ({ images = [], onChange, maxImages = 6, compact = f
 
             <div className="mt-1.5 px-0.5 flex items-center justify-between gap-1">
               {idx === 0 ? (
-                <span className="text-[11px] font-medium text-primary">
+                <span className="text-xs font-medium text-primary">
                   {t("page.product.form.imgMainLabel")}
                 </span>
               ) : (
                 <button
                   type="button"
                   onClick={() => setPrimary(idx)}
-                  className="text-[11px] text-muted-foreground hover:text-primary transition-colors truncate">
+                  className="text-xs text-muted-foreground hover:text-primary transition-colors truncate">
                   {t("page.product.form.imgMakeMain")}
                 </button>
               )}
               <span
                 className={cn(
-                  "text-[10px] text-muted-foreground/70 truncate max-w-[55%]",
+                  "text-xs text-muted-foreground/70 truncate max-w-[55%]",
                   img.isNew && "text-blue-500"
                 )}>
                 {img.isNew
@@ -235,7 +235,7 @@ const ProductImageGallery = ({ images = [], onChange, maxImages = 6, compact = f
             </div>
             <div className="text-center px-2">
               <p className="text-sm font-medium">{t("page.product.form.imgAdd")}</p>
-              <p className="text-[11px] text-muted-foreground mt-0.5">
+              <p className="text-xs text-muted-foreground mt-0.5">
                 {t("page.product.form.imgClick")}
               </p>
             </div>
@@ -243,7 +243,7 @@ const ProductImageGallery = ({ images = [], onChange, maxImages = 6, compact = f
         )}
       </div>
 
-      <p className="text-[11px] text-muted-foreground">{t("page.product.form.imgHint")}</p>
+      <p className="text-xs text-muted-foreground">{t("page.product.form.imgHint")}</p>
 
       <Dialog open={zoomIndex !== null} onOpenChange={() => setZoomIndex(null)}>
         <DialogContent withX className="sm:max-w-3xl p-3">

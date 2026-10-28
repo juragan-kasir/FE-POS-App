@@ -3,13 +3,22 @@ import { CreditCard } from "lucide-react";
 import { ResponsiveContainer, PieChart, Pie, Cell, Tooltip } from "recharts";
 import SectionCard from "./SectionCard";
 import { formatCurrencyRupiah } from "@/utils/formatter-currency";
-import { paymentMethodMeta } from "@/utils/payment";
+import { useTranslation } from "react-i18next";
+import { PAYMENT_METHOD_META, paymentMethodMeta } from "@/utils/payment";
 
 const PaymentBreakdown = ({ paymentBreakdown }) => {
+  const { t } = useTranslation();
+  // Unknown codes take the UNRECONCILED label, as paymentMethodMeta does.
+  const methodLabel = (code) =>
+    t(
+      `page.dashboardSuperAdmin.payment.method.${
+        Object.prototype.hasOwnProperty.call(PAYMENT_METHOD_META, code) ? code : "UNRECONCILED"
+      }`
+    );
   // Buckets are canonical tender codes (+ UNRECONCILED) from the API.
   const byType = (paymentBreakdown?.byType || []).map((r) => ({
     ...r,
-    label: paymentMethodMeta(r.type).label,
+    label: methodLabel(r.type),
     color: paymentMethodMeta(r.type).color
   }));
   const byMethod = paymentBreakdown?.byMethod || [];
@@ -18,8 +27,8 @@ const PaymentBreakdown = ({ paymentBreakdown }) => {
   return (
     <SectionCard
       icon={CreditCard}
-      title="Breakdown Pembayaran"
-      subtitle="Distribusi metode pembayaran pada periode ini"
+      title={t("page.dashboardSuperAdmin.payment.title")}
+      subtitle={t("page.dashboardSuperAdmin.payment.subtitle")}
       className="lg:col-span-4"
       bodyClassName="flex flex-col">
       <div className="h-[180px] shrink-0">
@@ -53,7 +62,7 @@ const PaymentBreakdown = ({ paymentBreakdown }) => {
       <div className="space-y-2.5 mt-3">
         {byType.length === 0 && (
           <p className="text-sm text-muted-foreground text-center py-4">
-            Belum ada data pembayaran
+            {t("page.dashboardSuperAdmin.payment.empty")}
           </p>
         )}
         {byType.map((r) => {
@@ -86,15 +95,16 @@ const PaymentBreakdown = ({ paymentBreakdown }) => {
 
       {byMethod.length > 0 && (
         <div className="mt-4 pt-4 border-t border-border">
-          <p className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider mb-2">
-            Rincian Metode
+          <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2">
+            {t("page.dashboardSuperAdmin.payment.methodDetail")}
           </p>
           <div className="flex flex-wrap gap-1.5">
             {byMethod.map((m) => {
-              const meta = paymentMethodMeta(m.bucket ?? m.method);
+              const code = m.bucket ?? m.method;
+              const meta = paymentMethodMeta(code);
               // A stored value that is not itself canonical (legacy alias or
               // unreconciled tender) is shown next to its label for tracing.
-              const showStoredValue = (m.bucket ?? m.method) !== m.method;
+              const showStoredValue = code !== m.method;
               return (
                 <span
                   key={m.method}
@@ -105,7 +115,7 @@ const PaymentBreakdown = ({ paymentBreakdown }) => {
                     className="w-1.5 h-1.5 rounded-full"
                     style={{ backgroundColor: meta.color }}
                   />
-                  {meta.label}
+                  {methodLabel(code)}
                   {showStoredValue && (
                     <span className="font-mono text-muted-foreground">{m.method}</span>
                   )}

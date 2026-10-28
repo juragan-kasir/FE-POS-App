@@ -42,6 +42,8 @@ import AttendanceModal from "@/components/organism/AttendanceModal";
 import SwapShiftModal from "@/page/shift/SwapShiftModal";
 import CancelSwapDialog from "@/page/shift/CancelSwapDialog";
 import { safeGet } from "@/lib/safe-lookup";
+import LoadErrorBanner from "@/components/ui/LoadErrorBanner";
+import { useTranslation } from "react-i18next";
 
 const DAY_MS = 86400000;
 
@@ -71,6 +73,7 @@ const greeting = () => {
 };
 
 const DashboardUser = () => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const [cookie] = useCookies();
@@ -269,6 +272,7 @@ const DashboardUser = () => {
 
   return (
     <div className="space-y-6 animate-in fade-in slide-in-from-top-2 duration-300">
+      <LoadErrorBanner />
       {/* Greeting */}
       <div className="relative overflow-hidden rounded-2xl border border-border/70 bg-card p-6 shadow-sm">
         <div className="pointer-events-none absolute -right-10 -top-16 w-56 h-56 rounded-full bg-primary/10 blur-3xl" />
@@ -303,13 +307,13 @@ const DashboardUser = () => {
             {canPos && (
               <Button size="sm" onClick={() => navigate("/home")}>
                 <Calculator size={15} className="mr-1.5" />
-                Buka Kasir / POS
+                {t("page.dashboardUser.ui.openCashierPos")}
               </Button>
             )}
             {canMyShift && (
               <Button size="sm" variant="outline" onClick={() => navigate("/my-shift")}>
                 <CalendarDays size={15} className="mr-1.5" />
-                My Shift
+                {t("sidebar.myShift")}
               </Button>
             )}
           </div>
@@ -333,14 +337,16 @@ const DashboardUser = () => {
                 <div className="w-9 h-9 rounded-xl bg-primary/10 text-primary flex items-center justify-center">
                   <CalendarClock size={18} />
                 </div>
-                <h2 className="text-sm font-semibold text-foreground">Shift Hari Ini</h2>
+                <h2 className="text-sm font-semibold text-foreground">
+                  {t("page.dashboardUser.ui.todaySShift")}
+                </h2>
               </div>
               <Button
                 variant="ghost"
                 size="sm"
                 className="h-8 gap-1 text-xs"
                 onClick={() => navigate("/my-shift")}>
-                Lihat
+                {t("common.view")}
                 <ArrowRight size={13} />
               </Button>
             </div>
@@ -357,7 +363,7 @@ const DashboardUser = () => {
                   <p className="text-lg font-bold text-foreground">
                     {todayShift.nama_shift || "Shift"}
                   </p>
-                  <span className="px-2 py-0.5 rounded-full bg-muted text-muted-foreground text-[10px] font-semibold capitalize">
+                  <span className="px-2 py-0.5 rounded-full bg-muted text-muted-foreground text-xs font-semibold capitalize">
                     {todayShift.tipe_shift || "harian"}
                   </span>
                 </div>
@@ -394,17 +400,17 @@ const DashboardUser = () => {
                     {shiftActive === true ? (
                       <>
                         <span className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" />
-                        Sedang berjalan
+                        {t("page.dashboardUser.ui.inProgress")}
                       </>
                     ) : shiftActive === false ? (
                       <>
                         <CheckCircle2 size={13} />
-                        Sudah selesai
+                        {t("page.dashboardUser.ui.finished")}
                       </>
                     ) : (
                       <>
                         <CircleDashed size={13} />
-                        Menunggu jam masuk
+                        {t("page.dashboardUser.ui.waitingForStartTime")}
                       </>
                     )}
                   </span>
@@ -421,12 +427,12 @@ const DashboardUser = () => {
                       ) : hasCheckedIn ? (
                         <>
                           <LogOut size={14} className="mr-1.5" />
-                          Absen Pulang
+                          {t("page.dashboardUser.ui.clockOut")}
                         </>
                       ) : (
                         <>
                           <Fingerprint size={14} className="mr-1.5" />
-                          Absen Masuk
+                          {t("page.dashboardUser.ui.clockIn")}
                         </>
                       )}
                     </Button>
@@ -437,13 +443,15 @@ const DashboardUser = () => {
               <div className="flex flex-col items-center gap-3 rounded-xl border-2 border-dashed border-border bg-muted/20 px-4 py-8 text-center">
                 <CalendarClock size={22} className="text-muted-foreground/50" />
                 <div>
-                  <p className="text-sm font-semibold text-foreground">Tidak ada shift hari ini</p>
+                  <p className="text-sm font-semibold text-foreground">
+                    {t("page.dashboardUser.ui.noShiftToday")}
+                  </p>
                   <p className="text-xs text-muted-foreground mt-1">
-                    Periksa jadwal shift kamu di My Shift.
+                    {t("page.dashboardUser.ui.checkYourShiftScheduleIn")}
                   </p>
                 </div>
                 <Button variant="outline" size="sm" onClick={() => navigate("/my-shift")}>
-                  Buka My Shift
+                  {t("page.dashboardUser.ui.openMyShift")}
                 </Button>
               </div>
             )}
@@ -463,14 +471,16 @@ const DashboardUser = () => {
                   }`}>
                   <Wallet size={18} />
                 </div>
-                <h2 className="text-sm font-semibold text-foreground">Status Kas</h2>
+                <h2 className="text-sm font-semibold text-foreground">
+                  {t("page.dashboardUser.ui.registerStatus")}
+                </h2>
               </div>
               <Button
                 variant="ghost"
                 size="sm"
                 className="h-8 gap-1 text-xs"
                 onClick={() => navigate("/cash-register/current")}>
-                Buka
+                {t("page.location.form.openStatus")}
                 <ArrowRight size={13} />
               </Button>
             </div>
@@ -485,20 +495,20 @@ const DashboardUser = () => {
               <>
                 <span className="inline-flex w-fit items-center gap-1.5 rounded-full bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400 px-3 py-1 text-xs font-semibold">
                   <span className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" />
-                  Kas Dibuka
+                  {t("page.dashboardUser.ui.registerOpen")}
                 </span>
                 <div className="mt-3 grid grid-cols-2 gap-3">
                   <div>
-                    <p className="text-[11px] font-semibold uppercase tracking-wide text-muted-foreground">
-                      Penjualan
+                    <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+                      {t("sidebar.penjualan")}
                     </p>
                     <p className="text-base font-bold text-foreground mt-0.5">
                       {fmtCurrency(currentSales)}
                     </p>
                   </div>
                   <div>
-                    <p className="text-[11px] font-semibold uppercase tracking-wide text-muted-foreground">
-                      Transaksi
+                    <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+                      {t("sidebar.transaksi")}
                     </p>
                     <p className="text-base font-bold text-foreground mt-0.5">
                       {totalTransactions}
@@ -506,8 +516,8 @@ const DashboardUser = () => {
                   </div>
                 </div>
                 <div className="mt-3">
-                  <p className="text-[11px] font-semibold uppercase tracking-wide text-muted-foreground">
-                    Kas yang diharapkan
+                  <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+                    {t("page.dashboardUser.ui.expectedCash")}
                   </p>
                   <p className="text-sm font-semibold text-foreground mt-0.5">
                     {fmtCurrency(expectedCash)}
@@ -515,7 +525,7 @@ const DashboardUser = () => {
                 </div>
                 {reg?.openedAt && (
                   <p className="mt-3 text-xs text-muted-foreground">
-                    Dibuka{" "}
+                    {t("page.cashRegister.xz.openedAt")}{" "}
                     {new Date(reg.openedAt).toLocaleString("id-ID", {
                       day: "numeric",
                       month: "short",
@@ -530,7 +540,7 @@ const DashboardUser = () => {
                     size="sm"
                     className="w-full"
                     onClick={() => navigate("/cash-register/current")}>
-                    Lihat Kasir
+                    {t("page.dashboardUser.ui.viewRegister")}
                   </Button>
                 </div>
               </>
@@ -538,17 +548,17 @@ const DashboardUser = () => {
               <>
                 <span className="inline-flex w-fit items-center gap-1.5 rounded-full bg-muted text-muted-foreground px-3 py-1 text-xs font-semibold">
                   <CircleDashed size={13} />
-                  Kas Belum Dibuka
+                  {t("page.dashboardUser.ui.registerNotOpen")}
                 </span>
                 <p className="mt-3 text-[13px] text-muted-foreground leading-relaxed">
-                  Buka kas dengan mengisi saldo awal sebelum mulai melayani transaksi.
+                  {t("page.dashboardUser.ui.openTheRegisterWithA")}
                 </p>
                 <div className="mt-auto pt-4">
                   <Button
                     size="sm"
                     className="w-full"
                     onClick={() => navigate("/cash-register/current")}>
-                    Buka Kas Sekarang
+                    {t("page.dashboardUser.ui.openRegisterNow")}
                   </Button>
                 </div>
               </>
@@ -568,14 +578,14 @@ const DashboardUser = () => {
                   </span>
                 )}
               </div>
-              <h2 className="text-sm font-semibold text-foreground">Notifikasi</h2>
+              <h2 className="text-sm font-semibold text-foreground">{t("sidebar.notification")}</h2>
             </div>
             <Button
               variant="ghost"
               size="sm"
               className="h-8 gap-1 text-xs"
               onClick={() => navigate("/notification")}>
-              Semua
+              {t("common.all")}
               <ArrowRight size={13} />
             </Button>
           </div>
@@ -589,7 +599,9 @@ const DashboardUser = () => {
           ) : notifications.length === 0 ? (
             <div className="flex flex-col items-center gap-2 rounded-xl border-2 border-dashed border-border bg-muted/20 px-4 py-8 text-center">
               <Bell size={20} className="text-muted-foreground/50" />
-              <p className="text-sm font-semibold text-foreground">Tidak ada notifikasi</p>
+              <p className="text-sm font-semibold text-foreground">
+                {t("page.notification.empty")}
+              </p>
             </div>
           ) : (
             <ul className="space-y-2">
@@ -622,9 +634,9 @@ const DashboardUser = () => {
               variant="outline"
               className="w-full"
               onClick={() => navigate("/notification")}>
-              Lihat Semua Notifikasi
+              {t("page.dashboardUser.ui.viewAllNotifications")}
               {unread > 0 && (
-                <span className="ml-1.5 rounded-full bg-red-500 text-white text-[10px] px-1.5 py-0.5 font-bold">
+                <span className="ml-1.5 rounded-full bg-red-500 text-white text-xs px-1.5 py-0.5 font-bold">
                   {unread}
                 </span>
               )}
@@ -642,9 +654,12 @@ const DashboardUser = () => {
                 <ArrowRightLeft size={18} />
               </div>
               <div>
-                <h2 className="text-sm font-semibold text-foreground">Pertukaran Shift</h2>
+                <h2 className="text-sm font-semibold text-foreground">
+                  {t("page.dashboardUser.ui.shiftSwaps")}
+                </h2>
                 <p className="text-xs text-muted-foreground">
-                  {mySwaps.filter((s) => s.status === "pending").length} sedang diproses ·{" "}
+                  {mySwaps.filter((s) => s.status === "pending").length}{" "}
+                  {t("page.dashboardUser.ui.inProgress2")}{" "}
                   {mySwaps.filter((s) => s.status === "approved").length} berhasil
                 </p>
               </div>
@@ -652,7 +667,7 @@ const DashboardUser = () => {
             {swappableShifts.length > 0 && (
               <Button size="sm" variant="outline" onClick={() => setSwapModalOpen(true)}>
                 <ArrowRightLeft size={14} />
-                Tukar Shift
+                {t("page.shift.swap.title")}
               </Button>
             )}
           </div>
@@ -731,7 +746,7 @@ const DashboardUser = () => {
                   {s.note && (
                     <p className="mt-1.5 text-xs text-muted-foreground line-clamp-2">{s.note}</p>
                   )}
-                  <p className="mt-2 text-[11px] text-muted-foreground">
+                  <p className="mt-2 text-xs text-muted-foreground">
                     {isRequester ? "Kamu mengajukan" : "Diajukan untukmu"} ·{" "}
                     {s.createdAt
                       ? new Date(s.createdAt).toLocaleString("id-ID", {
@@ -750,7 +765,7 @@ const DashboardUser = () => {
                         className="h-8 gap-1.5 text-xs text-red-600 dark:text-red-400 hover:text-red-600 dark:hover:text-red-400"
                         onClick={() => setCancelSwap(s)}>
                         <XCircle size={13} />
-                        Batalkan
+                        {t("page.goodsRequest.list.cancel")}
                       </Button>
                     </div>
                   )}
@@ -767,7 +782,9 @@ const DashboardUser = () => {
           <div className="w-9 h-9 rounded-xl bg-primary/10 text-primary flex items-center justify-center">
             <ShoppingCart size={18} />
           </div>
-          <h2 className="text-sm font-semibold text-foreground">Aksi Cepat</h2>
+          <h2 className="text-sm font-semibold text-foreground">
+            {t("page.dashboard.quickActions")}
+          </h2>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
           {canPos && (
@@ -777,8 +794,12 @@ const DashboardUser = () => {
               className="flex items-center gap-3 rounded-xl border border-border/70 bg-muted/30 px-4 py-3 text-left hover:bg-accent hover:shadow-sm transition-all group">
               <Calculator size={18} className="shrink-0 text-primary" />
               <div className="min-w-0">
-                <p className="text-sm font-semibold text-foreground">Buka Kasir / POS</p>
-                <p className="text-xs text-muted-foreground">Mulai layani transaksi pelanggan</p>
+                <p className="text-sm font-semibold text-foreground">
+                  {t("page.dashboardUser.ui.openCashierPos")}
+                </p>
+                <p className="text-xs text-muted-foreground">
+                  {t("page.dashboardUser.ui.startServingCustomers")}
+                </p>
               </div>
             </button>
           )}
@@ -789,8 +810,10 @@ const DashboardUser = () => {
               className="flex items-center gap-3 rounded-xl border border-border/70 bg-muted/30 px-4 py-3 text-left hover:bg-accent hover:shadow-sm transition-all group">
               <CalendarDays size={18} className="shrink-0 text-primary" />
               <div className="min-w-0">
-                <p className="text-sm font-semibold text-foreground">My Shift</p>
-                <p className="text-xs text-muted-foreground">Jadwal & tukar shift</p>
+                <p className="text-sm font-semibold text-foreground">{t("sidebar.myShift")}</p>
+                <p className="text-xs text-muted-foreground">
+                  {t("page.dashboardUser.ui.scheduleShiftSwaps")}
+                </p>
               </div>
             </button>
           )}
@@ -801,8 +824,12 @@ const DashboardUser = () => {
               className="flex items-center gap-3 rounded-xl border border-border/70 bg-muted/30 px-4 py-3 text-left hover:bg-accent hover:shadow-sm transition-all group">
               <Wallet size={18} className="shrink-0 text-primary" />
               <div className="min-w-0">
-                <p className="text-sm font-semibold text-foreground">Kas Register</p>
-                <p className="text-xs text-muted-foreground">Buka / tutup kas kamu</p>
+                <p className="text-sm font-semibold text-foreground">
+                  {t("page.dashboardUser.ui.cashRegister")}
+                </p>
+                <p className="text-xs text-muted-foreground">
+                  {t("page.dashboardUser.ui.openCloseYourRegister")}
+                </p>
               </div>
             </button>
           )}
@@ -818,7 +845,9 @@ const DashboardUser = () => {
                 <TrendingUp size={18} />
               </div>
               <div>
-                <h2 className="text-sm font-semibold text-foreground">Penjualan Toko Hari Ini</h2>
+                <h2 className="text-sm font-semibold text-foreground">
+                  {t("page.dashboardUser.ui.storeSalesToday")}
+                </h2>
                 <p className="text-xs text-muted-foreground">
                   {storeName || summary?.storeInfo?.name || ""} • {todayLong()}
                 </p>
@@ -834,7 +863,7 @@ const DashboardUser = () => {
                 if (canSales) refetchSummary();
               }}>
               <RefreshCcw size={14} className="mr-1.5" />
-              Segarkan
+              {t("page.dashboard.refresh")}
             </Button>
           </div>
 
@@ -848,20 +877,25 @@ const DashboardUser = () => {
             <>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                 <StatCard
-                  label="Total Penjualan"
+                  label={t("page.dashboard.stats.totalSales")}
                   value={fmtCurrency(totalSales)}
                   icon={TrendingUp}
                   variant="default"
                 />
-                <StatCard label="Transaksi" value={totalOrders} icon={Receipt} variant="active" />
                 <StatCard
-                  label="Rata-rata / Transaksi"
+                  label={t("sidebar.transaksi")}
+                  value={totalOrders}
+                  icon={Receipt}
+                  variant="active"
+                />
+                <StatCard
+                  label={t("page.dashboardUser.ui.averageTransaction")}
                   value={fmtCurrency(averageOrderValue)}
                   icon={ShoppingCart}
                   variant="blue"
                 />
                 <StatCard
-                  label="Capaian Target"
+                  label={t("page.dashboardUser.ui.targetProgress")}
                   value={`${targetProgress}%`}
                   icon={Target}
                   variant={targetProgress >= 100 ? "active" : "gold"}
@@ -871,7 +905,9 @@ const DashboardUser = () => {
               {dailyTarget > 0 && (
                 <div className="mt-5">
                   <div className="flex items-center justify-between text-xs text-muted-foreground mb-1.5">
-                    <span>Target hari ini {fmtCurrency(dailyTarget)}</span>
+                    <span>
+                      {t("page.dashboardUser.ui.todaySTarget")} {fmtCurrency(dailyTarget)}
+                    </span>
                     <span className="font-semibold text-foreground">
                       {fmtCurrency(totalSales)} ({targetProgress}%)
                     </span>
@@ -888,7 +924,7 @@ const DashboardUser = () => {
               {bestSellers.length > 0 && (
                 <div className="mt-5">
                   <h3 className="text-sm font-bold text-foreground mb-2">
-                    Produk Terlaris Hari Ini
+                    {t("page.dashboardUser.ui.todaySBestSellers")}
                   </h3>
                   <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                     {bestSellers.slice(0, 4).map((b) => (

@@ -48,7 +48,7 @@ const icons = [
 
 const colors = [
   { name: "amber", value: "#f59e0b", tailwind: "bg-amber-400" },
-  { name: "slate", value: "#64748b", tailwind: "bg-slate-400" },
+  { name: "slate", value: "#64748b", tailwind: "bg-muted-foreground" },
   { name: "indigo", value: "#6366f1", tailwind: "bg-indigo-500" },
   { name: "emerald", value: "#10b981", tailwind: "bg-emerald-500" },
   { name: "rose", value: "#f43f5e", tailwind: "bg-rose-500" }
@@ -252,10 +252,13 @@ const EditMemberTier = () => {
               </div>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                 <div className="flex flex-col gap-1.5">
-                  <label className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
+                  <label
+                    htmlFor="edit-member-tier-tier-name"
+                    className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
                     {t("page.memberTier.edit.tierName")} <span className="text-destructive">*</span>
                   </label>
                   <Input
+                    id="edit-member-tier-tier-name"
                     unstyled
                     type="text"
                     value={formData.tierName}
@@ -268,11 +271,14 @@ const EditMemberTier = () => {
                   <FieldError message={fieldErrors.tierName} />
                 </div>
                 <div className="flex flex-col gap-1.5">
-                  <label className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
+                  <label
+                    htmlFor="edit-member-tier-min-points"
+                    className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
                     {t("page.memberTier.edit.minPoints")}
                   </label>
                   <div className="relative">
                     <input
+                      id="edit-member-tier-min-points"
                       type="text"
                       value={formData.minPoints ? formatIDR(formData.minPoints) : ""}
                       onChange={(e) => {
@@ -285,11 +291,14 @@ const EditMemberTier = () => {
                   </div>
                 </div>
                 <div className="flex flex-col gap-1.5">
-                  <label className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
+                  <label
+                    htmlFor="edit-member-tier-max-points"
+                    className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
                     {t("page.memberTier.edit.maxPoints")}
                   </label>
                   <div className="relative">
                     <input
+                      id="edit-member-tier-max-points"
                       type="text"
                       value={formData.maxPoints ? formatIDR(formData.maxPoints) : ""}
                       onChange={(e) => {
@@ -308,11 +317,14 @@ const EditMemberTier = () => {
                   </p>
                 </div>
                 <div className="flex flex-col gap-1.5">
-                  <label className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
+                  <label
+                    htmlFor="edit-member-tier-discount-percent"
+                    className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
                     {t("page.memberTier.edit.discountPercent")}
                   </label>
                   <div className="relative">
                     <input
+                      id="edit-member-tier-discount-percent"
                       type="text"
                       value={formData.discountPercent}
                       onChange={(e) => {
@@ -504,7 +516,7 @@ const EditMemberTier = () => {
                   />
                 </div>
                 <div>
-                  <p className="text-[10px] font-semibold text-muted-foreground uppercase tracking-widest">
+                  <p className="text-xs font-semibold text-muted-foreground uppercase tracking-widest">
                     {t("page.memberTier.edit.previewBadge")}
                   </p>
                   <h4 className="text-lg font-bold text-foreground">

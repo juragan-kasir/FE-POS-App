@@ -40,6 +40,7 @@ import MissingFieldsModal from "@/components/organism/MissingFieldsModal";
 import DepartmentPositions from "@/components/organism/DepartmentPositions";
 import { getMissingFields } from "@/lib/validation";
 import { FIELD_LIMITS } from "@/constants/fieldLimits";
+import LoadErrorBanner from "@/components/ui/LoadErrorBanner";
 
 const AddPosition = () => {
   const { t } = useTranslation();
@@ -126,6 +127,7 @@ const AddPosition = () => {
         onBack={requestLeave}>
         <UserGuide guideKey="add-position" />
       </PageHeader>
+      <LoadErrorBanner />
 
       {deptLoading ? (
         <div className="bg-card p-6 rounded-xl shadow-sm border border-border space-y-6">

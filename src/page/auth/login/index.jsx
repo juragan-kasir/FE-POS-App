@@ -160,7 +160,7 @@ const LoginPage = () => {
   const inputClass =
     "w-full pl-10 h-11 text-sm rounded-lg border-border bg-background placeholder:text-muted-foreground/60 focus-visible:border-emerald-600/60 focus-visible:ring-4 focus-visible:ring-emerald-600/10 focus-visible:ring-offset-0 transition-[border-color,box-shadow]";
   const langButtonClass = (active) =>
-    `px-2.5 py-1 text-[11px] font-semibold tracking-wider rounded-md transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-600/30 ${
+    `px-2.5 py-1 text-xs font-semibold tracking-wider rounded-md transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-600/30 ${
       active
         ? "bg-background text-foreground shadow-sm"
         : "text-muted-foreground hover:text-foreground"

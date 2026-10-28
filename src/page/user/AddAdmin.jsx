@@ -34,6 +34,7 @@ import { Input } from "@/components/ui/input";
 import { useFormExit } from "@/hooks/useLeaveGuard";
 import { useFieldErrors } from "@/hooks/useFieldErrors";
 import { FieldError } from "@/components/ui/field-error";
+import LoadErrorBanner from "@/components/ui/LoadErrorBanner";
 
 const AddAdmin = () => {
   const dirtyRef = useDomDirtyTracking();
@@ -160,6 +161,7 @@ const AddAdmin = () => {
             dynamicInfo={false}>
             <UserGuide guideKey="add-user" />
           </PageHeader>
+          <LoadErrorBanner />
         </div>
 
         <div className="grid grid-cols-12 gap-6">
@@ -167,10 +169,13 @@ const AddAdmin = () => {
             <form onSubmit={(e) => e.preventDefault()} className="space-y-6">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="flex flex-col gap-1.5">
-                  <label className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
+                  <label
+                    htmlFor="add-admin-name"
+                    className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
                     {t("page.user.form.name")}
                   </label>
                   <Input
+                    id="add-admin-name"
                     unstyled
                     name="name"
                     aria-invalid={!!fieldErrors.name}
@@ -183,10 +188,13 @@ const AddAdmin = () => {
                   <FieldError message={fieldErrors.name} />
                 </div>
                 <div className="flex flex-col gap-1.5">
-                  <label className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
+                  <label
+                    htmlFor="add-admin-email"
+                    className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
                     {t("page.user.form.email")}
                   </label>
                   <Input
+                    id="add-admin-email"
                     unstyled
                     name="email"
                     aria-invalid={!!fieldErrors.email}
@@ -200,11 +208,14 @@ const AddAdmin = () => {
                   <FieldError message={fieldErrors.email} />
                 </div>
                 <div className="flex flex-col gap-1.5">
-                  <label className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
+                  <label
+                    htmlFor="add-admin-password"
+                    className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
                     {t("page.user.form.password")}
                   </label>
                   <div className="relative">
                     <input
+                      id="add-admin-password"
                       name="password"
                       aria-invalid={!!fieldErrors.password}
                       type={showPassword ? "text" : "password"}
@@ -228,10 +239,13 @@ const AddAdmin = () => {
                   <p className="text-xs text-muted-foreground">{t("common.passwordMin6")}</p>
                 </div>
                 <div className="flex flex-col gap-1.5">
-                  <label className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
+                  <label
+                    htmlFor="add-admin-phone"
+                    className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
                     {t("page.user.form.phone")}
                   </label>
                   <Input
+                    id="add-admin-phone"
                     unstyled
                     name="phoneNumber"
                     type="tel"
@@ -245,10 +259,13 @@ const AddAdmin = () => {
                   <p className="text-xs text-muted-foreground">{t("common.optionalField")}</p>
                 </div>
                 <div className="flex flex-col gap-1.5">
-                  <label className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
+                  <label
+                    htmlFor="add-admin-location"
+                    className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
                     {t("page.user.form.location")}
                   </label>
                   <Combobox
+                    id="add-admin-location"
                     options={[
                       { value: "", label: t("page.user.form.locationPlaceholder") },
                       ...locations.map((loc) => ({ value: loc.id || loc._id, label: loc.name })),
@@ -261,10 +278,13 @@ const AddAdmin = () => {
                   />
                 </div>
                 <div className="flex flex-col gap-1.5">
-                  <label className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
+                  <label
+                    htmlFor="add-admin-role"
+                    className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
                     {t("page.user.form.role")}
                   </label>
                   <Combobox
+                    id="add-admin-role"
                     options={[
                       { value: "", label: t("page.user.form.rolePlaceholder") },
                       ...roles.map((role) => ({
@@ -359,7 +379,7 @@ const AddAdmin = () => {
               disabled={isSubmitting}
               className="gap-2 w-full sm:w-auto justify-center">
               <Save size={20} className="text-lg" />
-              Simpan sebagai Draft
+              {t("common.saveAsDraft")}
             </Button>
             <Button
               variant="success"
@@ -402,8 +422,8 @@ const AddAdmin = () => {
           type="confirm"
           open={draftModal}
           onOpenChange={setDraftModal}
-          title="Simpan sebagai Draft?"
-          description="Data yang belum lengkap bisa dilengkapi nanti"
+          title={t("common.saveAsDraftTitle")}
+          description={t("common.saveAsDraftDesc")}
           confirmText="Ya, Simpan Draft"
           onConfirm={() => {
             setDraftModal(false);

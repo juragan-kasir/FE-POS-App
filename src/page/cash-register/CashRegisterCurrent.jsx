@@ -280,7 +280,9 @@ const CashRegisterCurrent = () => {
               </div>
 
               <div className="space-y-2">
-                <Label className="text-sm font-medium">
+                <Label
+                  htmlFor="cash-register-current-closing-balance"
+                  className="text-sm font-medium">
                   {t("page.cashRegister.current.closingBalance")}{" "}
                   <span className="text-destructive">*</span>
                 </Label>
@@ -289,6 +291,7 @@ const CashRegisterCurrent = () => {
                     <Coins size={16} />
                   </div>
                   <Input
+                    id="cash-register-current-closing-balance"
                     type="text"
                     inputMode="numeric"
                     value={formatIDR(rawClosing === "0" ? "" : rawClosing)}

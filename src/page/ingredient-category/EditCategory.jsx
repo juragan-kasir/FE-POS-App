@@ -336,8 +336,8 @@ const EditCategory = () => {
         type="confirm"
         open={confirmSaveModal}
         onOpenChange={setConfirmSaveModal}
-        title="Konfirmasi Simpan"
-        description="Apakah Anda yakin ingin menyimpan data ini?"
+        title={t("common.confirmSave")}
+        description={t("page.supplier.modal.confirmSaveDesc")}
         confirmText="Ya, Simpan"
         onConfirm={() => {
           setConfirmSaveModal(false);

@@ -49,6 +49,7 @@ import { FIELD_LIMITS } from "@/constants/fieldLimits";
 import { formatDateOnly } from "@/utils/dateOnly";
 import { useFormExit } from "@/hooks/useLeaveGuard";
 import { createdId } from "@/utils/createdRecord";
+import LoadErrorBanner from "@/components/ui/LoadErrorBanner";
 
 const AddGoodsReceipt = () => {
   const navigate = useNavigate();
@@ -529,6 +530,7 @@ const AddGoodsReceipt = () => {
           onBack={requestLeave}>
           <UserGuide guideKey="add-goods-receipt" />
         </PageHeader>
+        <LoadErrorBanner />
 
         <form
           onSubmit={handleSubmit((data) => doSubmit(data, false))}
@@ -697,7 +699,7 @@ const AddGoodsReceipt = () => {
                 </div>
 
                 <div className="space-y-2">
-                  <Label>
+                  <Label htmlFor="add-goods-receipt-pic">
                     {t("page.goodsReceipt.add.form.pic")}{" "}
                     <span className="text-xs font-normal text-muted-foreground">
                       ({t("common.optional")})
@@ -709,6 +711,7 @@ const AddGoodsReceipt = () => {
                       onClick={() => setPicOpen(!picOpen)}>
                       <Search size={14} className="mr-2 text-muted-foreground shrink-0" />
                       <input
+                        id="add-goods-receipt-pic"
                         type="text"
                         value={
                           picOpen ? picSearch : selectedPic?.fullName || selectedPic?.userName || ""
@@ -757,13 +760,14 @@ const AddGoodsReceipt = () => {
 
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                   <div className="space-y-2">
-                    <Label>
+                    <Label htmlFor="add-goods-receipt-surat-jalan">
                       {t("page.goodsReceipt.add.form.suratJalan")}{" "}
                       <span className="text-xs font-normal text-muted-foreground">
                         ({t("common.optional")})
                       </span>
                     </Label>
                     <Input
+                      id="add-goods-receipt-surat-jalan"
                       type="text"
                       value={suratJalan}
                       onChange={(e) => setSuratJalan(e.target.value)}
@@ -772,13 +776,14 @@ const AddGoodsReceipt = () => {
                     />
                   </div>
                   <div className="space-y-2">
-                    <Label>
+                    <Label htmlFor="add-goods-receipt-tax-invoice-no">
                       {t("page.goodsReceipt.add.form.taxInvoiceNo")}{" "}
                       <span className="text-xs font-normal text-muted-foreground">
                         ({t("common.optional")})
                       </span>
                     </Label>
                     <Input
+                      id="add-goods-receipt-tax-invoice-no"
                       type="text"
                       value={taxInvoiceNo}
                       onChange={(e) => setTaxInvoiceNo(e.target.value)}
@@ -787,7 +792,7 @@ const AddGoodsReceipt = () => {
                     />
                   </div>
                   <div className="space-y-2">
-                    <Label>
+                    <Label htmlFor="add-goods-receipt-shipping-cost">
                       {t("page.goodsReceipt.add.form.shippingCost")}{" "}
                       <span className="text-xs font-normal text-muted-foreground">
                         ({t("common.optional")})
@@ -798,6 +803,7 @@ const AddGoodsReceipt = () => {
                         Rp
                       </span>
                       <Input
+                        id="add-goods-receipt-shipping-cost"
                         type="text"
                         inputMode="numeric"
                         value={shippingCost ? Number(shippingCost).toLocaleString("id-ID") : ""}
@@ -810,7 +816,7 @@ const AddGoodsReceipt = () => {
                         placeholder="0"
                       />
                     </div>
-                    <p className="text-[11px] text-muted-foreground">
+                    <p className="text-xs text-muted-foreground">
                       {t("page.goodsReceipt.add.form.shippingHint")}
                     </p>
                   </div>
@@ -867,34 +873,37 @@ const AddGoodsReceipt = () => {
                           </div>
                           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-sm">
                             <div>
-                              <span className="text-[11px] text-muted-foreground block">PO</span>
+                              <span className="text-xs text-muted-foreground block">PO</span>
                               <span className="font-semibold">{po.orderNumber}</span>
                             </div>
                             <div>
-                              <span className="text-[11px] text-muted-foreground block">
+                              <span className="text-xs text-muted-foreground block">
                                 {t("page.goodsReceipt.add.table.name")}
                               </span>
                               <span className="font-semibold">{po.storeData?.name || "-"}</span>
                             </div>
                             <div>
-                              <span className="text-[11px] text-muted-foreground block">
-                                Supplier
+                              <span className="text-xs text-muted-foreground block">
+                                {t("sidebar.supplier")}
                               </span>
                               <span className="font-semibold text-xs">
                                 {po.supplierNames?.join(", ") || "-"}
                               </span>
                             </div>
                             <div>
-                              <span className="text-[11px] text-muted-foreground block">Total</span>
+                              <span className="text-xs text-muted-foreground block">
+                                {t("document.total")}
+                              </span>
                               <span className="font-semibold">
                                 Rp {(po.finalAmount || 0).toLocaleString("id-ID")}
                               </span>
                             </div>
                           </div>
                           {po.additionalCost > 0 && (
-                            <p className="text-[11px] text-muted-foreground">
-                              Biaya Tambahan: Rp {po.additionalCost.toLocaleString("id-ID")}{" "}
-                              (dialokasikan proporsional)
+                            <p className="text-xs text-muted-foreground">
+                              {t("page.goodsReceipt.ui.additionalCostRp")}{" "}
+                              {po.additionalCost.toLocaleString("id-ID")}{" "}
+                              {t("page.goodsReceipt.ui.allocatedProportionally")}
                             </p>
                           )}
                         </div>
@@ -1002,7 +1011,7 @@ const AddGoodsReceipt = () => {
                                     {item.ingredientName || "-"}
                                   </span>
                                   {item.supplierName && (
-                                    <span className="text-[11px] text-muted-foreground block truncate">
+                                    <span className="text-xs text-muted-foreground block truncate">
                                       {t("page.goodsReceipt.add.items.supplier")}:{" "}
                                       {item.supplierName}
                                     </span>
@@ -1011,13 +1020,13 @@ const AddGoodsReceipt = () => {
                               </div>
                               <div className="flex items-center gap-2 shrink-0">
                                 {warnings.length > 0 && (
-                                  <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-medium bg-amber-100 text-amber-700 dark:bg-amber-950/40 dark:text-amber-400">
+                                  <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium bg-amber-100 text-amber-700 dark:bg-amber-950/40 dark:text-amber-400">
                                     <AlertTriangle size={10} />
                                     {t("page.goodsReceipt.add.items.warningIncomplete")}
                                   </span>
                                 )}
                                 {isComplete && (
-                                  <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-medium bg-emerald-100 text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-400">
+                                  <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium bg-emerald-100 text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-400">
                                     <CheckCircle2 size={10} />
                                     {t("page.goodsReceipt.add.status.pas")}
                                   </span>
@@ -1036,7 +1045,7 @@ const AddGoodsReceipt = () => {
                             <div className="p-4">
                               <div className="grid grid-cols-2 sm:grid-cols-4 gap-x-4 gap-y-3 mb-4">
                                 <div>
-                                  <span className="block text-[11px] font-medium text-muted-foreground mb-1">
+                                  <span className="block text-xs font-medium text-muted-foreground mb-1">
                                     {t("page.goodsReceipt.add.table.qtyPo")}
                                   </span>
                                   {item.isFromPo ? (
@@ -1061,7 +1070,7 @@ const AddGoodsReceipt = () => {
                                   )}
                                 </div>
                                 <div>
-                                  <span className="block text-[11px] font-medium text-muted-foreground mb-1">
+                                  <span className="block text-xs font-medium text-muted-foreground mb-1">
                                     {t("page.goodsReceipt.add.table.remaining")}
                                   </span>
                                   {item.isFromPo ? (
@@ -1071,7 +1080,7 @@ const AddGoodsReceipt = () => {
                                       }`}>
                                       {remaining}
                                       {(item.receivedQuantity || 0) > 0 && (
-                                        <span className="text-[11px] font-normal text-muted-foreground ml-1">
+                                        <span className="text-xs font-normal text-muted-foreground ml-1">
                                           {t("page.goodsReceipt.add.table.prevReceivedLabel", {
                                             qty: item.receivedQuantity
                                           })}
@@ -1083,7 +1092,7 @@ const AddGoodsReceipt = () => {
                                   )}
                                 </div>
                                 <div>
-                                  <span className="block text-[11px] font-medium text-muted-foreground mb-1">
+                                  <span className="block text-xs font-medium text-muted-foreground mb-1">
                                     {t("page.goodsReceipt.add.table.unit")}
                                   </span>
                                   {item.isFromPo ? (
@@ -1101,7 +1110,7 @@ const AddGoodsReceipt = () => {
                                   )}
                                 </div>
                                 <div>
-                                  <span className="block text-[11px] font-medium text-muted-foreground mb-1">
+                                  <span className="block text-xs font-medium text-muted-foreground mb-1">
                                     {t("page.goodsReceipt.add.table.conversion")}
                                   </span>
                                   {item.isFromPo ? (
@@ -1134,7 +1143,7 @@ const AddGoodsReceipt = () => {
 
                               <div className="border-t border-border/60 pt-3 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3">
                                 <div className="sm:col-span-2 lg:col-span-1">
-                                  <span className="block text-[11px] font-medium text-muted-foreground mb-1">
+                                  <span className="block text-xs font-medium text-muted-foreground mb-1">
                                     {t("page.goodsReceipt.add.table.qtyReceived")}
                                   </span>
                                   <Input
@@ -1155,7 +1164,7 @@ const AddGoodsReceipt = () => {
                                     placeholder={t("page.goodsReceipt.add.placeholder.qty")}
                                   />
                                   {parseFloat(item.qtyReceived) > 0 && (
-                                    <p className="text-[10px] text-muted-foreground mt-1">
+                                    <p className="text-xs text-muted-foreground mt-1">
                                       {t("page.goodsReceipt.add.items.stockEquivalent", {
                                         qty: (
                                           parseFloat(item.qtyReceived) *
@@ -1166,7 +1175,7 @@ const AddGoodsReceipt = () => {
                                   )}
                                 </div>
                                 <div>
-                                  <span className="block text-[11px] font-medium text-muted-foreground mb-1">
+                                  <span className="block text-xs font-medium text-muted-foreground mb-1">
                                     {t("page.goodsReceipt.add.table.costPrice")}
                                   </span>
                                   <Input
@@ -1183,7 +1192,7 @@ const AddGoodsReceipt = () => {
                                   {(() => {
                                     const landed = poItemLanded[item.purchaseOrderItem] || 0;
                                     return landed > 0 ? (
-                                      <p className="text-[10px] text-emerald-600 mt-1">
+                                      <p className="text-xs text-emerald-600 mt-1">
                                         {t("page.goodsReceipt.add.table.landed")}: + Rp{" "}
                                         {landed.toLocaleString("id-ID")}
                                       </p>
@@ -1191,7 +1200,7 @@ const AddGoodsReceipt = () => {
                                   })()}
                                 </div>
                                 <div>
-                                  <span className="block text-[11px] font-medium text-muted-foreground mb-1">
+                                  <span className="block text-xs font-medium text-muted-foreground mb-1">
                                     {t("page.goodsReceipt.add.table.batch")}
                                   </span>
                                   <Input
@@ -1199,11 +1208,11 @@ const AddGoodsReceipt = () => {
                                     value={item.batchNumber || ""}
                                     onChange={(e) => updateItem(idx, "batchNumber", e.target.value)}
                                     className="h-9 text-sm"
-                                    placeholder="No. batch / lot"
+                                    placeholder={t("page.goodsReceipt.add.placeholder.batch")}
                                   />
                                 </div>
                                 <div>
-                                  <span className="block text-[11px] font-medium text-muted-foreground mb-1">
+                                  <span className="block text-xs font-medium text-muted-foreground mb-1">
                                     {t("page.goodsReceipt.add.table.expiry")}
                                   </span>
                                   <Input
@@ -1214,7 +1223,7 @@ const AddGoodsReceipt = () => {
                                   />
                                 </div>
                                 <div>
-                                  <span className="block text-[11px] font-medium text-muted-foreground mb-1">
+                                  <span className="block text-xs font-medium text-muted-foreground mb-1">
                                     {t("page.goodsReceipt.add.table.notes")}
                                   </span>
                                   <Input
@@ -1235,7 +1244,7 @@ const AddGoodsReceipt = () => {
                                   {warnings.map((w, wi) => (
                                     <span
                                       key={wi}
-                                      className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-medium bg-amber-100 text-amber-700 dark:bg-amber-950/40 dark:text-amber-400">
+                                      className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-xs font-medium bg-amber-100 text-amber-700 dark:bg-amber-950/40 dark:text-amber-400">
                                       <AlertTriangle size={9} />
                                       {w}
                                     </span>
@@ -1256,7 +1265,7 @@ const AddGoodsReceipt = () => {
                         </div>
                         <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 text-sm">
                           <div>
-                            <span className="text-[11px] text-muted-foreground block mb-0.5">
+                            <span className="text-xs text-muted-foreground block mb-0.5">
                               {t("page.goodsReceipt.add.items.summaryTotalReceived")}
                             </span>
                             <span className="font-semibold text-emerald-600">
@@ -1265,7 +1274,7 @@ const AddGoodsReceipt = () => {
                             </span>
                           </div>
                           <div>
-                            <span className="text-[11px] text-muted-foreground block mb-0.5">
+                            <span className="text-xs text-muted-foreground block mb-0.5">
                               {t("page.goodsReceipt.add.items.summaryRemaining")}
                             </span>
                             <span className="font-semibold text-amber-600">
@@ -1276,7 +1285,7 @@ const AddGoodsReceipt = () => {
                             </span>
                           </div>
                           <div>
-                            <span className="text-[11px] text-muted-foreground block mb-0.5">
+                            <span className="text-xs text-muted-foreground block mb-0.5">
                               {t("page.goodsReceipt.add.items.summaryTotalValue")}
                             </span>
                             <span className="font-semibold">
@@ -1284,7 +1293,7 @@ const AddGoodsReceipt = () => {
                             </span>
                           </div>
                           <div>
-                            <span className="text-[11px] text-muted-foreground block mb-0.5">
+                            <span className="text-xs text-muted-foreground block mb-0.5">
                               {t("page.goodsReceipt.add.summary.shortage")}
                             </span>
                             <span className="font-semibold text-red-500">
@@ -1357,7 +1366,7 @@ const AddGoodsReceipt = () => {
                             </button>
                           </div>
                           <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent p-2 pt-6">
-                            <span className="text-[10px] font-medium text-white/90">
+                            <span className="text-xs font-medium text-white/90">
                               {t("page.goodsReceipt.add.form.docPhoto")} {idx + 1}
                             </span>
                           </div>
@@ -1367,7 +1376,7 @@ const AddGoodsReceipt = () => {
                           <span className="text-xs text-muted-foreground truncate">
                             {d.file?.name || `doc-${idx + 1}`}
                           </span>
-                          <span className="text-[10px] text-muted-foreground/60 shrink-0 ml-auto">
+                          <span className="text-xs text-muted-foreground/60 shrink-0 ml-auto">
                             {d.file?.size
                               ? d.file.size > 1024 * 1024
                                 ? `${(d.file.size / (1024 * 1024)).toFixed(1)} MB`
@@ -1389,14 +1398,14 @@ const AddGoodsReceipt = () => {
                           <p className="text-sm font-medium">
                             {t("page.goodsReceipt.add.form.docAdd")}
                           </p>
-                          <p className="text-[11px] text-muted-foreground mt-0.5">
+                          <p className="text-xs text-muted-foreground mt-0.5">
                             {t("page.goodsReceipt.add.form.docClick")}
                           </p>
                         </div>
                       </button>
                     )}
                   </div>
-                  <p className="text-[11px] text-muted-foreground">
+                  <p className="text-xs text-muted-foreground">
                     {t("page.goodsReceipt.add.form.docHint")}
                   </p>
                 </div>
@@ -1447,7 +1456,7 @@ const AddGoodsReceipt = () => {
                               })}
                             </span>
                             <span
-                              className={`px-2 py-0.5 rounded-full text-[11px] font-medium ${
+                              className={`px-2 py-0.5 rounded-full text-xs font-medium ${
                                 g.status === "completed"
                                   ? "bg-emerald-100 text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-400"
                                   : "bg-amber-100 text-amber-700 dark:bg-amber-950/40 dark:text-amber-400"

@@ -443,8 +443,9 @@ const EditBundle = () => {
                 />
                 <div className="p-6 grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div className="space-y-2">
-                    <Label>{t("page.bundle.form.name")} *</Label>
+                    <Label htmlFor="edit-bundle-name">{t("page.bundle.form.name")} *</Label>
                     <Input
+                      id="edit-bundle-name"
                       value={formData.name}
                       aria-invalid={!!fieldErrors.name}
                       onChange={(e) => updateFormData("name", e.target.value)}
@@ -454,7 +455,7 @@ const EditBundle = () => {
                     <FieldError message={fieldErrors.name} />
                   </div>
                   <div className="space-y-2">
-                    <Label>{t("page.bundle.form.status")}</Label>
+                    <Label htmlFor="edit-bundle-status">{t("page.bundle.form.status")}</Label>
                     <div className="flex items-center justify-between gap-3 rounded-lg border border-border p-3">
                       <div>
                         <p className="text-sm font-medium text-foreground">
@@ -466,12 +467,19 @@ const EditBundle = () => {
                             : t("page.bundle.form.inactiveHint")}
                         </p>
                       </div>
-                      <Switch checked={isActive} onCheckedChange={setIsActive} />
+                      <Switch
+                        id="edit-bundle-status"
+                        checked={isActive}
+                        onCheckedChange={setIsActive}
+                      />
                     </div>
                   </div>
                   <div className="md:col-span-2 space-y-2">
-                    <Label>{t("page.bundle.form.description")}</Label>
+                    <Label htmlFor="edit-bundle-description">
+                      {t("page.bundle.form.description")}
+                    </Label>
                     <Textarea
+                      id="edit-bundle-description"
                       value={formData.description}
                       onChange={(e) => updateFormData("description", e.target.value)}
                       placeholder={t("page.bundle.form.descriptionPlaceholder")}
@@ -483,8 +491,11 @@ const EditBundle = () => {
                   <div className="md:col-span-2 border-t border-border pt-4" />
 
                   <div className="space-y-2 md:col-span-1">
-                    <Label>{t("page.bundle.form.validFrom")}</Label>
+                    <Label htmlFor="edit-bundle-valid-from">
+                      {t("page.bundle.form.validFrom")}
+                    </Label>
                     <DatePicker
+                      id="edit-bundle-valid-from"
                       date={validFromDate}
                       setDate={setValidFromDate}
                       placeholder={t("page.bundle.form.validFrom")}
@@ -494,8 +505,11 @@ const EditBundle = () => {
                     <TimePicker value={validFromTime} onChange={setValidFromTime} />
                   </div>
                   <div className="space-y-2 md:col-span-1">
-                    <Label>{t("page.bundle.form.validUntil")}</Label>
+                    <Label htmlFor="edit-bundle-valid-until">
+                      {t("page.bundle.form.validUntil")}
+                    </Label>
                     <DatePicker
+                      id="edit-bundle-valid-until"
                       date={validUntilDate}
                       setDate={setValidUntilDate}
                       minDate={validFromDate || undefined}
@@ -638,7 +652,7 @@ const EditBundle = () => {
                       <>
                         <img
                           src={shownImage}
-                          alt="Preview"
+                          alt={t("page.product.form.preview")}
                           className="w-full h-auto max-h-[300px] object-contain"
                         />
                         <button
@@ -680,8 +694,11 @@ const EditBundle = () => {
                     </p>
                   </div>
                   <div className="space-y-2">
-                    <Label>{t("page.bundle.form.bundlePrice")} *</Label>
+                    <Label htmlFor="edit-bundle-bundle-price">
+                      {t("page.bundle.form.bundlePrice")} *
+                    </Label>
                     <Input
+                      id="edit-bundle-bundle-price"
                       type="text"
                       inputMode="numeric"
                       value={formData.bundlePrice ? formatIDR(formData.bundlePrice) : ""}

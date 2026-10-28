@@ -41,8 +41,8 @@ const ParkedCartCard = ({ cart, onResume, onCancel, isBusy }) => {
       <div className="flex items-center justify-between mb-2">
         <span className="text-sm font-bold text-foreground">#{cart.id}</span>
         <span
-          className={`text-[10px] font-semibold px-2 py-0.5 rounded-full text-white ${
-            isExpired ? "bg-slate-400" : "bg-amber-500"
+          className={`text-xs font-semibold px-2 py-0.5 rounded-full text-white ${
+            isExpired ? "bg-muted-foreground" : "bg-amber-500"
           }`}>
           {isExpired
             ? t("page.cashier.parkedCart.expired", "Expired")
@@ -61,7 +61,7 @@ const ParkedCartCard = ({ cart, onResume, onCancel, isBusy }) => {
         <span className="text-xs text-muted-foreground">
           {cart.displayTotalItems || 0} {t("page.cashier.orderQueue.items")}
         </span>
-        <span className="text-[10px] text-muted-foreground/70 flex items-center gap-1">
+        <span className="text-xs text-muted-foreground/70 flex items-center gap-1">
           <Clock size={10} />
           {timeAgo(cart.createdAt)}
         </span>

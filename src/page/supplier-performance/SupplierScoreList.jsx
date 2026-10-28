@@ -237,6 +237,15 @@ const SupplierScoreList = () => {
     }
   ];
 
+  const openCalculate = () => {
+    setCalculateForm({
+      storeId: storeFilter !== "all" && storeFilter !== "" ? Number(storeFilter) : "",
+      supplierId: "",
+      period: "monthly"
+    });
+    setCalculateModal(true);
+  };
+
   return (
     <div className="space-y-6">
       <PageHeader
@@ -255,15 +264,7 @@ const SupplierScoreList = () => {
         title={t("page.supplierPerformance.list.title")}
         description={t("page.supplierPerformance.list.description")}>
         {canAccess(user, MENU_KEY, "create") && (
-          <Button
-            onClick={() => {
-              setCalculateForm({
-                storeId: storeFilter !== "all" && storeFilter !== "" ? Number(storeFilter) : "",
-                supplierId: "",
-                period: "monthly"
-              });
-              setCalculateModal(true);
-            }}>
+          <Button onClick={openCalculate}>
             <Calculator size={16} className="mr-2" />
             {t("page.supplierPerformance.list.calculateButton")}
           </Button>
@@ -308,6 +309,14 @@ const SupplierScoreList = () => {
           columns={columns}
           data={data?.data || []}
           isLoading={isLoading || isFetching}
+          emptyAction={
+            canAccess(user, MENU_KEY, "create")
+              ? {
+                  label: t("page.supplierPerformance.list.calculateButton"),
+                  onClick: openCalculate
+                }
+              : undefined
+          }
           isError={isError}
           onRetry={refetch}
           toolbar={
@@ -316,10 +325,13 @@ const SupplierScoreList = () => {
               onReset={resetFilters}
               isFiltered={isFiltered}>
               <div className="flex flex-col gap-1.5">
-                <label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
-                  Cari
+                <label
+                  htmlFor="supplier-score-list-search"
+                  className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                  {t("common.search")}
                 </label>
                 <SearchInput
+                  id="supplier-score-list-search"
                   value={search}
                   onChange={(val) => {
                     setSearch(val);
@@ -330,32 +342,38 @@ const SupplierScoreList = () => {
                 />
               </div>
               <div className="flex flex-col gap-1.5">
-                <label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
-                  Filter Period
+                <label
+                  htmlFor="supplier-score-list-filter-period"
+                  className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                  {t("page.supplierPerformance.ui.filterPeriod")}
                 </label>
                 <Combobox
+                  id="supplier-score-list-filter-period"
                   options={periodOptions}
                   value={periodFilter}
                   onChange={(val) => {
                     setPeriodFilter(val);
                     setPage(1);
                   }}
-                  placeholder="Filter Period"
+                  placeholder={t("page.supplierPerformance.ui.filterPeriod")}
                   searchPlaceholder="Cari..."
                 />
               </div>
               <div className="flex flex-col gap-1.5">
-                <label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
-                  Filter Grade
+                <label
+                  htmlFor="supplier-score-list-filter-grade"
+                  className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                  {t("page.supplierPerformance.ui.filterGrade")}
                 </label>
                 <Combobox
+                  id="supplier-score-list-filter-grade"
                   options={gradeOptions}
                   value={gradeFilter}
                   onChange={(val) => {
                     setGradeFilter(val);
                     setPage(1);
                   }}
-                  placeholder="Filter Grade"
+                  placeholder={t("page.supplierPerformance.ui.filterGrade")}
                   searchPlaceholder="Cari..."
                 />
               </div>
@@ -408,10 +426,13 @@ const SupplierScoreList = () => {
         <div className="space-y-4 mt-4">
           {isSuperAdmin && (
             <div>
-              <label className="text-sm font-medium text-foreground">
+              <label
+                htmlFor="supplier-score-list-store"
+                className="text-sm font-medium text-foreground">
                 {t("page.supplierPerformance.modal.store")}
               </label>
               <Combobox
+                id="supplier-score-list-store"
                 options={[
                   { value: "", label: t("page.supplierPerformance.modal.allStores") },
                   ...locations.map((loc) => ({ value: loc.id, label: loc.name }))
@@ -424,10 +445,13 @@ const SupplierScoreList = () => {
             </div>
           )}
           <div>
-            <label className="text-sm font-medium text-foreground">
+            <label
+              htmlFor="supplier-score-list-supplier"
+              className="text-sm font-medium text-foreground">
               {t("page.supplierPerformance.modal.supplier")}
             </label>
             <Combobox
+              id="supplier-score-list-supplier"
               options={supplierOptions}
               value={calculateForm.supplierId}
               onChange={(v) => setCalculateForm({ ...calculateForm, supplierId: v })}
@@ -436,12 +460,17 @@ const SupplierScoreList = () => {
             />
           </div>
           <div>
-            <label className="text-sm font-medium text-foreground">Period</label>
+            <label
+              htmlFor="supplier-score-list-period"
+              className="text-sm font-medium text-foreground">
+              {t("page.promo.list.period")}
+            </label>
             <Combobox
+              id="supplier-score-list-period"
               options={periodOptions.filter((o) => o.value !== "all")}
               value={calculateForm.period}
               onChange={(v) => setCalculateForm({ ...calculateForm, period: v })}
-              placeholder="Pilih periode"
+              placeholder={t("page.supplierPerformance.ui.selectPeriod")}
               searchPlaceholder="Cari..."
             />
           </div>

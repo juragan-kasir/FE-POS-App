@@ -27,7 +27,7 @@ import TableActions from "@/components/ui/TableActions";
 
 const statusMap = {
   draft: {
-    class: "bg-gray-100 text-gray-700 dark:bg-gray-800/40 dark:text-gray-400"
+    class: "bg-muted text-foreground"
   },
   pending: {
     class: "bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400"
@@ -195,7 +195,7 @@ const BusinessTripList = () => {
         const sc = statusMap[item.status] || statusMap.draft;
         return (
           <span
-            className={`inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold uppercase ${sc.class}`}>
+            className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-bold uppercase ${sc.class}`}>
             {t(`businessTrip.status.${item.status || "draft"}`)}
           </span>
         );
@@ -350,10 +350,13 @@ const BusinessTripList = () => {
               onReset={resetFilters}
               isFiltered={isFiltered}>
               <div className="flex flex-col gap-1.5">
-                <label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
+                <label
+                  htmlFor="business-trip-list-search"
+                  className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                   {t("common.search")}
                 </label>
                 <SearchInput
+                  id="business-trip-list-search"
                   value={search}
                   onChange={(val) => {
                     setSearch(val);
@@ -364,10 +367,13 @@ const BusinessTripList = () => {
                 />
               </div>
               <div className="flex flex-col gap-1.5">
-                <label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
+                <label
+                  htmlFor="business-trip-list-status"
+                  className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                   {t("common.status")}
                 </label>
                 <Combobox
+                  id="business-trip-list-status"
                   options={[
                     { value: "all", label: t("common.all") },
                     ...Object.keys(statusMap).map((k) => ({

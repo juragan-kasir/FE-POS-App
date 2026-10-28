@@ -148,7 +148,7 @@ const EmployeeSalaryPanel = ({
             <p className="text-sm font-semibold text-foreground">
               {t("page.expense.form.salary.title")}
             </p>
-            <span className="inline-flex px-2 py-0.5 rounded-full text-[10px] font-bold uppercase bg-primary/15 text-primary">
+            <span className="inline-flex px-2 py-0.5 rounded-full text-xs font-bold uppercase bg-primary/15 text-primary">
               {t("page.expense.form.salary.badge")}
             </span>
           </div>

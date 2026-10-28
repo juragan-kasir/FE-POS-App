@@ -176,10 +176,13 @@ const EditMember = () => {
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="flex flex-col gap-1.5">
-                  <label className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
+                  <label
+                    htmlFor="edit-member-full-name"
+                    className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
                     {t("page.member.edit.fullName")} <span className="text-destructive">*</span>
                   </label>
                   <Input
+                    id="edit-member-full-name"
                     unstyled
                     name="name"
                     aria-invalid={!!fieldErrors.name}
@@ -192,10 +195,13 @@ const EditMember = () => {
                   <FieldError message={fieldErrors.name} />
                 </div>
                 <div className="flex flex-col gap-1.5">
-                  <label className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
+                  <label
+                    htmlFor="edit-member-email"
+                    className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
                     {t("page.member.edit.email")}
                   </label>
                   <Input
+                    id="edit-member-email"
                     unstyled
                     name="email"
                     aria-invalid={!!fieldErrors.email}
@@ -210,10 +216,13 @@ const EditMember = () => {
                   <p className="text-xs text-muted-foreground">{t("common.optionalField")}</p>
                 </div>
                 <div className="flex flex-col gap-1.5">
-                  <label className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
+                  <label
+                    htmlFor="edit-member-phone-number"
+                    className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
                     {t("page.member.edit.phoneNumber")} <span className="text-destructive">*</span>
                   </label>
                   <Input
+                    id="edit-member-phone-number"
                     unstyled
                     name="phoneNumber"
                     aria-invalid={!!fieldErrors.phoneNumber}
@@ -228,21 +237,27 @@ const EditMember = () => {
                   <p className="text-xs text-muted-foreground">{t("common.phoneHintMin")}</p>
                 </div>
                 <div className="flex flex-col gap-1.5">
-                  <label className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
+                  <label
+                    htmlFor="edit-member-date-of-birth"
+                    className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
                     {t("page.member.edit.dateOfBirth")}
                   </label>
                   <DatePicker
+                    id="edit-member-date-of-birth"
                     date={form.birthDate}
                     setDate={(date) => setForm({ ...form, birthDate: date })}
                   />
                 </div>
                 <div className="col-span-1 md:col-span-2 flex flex-col gap-1.5">
-                  <label className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
+                  <label
+                    htmlFor="edit-member-gender"
+                    className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
                     {t("page.member.edit.gender")}
                   </label>
                   <div className="flex gap-4">
                     <label className="flex-1 flex items-center justify-center gap-2 p-3 border border-border rounded-lg cursor-pointer hover:bg-accent transition-colors has-[:checked]:bg-primary/10 has-[:checked]:border-primary">
                       <input
+                        id="edit-member-gender"
                         type="radio"
                         name="gender"
                         value="male"
@@ -389,8 +404,8 @@ const EditMember = () => {
                                     style={{ color: selected.color || "#6366f1" }}>
                                     {selected.discountPercent}%
                                   </p>
-                                  <p className="text-[10px] text-muted-foreground uppercase tracking-wider">
-                                    Diskon
+                                  <p className="text-xs text-muted-foreground uppercase tracking-wider">
+                                    {t("sidebar.diskon")}
                                   </p>
                                 </div>
                               )}
@@ -403,7 +418,7 @@ const EditMember = () => {
                             <div
                               className="px-4 py-3 border-t"
                               style={{ borderColor: `${selected.color || "#6366f1"}15` }}>
-                              <p className="text-[10px] font-semibold text-muted-foreground uppercase tracking-wider mb-2">
+                              <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2">
                                 {t("page.member.benefits")}
                               </p>
                               <ul className="space-y-1.5">

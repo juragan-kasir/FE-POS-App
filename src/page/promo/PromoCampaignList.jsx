@@ -203,7 +203,8 @@ const PromoCampaignList = () => {
         if (type === "percentage") return <span className="font-semibold">{val}%</span>;
         if (type === "fixed")
           return <span className="font-semibold">Rp{val?.toLocaleString()}</span>;
-        if (type === "free_item") return <span className="font-semibold">Free Item</span>;
+        if (type === "free_item")
+          return <span className="font-semibold">{t("page.promo.ui.freeItem")}</span>;
         return <span className="font-semibold">{val}</span>;
       }
     },
@@ -413,40 +414,49 @@ const PromoCampaignList = () => {
               onReset={resetFilters}
               isFiltered={isFiltered}>
               <div className="flex flex-col gap-1.5">
-                <label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
-                  Filter Status
+                <label
+                  htmlFor="promo-campaign-list-filter-status"
+                  className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                  {t("page.promo.ui.filterStatus")}
                 </label>
                 <Combobox
+                  id="promo-campaign-list-filter-status"
                   options={statusOptions}
                   value={statusFilter}
                   onChange={(val) => {
                     setStatusFilter(val);
                     setPage(1);
                   }}
-                  placeholder="Filter Status"
+                  placeholder={t("page.promo.ui.filterStatus")}
                   searchPlaceholder="Cari status..."
                 />
               </div>
               <div className="flex flex-col gap-1.5">
-                <label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
-                  Filter Tipe
+                <label
+                  htmlFor="promo-campaign-list-filter-type"
+                  className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                  {t("page.promo.ui.filterType")}
                 </label>
                 <Combobox
+                  id="promo-campaign-list-filter-type"
                   options={typeOptions}
                   value={typeFilter}
                   onChange={(val) => {
                     setTypeFilter(val);
                     setPage(1);
                   }}
-                  placeholder="Filter Tipe"
+                  placeholder={t("page.promo.ui.filterType")}
                   searchPlaceholder="Cari tipe..."
                 />
               </div>
               <div className="flex flex-col gap-1.5">
-                <label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
-                  Cari
+                <label
+                  htmlFor="promo-campaign-list-search"
+                  className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                  {t("common.search")}
                 </label>
                 <SearchInput
+                  id="promo-campaign-list-search"
                   value={search}
                   onChange={(val) => {
                     setSearch(val);

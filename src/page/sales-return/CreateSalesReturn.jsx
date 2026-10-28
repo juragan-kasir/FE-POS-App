@@ -26,6 +26,7 @@ import { getAllTypePayment } from "@/services/type-payment";
 import { getBatches } from "@/services/inventory";
 import Modal from "@/components/organism/modal";
 import PageHeader from "@/components/ui/PageHeader";
+import { FieldError } from "@/components/ui/field-error";
 import { useDomDirtyTracking } from "@/hooks/useDomDirtyTracking";
 import UserGuide from "@/components/organism/UserGuide";
 import VoidOrderDialog from "@/components/organism/VoidOrderDialog";
@@ -34,6 +35,7 @@ import { todayDateOnly } from "@/utils/dateOnly";
 import { FIELD_LIMITS } from "@/constants/fieldLimits";
 import { Textarea } from "@/components/ui/textarea";
 import { createdId } from "@/utils/createdRecord";
+import LoadErrorBanner from "@/components/ui/LoadErrorBanner";
 
 const reasonKeys = [
   "damaged",
@@ -240,7 +242,28 @@ const CreateSalesReturn = () => {
     return items.reduce((sum, item) => sum + item.price * item.qty, 0);
   }, [items]);
 
-  const canSubmit = items.length > 0 && reason.trim() !== "" && !mutation.isLoading;
+  // Submit stays clickable: a click with missing input names what is missing
+  // under the field instead of leaving a silently disabled button.
+  const [showErrors, setShowErrors] = useState(false);
+  const formErrors = showErrors
+    ? {
+        items: items.length === 0 ? t("page.salesReturn.create.errors.itemsRequired") : undefined,
+        reason:
+          reason.trim() === "" ? t("page.salesReturn.create.errors.reasonRequired") : undefined
+      }
+    : {};
+  const handleSubmitClick = () => {
+    if (items.length > 0 && reason.trim() !== "") {
+      setConfirmModal(true);
+      return;
+    }
+    setShowErrors(true);
+    const first =
+      items.length === 0 ? "create-sales-return-items" : "create-sales-return-reason-label";
+    const field = document.getElementById(first);
+    field?.scrollIntoView({ behavior: "smooth", block: "center" });
+    if (field?.matches("select")) field.focus({ preventScroll: true });
+  };
 
   if (!orderId) {
     return (
@@ -265,6 +288,7 @@ const CreateSalesReturn = () => {
           dynamicInfo={false}>
           <UserGuide guideKey="create-sales-return" />
         </PageHeader>
+        <LoadErrorBanner />
 
         <Card className="p-6">
           <div className="flex items-center gap-3 mb-5">
@@ -380,10 +404,11 @@ const CreateSalesReturn = () => {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div className="lg:col-span-2 space-y-6">
           {/* Available Items */}
-          <Card className="p-6">
+          <Card id="create-sales-return-items" className="p-6">
             <h2 className="text-lg font-semibold mb-4">
               {t("page.salesReturn.create.section.selectItems")}
             </h2>
+            <FieldError message={formErrors.items} className="-mt-2 mb-3" />
             <div className="space-y-3">
               {order?.items?.length > 0 ? (
                 order.items.map((item) => (
@@ -506,10 +531,12 @@ const CreateSalesReturn = () => {
 
           {/* Reason */}
           <Card className="p-6 space-y-3">
-            <label className="text-sm font-semibold">
+            <label htmlFor="create-sales-return-reason-label" className="text-sm font-semibold">
               {t("page.salesReturn.create.reasonLabel")} <span className="text-destructive">*</span>
             </label>
             <select
+              id="create-sales-return-reason-label"
+              aria-invalid={!!formErrors.reason}
               value={reason}
               onChange={(e) => setReason(e.target.value)}
               className="w-full px-3 py-2 border rounded-lg text-sm bg-background">
@@ -520,15 +547,19 @@ const CreateSalesReturn = () => {
                 </option>
               ))}
             </select>
+            <FieldError message={formErrors.reason} />
           </Card>
 
           {/* Refund Method */}
           <Card className="p-6 space-y-3">
-            <label className="text-sm font-semibold">
+            <label
+              htmlFor="create-sales-return-refund-method-label"
+              className="text-sm font-semibold">
               {t("page.salesReturn.create.refundMethodLabel")}{" "}
               <span className="text-destructive">*</span>
             </label>
             <select
+              id="create-sales-return-refund-method-label"
               value={refundMethod}
               onChange={(e) => setRefundMethod(e.target.value)}
               className="w-full px-3 py-2 border rounded-lg text-sm bg-background">
@@ -549,10 +580,11 @@ const CreateSalesReturn = () => {
 
           {/* Notes */}
           <Card className="p-6 space-y-3">
-            <label className="text-sm font-semibold">
+            <label htmlFor="create-sales-return-notes-label" className="text-sm font-semibold">
               {t("page.salesReturn.create.notesLabel")}
             </label>
             <Textarea
+              id="create-sales-return-notes-label"
               unstyled
               value={notes}
               onChange={(e) => setNotes(e.target.value)}
@@ -565,8 +597,8 @@ const CreateSalesReturn = () => {
           {/* Submit */}
           <Button
             variant="success"
-            onClick={() => setConfirmModal(true)}
-            disabled={!canSubmit}
+            onClick={handleSubmitClick}
+            disabled={mutation.isLoading}
             className="w-full"
             size="lg">
             {t("page.salesReturn.create.submit")}

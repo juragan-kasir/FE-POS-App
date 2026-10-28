@@ -11,24 +11,25 @@ import {
   Legend
 } from "recharts";
 import SectionCard from "./SectionCard";
+import { useTranslation } from "react-i18next";
 import { formatCurrencyRupiah } from "@/utils/formatter-currency";
-import { safeGet } from "@/lib/safe-lookup";
-
-const fmtShort = (val) => {
-  if (val >= 1000000) return `Rp${(val / 1000000).toFixed(1)}Jt`;
-  if (val >= 1000) return `Rp${(val / 1000).toFixed(0)}K`;
-  return `Rp${val}`;
-};
-
-const miniAmount = (val) =>
-  val >= 1000000 ? `${(val / 1000000).toFixed(1)}Jt` : `${(val / 1000).toFixed(0)}K`;
 
 const FinanceSection = ({ finance, summary }) => {
+  const { t, i18n } = useTranslation();
+  const locale = i18n.language === "en" ? "en-US" : "id-ID";
+  const million = t("page.dashboardSuperAdmin.short.million");
+  const thousand = t("page.dashboardSuperAdmin.short.thousand");
+  const miniAmount = (val) =>
+    val >= 1000000
+      ? `${(val / 1000000).toFixed(1)}${million}`
+      : `${(val / 1000).toFixed(0)}${thousand}`;
+  const fmtShort = (val) => (val >= 1000 ? `Rp${miniAmount(val)}` : `Rp${val}`);
+
   const cashFlow = (finance?.cashFlow || []).map((d) => ({
     ...d,
     label:
       d.date && !isNaN(new Date(`${d.date}T00:00:00`).getTime())
-        ? new Date(`${d.date}T00:00:00`).toLocaleDateString("id-ID", {
+        ? new Date(`${d.date}T00:00:00`).toLocaleDateString(locale, {
             day: "2-digit",
             month: "short"
           })
@@ -42,7 +43,7 @@ const FinanceSection = ({ finance, summary }) => {
 
   const statBlock = (label, value, sub, color = "text-foreground") => (
     <div className="bg-muted/40 rounded-lg p-3">
-      <p className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider mb-1">
+      <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-1">
         {label}
       </p>
       <p className={`text-lg font-bold ${color}`}>{value}</p>
@@ -54,8 +55,8 @@ const FinanceSection = ({ finance, summary }) => {
     <>
       <SectionCard
         icon={Wallet}
-        title="Keuangan"
-        subtitle="Arus kas, hutang-piutang, dan pengeluaran per kategori"
+        title={t("page.dashboardSuperAdmin.finance.title")}
+        subtitle={t("page.dashboardSuperAdmin.finance.subtitle")}
         bodyClassName="space-y-5">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-5">
           <div className="lg:col-span-8">
@@ -87,20 +88,13 @@ const FinanceSection = ({ finance, summary }) => {
                       borderRadius: "8px",
                       fontSize: "12px"
                     }}
-                    formatter={(value, name) => {
-                      const labels = {
-                        inflow: "Pemasukan",
-                        outflow: "Pengeluaran",
-                        net: "Selisih"
-                      };
-                      return [formatCurrencyRupiah(value), safeGet(labels, name, name)];
-                    }}
+                    formatter={(value, name) => [formatCurrencyRupiah(value), name]}
                   />
                   <Legend wrapperStyle={{ fontSize: "12px" }} />
                   <Area
                     type="monotone"
                     dataKey="inflow"
-                    name="inflow"
+                    name={t("page.dashboardSuperAdmin.finance.inflow")}
                     stackId="1"
                     stroke="#10b981"
                     fill="#10b981"
@@ -109,7 +103,7 @@ const FinanceSection = ({ finance, summary }) => {
                   <Area
                     type="monotone"
                     dataKey="outflow"
-                    name="outflow"
+                    name={t("page.dashboardSuperAdmin.finance.outflow")}
                     stackId="1"
                     stroke="#f43f5e"
                     fill="#f43f5e"
@@ -122,38 +116,41 @@ const FinanceSection = ({ finance, summary }) => {
 
           <div className="lg:col-span-4 grid grid-cols-2 gap-3 content-start">
             {statBlock(
-              "Pendapatan",
+              t("page.dashboardSuperAdmin.finance.revenue"),
               formatCurrencyRupiah(summary.revenue),
-              `Diskon ${miniAmount(summary.discount)} · Pajak ${miniAmount(summary.tax)}`
+              t("page.dashboardSuperAdmin.finance.discountTax", {
+                discount: miniAmount(summary.discount),
+                tax: miniAmount(summary.tax)
+              })
             )}
             {statBlock(
-              "Pengeluaran",
+              t("page.dashboardSuperAdmin.finance.expense"),
               formatCurrencyRupiah(summary.totalExpense),
-              `${expenseCat.length} kategori`,
+              t("page.dashboardSuperAdmin.finance.categories", { count: expenseCat.length }),
               "text-destructive"
             )}
             {statBlock(
-              "Laba Bersih",
+              t("page.dashboardSuperAdmin.finance.netProfit"),
               formatCurrencyRupiah(summary.netRevenue),
-              `Margin ${summary.netMargin}%`,
+              t("page.dashboardSuperAdmin.kpi.margin", { value: summary.netMargin }),
               summary.netRevenue >= 0 ? "text-emerald-600" : "text-destructive"
             )}
             {statBlock(
-              "Hutang (AP)",
+              t("page.dashboardSuperAdmin.kpi.ap"),
               formatCurrencyRupiah(finance?.ap?.outstanding || 0),
-              `${finance?.ap?.count || 0} PO belum lunas`,
+              t("page.dashboardSuperAdmin.finance.apUnpaid", { count: finance?.ap?.count || 0 }),
               "text-amber-600"
             )}
             {statBlock(
-              "Piutang (AR)",
+              t("page.dashboardSuperAdmin.kpi.ar"),
               formatCurrencyRupiah(finance?.ar?.outstanding || 0),
-              `${finance?.ar?.count || 0} faktur`,
+              t("page.dashboardSuperAdmin.finance.invoices", { count: finance?.ar?.count || 0 }),
               "text-orange-600"
             )}
             {statBlock(
-              "Bayar AP Periode Ini",
+              t("page.dashboardSuperAdmin.finance.apPaid"),
               formatCurrencyRupiah(finance?.ap?.paidInRange || 0),
-              "Pembayaran ke supplier",
+              t("page.dashboardSuperAdmin.finance.apPaidSub"),
               "text-emerald-600"
             )}
           </div>
@@ -161,13 +158,15 @@ const FinanceSection = ({ finance, summary }) => {
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-5 pt-5 border-t border-border">
           <div>
-            <p className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider mb-3 flex items-center gap-1.5">
+            <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-3 flex items-center gap-1.5">
               <ArrowDownRight size={13} className="text-emerald-600" />
-              Pengeluaran per Kategori
+              {t("page.dashboardSuperAdmin.finance.expenseByCategory")}
             </p>
             <div className="space-y-2.5">
               {expenseCat.length === 0 && (
-                <p className="text-sm text-muted-foreground">Belum ada pengeluaran</p>
+                <p className="text-sm text-muted-foreground">
+                  {t("page.dashboardSuperAdmin.finance.noExpense")}
+                </p>
               )}
               {expenseCat.map((r) => {
                 const pct = expenseTotal > 0 ? Math.round((r.amount / expenseTotal) * 100) : 0;
@@ -192,13 +191,15 @@ const FinanceSection = ({ finance, summary }) => {
           </div>
 
           <div>
-            <p className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider mb-3 flex items-center gap-1.5">
+            <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-3 flex items-center gap-1.5">
               <Building2 size={13} className="text-orange-600" />
-              Piutang per Pelanggan
+              {t("page.dashboardSuperAdmin.finance.arByCustomer")}
             </p>
             <div className="space-y-2">
               {arCustomers.length === 0 && (
-                <p className="text-sm text-muted-foreground">Tidak ada piutang</p>
+                <p className="text-sm text-muted-foreground">
+                  {t("page.dashboardSuperAdmin.finance.noAr")}
+                </p>
               )}
               {arCustomers.map((r) => (
                 <div
@@ -206,7 +207,9 @@ const FinanceSection = ({ finance, summary }) => {
                   className="flex items-center justify-between rounded-lg bg-muted/40 px-3 py-2">
                   <div>
                     <p className="text-sm font-medium text-foreground">{r.customer}</p>
-                    <p className="text-xs text-muted-foreground">{r.count} faktur</p>
+                    <p className="text-xs text-muted-foreground">
+                      {t("page.dashboardSuperAdmin.finance.invoices", { count: r.count })}
+                    </p>
                   </div>
                   <span className="font-mono text-xs font-semibold text-orange-600">
                     {formatCurrencyRupiah(r.outstanding)}
@@ -217,13 +220,15 @@ const FinanceSection = ({ finance, summary }) => {
           </div>
 
           <div>
-            <p className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider mb-3 flex items-center gap-1.5">
+            <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-3 flex items-center gap-1.5">
               <CalendarClock size={13} className="text-amber-600" />
-              Hutang ke Supplier
+              {t("page.dashboardSuperAdmin.finance.apBySupplier")}
             </p>
             <div className="space-y-2 max-h-[240px] overflow-y-auto pr-1">
               {apPOs.length === 0 && (
-                <p className="text-sm text-muted-foreground">Tidak ada hutang tertunggak</p>
+                <p className="text-sm text-muted-foreground">
+                  {t("page.dashboardSuperAdmin.finance.noAp")}
+                </p>
               )}
               {apPOs.map((r) => (
                 <div
@@ -234,7 +239,9 @@ const FinanceSection = ({ finance, summary }) => {
                     <p className="text-xs text-muted-foreground">
                       {r.storeName || "—"}
                       {r.dueDate
-                        ? ` · Jatuh tempo ${new Date(r.dueDate).toLocaleDateString("id-ID")}`
+                        ? ` · ${t("page.dashboardSuperAdmin.finance.dueDate", {
+                            date: new Date(r.dueDate).toLocaleDateString(locale)
+                          })}`
                         : ""}
                     </p>
                   </div>

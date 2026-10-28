@@ -206,7 +206,7 @@ const GoodsReceiptList = () => {
         const sc = statusMap[item.status] || statusMap.draft;
         return (
           <span
-            className={`inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold uppercase ${sc.class}`}>
+            className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-bold uppercase ${sc.class}`}>
             {t(`page.goodsReceipt.list.status.${item.status || "draft"}`)}
           </span>
         );
@@ -413,10 +413,13 @@ const GoodsReceiptList = () => {
                       onReset={resetFilters}
                       isFiltered={isFiltered}>
                       <div className="flex flex-col gap-1.5">
-                        <label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
-                          Cari
+                        <label
+                          htmlFor="goods-receipt-list-search"
+                          className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                          {t("common.search")}
                         </label>
                         <SearchInput
+                          id="goods-receipt-list-search"
                           value={search}
                           onChange={(val) => {
                             setSearch(val);
@@ -428,10 +431,13 @@ const GoodsReceiptList = () => {
                       </div>
                       {isSuperAdmin && (
                         <div className="flex flex-col gap-1.5">
-                          <label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
-                            Store
+                          <label
+                            htmlFor="goods-receipt-list-store"
+                            className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                            {t("page.goodsReceipt.detail.store")}
                           </label>
                           <Combobox
+                            id="goods-receipt-list-store"
                             options={[
                               {
                                 value: "all",
@@ -453,10 +459,13 @@ const GoodsReceiptList = () => {
                         </div>
                       )}
                       <div className="flex flex-col gap-1.5">
-                        <label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
+                        <label
+                          htmlFor="goods-receipt-list-status"
+                          className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                           {t("common.status")}
                         </label>
                         <Combobox
+                          id="goods-receipt-list-status"
                           options={[
                             {
                               value: "all",

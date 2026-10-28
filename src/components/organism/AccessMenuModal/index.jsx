@@ -306,7 +306,7 @@ export default function AccessMenuModal({
                             {sub.title && (
                               <tr className="bg-muted/20">
                                 <td colSpan={visibleActions.length + 1} className="px-4 py-1.5">
-                                  <span className="text-[11px] font-bold uppercase tracking-wider text-muted-foreground">
+                                  <span className="text-xs font-bold uppercase tracking-wider text-muted-foreground">
                                     {sub.title}
                                   </span>
                                 </td>

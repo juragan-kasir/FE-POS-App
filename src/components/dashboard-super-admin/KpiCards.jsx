@@ -10,6 +10,7 @@ import {
   Landmark,
   HandCoins
 } from "lucide-react";
+import { useTranslation } from "react-i18next";
 import { formatCurrencyRupiah } from "@/utils/formatter-currency";
 
 const growthBadge = (growth) => {
@@ -27,58 +28,67 @@ const growthBadge = (growth) => {
 };
 
 const KpiCards = ({ summary }) => {
+  const { t } = useTranslation();
   const cards = [
     {
-      label: "Total Pendapatan",
+      key: "revenue",
+      label: t("page.dashboardSuperAdmin.kpi.revenue"),
       value: formatCurrencyRupiah(summary.revenue),
       growth: summary.growth?.revenue,
       icon: DollarSign,
       color: "text-primary",
-      sub: `${summary.orders} transaksi`
+      sub: t("page.dashboardSuperAdmin.kpi.transactions", { count: summary.orders })
     },
     {
-      label: "Total Order",
+      key: "orders",
+      label: t("page.dashboardSuperAdmin.kpi.orders"),
       value: String(summary.orders),
       growth: summary.growth?.orders,
       icon: ShoppingCart,
       color: "text-primary"
     },
     {
-      label: "Rata-rata Transaksi",
+      key: "avgOrder",
+      label: t("page.dashboardSuperAdmin.kpi.avgOrder"),
       value: formatCurrencyRupiah(summary.avgOrderValue),
       icon: ReceiptText,
       color: "text-primary"
     },
     {
-      label: "Laba Bersih (Net)",
+      key: "netProfit",
+      label: t("page.dashboardSuperAdmin.kpi.netProfit"),
       value: formatCurrencyRupiah(summary.netRevenue),
       icon: PiggyBank,
       color: summary.netRevenue >= 0 ? "text-emerald-600" : "text-destructive",
-      sub: `Margin ${summary.netMargin}%`
+      sub: t("page.dashboardSuperAdmin.kpi.margin", { value: summary.netMargin })
     },
     {
-      label: "Total Pengeluaran",
+      key: "expense",
+      label: t("page.dashboardSuperAdmin.kpi.expense"),
       value: formatCurrencyRupiah(summary.totalExpense),
       growth: summary.growth?.expense,
       icon: HandCoins,
       color: "text-destructive"
     },
     {
-      label: "Member",
+      key: "members",
+      label: t("page.dashboardSuperAdmin.kpi.members"),
       value: String(summary.totalMembers),
       growth: summary.growth?.newMembers,
       icon: Users,
       color: "text-primary",
-      sub: `+${summary.newMembers} baru`
+      sub: t("page.dashboardSuperAdmin.kpi.newMembers", { count: summary.newMembers })
     },
     {
-      label: "Hutang (AP)",
+      key: "ap",
+      label: t("page.dashboardSuperAdmin.kpi.ap"),
       value: formatCurrencyRupiah(summary.apOutstanding),
       icon: Landmark,
       color: "text-amber-600"
     },
     {
-      label: "Piutang (AR)",
+      key: "ar",
+      label: t("page.dashboardSuperAdmin.kpi.ar"),
       value: formatCurrencyRupiah(summary.arOutstanding),
       icon: Landmark,
       color: "text-orange-600"
@@ -90,9 +100,9 @@ const KpiCards = ({ summary }) => {
       {cards.map((card) => {
         const Icon = card.icon;
         return (
-          <div key={card.label} className="bg-card rounded-xl border border-border p-4 shadow-sm">
+          <div key={card.key} className="bg-card rounded-xl border border-border p-4 shadow-sm">
             <div className="flex items-start justify-between mb-3">
-              <p className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider">
+              <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
                 {card.label}
               </p>
               <Icon size={18} className={card.color} />

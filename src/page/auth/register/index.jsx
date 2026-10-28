@@ -170,14 +170,15 @@ const RegisterPage = () => {
         <nav className="bg-card border-b border-border fixed top-0 w-full z-50 transition-colors">
           <div className="flex justify-between items-center w-full px-4 md:px-6 lg:px-lg py-2.5 max-w-7xl mx-auto">
             <span className="text-base md:text-lg font-semibold text-foreground tracking-tight">
-              Kinetic Ledger
+              Juragan Kasir
             </span>
             <div className="flex items-center gap-2 md:gap-3">
               <div className="flex items-center bg-muted rounded-full p-0.5 border border-border">
                 <button
                   type="button"
                   onClick={() => updateTranslation("id")}
-                  className={`px-2.5 py-1 md:px-3 md:py-1 text-[10px] md:text-[11px] font-bold tracking-widest rounded-full transition-all duration-200 focus:outline-none ${
+                  aria-pressed={translation === "id"}
+                  className={`px-2.5 py-1 md:px-3 md:py-1 text-xs font-bold tracking-widest rounded-full transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring ${
                     translation === "id"
                       ? "bg-foreground text-background shadow-sm"
                       : "text-muted-foreground hover:text-foreground"
@@ -187,7 +188,8 @@ const RegisterPage = () => {
                 <button
                   type="button"
                   onClick={() => updateTranslation("en")}
-                  className={`px-2.5 py-1 md:px-3 md:py-1 text-[10px] md:text-[11px] font-bold tracking-widest rounded-full transition-all duration-200 focus:outline-none ${
+                  aria-pressed={translation === "en"}
+                  className={`px-2.5 py-1 md:px-3 md:py-1 text-xs font-bold tracking-widest rounded-full transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring ${
                     translation === "en"
                       ? "bg-foreground text-background shadow-sm"
                       : "text-muted-foreground hover:text-foreground"
@@ -198,16 +200,18 @@ const RegisterPage = () => {
               <button
                 type="button"
                 onClick={toggleTheme}
-                className="w-9 h-9 md:w-10 md:h-10 flex items-center justify-center rounded-full text-muted-foreground hover:text-foreground hover:bg-muted transition-all duration-200 focus:outline-none">
+                aria-label={t("header.toggleTheme")}
+                className="w-9 h-9 md:w-10 md:h-10 flex items-center justify-center rounded-full text-muted-foreground hover:text-foreground hover:bg-muted transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
                 <Sun className="w-4 h-4 md:w-5 md:h-5 hidden dark:block" />
                 <Moon className="w-4 h-4 md:w-5 md:h-5 block dark:hidden" />
               </button>
-              <button
+              <Button
                 type="button"
+                variant="link"
                 onClick={() => setGuideOpen(true)}
-                className="hidden sm:inline-flex text-[11px] md:text-xs text-muted-foreground hover:text-foreground transition-colors font-medium">
+                className="h-auto p-0 font-medium hidden sm:inline-flex text-xs text-muted-foreground hover:text-foreground transition-colors">
                 {translationMemo.help}
-              </button>
+              </Button>
             </div>
           </div>
         </nav>
@@ -240,7 +244,7 @@ const RegisterPage = () => {
                     name="userName"
                     render={({ field }) => (
                       <FormItem data-tour="auth-username">
-                        <FormLabel className="text-[10px] md:text-[11px] text-muted-foreground font-semibold uppercase tracking-[0.1em]">
+                        <FormLabel className="text-xs text-muted-foreground font-semibold uppercase tracking-[0.1em]">
                           {translationMemo.userName}
                         </FormLabel>
                         <div className="relative group">
@@ -265,7 +269,7 @@ const RegisterPage = () => {
                     name="email"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel className="text-[10px] md:text-[11px] text-muted-foreground font-semibold uppercase tracking-[0.1em]">
+                        <FormLabel className="text-xs text-muted-foreground font-semibold uppercase tracking-[0.1em]">
                           {translationMemo.email}
                         </FormLabel>
                         <div className="relative group">
@@ -290,7 +294,7 @@ const RegisterPage = () => {
                     name="store"
                     render={({ field }) => (
                       <FormItem data-tour="auth-location">
-                        <FormLabel className="text-[10px] md:text-[11px] text-muted-foreground font-semibold uppercase tracking-[0.1em]">
+                        <FormLabel className="text-xs text-muted-foreground font-semibold uppercase tracking-[0.1em]">
                           {translationMemo.location}
                         </FormLabel>
                         <div className="relative group">
@@ -339,7 +343,7 @@ const RegisterPage = () => {
                       name="password"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel className="text-[10px] md:text-[11px] text-muted-foreground font-semibold uppercase tracking-[0.1em]">
+                          <FormLabel className="text-xs text-muted-foreground font-semibold uppercase tracking-[0.1em]">
                             {translationMemo.password}
                           </FormLabel>
                           <div className="relative group">
@@ -353,6 +357,9 @@ const RegisterPage = () => {
                             <button
                               type="button"
                               onClick={() => setShowPassword(!showPassword)}
+                              aria-label={t(
+                                showPassword ? "page.login.hidePassword" : "page.login.showPassword"
+                              )}
                               className="absolute right-3.5 md:right-4 top-1/2 -translate-y-1/2 text-muted-foreground/60 hover:text-foreground transition-colors">
                               {showPassword ? (
                                 <EyeOff className="w-4 h-4 md:w-5 md:h-5" />
@@ -374,7 +381,7 @@ const RegisterPage = () => {
                       name="confirmPassword"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel className="text-[10px] md:text-[11px] text-muted-foreground font-semibold uppercase tracking-[0.1em]">
+                          <FormLabel className="text-xs text-muted-foreground font-semibold uppercase tracking-[0.1em]">
                             {translationMemo.confirmationPassword}
                           </FormLabel>
                           <div className="relative group">
@@ -388,6 +395,11 @@ const RegisterPage = () => {
                             <button
                               type="button"
                               onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                              aria-label={t(
+                                showConfirmPassword
+                                  ? "page.login.hidePassword"
+                                  : "page.login.showPassword"
+                              )}
                               className="absolute right-3.5 md:right-4 top-1/2 -translate-y-1/2 text-muted-foreground/60 hover:text-foreground transition-colors">
                               {showConfirmPassword ? (
                                 <EyeOff className="w-4 h-4 md:w-5 md:h-5" />
@@ -422,16 +434,17 @@ const RegisterPage = () => {
               <div className="mt-6 md:mt-xl text-center space-y-3 md:space-y-md">
                 <p className="text-xs md:text-sm text-muted-foreground">
                   {translationMemo.alreadyHaveAccount}{" "}
-                  <button
+                  <Button
                     type="button"
+                    variant="link"
                     onClick={() => navigate("/")}
-                    className="text-foreground font-semibold hover:underline">
+                    className="h-auto p-0 font-medium text-foreground font-semibold hover:underline">
                     {translationMemo.login}
-                  </button>
+                  </Button>
                 </p>
                 <div className="flex items-center justify-center gap-1.5 md:gap-2">
                   <ShieldCheck className="w-4 h-4 md:w-5 md:h-5 text-muted-foreground" />
-                  <span className="text-[10px] md:text-xs text-muted-foreground font-medium uppercase tracking-wider">
+                  <span className="text-xs text-muted-foreground font-medium uppercase tracking-wider">
                     {translationMemo.enterpriseSecure}
                   </span>
                 </div>
@@ -456,25 +469,27 @@ const RegisterPage = () => {
           <div className="w-full py-4 md:py-xl px-4 md:px-6 lg:px-lg flex flex-col md:flex-row justify-between items-center max-w-7xl mx-auto gap-3 md:gap-md">
             <div className="flex flex-col items-center md:items-start gap-1">
               <span className="text-sm md:text-base font-semibold text-foreground tracking-tight">
-                Kinetic Ledger
+                Juragan Kasir
               </span>
               <span className="text-xs md:text-sm text-muted-foreground">
-                &copy; 2024 Kinetic Ledger. All rights reserved.
+                {t("page.login.copyright", { year: new Date().getFullYear() })}
               </span>
             </div>
             <div className="flex gap-4 md:gap-lg">
-              <button
+              <Button
                 type="button"
+                variant="link"
                 onClick={() => setPrivacyOpen(true)}
-                className="text-xs md:text-sm text-muted-foreground hover:text-foreground transition-colors">
+                className="h-auto p-0 font-medium text-xs md:text-sm text-muted-foreground hover:text-foreground transition-colors">
                 {translationMemo.privacyPolicy}
-              </button>
-              <button
+              </Button>
+              <Button
                 type="button"
+                variant="link"
                 onClick={() => setTermsOpen(true)}
-                className="text-xs md:text-sm text-muted-foreground hover:text-foreground transition-colors">
+                className="h-auto p-0 font-medium text-xs md:text-sm text-muted-foreground hover:text-foreground transition-colors">
                 {translationMemo.termsConditions}
-              </button>
+              </Button>
             </div>
           </div>
         </footer>

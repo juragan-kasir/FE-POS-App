@@ -200,7 +200,7 @@ const LowStockAll = () => {
         const status = getStockStatus(row.stock);
         return (
           <span
-            className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold border ${status.cls}`}>
+            className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-bold border ${status.cls}`}>
             <span
               className={`w-1.5 h-1.5 rounded-full ${row.stock <= 0 ? "bg-red-500" : "bg-orange-500"}`}
             />
@@ -221,22 +221,27 @@ const LowStockAll = () => {
           ]
         : [
             <div key="search" className="flex flex-col gap-1.5">
-              <label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
-                Cari
+              <label
+                htmlFor="low-stock-all-search"
+                className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                {t("common.search")}
               </label>
               <SearchInput
+                id="low-stock-all-search"
                 value={search}
                 onChange={(val) => {
                   setSearch(val);
                   setPage(1);
                 }}
-                placeholder="Cari nama barang..."
+                placeholder={t("page.stockOpname.ui.searchItemName")}
                 isLoading={isLoading}
               />
             </div>,
             <div key="store" className="flex flex-col gap-1.5">
-              <label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
-                Toko
+              <label
+                htmlFor="low-stock-all-store"
+                className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                {t("document.store")}
               </label>
               <Select
                 value={storeFilter}
@@ -244,11 +249,11 @@ const LowStockAll = () => {
                   setGlobalStoreFilter(v);
                   setPage(1);
                 }}>
-                <SelectTrigger className="h-9 text-sm">
-                  <SelectValue placeholder="Semua Toko" />
+                <SelectTrigger id="low-stock-all-store" className="h-9 text-sm">
+                  <SelectValue placeholder={t("header.allStore")} />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="all">Semua Toko</SelectItem>
+                  <SelectItem value="all">{t("header.allStore")}</SelectItem>
                   {locations.map((loc) => (
                     <SelectItem key={loc.id} value={String(loc.id)}>
                       {loc.name}
@@ -258,8 +263,10 @@ const LowStockAll = () => {
               </Select>
             </div>,
             <div key="type" className="flex flex-col gap-1.5">
-              <label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
-                Tipe
+              <label
+                htmlFor="low-stock-all-type"
+                className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                {t("page.profile.type")}
               </label>
               <Select
                 value={typeFilter}
@@ -267,13 +274,15 @@ const LowStockAll = () => {
                   setTypeFilter(v);
                   setPage(1);
                 }}>
-                <SelectTrigger className="h-9 text-sm">
-                  <SelectValue placeholder="Semua Tipe" />
+                <SelectTrigger id="low-stock-all-type" className="h-9 text-sm">
+                  <SelectValue placeholder={t("page.stockHistory.filter.allTypes")} />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="all">Semua Tipe</SelectItem>
-                  <SelectItem value="product">Produk</SelectItem>
-                  <SelectItem value="ingredient">Bahan</SelectItem>
+                  <SelectItem value="all">{t("page.stockHistory.filter.allTypes")}</SelectItem>
+                  <SelectItem value="product">{t("sidebar.produk")}</SelectItem>
+                  <SelectItem value="ingredient">
+                    {t("page.dashboardSuperAdmin.ops.type.ingredient")}
+                  </SelectItem>
                 </SelectContent>
               </Select>
             </div>

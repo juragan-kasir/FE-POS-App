@@ -36,6 +36,7 @@ import CategoryPreviewModal from "./CategoryPreviewModal";
 import { useLocations } from "@/queries/useLocations";
 import { FIELD_LIMITS } from "@/constants/fieldLimits";
 import { useFormExit } from "@/hooks/useLeaveGuard";
+import LoadErrorBanner from "@/components/ui/LoadErrorBanner";
 
 const iconSections = [
   {
@@ -540,7 +541,7 @@ const EditCategory = () => {
     : [];
 
   if (categoryLoading) {
-    return <Loading fullscreen size="lg" label="Memuat data..." />;
+    return <Loading fullscreen size="lg" label={t("common.loadingData")} />;
   }
 
   return (
@@ -562,6 +563,7 @@ const EditCategory = () => {
         onBack={requestLeave}>
         <UserGuide guideKey="edit-category" />
       </PageHeader>
+      <LoadErrorBanner />
 
       <div>
         <div className="bg-card p-6 rounded-xl shadow-[0_4px_20px_-4px_rgba(0,0,0,0.05)] border border-border overflow-hidden">
@@ -799,7 +801,7 @@ const EditCategory = () => {
                         {imagePreview ? (
                           <img
                             src={imagePreview}
-                            alt="Preview"
+                            alt={t("page.product.form.preview")}
                             className="w-full h-full object-cover rounded-lg"
                           />
                         ) : selectedIcon ? (
@@ -1016,7 +1018,7 @@ const EditCategory = () => {
                           }`}>
                           <DynamicIcon name={ic.icon} size={22} />
                         </div>
-                        <span className="text-[10px] text-muted-foreground font-medium text-center leading-tight">
+                        <span className="text-xs text-muted-foreground font-medium text-center leading-tight">
                           {ic.label}
                         </span>
                       </button>
@@ -1053,7 +1055,7 @@ const EditCategory = () => {
                                 }`}>
                                 <DynamicIcon name={ic.icon} size={22} />
                               </div>
-                              <span className="text-[10px] text-muted-foreground font-medium text-center leading-tight">
+                              <span className="text-xs text-muted-foreground font-medium text-center leading-tight">
                                 {ic.label}
                               </span>
                             </button>
@@ -1123,8 +1125,8 @@ const EditCategory = () => {
           type="confirm"
           open={confirmSaveModal}
           onOpenChange={setConfirmSaveModal}
-          title="Konfirmasi Simpan"
-          description="Apakah Anda yakin ingin menyimpan perubahan ini?"
+          title={t("common.confirmSave")}
+          description={t("page.category.ui.areYouSureYouWant")}
           confirmText="Ya, Simpan"
           onConfirm={() => {
             setConfirmSaveModal(false);

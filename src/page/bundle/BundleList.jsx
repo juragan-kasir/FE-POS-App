@@ -184,8 +184,8 @@ const BundleList = () => {
         label: t("common.active")
       },
       draft: {
-        bg: "bg-slate-100 text-slate-700 border-slate-200 dark:bg-slate-900/30 dark:text-slate-400",
-        dot: "bg-slate-500",
+        bg: "bg-muted text-foreground border-border",
+        dot: "bg-muted-foreground",
         label: t("common.draft")
       },
       inactive: {
@@ -264,7 +264,7 @@ const BundleList = () => {
           )}
           <div>
             <p className="font-medium text-sm">{row.name}</p>
-            <p className="text-[10px] text-muted-foreground">{row.sku}</p>
+            <p className="text-xs text-muted-foreground">{row.sku}</p>
           </div>
         </div>
       )
@@ -300,7 +300,7 @@ const BundleList = () => {
     {
       header: t("page.bundle.table.discount"),
       render: (row) => (
-        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-red-100 text-red-700 border border-red-200">
+        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-bold bg-red-100 text-red-700 border border-red-200">
           <Zap size={10} />
           {row.discountPercentage > 0 ? `${row.discountPercentage}%` : "-"}
         </span>
@@ -349,7 +349,7 @@ const BundleList = () => {
         const s = statusBadge(row.status);
         return (
           <span
-            className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold border ${s.bg}`}>
+            className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-bold border ${s.bg}`}>
             <span className={`w-1.5 h-1.5 rounded-full ${s.dot}`} />
             {s.label}
           </span>
@@ -441,8 +441,8 @@ const BundleList = () => {
     <TableToolbar title={t("page.bundle.title")} onReset={resetFilters} isFiltered={isFiltered}>
       {isSuperAdmin && (
         <div className="flex flex-col gap-1.5">
-          <label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
-            Store
+          <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+            {t("page.goodsReceipt.detail.store")}
           </label>
           <StoreFilter
             locations={locData?.data || []}
@@ -457,10 +457,13 @@ const BundleList = () => {
         </div>
       )}
       <div className="flex flex-col gap-1.5">
-        <label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
-          Cari
+        <label
+          htmlFor="bundle-list-search"
+          className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+          {t("common.search")}
         </label>
         <SearchInput
+          id="bundle-list-search"
           value={search}
           onChange={(val) => {
             setSearch(val);
@@ -471,7 +474,9 @@ const BundleList = () => {
         />
       </div>
       <div className="flex flex-col gap-1.5">
-        <label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
+        <label
+          htmlFor="bundle-list-status"
+          className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
           {t("common.status")}
         </label>
         <Select
@@ -480,7 +485,7 @@ const BundleList = () => {
             setStatusFilter(v);
             setPage(1);
           }}>
-          <SelectTrigger className="w-36 h-9 text-sm">
+          <SelectTrigger id="bundle-list-status" className="w-36 h-9 text-sm">
             <SelectValue placeholder={t("common.status")} />
           </SelectTrigger>
           <SelectContent>
@@ -615,13 +620,16 @@ const BundleList = () => {
         }}>
         {statusTarget && statusTarget.status !== "active" && (
           <div className="space-y-3 rounded-lg border border-border bg-muted/40 p-3">
-            <p className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
+            <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
               {t("page.bundle.list.validity")}
             </p>
             <div className="grid grid-cols-12 gap-2 items-end">
               <div className="col-span-6 space-y-1">
-                <Label className="text-xs">{t("page.bundle.form.validFrom")}</Label>
+                <Label htmlFor="bundle-list-valid-from" className="text-xs">
+                  {t("page.bundle.form.validFrom")}
+                </Label>
                 <DatePicker
+                  id="bundle-list-valid-from"
                   date={activateForm.fromDate}
                   setDate={(d) => setActivateForm((f) => ({ ...f, fromDate: d }))}
                   placeholder={t("page.bundle.form.validFrom")}
@@ -636,8 +644,11 @@ const BundleList = () => {
             </div>
             <div className="grid grid-cols-12 gap-2 items-end">
               <div className="col-span-6 space-y-1">
-                <Label className="text-xs">{t("page.bundle.form.validUntil")}</Label>
+                <Label htmlFor="bundle-list-valid-until" className="text-xs">
+                  {t("page.bundle.form.validUntil")}
+                </Label>
                 <DatePicker
+                  id="bundle-list-valid-until"
                   date={activateForm.untilDate}
                   setDate={(d) => setActivateForm((f) => ({ ...f, untilDate: d }))}
                   minDate={activateForm.fromDate || undefined}

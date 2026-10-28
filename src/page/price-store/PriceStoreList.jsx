@@ -6,7 +6,7 @@ import { useStore } from "@/contexts/StoreContext";
 import { Store, ArrowLeft, Pencil, Boxes, ChevronRight } from "lucide-react";
 import { getProductByOutlet } from "@/services/product";
 import { updateProductPriceByStore } from "@/services/price-store";
-import { Card } from "@/components/ui/card";
+
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import Modal from "@/components/organism/modal";
@@ -16,8 +16,11 @@ import { Skeleton } from "@/components/ui/skeleton";
 import NoStore from "@/components/ui/NoStore";
 import TableActionLegend from "@/components/ui/TableActionLegend";
 import PageHeader from "@/components/ui/PageHeader";
-import HorizontalScrollArea from "@/components/ui/HorizontalScrollArea";
+import DataTable from "@/components/ui/DataTable";
+import TableToolbar from "@/components/ui/TableToolbar";
+import { SearchInput } from "@/components/ui/SearchInput";
 import { useLocations } from "@/queries/useLocations";
+import LoadErrorBanner from "@/components/ui/LoadErrorBanner";
 
 const PriceStoreList = () => {
   const { t } = useTranslation();
@@ -49,7 +52,9 @@ const PriceStoreList = () => {
   const {
     data: prodData,
     isLoading: isLoadingProducts,
-    isFetching: isFetchingProducts
+    isFetching: isFetchingProducts,
+    isError: isProductsError,
+    refetch: refetchProducts
   } = useQuery(
     ["products-for-price", selectedStore],
     () => getProductByOutlet({ location: selectedStore }),
@@ -59,9 +64,12 @@ const PriceStoreList = () => {
   );
   const allProducts = useMemo(() => prodData?.data || prodData || [], [prodData]);
 
+  const [search, setSearch] = useState("");
   const products = useMemo(() => {
-    return allProducts;
-  }, [allProducts, selectedStore]);
+    const q = search.trim().toLowerCase();
+    if (!q) return allProducts;
+    return allProducts.filter((p) => (p.nameProduct || p.name || "").toLowerCase().includes(q));
+  }, [allProducts, search]);
 
   const saveMutation = useMutation({
     mutationFn: (payload) => updateProductPriceByStore(payload),
@@ -92,6 +100,56 @@ const PriceStoreList = () => {
     });
   };
 
+  const columns = [
+    { header: t("page.priceStore.list.product"), render: (p) => p.nameProduct || p.name },
+    {
+      header: t("page.priceStore.list.category"),
+      render: (p) => (
+        <span className="text-muted-foreground">
+          {p.categoryData?.name || p.nameCategory || "-"}
+        </span>
+      )
+    },
+    {
+      header: t("page.priceStore.list.type"),
+      render: (p) => (
+        <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-bold uppercase tracking-wider bg-primary/10 text-primary">
+          {p.tipeProduk || "menu"}
+        </span>
+      )
+    },
+    {
+      header: t("page.priceStore.list.defaultPrice"),
+      align: "right",
+      render: (p) => <span className="font-medium">{Number(p.price).toLocaleString("id-ID")}</span>
+    },
+    {
+      header: t("page.priceStore.list.costPrice"),
+      align: "right",
+      render: (p) => (
+        <span className="text-muted-foreground">{Number(p.costPrice).toLocaleString("id-ID")}</span>
+      )
+    },
+    { header: t("page.priceStore.list.stock"), align: "right", render: (p) => p.stock },
+    {
+      header: t("page.priceStore.list.unit"),
+      render: (p) => <span className="text-muted-foreground">{p.unit || "-"}</span>
+    },
+    {
+      header: t("page.priceStore.list.edit"),
+      align: "right",
+      render: (p) => (
+        <Button
+          variant="ghost"
+          size="sm"
+          onClick={() => handleEdit(p)}
+          aria-label={t("page.priceStore.list.edit")}>
+          <Pencil size={14} />
+        </Button>
+      )
+    }
+  ];
+
   return (
     <div className="space-y-6">
       <PageHeader
@@ -106,6 +164,7 @@ const PriceStoreList = () => {
         title={t("page.priceStore.list.title")}
         description={t("page.priceStore.list.desc")}
       />
+      <LoadErrorBanner />
 
       {isLoading || isFetching ? (
         <div className="flex-1 flex items-center justify-center p-6">
@@ -163,7 +222,9 @@ const PriceStoreList = () => {
                   </div>
                   <div className="flex-1 min-w-0">
                     <p className="font-semibold text-foreground">{s.name}</p>
-                    <p className="text-sm text-muted-foreground">Pilih toko</p>
+                    <p className="text-sm text-muted-foreground">
+                      {t("page.table.form.storePlaceholder")}
+                    </p>
                   </div>
                   <ChevronRight
                     size={20}
@@ -177,12 +238,14 @@ const PriceStoreList = () => {
       ) : (
         <div className="space-y-6">
           <div className="flex items-center gap-4">
-            <button
-              onClick={() => setSelectedStore("")}
-              className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors">
+            <Button
+              variant="ghost"
+              size="sm"
+              className="gap-2"
+              onClick={() => setSelectedStore("")}>
               <ArrowLeft size={18} />
               {t("common.back")}
-            </button>
+            </Button>
             <div className="h-5 w-px bg-border" />
             <div className="flex items-center gap-2">
               <Store size={18} className="text-primary" />
@@ -215,101 +278,36 @@ const PriceStoreList = () => {
             </div>
           )}
 
-          <Card className="p-6">
-            <HorizontalScrollArea>
-              <table className="w-full text-sm">
-                <thead>
-                  <tr className="border-b text-left text-muted-foreground">
-                    <th className="pb-3 font-medium">{t("page.priceStore.list.product")}</th>
-                    <th className="pb-3 font-medium">{t("page.priceStore.list.category")}</th>
-                    <th className="pb-3 font-medium">{t("page.priceStore.list.type")}</th>
-                    <th className="pb-3 font-medium text-right">
-                      {t("page.priceStore.list.defaultPrice")}
-                    </th>
-                    <th className="pb-3 font-medium text-right">
-                      {t("page.priceStore.list.costPrice")}
-                    </th>
-                    <th className="pb-3 font-medium text-right">
-                      {t("page.priceStore.list.stock")}
-                    </th>
-                    <th className="pb-3 font-medium">{t("page.priceStore.list.unit")}</th>
-                    <th className="pb-3 font-medium text-right">
-                      {t("page.priceStore.list.edit")}
-                    </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {isLoadingProducts || isFetchingProducts ? (
-                    Array.from({ length: 5 }).map((_, i) => (
-                      <tr key={`skel-${i}`} className="border-b last:border-0">
-                        <td className="py-3">
-                          <Skeleton className="h-4 w-32" />
-                        </td>
-                        <td className="py-3">
-                          <Skeleton className="h-4 w-24" />
-                        </td>
-                        <td className="py-3">
-                          <Skeleton className="h-5 w-14 rounded-full" />
-                        </td>
-                        <td className="py-3 text-right">
-                          <Skeleton className="h-4 w-20 ml-auto" />
-                        </td>
-                        <td className="py-3 text-right">
-                          <Skeleton className="h-4 w-20 ml-auto" />
-                        </td>
-                        <td className="py-3 text-right">
-                          <Skeleton className="h-4 w-10 ml-auto" />
-                        </td>
-                        <td className="py-3">
-                          <Skeleton className="h-4 w-10" />
-                        </td>
-                        <td className="py-3 text-right">
-                          <Skeleton className="h-8 w-8 rounded ml-auto" />
-                        </td>
-                      </tr>
-                    ))
-                  ) : products.length === 0 ? (
-                    <tr>
-                      <td colSpan={8} className="py-8 text-center text-muted-foreground">
-                        {t("common.noData")}
-                      </td>
-                    </tr>
-                  ) : (
-                    products.map((p) => (
-                      <tr key={p.id} className="border-b last:border-0">
-                        <td className="py-3">{p.nameProduct || p.name}</td>
-                        <td className="py-3 text-muted-foreground">
-                          {p.categoryData?.name || p.nameCategory || "-"}
-                        </td>
-                        <td className="py-3">
-                          <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-primary/10 text-primary">
-                            {p.tipeProduk || "menu"}
-                          </span>
-                        </td>
-                        <td className="py-3 text-right font-medium">
-                          {Number(p.price).toLocaleString("id-ID")}
-                        </td>
-                        <td className="py-3 text-right text-muted-foreground">
-                          {Number(p.costPrice).toLocaleString("id-ID")}
-                        </td>
-                        <td className="py-3 text-right">{p.stock}</td>
-                        <td className="py-3 text-muted-foreground">{p.unit || "-"}</td>
-                        <td className="py-3 text-right">
-                          <Button
-                            variant="ghost"
-                            size="sm"
-                            onClick={() => handleEdit(p)}
-                            className="hover:bg-accent">
-                            <Pencil size={14} />
-                          </Button>
-                        </td>
-                      </tr>
-                    ))
-                  )}
-                </tbody>
-              </table>
-            </HorizontalScrollArea>
-          </Card>
+          <DataTable
+            columns={columns}
+            data={products}
+            isLoading={isLoadingProducts || isFetchingProducts}
+            isError={isProductsError}
+            onRetry={refetchProducts}
+            rowKey={(p) => p.id}
+            emptyIcon={Boxes}
+            emptyMessage={t("page.priceStore.list.empty")}
+            toolbar={
+              <TableToolbar
+                title={storeName}
+                onReset={() => setSearch("")}
+                isFiltered={search !== ""}>
+                <div className="flex flex-col gap-1.5">
+                  <label
+                    htmlFor="price-store-list-search"
+                    className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                    {t("common.search")}
+                  </label>
+                  <SearchInput
+                    id="price-store-list-search"
+                    value={search}
+                    onChange={setSearch}
+                    placeholder={t("page.priceStore.list.searchPlaceholder")}
+                  />
+                </div>
+              </TableToolbar>
+            }
+          />
         </div>
       )}
 
@@ -332,18 +330,19 @@ const PriceStoreList = () => {
           loading={saveMutation.isLoading}>
           <div className="space-y-4">
             <div>
-              <label className="text-sm font-medium text-muted-foreground">
+              <p className="text-sm font-medium text-muted-foreground">
                 {t("page.priceStore.list.defaultPrice")}
-              </label>
+              </p>
               <p className="text-lg font-bold">
                 {Number(editModal.price || 0).toLocaleString("id-ID")}
               </p>
             </div>
             <div>
-              <label className="text-sm font-medium">
+              <label htmlFor="price-store-list-store-price" className="text-sm font-medium">
                 {t("page.priceStore.list.storePrice")} — {storeName}
               </label>
               <Input
+                id="price-store-list-store-price"
                 type="number"
                 value={editPrice}
                 onChange={(e) => setEditPrice(e.target.value)}

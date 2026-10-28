@@ -135,7 +135,7 @@ const typeIcons = {
   },
   shift_created: {
     icon: FileText,
-    bg: "bg-muted dark:bg-gray-900/40",
+    bg: "bg-muted",
     color: "text-muted-foreground"
   },
   discount_created: {
@@ -147,7 +147,7 @@ const typeIcons = {
 
 const defaultIcon = {
   icon: Bell,
-  bg: "bg-muted dark:bg-gray-900/40",
+  bg: "bg-muted",
   color: "text-muted-foreground"
 };
 
@@ -273,7 +273,7 @@ const NotificationPage = () => {
                               className={`text-sm ${!notif.isRead ? "font-semibold text-foreground" : "text-foreground"}`}>
                               {notif.title}
                             </p>
-                            <span className="text-[11px] text-muted-foreground whitespace-nowrap shrink-0">
+                            <span className="text-xs text-muted-foreground whitespace-nowrap shrink-0">
                               {formatTime(notif.createdAt)}
                             </span>
                           </div>

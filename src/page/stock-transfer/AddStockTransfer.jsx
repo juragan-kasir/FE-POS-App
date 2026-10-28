@@ -32,6 +32,7 @@ import HorizontalScrollArea from "@/components/ui/HorizontalScrollArea";
 import { useLocations } from "@/queries/useLocations";
 import { FIELD_LIMITS } from "@/constants/fieldLimits";
 import { useFormExit } from "@/hooks/useLeaveGuard";
+import LoadErrorBanner from "@/components/ui/LoadErrorBanner";
 
 const AddStockTransfer = () => {
   const { t } = useTranslation();
@@ -192,6 +193,7 @@ const AddStockTransfer = () => {
           dynamicInfo={false}>
           <UserGuide guideKey="add-stock-transfer" />
         </PageHeader>
+        <LoadErrorBanner />
 
         <form
           onSubmit={handleSubmit(onSubmit)}
@@ -246,8 +248,11 @@ const AddStockTransfer = () => {
           </div>
 
           <div className="space-y-2">
-            <Label>{t("page.stockTransfer.add.form.transferredBy")}</Label>
+            <Label htmlFor="add-stock-transfer-transferred-by">
+              {t("page.stockTransfer.add.form.transferredBy")}
+            </Label>
             <Input
+              id="add-stock-transfer-transferred-by"
               {...form.register("transferredBy")}
               placeholder={t("page.stockTransfer.add.form.transferredByPlaceholder")}
               maxLength={FIELD_LIMITS.PERSON_NAME}
@@ -256,8 +261,11 @@ const AddStockTransfer = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="space-y-2">
-              <Label>{t("page.stockTransfer.add.form.reason")}</Label>
+              <Label htmlFor="add-stock-transfer-reason">
+                {t("page.stockTransfer.add.form.reason")}
+              </Label>
               <Input
+                id="add-stock-transfer-reason"
                 {...form.register("reason")}
                 placeholder={t("page.stockTransfer.add.form.reasonPlaceholder")}
                 maxLength={FIELD_LIMITS.SHORT_NOTE}
@@ -352,7 +360,7 @@ const AddStockTransfer = () => {
                                               {p.nameProduct}
                                             </span>
                                             {p.barcode && (
-                                              <span className="text-[10px] text-muted-foreground truncate">
+                                              <span className="text-xs text-muted-foreground truncate">
                                                 {p.barcode}
                                               </span>
                                             )}
@@ -369,7 +377,7 @@ const AddStockTransfer = () => {
                               </PopoverContent>
                             </Popover>
                             {selectedProduct && (
-                              <span className="shrink-0 text-[10px] font-mono text-muted-foreground bg-muted/40 px-2 py-1 rounded-md border border-border/50">
+                              <span className="shrink-0 text-xs font-mono text-muted-foreground bg-muted/40 px-2 py-1 rounded-md border border-border/50">
                                 {t("page.stockTransfer.add.table.stock")}:{" "}
                                 {selectedProduct.stock ?? 0}
                               </span>
@@ -457,8 +465,11 @@ const AddStockTransfer = () => {
           </div>
 
           <div className="space-y-2">
-            <Label>{t("page.stockTransfer.add.form.notes")}</Label>
+            <Label htmlFor="add-stock-transfer-notes">
+              {t("page.stockTransfer.add.form.notes")}
+            </Label>
             <Textarea
+              id="add-stock-transfer-notes"
               rows={2}
               {...form.register("notes")}
               placeholder={t("page.stockTransfer.add.form.notesPlaceholder")}

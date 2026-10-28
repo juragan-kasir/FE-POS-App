@@ -217,7 +217,7 @@ const EmployeeList = () => {
       align: "center",
       render: (row) => (
         <span
-          className={`inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-tight border ${
+          className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-bold uppercase tracking-tight border ${
             row.status === "active"
               ? "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400 border-green-200 dark:border-green-800"
               : row.status === "draft"
@@ -422,10 +422,13 @@ const EmployeeList = () => {
                       onReset={resetFilters}
                       isFiltered={isFiltered}>
                       <div className="flex flex-col gap-1.5">
-                        <label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
-                          Cari
+                        <label
+                          htmlFor="employee-list-search"
+                          className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                          {t("common.search")}
                         </label>
                         <SearchInput
+                          id="employee-list-search"
                           value={search}
                           onChange={(val) => {
                             setSearch(val);
@@ -436,10 +439,13 @@ const EmployeeList = () => {
                         />
                       </div>
                       <div className="flex flex-col gap-1.5">
-                        <label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
-                          Toko
+                        <label
+                          htmlFor="employee-list-store"
+                          className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                          {t("document.store")}
                         </label>
                         <Combobox
+                          id="employee-list-store"
                           options={[
                             { value: "", label: t("page.employee.list.allStores") },
                             ...(locData?.data || []).map((loc) => ({
@@ -457,10 +463,13 @@ const EmployeeList = () => {
                         />
                       </div>
                       <div className="flex flex-col gap-1.5">
-                        <label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
-                          Posisi
+                        <label
+                          htmlFor="employee-list-posisi"
+                          className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                          {t("sidebar.posisi")}
                         </label>
                         <Combobox
+                          id="employee-list-posisi"
                           options={[
                             { value: "", label: t("page.employee.list.allPositions") },
                             ...positions.map((pos) => ({
@@ -478,10 +487,13 @@ const EmployeeList = () => {
                         />
                       </div>
                       <div className="flex flex-col gap-1.5">
-                        <label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
-                          Departemen
+                        <label
+                          htmlFor="employee-list-departemen"
+                          className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                          {t("sidebar.departemen")}
                         </label>
                         <Combobox
+                          id="employee-list-departemen"
                           options={[
                             {
                               value: "",
@@ -518,28 +530,26 @@ const EmployeeList = () => {
               <div className="bg-gradient-to-br from-primary to-primary/90 rounded-xl p-5 flex flex-col text-primary-foreground mt-6">
                 <div className="flex items-center gap-2 mb-3">
                   <Lightbulb size={18} className="opacity-80" />
-                  <h4 className="text-sm font-bold uppercase tracking-wider opacity-80">Tips</h4>
+                  <h4 className="text-sm font-bold uppercase tracking-wider opacity-80">
+                    {t("common.tips")}
+                  </h4>
                 </div>
                 <ul className="space-y-2">
                   <li className="text-xs leading-relaxed opacity-90 flex items-start gap-2">
                     <span className="text-primary-foreground/60 mt-0.5">•</span>
-                    <span>
-                      Gunakan filter cabang untuk melihat beban kerja per lokasi secara cepat.
-                    </span>
+                    <span>{t("page.employee.ui.useTheBranchFilterTo")}</span>
                   </li>
                   <li className="text-xs leading-relaxed opacity-90 flex items-start gap-2">
                     <span className="text-primary-foreground/60 mt-0.5">•</span>
-                    <span>
-                      Unduh laporan karyawan dalam format Excel melalui menu download data.
-                    </span>
+                    <span>{t("page.employee.ui.downloadTheEmployeeReportAs")}</span>
                   </li>
                   <li className="text-xs leading-relaxed opacity-90 flex items-start gap-2">
                     <span className="text-primary-foreground/60 mt-0.5">•</span>
-                    <span>Pastikan data karyawan selalu diperbarui untuk akurasi penggajian.</span>
+                    <span>{t("page.employee.ui.keepEmployeeDataUpTo")}</span>
                   </li>
                   <li className="text-xs leading-relaxed opacity-90 flex items-start gap-2">
                     <span className="text-primary-foreground/60 mt-0.5">•</span>
-                    <span>Gunakan status aktif/nonaktif untuk mengelola akses karyawan.</span>
+                    <span>{t("page.employee.ui.useTheActiveInactiveStatus")}</span>
                   </li>
                 </ul>
               </div>

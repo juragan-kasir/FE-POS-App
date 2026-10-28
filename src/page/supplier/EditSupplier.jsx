@@ -949,32 +949,41 @@ const EditSupplier = () => {
                         <div className="border rounded-lg p-3 space-y-3 bg-muted/30">
                           <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                             <div className="space-y-1">
-                              <label className="text-xs text-muted-foreground">
+                              <label
+                                htmlFor="edit-supplier-full-name"
+                                className="text-xs text-muted-foreground">
                                 {t("page.supplier.contacts.fullName", "Nama Lengkap")} *
                               </label>
                               <Input
-                                placeholder="Nama kontak"
+                                id="edit-supplier-full-name"
+                                placeholder={t("page.supplier.ui.contactName")}
                                 value={contactName}
                                 onChange={(e) => setContactName(e.target.value)}
                                 maxLength={FIELD_LIMITS.PERSON_NAME}
                               />
                             </div>
                             <div className="space-y-1">
-                              <label className="text-xs text-muted-foreground">
+                              <label
+                                htmlFor="edit-supplier-position"
+                                className="text-xs text-muted-foreground">
                                 {t("page.supplier.contacts.position", "Jabatan")}
                               </label>
                               <Input
-                                placeholder="Jabatan"
+                                id="edit-supplier-position"
+                                placeholder={t("document.position")}
                                 value={contactPosition}
                                 onChange={(e) => setContactPosition(e.target.value)}
                                 maxLength={FIELD_LIMITS.SHORT_LABEL}
                               />
                             </div>
                             <div className="space-y-1">
-                              <label className="text-xs text-muted-foreground">
+                              <label
+                                htmlFor="edit-supplier-email"
+                                className="text-xs text-muted-foreground">
                                 {t("page.supplier.contacts.email", "Email")}
                               </label>
                               <Input
+                                id="edit-supplier-email"
                                 placeholder="Email"
                                 value={contactEmail}
                                 onChange={(e) => setContactEmail(e.target.value)}
@@ -982,11 +991,14 @@ const EditSupplier = () => {
                               />
                             </div>
                             <div className="space-y-1">
-                              <label className="text-xs text-muted-foreground">
+                              <label
+                                htmlFor="edit-supplier-phone"
+                                className="text-xs text-muted-foreground">
                                 {t("page.supplier.contacts.phone", "Telepon")}
                               </label>
                               <Input
-                                placeholder="Telepon"
+                                id="edit-supplier-phone"
+                                placeholder={t("document.phone")}
                                 value={contactPhone}
                                 onChange={(e) => setContactPhone(e.target.value)}
                                 maxLength={FIELD_LIMITS.PHONE}
@@ -1121,7 +1133,7 @@ const EditSupplier = () => {
                                 ]}
                                 value={field.value}
                                 onChange={field.onChange}
-                                placeholder="Pilih tipe pembayaran..."
+                                placeholder={t("page.supplier.ui.selectPaymentType")}
                                 searchPlaceholder="Cari..."
                               />
                               <FormMessage />
@@ -1234,10 +1246,13 @@ const EditSupplier = () => {
                           <div className="border rounded-lg p-3 space-y-3 bg-muted/30">
                             <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
                               <div className="space-y-1">
-                                <label className="text-xs text-muted-foreground">
+                                <label
+                                  htmlFor="edit-supplier-bank-name"
+                                  className="text-xs text-muted-foreground">
                                   {t("page.supplier.bankAccounts.bankName", "Nama Bank")} *
                                 </label>
                                 <Input
+                                  id="edit-supplier-bank-name"
                                   placeholder="BCA, Mandiri, BRI..."
                                   value={bankName}
                                   onChange={(e) => setBankName(e.target.value)}
@@ -1245,11 +1260,14 @@ const EditSupplier = () => {
                                 />
                               </div>
                               <div className="space-y-1">
-                                <label className="text-xs text-muted-foreground">
+                                <label
+                                  htmlFor="edit-supplier-account-number"
+                                  className="text-xs text-muted-foreground">
                                   {t("page.supplier.bankAccounts.accountNumber", "Nomor Rekening")}{" "}
                                   *
                                 </label>
                                 <Input
+                                  id="edit-supplier-account-number"
                                   placeholder="0012345678"
                                   value={accountNumber}
                                   onChange={(e) => setAccountNumber(e.target.value)}
@@ -1257,11 +1275,14 @@ const EditSupplier = () => {
                                 />
                               </div>
                               <div className="space-y-1">
-                                <label className="text-xs text-muted-foreground">
+                                <label
+                                  htmlFor="edit-supplier-account-name"
+                                  className="text-xs text-muted-foreground">
                                   {t("page.supplier.bankAccounts.accountName", "Nama Pemilik")} *
                                 </label>
                                 <Input
-                                  placeholder="Nama pemilik rekening"
+                                  id="edit-supplier-account-name"
+                                  placeholder={t("page.supplier.ui.accountHolderName")}
                                   value={accountName}
                                   onChange={(e) => setAccountName(e.target.value)}
                                   maxLength={FIELD_LIMITS.PERSON_NAME}
@@ -1434,7 +1455,7 @@ const EditSupplier = () => {
                                 ]}
                                 value={field.value || ""}
                                 onChange={field.onChange}
-                                placeholder="Pilih jenis pajak..."
+                                placeholder={t("page.supplier.ui.selectTaxType")}
                                 searchPlaceholder="Cari..."
                               />
                               <FormMessage />
@@ -1456,7 +1477,7 @@ const EditSupplier = () => {
                                 ]}
                                 value={field.value || ""}
                                 onChange={field.onChange}
-                                placeholder="Pilih tipe transaksi..."
+                                placeholder={t("page.supplier.ui.selectTransactionType")}
                                 searchPlaceholder="Cari..."
                               />
                               <FormMessage />
@@ -1600,10 +1621,13 @@ const EditSupplier = () => {
                   <div className="flex flex-col gap-3 p-4 bg-muted/50 rounded-lg mb-4">
                     <div className="grid grid-cols-12 gap-2">
                       <div className="col-span-12 space-y-1">
-                        <label className="text-xs font-medium text-muted-foreground">
+                        <label
+                          htmlFor="edit-supplier-product-name"
+                          className="text-xs font-medium text-muted-foreground">
                           {t("page.supplier.products.productName")}
                         </label>
                         <Input
+                          id="edit-supplier-product-name"
                           placeholder={t("page.supplier.products.searchPlaceholder")}
                           value={newProductName}
                           onChange={(e) => setNewProductName(e.target.value)}
@@ -1611,7 +1635,9 @@ const EditSupplier = () => {
                         />
                       </div>
                       <div className="col-span-6 space-y-1">
-                        <label className="text-xs font-medium text-muted-foreground">
+                        <label
+                          htmlFor="edit-supplier-price"
+                          className="text-xs font-medium text-muted-foreground">
                           {t("page.supplier.products.price")}
                         </label>
                         <div className="relative">
@@ -1619,6 +1645,7 @@ const EditSupplier = () => {
                             Rp
                           </span>
                           <Input
+                            id="edit-supplier-price"
                             type="text"
                             inputMode="numeric"
                             placeholder="0"
@@ -1632,21 +1659,29 @@ const EditSupplier = () => {
                         </div>
                       </div>
                       <div className="col-span-6 space-y-1">
-                        <label className="text-xs font-medium text-muted-foreground">Satuan</label>
+                        <label
+                          htmlFor="edit-supplier-unit"
+                          className="text-xs font-medium text-muted-foreground">
+                          {t("document.unit")}
+                        </label>
                         <Combobox
+                          id="edit-supplier-unit"
                           options={unitOptions}
                           value={productUnit}
                           onChange={(v) => setProductUnit(v)}
-                          placeholder="Pilih satuan..."
+                          placeholder={t("page.supplier.ui.selectUnit")}
                           searchPlaceholder="Cari satuan..."
                         />
                       </div>
                       <div className="col-span-6 space-y-1">
-                        <label className="text-xs font-medium text-muted-foreground">
+                        <label
+                          htmlFor="edit-supplier-lead-time"
+                          className="text-xs font-medium text-muted-foreground">
                           {t("page.supplier.comparison.table.leadTime")}
                         </label>
                         <div className="flex gap-1">
                           <Input
+                            id="edit-supplier-lead-time"
                             type="text"
                             inputMode="numeric"
                             placeholder="0"
@@ -1666,17 +1701,20 @@ const EditSupplier = () => {
                               ]}
                               value={productLeadTimeUnit}
                               onChange={(v) => setProductLeadTimeUnit(v)}
-                              placeholder="Pilih..."
+                              placeholder={t("page.supplier.ui.select")}
                               searchPlaceholder="Cari..."
                             />
                           </div>
                         </div>
                       </div>
                       <div className="col-span-3 space-y-1">
-                        <label className="text-xs font-medium text-muted-foreground">
-                          Kualitas (0-5)
+                        <label
+                          htmlFor="edit-supplier-quality05"
+                          className="text-xs font-medium text-muted-foreground">
+                          {t("page.supplier.ui.quality05")}
                         </label>
                         <Input
+                          id="edit-supplier-quality05"
                           type="text"
                           inputMode="decimal"
                           placeholder="0"
@@ -1693,10 +1731,13 @@ const EditSupplier = () => {
                         />
                       </div>
                       <div className="col-span-3 space-y-1">
-                        <label className="text-xs font-medium text-muted-foreground">
-                          Min Order
+                        <label
+                          htmlFor="edit-supplier-min-order"
+                          className="text-xs font-medium text-muted-foreground">
+                          {t("page.supplier.products.table.minOrder")}
                         </label>
                         <Input
+                          id="edit-supplier-min-order"
                           type="text"
                           inputMode="numeric"
                           placeholder="1"
@@ -1707,11 +1748,14 @@ const EditSupplier = () => {
                         />
                       </div>
                       <div className="col-span-12 space-y-1">
-                        <label className="text-xs font-medium text-muted-foreground">
+                        <label
+                          htmlFor="edit-supplier-notes"
+                          className="text-xs font-medium text-muted-foreground">
                           {t("page.supplier.products.notes")}
                         </label>
                         <Textarea
-                          placeholder="Catatan opsional..."
+                          id="edit-supplier-notes"
+                          placeholder={t("page.supplier.ui.optionalNote")}
                           rows={2}
                           value={productNotes}
                           onChange={(e) => setProductNotes(e.target.value)}
@@ -1808,19 +1852,19 @@ const EditSupplier = () => {
                             {t("page.supplier.products.table.price")}
                           </th>
                           <th className="text-center px-3 py-2 font-medium text-muted-foreground">
-                            Satuan
+                            {t("document.unit")}
                           </th>
                           <th className="text-right px-3 py-2 font-medium text-muted-foreground">
-                            Lead Time
+                            {t("page.supplier.products.table.leadTime")}
                           </th>
                           <th className="text-right px-3 py-2 font-medium text-muted-foreground">
-                            Kualitas
+                            {t("page.supplier.products.table.quality")}
                           </th>
                           <th className="text-right px-3 py-2 font-medium text-muted-foreground">
-                            Min Order
+                            {t("page.supplier.products.table.minOrder")}
                           </th>
                           <th className="text-left px-3 py-2 font-medium text-muted-foreground">
-                            Catatan
+                            {t("page.bom.detail.notes")}
                           </th>
                           <th className="text-right px-3 py-2 font-medium text-muted-foreground w-12">
                             {t("page.supplier.products.table.action")}

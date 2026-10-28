@@ -34,7 +34,7 @@ import HorizontalScrollArea from "@/components/ui/HorizontalScrollArea";
 const statusBadge = {
   draft: {
     label: "businessTrip.status.draft",
-    class: "bg-gray-100 text-gray-700 dark:bg-gray-800/40 dark:text-gray-400",
+    class: "bg-muted text-foreground",
     icon: FileText
   },
   pending: {

@@ -25,8 +25,10 @@ import { getAllEmployee } from "@/services/employee";
 import { formatDateOnly, parseDateOnly } from "@/utils/dateOnly";
 import { cn } from "@/lib/utils";
 import { resolveKaryawan, groupKaryawanByStore, splitKaryawanByStore } from "./shiftMembers";
+import { useTranslation } from "react-i18next";
 
 const ExtendShiftModal = ({ open, onOpenChange, shift, locationName, onSave, isSaving }) => {
+  const { t } = useTranslation();
   const today = useMemo(() => {
     const d = new Date();
     d.setHours(0, 0, 0, 0);
@@ -134,10 +136,10 @@ const ExtendShiftModal = ({ open, onOpenChange, shift, locationName, onSave, isS
         <DialogHeader>
           <DialogTitle className="text-xl font-semibold flex items-center gap-2">
             <RefreshCcw size={20} className="text-primary" />
-            Perpanjang Shift
+            {t("page.shift.list.extend")}
           </DialogTitle>
           <DialogDescription className="text-sm text-muted-foreground">
-            Perluas atau sesuaikan periode berlaku shift ini.
+            {t("page.shift.ui.extendOrAdjustThisShift")}
           </DialogDescription>
         </DialogHeader>
 
@@ -175,7 +177,7 @@ const ExtendShiftModal = ({ open, onOpenChange, shift, locationName, onSave, isS
               {shift?.tipe_shift === "mingguan" && daysLeft !== null && (
                 <span
                   className={cn(
-                    "text-[11px] font-medium",
+                    "text-xs font-medium",
                     daysLeft <= 2
                       ? "text-red-600 dark:text-red-400"
                       : daysLeft <= 5
@@ -192,10 +194,7 @@ const ExtendShiftModal = ({ open, onOpenChange, shift, locationName, onSave, isS
         {isExpired && (
           <div className="flex items-start gap-2.5 rounded-lg border border-red-200 dark:border-red-800 bg-red-50 dark:bg-red-900/10 px-3 py-2.5 text-xs text-red-700 dark:text-red-400">
             <Info size={14} className="shrink-0 mt-0.5" />
-            <p>
-              Shift ini sudah melewati tanggal selesai. Perbarui tanggal agar shift tetap aktif
-              menjalankan jadwal karyawan.
-            </p>
+            <p>{t("page.shift.ui.thisShiftIsPastIts")}</p>
           </div>
         )}
 
@@ -203,27 +202,34 @@ const ExtendShiftModal = ({ open, onOpenChange, shift, locationName, onSave, isS
         <div className="rounded-xl border border-border p-4 space-y-4">
           <div className="flex items-center gap-2 text-xs font-semibold text-muted-foreground uppercase tracking-wide">
             <CalendarDays size={14} />
-            Periode Berlaku
+            {t("page.shift.ui.validPeriod")}
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-medium text-foreground mb-1.5">
-                Tanggal Mulai <span className="text-destructive">*</span>
+              <label
+                htmlFor="extend-shift-modal-start-date"
+                className="block text-sm font-medium text-foreground mb-1.5">
+                {t("page.profile.startDate")} <span className="text-destructive">*</span>
               </label>
               <DatePicker
+                id="extend-shift-modal-start-date"
                 date={tanggalMulai}
                 setDate={setTanggalMulai}
                 minDate={today}
-                placeholder="Pilih tanggal"
+                placeholder={t("page.accounting.filter.pickDate")}
               />
               {!tanggalMulai && (
-                <p className="text-[11px] text-red-600 dark:text-red-400 mt-1">Wajib diisi</p>
+                <p className="text-xs text-red-600 dark:text-red-400 mt-1">
+                  {t("fieldError.required")}
+                </p>
               )}
             </div>
             <div>
-              <label className="block text-sm font-medium text-foreground mb-1.5">
-                Tanggal Selesai
+              <label
+                htmlFor="extend-shift-modal-tanggal-selesai"
+                className="block text-sm font-medium text-foreground mb-1.5">
+                {t("page.productionOrder.detail.tanggalSelesai")}
               </label>
               <div
                 className={cn(
@@ -231,13 +237,14 @@ const ExtendShiftModal = ({ open, onOpenChange, shift, locationName, onSave, isS
                   !isMingguan && "opacity-50 pointer-events-none"
                 )}>
                 <DatePicker
+                  id="extend-shift-modal-tanggal-selesai"
                   date={tanggalSelesai}
                   setDate={isMingguan ? setTanggalSelesai : () => {}}
                   minDate={tanggalMulai || today}
-                  placeholder="Pilih tanggal"
+                  placeholder={t("page.accounting.filter.pickDate")}
                 />
               </div>
-              <p className="text-[11px] text-muted-foreground mt-1">
+              <p className="text-xs text-muted-foreground mt-1">
                 {isMingguan ? "Atur tanggal berakhir shift" : "Hanya untuk shift mingguan"}
               </p>
             </div>
@@ -247,7 +254,7 @@ const ExtendShiftModal = ({ open, onOpenChange, shift, locationName, onSave, isS
         {/* Tipe shift */}
         <div>
           <label className="block text-sm font-medium text-foreground mb-1.5">
-            Tipe Shift <span className="text-destructive">*</span>
+            {t("page.shift.ui.shiftType")} <span className="text-destructive">*</span>
           </label>
           <div className="flex gap-2">
             {["harian", "mingguan"].map((type) => (
@@ -265,7 +272,7 @@ const ExtendShiftModal = ({ open, onOpenChange, shift, locationName, onSave, isS
               </button>
             ))}
           </div>
-          <p className="text-[11px] text-muted-foreground mt-1.5 flex items-center gap-1">
+          <p className="text-xs text-muted-foreground mt-1.5 flex items-center gap-1">
             <Info size={11} className="shrink-0" />
             {isMingguan
               ? "Shift berjalan mingguan dengan tanggal selesai."
@@ -278,9 +285,9 @@ const ExtendShiftModal = ({ open, onOpenChange, shift, locationName, onSave, isS
           <div className="flex items-center gap-2 px-4 py-3 bg-muted/30 border-b border-border">
             <Users size={14} className="text-primary" />
             <span className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">
-              Karyawan dalam Shift ini
+              {t("page.shift.ui.employeesInThisShift")}
             </span>
-            <span className="ml-auto inline-flex items-center justify-center h-5 min-w-5 px-1.5 rounded-full bg-primary/10 text-primary text-[11px] font-bold">
+            <span className="ml-auto inline-flex items-center justify-center h-5 min-w-5 px-1.5 rounded-full bg-primary/10 text-primary text-xs font-bold">
               {matching.length}
             </span>
           </div>
@@ -299,7 +306,9 @@ const ExtendShiftModal = ({ open, onOpenChange, shift, locationName, onSave, isS
           ) : matching.length === 0 ? (
             <div className="p-6 text-center">
               <Users size={24} className="mx-auto text-muted-foreground/40 mb-2" />
-              <p className="text-xs text-muted-foreground">Tidak ada karyawan di shift ini</p>
+              <p className="text-xs text-muted-foreground">
+                {t("page.shift.ui.noEmployeesInThisShift")}
+              </p>
             </div>
           ) : (
             <div className="max-h-60 overflow-y-auto divide-y divide-border/60">
@@ -314,7 +323,7 @@ const ExtendShiftModal = ({ open, onOpenChange, shift, locationName, onSave, isS
                     <p className="flex-1 min-w-0 truncate text-xs font-semibold text-muted-foreground">
                       {g.label}
                     </p>
-                    <span className="shrink-0 ml-auto inline-flex items-center justify-center h-5 min-w-5 px-1 rounded-md bg-background border border-border text-[10px] font-bold text-muted-foreground">
+                    <span className="shrink-0 ml-auto inline-flex items-center justify-center h-5 min-w-5 px-1 rounded-md bg-background border border-border text-xs font-bold text-muted-foreground">
                       {g.members.length}
                     </span>
                   </div>
@@ -338,7 +347,7 @@ const ExtendShiftModal = ({ open, onOpenChange, shift, locationName, onSave, isS
                           <p className="text-sm font-medium text-foreground truncate">
                             {emp.fullName || emp.name || "-"}
                           </p>
-                          <div className="flex items-center gap-2 text-[11px] text-muted-foreground flex-wrap">
+                          <div className="flex items-center gap-2 text-xs text-muted-foreground flex-wrap">
                             {emp.positionData?.name && (
                               <span className="inline-flex items-center gap-1 min-w-0">
                                 <Briefcase size={10} className="shrink-0" />
@@ -362,11 +371,14 @@ const ExtendShiftModal = ({ open, onOpenChange, shift, locationName, onSave, isS
                           <Users size={14} className="opacity-50" />
                         </div>
                         <div className="flex-1 min-w-0">
-                          <p className="font-medium text-foreground/70">Karyawan #{key}</p>
-                          <p className="text-[11px]">Data tidak ditemukan dalam daftar karyawan</p>
+                          <p className="font-medium text-foreground/70">
+                            {t("page.shift.ui.employee")}
+                            {key}
+                          </p>
+                          <p className="text-xs">{t("page.shift.ui.notFoundInTheEmployee")}</p>
                         </div>
-                        <span className="shrink-0 rounded-md bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400 px-1.5 py-0.5 text-[10px] font-medium">
-                          Tidak ditemukan
+                        <span className="shrink-0 rounded-md bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400 px-1.5 py-0.5 text-xs font-medium">
+                          {t("page.shift.ui.notFound")}
                         </span>
                       </div>
                     )
@@ -377,19 +389,19 @@ const ExtendShiftModal = ({ open, onOpenChange, shift, locationName, onSave, isS
           )}
           {mismatch.length > 0 && (
             <div className="px-4 py-2 border-t border-amber-200/70 dark:border-amber-800/60 bg-amber-50 dark:bg-amber-900/10">
-              <p className="text-[11px] text-amber-800 dark:text-amber-300 flex items-start gap-1.5">
+              <p className="text-xs text-amber-800 dark:text-amber-300 flex items-start gap-1.5">
                 <Info size={11} className="shrink-0 mt-0.5" />
                 <span>
-                  {mismatch.length} karyawan (
-                  {mismatchGroups.map((g) => g.label || "Tidak ditemukan").join(", ")}) tidak sesuai
-                  dengan toko shift ini. Perbarui anggota shift melalui halaman edit.
+                  {mismatch.length} {t("page.shift.ui.employees")}
+                  {mismatchGroups.map((g) => g.label || "Tidak ditemukan").join(", ")}
+                  {t("page.shift.ui.doNotMatchThisShift")}
                 </span>
               </p>
             </div>
           )}
           {!empLoading && unknownCount > 0 && (
             <div className="px-4 py-2 bg-muted/40 border-t border-border">
-              <p className="text-[11px] text-muted-foreground flex items-center gap-1.5">
+              <p className="text-xs text-muted-foreground flex items-center gap-1.5">
                 <Info size={11} className="shrink-0" />
                 {resolvedCount === 0
                   ? "Belum ada data karyawan yang cocok. Pastikan data karyawan tersedia pada toko ini."
@@ -409,7 +421,7 @@ const ExtendShiftModal = ({ open, onOpenChange, shift, locationName, onSave, isS
         {/* Footer */}
         <div className="flex items-center justify-end gap-3 pt-2 border-t border-border">
           <Button type="button" variant="danger" onClick={() => onOpenChange(false)}>
-            Batal
+            {t("common.cancel")}
           </Button>
           <Button
             variant="success"
@@ -420,12 +432,12 @@ const ExtendShiftModal = ({ open, onOpenChange, shift, locationName, onSave, isS
             {isSaving ? (
               <>
                 <RefreshCcw size={14} className="animate-spin" />
-                Menyimpan...
+                {t("common.saving")}
               </>
             ) : (
               <>
                 <Save size={14} />
-                Simpan Perpanjangan
+                {t("page.shift.ui.saveExtension")}
               </>
             )}
           </Button>

@@ -18,6 +18,7 @@ import { Label } from "@/components/ui/label";
 import { Combobox } from "@/components/ui/combobox";
 import { toast } from "sonner";
 import { testPrint, getPrinterStatus, configurePrinter } from "@/services/thermalPrinter";
+import PageHeader from "@/components/ui/PageHeader";
 
 const printerTypes = [
   { value: "auto", label: "Otomatis (Disarankan)", icon: "🔍" },
@@ -104,13 +105,14 @@ const ThermalPrinterSettings = () => {
 
   return (
     <div className="space-y-6">
-      <div>
-        <h1 className="text-2xl font-bold text-foreground flex items-center gap-2">
-          <Printer className="h-6 w-6" />
-          {t("sidebar.thermalPrinter")}
-        </h1>
-        <p className="text-sm text-muted-foreground mt-1">{t("page.thermalPrinter.description")}</p>
-      </div>
+      <PageHeader
+        breadcrumbs={[
+          { label: t("breadcrumb.home"), href: "/dashboard-super-admin" },
+          { label: t("sidebar.thermalPrinter") }
+        ]}
+        title={t("sidebar.thermalPrinter")}
+        description={t("page.thermalPrinter.description")}
+      />
 
       {/* Status Card */}
       <Card>
@@ -181,8 +183,9 @@ const ThermalPrinterSettings = () => {
         <h2 className="font-semibold p-4 border-b">{t("page.thermalPrinter.configuration")}</h2>
         <div className="p-4 space-y-4">
           <div>
-            <Label>{t("page.thermalPrinter.type")}</Label>
+            <Label htmlFor="thermal-printer-settings-type">{t("page.thermalPrinter.type")}</Label>
             <Combobox
+              id="thermal-printer-settings-type"
               value={printerConfig.type}
               onChange={(v) => setPrinterConfig({ ...printerConfig, type: v })}
               options={printerTypes.map((t) => ({ value: t.value, label: `${t.icon} ${t.label}` }))}
@@ -339,7 +342,7 @@ const ThermalPrinterSettings = () => {
         <h2 className="font-semibold p-4 border-b">{t("page.thermalPrinter.preview")}</h2>
         <div className="p-4">
           <div
-            className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded p-4 font-mono text-sm max-w-xs mx-auto"
+            className="bg-background border border-border rounded p-4 font-mono text-sm max-w-xs mx-auto"
             style={{ width: "200px", fontSize: "11px", lineHeight: "1.4" }}>
             <pre className="text-left whitespace-pre-wrap" style={{ fontSize: "10px" }}>
               {`TOKO CONTOH

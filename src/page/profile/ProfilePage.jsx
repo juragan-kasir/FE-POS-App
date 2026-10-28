@@ -119,7 +119,7 @@ const ProfilePage = () => {
           <p className="text-muted-foreground">
             {user.positionName || user.position || "-"}
             <span className="mx-2">&bull;</span>
-            ID: {user.employeeID || user.id || "-"}
+            {t("page.profile.ui.id")} {user.employeeID || user.id || "-"}
           </p>
           <div className="flex gap-4 pt-2 flex-wrap">
             {user.storeName && (
@@ -315,7 +315,9 @@ const ProfilePage = () => {
                       : t("common.inactive")}
                 </p>
                 {!isAccountEnabled && (
-                  <p className="text-xs text-red-600 mt-1">Akun dinonaktifkan</p>
+                  <p className="text-xs text-red-600 mt-1">
+                    {t("page.profile.ui.accountDeactivated")}
+                  </p>
                 )}
               </div>
               <Shield className="absolute -right-4 -bottom-4 text-5xl text-primary/5" />

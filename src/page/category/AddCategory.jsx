@@ -46,6 +46,7 @@ import { useLocations } from "@/queries/useLocations";
 import { FIELD_LIMITS } from "@/constants/fieldLimits";
 import { useFormExit } from "@/hooks/useLeaveGuard";
 import { createdId } from "@/utils/createdRecord";
+import LoadErrorBanner from "@/components/ui/LoadErrorBanner";
 
 const iconSections = [
   {
@@ -534,6 +535,7 @@ const AddCategory = () => {
         onBack={requestLeave}>
         <UserGuide guideKey="add-category" />
       </PageHeader>
+      <LoadErrorBanner />
 
       <div>
         <div className="bg-card p-6 rounded-xl shadow-[0_4px_20px_-4px_rgba(0,0,0,0.05)] border border-border overflow-hidden">
@@ -769,7 +771,7 @@ const AddCategory = () => {
                         {imagePreview ? (
                           <img
                             src={imagePreview}
-                            alt="Preview"
+                            alt={t("page.product.form.preview")}
                             className="w-full h-full object-cover rounded-lg"
                           />
                         ) : selectedIcon ? (
@@ -964,7 +966,7 @@ const AddCategory = () => {
                             }`}>
                             <DynamicIcon name={ic.icon} size={22} />
                           </div>
-                          <span className="text-[10px] text-muted-foreground font-medium text-center leading-tight">
+                          <span className="text-xs text-muted-foreground font-medium text-center leading-tight">
                             {ic.label}
                           </span>
                         </button>
@@ -1001,7 +1003,7 @@ const AddCategory = () => {
                                   }`}>
                                   <DynamicIcon name={ic.icon} size={22} />
                                 </div>
-                                <span className="text-[10px] text-muted-foreground font-medium text-center leading-tight">
+                                <span className="text-xs text-muted-foreground font-medium text-center leading-tight">
                                   {ic.label}
                                 </span>
                               </button>
@@ -1069,8 +1071,8 @@ const AddCategory = () => {
           type="confirm"
           open={confirmSaveModal}
           onOpenChange={setConfirmSaveModal}
-          title="Konfirmasi Simpan"
-          description="Apakah Anda yakin ingin menyimpan data ini?"
+          title={t("common.confirmSave")}
+          description={t("page.supplier.modal.confirmSaveDesc")}
           confirmText="Ya, Simpan"
           onConfirm={() => {
             setConfirmSaveModal(false);
@@ -1082,7 +1084,7 @@ const AddCategory = () => {
           type="error"
           open={errorModal}
           onOpenChange={setErrorModal}
-          title="Error"
+          title={t("page.shift.edit.toast.error")}
           description={modalMessage}
           onConfirm={() => setErrorModal(false)}
         />

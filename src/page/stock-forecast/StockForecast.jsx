@@ -146,7 +146,7 @@ const StockForecast = () => {
         {isSuperAdmin && (
           <Select value={store} onValueChange={setStore}>
             <SelectTrigger className="w-[180px]">
-              <SelectValue placeholder="Pilih toko" />
+              <SelectValue placeholder={t("page.table.form.storePlaceholder")} />
             </SelectTrigger>
             <SelectContent>
               {locations.map((loc) => (
@@ -179,29 +179,33 @@ const StockForecast = () => {
           ) : forecastData?.success ? (
             <Card>
               <CardHeader>
-                <CardTitle>Stock Forecast</CardTitle>
+                <CardTitle>{t("page.stockForecast.title")}</CardTitle>
               </CardHeader>
               <CardContent>
                 {forecastData.data.length === 0 ? (
-                  <p className="text-center text-muted-foreground py-8">Tidak ada data forecast</p>
+                  <p className="text-center text-muted-foreground py-8">
+                    {t("page.stockForecast.ui.noForecastData")}
+                  </p>
                 ) : (
                   <HorizontalScrollArea>
                     <table className="w-full text-sm">
                       <thead>
                         <tr className="border-b">
                           <th className="text-left p-2 font-medium text-muted-foreground">
-                            Produk
+                            {t("sidebar.produk")}
                           </th>
                           <th className="text-left p-2 font-medium text-muted-foreground">
-                            Stok Saat Ini
+                            {t("page.lowStock.table.currentStock")}
                           </th>
                           <th className="text-left p-2 font-medium text-muted-foreground">
-                            Consumption Rate
+                            {t("page.stockForecast.ui.consumptionRate")}
                           </th>
                           <th className="text-left p-2 font-medium text-muted-foreground">
-                            Est. Habis
+                            {t("page.stockForecast.ui.estOut")}
                           </th>
-                          <th className="text-left p-2 font-medium text-muted-foreground">Risk</th>
+                          <th className="text-left p-2 font-medium text-muted-foreground">
+                            {t("page.stockForecast.ui.risk")}
+                          </th>
                         </tr>
                       </thead>
                       <tbody>
@@ -213,7 +217,8 @@ const StockForecast = () => {
                               <td className="p-2">{item.productData?.nameProduct || "-"}</td>
                               <td className="p-2">{formatNumber(item.currentStock ?? 0)}</td>
                               <td className="p-2">
-                                {formatNumber(item.dailyConsumption ?? 0)} / hari
+                                {formatNumber(item.dailyConsumption ?? 0)}{" "}
+                                {t("page.stockForecast.ui.day")}
                               </td>
                               <td className="p-2">{days > 0 ? `${days} hari` : "Sudah habis"}</td>
                               <td className="p-2">
@@ -241,23 +246,27 @@ const StockForecast = () => {
           ) : deadStockData?.success ? (
             <Card>
               <CardHeader>
-                <CardTitle>Dead Stock</CardTitle>
+                <CardTitle>{t("page.stockForecast.tabs.deadStock")}</CardTitle>
               </CardHeader>
               <CardContent>
                 {deadStockData.data.length === 0 ? (
-                  <p className="text-center text-muted-foreground py-8">Tidak ada dead stock</p>
+                  <p className="text-center text-muted-foreground py-8">
+                    {t("page.stockForecast.ui.noDeadStock")}
+                  </p>
                 ) : (
                   <HorizontalScrollArea>
                     <table className="w-full text-sm">
                       <thead>
                         <tr className="border-b">
                           <th className="text-left p-2 font-medium text-muted-foreground">
-                            Produk
+                            {t("sidebar.produk")}
                           </th>
-                          <th className="text-left p-2 font-medium text-muted-foreground">Stok</th>
+                          <th className="text-left p-2 font-medium text-muted-foreground">
+                            {t("breadcrumb.stock")}
+                          </th>
                           <th className="text-left p-2 font-medium text-muted-foreground">HPP</th>
                           <th className="text-left p-2 font-medium text-muted-foreground">
-                            Total Nilai
+                            {t("page.goodsReceipt.add.items.summaryTotalValue")}
                           </th>
                         </tr>
                       </thead>
@@ -292,7 +301,7 @@ const StockForecast = () => {
             <Card>
               <CardHeader>
                 <div className="flex items-center justify-between">
-                  <CardTitle>Expiring Soon</CardTitle>
+                  <CardTitle>{t("page.bundle.list.expiringSoon")}</CardTitle>
                   <Button
                     variant="outline"
                     size="sm"
@@ -306,7 +315,7 @@ const StockForecast = () => {
               <CardContent>
                 {expiringData.data.length === 0 ? (
                   <p className="text-center text-muted-foreground py-8">
-                    Tidak ada item mendekati expiry
+                    {t("page.stockForecast.ui.noItemsNearExpiry")}
                   </p>
                 ) : (
                   <HorizontalScrollArea>
@@ -314,14 +323,16 @@ const StockForecast = () => {
                       <thead>
                         <tr className="border-b">
                           <th className="text-left p-2 font-medium text-muted-foreground">
-                            Produk
-                          </th>
-                          <th className="text-left p-2 font-medium text-muted-foreground">Stok</th>
-                          <th className="text-left p-2 font-medium text-muted-foreground">
-                            Expiry Date
+                            {t("sidebar.produk")}
                           </th>
                           <th className="text-left p-2 font-medium text-muted-foreground">
-                            Days Left
+                            {t("breadcrumb.stock")}
+                          </th>
+                          <th className="text-left p-2 font-medium text-muted-foreground">
+                            {t("document.expiryDate")}
+                          </th>
+                          <th className="text-left p-2 font-medium text-muted-foreground">
+                            {t("page.stockForecast.ui.daysLeft")}
                           </th>
                         </tr>
                       </thead>
@@ -357,23 +368,23 @@ const StockForecast = () => {
           ) : valuationData?.success ? (
             <Card>
               <CardHeader>
-                <CardTitle>Inventory Valuation</CardTitle>
+                <CardTitle>{t("page.stockForecast.ui.inventoryValuation")}</CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="grid grid-cols-3 gap-4 mb-6">
                   <StatCard
                     icon={Package}
-                    label="Total Nilai Inventory"
+                    label={t("page.stockForecast.ui.totalInventoryValue")}
                     value={formatCurrency(valuationData.data.totalValue)}
                   />
                   <StatCard
                     icon={Package}
-                    label="Total Produk"
+                    label={t("page.product.stats.total")}
                     value={formatNumber(valuationData.data.totalProducts)}
                   />
                   <StatCard
                     icon={TrendingDown}
-                    label="Rata-rata HPP"
+                    label={t("page.stockForecast.ui.averageCogs")}
                     value={formatCurrency(valuationData.data.avgCost)}
                   />
                 </div>
@@ -383,12 +394,14 @@ const StockForecast = () => {
                       <thead>
                         <tr className="border-b">
                           <th className="text-left p-2 font-medium text-muted-foreground">
-                            Produk
+                            {t("sidebar.produk")}
                           </th>
-                          <th className="text-left p-2 font-medium text-muted-foreground">Stok</th>
+                          <th className="text-left p-2 font-medium text-muted-foreground">
+                            {t("breadcrumb.stock")}
+                          </th>
                           <th className="text-left p-2 font-medium text-muted-foreground">HPP</th>
                           <th className="text-left p-2 font-medium text-muted-foreground">
-                            Total Nilai
+                            {t("page.goodsReceipt.add.items.summaryTotalValue")}
                           </th>
                         </tr>
                       </thead>
@@ -421,8 +434,8 @@ const StockForecast = () => {
         type="confirm"
         open={writeoffModal}
         onOpenChange={setWriteoffModal}
-        title="Write-off Batch Kedaluwarsa?"
-        description="Semua batch dengan tanggal kedaluwarsa yang sudah lewat akan dihapus dari stok dan dicatat di Stock History. Lanjutkan?"
+        title={t("page.stockForecast.ui.writeOffExpiredBatches")}
+        description={t("page.stockForecast.ui.everyBatchPastItsExpiry")}
         confirmText="Ya, Write-off"
         onConfirm={handleWriteOff}
         loading={writeOffMutation.isLoading}

@@ -48,6 +48,7 @@ import { useLocations } from "@/queries/useLocations";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import AdjustIngredientStockModal from "./components/AdjustIngredientStockModal";
 import IngredientStockSummary from "./components/IngredientStockSummary";
+import PageHeader from "@/components/ui/PageHeader";
 
 const statusBadge = {
   active: "bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400",
@@ -205,7 +206,7 @@ const IngredientList = () => {
               </span>
             </span>
             {stockState === "unrecorded" && (
-              <span className="inline-flex px-2 py-0.5 rounded-full text-[11px] font-medium bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400">
+              <span className="inline-flex px-2 py-0.5 rounded-full text-xs font-medium bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400">
                 {t("page.ingredient.stockState.unrecorded")}
               </span>
             )}
@@ -318,110 +319,88 @@ const IngredientList = () => {
 
   return (
     <div className="space-y-6">
-      <div>
-        <nav className="flex items-center gap-2 text-sm text-muted-foreground">
-          <button
-            onClick={() => navigate("/dashboard-super-admin")}
-            className="hover:text-foreground transition-colors">
-            {t("breadcrumb.home")}
-          </button>
-          <span className="text-xs">/</span>
-          <span className="text-primary font-semibold">{t("page.ingredient.list.title")}</span>
-        </nav>
-      </div>
-
-      <div>
-        <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-4">
-          <div className="min-w-0">
-            <h1 className="text-2xl font-bold text-foreground">
-              {t("page.ingredient.list.title")}
-            </h1>
-            <p className="text-sm text-muted-foreground mt-1">
-              {t("page.ingredient.list.subtitle")}
-            </p>
-          </div>
-          <div
-            className="overflow-x-auto shrink-0"
-            style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}>
-            <div className="flex items-center gap-2 flex-nowrap">
-              {canAccess(user, MENU_KEY, "export") && (
-                <Button
-                  variant="outline"
-                  disabled={downloadingTemplate}
-                  onClick={async () => {
-                    setDownloadingTemplate(true);
-                    try {
-                      await downloadIngredientTemplate();
-                      toast.success(t("common.success"), {
-                        description: t("page.ingredient.list.toastTemplateDesc")
-                      });
-                    } catch (err) {
-                      toast.error(t("common.error"), {
-                        description:
-                          err?.response?.data?.message ||
-                          err.message ||
-                          t("page.ingredient.list.toastError")
-                      });
-                    } finally {
-                      setDownloadingTemplate(false);
-                    }
-                  }}>
-                  {downloadingTemplate ? (
-                    <Loader2 size={16} className="mr-1 animate-spin" />
-                  ) : (
-                    <Download size={16} className="mr-1" />
-                  )}
-                  {t("page.ingredient.list.btnTemplate")}
-                </Button>
-              )}
-              {canAccess(user, MENU_KEY, "export") && (
-                <Button
-                  variant="general"
-                  disabled={downloadingData}
-                  onClick={async () => {
-                    setDownloadingData(true);
-                    try {
-                      await downloadIngredientExcel();
-                      toast.success(t("common.success"), {
-                        description: t("page.ingredient.list.toastExportDesc")
-                      });
-                    } catch (err) {
-                      toast.error(t("common.error"), {
-                        description:
-                          err?.response?.data?.message ||
-                          err.message ||
-                          t("page.ingredient.list.toastError")
-                      });
-                    } finally {
-                      setDownloadingData(false);
-                    }
-                  }}>
-                  {downloadingData ? (
-                    <Loader2 size={16} className="mr-1 animate-spin" />
-                  ) : (
-                    <Download size={16} className="mr-1" />
-                  )}
-                  {t("page.ingredient.list.btnExport")}
-                </Button>
-              )}
-              {canAccess(user, MENU_KEY, "import") && (
-                <Button variant="import" onClick={() => setImportModal(true)}>
-                  <Upload size={16} className="mr-1" />
-                  {t("page.ingredient.list.btnImport")}
-                </Button>
-              )}
-              {canAccess(user, MENU_KEY, "add") && (
-                <Button
-                  variant="success"
-                  onClick={() => navigate("/add-ingredient")}
-                  className="gap-2 shadow-md">
-                  <Plus size={18} /> {t("page.ingredient.list.btnAdd")}
-                </Button>
-              )}
-            </div>
-          </div>
-        </div>
-      </div>
+      <PageHeader
+        breadcrumbs={[
+          { label: t("breadcrumb.home"), href: "/dashboard-super-admin" },
+          { label: t("page.ingredient.list.title") }
+        ]}
+        title={t("page.ingredient.list.title")}
+        description={t("page.ingredient.list.subtitle")}>
+        {canAccess(user, MENU_KEY, "export") && (
+          <Button
+            variant="outline"
+            disabled={downloadingTemplate}
+            onClick={async () => {
+              setDownloadingTemplate(true);
+              try {
+                await downloadIngredientTemplate();
+                toast.success(t("common.success"), {
+                  description: t("page.ingredient.list.toastTemplateDesc")
+                });
+              } catch (err) {
+                toast.error(t("common.error"), {
+                  description:
+                    err?.response?.data?.message ||
+                    err.message ||
+                    t("page.ingredient.list.toastError")
+                });
+              } finally {
+                setDownloadingTemplate(false);
+              }
+            }}>
+            {downloadingTemplate ? (
+              <Loader2 size={16} className="mr-1 animate-spin" />
+            ) : (
+              <Download size={16} className="mr-1" />
+            )}
+            {t("page.ingredient.list.btnTemplate")}
+          </Button>
+        )}
+        {canAccess(user, MENU_KEY, "export") && (
+          <Button
+            variant="general"
+            disabled={downloadingData}
+            onClick={async () => {
+              setDownloadingData(true);
+              try {
+                await downloadIngredientExcel();
+                toast.success(t("common.success"), {
+                  description: t("page.ingredient.list.toastExportDesc")
+                });
+              } catch (err) {
+                toast.error(t("common.error"), {
+                  description:
+                    err?.response?.data?.message ||
+                    err.message ||
+                    t("page.ingredient.list.toastError")
+                });
+              } finally {
+                setDownloadingData(false);
+              }
+            }}>
+            {downloadingData ? (
+              <Loader2 size={16} className="mr-1 animate-spin" />
+            ) : (
+              <Download size={16} className="mr-1" />
+            )}
+            {t("page.ingredient.list.btnExport")}
+          </Button>
+        )}
+        {canAccess(user, MENU_KEY, "import") && (
+          <Button variant="import" onClick={() => setImportModal(true)}>
+            <Upload size={16} className="mr-1" />
+            {t("page.ingredient.list.btnImport")}
+          </Button>
+        )}
+        {canAccess(user, MENU_KEY, "add") && (
+          <Button
+            variant="success"
+            onClick={() => navigate("/add-ingredient")}
+            className="gap-2 shadow-md">
+            <Plus size={18} /> {t("page.ingredient.list.btnAdd")}
+          </Button>
+        )}
+      </PageHeader>
 
       {locData && (locData?.data || []).length === 0 ? (
         <NoStore />
@@ -513,8 +492,8 @@ const IngredientList = () => {
                     isFiltered={isFiltered}>
                     {isSuperAdmin && (
                       <div className="flex flex-col gap-1.5">
-                        <label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
-                          Store
+                        <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                          {t("page.goodsReceipt.detail.store")}
                         </label>
                         <StoreFilter
                           locations={locData?.data || []}
@@ -529,10 +508,13 @@ const IngredientList = () => {
                       </div>
                     )}
                     <div className="flex flex-col gap-1.5">
-                      <label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
+                      <label
+                        htmlFor="ingredient-list-status"
+                        className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                         {t("common.status")}
                       </label>
                       <Combobox
+                        id="ingredient-list-status"
                         options={[
                           { value: "all", label: t("common.all") },
                           { value: "active", label: t("common.active") },
@@ -549,10 +531,13 @@ const IngredientList = () => {
                       />
                     </div>
                     <div className="flex flex-col gap-1.5">
-                      <label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
-                        Cari
+                      <label
+                        htmlFor="ingredient-list-search"
+                        className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                        {t("common.search")}
                       </label>
                       <SearchInput
+                        id="ingredient-list-search"
                         value={search}
                         onChange={(val) => {
                           setSearch(val);

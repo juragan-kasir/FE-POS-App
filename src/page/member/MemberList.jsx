@@ -572,8 +572,8 @@ const MemberList = () => {
                         isFiltered={isFiltered}>
                         {isSuperAdmin && (
                           <div className="flex flex-col gap-1.5">
-                            <label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
-                              Store
+                            <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                              {t("page.goodsReceipt.detail.store")}
                             </label>
                             <StoreFilter
                               locations={locData?.data || []}
@@ -588,10 +588,13 @@ const MemberList = () => {
                           </div>
                         )}
                         <div className="flex flex-col gap-1.5">
-                          <label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
-                            Cari
+                          <label
+                            htmlFor="member-list-search"
+                            className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                            {t("common.search")}
                           </label>
                           <SearchInput
+                            id="member-list-search"
                             value={search}
                             onChange={(val) => {
                               setSearch(val);

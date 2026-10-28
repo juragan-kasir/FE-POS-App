@@ -67,6 +67,7 @@ import { useLocations } from "@/queries/useLocations";
 import { FIELD_LIMITS } from "@/constants/fieldLimits";
 import { useFormExit } from "@/hooks/useLeaveGuard";
 import { createdId } from "@/utils/createdRecord";
+import LoadErrorBanner from "@/components/ui/LoadErrorBanner";
 
 const AddProduct = () => {
   const { t } = useTranslation();
@@ -665,6 +666,7 @@ const AddProduct = () => {
         onBack={requestLeave}>
         <UserGuide guideKey="add-product" />
       </PageHeader>
+      <LoadErrorBanner />
 
       <div className="bg-muted p-1 rounded-md mb-6">
         <div className="grid grid-cols-3 gap-1">
@@ -825,7 +827,7 @@ const AddProduct = () => {
                                   <p className="text-xs font-semibold text-amber-800">
                                     {t("page.product.form.noStockOpname")}
                                   </p>
-                                  <p className="text-[11px] text-amber-700 mt-0.5">
+                                  <p className="text-xs text-amber-700 mt-0.5">
                                     {t("page.product.form.noStockOpnameWarning")}
                                   </p>
                                 </div>
@@ -860,7 +862,7 @@ const AddProduct = () => {
                                 {t("page.product.form.minutes")}
                               </span>
                             </div>
-                            <p className="text-[11px] text-muted-foreground mt-1">
+                            <p className="text-xs text-muted-foreground mt-1">
                               {t("page.product.form.estimationTimeDesc")}
                             </p>
                             <FormMessage />
@@ -928,7 +930,7 @@ const AddProduct = () => {
                                   {...field}
                                   maxLength={FIELD_LIMITS.BUSINESS_NAME}
                                 />
-                                <p className="text-[11px] text-muted-foreground mt-1">
+                                <p className="text-xs text-muted-foreground mt-1">
                                   {t("page.product.form.brandOptional")}
                                 </p>
                                 <FormMessage />
@@ -947,7 +949,7 @@ const AddProduct = () => {
                                   {...field}
                                   maxLength={FIELD_LIMITS.CODE}
                                 />
-                                <p className="text-[11px] text-muted-foreground mt-1">
+                                <p className="text-xs text-muted-foreground mt-1">
                                   {t("page.product.form.skuOptional")}
                                 </p>
                                 <FormMessage />
@@ -967,7 +969,7 @@ const AddProduct = () => {
                                   {...field}
                                   maxLength={FIELD_LIMITS.BARCODE}
                                 />
-                                <p className="text-[11px] text-muted-foreground mt-1">
+                                <p className="text-xs text-muted-foreground mt-1">
                                   {t("page.product.form.barcodeOptional")}
                                 </p>
                                 <FormMessage />
@@ -1248,7 +1250,7 @@ const AddProduct = () => {
                                 field.onChange(raw ? Number(raw) : "");
                               }}
                             />
-                            <p className="text-[11px] text-muted-foreground mt-1">
+                            <p className="text-xs text-muted-foreground mt-1">
                               {t("page.product.form.pointInfo")}
                             </p>
                             <FormMessage />
@@ -1275,7 +1277,7 @@ const AddProduct = () => {
                                 field.onChange(raw ? Number(raw) : "");
                               }}
                             />
-                            <p className="text-[11px] text-muted-foreground mt-1">
+                            <p className="text-xs text-muted-foreground mt-1">
                               {t("page.product.form.redeemPointsInfo")}
                             </p>
                             <FormMessage />
@@ -1358,7 +1360,7 @@ const AddProduct = () => {
                               <div className="space-y-2">
                                 {group.options.map((opt, idx) => (
                                   <div key={idx} className="flex items-center gap-2">
-                                    <span className="text-[10px] font-semibold text-muted-foreground bg-muted rounded px-1 py-0.5 shrink-0">
+                                    <span className="text-xs font-semibold text-muted-foreground bg-muted rounded px-1 py-0.5 shrink-0">
                                       {String.fromCharCode(65 + idx)}
                                     </span>
                                     <Input

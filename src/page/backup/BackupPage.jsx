@@ -251,7 +251,7 @@ const BackupPage = () => {
                       </td>
                       <td className="py-2 pr-4">
                         <span
-                          className={`inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold uppercase ${
+                          className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-bold uppercase ${
                             b.trigger === "scheduled"
                               ? "bg-blue-100 text-blue-800"
                               : "bg-green-100 text-green-800"
@@ -329,10 +329,13 @@ const BackupPage = () => {
               {t("page.backup.scheduleEnabled")}
             </label>
             <div>
-              <label className="block text-sm font-medium mb-1.5">
+              <label
+                htmlFor="backup-page-schedule-cron"
+                className="block text-sm font-medium mb-1.5">
                 {t("page.backup.scheduleCron")}
               </label>
               <Input
+                id="backup-page-schedule-cron"
                 value={cron}
                 onChange={(e) => setCron(e.target.value)}
                 placeholder="0 0 * * *"
@@ -343,10 +346,13 @@ const BackupPage = () => {
               </p>
             </div>
             <div>
-              <label className="block text-sm font-medium mb-1.5">
+              <label
+                htmlFor="backup-page-schedule-retention"
+                className="block text-sm font-medium mb-1.5">
                 {t("page.backup.scheduleRetention")}
               </label>
               <Input
+                id="backup-page-schedule-retention"
                 type="number"
                 min={0}
                 value={retention}
@@ -388,11 +394,11 @@ const BackupPage = () => {
           <div className="space-y-3 mb-6">
             <div className="flex items-center gap-3 text-sm text-muted-foreground">
               <FileSpreadsheet size={16} className="shrink-0" />
-              <span>Excel (.xlsx) — 12 sheet master data</span>
+              <span>{t("page.backup.ui.excelXlsx12MasterData")}</span>
             </div>
             <div className="flex items-center gap-3 text-sm text-muted-foreground">
               <Database size={16} className="shrink-0" />
-              <span>Kategori, Supplier, Produk, Bahan Baku, Pajak, Diskon, dll</span>
+              <span>{t("page.backup.ui.categoriesSuppliersProductsIngredientsTaxes")}</span>
             </div>
           </div>
 

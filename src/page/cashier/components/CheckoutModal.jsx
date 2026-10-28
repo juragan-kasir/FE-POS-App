@@ -1279,12 +1279,15 @@ const CheckoutModal = ({
               <div className="mt-2 space-y-2">
                 <div className="flex items-start gap-2">
                   <div className="w-[38%] shrink-0">
-                    <label className="block text-xs font-medium text-muted-foreground mb-1">
+                    <label
+                      htmlFor="checkout-modal-guests"
+                      className="block text-xs font-medium text-muted-foreground mb-1">
                       {t("page.cashier.guests", "Jumlah orang")}
                     </label>
                     <div className="flex items-center gap-1.5 rounded-lg border border-border/60 bg-background px-2.5 focus-within:border-primary">
                       <Users size={14} className="text-muted-foreground shrink-0" />
                       <input
+                        id="checkout-modal-guests"
                         type="number"
                         min="1"
                         value={partySize}
@@ -1295,11 +1298,14 @@ const CheckoutModal = ({
                     </div>
                   </div>
                   <div className="flex-1">
-                    <label className="block text-xs font-medium text-muted-foreground mb-1">
+                    <label
+                      htmlFor="checkout-modal-table"
+                      className="block text-xs font-medium text-muted-foreground mb-1">
                       {t("page.cashier.modal.table", "Pilih Meja")}{" "}
                       <span className="font-normal">({t("common.optional")})</span>
                     </label>
                     <Combobox
+                      id="checkout-modal-table"
                       options={[
                         { value: "", label: t("page.cashier.noTable") },
                         ...allTables.map((tbl) => {
@@ -1480,7 +1486,9 @@ const CheckoutModal = ({
           )}
 
           <div ref={searchContainerRef} className="relative">
-            <label className="block text-sm font-medium mb-1.5 text-muted-foreground">
+            <label
+              htmlFor="checkout-modal-customer"
+              className="block text-sm font-medium mb-1.5 text-muted-foreground">
               {t("page.cashier.customer")}
             </label>
             <div className="relative flex gap-2">
@@ -1490,6 +1498,7 @@ const CheckoutModal = ({
                   className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground"
                 />
                 <input
+                  id="checkout-modal-customer"
                   type="text"
                   value={customerSearch}
                   onChange={(e) => {
@@ -1534,7 +1543,7 @@ const CheckoutModal = ({
                 onClick={() => setIsMemberSearchOpen(true)}
                 className="shrink-0 h-10 px-4">
                 <Search size={16} className="mr-2" />
-                Cari Pelanggan
+                {t("page.cashier.ui.searchCustomer")}
               </Button>
               <button
                 onClick={() => setAddCustomerOpen(true)}
@@ -1586,7 +1595,7 @@ const CheckoutModal = ({
                     {selectedCustomer.name || selectedCustomer.Name || "-"}
                   </div>
                   <div className="text-xs text-muted-foreground">
-                    Member:{" "}
+                    {t("page.cashier.ui.member")}{" "}
                     {selectedCustomer.phone ||
                       selectedCustomer.Phone ||
                       selectedCustomer.phoneNumber ||
@@ -1594,7 +1603,7 @@ const CheckoutModal = ({
                   </div>
                 </div>
                 <Button variant="outline" size="sm" onClick={() => setIsMemberSearchOpen(true)}>
-                  Ganti Pelanggan
+                  {t("page.cashier.ui.changeCustomer")}
                 </Button>
               </div>
               {matchedTier && (
@@ -1612,17 +1621,19 @@ const CheckoutModal = ({
                 </div>
               )}
               <div className="flex items-center gap-2 text-xs">
-                <span className="text-muted-foreground">Poin:</span>
+                <span className="text-muted-foreground">{t("page.cashier.ui.points")}</span>
                 <span className="font-medium">{memberPoints.toLocaleString("id-ID")} pts</span>
                 <span className="text-muted-foreground">
-                  Status: {selectedCustomer.status || "Aktif"}
+                  {t("page.cashier.ui.status")} {selectedCustomer.status || "Aktif"}
                 </span>
               </div>
             </div>
           )}
 
           <div ref={discountSearchRef} className="relative">
-            <label className="block text-sm font-medium mb-1.5 text-muted-foreground">
+            <label
+              htmlFor="checkout-modal-discount"
+              className="block text-sm font-medium mb-1.5 text-muted-foreground">
               {t("page.cashier.discount")}
             </label>
             <div className="relative">
@@ -1631,6 +1642,7 @@ const CheckoutModal = ({
                 className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground"
               />
               <input
+                id="checkout-modal-discount"
                 type="text"
                 value={discountSearch}
                 onChange={(e) => {
@@ -1702,11 +1714,14 @@ const CheckoutModal = ({
           </div>
 
           <div className="space-y-1.5">
-            <label className="block text-sm font-medium text-muted-foreground">
+            <label
+              htmlFor="checkout-modal-promo-code"
+              className="block text-sm font-medium text-muted-foreground">
               {t("page.cashier.promoCode")}
             </label>
             <div className="flex gap-2">
               <Input
+                id="checkout-modal-promo-code"
                 unstyled
                 type="text"
                 value={promoCode}
@@ -1739,7 +1754,9 @@ const CheckoutModal = ({
           {memberPoints > 0 && (
             <div className="bg-violet-500/5 rounded-xl p-4 border border-violet-500/20 space-y-2">
               <div className="flex items-center justify-between">
-                <label className="text-sm font-medium text-muted-foreground">Redeem Poin</label>
+                <label className="text-sm font-medium text-muted-foreground">
+                  {t("page.memberLoyalty.tabs.redeem")}
+                </label>
                 <span className="text-xs text-violet-500 font-medium">
                   {t("common.available", "Tersedia")}: {memberPoints.toLocaleString("id-ID")} pts
                 </span>
@@ -1762,12 +1779,12 @@ const CheckoutModal = ({
                     setRedeemPoints(String(Math.min(memberPoints, redeemCeiling)));
                   }}
                   className="shrink-0 h-12 px-4 rounded-xl bg-violet-500/10 border border-violet-500/30 text-sm font-semibold text-violet-600 hover:bg-violet-500/20 transition-all">
-                  Max
+                  {t("page.cashier.ui.max")}
                 </button>
               </div>
               {redeemPoints > 0 && (
                 <p className="text-xs text-emerald-500 flex items-center gap-1">
-                  Diskon: Rp {Number(redeemPoints).toLocaleString("id-ID")}
+                  {t("page.cashier.ui.discountRp")} {Number(redeemPoints).toLocaleString("id-ID")}
                 </p>
               )}
             </div>
@@ -1796,10 +1813,13 @@ const CheckoutModal = ({
               </div>
               <div className="p-5">
                 <div className="mb-3">
-                  <label className="block text-sm font-medium mb-1.5 text-muted-foreground">
+                  <label
+                    htmlFor="checkout-modal-add-customer-name"
+                    className="block text-sm font-medium mb-1.5 text-muted-foreground">
                     {t("page.cashier.addCustomerName")}
                   </label>
                   <Input
+                    id="checkout-modal-add-customer-name"
                     unstyled
                     type="text"
                     value={newCustomerName}
@@ -1811,10 +1831,13 @@ const CheckoutModal = ({
                   />
                 </div>
                 <div className="mb-3">
-                  <label className="block text-sm font-medium mb-1.5 text-muted-foreground">
+                  <label
+                    htmlFor="checkout-modal-add-customer-phone"
+                    className="block text-sm font-medium mb-1.5 text-muted-foreground">
                     {t("page.cashier.addCustomerPhone")}
                   </label>
                   <Input
+                    id="checkout-modal-add-customer-phone"
                     unstyled
                     type="text"
                     value={newCustomerPhone}
@@ -1856,7 +1879,7 @@ const CheckoutModal = ({
                               />
                               <span className="text-sm font-semibold">{tier.name}</span>
                             </div>
-                            <span className="text-[10px] text-muted-foreground mt-1 block">
+                            <span className="text-xs text-muted-foreground mt-1 block">
                               {tier.discountPercent > 0
                                 ? `${tier.discountPercent}% ${t("page.cashier.discount")}`
                                 : "-"}
@@ -1876,7 +1899,7 @@ const CheckoutModal = ({
                                         size={10}
                                         className="text-emerald-500 mt-0.5 shrink-0"
                                       />
-                                      <span className="text-[11px] text-muted-foreground">{b}</span>
+                                      <span className="text-xs text-muted-foreground">{b}</span>
                                     </div>
                                   ))}
                                 </div>

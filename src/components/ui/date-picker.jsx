@@ -9,6 +9,7 @@ import { Calendar } from "./calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "./popover";
 
 function DatePicker({
+  id,
   date,
   setDate,
   placeholder = "Pilih tanggal",
@@ -52,6 +53,7 @@ function DatePicker({
       <Popover>
         <PopoverTrigger asChild>
           <Button
+            id={id}
             variant="outline"
             disabled={disabled}
             className={cn(

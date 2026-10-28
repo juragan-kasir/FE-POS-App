@@ -46,9 +46,9 @@ const DetailTypePayment = () => {
     return (
       <div className="flex flex-col items-center justify-center h-64 text-muted-foreground gap-3">
         <CreditCard size={48} className="opacity-40" />
-        <p>ID pembayaran tidak ditemukan</p>
+        <p>{t("page.typePayment.ui.paymentIdNotFound")}</p>
         <Button variant="danger" onClick={() => navigate("/type-payment-list")}>
-          Kembali
+          {t("common.back")}
         </Button>
       </div>
     );
@@ -111,9 +111,9 @@ const DetailTypePayment = () => {
     return (
       <div className="flex flex-col items-center justify-center h-64 text-muted-foreground gap-3">
         <CreditCard size={48} className="opacity-40" />
-        <p>Metode pembayaran tidak ditemukan</p>
+        <p>{t("page.typePayment.ui.paymentMethodNotFound")}</p>
         <Button variant="danger" onClick={() => navigate("/type-payment-list")}>
-          Kembali
+          {t("common.back")}
         </Button>
       </div>
     );
@@ -162,7 +162,7 @@ const DetailTypePayment = () => {
               </div>
               <div>
                 <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
-                  Tipe
+                  {t("page.profile.type")}
                 </p>
                 <p className="text-sm font-semibold text-foreground mt-0.5">
                   {item.type || item.tipe || "-"}
@@ -244,7 +244,7 @@ const DetailTypePayment = () => {
         {item.deskripsi && (
           <div className="bg-card rounded-xl border border-border p-6">
             <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2">
-              Deskripsi
+              {t("page.role.detail.descLabel")}
             </p>
             <p className="text-sm text-foreground">{item.deskripsi}</p>
           </div>
@@ -252,17 +252,17 @@ const DetailTypePayment = () => {
 
         <div className="bg-card rounded-xl border border-border p-6">
           <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider mb-4">
-            Informasi Sistem
+            {t("page.product.detail.systemInfo")}
           </h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
-              <p className="text-xs text-muted-foreground">Dibuat Pada</p>
+              <p className="text-xs text-muted-foreground">{t("page.reservation.createdAt")}</p>
               <p className="text-sm font-semibold text-foreground mt-0.5">
                 {formatDate(item.createdAt)}
               </p>
             </div>
             <div>
-              <p className="text-xs text-muted-foreground">Diperbarui Pada</p>
+              <p className="text-xs text-muted-foreground">{t("page.location.table.updatedAt")}</p>
               <p className="text-sm font-semibold text-foreground mt-0.5">
                 {formatDate(item.updatedAt || item.updated_at)}
               </p>
@@ -283,7 +283,7 @@ const DetailTypePayment = () => {
         <div className="flex justify-end gap-3">
           <Button variant="danger" onClick={() => navigate("/type-payment-list")} className="gap-2">
             <ArrowLeft size={16} />
-            Kembali
+            {t("common.back")}
           </Button>
         </div>
       </div>

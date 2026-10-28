@@ -73,9 +73,9 @@ const DetailMemberTier = () => {
     return (
       <div className="flex flex-col items-center justify-center h-64 text-muted-foreground gap-3">
         <Award size={48} className="text-muted-foreground/40" />
-        <p>ID tier tidak ditemukan</p>
+        <p>{t("page.memberTier.ui.tierIdNotFound")}</p>
         <Button variant="danger" onClick={() => navigate("/member-tier")}>
-          Kembali
+          {t("common.back")}
         </Button>
       </div>
     );
@@ -102,7 +102,7 @@ const DetailMemberTier = () => {
           { label: t("breadcrumb.detail") }
         ]}
         title={isLoading ? t("common.loading") : tier.name || "-"}
-        description="Member Tier Detail"
+        description={t("page.memberTier.list.detailTitle")}
         backLink="/member-tier"
         dynamicInfo={false}>
         {!isLoading && (
@@ -173,9 +173,9 @@ const DetailMemberTier = () => {
       ) : !tier || !tier.id ? (
         <div className="flex flex-col items-center justify-center h-64 text-muted-foreground gap-3">
           <Award size={48} className="text-muted-foreground/40" />
-          <p>Tier tidak ditemukan</p>
+          <p>{t("page.memberTier.ui.tierNotFound")}</p>
           <Button variant="danger" onClick={() => navigate("/member-tier")}>
-            Kembali
+            {t("common.back")}
           </Button>
         </div>
       ) : (
@@ -248,7 +248,7 @@ const DetailMemberTier = () => {
                 </div>
                 <div>
                   <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
-                    Diskon
+                    {t("sidebar.diskon")}
                   </p>
                   <p className="text-sm font-semibold text-foreground mt-0.5">
                     {tier.discountPercent || 0}%
@@ -261,10 +261,10 @@ const DetailMemberTier = () => {
                 </div>
                 <div>
                   <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
-                    Member
+                    {t("breadcrumb.member")}
                   </p>
                   <p className="text-sm font-semibold text-foreground mt-0.5">
-                    {tier.memberCount || 0} Member
+                    {tier.memberCount || 0} {t("breadcrumb.member")}
                   </p>
                 </div>
               </div>
@@ -275,7 +275,9 @@ const DetailMemberTier = () => {
             <div className="bg-card rounded-xl shadow-sm border border-border p-6">
               <div className="flex items-center gap-3 mb-5 pb-3 border-b border-border">
                 <Gift size={18} className="text-primary" />
-                <h3 className="text-base font-semibold text-foreground">Benefits</h3>
+                <h3 className="text-base font-semibold text-foreground">
+                  {t("page.member.benefits")}
+                </h3>
               </div>
               {(Array.isArray(tier.benefits)
                 ? tier.benefits
@@ -296,7 +298,9 @@ const DetailMemberTier = () => {
                   ))}
                 </ul>
               ) : (
-                <p className="text-sm text-muted-foreground italic">Tidak ada benefits</p>
+                <p className="text-sm text-muted-foreground italic">
+                  {t("page.memberTier.ui.noBenefits")}
+                </p>
               )}
             </div>
 

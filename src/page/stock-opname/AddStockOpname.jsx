@@ -238,7 +238,7 @@ const rowInputClass = (hasError) =>
 const FieldError = ({ error }) => {
   if (!error) return null;
   return (
-    <p className="text-destructive text-[10px] mt-0.5 animate-in fade-in slide-in-from-top-1">
+    <p className="text-destructive text-xs mt-0.5 animate-in fade-in slide-in-from-top-1">
       {error.message}
     </p>
   );
@@ -650,10 +650,11 @@ const AddStockOpname = () => {
                   <FieldError error={errors.tanggalAudit} />
                 </div>
                 <div className="space-y-2">
-                  <Label>
+                  <Label htmlFor="add-stock-opname-auditor">
                     {t("page.stockOpname.form.auditor")} <span className="text-destructive">*</span>
                   </Label>
                   <Input
+                    id="add-stock-opname-auditor"
                     {...form.register("auditor")}
                     placeholder={t("page.stockOpname.form.auditorPlaceholder")}
                     className={
@@ -745,7 +746,7 @@ const AddStockOpname = () => {
                                 className={rowInputClass(!!rowErrors?.kodeBarang)}
                               />
                               {rowErrors?.kodeBarang && (
-                                <p className="text-destructive text-[10px] mt-0.5">
+                                <p className="text-destructive text-xs mt-0.5">
                                   {rowErrors.kodeBarang.message}
                                 </p>
                               )}
@@ -817,13 +818,13 @@ const AddStockOpname = () => {
                                                     {p.nameProduct || p.name}
                                                   </span>
                                                   {p.barcode && (
-                                                    <span className="text-[10px] text-muted-foreground truncate">
+                                                    <span className="text-xs text-muted-foreground truncate">
                                                       {p.barcode}
                                                     </span>
                                                   )}
                                                 </div>
                                                 {selectedProductIds.has(p.id || p._id) && (
-                                                  <span className="ml-auto text-[10px] text-muted-foreground bg-muted px-1.5 py-0.5 rounded shrink-0">
+                                                  <span className="ml-auto text-xs text-muted-foreground bg-muted px-1.5 py-0.5 rounded shrink-0">
                                                     dipilih
                                                   </span>
                                                 )}
@@ -836,7 +837,7 @@ const AddStockOpname = () => {
                                 </Popover>
                               </div>
                               {rowErrors?.namaBarang && (
-                                <p className="text-destructive text-[10px] mt-0.5">
+                                <p className="text-destructive text-xs mt-0.5">
                                   {rowErrors.namaBarang.message}
                                 </p>
                               )}
@@ -865,7 +866,7 @@ const AddStockOpname = () => {
                                 )}
                               />
                               {rowErrors?.satuan && (
-                                <p className="text-destructive text-[10px] mt-0.5">
+                                <p className="text-destructive text-xs mt-0.5">
                                   {rowErrors.satuan.message}
                                 </p>
                               )}
@@ -887,7 +888,7 @@ const AddStockOpname = () => {
                                 )}
                               />
                               {rowErrors?.lokasiId && (
-                                <p className="text-destructive text-[10px] mt-0.5">
+                                <p className="text-destructive text-xs mt-0.5">
                                   {rowErrors.lokasiId.message}
                                 </p>
                               )}
@@ -925,7 +926,7 @@ const AddStockOpname = () => {
                             </td>
                             <td className="border-r border-muted/20 px-3 py-2 text-center">
                               <span
-                                className={`inline-block px-2 py-0.5 rounded-full text-[10px] font-semibold ${availability.className}`}>
+                                className={`inline-block px-2 py-0.5 rounded-full text-xs font-semibold ${availability.className}`}>
                                 {availability.label}
                               </span>
                             </td>
@@ -937,7 +938,7 @@ const AddStockOpname = () => {
                                 className={rowInputClass(!!rowErrors?.keterangan)}
                               />
                               {rowErrors?.keterangan && (
-                                <p className="text-destructive text-[10px] mt-0.5">
+                                <p className="text-destructive text-xs mt-0.5">
                                   {rowErrors.keterangan.message}
                                 </p>
                               )}
@@ -981,11 +982,12 @@ const AddStockOpname = () => {
             </Card>
 
             <div className="space-y-2">
-              <Label>
+              <Label htmlFor="add-stock-opname-audit-notes">
                 {t("page.stockOpname.form.auditNotes")}{" "}
                 <span className="text-muted-foreground font-normal">({t("common.optional")})</span>
               </Label>
               <Textarea
+                id="add-stock-opname-audit-notes"
                 {...form.register("catatan")}
                 rows={3}
                 placeholder={t("page.stockOpname.form.auditNotesPlaceholder")}
