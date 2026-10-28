@@ -28,6 +28,7 @@ import { FIELD_LIMITS } from "@/constants/fieldLimits";
 import { formatDateOnly } from "@/utils/dateOnly";
 import { useFormExit } from "@/hooks/useLeaveGuard";
 import { createdId } from "@/utils/createdRecord";
+import LoadErrorBanner from "@/components/ui/LoadErrorBanner";
 
 const AddProductionOrder = () => {
   const { t } = useTranslation();
@@ -164,6 +165,7 @@ const AddProductionOrder = () => {
         dynamicInfo={false}>
         <UserGuide guideKey="add-production-order" mode={id ? "edit" : "add"} />
       </PageHeader>
+      <LoadErrorBanner />
 
       <form
         onSubmit={handleSubmit((data) => doSubmit(data, false))}

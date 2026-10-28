@@ -43,6 +43,7 @@ import UserGuide from "@/components/organism/UserGuide";
 import { FIELD_LIMITS } from "@/constants/fieldLimits";
 import { useFormExit } from "@/hooks/useLeaveGuard";
 import { createdId } from "@/utils/createdRecord";
+import LoadErrorBanner from "@/components/ui/LoadErrorBanner";
 
 const DAY_NAMES = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"];
 
@@ -240,6 +241,7 @@ const AddReservation = () => {
         dynamicInfo={false}>
         <UserGuide guideKey="add-reservation" />
       </PageHeader>
+      <LoadErrorBanner />
 
       <Card className="p-6">
         <Form {...form}>

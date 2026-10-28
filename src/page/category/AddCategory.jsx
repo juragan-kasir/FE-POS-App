@@ -46,6 +46,7 @@ import { useLocations } from "@/queries/useLocations";
 import { FIELD_LIMITS } from "@/constants/fieldLimits";
 import { useFormExit } from "@/hooks/useLeaveGuard";
 import { createdId } from "@/utils/createdRecord";
+import LoadErrorBanner from "@/components/ui/LoadErrorBanner";
 
 const iconSections = [
   {
@@ -534,6 +535,7 @@ const AddCategory = () => {
         onBack={requestLeave}>
         <UserGuide guideKey="add-category" />
       </PageHeader>
+      <LoadErrorBanner />
 
       <div>
         <div className="bg-card p-6 rounded-xl shadow-[0_4px_20px_-4px_rgba(0,0,0,0.05)] border border-border overflow-hidden">

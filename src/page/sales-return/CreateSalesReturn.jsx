@@ -34,6 +34,7 @@ import { todayDateOnly } from "@/utils/dateOnly";
 import { FIELD_LIMITS } from "@/constants/fieldLimits";
 import { Textarea } from "@/components/ui/textarea";
 import { createdId } from "@/utils/createdRecord";
+import LoadErrorBanner from "@/components/ui/LoadErrorBanner";
 
 const reasonKeys = [
   "damaged",
@@ -265,6 +266,7 @@ const CreateSalesReturn = () => {
           dynamicInfo={false}>
           <UserGuide guideKey="create-sales-return" />
         </PageHeader>
+        <LoadErrorBanner />
 
         <Card className="p-6">
           <div className="flex items-center gap-3 mb-5">

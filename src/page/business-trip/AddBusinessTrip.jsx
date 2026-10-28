@@ -34,6 +34,7 @@ import { FIELD_LIMITS } from "@/constants/fieldLimits";
 import { useDomDirtyTracking } from "@/hooks/useDomDirtyTracking";
 import { useFormExit } from "@/hooks/useLeaveGuard";
 import { useUnsavedChangesGuard } from "@/contexts/UnsavedChangesContext";
+import LoadErrorBanner from "@/components/ui/LoadErrorBanner";
 
 const SectionHeader = ({ icon: Icon, title, desc, from, to }) => (
   <div className={`bg-gradient-to-r ${from} ${to} px-6 py-4`}>
@@ -276,6 +277,7 @@ const AddBusinessTrip = () => {
           dynamicInfo={false}>
           <UserGuide guideKey="add-business-trip" />
         </PageHeader>
+        <LoadErrorBanner />
 
         <form onSubmit={handleSubmit((data) => doSubmit(data))} className="space-y-6">
           <Card className="overflow-hidden border-0 shadow-md rounded-xl">

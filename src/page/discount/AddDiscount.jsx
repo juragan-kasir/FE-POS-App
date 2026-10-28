@@ -56,6 +56,7 @@ import { useLocations } from "@/queries/useLocations";
 import { FIELD_LIMITS } from "@/constants/fieldLimits";
 import { useFormExit } from "@/hooks/useLeaveGuard";
 import { createdId } from "@/utils/createdRecord";
+import LoadErrorBanner from "@/components/ui/LoadErrorBanner";
 const PROMO_TYPES = {
   standard: "page.discount.form.promoType.standard",
   bogo: "page.discount.form.promoType.bogo",
@@ -371,6 +372,7 @@ const AddDiscount = () => {
           backLink="/discount-list">
           <UserGuide guideKey="add-discount" />
         </PageHeader>
+        <LoadErrorBanner />
         <div className="bg-card rounded-xl border border-border p-6 space-y-4">
           <Skeleton className="h-5 w-32" />
           <div className="flex gap-2">

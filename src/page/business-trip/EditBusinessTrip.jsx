@@ -35,6 +35,7 @@ import { FIELD_LIMITS } from "@/constants/fieldLimits";
 import { useDomDirtyTracking } from "@/hooks/useDomDirtyTracking";
 import { useFormExit } from "@/hooks/useLeaveGuard";
 import { useUnsavedChangesGuard } from "@/contexts/UnsavedChangesContext";
+import LoadErrorBanner from "@/components/ui/LoadErrorBanner";
 
 const toDate = (v) => {
   if (!v) return null;
@@ -323,6 +324,7 @@ const EditBusinessTrip = () => {
           dynamicInfo={false}>
           <UserGuide guideKey="add-business-trip" mode="edit" />
         </PageHeader>
+        <LoadErrorBanner />
 
         <form onSubmit={handleSubmit((data) => doSubmit(data))} className="space-y-6">
           <Card className="overflow-hidden border-0 shadow-md rounded-xl">

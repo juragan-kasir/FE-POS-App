@@ -67,6 +67,7 @@ import { useLocations } from "@/queries/useLocations";
 import { FIELD_LIMITS } from "@/constants/fieldLimits";
 import { useFormExit } from "@/hooks/useLeaveGuard";
 import { createdId } from "@/utils/createdRecord";
+import LoadErrorBanner from "@/components/ui/LoadErrorBanner";
 
 const AddProduct = () => {
   const { t } = useTranslation();
@@ -665,6 +666,7 @@ const AddProduct = () => {
         onBack={requestLeave}>
         <UserGuide guideKey="add-product" />
       </PageHeader>
+      <LoadErrorBanner />
 
       <div className="bg-muted p-1 rounded-md mb-6">
         <div className="grid grid-cols-3 gap-1">

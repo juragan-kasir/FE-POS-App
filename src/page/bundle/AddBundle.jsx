@@ -36,6 +36,7 @@ import { useFormExit } from "@/hooks/useLeaveGuard";
 import { useFieldErrors } from "@/hooks/useFieldErrors";
 import { FieldError } from "@/components/ui/field-error";
 import { createdId } from "@/utils/createdRecord";
+import LoadErrorBanner from "@/components/ui/LoadErrorBanner";
 
 const emptyItem = { product: "", quantity: 1, unitPrice: 0, isOptional: false };
 
@@ -330,6 +331,7 @@ const AddBundle = () => {
         onBack={requestLeave}>
         <UserGuide guideKey="add-bundle" />
       </PageHeader>
+      <LoadErrorBanner />
 
       <form onSubmit={(e) => e.preventDefault()} className="space-y-6">
         <Card className="overflow-hidden border-0 shadow-md rounded-xl">

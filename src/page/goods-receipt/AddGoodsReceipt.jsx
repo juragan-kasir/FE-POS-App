@@ -49,6 +49,7 @@ import { FIELD_LIMITS } from "@/constants/fieldLimits";
 import { formatDateOnly } from "@/utils/dateOnly";
 import { useFormExit } from "@/hooks/useLeaveGuard";
 import { createdId } from "@/utils/createdRecord";
+import LoadErrorBanner from "@/components/ui/LoadErrorBanner";
 
 const AddGoodsReceipt = () => {
   const navigate = useNavigate();
@@ -529,6 +530,7 @@ const AddGoodsReceipt = () => {
           onBack={requestLeave}>
           <UserGuide guideKey="add-goods-receipt" />
         </PageHeader>
+        <LoadErrorBanner />
 
         <form
           onSubmit={handleSubmit((data) => doSubmit(data, false))}

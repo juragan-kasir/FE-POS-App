@@ -30,6 +30,7 @@ import {
   BarChart3,
   User
 } from "lucide-react";
+import LoadErrorBanner from "@/components/ui/LoadErrorBanner";
 
 const typeIcon = (type) => {
   const map = {
@@ -296,6 +297,7 @@ const PromoCampaignDetail = () => {
           {t("common.edit")}
         </Button>
       </PageHeader>
+      <LoadErrorBanner />
 
       <div className="bg-card rounded-2xl shadow-sm border border-border overflow-hidden">
         <div className="bg-gradient-to-r from-primary/10 via-primary/5 to-transparent p-8 md:p-10">

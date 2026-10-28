@@ -30,6 +30,7 @@ import { DEFAULT_SHIFT_TYPE, SHIFT_TYPE_LABELS, SHIFT_TYPES } from "@/constants/
 import PageHeader from "@/components/ui/PageHeader";
 import HorizontalScrollArea from "@/components/ui/HorizontalScrollArea";
 import { useLocations } from "@/queries/useLocations";
+import LoadErrorBanner from "@/components/ui/LoadErrorBanner";
 
 const statusBadge = (status, t) => {
   if (status === "active" || status === true || status === 1)
@@ -276,6 +277,7 @@ const DetailShift = () => {
           {t("common.edit")}
         </Button>
       </PageHeader>
+      <LoadErrorBanner />
 
       {/* Main Content */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">

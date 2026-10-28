@@ -12,6 +12,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import PageHeader from "@/components/ui/PageHeader";
 import { FIELD_LIMITS } from "@/constants/fieldLimits";
 import { Textarea } from "@/components/ui/textarea";
+import LoadErrorBanner from "@/components/ui/LoadErrorBanner";
 
 const gradeBadge = (grade) => {
   const map = {
@@ -113,6 +114,7 @@ const SupplierScoreDetail = () => {
           {t("common.back")}
         </Button>
       </PageHeader>
+      <LoadErrorBanner />
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div className="lg:col-span-2 space-y-6">

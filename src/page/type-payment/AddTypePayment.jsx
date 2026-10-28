@@ -31,6 +31,7 @@ import { useLocations } from "@/queries/useLocations";
 import { FIELD_LIMITS } from "@/constants/fieldLimits";
 import { useFormExit } from "@/hooks/useLeaveGuard";
 import { createdId } from "@/utils/createdRecord";
+import LoadErrorBanner from "@/components/ui/LoadErrorBanner";
 
 const AddTypePayment = () => {
   const { t } = useTranslation();
@@ -145,6 +146,7 @@ const AddTypePayment = () => {
             onBack={requestLeave}>
             <UserGuide guideKey="add-type-payment" />
           </PageHeader>
+          <LoadErrorBanner />
         </div>
       </div>
 

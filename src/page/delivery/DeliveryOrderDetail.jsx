@@ -22,6 +22,7 @@ import { formatCurrencyRupiah } from "@/utils/formatter-currency";
 import { canAccess } from "@/utils/permission";
 import { FIELD_LIMITS } from "@/constants/fieldLimits";
 import { Textarea } from "@/components/ui/textarea";
+import LoadErrorBanner from "@/components/ui/LoadErrorBanner";
 
 const statusBadge = (status) => {
   const map = {
@@ -177,6 +178,7 @@ const DeliveryOrderDetail = () => {
         </Button>
         <PrintButton />
       </PageHeader>
+      <LoadErrorBanner />
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Main Info */}

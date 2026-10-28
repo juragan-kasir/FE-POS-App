@@ -28,6 +28,7 @@ import { SearchInput } from "@/components/ui/SearchInput";
 import { Combobox } from "@/components/ui/combobox";
 import { canAccess } from "@/utils/permission";
 import { useCookies } from "react-cookie";
+import LoadErrorBanner from "@/components/ui/LoadErrorBanner";
 
 const ShiftTemplateList = () => {
   const { t } = useTranslation();
@@ -215,6 +216,7 @@ const ShiftTemplateList = () => {
           </Button>
         )}
       </PageHeader>
+      <LoadErrorBanner />
 
       <div>
         <div>

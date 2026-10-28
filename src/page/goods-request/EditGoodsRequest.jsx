@@ -24,6 +24,7 @@ import { Loading } from "@/components/ui/loading";
 import HorizontalScrollArea from "@/components/ui/HorizontalScrollArea";
 import { FIELD_LIMITS } from "@/constants/fieldLimits";
 import { useFormExit } from "@/hooks/useLeaveGuard";
+import LoadErrorBanner from "@/components/ui/LoadErrorBanner";
 
 const unitOptions = [
   { value: "pcs", label: "pcs" },
@@ -394,6 +395,7 @@ const EditGoodsRequest = () => {
           dynamicInfo={false}>
           <UserGuide guideKey="add-goods-request" mode="edit" />
         </PageHeader>
+        <LoadErrorBanner />
 
         <form
           onSubmit={(e) => {

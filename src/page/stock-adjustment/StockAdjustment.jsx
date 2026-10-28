@@ -37,6 +37,7 @@ import PageHeader from "@/components/ui/PageHeader";
 import UserGuide from "@/components/organism/UserGuide";
 import { useLocations } from "@/queries/useLocations";
 import { FIELD_LIMITS } from "@/constants/fieldLimits";
+import LoadErrorBanner from "@/components/ui/LoadErrorBanner";
 
 const StockAdjustment = () => {
   const { t } = useTranslation();
@@ -157,6 +158,7 @@ const StockAdjustment = () => {
         description={t("page.stockAdjustment.description")}>
         <UserGuide guideKey="adjust-stock" />
       </PageHeader>
+      <LoadErrorBanner />
 
       {locData && (locData?.data || []).length === 0 ? (
         <NoStore />

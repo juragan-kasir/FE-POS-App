@@ -32,6 +32,7 @@ import { useFormExit } from "@/hooks/useLeaveGuard";
 import { useFieldErrors } from "@/hooks/useFieldErrors";
 import { FieldError } from "@/components/ui/field-error";
 import { createdId } from "@/utils/createdRecord";
+import LoadErrorBanner from "@/components/ui/LoadErrorBanner";
 
 const emptyLine = () => ({ supplierId: "", ingredientId: "", qty: "", unit: "pcs", notes: "" });
 
@@ -341,6 +342,7 @@ const AddBom = () => {
         dynamicInfo={false}>
         <UserGuide guideKey="add-bom" mode={isEdit ? "edit" : "add"} />
       </PageHeader>
+      <LoadErrorBanner />
 
       <div>
         <form

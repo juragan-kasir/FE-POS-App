@@ -69,6 +69,7 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { useLocations } from "@/queries/useLocations";
 import { FIELD_LIMITS } from "@/constants/fieldLimits";
 import { useFormExit } from "@/hooks/useLeaveGuard";
+import LoadErrorBanner from "@/components/ui/LoadErrorBanner";
 
 const AddEmployee = () => {
   const navigate = useNavigate();
@@ -546,6 +547,7 @@ const AddEmployee = () => {
             onBack={requestLeave}>
             <UserGuide guideKey="add-employee" />
           </PageHeader>
+          <LoadErrorBanner />
         </div>
       </div>
       <div>

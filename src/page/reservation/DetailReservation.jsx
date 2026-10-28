@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { useTranslation } from "react-i18next";
 import PageHeader from "@/components/ui/PageHeader";
+import LoadErrorBanner from "@/components/ui/LoadErrorBanner";
 
 const STATUS_MAP = {
   pending: {
@@ -95,6 +96,7 @@ const DetailReservation = () => {
         backLink="/reservation"
         dynamicInfo={false}
       />
+      <LoadErrorBanner />
 
       {isLoading ? (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">

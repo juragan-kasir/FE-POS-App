@@ -86,6 +86,7 @@ import TenantSelectField, { tenantErrorMessage } from "@/components/organism/Ten
 import { qk } from "@/queries/keys";
 import { FIELD_LIMITS } from "@/constants/fieldLimits";
 import { useFormExit } from "@/hooks/useLeaveGuard";
+import LoadErrorBanner from "@/components/ui/LoadErrorBanner";
 
 const days = [
   { id: "monday", label: "common.day.monday" },
@@ -760,6 +761,7 @@ const EditLocation = () => {
           description={t("page.location.edit.description")}
           backLink="/location-list"
         />
+        <LoadErrorBanner />
         <div className="bg-card rounded-xl border border-border p-6 space-y-6">
           <Skeleton className="h-5 w-48" />
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">

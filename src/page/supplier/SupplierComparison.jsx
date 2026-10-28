@@ -45,6 +45,7 @@ import {
   SelectValue
 } from "@/components/ui/select";
 import PageHeader from "@/components/ui/PageHeader";
+import LoadErrorBanner from "@/components/ui/LoadErrorBanner";
 
 const PAGE_SIZES = [5, 10, 15, 20, 25, 50, 100];
 const DEFAULT_PAGE_SIZE = 10;
@@ -346,6 +347,7 @@ const SupplierComparison = () => {
           <ArrowLeft size={16} />
         </Button>
       </PageHeader>
+      <LoadErrorBanner />
 
       <Card className="p-4 md:p-5 space-y-3 md:space-y-4">
         <div className="flex items-center gap-2 text-sm font-semibold text-muted-foreground">

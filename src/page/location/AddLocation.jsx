@@ -87,6 +87,7 @@ import { useTenantManagePermission } from "@/hooks/useTenantManagePermission";
 import { FIELD_LIMITS } from "@/constants/fieldLimits";
 import { useFormExit } from "@/hooks/useLeaveGuard";
 import { createdId } from "@/utils/createdRecord";
+import LoadErrorBanner from "@/components/ui/LoadErrorBanner";
 
 const days = [
   { id: "monday", label: "common.day.monday" },
@@ -692,6 +693,7 @@ const AddLocation = () => {
         onBack={requestLeave}>
         <UserGuide guideKey="add-location" />
       </PageHeader>
+      <LoadErrorBanner />
 
       {/* Form Card */}
       {isIdGenerating ? (

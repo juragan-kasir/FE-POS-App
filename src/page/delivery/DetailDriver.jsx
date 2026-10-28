@@ -21,6 +21,7 @@ import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import PageHeader from "@/components/ui/PageHeader";
 import Modal from "@/components/organism/modal";
+import LoadErrorBanner from "@/components/ui/LoadErrorBanner";
 
 const DetailDriver = () => {
   const { t } = useTranslation();
@@ -104,6 +105,7 @@ const DetailDriver = () => {
           {t("common.edit")}
         </Button>
       </PageHeader>
+      <LoadErrorBanner />
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div className="lg:col-span-2 space-y-6">

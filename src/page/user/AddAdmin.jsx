@@ -34,6 +34,7 @@ import { Input } from "@/components/ui/input";
 import { useFormExit } from "@/hooks/useLeaveGuard";
 import { useFieldErrors } from "@/hooks/useFieldErrors";
 import { FieldError } from "@/components/ui/field-error";
+import LoadErrorBanner from "@/components/ui/LoadErrorBanner";
 
 const AddAdmin = () => {
   const dirtyRef = useDomDirtyTracking();
@@ -160,6 +161,7 @@ const AddAdmin = () => {
             dynamicInfo={false}>
             <UserGuide guideKey="add-user" />
           </PageHeader>
+          <LoadErrorBanner />
         </div>
 
         <div className="grid grid-cols-12 gap-6">

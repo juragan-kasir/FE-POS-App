@@ -9004,5 +9004,6 @@
   "page.dashboardSuperAdmin.activity.justNow": "baru saja",
   "page.dashboardSuperAdmin.activity.minutesAgo": "{{count}} mnt lalu",
   "page.dashboardSuperAdmin.activity.hoursAgo": "{{count}} jam lalu",
-  "page.dashboardSuperAdmin.activity.daysAgo": "{{count}} hari lalu"
+  "page.dashboardSuperAdmin.activity.daysAgo": "{{count}} hari lalu",
+  "common.loadErrorPartial": "Sebagian data di halaman ini gagal dimuat, jadi daftar atau pilihan bisa terlihat kosong."
 }

@@ -9004,5 +9004,6 @@
   "page.dashboardSuperAdmin.activity.justNow": "just now",
   "page.dashboardSuperAdmin.activity.minutesAgo": "{{count}} min ago",
   "page.dashboardSuperAdmin.activity.hoursAgo": "{{count}} h ago",
-  "page.dashboardSuperAdmin.activity.daysAgo": "{{count}} d ago"
+  "page.dashboardSuperAdmin.activity.daysAgo": "{{count}} d ago",
+  "common.loadErrorPartial": "Some data on this page failed to load, so lists or options may look empty."
 }

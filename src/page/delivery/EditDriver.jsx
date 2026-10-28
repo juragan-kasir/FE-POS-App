@@ -21,6 +21,7 @@ import { FIELD_LIMITS } from "@/constants/fieldLimits";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useFormExit } from "@/hooks/useLeaveGuard";
+import LoadErrorBanner from "@/components/ui/LoadErrorBanner";
 
 const EditDriver = () => {
   const { t } = useTranslation();
@@ -149,6 +150,7 @@ const EditDriver = () => {
           {t("common.cancel")}
         </Button>
       </PageHeader>
+      <LoadErrorBanner />
 
       <form
         onSubmit={form.handleSubmit(onSubmit)}

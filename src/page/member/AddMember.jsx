@@ -25,6 +25,7 @@ import { useFormExit } from "@/hooks/useLeaveGuard";
 import { useFieldErrors } from "@/hooks/useFieldErrors";
 import { FieldError } from "@/components/ui/field-error";
 import { createdId } from "@/utils/createdRecord";
+import LoadErrorBanner from "@/components/ui/LoadErrorBanner";
 
 const formSchema = z.object({
   name: z.string().min(1),
@@ -159,6 +160,7 @@ const AddMember = () => {
         onBack={requestLeave}>
         <UserGuide guideKey="add-member" />
       </PageHeader>
+      <LoadErrorBanner />
 
       <div className="bg-card p-6 rounded-xl shadow-[0_4px_20px_-4px_rgba(0,0,0,0.05)] border border-border overflow-hidden">
         <form onSubmit={(e) => e.preventDefault()}>

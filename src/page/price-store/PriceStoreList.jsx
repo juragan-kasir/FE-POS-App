@@ -18,6 +18,7 @@ import TableActionLegend from "@/components/ui/TableActionLegend";
 import PageHeader from "@/components/ui/PageHeader";
 import HorizontalScrollArea from "@/components/ui/HorizontalScrollArea";
 import { useLocations } from "@/queries/useLocations";
+import LoadErrorBanner from "@/components/ui/LoadErrorBanner";
 
 const PriceStoreList = () => {
   const { t } = useTranslation();
@@ -106,6 +107,7 @@ const PriceStoreList = () => {
         title={t("page.priceStore.list.title")}
         description={t("page.priceStore.list.desc")}
       />
+      <LoadErrorBanner />
 
       {isLoading || isFetching ? (
         <div className="flex-1 flex items-center justify-center p-6">

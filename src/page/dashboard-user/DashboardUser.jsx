@@ -42,6 +42,7 @@ import AttendanceModal from "@/components/organism/AttendanceModal";
 import SwapShiftModal from "@/page/shift/SwapShiftModal";
 import CancelSwapDialog from "@/page/shift/CancelSwapDialog";
 import { safeGet } from "@/lib/safe-lookup";
+import LoadErrorBanner from "@/components/ui/LoadErrorBanner";
 
 const DAY_MS = 86400000;
 
@@ -269,6 +270,7 @@ const DashboardUser = () => {
 
   return (
     <div className="space-y-6 animate-in fade-in slide-in-from-top-2 duration-300">
+      <LoadErrorBanner />
       {/* Greeting */}
       <div className="relative overflow-hidden rounded-2xl border border-border/70 bg-card p-6 shadow-sm">
         <div className="pointer-events-none absolute -right-10 -top-16 w-56 h-56 rounded-full bg-primary/10 blur-3xl" />

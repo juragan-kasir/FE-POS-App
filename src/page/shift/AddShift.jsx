@@ -45,6 +45,7 @@ import { FIELD_LIMITS } from "@/constants/fieldLimits";
 import { buildEmployeeShiftConflictMap } from "./shiftOverlap";
 import { useFormExit } from "@/hooks/useLeaveGuard";
 import { createdId } from "@/utils/createdRecord";
+import LoadErrorBanner from "@/components/ui/LoadErrorBanner";
 
 const toOverlapCandidate = (values) => ({
   tanggal_mulai: values.tanggal_mulai,
@@ -370,6 +371,7 @@ const AddShift = () => {
           {t("action.back")}
         </Button>
       </PageHeader>
+      <LoadErrorBanner />
 
       {isInitialLoading ? (
         <Card className="p-6 space-y-6">

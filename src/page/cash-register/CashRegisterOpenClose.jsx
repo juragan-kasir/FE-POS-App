@@ -18,6 +18,7 @@ import { getTodayScheduleMinutes, formatMinutesAsTime } from "@/utils/storeTimez
 import { useLocations } from "@/queries/useLocations";
 import { FIELD_LIMITS } from "@/constants/fieldLimits";
 import { Textarea } from "@/components/ui/textarea";
+import LoadErrorBanner from "@/components/ui/LoadErrorBanner";
 
 const formatIDR = (num) => {
   if (!num && num !== 0) return "";
@@ -192,6 +193,7 @@ const CashRegisterOpenClose = () => {
             </span>
           </div>
         </PageHeader>
+        <LoadErrorBanner />
 
         {/* Opening Balance Card */}
         <div className="bg-card rounded-xl border border-border shadow-sm overflow-hidden">

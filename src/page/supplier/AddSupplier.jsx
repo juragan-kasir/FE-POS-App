@@ -53,6 +53,7 @@ import { FIELD_LIMITS } from "@/constants/fieldLimits";
 import { digitsOnly } from "@/utils/quantity";
 import { useFormExit } from "@/hooks/useLeaveGuard";
 import { createdId } from "@/utils/createdRecord";
+import LoadErrorBanner from "@/components/ui/LoadErrorBanner";
 
 const AddSupplier = () => {
   const { t } = useTranslation();
@@ -500,6 +501,7 @@ const AddSupplier = () => {
             onBack={requestLeave}>
             <UserGuide guideKey="add-supplier" />
           </PageHeader>
+          <LoadErrorBanner />
         </div>
       </div>
 

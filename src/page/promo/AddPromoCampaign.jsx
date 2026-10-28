@@ -55,6 +55,7 @@ import { useLocations } from "@/queries/useLocations";
 import { FIELD_LIMITS } from "@/constants/fieldLimits";
 import { useFormExit } from "@/hooks/useLeaveGuard";
 import { createdId } from "@/utils/createdRecord";
+import LoadErrorBanner from "@/components/ui/LoadErrorBanner";
 
 const SectionHeader = ({ icon: Icon, title, description, gradient }) => (
   <div className={`bg-gradient-to-r ${gradient} px-6 py-4`}>
@@ -447,6 +448,7 @@ const AddPromoCampaign = () => {
           {t("action.back")}
         </Button>
       </PageHeader>
+      <LoadErrorBanner />
 
       <Form {...form}>
         <form onSubmit={(e) => e.preventDefault()} className="space-y-6">

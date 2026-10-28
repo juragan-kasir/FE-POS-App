@@ -26,6 +26,7 @@ import { useLocations } from "@/queries/useLocations";
 import { FIELD_LIMITS } from "@/constants/fieldLimits";
 import { useFormExit } from "@/hooks/useLeaveGuard";
 import { createdId } from "@/utils/createdRecord";
+import LoadErrorBanner from "@/components/ui/LoadErrorBanner";
 
 const emptyItem = {
   name: "",
@@ -538,6 +539,7 @@ const AddGoodsRequest = () => {
           dynamicInfo={false}>
           <UserGuide guideKey="add-goods-request" />
         </PageHeader>
+        <LoadErrorBanner />
 
         <form
           onSubmit={handleSubmit((data) => doSubmit(data))}

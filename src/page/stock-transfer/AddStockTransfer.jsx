@@ -32,6 +32,7 @@ import HorizontalScrollArea from "@/components/ui/HorizontalScrollArea";
 import { useLocations } from "@/queries/useLocations";
 import { FIELD_LIMITS } from "@/constants/fieldLimits";
 import { useFormExit } from "@/hooks/useLeaveGuard";
+import LoadErrorBanner from "@/components/ui/LoadErrorBanner";
 
 const AddStockTransfer = () => {
   const { t } = useTranslation();
@@ -192,6 +193,7 @@ const AddStockTransfer = () => {
           dynamicInfo={false}>
           <UserGuide guideKey="add-stock-transfer" />
         </PageHeader>
+        <LoadErrorBanner />
 
         <form
           onSubmit={handleSubmit(onSubmit)}

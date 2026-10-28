@@ -53,6 +53,7 @@ import { FIELD_LIMITS } from "@/constants/fieldLimits";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useFormExit } from "@/hooks/useLeaveGuard";
+import LoadErrorBanner from "@/components/ui/LoadErrorBanner";
 
 const SectionHeader = ({ icon: Icon, title, description, gradient }) => (
   <div className={`bg-gradient-to-r ${gradient} px-6 py-4`}>
@@ -433,6 +434,7 @@ const EditPromoCampaign = () => {
           {t("common.cancel")}
         </Button>
       </PageHeader>
+      <LoadErrorBanner />
 
       <Form {...form}>
         <form onSubmit={(e) => e.preventDefault()} className="space-y-6">

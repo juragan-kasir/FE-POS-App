@@ -36,6 +36,7 @@ import CategoryPreviewModal from "./CategoryPreviewModal";
 import { useLocations } from "@/queries/useLocations";
 import { FIELD_LIMITS } from "@/constants/fieldLimits";
 import { useFormExit } from "@/hooks/useLeaveGuard";
+import LoadErrorBanner from "@/components/ui/LoadErrorBanner";
 
 const iconSections = [
   {
@@ -562,6 +563,7 @@ const EditCategory = () => {
         onBack={requestLeave}>
         <UserGuide guideKey="edit-category" />
       </PageHeader>
+      <LoadErrorBanner />
 
       <div>
         <div className="bg-card p-6 rounded-xl shadow-[0_4px_20px_-4px_rgba(0,0,0,0.05)] border border-border overflow-hidden">

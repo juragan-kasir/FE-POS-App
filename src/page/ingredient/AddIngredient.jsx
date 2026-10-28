@@ -46,6 +46,7 @@ import IngredientSourceField from "./components/IngredientSourceField";
 import { useLocations } from "@/queries/useLocations";
 import { useFormExit } from "@/hooks/useLeaveGuard";
 import { createdId } from "@/utils/createdRecord";
+import LoadErrorBanner from "@/components/ui/LoadErrorBanner";
 
 const conversionHints = {
   kg: { base: "gram", factor: 1000 },
@@ -321,6 +322,7 @@ const AddIngredient = () => {
             onBack={requestLeave}
             dynamicInfo={false}
           />
+          <LoadErrorBanner />
           <UserGuide guideKey="add-ingredient" />
         </div>
 

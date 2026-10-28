@@ -35,6 +35,7 @@ import { useLocations } from "@/queries/useLocations";
 import { FIELD_LIMITS } from "@/constants/fieldLimits";
 import { useFormExit } from "@/hooks/useLeaveGuard";
 import { createdId } from "@/utils/createdRecord";
+import LoadErrorBanner from "@/components/ui/LoadErrorBanner";
 
 const emptyItem = {
   name: "",
@@ -643,6 +644,7 @@ const AddPurchaseOrder = () => {
         onBack={requestLeave}>
         <UserGuide guideKey="add-purchase-order" />
       </PageHeader>
+      <LoadErrorBanner />
 
       {!headerReady ? (
         <div className="space-y-6">
