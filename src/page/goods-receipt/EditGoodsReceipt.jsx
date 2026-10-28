@@ -639,8 +639,14 @@ const EditGoodsReceipt = () => {
               )}
             </div>
             <div className="space-y-2">
-              <Label>{t("page.goodsReceipt.edit.form.receivedDate")}</Label>
-              <DatePicker date={receivedDate} setDate={setReceivedDate} />
+              <Label htmlFor="edit-goods-receipt-received-date">
+                {t("page.goodsReceipt.edit.form.receivedDate")}
+              </Label>
+              <DatePicker
+                id="edit-goods-receipt-received-date"
+                date={receivedDate}
+                setDate={setReceivedDate}
+              />
             </div>
           </div>
 

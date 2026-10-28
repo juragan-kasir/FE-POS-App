@@ -751,10 +751,13 @@ const EditPurchaseOrder = () => {
                 )}
               </div>
               <div>
-                <label className="text-sm font-medium text-foreground mb-1.5 block">
+                <label
+                  htmlFor="edit-purchase-order-po-date"
+                  className="text-sm font-medium text-foreground mb-1.5 block">
                   {t("page.purchaseOrder.add.poDate")} <span className="text-destructive">*</span>
                 </label>
                 <DatePicker
+                  id="edit-purchase-order-po-date"
                   date={orderDate}
                   setDate={(d) => {
                     setOrderDate(d);
@@ -766,10 +769,13 @@ const EditPurchaseOrder = () => {
                 )}
               </div>
               <div>
-                <label className="text-sm font-medium text-foreground mb-1.5 block">
+                <label
+                  htmlFor="edit-purchase-order-time"
+                  className="text-sm font-medium text-foreground mb-1.5 block">
                   {t("page.purchaseOrder.add.time")} <span className="text-destructive">*</span>
                 </label>
                 <TimePicker
+                  id="edit-purchase-order-time"
                   value={orderTime}
                   onChange={(v) => {
                     setOrderTime(v);
@@ -839,11 +845,14 @@ const EditPurchaseOrder = () => {
               )}
               {paymentMethod === "credit" && (
                 <div>
-                  <label className="text-sm font-medium text-foreground mb-1.5 block">
+                  <label
+                    htmlFor="edit-purchase-order-due-date"
+                    className="text-sm font-medium text-foreground mb-1.5 block">
                     {t("page.purchaseOrder.add.dueDate")}{" "}
                     <span className="text-destructive">*</span>
                   </label>
                   <DatePicker
+                    id="edit-purchase-order-due-date"
                     date={dueDate}
                     setDate={(d) => {
                       setDueDate(d);

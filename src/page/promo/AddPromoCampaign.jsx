@@ -701,10 +701,11 @@ const AddPromoCampaign = () => {
                 )}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div className="space-y-2 md:col-span-1">
-                    <Label>
+                    <Label htmlFor="add-promo-campaign-start-date">
                       {t("page.promo.form.startDate")} <span className="text-destructive">*</span>
                     </Label>
                     <DatePicker
+                      id="add-promo-campaign-start-date"
                       date={startDateD}
                       setDate={(d) => {
                         setStartDateD(d);
@@ -730,10 +731,11 @@ const AddPromoCampaign = () => {
                     />
                   </div>
                   <div className="space-y-2 md:col-span-1">
-                    <Label>
+                    <Label htmlFor="add-promo-campaign-end-date">
                       {t("page.promo.form.endDate")} <span className="text-destructive">*</span>
                     </Label>
                     <DatePicker
+                      id="add-promo-campaign-end-date"
                       date={endDateD}
                       setDate={(d) => {
                         setEndDateD(d);
@@ -765,15 +767,21 @@ const AddPromoCampaign = () => {
                   {isHappyHour && (
                     <>
                       <div className="space-y-2">
-                        <Label>{t("page.promo.form.startTime")}</Label>
+                        <Label htmlFor="add-promo-campaign-start-time">
+                          {t("page.promo.form.startTime")}
+                        </Label>
                         <TimePicker
+                          id="add-promo-campaign-start-time"
                           value={form.watch("startTime") || "15:00"}
                           onChange={(v) => form.setValue("startTime", v)}
                         />
                       </div>
                       <div className="space-y-2">
-                        <Label>{t("page.promo.form.endTime")}</Label>
+                        <Label htmlFor="add-promo-campaign-end-time">
+                          {t("page.promo.form.endTime")}
+                        </Label>
                         <TimePicker
+                          id="add-promo-campaign-end-time"
                           value={form.watch("endTime") || "17:00"}
                           onChange={(v) => form.setValue("endTime", v)}
                         />

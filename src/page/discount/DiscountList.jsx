@@ -780,16 +780,25 @@ const DiscountList = () => {
 
           <div className="space-y-5 py-4">
             <div className="space-y-2">
-              <label className="text-sm font-medium text-foreground">
+              <label
+                htmlFor="discount-list-start-date-label"
+                className="text-sm font-medium text-foreground">
                 {t("page.discount.form.startDateLabel")} <span className="text-destructive">*</span>
               </label>
-              <DatePicker date={extendStartDate} setDate={setExtendStartDate} />
+              <DatePicker
+                id="discount-list-start-date-label"
+                date={extendStartDate}
+                setDate={setExtendStartDate}
+              />
             </div>
             <div className="space-y-2">
-              <label className="text-sm font-medium text-foreground">
+              <label
+                htmlFor="discount-list-end-date"
+                className="text-sm font-medium text-foreground">
                 {t("page.discount.form.endDate")} <span className="text-destructive">*</span>
               </label>
               <DatePicker
+                id="discount-list-end-date"
                 date={extendEndDate}
                 setDate={setExtendEndDate}
                 disabled={!extendStartDate}

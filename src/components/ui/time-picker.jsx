@@ -36,7 +36,7 @@ const TIME_PRESETS = [
 ];
 
 export const TimePicker = React.forwardRef(function TimePicker(
-  { value, onChange, placeholder = "Pilih jam", disabled = false, slots },
+  { id, value, onChange, placeholder = "Pilih jam", disabled = false, slots },
   ref
 ) {
   const [open, setOpen] = React.useState(false);
@@ -45,6 +45,7 @@ export const TimePicker = React.forwardRef(function TimePicker(
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild disabled={disabled}>
         <Button
+          id={id}
           variant="outline"
           role="combobox"
           aria-expanded={open}

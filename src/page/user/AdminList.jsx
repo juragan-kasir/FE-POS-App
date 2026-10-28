@@ -33,6 +33,8 @@ import StatCard from "@/components/ui/StatCard";
 import TableActionLegend from "@/components/ui/TableActionLegend";
 import PageHeader from "@/components/ui/PageHeader";
 import { useLocations } from "@/queries/useLocations";
+import { toCsv, downloadCsv } from "@/lib/csv";
+import { todayDateOnly } from "@/utils/dateOnly";
 
 const getStatus = (user, t) => {
   const statusConfig = {
@@ -184,6 +186,20 @@ const AdminList = () => {
   const users = data?.data || data?.users || [];
   const total = data?.total || data?.pagination?.total || 0;
   const totalPages = data?.pagination?.totalPages || Math.ceil(total / limit) || 1;
+
+  // The list endpoint returns every user, so the export is built from the
+  // rows already loaded (same columns as the table).
+  const exportUsers = () => {
+    const csv = toCsv(users, [
+      { header: t("page.user.adminList.tableAdmin"), value: (u) => u.fullName || u.userName },
+      { header: "Username", value: (u) => u.userName },
+      { header: "Email", value: (u) => u.email },
+      { header: t("page.user.adminList.tableStore"), value: (u) => storeNameOf(u) },
+      { header: t("page.user.adminList.tableRole"), value: (u) => u.roleType || "admin" },
+      { header: t("common.status"), value: (u) => getStatus(u, t).label }
+    ]);
+    downloadCsv(`users-${todayDateOnly()}.csv`, csv);
+  };
 
   const columns = [
     {
@@ -413,7 +429,12 @@ const AdminList = () => {
                       />
                     </div>
                     {canAccess(user, MENU_KEY, "export") && (
-                      <Button variant="general" size="sm" className="gap-2 h-9">
+                      <Button
+                        variant="general"
+                        size="sm"
+                        className="gap-2 h-9"
+                        onClick={exportUsers}
+                        disabled={users.length === 0}>
                         <Download size={18} className="text-base" />
                         {t("page.user.adminList.exportCsv")}
                       </Button>
@@ -451,7 +472,10 @@ const AdminList = () => {
                   <p className="text-sm text-muted-foreground mb-6 leading-relaxed">
                     {t("page.user.adminList.securityDesc")}
                   </p>
-                  <Button variant="link" className="gap-2 p-0 h-auto text-primary font-semibold">
+                  <Button
+                    variant="link"
+                    className="gap-2 p-0 h-auto text-primary font-semibold"
+                    onClick={() => navigate("/support")}>
                     {t("page.user.adminList.learnSecurity")}
                     <ArrowRight size={20} className="text-lg" />
                   </Button>
@@ -471,9 +495,12 @@ const AdminList = () => {
                     {t("page.user.adminList.quickHelpDesc")}
                   </p>
                 </div>
-                <button className="mt-6 w-full py-3 bg-white/10 text-white rounded-lg hover:bg-white/20 transition-colors text-sm font-semibold">
+                <Button
+                  variant="ghost"
+                  className="mt-6 w-full py-3 bg-white/10 text-white hover:bg-white/20 hover:text-white font-semibold"
+                  onClick={() => navigate("/support")}>
                   {t("page.user.adminList.contactSuccess")}
-                </button>
+                </Button>
               </div>
             </div>
           </>
