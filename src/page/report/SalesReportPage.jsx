@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import { useQuery } from "react-query";
 import { getSalesSummary } from "@/services/report";
@@ -9,10 +8,10 @@ import GlobalSalesTab from "./GlobalSalesTab";
 import AbortController from "@/components/organism/abort-controller";
 import NoStore from "@/components/ui/NoStore";
 import { useLocations } from "@/queries/useLocations";
+import PageHeader from "@/components/ui/PageHeader";
 
 const SalesReportPage = () => {
   const { t } = useTranslation();
-  const navigate = useNavigate();
   const [cookie] = useCookies();
   const user = cookie?.user;
   const isSuperAdmin = user?.roleType === "super_admin";
@@ -33,30 +32,20 @@ const SalesReportPage = () => {
 
   return (
     <div data-tour="page-reports" className="space-y-6">
-      <nav className="flex items-center gap-2 text-sm text-muted-foreground">
-        <button
-          onClick={() => navigate("/dashboard-super-admin")}
-          className="hover:text-foreground transition-colors">
-          {t("breadcrumb.home")}
-        </button>
-        <span className="text-xs">/</span>
-        <span className="text-primary font-semibold">{t("page.report.sales.title")}</span>
-      </nav>
-
-      <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-4">
-        <div>
-          <h2 className="text-2xl font-bold text-foreground tracking-tight">
-            {t("page.report.sales.title")}
-          </h2>
-          <p className="text-sm text-muted-foreground mt-1">{t("page.report.sales.description")}</p>
-        </div>
+      <PageHeader
+        breadcrumbs={[
+          { label: t("breadcrumb.home"), href: "/dashboard-super-admin" },
+          { label: t("page.report.sales.title") }
+        ]}
+        title={t("page.report.sales.title")}
+        description={t("page.report.sales.description")}>
         <ExportButtons
           reportKey="sales"
           buildParams={() => ({
             filter: salesPeriod.toLowerCase()
           })}
         />
-      </div>
+      </PageHeader>
 
       {locData && (locData?.data || []).length === 0 ? (
         <NoStore />

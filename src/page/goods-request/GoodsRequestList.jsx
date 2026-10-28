@@ -43,6 +43,7 @@ import TableActions from "@/components/ui/TableActions";
 import { cn } from "@/lib/utils";
 import HorizontalScrollArea from "@/components/ui/HorizontalScrollArea";
 import { useLocations } from "@/queries/useLocations";
+import PageHeader from "@/components/ui/PageHeader";
 
 const statusMap = {
   pending: {
@@ -459,49 +460,33 @@ const GoodsRequestList = () => {
 
   return (
     <div className="space-y-6">
-      <div>
-        <nav className="flex items-center gap-2 text-sm text-muted-foreground">
-          <button
-            onClick={() => navigate("/dashboard-super-admin")}
-            className="hover:text-foreground">
-            {t("breadcrumb.dashboard")}
-          </button>
-          <span className="text-xs">/</span>
-          <span className="text-primary font-semibold">{t("breadcrumb.goodsRequest")}</span>
-        </nav>
-      </div>
-
-      <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
-        <div>
-          <h1 className="text-2xl font-bold text-foreground">
-            {t("page.goodsRequest.list.title")}
-          </h1>
-          <p className="text-sm text-muted-foreground mt-1">
-            {t("page.goodsRequest.list.description")}
-          </p>
-        </div>
-        <div className="flex items-center gap-2 shrink-0">
-          {canAccess(user, MENU_KEY, "export") && (
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={exportData}
-              disabled={exportLoading}
-              className="gap-1.5">
-              <Download size={14} />
-              {exportLoading ? "..." : t("common.export")}
-            </Button>
-          )}
-          {canAccess(user, MENU_KEY, "add") && (
-            <Button
-              variant="success"
-              onClick={() => navigate("/add-goods-request")}
-              className="shrink-0 gap-2">
-              <Plus size={16} /> {t("page.goodsRequest.list.addButton")}
-            </Button>
-          )}
-        </div>
-      </div>
+      <PageHeader
+        breadcrumbs={[
+          { label: t("breadcrumb.dashboard"), href: "/dashboard-super-admin" },
+          { label: t("breadcrumb.goodsRequest") }
+        ]}
+        title={t("page.goodsRequest.list.title")}
+        description={t("page.goodsRequest.list.description")}>
+        {canAccess(user, MENU_KEY, "export") && (
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={exportData}
+            disabled={exportLoading}
+            className="gap-1.5">
+            <Download size={14} />
+            {exportLoading ? "..." : t("common.export")}
+          </Button>
+        )}
+        {canAccess(user, MENU_KEY, "add") && (
+          <Button
+            variant="success"
+            onClick={() => navigate("/add-goods-request")}
+            className="shrink-0 gap-2">
+            <Plus size={16} /> {t("page.goodsRequest.list.addButton")}
+          </Button>
+        )}
+      </PageHeader>
 
       {locData && (locData?.data || []).length === 0 ? (
         <NoStore />

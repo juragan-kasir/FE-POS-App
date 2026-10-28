@@ -9206,5 +9206,7 @@
   "page.dashboardSuperAdmin.activity.minutesAgo": "{{count}} mnt lalu",
   "page.dashboardSuperAdmin.activity.hoursAgo": "{{count}} jam lalu",
   "page.dashboardSuperAdmin.activity.daysAgo": "{{count}} hari lalu",
-  "common.loadErrorPartial": "Sebagian data di halaman ini gagal dimuat, jadi daftar atau pilihan bisa terlihat kosong."
+  "common.loadErrorPartial": "Sebagian data di halaman ini gagal dimuat, jadi daftar atau pilihan bisa terlihat kosong.",
+  "page.accountsReceivable.payment.title": "Pembayaran Piutang",
+  "page.accountsReceivable.payment.description": "Catat pembayaran piutang pelanggan"
 }

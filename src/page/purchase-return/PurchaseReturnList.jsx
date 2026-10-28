@@ -27,6 +27,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { Combobox } from "@/components/ui/combobox";
 import { DatePicker } from "@/components/ui/date-picker";
 import { useLocations } from "@/queries/useLocations";
+import PageHeader from "@/components/ui/PageHeader";
 
 const statusCfg = {
   pending: {
@@ -274,25 +275,17 @@ const PurchaseReturnList = () => {
 
   return (
     <div className="space-y-6">
-      <div>
-        <nav className="flex items-center gap-2 text-sm text-muted-foreground">
-          <button
-            onClick={() => navigate("/dashboard-super-admin")}
-            className="hover:text-foreground">
-            {t("page.purchaseReturn.list.breadcrumb.dashboard")}
-          </button>
-          <span className="text-xs">/</span>
-          <span className="text-primary font-semibold">{t("page.purchaseReturn.list.title")}</span>
-        </nav>
-      </div>
-      <div>
-        <div>
-          <h1 className="text-2xl font-bold">{t("page.purchaseReturn.list.title")}</h1>
-          <p className="text-sm text-muted-foreground mt-1">
-            {t("page.purchaseReturn.list.subtitle")}
-          </p>
-        </div>
-      </div>
+      <PageHeader
+        breadcrumbs={[
+          {
+            label: t("page.purchaseReturn.list.breadcrumb.dashboard"),
+            href: "/dashboard-super-admin"
+          },
+          { label: t("page.purchaseReturn.list.title") }
+        ]}
+        title={t("page.purchaseReturn.list.title")}
+        description={t("page.purchaseReturn.list.subtitle")}
+      />
 
       {locData && (locData?.data || []).length === 0 ? (
         <NoStore />

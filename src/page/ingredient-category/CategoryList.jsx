@@ -43,6 +43,7 @@ import AbortController from "@/components/organism/abort-controller";
 import StatCard from "@/components/ui/StatCard";
 import NoStore from "@/components/ui/NoStore";
 import { useLocations } from "@/queries/useLocations";
+import PageHeader from "@/components/ui/PageHeader";
 
 const formatDate = (dateStr) => {
   if (!dateStr) return "-";
@@ -232,113 +233,89 @@ const CategoryList = () => {
 
   return (
     <div className="space-y-6">
-      <div>
-        <nav className="flex items-center gap-2 text-sm text-muted-foreground">
-          <button
-            onClick={() => navigate("/dashboard-super-admin")}
-            className="hover:text-foreground transition-colors">
-            {t("breadcrumb.home")}
-          </button>
-          <span className="text-xs">/</span>
-          <span className="text-primary font-semibold">
-            {t("page.ingredientCategory.list.title")}
-          </span>
-        </nav>
-      </div>
-
-      <div>
-        <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-4">
-          <div className="min-w-0">
-            <h1 className="text-2xl font-bold text-foreground">
-              {t("page.ingredientCategory.list.title")}
-            </h1>
-            <p className="text-sm text-muted-foreground mt-1">
-              {t("page.ingredientCategory.list.subtitle")}
-            </p>
-          </div>
-          <div
-            className="overflow-x-auto shrink-0"
-            style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}>
-            <div className="flex items-center gap-2 flex-nowrap">
-              {canAccess(user, MENU_KEY, "export") && (
-                <Button
-                  variant="outline"
-                  disabled={isDownloadingTemplate}
-                  onClick={async () => {
-                    setIsDownloadingTemplate(true);
-                    try {
-                      await downloadIngredientCategoryTemplate();
-                      toast.success(t("common.success"), {
-                        description: t("page.ingredientCategory.toast.templateSuccess")
-                      });
-                    } catch (err) {
-                      toast.error(t("common.error"), {
-                        description:
-                          err?.response?.data?.message ||
-                          err.message ||
-                          t("page.ingredientCategory.toast.templateError")
-                      });
-                    } finally {
-                      setIsDownloadingTemplate(false);
-                    }
-                  }}>
-                  {isDownloadingTemplate ? (
-                    <Loader2 size={16} className="mr-1 animate-spin" />
-                  ) : (
-                    <Table size={20} className="text-lg mr-1" />
-                  )}
-                  {t("page.ingredientCategory.button.downloadTemplate")}
-                </Button>
-              )}
-              {canAccess(user, MENU_KEY, "export") && (
-                <Button
-                  variant="general"
-                  disabled={isDownloadingData}
-                  onClick={async () => {
-                    setIsDownloadingData(true);
-                    try {
-                      await downloadIngredientCategoryExcel();
-                      toast.success(t("common.success"), {
-                        description: t("page.ingredientCategory.toast.dataSuccess")
-                      });
-                    } catch (err) {
-                      toast.error(t("common.error"), {
-                        description:
-                          err?.response?.data?.message ||
-                          err.message ||
-                          t("page.ingredientCategory.toast.dataError")
-                      });
-                    } finally {
-                      setIsDownloadingData(false);
-                    }
-                  }}>
-                  {isDownloadingData ? (
-                    <Loader2 size={16} className="mr-1 animate-spin" />
-                  ) : (
-                    <Download size={20} className="text-lg mr-1" />
-                  )}
-                  {t("page.ingredientCategory.button.downloadData")}
-                </Button>
-              )}
-              {canAccess(user, MENU_KEY, "import") && (
-                <Button variant="import" onClick={() => setUploadModalOpen(true)}>
-                  <Upload size={20} className="text-lg mr-1" />
-                  {t("page.ingredientCategory.button.upload")}
-                </Button>
-              )}
-              {canAccess(user, MENU_KEY, "create") && (
-                <Button
-                  variant="success"
-                  onClick={() => navigate("/add-ingredient-category")}
-                  className="shadow-md">
-                  <Plus size={16} className="mr-1" />
-                  {t("page.ingredientCategory.list.addButton")}
-                </Button>
-              )}
-            </div>
-          </div>
-        </div>
-      </div>
+      <PageHeader
+        breadcrumbs={[
+          { label: t("breadcrumb.home"), href: "/dashboard-super-admin" },
+          { label: t("page.ingredientCategory.list.title") }
+        ]}
+        title={t("page.ingredientCategory.list.title")}
+        description={t("page.ingredientCategory.list.subtitle")}>
+        {canAccess(user, MENU_KEY, "export") && (
+          <Button
+            variant="outline"
+            disabled={isDownloadingTemplate}
+            onClick={async () => {
+              setIsDownloadingTemplate(true);
+              try {
+                await downloadIngredientCategoryTemplate();
+                toast.success(t("common.success"), {
+                  description: t("page.ingredientCategory.toast.templateSuccess")
+                });
+              } catch (err) {
+                toast.error(t("common.error"), {
+                  description:
+                    err?.response?.data?.message ||
+                    err.message ||
+                    t("page.ingredientCategory.toast.templateError")
+                });
+              } finally {
+                setIsDownloadingTemplate(false);
+              }
+            }}>
+            {isDownloadingTemplate ? (
+              <Loader2 size={16} className="mr-1 animate-spin" />
+            ) : (
+              <Table size={20} className="text-lg mr-1" />
+            )}
+            {t("page.ingredientCategory.button.downloadTemplate")}
+          </Button>
+        )}
+        {canAccess(user, MENU_KEY, "export") && (
+          <Button
+            variant="general"
+            disabled={isDownloadingData}
+            onClick={async () => {
+              setIsDownloadingData(true);
+              try {
+                await downloadIngredientCategoryExcel();
+                toast.success(t("common.success"), {
+                  description: t("page.ingredientCategory.toast.dataSuccess")
+                });
+              } catch (err) {
+                toast.error(t("common.error"), {
+                  description:
+                    err?.response?.data?.message ||
+                    err.message ||
+                    t("page.ingredientCategory.toast.dataError")
+                });
+              } finally {
+                setIsDownloadingData(false);
+              }
+            }}>
+            {isDownloadingData ? (
+              <Loader2 size={16} className="mr-1 animate-spin" />
+            ) : (
+              <Download size={20} className="text-lg mr-1" />
+            )}
+            {t("page.ingredientCategory.button.downloadData")}
+          </Button>
+        )}
+        {canAccess(user, MENU_KEY, "import") && (
+          <Button variant="import" onClick={() => setUploadModalOpen(true)}>
+            <Upload size={20} className="text-lg mr-1" />
+            {t("page.ingredientCategory.button.upload")}
+          </Button>
+        )}
+        {canAccess(user, MENU_KEY, "create") && (
+          <Button
+            variant="success"
+            onClick={() => navigate("/add-ingredient-category")}
+            className="shadow-md">
+            <Plus size={16} className="mr-1" />
+            {t("page.ingredientCategory.list.addButton")}
+          </Button>
+        )}
+      </PageHeader>
 
       {locData && (locData?.data || []).length === 0 ? (
         <NoStore />

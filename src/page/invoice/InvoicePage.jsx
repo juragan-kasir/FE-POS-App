@@ -64,6 +64,7 @@ import { Loading } from "@/components/ui/loading";
 import NoStore from "@/components/ui/NoStore";
 import { useLocations } from "@/queries/useLocations";
 import { FIELD_LIMITS } from "@/constants/fieldLimits";
+import PageHeader from "@/components/ui/PageHeader";
 
 const DEFAULT_INVOICE_TEMPLATE = {
   showStoreName: true,
@@ -504,20 +505,14 @@ const InvoicePage = () => {
 
   return (
     <div data-tour="page-settings" className="space-y-6">
-      <nav className="flex items-center gap-2 text-sm text-muted-foreground">
-        <button
-          onClick={() => navigate("/dashboard-super-admin")}
-          className="hover:text-foreground transition-colors">
-          {t("breadcrumb.home")}
-        </button>
-        <span className="text-xs">/</span>
-        <span className="text-primary font-semibold">{t("page.invoice.title")}</span>
-      </nav>
-
-      <div>
-        <h2 className="text-2xl font-bold">{t("page.invoice.title")}</h2>
-        <p className="text-sm text-muted-foreground">{t("page.invoice.description")}</p>
-      </div>
+      <PageHeader
+        breadcrumbs={[
+          { label: t("breadcrumb.home"), href: "/dashboard-super-admin" },
+          { label: t("page.invoice.title") }
+        ]}
+        title={t("page.invoice.title")}
+        description={t("page.invoice.description")}
+      />
 
       {!selectedStore ? (
         <div className="flex-1 flex items-center justify-center p-6">

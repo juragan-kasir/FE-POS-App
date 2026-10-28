@@ -18,6 +18,7 @@ import { Label } from "@/components/ui/label";
 import { Combobox } from "@/components/ui/combobox";
 import { toast } from "sonner";
 import { testPrint, getPrinterStatus, configurePrinter } from "@/services/thermalPrinter";
+import PageHeader from "@/components/ui/PageHeader";
 
 const printerTypes = [
   { value: "auto", label: "Otomatis (Disarankan)", icon: "🔍" },
@@ -104,13 +105,14 @@ const ThermalPrinterSettings = () => {
 
   return (
     <div className="space-y-6">
-      <div>
-        <h1 className="text-2xl font-bold text-foreground flex items-center gap-2">
-          <Printer className="h-6 w-6" />
-          {t("sidebar.thermalPrinter")}
-        </h1>
-        <p className="text-sm text-muted-foreground mt-1">{t("page.thermalPrinter.description")}</p>
-      </div>
+      <PageHeader
+        breadcrumbs={[
+          { label: t("breadcrumb.home"), href: "/dashboard-super-admin" },
+          { label: t("sidebar.thermalPrinter") }
+        ]}
+        title={t("sidebar.thermalPrinter")}
+        description={t("page.thermalPrinter.description")}
+      />
 
       {/* Status Card */}
       <Card>

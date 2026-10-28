@@ -2,7 +2,6 @@ import { safeGet } from "@/lib/safe-lookup";
 import { usePageParam } from "@/hooks/usePageParam";
 import React, { useState } from "react";
 import { useQuery, useMutation } from "react-query";
-import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { Receipt, Wallet, Building2, CheckCircle, XCircle, FileEdit, Clock3 } from "lucide-react";
 import { getARList, getARAging, recordARPayment } from "@/services/accounts-receivable";
@@ -14,6 +13,7 @@ import { toast } from "sonner";
 import { formatCurrencyRupiah } from "@/utils/formatter-currency";
 import AbortController from "@/components/organism/abort-controller";
 import StatCard from "@/components/ui/StatCard";
+import PageHeader from "@/components/ui/PageHeader";
 
 const STATUS_LABELS = {
   UNPAID: { label: "Belum Dibayar", color: "bg-yellow-100 text-yellow-800" },
@@ -25,7 +25,6 @@ const statusLabelKeys = { UNPAID: "unpaid", PARTIAL: "partial", PAID: "paid", OV
 
 const ARPaymentList = () => {
   const { t } = useTranslation();
-  const navigate = useNavigate();
   const [page, setPage] = usePageParam();
   const [limit, setLimit] = useState(20);
   const [statusFilter, setStatusFilter] = useState("UNPAID");
@@ -125,22 +124,14 @@ const ARPaymentList = () => {
 
   return (
     <div className="space-y-6">
-      <div>
-        <nav className="flex items-center gap-2 text-sm text-muted-foreground">
-          <button
-            onClick={() => navigate("/dashboard-super-admin")}
-            className="hover:text-foreground transition-colors">
-            {t("breadcrumb.home")}
-          </button>
-          <span className="text-xs">/</span>
-          <span className="text-primary font-semibold">Pembayaran Piutang</span>
-        </nav>
-      </div>
-
-      <div>
-        <h1 className="text-2xl font-bold text-foreground">Pembayaran Piutang</h1>
-        <p className="text-sm text-muted-foreground mt-1">Catat pembayaran piutang pelanggan</p>
-      </div>
+      <PageHeader
+        breadcrumbs={[
+          { label: t("breadcrumb.home"), href: "/dashboard-super-admin" },
+          { label: t("page.accountsReceivable.payment.title") }
+        ]}
+        title={t("page.accountsReceivable.payment.title")}
+        description={t("page.accountsReceivable.payment.description")}
+      />
 
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
         <StatCard

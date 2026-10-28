@@ -1,7 +1,6 @@
 import React, { useState, useCallback } from "react";
 import { useGlobalStoreFilter } from "@/hooks/useGlobalStoreFilter";
 import { useCookies } from "react-cookie";
-import { useNavigate } from "react-router-dom";
 import { Clock, User, Database, RefreshCw, ChevronLeft, ChevronRight } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button";
@@ -15,10 +14,10 @@ import { Skeleton } from "@/components/ui/skeleton";
 import NoStore from "@/components/ui/NoStore";
 import { getAuditLogs } from "@/services/auditLog";
 import { useLocations } from "@/queries/useLocations";
+import PageHeader from "@/components/ui/PageHeader";
 
 const AuditLogList = () => {
   const { t } = useTranslation();
-  const navigate = useNavigate();
 
   const [cookie] = useCookies();
   const user = cookie?.user;
@@ -75,34 +74,18 @@ const AuditLogList = () => {
 
   return (
     <div className="space-y-6">
-      <div>
-        <nav className="flex items-center gap-2 text-sm text-muted-foreground">
-          <button
-            onClick={() => navigate("/dashboard-super-admin")}
-            className="hover:text-foreground transition-colors">
-            {t("breadcrumb.home")}
-          </button>
-          <span className="text-xs">/</span>
-          <span className="text-primary font-semibold">{t("sidebar.auditLog")}</span>
-        </nav>
-      </div>
-
-      <div>
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-4">
-          <div>
-            <h1 className="text-2xl font-bold text-foreground">{t("sidebar.auditLog")}</h1>
-            <p className="text-sm text-muted-foreground mt-1">
-              {t("page.auditLog.description", { count: logs.length })}
-            </p>
-          </div>
-          <div className="flex items-center gap-2">
-            <Button variant="outline" size="sm" onClick={handleFetch} disabled={isLoading}>
-              {isLoading ? <RefreshCw size={14} className="animate-spin mr-1" /> : null}
-              {t("page.auditLog.refresh")}
-            </Button>
-          </div>
-        </div>
-      </div>
+      <PageHeader
+        breadcrumbs={[
+          { label: t("breadcrumb.home"), href: "/dashboard-super-admin" },
+          { label: t("sidebar.auditLog") }
+        ]}
+        title={t("sidebar.auditLog")}
+        description={<>{t("page.auditLog.description", { count: logs.length })}</>}>
+        <Button variant="outline" size="sm" onClick={handleFetch} disabled={isLoading}>
+          {isLoading ? <RefreshCw size={14} className="animate-spin mr-1" /> : null}
+          {t("page.auditLog.refresh")}
+        </Button>
+      </PageHeader>
 
       {locData && (locData?.data || []).length === 0 ? (
         <NoStore />

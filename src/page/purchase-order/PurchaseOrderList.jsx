@@ -85,6 +85,7 @@ import { useLocations } from "@/queries/useLocations";
 import { FIELD_LIMITS } from "@/constants/fieldLimits";
 import { todayDateOnly } from "@/utils/dateOnly";
 import { Textarea } from "@/components/ui/textarea";
+import PageHeader from "@/components/ui/PageHeader";
 
 const SupplierExpandableRow = ({ supplier, renderSupplierItems }) => {
   const [open, setOpen] = useState(false);
@@ -912,65 +913,45 @@ const PurchaseOrderList = () => {
 
   return (
     <div className="space-y-6">
-      <div>
-        <nav className="flex items-center gap-2 text-sm text-muted-foreground">
-          <button
-            onClick={() => navigate("/dashboard-super-admin")}
-            className="hover:text-foreground transition-colors">
-            {t("breadcrumb.home")}
-          </button>
-          <span className="text-xs">/</span>
-          <span className="text-primary font-semibold">{t("page.purchaseOrder.list.title")}</span>
-        </nav>
-      </div>
-
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-4">
-        <div>
-          <h1 className="text-2xl font-bold text-foreground">
-            {t("page.purchaseOrder.list.title")}
-          </h1>
-          <p className="text-sm text-muted-foreground mt-1">
-            {t("page.purchaseOrder.list.description")}
-          </p>
-        </div>
-        <div className="flex items-center gap-2">
-          {isSuperAdmin && (
-            <Button
-              variant="outline"
-              size="sm"
-              className="gap-1.5"
-              onClick={handleDownloadTemplate}>
-              <Table size={14} />
-              {t("page.purchaseOrder.list.downloadTemplate")}
-            </Button>
-          )}
-          {isSuperAdmin && (
-            <Button variant="outline" size="sm" className="gap-1.5" onClick={handleDownloadExcel}>
-              <Download size={14} />
-              {t("page.purchaseOrder.list.export")}
-            </Button>
-          )}
-          {isSuperAdmin && (
-            <Button
-              variant="import"
-              size="sm"
-              className="gap-1.5"
-              onClick={() => setImportModal(true)}>
-              <Upload size={14} />
-              {t("page.purchaseOrder.list.import")}
-            </Button>
-          )}
-          {canAccess(user, MENU_KEY, "add") && (
-            <Button
-              variant="success"
-              onClick={() => navigate("/add-purchase-order")}
-              className="gap-2">
-              <Plus size={18} />
-              {t("breadcrumb.add")}
-            </Button>
-          )}
-        </div>
-      </div>
+      <PageHeader
+        breadcrumbs={[
+          { label: t("breadcrumb.home"), href: "/dashboard-super-admin" },
+          { label: t("page.purchaseOrder.list.title") }
+        ]}
+        title={t("page.purchaseOrder.list.title")}
+        description={t("page.purchaseOrder.list.description")}>
+        {isSuperAdmin && (
+          <Button variant="outline" size="sm" className="gap-1.5" onClick={handleDownloadTemplate}>
+            <Table size={14} />
+            {t("page.purchaseOrder.list.downloadTemplate")}
+          </Button>
+        )}
+        {isSuperAdmin && (
+          <Button variant="outline" size="sm" className="gap-1.5" onClick={handleDownloadExcel}>
+            <Download size={14} />
+            {t("page.purchaseOrder.list.export")}
+          </Button>
+        )}
+        {isSuperAdmin && (
+          <Button
+            variant="import"
+            size="sm"
+            className="gap-1.5"
+            onClick={() => setImportModal(true)}>
+            <Upload size={14} />
+            {t("page.purchaseOrder.list.import")}
+          </Button>
+        )}
+        {canAccess(user, MENU_KEY, "add") && (
+          <Button
+            variant="success"
+            onClick={() => navigate("/add-purchase-order")}
+            className="gap-2">
+            <Plus size={18} />
+            {t("breadcrumb.add")}
+          </Button>
+        )}
+      </PageHeader>
 
       <Tabs
         value={sourceFilter}

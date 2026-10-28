@@ -44,6 +44,7 @@ import NoStore from "@/components/ui/NoStore";
 import StoreFilter from "@/components/ui/StoreFilter";
 import { Combobox } from "@/components/ui/combobox";
 import { useLocations } from "@/queries/useLocations";
+import PageHeader from "@/components/ui/PageHeader";
 
 const SupplierList = () => {
   const { t } = useTranslation();
@@ -295,110 +296,90 @@ const SupplierList = () => {
 
   return (
     <div data-tour="page-supplier" className="space-y-6">
-      <div>
-        <nav className="flex items-center gap-2 text-sm text-muted-foreground">
-          <button
-            onClick={() => navigate("/dashboard-super-admin")}
-            className="hover:text-foreground transition-colors">
-            {t("breadcrumb.home")}
-          </button>
-          <span className="text-xs">/</span>
-          <span className="text-primary font-semibold">{t("breadcrumb.supplier")}</span>
-        </nav>
-      </div>
-
-      <div>
-        <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-4">
-          <div className="min-w-0">
-            <h1 className="text-2xl font-bold text-foreground">{t("page.supplier.list.title")}</h1>
-            <p className="text-sm text-muted-foreground mt-1">
-              {t("page.supplier.list.description")}
-            </p>
-          </div>
-          <div
-            className="overflow-x-auto shrink-0"
-            style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}>
-            <div className="flex items-center gap-2 flex-nowrap">
-              {canAccess(user, MENU_KEY, "export") && (
-                <Button
-                  variant="outline"
-                  disabled={isDownloadingTemplate}
-                  onClick={async () => {
-                    setIsDownloadingTemplate(true);
-                    try {
-                      await downloadSupplierTemplate();
-                      toast.success(t("common.success"), {
-                        description: t("page.supplier.toast.templateSuccess")
-                      });
-                    } catch (err) {
-                      toast.error(t("common.error"), {
-                        description:
-                          err?.response?.data?.message ||
-                          err.message ||
-                          t("page.supplier.toast.templateError")
-                      });
-                    } finally {
-                      setIsDownloadingTemplate(false);
-                    }
-                  }}>
-                  {isDownloadingTemplate ? (
-                    <Loader2 size={16} className="mr-1 animate-spin" />
-                  ) : (
-                    <Table size={20} className="text-lg mr-1" />
-                  )}
-                  {t("page.supplier.button.downloadTemplate")}
-                </Button>
-              )}
-              {canAccess(user, MENU_KEY, "export") && (
-                <Button
-                  variant="general"
-                  disabled={isDownloadingData}
-                  onClick={async () => {
-                    setIsDownloadingData(true);
-                    try {
-                      await downloadSupplierExcel();
-                      toast.success(t("common.success"), {
-                        description: t("page.supplier.toast.dataSuccess")
-                      });
-                    } catch (err) {
-                      toast.error(t("common.error"), {
-                        description:
-                          err?.response?.data?.message ||
-                          err.message ||
-                          t("page.supplier.toast.dataError")
-                      });
-                    } finally {
-                      setIsDownloadingData(false);
-                    }
-                  }}>
-                  {isDownloadingData ? (
-                    <Loader2 size={16} className="mr-1 animate-spin" />
-                  ) : (
-                    <Download size={20} className="text-lg mr-1" />
-                  )}
-                  {t("page.supplier.button.downloadData")}
-                </Button>
-              )}
-              {canAccess(user, MENU_KEY, "import") && (
-                <Button variant="import" onClick={() => setUploadModalOpen(true)}>
-                  <Upload size={20} className="text-lg mr-1" />
-                  {t("page.supplier.button.upload")}
-                </Button>
-              )}
-              {canAccess(user, MENU_KEY, "add") && (
-                <Button
-                  variant="success"
-                  data-tour="supplier-add"
-                  onClick={() => navigate("/add-supplier")}
-                  className="shadow-md">
-                  <Plus size={18} />
-                  {t("page.supplier.button.add")}
-                </Button>
-              )}
-            </div>
-          </div>
-        </div>
-      </div>
+      <PageHeader
+        breadcrumbs={[
+          { label: t("breadcrumb.home"), href: "/dashboard-super-admin" },
+          { label: t("breadcrumb.supplier") }
+        ]}
+        title={t("page.supplier.list.title")}
+        description={t("page.supplier.list.description")}>
+        {canAccess(user, MENU_KEY, "export") && (
+          <Button
+            variant="outline"
+            disabled={isDownloadingTemplate}
+            onClick={async () => {
+              setIsDownloadingTemplate(true);
+              try {
+                await downloadSupplierTemplate();
+                toast.success(t("common.success"), {
+                  description: t("page.supplier.toast.templateSuccess")
+                });
+              } catch (err) {
+                toast.error(t("common.error"), {
+                  description:
+                    err?.response?.data?.message ||
+                    err.message ||
+                    t("page.supplier.toast.templateError")
+                });
+              } finally {
+                setIsDownloadingTemplate(false);
+              }
+            }}>
+            {isDownloadingTemplate ? (
+              <Loader2 size={16} className="mr-1 animate-spin" />
+            ) : (
+              <Table size={20} className="text-lg mr-1" />
+            )}
+            {t("page.supplier.button.downloadTemplate")}
+          </Button>
+        )}
+        {canAccess(user, MENU_KEY, "export") && (
+          <Button
+            variant="general"
+            disabled={isDownloadingData}
+            onClick={async () => {
+              setIsDownloadingData(true);
+              try {
+                await downloadSupplierExcel();
+                toast.success(t("common.success"), {
+                  description: t("page.supplier.toast.dataSuccess")
+                });
+              } catch (err) {
+                toast.error(t("common.error"), {
+                  description:
+                    err?.response?.data?.message ||
+                    err.message ||
+                    t("page.supplier.toast.dataError")
+                });
+              } finally {
+                setIsDownloadingData(false);
+              }
+            }}>
+            {isDownloadingData ? (
+              <Loader2 size={16} className="mr-1 animate-spin" />
+            ) : (
+              <Download size={20} className="text-lg mr-1" />
+            )}
+            {t("page.supplier.button.downloadData")}
+          </Button>
+        )}
+        {canAccess(user, MENU_KEY, "import") && (
+          <Button variant="import" onClick={() => setUploadModalOpen(true)}>
+            <Upload size={20} className="text-lg mr-1" />
+            {t("page.supplier.button.upload")}
+          </Button>
+        )}
+        {canAccess(user, MENU_KEY, "add") && (
+          <Button
+            variant="success"
+            data-tour="supplier-add"
+            onClick={() => navigate("/add-supplier")}
+            className="shadow-md">
+            <Plus size={18} />
+            {t("page.supplier.button.add")}
+          </Button>
+        )}
+      </PageHeader>
 
       {locData && (locData?.data || []).length === 0 ? (
         <NoStore />

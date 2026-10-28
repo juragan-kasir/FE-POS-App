@@ -30,6 +30,7 @@ import { canAccess } from "@/utils/permission";
 import AbortController from "@/components/organism/abort-controller";
 import NoStore from "@/components/ui/NoStore";
 import { useLocations } from "@/queries/useLocations";
+import PageHeader from "@/components/ui/PageHeader";
 
 const ExpenseCategoryList = () => {
   const { t } = useTranslation();
@@ -222,27 +223,13 @@ const ExpenseCategoryList = () => {
 
   return (
     <div className="space-y-6">
-      <div>
-        <nav className="flex items-center gap-2 text-sm text-muted-foreground">
-          <button
-            onClick={() => navigate("/dashboard-super-admin")}
-            className="hover:text-foreground transition-colors">
-            {t("breadcrumb.home")}
-          </button>
-          <span className="text-xs">/</span>
-          <span className="text-primary font-semibold">{t("page.expenseCategory.list.title")}</span>
-        </nav>
-      </div>
-
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-4">
-        <div>
-          <h1 className="text-2xl font-bold text-foreground">
-            {t("page.expenseCategory.list.title")}
-          </h1>
-          <p className="text-sm text-muted-foreground mt-1">
-            {t("page.expenseCategory.list.description")}
-          </p>
-        </div>
+      <PageHeader
+        breadcrumbs={[
+          { label: t("breadcrumb.home"), href: "/dashboard-super-admin" },
+          { label: t("page.expenseCategory.list.title") }
+        ]}
+        title={t("page.expenseCategory.list.title")}
+        description={t("page.expenseCategory.list.description")}>
         {canAccess(user, MENU_KEY, "add") && (
           <Button
             variant="success"
@@ -252,7 +239,7 @@ const ExpenseCategoryList = () => {
             {t("page.expenseCategory.button.add")}
           </Button>
         )}
-      </div>
+      </PageHeader>
 
       {locData && (locData?.data || []).length === 0 ? (
         <NoStore />

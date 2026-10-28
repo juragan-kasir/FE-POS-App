@@ -14,7 +14,6 @@ import {
   DollarSign,
   Target,
   Wallet,
-  Store,
   RefreshCw,
   Banknote,
   QrCode,
@@ -37,6 +36,8 @@ import { hasMenuAccess } from "@/utils/permission";
 import DashboardStats from "@/components/dashboard/DashboardStats";
 import DashboardAlerts from "@/components/dashboard/DashboardAlerts";
 import HorizontalScrollArea from "@/components/ui/HorizontalScrollArea";
+import PageHeader from "@/components/ui/PageHeader";
+import { Button } from "@/components/ui/button";
 
 const FILTERS = [
   { key: "daily", label: "Harian" },
@@ -72,7 +73,7 @@ const Dashboard = () => {
   const navigate = useNavigate();
   const [cookie] = useCookies();
   const store = cookie?.store;
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const user = useUserSession() || cookie?.user || {};
   const [chartFilter, setChartFilter] = useState("weekly");
   const [orderPage, setOrderPage] = useState(1);
@@ -95,12 +96,6 @@ const Dashboard = () => {
     if (h < 19) return t("page.dashboard.greeting.evening");
     return t("page.dashboard.greeting.night");
   })();
-  const todayLong = new Date().toLocaleDateString("id-ID", {
-    weekday: "long",
-    day: "numeric",
-    month: "long",
-    year: "numeric"
-  });
 
   // ponytail: double-fetch previous period for comparison, single endpoint reuse
   const getPrevDateRange = (filter) => {
@@ -189,7 +184,6 @@ const Dashboard = () => {
   const totalMembers = d.totalMembers || 0;
   const averageOrderValue = d.averageOrderValue || 0;
   const netSales = d.netSales || 0;
-  const storeInfo = d.storeInfo || null;
   const lowStockItems = d.lowStock || 0;
 
   // ponytail: pengguna baru = data kosong semua → sambut sekali per browser.
@@ -427,53 +421,26 @@ const Dashboard = () => {
         })
       : "-";
 
-  const storeLabel = storeInfo?.name
-    ? `${t("page.dashboard.header.store")} ${storeInfo.name}${storeInfo.city ? ` • ${storeInfo.city}` : ""}`
-    : store
-      ? `Toko #${store}`
-      : t("page.dashboard.allStores");
-
   return (
     <div className="space-y-6">
-      {/* Header */}
-      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
-        <div className="flex items-start gap-3">
-          <div className="w-11 h-11 rounded-xl bg-primary/10 text-primary flex items-center justify-center shrink-0">
-            <Store size={22} />
-          </div>
-          <div>
-            <p className="text-sm text-muted-foreground">
-              {greeting},{" "}
-              <span className="font-semibold text-foreground">
-                {user.fullName || user.userName || ""}
-              </span>
-            </p>
-            <h1 className="text-2xl font-bold text-foreground mt-0.5">
-              {t("page.dashboard.title")}
-            </h1>
-            <p className="text-sm text-muted-foreground mt-0.5">{todayLong}</p>
-            <p className="text-xs text-muted-foreground mt-0.5">{storeLabel}</p>
-          </div>
-        </div>
-        <div className="flex items-center gap-2 shrink-0">
-          {lastUpdated && (
-            <span className="text-xs text-muted-foreground">
-              {t("page.dashboard.lastUpdated", {
-                time: lastUpdated.toLocaleTimeString("id-ID", {
-                  hour: "2-digit",
-                  minute: "2-digit"
-                })
-              })}
-            </span>
-          )}
-          <button
-            onClick={handleRefresh}
-            className="inline-flex items-center gap-1.5 px-3 py-1.5 text-sm border border-border rounded-lg hover:bg-accent transition-colors text-muted-foreground hover:text-foreground">
-            <RefreshCw size={14} className={isRefreshing ? "animate-spin" : ""} />
-            {t("page.dashboard.refresh")}
-          </button>
-        </div>
-      </div>
+      <PageHeader
+        title={t("page.dashboard.title")}
+        description={`${greeting}, ${user.fullName || user.userName || ""}`}>
+        {lastUpdated && (
+          <span className="text-xs text-muted-foreground">
+            {t("page.dashboard.lastUpdated", {
+              time: lastUpdated.toLocaleTimeString(i18n.language === "en" ? "en-US" : "id-ID", {
+                hour: "2-digit",
+                minute: "2-digit"
+              })
+            })}
+          </span>
+        )}
+        <Button variant="outline" size="sm" className="gap-1.5" onClick={handleRefresh}>
+          <RefreshCw size={14} className={isRefreshing ? "animate-spin" : ""} />
+          {t("page.dashboard.refresh")}
+        </Button>
+      </PageHeader>
 
       {isLoading ? (
         <>
