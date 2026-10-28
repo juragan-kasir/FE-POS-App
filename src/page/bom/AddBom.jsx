@@ -33,6 +33,7 @@ import { useFieldErrors } from "@/hooks/useFieldErrors";
 import { FieldError } from "@/components/ui/field-error";
 import { createdId } from "@/utils/createdRecord";
 import LoadErrorBanner from "@/components/ui/LoadErrorBanner";
+import { useSingleStore } from "@/hooks/useSingleStore";
 
 const emptyLine = () => ({ supplierId: "", ingredientId: "", qty: "", unit: "pcs", notes: "" });
 
@@ -59,6 +60,12 @@ const AddBom = () => {
   const [selectedStore, setSelectedStore] = useState(
     isSuperAdmin ? "" : normalizeStoreId(user?.store) || ""
   );
+
+  // One store: preselect it instead of asking for a choice with one answer.
+  const singleStore = useSingleStore();
+  useEffect(() => {
+    if (singleStore && !selectedStore) setSelectedStore(String(singleStore.id));
+  }, [singleStore, selectedStore]);
   const [productId, setProductId] = useState(preselectedId || "");
   const [disabledProduct] = useState(!!preselectedId || isEdit);
   const [loadedEditId, setLoadedEditId] = useState(null);

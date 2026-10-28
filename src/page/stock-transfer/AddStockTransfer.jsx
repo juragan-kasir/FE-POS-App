@@ -33,6 +33,7 @@ import { useLocations } from "@/queries/useLocations";
 import { FIELD_LIMITS } from "@/constants/fieldLimits";
 import { useFormExit } from "@/hooks/useLeaveGuard";
 import LoadErrorBanner from "@/components/ui/LoadErrorBanner";
+import { useSingleStore } from "@/hooks/useSingleStore";
 
 const AddStockTransfer = () => {
   const { t } = useTranslation();
@@ -114,9 +115,18 @@ const AddStockTransfer = () => {
   const watchedItems = watch("items");
   const fromStore = watch("fromStore");
 
+  // One store: preselect it instead of asking for a choice with one answer.
+  const singleStore = useSingleStore();
+  useEffect(() => {
+    if (singleStore && !fromStore) form.setValue("fromStore", String(singleStore.id));
+  }, [singleStore, fromStore]);
+
   const { data: locData } = useLocations();
   const locations = locData?.data || locData?.locations || locData || [];
   const storeOptions = locations.map((l) => ({ value: String(l.id), label: l.name }));
+  // A transfer moves stock between two stores; with one store there is no
+  // destination, so the form says so instead of offering an empty choice.
+  const singleStoreOnly = Array.isArray(locations) && locations.length === 1;
 
   const { data: prodData } = useQuery(
     ["products-for-transfer", fromStore],
@@ -194,6 +204,24 @@ const AddStockTransfer = () => {
           <UserGuide guideKey="add-stock-transfer" />
         </PageHeader>
         <LoadErrorBanner />
+        {singleStoreOnly && (
+          <div
+            role="status"
+            className="flex flex-col sm:flex-row sm:items-center gap-3 rounded-lg border border-amber-300 bg-amber-50 dark:border-amber-800 dark:bg-amber-950/40 px-4 py-3">
+            <p className="flex-1 text-sm text-amber-900 dark:text-amber-200">
+              {t("page.stockTransfer.add.singleStore")}
+            </p>
+            {isSuperAdmin && (
+              <Button
+                type="button"
+                variant="outline"
+                size="sm"
+                onClick={() => navigate("/add-location")}>
+                {t("header.addStore")}
+              </Button>
+            )}
+          </div>
+        )}
 
         <form
           onSubmit={handleSubmit(onSubmit)}
@@ -488,7 +516,7 @@ const AddStockTransfer = () => {
             <Button
               variant="success"
               type="submit"
-              disabled={isSubmitting}
+              disabled={isSubmitting || singleStoreOnly}
               className="w-full sm:w-auto justify-center">
               <Save size={16} className="mr-1" />{" "}
               {isSubmitting ? t("page.stockTransfer.add.saving") : t("page.stockTransfer.add.save")}

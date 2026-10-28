@@ -65,6 +65,7 @@ import NoStore from "@/components/ui/NoStore";
 import { useLocations } from "@/queries/useLocations";
 import { FIELD_LIMITS } from "@/constants/fieldLimits";
 import PageHeader from "@/components/ui/PageHeader";
+import { useSingleStore } from "@/hooks/useSingleStore";
 
 const DEFAULT_INVOICE_TEMPLATE = {
   showStoreName: true,
@@ -127,6 +128,12 @@ const InvoicePage = () => {
   const user = cookie?.user;
   const isSuperAdmin = user?.roleType === "super_admin";
   const [selectedStore, setSelectedStore] = useState(isSuperAdmin ? "" : String(user?.store || ""));
+
+  // One store: preselect it instead of asking for a choice with one answer.
+  const singleStore = useSingleStore();
+  useEffect(() => {
+    if (singleStore && !selectedStore) setSelectedStore(String(singleStore.id));
+  }, [singleStore, selectedStore]);
   const cashierName = user?.userName || user?.name || user?.fullName || "";
 
   const { data: locData, isLoading: locLoading } = useLocations("active", {

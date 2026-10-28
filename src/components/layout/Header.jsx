@@ -72,6 +72,18 @@ const StoreSelector = ({ cookie, setCookie }) => {
 
   if (role !== "super_admin") return null;
 
+  // One store: nothing to switch between ("Semua Toko" would be the same).
+  if (locations.length === 1) {
+    return (
+      <div className="flex items-center gap-1.5 md:gap-2 px-2 md:px-3 py-1.5 rounded-lg border border-border bg-muted/50 text-sm max-w-[160px] md:max-w-[200px]">
+        <Building2 size={16} className="text-primary shrink-0" />
+        <span className="truncate font-medium text-foreground hidden sm:inline">
+          {locations[0].name || locations[0].storeName}
+        </span>
+      </div>
+    );
+  }
+
   const handleSelect = (loc) => {
     const id = loc.id || loc._id;
     const name = loc.name || loc.storeName || "";

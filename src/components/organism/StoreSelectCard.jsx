@@ -29,6 +29,31 @@ const StoreSelectCard = ({
   mandatory,
   locationsLoading
 }) => {
+  // A super_admin with exactly one store has nothing to pick: an empty
+  // choice becomes that store, while a record already set to "Semua Toko"
+  // (global, also covers stores added later) keeps that meaning.
+  const singleStore = isSuperAdmin && !locationsLoading && locations.length === 1;
+  const singleStoreId = singleStore ? locations[0].id : null;
+  React.useEffect(() => {
+    if (singleStoreId != null && !allStores && selectedStores.length === 0) {
+      onChange([singleStoreId]);
+    }
+  }, [singleStoreId, allStores, selectedStores.length, onChange]);
+
+  if (singleStore) {
+    return (
+      <div className="bg-muted/30 rounded-lg p-4 flex items-center gap-2 text-sm text-muted-foreground">
+        <Store size={16} className="shrink-0" />
+        <span>
+          {storeInfoLabel}{" "}
+          <strong className="text-foreground">
+            {allStores ? t("page.category.form.storeSection.allStores") : locations[0].name}
+          </strong>
+        </span>
+      </div>
+    );
+  }
+
   if (!isSuperAdmin) {
     if (allStores) {
       return (

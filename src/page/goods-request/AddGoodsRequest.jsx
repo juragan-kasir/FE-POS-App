@@ -1,5 +1,5 @@
 import { safeGet } from "@/lib/safe-lookup";
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useQuery, useQueryClient } from "react-query";
@@ -27,6 +27,7 @@ import { FIELD_LIMITS } from "@/constants/fieldLimits";
 import { useFormExit } from "@/hooks/useLeaveGuard";
 import { createdId } from "@/utils/createdRecord";
 import LoadErrorBanner from "@/components/ui/LoadErrorBanner";
+import { useSingleStore } from "@/hooks/useSingleStore";
 
 const emptyItem = {
   name: "",
@@ -413,6 +414,12 @@ const AddGoodsRequest = () => {
   });
 
   const storeId = watch("storeId");
+
+  // One store: preselect it instead of asking for a choice with one answer.
+  const singleStore = useSingleStore();
+  useEffect(() => {
+    if (singleStore && !storeId) form.setValue("storeId", String(singleStore.id));
+  }, [singleStore, storeId]);
   const allGroups = watch("groups") || [];
 
   const takenSupplierIdsByGroupIndex = useMemo(() => {

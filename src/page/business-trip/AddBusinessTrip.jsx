@@ -35,6 +35,7 @@ import { useDomDirtyTracking } from "@/hooks/useDomDirtyTracking";
 import { useFormExit } from "@/hooks/useLeaveGuard";
 import { useUnsavedChangesGuard } from "@/contexts/UnsavedChangesContext";
 import LoadErrorBanner from "@/components/ui/LoadErrorBanner";
+import { useSingleStore } from "@/hooks/useSingleStore";
 
 const SectionHeader = ({ icon: Icon, title, desc, from, to }) => (
   <div className={`bg-gradient-to-r ${from} ${to} px-6 py-4`}>
@@ -147,6 +148,12 @@ const AddBusinessTrip = () => {
 
   const departDate = watch("departureDate");
   const selectedStore = watch("store");
+
+  // One store: preselect it instead of asking for a choice with one answer.
+  const singleStore = useSingleStore();
+  useEffect(() => {
+    if (singleStore && !selectedStore) form.setValue("store", String(singleStore.id));
+  }, [singleStore, selectedStore]);
   const budgetVal = watch("budget");
   const items = watch("budgetItems");
 

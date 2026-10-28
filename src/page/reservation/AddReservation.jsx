@@ -44,6 +44,7 @@ import { FIELD_LIMITS } from "@/constants/fieldLimits";
 import { useFormExit } from "@/hooks/useLeaveGuard";
 import { createdId } from "@/utils/createdRecord";
 import LoadErrorBanner from "@/components/ui/LoadErrorBanner";
+import { useSingleStore } from "@/hooks/useSingleStore";
 
 const DAY_NAMES = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"];
 
@@ -124,6 +125,12 @@ const AddReservation = () => {
   );
 
   const selectedStore = form.watch("store");
+
+  // One store: preselect it instead of asking for a choice with one answer.
+  const singleStore = useSingleStore();
+  useEffect(() => {
+    if (singleStore && !selectedStore) form.setValue("store", String(singleStore.id));
+  }, [singleStore, selectedStore]);
   const reservationDate = form.watch("reservationDate");
   const startTime = form.watch("startTime");
   const endTime = form.watch("endTime");

@@ -36,6 +36,7 @@ import { FIELD_LIMITS } from "@/constants/fieldLimits";
 import { useFormExit } from "@/hooks/useLeaveGuard";
 import { createdId } from "@/utils/createdRecord";
 import LoadErrorBanner from "@/components/ui/LoadErrorBanner";
+import { useSingleStore } from "@/hooks/useSingleStore";
 
 const emptyItem = {
   name: "",
@@ -141,6 +142,12 @@ const AddPurchaseOrder = () => {
     isSuperAdmin ? normalizeStoreId(searchParams.get("store")) : normalizeStoreId(user?.store)
   );
   const locationParam = selectedStore;
+
+  // One store: preselect it instead of asking for a choice with one answer.
+  const singleStore = useSingleStore();
+  useEffect(() => {
+    if (singleStore && !selectedStore) setSelectedStore(String(singleStore.id));
+  }, [singleStore, selectedStore]);
 
   const [notes, setNotes] = useState("");
   const [cancelModal, setCancelModal] = useState(false);

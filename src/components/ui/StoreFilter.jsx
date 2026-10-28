@@ -11,7 +11,8 @@ import {
 const stripLoc = (v) => (v ? String(v).replace(/^loc-0*/, "") : v);
 
 const StoreFilter = ({ locations = [], value = "", onChange, isSuperAdmin, t }) => {
-  if (!isSuperAdmin || locations.length === 0) return null;
+  // With one store there is nothing to filter between.
+  if (!isSuperAdmin || locations.length <= 1) return null;
 
   const currentValue = value === "all" ? "all" : stripLoc(value);
 
