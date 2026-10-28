@@ -29,5 +29,3 @@ export const getDashboardHref = (user) => {
   if (isAdminRole(user)) return "/dashboard-admin";
   return "/dashboard-user";
 };
-
-export const getHomePath = (user) => getRoleDashboard(user?.roleType);
