@@ -170,7 +170,7 @@ const RegisterPage = () => {
         <nav className="bg-card border-b border-border fixed top-0 w-full z-50 transition-colors">
           <div className="flex justify-between items-center w-full px-4 md:px-6 lg:px-lg py-2.5 max-w-7xl mx-auto">
             <span className="text-base md:text-lg font-semibold text-foreground tracking-tight">
-              Kinetic Ledger
+              Juragan Kasir
             </span>
             <div className="flex items-center gap-2 md:gap-3">
               <div className="flex items-center bg-muted rounded-full p-0.5 border border-border">
@@ -456,10 +456,10 @@ const RegisterPage = () => {
           <div className="w-full py-4 md:py-xl px-4 md:px-6 lg:px-lg flex flex-col md:flex-row justify-between items-center max-w-7xl mx-auto gap-3 md:gap-md">
             <div className="flex flex-col items-center md:items-start gap-1">
               <span className="text-sm md:text-base font-semibold text-foreground tracking-tight">
-                Kinetic Ledger
+                Juragan Kasir
               </span>
               <span className="text-xs md:text-sm text-muted-foreground">
-                &copy; 2024 Kinetic Ledger. All rights reserved.
+                {t("page.login.copyright", { year: new Date().getFullYear() })}
               </span>
             </div>
             <div className="flex gap-4 md:gap-lg">

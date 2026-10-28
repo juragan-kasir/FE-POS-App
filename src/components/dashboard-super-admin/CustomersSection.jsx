@@ -1,11 +1,13 @@
 import React from "react";
 import { Users, Crown, TrendingUp, Phone } from "lucide-react";
 import SectionCard from "./SectionCard";
+import { useTranslation } from "react-i18next";
 import { formatCurrencyRupiah } from "@/utils/formatter-currency";
 
 const TIER_COLORS = ["#6366f1", "#0ea5e9", "#10b981", "#f59e0b", "#f43f5e", "#8b5cf6"];
 
 const CustomersSection = ({ customers }) => {
+  const { t } = useTranslation();
   const tiers = customers?.tierDistribution || [];
   const topMembers = customers?.topMembers || [];
   const tierTotal = tiers.reduce((s, r) => s + r.count, 0);
@@ -13,19 +15,19 @@ const CustomersSection = ({ customers }) => {
   return (
     <SectionCard
       icon={Users}
-      title="Pelanggan & Member"
-      subtitle="Pertumbuhan member, distribusi tier, dan member teraktif"
+      title={t("page.dashboardSuperAdmin.customers.title")}
+      subtitle={t("page.dashboardSuperAdmin.customers.subtitle")}
       bodyClassName="space-y-5">
       <div className="grid grid-cols-2 gap-3">
         <div className="bg-muted/40 rounded-lg p-3">
           <p className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider mb-1">
-            Total Member
+            {t("page.dashboardSuperAdmin.customers.totalMembers")}
           </p>
           <p className="text-lg font-bold text-foreground">{customers?.totalMembers || 0}</p>
         </div>
         <div className="bg-muted/40 rounded-lg p-3">
           <p className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider mb-1">
-            Member Baru
+            {t("page.dashboardSuperAdmin.customers.newMembers")}
           </p>
           <p className="text-lg font-bold text-emerald-600 flex items-center gap-1.5">
             <TrendingUp size={15} />+{customers?.newMembers || 0}
@@ -39,11 +41,11 @@ const CustomersSection = ({ customers }) => {
       <div>
         <p className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider mb-2 flex items-center gap-1.5">
           <Crown size={13} className="text-amber-500" />
-          Distribusi Tier
+          {t("page.dashboardSuperAdmin.customers.tierDistribution")}
         </p>
         {tiers.length === 0 ? (
           <p className="text-sm text-muted-foreground text-center py-3 bg-muted/30 rounded-lg">
-            Belum ada data tier
+            {t("page.dashboardSuperAdmin.customers.noTier")}
           </p>
         ) : (
           <div className="space-y-2.5">
@@ -54,7 +56,7 @@ const CustomersSection = ({ customers }) => {
                   <div className="flex items-center justify-between text-sm">
                     <span className="text-foreground">{r.tier}</span>
                     <span className="text-xs text-muted-foreground">
-                      {r.count} member · {pct}%
+                      {t("page.dashboardSuperAdmin.customers.tierCount", { count: r.count, pct })}
                     </span>
                   </div>
                   <div className="h-1.5 w-full bg-muted rounded-full overflow-hidden">
@@ -75,11 +77,11 @@ const CustomersSection = ({ customers }) => {
 
       <div>
         <p className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider mb-2">
-          Member Teraktif (By Spend)
+          {t("page.dashboardSuperAdmin.customers.topMembers")}
         </p>
         {topMembers.length === 0 ? (
           <p className="text-sm text-muted-foreground text-center py-3 bg-muted/30 rounded-lg">
-            Belum ada transaksi member
+            {t("page.dashboardSuperAdmin.customers.noTopMembers")}
           </p>
         ) : (
           <div className="space-y-2">
@@ -98,7 +100,8 @@ const CustomersSection = ({ customers }) => {
                   <div className="min-w-0">
                     <p className="text-sm font-medium text-foreground truncate">{m.name}</p>
                     <p className="text-xs text-muted-foreground flex items-center gap-1">
-                      <Phone size={10} /> {m.phoneNumber || "—"} · {m.orderCount} order
+                      <Phone size={10} /> {m.phoneNumber || "—"} ·{" "}
+                      {t("page.dashboardSuperAdmin.customers.orderCount", { count: m.orderCount })}
                     </p>
                   </div>
                 </div>

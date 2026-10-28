@@ -34,7 +34,11 @@ const CountedInput = React.forwardRef(
     const counterId = React.useId();
     const atLimit = counted.length >= maxLength;
     return (
-      <div className={cn("w-full", containerClassName)}>
+      // The counter hangs in a zero-height box below the input and mb-5 reserves
+      // its line, so a wrapper that centers an icon with top-1/2 still centers it
+      // on the input: in flow, the counter made the wrapper taller and the icon
+      // sat low. This div stays unpositioned so the input never covers that icon.
+      <div className={cn("mb-5 w-full", containerClassName)}>
         <input
           type={type}
           className={cn(!unstyled && inputClass, className, atLimit && atLimitClass)}
@@ -46,7 +50,14 @@ const CountedInput = React.forwardRef(
           {...props}
           aria-describedby={cn(props["aria-describedby"], counterId)}
         />
-        <LengthCounter id={counterId} length={counted.length} maxLength={maxLength} />
+        <div className="relative h-0">
+          <LengthCounter
+            id={counterId}
+            length={counted.length}
+            maxLength={maxLength}
+            className="absolute inset-x-0 top-0"
+          />
+        </div>
       </div>
     );
   }
