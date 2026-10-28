@@ -10,6 +10,7 @@ import { Card } from "@/components/ui/card";
 import { useTranslation } from "react-i18next";
 import PageHeader from "@/components/ui/PageHeader";
 import LoadErrorBanner from "@/components/ui/LoadErrorBanner";
+import { dateLocale } from "@/lib/locale";
 
 const STATUS_MAP = {
   pending: {
@@ -143,7 +144,7 @@ const DetailReservation = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <DetailRow label={t("page.reservation.columns.date")}>
               {r.reservationDate
-                ? new Date(r.reservationDate + "T00:00:00").toLocaleDateString("id-ID", {
+                ? new Date(r.reservationDate + "T00:00:00").toLocaleDateString(dateLocale(), {
                     day: "numeric",
                     month: "short",
                     year: "numeric"

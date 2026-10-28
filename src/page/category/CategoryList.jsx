@@ -48,6 +48,7 @@ import StatCard from "@/components/ui/StatCard";
 import StoreFilter from "@/components/ui/StoreFilter";
 import NoStore from "@/components/ui/NoStore";
 import { useLocations } from "@/queries/useLocations";
+import { dateLocale } from "@/lib/locale";
 
 const categoryIcon = {
   "makanan utama": "restaurant",
@@ -67,13 +68,13 @@ const formatDate = (dateStr) => {
     const d = new Date(dateStr);
     if (isNaN(d.getTime())) return "-";
     return (
-      d.toLocaleDateString("id-ID", {
+      d.toLocaleDateString(dateLocale(), {
         day: "numeric",
         month: "short",
         year: "numeric"
       }) +
       " " +
-      d.toLocaleTimeString("id-ID", {
+      d.toLocaleTimeString(dateLocale(), {
         hour: "2-digit",
         minute: "2-digit"
       })

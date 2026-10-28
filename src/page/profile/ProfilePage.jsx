@@ -15,6 +15,7 @@ import {
 import { Button } from "@/components/ui/button";
 import PageHeader from "@/components/ui/PageHeader";
 import EditProfileModal from "@/components/organism/edit-profile-modal";
+import { dateLocale } from "@/lib/locale";
 
 const readStoredUser = () => {
   try {
@@ -50,7 +51,7 @@ const ProfilePage = () => {
   const statusActive = isPresenceActive;
   const formatDate = (dateStr) => {
     if (!dateStr) return "-";
-    return new Date(dateStr).toLocaleDateString("id-ID", {
+    return new Date(dateStr).toLocaleDateString(dateLocale(), {
       day: "numeric",
       month: "long",
       year: "numeric"

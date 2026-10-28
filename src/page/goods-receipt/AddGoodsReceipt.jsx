@@ -50,6 +50,7 @@ import { formatDateOnly } from "@/utils/dateOnly";
 import { useFormExit } from "@/hooks/useLeaveGuard";
 import { createdId } from "@/utils/createdRecord";
 import LoadErrorBanner from "@/components/ui/LoadErrorBanner";
+import { dateLocale } from "@/lib/locale";
 
 const AddGoodsReceipt = () => {
   const navigate = useNavigate();
@@ -1447,7 +1448,7 @@ const AddGoodsReceipt = () => {
                             <span className="font-medium">{g.receiptNumber}</span>
                             <span className="text-muted-foreground">
                               {g.receivedDate
-                                ? new Date(g.receivedDate).toLocaleDateString("id-ID")
+                                ? new Date(g.receivedDate).toLocaleDateString(dateLocale())
                                 : "-"}
                             </span>
                             <span className="text-muted-foreground">

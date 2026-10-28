@@ -10,6 +10,7 @@ import { getIngredientStockSummary } from "@/services/ingredient";
 import { formatQuantity } from "@/utils/quantity";
 import { getIngredientStockState } from "@/utils/ingredientStockState";
 import { formatDateOnly, parseDateOnly, todayDateOnly } from "@/utils/dateOnly";
+import { dateLocale } from "@/lib/locale";
 
 const P = "page.ingredient.summary";
 const fieldLabelClass =
@@ -123,7 +124,7 @@ const IngredientStockSummary = ({
       render: (item) => (
         <span className="text-xs text-muted-foreground">
           {item.lastCountedAt
-            ? new Date(item.lastCountedAt).toLocaleDateString("id-ID", {
+            ? new Date(item.lastCountedAt).toLocaleDateString(dateLocale(), {
                 day: "numeric",
                 month: "short",
                 year: "numeric"

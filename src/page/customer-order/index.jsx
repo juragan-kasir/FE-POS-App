@@ -39,6 +39,7 @@ import {
   DialogDescription
 } from "@/components/ui/dialog";
 import { useLocations } from "@/queries/useLocations";
+import { dateLocale } from "@/lib/locale";
 
 // Polling fallback interval while the store room is not confirmed. An
 // engineering default (DR-19: polling is engineering-owned); the numeric
@@ -343,7 +344,7 @@ const CustomerOrderManagement = () => {
                               </span>
                               <Badge variant="secondary" className="text-xs bg-muted dark:bg-muted">
                                 <Clock size={10} className="mr-1" />
-                                {new Date(order.createdAt).toLocaleString("id-ID", {
+                                {new Date(order.createdAt).toLocaleString(dateLocale(), {
                                   hour: "2-digit",
                                   minute: "2-digit",
                                   day: "numeric",
@@ -549,7 +550,7 @@ const CustomerOrderManagement = () => {
                 <span className="font-bold text-foreground">{modalOrder.orderNumber}</span>
                 <Badge variant="secondary" className="text-xs bg-muted dark:bg-muted">
                   <Clock size={10} className="mr-1" />
-                  {new Date(modalOrder.createdAt).toLocaleString("id-ID", {
+                  {new Date(modalOrder.createdAt).toLocaleString(dateLocale(), {
                     hour: "2-digit",
                     minute: "2-digit",
                     day: "numeric",

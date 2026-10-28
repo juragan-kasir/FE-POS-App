@@ -10,6 +10,7 @@ import AbortController from "@/components/organism/abort-controller";
 import PageHeader from "@/components/ui/PageHeader";
 import HorizontalScrollArea from "@/components/ui/HorizontalScrollArea";
 import i18next from "i18next";
+import { dateLocale } from "@/lib/locale";
 
 const methodBadge = {
   cash: {
@@ -189,7 +190,7 @@ const PurchasePaymentDetail = () => {
                     </Row>
                     <Row label={t("page.purchasePayment.detail.paymentDate")}>
                       {payment.paymentDate
-                        ? new Date(payment.paymentDate).toLocaleDateString("id-ID", {
+                        ? new Date(payment.paymentDate).toLocaleDateString(dateLocale(), {
                             weekday: "long",
                             year: "numeric",
                             month: "long",
@@ -272,7 +273,7 @@ const PurchasePaymentDetail = () => {
                       </td>
                       <td className="py-2 text-right">
                         {payment.createdAt
-                          ? new Date(payment.createdAt).toLocaleDateString("id-ID", {
+                          ? new Date(payment.createdAt).toLocaleDateString(dateLocale(), {
                               year: "numeric",
                               month: "short",
                               day: "numeric",
@@ -288,7 +289,7 @@ const PurchasePaymentDetail = () => {
                       </td>
                       <td className="py-2 text-right">
                         {payment.updatedAt
-                          ? new Date(payment.updatedAt).toLocaleDateString("id-ID", {
+                          ? new Date(payment.updatedAt).toLocaleDateString(dateLocale(), {
                               year: "numeric",
                               month: "short",
                               day: "numeric",

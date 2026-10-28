@@ -32,6 +32,7 @@ import { safeGet } from "@/lib/safe-lookup";
 import PageHeader from "@/components/ui/PageHeader";
 import { DEFAULT_SHIFT_TYPE, SHIFT_TYPE_LABELS, SHIFT_TYPES } from "@/constants/shiftTypes";
 import { useLocations } from "@/queries/useLocations";
+import { dateLocale } from "@/lib/locale";
 
 const DAY_MS = 86400000;
 
@@ -39,7 +40,7 @@ const fmtDate = (d) => {
   if (!d) return "-";
   const date = new Date(d);
   if (isNaN(date.getTime())) return "-";
-  return date.toLocaleDateString("id-ID", {
+  return date.toLocaleDateString(dateLocale(), {
     day: "numeric",
     month: "short",
     year: "numeric"
@@ -519,19 +520,22 @@ const MyShift = () => {
               const StatusIcon = statusCfg.icon;
               const dateTxt = s.tanggal_mulai
                 ? s.tanggal_mulai === s.tanggal_selesai
-                  ? new Date(`${s.tanggal_mulai}T00:00:00`).toLocaleDateString("id-ID", {
+                  ? new Date(`${s.tanggal_mulai}T00:00:00`).toLocaleDateString(dateLocale(), {
                       day: "numeric",
                       month: "short",
                       year: "numeric"
                     })
-                  : `${new Date(`${s.tanggal_mulai}T00:00:00`).toLocaleDateString("id-ID", {
+                  : `${new Date(`${s.tanggal_mulai}T00:00:00`).toLocaleDateString(dateLocale(), {
                       day: "numeric",
                       month: "short"
-                    })} – ${new Date(`${s.tanggal_selesai}T00:00:00`).toLocaleDateString("id-ID", {
-                      day: "numeric",
-                      month: "short",
-                      year: "numeric"
-                    })}`
+                    })} – ${new Date(`${s.tanggal_selesai}T00:00:00`).toLocaleDateString(
+                      dateLocale(),
+                      {
+                        day: "numeric",
+                        month: "short",
+                        year: "numeric"
+                      }
+                    )}`
                 : "-";
               return (
                 <div
@@ -564,7 +568,7 @@ const MyShift = () => {
                   <p className="mt-2 text-xs text-muted-foreground">
                     {isRequester ? "Kamu mengajukan" : "Diajukan untukmu"} ·{" "}
                     {s.createdAt
-                      ? new Date(s.createdAt).toLocaleString("id-ID", {
+                      ? new Date(s.createdAt).toLocaleString(dateLocale(), {
                           day: "numeric",
                           month: "short",
                           hour: "2-digit",

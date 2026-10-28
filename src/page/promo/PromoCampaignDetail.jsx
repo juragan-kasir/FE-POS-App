@@ -31,6 +31,7 @@ import {
   User
 } from "lucide-react";
 import LoadErrorBanner from "@/components/ui/LoadErrorBanner";
+import { dateLocale } from "@/lib/locale";
 
 const typeIcon = (type) => {
   const map = {
@@ -52,13 +53,13 @@ const formatDate = (dateString) => {
     const d = new Date(dateString);
     if (isNaN(d.getTime())) return "-";
     return (
-      d.toLocaleDateString("id-ID", {
+      d.toLocaleDateString(dateLocale(), {
         day: "numeric",
         month: "long",
         year: "numeric"
       }) +
       " " +
-      d.toLocaleTimeString("id-ID", {
+      d.toLocaleTimeString(dateLocale(), {
         hour: "2-digit",
         minute: "2-digit"
       })

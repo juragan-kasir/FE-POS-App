@@ -18,6 +18,7 @@ import Modal from "@/components/organism/modal";
 import PageHeader from "@/components/ui/PageHeader";
 import HorizontalScrollArea from "@/components/ui/HorizontalScrollArea";
 import i18next from "i18next";
+import { dateLocale } from "@/lib/locale";
 
 const statusDetail = {
   sent: {
@@ -205,7 +206,7 @@ const DetailStockTransfer = () => {
                       [
                         t("page.stockTransfer.detail.field.expectedArrival"),
                         transfer.expectedArrival
-                          ? new Date(transfer.expectedArrival).toLocaleDateString("id-ID")
+                          ? new Date(transfer.expectedArrival).toLocaleDateString(dateLocale())
                           : "-"
                       ]
                     ].map(([l, v]) => (

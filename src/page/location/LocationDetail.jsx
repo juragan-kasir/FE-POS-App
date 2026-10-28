@@ -45,6 +45,7 @@ import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import AbortController from "@/components/organism/abort-controller";
 import PageHeader from "@/components/ui/PageHeader";
+import { dateLocale } from "@/lib/locale";
 
 delete L.Icon.Default.prototype._getIconUrl;
 L.Icon.Default.mergeOptions({
@@ -671,7 +672,7 @@ const LocationDetail = () => {
                     </span>
                     <span className="text-xs font-semibold text-foreground">
                       {location.createdAt
-                        ? new Date(location.createdAt).toLocaleDateString("id-ID", {
+                        ? new Date(location.createdAt).toLocaleDateString(dateLocale(), {
                             day: "numeric",
                             month: "long",
                             year: "numeric"
@@ -685,7 +686,7 @@ const LocationDetail = () => {
                     </span>
                     <span className="text-xs font-semibold text-foreground">
                       {location.updatedAt
-                        ? new Date(location.updatedAt).toLocaleDateString("id-ID", {
+                        ? new Date(location.updatedAt).toLocaleDateString(dateLocale(), {
                             day: "numeric",
                             month: "long",
                             year: "numeric"

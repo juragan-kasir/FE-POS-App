@@ -8,6 +8,7 @@ import { Card } from "@/components/ui/card";
 import { getShiftTemplateById } from "@/services/shiftTemplate";
 import { Loading } from "@/components/ui/loading";
 import PageHeader from "@/components/ui/PageHeader";
+import { dateLocale } from "@/lib/locale";
 
 const statusBadge = (status, t) => {
   if (status === "active")
@@ -200,7 +201,7 @@ const DetailShiftTemplate = () => {
             </div>
             <p className="text-sm font-medium">
               {template.createdAt
-                ? new Date(template.createdAt).toLocaleDateString("id-ID", {
+                ? new Date(template.createdAt).toLocaleDateString(dateLocale(), {
                     year: "numeric",
                     month: "long",
                     day: "numeric",
@@ -215,7 +216,7 @@ const DetailShiftTemplate = () => {
               </p>
               <p className="text-sm font-medium">
                 {template.updatedAt
-                  ? new Date(template.updatedAt).toLocaleDateString("id-ID", {
+                  ? new Date(template.updatedAt).toLocaleDateString(dateLocale(), {
                       year: "numeric",
                       month: "long",
                       day: "numeric",

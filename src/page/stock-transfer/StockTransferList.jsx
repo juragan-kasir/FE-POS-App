@@ -26,6 +26,7 @@ import StoreFilter from "@/components/ui/StoreFilter";
 import PageHeader from "@/components/ui/PageHeader";
 import { useLocations } from "@/queries/useLocations";
 import i18next from "i18next";
+import { dateLocale } from "@/lib/locale";
 
 const statusCfg = {
   sent: {
@@ -170,7 +171,9 @@ const StockTransferList = () => {
       header: t("page.stockTransfer.list.header.expectedArrival"),
       render: (item) => (
         <span className="text-xs font-mono text-muted-foreground">
-          {item.expectedArrival ? new Date(item.expectedArrival).toLocaleDateString("id-ID") : "-"}
+          {item.expectedArrival
+            ? new Date(item.expectedArrival).toLocaleDateString(dateLocale())
+            : "-"}
         </span>
       )
     },

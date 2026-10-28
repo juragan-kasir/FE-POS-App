@@ -48,6 +48,7 @@ import { FIELD_LIMITS } from "@/constants/fieldLimits";
 import { formatDateOnly } from "@/utils/dateOnly";
 import { useFormExit } from "@/hooks/useLeaveGuard";
 import { FieldError } from "@/components/ui/field-error";
+import { dateLocale } from "@/lib/locale";
 
 const EditGoodsReceipt = () => {
   const dirtyRef = useDomDirtyTracking();
@@ -1158,7 +1159,7 @@ const EditGoodsReceipt = () => {
                       <span className="font-medium">{g.receiptNumber}</span>
                       <span className="text-muted-foreground">
                         {g.receivedDate
-                          ? new Date(g.receivedDate).toLocaleDateString("id-ID")
+                          ? new Date(g.receivedDate).toLocaleDateString(dateLocale())
                           : "-"}
                       </span>
                       <span className="text-muted-foreground">

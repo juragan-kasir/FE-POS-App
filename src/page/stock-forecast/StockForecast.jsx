@@ -32,6 +32,7 @@ import { toast } from "sonner";
 import PageHeader from "@/components/ui/PageHeader";
 import HorizontalScrollArea from "@/components/ui/HorizontalScrollArea";
 import { useLocations } from "@/queries/useLocations";
+import { dateLocale } from "@/lib/locale";
 
 const StockForecast = () => {
   const { t } = useTranslation();
@@ -345,7 +346,7 @@ const StockForecast = () => {
                             <td className="p-2">{formatNumber(item.stock ?? 0)}</td>
                             <td className="p-2">
                               {item.expiryDate
-                                ? new Date(item.expiryDate).toLocaleDateString("id-ID")
+                                ? new Date(item.expiryDate).toLocaleDateString(dateLocale())
                                 : "-"}
                             </td>
                             <td className="p-2">{item.daysLeft ?? "-"}</td>

@@ -39,6 +39,7 @@ import HorizontalScrollArea from "@/components/ui/HorizontalScrollArea";
 import PageHeader from "@/components/ui/PageHeader";
 import { Button } from "@/components/ui/button";
 import i18next from "i18next";
+import { dateLocale } from "@/lib/locale";
 
 const FILTERS = [
   {
@@ -428,7 +429,7 @@ const Dashboard = () => {
   const recentExpenses = d.recentExpenses || [];
   const formatDate = (iso) =>
     iso
-      ? new Date(iso).toLocaleDateString("id-ID", {
+      ? new Date(iso).toLocaleDateString(dateLocale(), {
           day: "numeric",
           month: "short",
           year: "numeric",

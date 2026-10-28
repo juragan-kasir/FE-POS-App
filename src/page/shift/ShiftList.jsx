@@ -46,12 +46,13 @@ import ExtendShiftModal from "./ExtendShiftModal";
 import SwapApproval from "./SwapApproval";
 import TableActions from "@/components/ui/TableActions";
 import { useLocations } from "@/queries/useLocations";
+import { dateLocale } from "@/lib/locale";
 
 const fmtShort = (d) => {
   if (!d) return "-";
   const date = new Date(d);
   if (isNaN(date.getTime())) return "-";
-  return date.toLocaleDateString("id-ID", { day: "numeric", month: "short", year: "numeric" });
+  return date.toLocaleDateString(dateLocale(), { day: "numeric", month: "short", year: "numeric" });
 };
 
 const ShiftList = () => {
@@ -220,7 +221,7 @@ const ShiftList = () => {
             <CalendarDays size={12} className="shrink-0 text-muted-foreground" />
             <span>
               {row.tanggal_mulai
-                ? new Date(row.tanggal_mulai).toLocaleDateString("id-ID", {
+                ? new Date(row.tanggal_mulai).toLocaleDateString(dateLocale(), {
                     day: "numeric",
                     month: "short",
                     year: "numeric"
@@ -231,7 +232,7 @@ const ShiftList = () => {
           {row.tanggal_selesai && (
             <p className="text-xs text-muted-foreground mt-0.5 ml-4">
               s/d{" "}
-              {new Date(row.tanggal_selesai).toLocaleDateString("id-ID", {
+              {new Date(row.tanggal_selesai).toLocaleDateString(dateLocale(), {
                 day: "numeric",
                 month: "short",
                 year: "numeric"
@@ -274,7 +275,7 @@ const ShiftList = () => {
       render: (row) => (
         <span className="text-sm text-muted-foreground whitespace-nowrap">
           {row.createdAt
-            ? new Date(row.createdAt).toLocaleDateString("id-ID", {
+            ? new Date(row.createdAt).toLocaleDateString(dateLocale(), {
                 day: "numeric",
                 month: "short",
                 year: "numeric",
@@ -298,7 +299,7 @@ const ShiftList = () => {
       render: (row) => (
         <span className="text-sm text-muted-foreground whitespace-nowrap">
           {row.updatedAt
-            ? new Date(row.updatedAt).toLocaleDateString("id-ID", {
+            ? new Date(row.updatedAt).toLocaleDateString(dateLocale(), {
                 day: "numeric",
                 month: "short",
                 year: "numeric",

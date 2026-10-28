@@ -49,6 +49,7 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import AdjustIngredientStockModal from "./components/AdjustIngredientStockModal";
 import IngredientStockSummary from "./components/IngredientStockSummary";
 import PageHeader from "@/components/ui/PageHeader";
+import { dateLocale } from "@/lib/locale";
 
 const statusBadge = {
   active: "bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400",
@@ -132,7 +133,7 @@ const IngredientList = () => {
 
   const fmtDate = (date) =>
     date
-      ? new Date(date).toLocaleDateString("id-ID", {
+      ? new Date(date).toLocaleDateString(dateLocale(), {
           year: "numeric",
           month: "short",
           day: "numeric",

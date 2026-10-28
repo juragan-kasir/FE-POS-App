@@ -12,6 +12,7 @@ import { getDocumentSpecForStockOpname } from "@/components/document/documentMap
 import AbortController from "@/components/organism/abort-controller";
 import PageHeader from "@/components/ui/PageHeader";
 import HorizontalScrollArea from "@/components/ui/HorizontalScrollArea";
+import { dateLocale } from "@/lib/locale";
 
 const statusColors = {
   draft:
@@ -167,7 +168,7 @@ const DetailStockOpname = () => {
             </p>
             <p className="text-lg font-bold text-foreground">
               {opname.auditDate
-                ? new Date(opname.auditDate).toLocaleDateString("id-ID", {
+                ? new Date(opname.auditDate).toLocaleDateString(dateLocale(), {
                     day: "numeric",
                     month: "long",
                     year: "numeric"

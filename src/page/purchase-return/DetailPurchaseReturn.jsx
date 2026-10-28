@@ -23,6 +23,7 @@ import AbortController from "@/components/organism/abort-controller";
 import PageHeader from "@/components/ui/PageHeader";
 import HorizontalScrollArea from "@/components/ui/HorizontalScrollArea";
 import i18next from "i18next";
+import { dateLocale } from "@/lib/locale";
 
 const statusBadge = {
   pending: {
@@ -196,7 +197,7 @@ const DetailPurchaseReturn = () => {
                     </Row>
                     <Row label={t("page.purchaseReturn.detail.field.date")}>
                       {ret.createdAt
-                        ? new Date(ret.createdAt).toLocaleDateString("id-ID", {
+                        ? new Date(ret.createdAt).toLocaleDateString(dateLocale(), {
                             year: "numeric",
                             month: "long",
                             day: "numeric",

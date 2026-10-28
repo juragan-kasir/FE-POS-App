@@ -31,6 +31,7 @@ import PageHeader from "@/components/ui/PageHeader";
 import HorizontalScrollArea from "@/components/ui/HorizontalScrollArea";
 import { useLocations } from "@/queries/useLocations";
 import LoadErrorBanner from "@/components/ui/LoadErrorBanner";
+import { dateLocale } from "@/lib/locale";
 
 const statusBadge = (status, t) => {
   if (status === "active" || status === true || status === 1)
@@ -57,7 +58,7 @@ const statusBadge = (status, t) => {
 
 const fmtDate = (d, withTime = false) =>
   d
-    ? new Date(d).toLocaleDateString("id-ID", {
+    ? new Date(d).toLocaleDateString(dateLocale(), {
         day: "numeric",
         month: "long",
         year: "numeric",
@@ -81,7 +82,7 @@ const InfoRow = ({ icon: Icon, label, children, iconClass }) => (
 
 const fmtClock = (absenAt) =>
   absenAt
-    ? new Date(absenAt).toLocaleTimeString("id-ID", { hour: "2-digit", minute: "2-digit" })
+    ? new Date(absenAt).toLocaleTimeString(dateLocale(), { hour: "2-digit", minute: "2-digit" })
     : "-";
 
 const presenceBadge = ({ done, doneLabel, notDoneLabel }) =>

@@ -24,6 +24,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { SearchInput } from "@/components/ui/SearchInput";
 import { getIngredientCategoryById } from "@/services/ingredientCategory";
 import { formatCurrencyRupiah } from "@/utils/formatter-currency";
+import { dateLocale } from "@/lib/locale";
 
 const rupiah = (value) => formatCurrencyRupiah(Number(value) || 0);
 
@@ -113,7 +114,7 @@ const DetailIngredientCategory = () => {
 
   const formatDate = (d) =>
     d
-      ? new Date(d).toLocaleString("id-ID", {
+      ? new Date(d).toLocaleString(dateLocale(), {
           day: "numeric",
           month: "short",
           year: "numeric",

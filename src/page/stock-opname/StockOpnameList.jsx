@@ -37,6 +37,7 @@ import StoreFilter from "@/components/ui/StoreFilter";
 import PageHeader from "@/components/ui/PageHeader";
 import { Combobox } from "@/components/ui/combobox";
 import { useLocations } from "@/queries/useLocations";
+import { dateLocale } from "@/lib/locale";
 
 const StockOpnameList = () => {
   const { t } = useTranslation();
@@ -283,8 +284,12 @@ const StockOpnameList = () => {
         if (isNaN(d.getTime())) return <span className="text-sm text-muted-foreground">-</span>;
         return (
           <span className="text-sm font-mono text-muted-foreground">
-            {d.toLocaleDateString("id-ID", { day: "numeric", month: "short", year: "numeric" })}{" "}
-            {d.toLocaleTimeString("id-ID", { hour: "2-digit", minute: "2-digit" })}
+            {d.toLocaleDateString(dateLocale(), {
+              day: "numeric",
+              month: "short",
+              year: "numeric"
+            })}{" "}
+            {d.toLocaleTimeString(dateLocale(), { hour: "2-digit", minute: "2-digit" })}
           </span>
         );
       }
@@ -305,8 +310,12 @@ const StockOpnameList = () => {
         if (isNaN(d.getTime())) return <span className="text-sm text-muted-foreground">-</span>;
         return (
           <span className="text-sm font-mono text-muted-foreground">
-            {d.toLocaleDateString("id-ID", { day: "numeric", month: "short", year: "numeric" })}{" "}
-            {d.toLocaleTimeString("id-ID", { hour: "2-digit", minute: "2-digit" })}
+            {d.toLocaleDateString(dateLocale(), {
+              day: "numeric",
+              month: "short",
+              year: "numeric"
+            })}{" "}
+            {d.toLocaleTimeString(dateLocale(), { hour: "2-digit", minute: "2-digit" })}
           </span>
         );
       }

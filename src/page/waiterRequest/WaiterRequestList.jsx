@@ -21,6 +21,7 @@ import Modal from "@/components/organism/modal";
 import AbortController from "@/components/organism/abort-controller";
 import { useLocations } from "@/queries/useLocations";
 import i18next from "i18next";
+import { dateLocale } from "@/lib/locale";
 
 const statusOptions = [
   {
@@ -330,8 +331,8 @@ const WaiterRequestList = () => {
         const d = new Date(row.original.createdAt);
         return (
           <div className="text-sm text-muted-foreground">
-            {d.toLocaleDateString("id-ID", { day: "numeric", month: "short" })},{" "}
-            {d.toLocaleTimeString("id-ID", { hour: "2-digit", minute: "2-digit" })}
+            {d.toLocaleDateString(dateLocale(), { day: "numeric", month: "short" })},{" "}
+            {d.toLocaleTimeString(dateLocale(), { hour: "2-digit", minute: "2-digit" })}
           </div>
         );
       }

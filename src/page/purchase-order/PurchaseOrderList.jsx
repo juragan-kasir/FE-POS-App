@@ -86,6 +86,7 @@ import { FIELD_LIMITS } from "@/constants/fieldLimits";
 import { todayDateOnly } from "@/utils/dateOnly";
 import { Textarea } from "@/components/ui/textarea";
 import PageHeader from "@/components/ui/PageHeader";
+import { dateLocale } from "@/lib/locale";
 
 const SupplierExpandableRow = ({ supplier, renderSupplierItems }) => {
   const { t } = useTranslation();
@@ -573,7 +574,7 @@ const PurchaseOrderList = () => {
       render: (po) => (
         <span className="text-muted-foreground">
           {po.orderDate
-            ? new Date(po.orderDate).toLocaleDateString("id-ID", {
+            ? new Date(po.orderDate).toLocaleDateString(dateLocale(), {
                 year: "numeric",
                 month: "short",
                 day: "numeric"
@@ -593,7 +594,7 @@ const PurchaseOrderList = () => {
         return (
           <div className="flex items-center gap-2">
             <span className={isOverdue ? "text-red-600 font-medium" : "text-muted-foreground"}>
-              {due.toLocaleDateString("id-ID", {
+              {due.toLocaleDateString(dateLocale(), {
                 year: "numeric",
                 month: "short",
                 day: "numeric"
@@ -728,8 +729,12 @@ const PurchaseOrderList = () => {
         if (isNaN(d.getTime())) return <span className="text-sm text-muted-foreground">-</span>;
         return (
           <span className="text-sm font-mono text-muted-foreground">
-            {d.toLocaleDateString("id-ID", { day: "numeric", month: "short", year: "numeric" })}{" "}
-            {d.toLocaleTimeString("id-ID", { hour: "2-digit", minute: "2-digit" })}
+            {d.toLocaleDateString(dateLocale(), {
+              day: "numeric",
+              month: "short",
+              year: "numeric"
+            })}{" "}
+            {d.toLocaleTimeString(dateLocale(), { hour: "2-digit", minute: "2-digit" })}
           </span>
         );
       }
@@ -750,8 +755,12 @@ const PurchaseOrderList = () => {
         if (isNaN(d.getTime())) return <span className="text-sm text-muted-foreground">-</span>;
         return (
           <span className="text-sm font-mono text-muted-foreground">
-            {d.toLocaleDateString("id-ID", { day: "numeric", month: "short", year: "numeric" })}{" "}
-            {d.toLocaleTimeString("id-ID", { hour: "2-digit", minute: "2-digit" })}
+            {d.toLocaleDateString(dateLocale(), {
+              day: "numeric",
+              month: "short",
+              year: "numeric"
+            })}{" "}
+            {d.toLocaleTimeString(dateLocale(), { hour: "2-digit", minute: "2-digit" })}
           </span>
         );
       }
@@ -1351,7 +1360,7 @@ const PurchaseOrderList = () => {
                           </p>
                           <p className="text-sm font-medium">
                             {returPo.orderDate
-                              ? new Date(returPo.orderDate).toLocaleDateString("id-ID", {
+                              ? new Date(returPo.orderDate).toLocaleDateString(dateLocale(), {
                                   year: "numeric",
                                   month: "short",
                                   day: "numeric"
@@ -1365,7 +1374,7 @@ const PurchaseOrderList = () => {
                           </p>
                           <p className="text-sm font-medium">
                             {returPo.orderDate
-                              ? new Date(returPo.orderDate).toLocaleTimeString("id-ID", {
+                              ? new Date(returPo.orderDate).toLocaleTimeString(dateLocale(), {
                                   hour: "2-digit",
                                   minute: "2-digit"
                                 })

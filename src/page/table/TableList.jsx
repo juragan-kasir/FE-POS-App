@@ -53,6 +53,7 @@ import StatCard from "@/components/ui/StatCard";
 import TableActions from "@/components/ui/TableActions";
 import { useLocations } from "@/queries/useLocations";
 import { FIELD_LIMITS } from "@/constants/fieldLimits";
+import { dateLocale } from "@/lib/locale";
 
 const statusColors = {
   available: "bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-400",
@@ -269,8 +270,12 @@ const TableList = () => {
         if (isNaN(d.getTime())) return <span className="text-sm text-muted-foreground">-</span>;
         return (
           <span className="text-sm font-mono text-muted-foreground">
-            {d.toLocaleDateString("id-ID", { day: "numeric", month: "short", year: "numeric" })}{" "}
-            {d.toLocaleTimeString("id-ID", { hour: "2-digit", minute: "2-digit" })}
+            {d.toLocaleDateString(dateLocale(), {
+              day: "numeric",
+              month: "short",
+              year: "numeric"
+            })}{" "}
+            {d.toLocaleTimeString(dateLocale(), { hour: "2-digit", minute: "2-digit" })}
           </span>
         );
       }
@@ -291,8 +296,12 @@ const TableList = () => {
         if (isNaN(d.getTime())) return <span className="text-sm text-muted-foreground">-</span>;
         return (
           <span className="text-sm font-mono text-muted-foreground">
-            {d.toLocaleDateString("id-ID", { day: "numeric", month: "short", year: "numeric" })}{" "}
-            {d.toLocaleTimeString("id-ID", { hour: "2-digit", minute: "2-digit" })}
+            {d.toLocaleDateString(dateLocale(), {
+              day: "numeric",
+              month: "short",
+              year: "numeric"
+            })}{" "}
+            {d.toLocaleTimeString(dateLocale(), { hour: "2-digit", minute: "2-digit" })}
           </span>
         );
       }

@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { getDepartmentById } from "@/services/department";
+import { dateLocale } from "@/lib/locale";
 
 const statusBadge = (status, t) => {
   if (status === "active")
@@ -227,7 +228,7 @@ const DetailDepartment = () => {
               </div>
               <p className="text-sm font-medium">
                 {department.createdAt
-                  ? new Date(department.createdAt).toLocaleDateString("id-ID", {
+                  ? new Date(department.createdAt).toLocaleDateString(dateLocale(), {
                       year: "numeric",
                       month: "long",
                       day: "numeric",
@@ -242,7 +243,7 @@ const DetailDepartment = () => {
                 </p>
                 <p className="text-sm font-medium">
                   {department.updatedAt
-                    ? new Date(department.updatedAt).toLocaleDateString("id-ID", {
+                    ? new Date(department.updatedAt).toLocaleDateString(dateLocale(), {
                         year: "numeric",
                         month: "long",
                         day: "numeric",

@@ -24,6 +24,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { useLocations } from "@/queries/useLocations";
 import PageHeader from "@/components/ui/PageHeader";
 import i18next from "i18next";
+import { dateLocale } from "@/lib/locale";
 
 const STATUS_LABELS = {
   UNPAID: {
@@ -146,7 +147,7 @@ const AccountsReceivableList = () => {
       header: t("page.accountsReceivable.list.header.jatuhTempo"),
       render: (ar) =>
         ar.dueDate
-          ? new Date(ar.dueDate).toLocaleDateString("id-ID", {
+          ? new Date(ar.dueDate).toLocaleDateString(dateLocale(), {
               day: "numeric",
               month: "short",
               year: "numeric"

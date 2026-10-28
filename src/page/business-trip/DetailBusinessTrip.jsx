@@ -30,6 +30,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import AbortController from "@/components/organism/abort-controller";
 import PageHeader from "@/components/ui/PageHeader";
 import HorizontalScrollArea from "@/components/ui/HorizontalScrollArea";
+import { dateLocale } from "@/lib/locale";
 
 const statusBadge = {
   draft: {
@@ -63,14 +64,14 @@ const toDate = (v) => {
 const formatDate = (v) => {
   const d = toDate(v);
   return d
-    ? d.toLocaleDateString("id-ID", { day: "numeric", month: "short", year: "numeric" })
+    ? d.toLocaleDateString(dateLocale(), { day: "numeric", month: "short", year: "numeric" })
     : "-";
 };
 
 const formatDateTime = (v) => {
   const d = toDate(v);
   return d
-    ? d.toLocaleDateString("id-ID", {
+    ? d.toLocaleDateString(dateLocale(), {
         day: "numeric",
         month: "short",
         year: "numeric",

@@ -44,6 +44,7 @@ import CancelSwapDialog from "@/page/shift/CancelSwapDialog";
 import { safeGet } from "@/lib/safe-lookup";
 import LoadErrorBanner from "@/components/ui/LoadErrorBanner";
 import { useTranslation } from "react-i18next";
+import { dateLocale } from "@/lib/locale";
 
 const DAY_MS = 86400000;
 
@@ -52,7 +53,7 @@ const fmtCurrency = (num) => formatCurrencyRupiah(Number(num || 0));
 const fmtTime = (hhmm) => (hhmm ? String(hhmm).slice(0, 5) : "-");
 
 const todayLong = () =>
-  new Date().toLocaleDateString("id-ID", {
+  new Date().toLocaleDateString(dateLocale(), {
     weekday: "long",
     day: "numeric",
     month: "long",
@@ -376,7 +377,7 @@ const DashboardUser = () => {
                   </p>
                   <p className="flex items-center gap-2">
                     <CalendarDays size={14} className="shrink-0 text-muted-foreground/70" />
-                    {new Date(todayShift.tanggal_mulai).toLocaleDateString("id-ID", {
+                    {new Date(todayShift.tanggal_mulai).toLocaleDateString(dateLocale(), {
                       weekday: "long",
                       day: "numeric",
                       month: "long",
@@ -526,7 +527,7 @@ const DashboardUser = () => {
                 {reg?.openedAt && (
                   <p className="mt-3 text-xs text-muted-foreground">
                     {t("page.cashRegister.xz.openedAt")}{" "}
-                    {new Date(reg.openedAt).toLocaleString("id-ID", {
+                    {new Date(reg.openedAt).toLocaleString(dateLocale(), {
                       day: "numeric",
                       month: "short",
                       hour: "2-digit",
@@ -704,19 +705,22 @@ const DashboardUser = () => {
               const StatusIcon = statusCfg.icon;
               const dateTxt = s.tanggal_mulai
                 ? s.tanggal_mulai === s.tanggal_selesai
-                  ? new Date(`${s.tanggal_mulai}T00:00:00`).toLocaleDateString("id-ID", {
+                  ? new Date(`${s.tanggal_mulai}T00:00:00`).toLocaleDateString(dateLocale(), {
                       day: "numeric",
                       month: "short",
                       year: "numeric"
                     })
-                  : `${new Date(`${s.tanggal_mulai}T00:00:00`).toLocaleDateString("id-ID", {
+                  : `${new Date(`${s.tanggal_mulai}T00:00:00`).toLocaleDateString(dateLocale(), {
                       day: "numeric",
                       month: "short"
-                    })} – ${new Date(`${s.tanggal_selesai}T00:00:00`).toLocaleDateString("id-ID", {
-                      day: "numeric",
-                      month: "short",
-                      year: "numeric"
-                    })}`
+                    })} – ${new Date(`${s.tanggal_selesai}T00:00:00`).toLocaleDateString(
+                      dateLocale(),
+                      {
+                        day: "numeric",
+                        month: "short",
+                        year: "numeric"
+                      }
+                    )}`
                 : "-";
               return (
                 <div
@@ -749,7 +753,7 @@ const DashboardUser = () => {
                   <p className="mt-2 text-xs text-muted-foreground">
                     {isRequester ? "Kamu mengajukan" : "Diajukan untukmu"} ·{" "}
                     {s.createdAt
-                      ? new Date(s.createdAt).toLocaleString("id-ID", {
+                      ? new Date(s.createdAt).toLocaleString(dateLocale(), {
                           day: "numeric",
                           month: "short",
                           hour: "2-digit",

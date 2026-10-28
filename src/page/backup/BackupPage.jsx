@@ -31,6 +31,7 @@ import {
   setBackupSchedule
 } from "@/services/backup";
 import HorizontalScrollArea from "@/components/ui/HorizontalScrollArea";
+import { dateLocale } from "@/lib/locale";
 
 const formatSize = (bytes) => {
   if (!bytes && bytes !== 0) return "-";
@@ -42,7 +43,7 @@ const formatSize = (bytes) => {
 
 const formatDate = (d) => {
   if (!d) return "-";
-  return new Date(d).toLocaleString("id-ID", {
+  return new Date(d).toLocaleString(dateLocale(), {
     day: "2-digit",
     month: "short",
     year: "numeric",

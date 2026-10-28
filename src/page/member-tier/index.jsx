@@ -22,6 +22,7 @@ import PageHeader from "@/components/ui/PageHeader";
 import { canAccess } from "@/utils/permission";
 import AbortController from "@/components/organism/abort-controller";
 import { useLocations } from "@/queries/useLocations";
+import { dateLocale } from "@/lib/locale";
 
 const MemberTier = () => {
   const { t } = useTranslation();
@@ -190,7 +191,7 @@ const MemberTier = () => {
       render: (tier) => (
         <span className="text-sm text-muted-foreground">
           {tier.createdAt
-            ? new Date(tier.createdAt).toLocaleString("id-ID", {
+            ? new Date(tier.createdAt).toLocaleString(dateLocale(), {
                 day: "numeric",
                 month: "short",
                 year: "numeric",
@@ -206,7 +207,7 @@ const MemberTier = () => {
       render: (tier) => (
         <span className="text-sm text-muted-foreground">
           {tier.updatedAt
-            ? new Date(tier.updatedAt).toLocaleString("id-ID", {
+            ? new Date(tier.updatedAt).toLocaleString(dateLocale(), {
                 day: "numeric",
                 month: "short",
                 year: "numeric",

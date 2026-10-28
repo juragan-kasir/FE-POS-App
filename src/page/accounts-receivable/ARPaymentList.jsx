@@ -15,6 +15,7 @@ import AbortController from "@/components/organism/abort-controller";
 import StatCard from "@/components/ui/StatCard";
 import PageHeader from "@/components/ui/PageHeader";
 import i18next from "i18next";
+import { dateLocale } from "@/lib/locale";
 
 const STATUS_LABELS = {
   UNPAID: {
@@ -101,7 +102,7 @@ const ARPaymentList = () => {
       header: t("page.accountsReceivable.list.header.jatuhTempo"),
       render: (ar) =>
         ar.dueDate
-          ? new Date(ar.dueDate).toLocaleDateString("id-ID", {
+          ? new Date(ar.dueDate).toLocaleDateString(dateLocale(), {
               day: "numeric",
               month: "short",
               year: "numeric"

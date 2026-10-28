@@ -14,6 +14,7 @@ import { formatCurrencyRupiah } from "@/utils/formatter-currency";
 import AbortController from "@/components/organism/abort-controller";
 import PageHeader from "@/components/ui/PageHeader";
 import i18next from "i18next";
+import { dateLocale } from "@/lib/locale";
 
 const STATUS_MAP = {
   UNPAID: {
@@ -66,7 +67,7 @@ const AccountsReceivableDetail = () => {
     {
       header: t("page.accountsReceivable.detail.paymentTable.date"),
       render: (p) =>
-        new Date(p.paymentDate).toLocaleDateString("id-ID", {
+        new Date(p.paymentDate).toLocaleDateString(dateLocale(), {
           day: "numeric",
           month: "short",
           year: "numeric",
@@ -201,7 +202,9 @@ const AccountsReceivableDetail = () => {
                       {t("page.accountsReceivable.detail.field.tanggalInvoice")}
                     </span>
                     <span>
-                      {ar.invoiceDate ? new Date(ar.invoiceDate).toLocaleDateString("id-ID") : "-"}
+                      {ar.invoiceDate
+                        ? new Date(ar.invoiceDate).toLocaleDateString(dateLocale())
+                        : "-"}
                     </span>
                   </div>
                   <Separator />
@@ -210,7 +213,7 @@ const AccountsReceivableDetail = () => {
                       {t("page.accountsReceivable.detail.field.jatuhTempo")}
                     </span>
                     <span>
-                      {ar.dueDate ? new Date(ar.dueDate).toLocaleDateString("id-ID") : "-"}
+                      {ar.dueDate ? new Date(ar.dueDate).toLocaleDateString(dateLocale()) : "-"}
                     </span>
                   </div>
                   <Separator />

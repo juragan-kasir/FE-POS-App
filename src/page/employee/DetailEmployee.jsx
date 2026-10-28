@@ -19,6 +19,7 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { getEmployeeDetail } from "@/services/employee";
+import { dateLocale } from "@/lib/locale";
 
 const statusBadge = (status, t) => {
   if (status === "active")
@@ -74,7 +75,7 @@ const employmentTypeLabel = (type, t) => {
 
 const formatDate = (date) => {
   if (!date) return "-";
-  return new Date(date).toLocaleDateString("id-ID", {
+  return new Date(date).toLocaleDateString(dateLocale(), {
     year: "numeric",
     month: "long",
     day: "numeric"
@@ -83,7 +84,7 @@ const formatDate = (date) => {
 
 const formatDateTime = (date) => {
   if (!date) return "-";
-  return new Date(date).toLocaleDateString("id-ID", {
+  return new Date(date).toLocaleDateString(dateLocale(), {
     year: "numeric",
     month: "long",
     day: "numeric",

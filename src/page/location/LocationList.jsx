@@ -45,6 +45,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import TableActions from "@/components/ui/TableActions";
 import { qk } from "@/queries/keys";
 import { FIELD_LIMITS } from "@/constants/fieldLimits";
+import { dateLocale } from "@/lib/locale";
 
 const LocationList = () => {
   const { t } = useTranslation();
@@ -293,7 +294,7 @@ const LocationList = () => {
       render: (loc) => (
         <span className="text-xs text-muted-foreground whitespace-nowrap">
           {loc.createdAt
-            ? new Date(loc.createdAt).toLocaleDateString("id-ID", {
+            ? new Date(loc.createdAt).toLocaleDateString(dateLocale(), {
                 day: "numeric",
                 month: "short",
                 year: "numeric",
@@ -315,7 +316,7 @@ const LocationList = () => {
       render: (loc) => (
         <span className="text-xs text-muted-foreground whitespace-nowrap">
           {loc.updatedAt
-            ? new Date(loc.updatedAt).toLocaleDateString("id-ID", {
+            ? new Date(loc.updatedAt).toLocaleDateString(dateLocale(), {
                 day: "numeric",
                 month: "short",
                 year: "numeric",
