@@ -1724,7 +1724,9 @@ const CheckoutModal = ({
               )}
               <div className="flex items-center gap-2 text-xs">
                 <span className="text-muted-foreground">{t("page.cashier.ui.points")}</span>
-                <span className="font-medium">{memberPoints.toLocaleString("id-ID")} pts</span>
+                <span className="font-medium">
+                  {t("page.cashier.pointsValue", { value: memberPoints.toLocaleString("id-ID") })}
+                </span>
                 <span className="text-muted-foreground">
                   {t("page.cashier.ui.status")} {selectedCustomer.status || t("common.active")}
                 </span>
@@ -1870,7 +1872,8 @@ const CheckoutModal = ({
                   {t("page.memberLoyalty.tabs.redeem")}
                 </label>
                 <span className="text-xs text-violet-500 font-medium">
-                  {t("common.available", "Tersedia")}: {memberPoints.toLocaleString("id-ID")} pts
+                  {t("common.available", "Tersedia")}:{" "}
+                  {t("page.cashier.pointsValue", { value: memberPoints.toLocaleString("id-ID") })}
                 </span>
               </div>
               <div className="flex gap-2">

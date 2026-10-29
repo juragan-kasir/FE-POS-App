@@ -602,7 +602,9 @@ const CollectPaymentModal = ({ order, store, onClose, onOpenReceipt }) => {
                               <dd
                                 className="font-medium"
                                 data-testid="collect-payment-points-balance">
-                                {formatPrice(memberPoints)} pts
+                                {t("page.cashier.pointsValue", {
+                                  value: formatPrice(memberPoints)
+                                })}
                               </dd>
                             </div>
                             <div className="flex justify-between gap-2">
@@ -612,7 +614,9 @@ const CollectPaymentModal = ({ order, store, onClose, onOpenReceipt }) => {
                               <dd
                                 className="font-medium"
                                 data-testid="collect-payment-points-required">
-                                {formatPrice(pointsRequired)} pts
+                                {t("page.cashier.pointsValue", {
+                                  value: formatPrice(pointsRequired)
+                                })}
                               </dd>
                             </div>
                             <div className="flex justify-between gap-2">
@@ -622,7 +626,9 @@ const CollectPaymentModal = ({ order, store, onClose, onOpenReceipt }) => {
                               <dd
                                 className="font-semibold"
                                 data-testid="collect-payment-points-redeem">
-                                {formatPrice(pointsToRedeem)} pts
+                                {t("page.cashier.pointsValue", {
+                                  value: formatPrice(pointsToRedeem)
+                                })}
                               </dd>
                             </div>
                           </dl>

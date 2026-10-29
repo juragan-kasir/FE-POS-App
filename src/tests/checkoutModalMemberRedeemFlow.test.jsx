@@ -19,7 +19,10 @@ import { waitForCheckoutQuote } from "./helpers/checkoutQuote";
 // integration, not a mock of either.
 
 jest.mock("react-i18next", () => ({
-  useTranslation: () => ({ t: (k) => k })
+  // Points read "<value> pts" (page.cashier.pointsValue); other keys as-is.
+  useTranslation: () => ({
+    t: (k, o) => (k === "page.cashier.pointsValue" ? `${o.value} pts` : k)
+  })
 }));
 
 jest.mock("sonner", () => ({
