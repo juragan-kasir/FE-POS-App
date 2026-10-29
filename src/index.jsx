@@ -16,7 +16,7 @@ import i18n from "./i18n";
 import { SocketProvider } from "@/services/socket";
 import { StoreProvider } from "@/contexts/StoreContext";
 import { shouldRetryQuery } from "@/lib/query-retry";
-import { markAllClean } from "@/lib/unsaved-changes-store";
+import { markSaved } from "@/lib/unsaved-changes-store";
 
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", () => {
@@ -26,7 +26,9 @@ if ("serviceWorker" in navigator) {
 
 const queryClient = new QueryClient({
   mutationCache: new MutationCache({
-    onSuccess: () => markAllClean()
+    // A successful save holds off "Batalkan Perubahan?" until the user
+    // leaves or edits again (see unsaved-changes-store).
+    onSuccess: () => markSaved()
   }),
   defaultOptions: {
     queries: {

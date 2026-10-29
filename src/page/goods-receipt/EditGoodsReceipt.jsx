@@ -49,6 +49,7 @@ import { formatDateOnly } from "@/utils/dateOnly";
 import { useFormExit } from "@/hooks/useLeaveGuard";
 import { FieldError } from "@/components/ui/field-error";
 import { dateLocale } from "@/lib/locale";
+import { markSaved } from "@/lib/unsaved-changes-store";
 
 const EditGoodsReceipt = () => {
   const dirtyRef = useDomDirtyTracking();
@@ -485,6 +486,8 @@ const EditGoodsReceipt = () => {
       // dokumentasi: kirim ulang URL lama yang dipertahankan sebagai JSON array
       payload.documentation = docs.filter((d) => !d.isNew).map((d) => d.url);
       await editGoodsReceipt(id, payload, docFiles);
+      // Saved: the way back to the list must not ask "Batalkan Perubahan?".
+      markSaved();
       toast.success(t("page.goodsReceipt.edit.toast.success"), {
         description: t("page.goodsReceipt.edit.toast.successDesc")
       });

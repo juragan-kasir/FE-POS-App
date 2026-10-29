@@ -51,6 +51,7 @@ import { useFormExit } from "@/hooks/useLeaveGuard";
 import { createdId } from "@/utils/createdRecord";
 import LoadErrorBanner from "@/components/ui/LoadErrorBanner";
 import { dateLocale } from "@/lib/locale";
+import { markSaved } from "@/lib/unsaved-changes-store";
 
 const AddGoodsReceipt = () => {
   const navigate = useNavigate();
@@ -492,6 +493,8 @@ const AddGoodsReceipt = () => {
         }))
       };
       const receiptId = createdId(await addGoodsReceipt(payload, docFiles));
+      // Saved: the way back to the list must not ask "Batalkan Perubahan?".
+      markSaved();
       grIdempotencyRef.current = "";
       toast.success(t("page.goodsReceipt.add.toast.success"), {
         description: t("page.goodsReceipt.add.toast.successDesc"),

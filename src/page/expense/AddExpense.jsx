@@ -54,6 +54,7 @@ import { useLocations } from "@/queries/useLocations";
 import { FIELD_LIMITS } from "@/constants/fieldLimits";
 import { useFormExit } from "@/hooks/useLeaveGuard";
 import LoadErrorBanner from "@/components/ui/LoadErrorBanner";
+import { markSaved } from "@/lib/unsaved-changes-store";
 
 const SectionHeader = ({ step, title, description }) => (
   <div className="flex items-center gap-3 pt-1">
@@ -354,6 +355,8 @@ const AddExpense = () => {
     setIsSaving(true);
     createExpenses({ payloads, singleCreate: addExpense, bulkCreate: bulkAddExpenses })
       .then(() => {
+        // Saved: the way back to the list must not ask "Batalkan Perubahan?".
+        markSaved();
         queryClient.invalidateQueries(["expenses"]);
         setSuccessModal(true);
       })
