@@ -1422,7 +1422,7 @@ const CheckoutModal = ({
                         setSelectedTable(tbl || null);
                       }}
                       placeholder={t("page.cashier.selectTable", "Pilih Meja")}
-                      searchPlaceholder="Cari meja..."
+                      searchPlaceholder={t("common.search.table")}
                     />
                     {occupancyError && (
                       <p className="mt-1 text-xs text-destructive flex items-center gap-1">
@@ -1726,7 +1726,7 @@ const CheckoutModal = ({
                 <span className="text-muted-foreground">{t("page.cashier.ui.points")}</span>
                 <span className="font-medium">{memberPoints.toLocaleString("id-ID")} pts</span>
                 <span className="text-muted-foreground">
-                  {t("page.cashier.ui.status")} {selectedCustomer.status || "Aktif"}
+                  {t("page.cashier.ui.status")} {selectedCustomer.status || t("common.active")}
                 </span>
               </div>
             </div>

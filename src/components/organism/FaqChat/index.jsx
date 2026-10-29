@@ -178,12 +178,14 @@ function FaqChat() {
                 </div>
                 <div>
                   <h2 className="font-semibold text-sm text-foreground">
-                    {mode === MODE.AI ? "AI Analisa" : "FAQ Chat"}
+                    {mode === MODE.AI
+                      ? t("component.faqChat.aiTitle")
+                      : t("component.faqChat.faqTitle")}
                   </h2>
                   <p className="text-xs text-muted-foreground">
                     {mode === MODE.AI
-                      ? "Tanya AI soal bisnis toko"
-                      : "Tanya seputar penggunaan POS"}
+                      ? t("component.faqChat.aiSubtitle")
+                      : t("component.faqChat.faqSubtitle")}
                   </p>
                 </div>
               </div>

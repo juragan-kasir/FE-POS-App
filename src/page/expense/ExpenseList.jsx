@@ -802,7 +802,7 @@ const ExpenseList = () => {
                         setPage(1);
                       }}
                       placeholder={t("common.status")}
-                      searchPlaceholder="Cari..."
+                      searchPlaceholder={t("common.search.generic")}
                     />
                     <Combobox
                       options={[
@@ -815,7 +815,7 @@ const ExpenseList = () => {
                         setPage(1);
                       }}
                       placeholder={t("page.expense.list.filter.isActive")}
-                      searchPlaceholder="Cari..."
+                      searchPlaceholder={t("common.search.generic")}
                     />
                     <Combobox
                       options={[
@@ -831,7 +831,7 @@ const ExpenseList = () => {
                         setPage(1);
                       }}
                       placeholder={t("page.expense.list.filter.category")}
-                      searchPlaceholder="Cari kategori..."
+                      searchPlaceholder={t("common.search.category")}
                     />
                   </div>
                 )}

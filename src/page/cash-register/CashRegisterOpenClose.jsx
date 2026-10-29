@@ -229,7 +229,7 @@ const CashRegisterOpenClose = () => {
                         value={selectedStore}
                         onChange={setSelectedStore}
                         placeholder={t("page.cashRegister.openClose.selectStore")}
-                        searchPlaceholder="Cari toko..."
+                        searchPlaceholder={t("common.search.store")}
                         className="mt-1.5"
                       />
                       {selectedStoreIsOpen && (

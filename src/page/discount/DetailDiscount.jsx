@@ -176,9 +176,9 @@ const DetailDiscount = () => {
                 <p className="text-xs text-muted-foreground mb-1">{t("page.discount.form.type")}</p>
                 <p className="font-medium">
                   {discount.type === "percent"
-                    ? "Persentase"
+                    ? t("common.ui.percentage")
                     : discount.type === "nominal"
-                      ? "Nominal"
+                      ? t("common.ui.fixedAmount")
                       : discount.type || "-"}
                 </p>
               </div>

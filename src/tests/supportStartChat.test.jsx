@@ -13,9 +13,9 @@ beforeAll(() => {
 
 test("the open event shows the chat panel", () => {
   render(<FaqChat />);
-  expect(screen.queryByText("FAQ Chat")).toBeNull();
+  expect(screen.queryByText("component.faqChat.faqTitle")).toBeNull();
   act(() => {
     window.dispatchEvent(new Event(FAQ_CHAT_OPEN));
   });
-  expect(screen.getByText("FAQ Chat")).toBeTruthy();
+  expect(screen.getByText("component.faqChat.faqTitle")).toBeTruthy();
 });

@@ -363,7 +363,7 @@ const AddIngredient = () => {
                           value={field.value || ""}
                           onChange={(v) => field.onChange(v || null)}
                           placeholder={t("page.ingredient.add.selectStorePlaceholder")}
-                          searchPlaceholder="Cari toko..."
+                          searchPlaceholder={t("common.search.store")}
                           loading={locationsLoading}
                         />
                         {!field.value && (
@@ -643,7 +643,7 @@ const AddIngredient = () => {
                                 value={field.value}
                                 onChange={(v) => field.onChange(v)}
                                 placeholder={t("page.ingredient.ui.selectUnit")}
-                                searchPlaceholder="Cari unit..."
+                                searchPlaceholder={t("common.search.unit")}
                               />
                               <FormMessage />
                             </FormItem>
@@ -662,7 +662,7 @@ const AddIngredient = () => {
                                 value={field.value}
                                 onChange={(v) => field.onChange(v)}
                                 placeholder={t("page.ingredient.ui.selectBaseUnit")}
-                                searchPlaceholder="Cari base unit..."
+                                searchPlaceholder={t("common.search.baseUnit")}
                               />
                               <FormMessage />
                             </FormItem>

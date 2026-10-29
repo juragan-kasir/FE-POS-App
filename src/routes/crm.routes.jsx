@@ -44,7 +44,7 @@ export const crmRoutes = (
     <Route path="/member-point-history" element={<MemberPointHistory />} />
 
     <Route path="/member-tier" element={<MemberTier />} />
-    <Route path="/add-member-tier" element={<AddMemberTier title="Add Member Tier" />} />
+    <Route path="/add-member-tier" element={<AddMemberTier />} />
     <Route path="/edit-member-tier/:id" element={<EditMemberTier />} />
     <Route path="/detail-member-tier" element={<DetailMemberTier />} />
 

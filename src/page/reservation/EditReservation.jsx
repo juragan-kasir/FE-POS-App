@@ -519,7 +519,7 @@ const EditReservation = () => {
           onOpenChange={setConfirmSaveModal}
           title={t("common.confirmSave")}
           description={t("page.reservation.ui.areYouSureYouWant")}
-          confirmText="Ya, Simpan"
+          confirmText={t("common.confirm.yesSave")}
           onConfirm={() => {
             setConfirmSaveModal(false);
             const values = form.getValues();

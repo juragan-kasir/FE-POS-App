@@ -730,7 +730,9 @@ const InvoicePage = () => {
                         : "border-border hover:border-border/80 bg-card text-muted-foreground"
                     }`}>
                     <div className="flex items-center justify-between mb-1.5">
-                      <span className="font-bold text-sm text-foreground">58mm (Standar Mini)</span>
+                      <span className="font-bold text-sm text-foreground">
+                        {t("page.invoice.ui.paper58")}
+                      </span>
                       <span
                         className={`w-4 h-4 rounded-full border-2 flex items-center justify-center ${
                           paperSize === "58mm" ? "border-primary" : "border-muted-foreground"
@@ -753,7 +755,7 @@ const InvoicePage = () => {
                     }`}>
                     <div className="flex items-center justify-between mb-1.5">
                       <span className="font-bold text-sm text-foreground">
-                        80mm (Standar POS Lebar)
+                        {t("page.invoice.ui.paper80")}
                       </span>
                       <span
                         className={`w-4 h-4 rounded-full border-2 flex items-center justify-center ${
@@ -795,10 +797,10 @@ const InvoicePage = () => {
                     </p>
                     <span className="text-xs font-medium text-muted-foreground">
                       {fontSize === "small"
-                        ? "Kecil (10px)"
+                        ? t("page.invoice.ui.fontSmall")
                         : fontSize === "large"
-                          ? "Besar (14px)"
-                          : "Standar (12px)"}
+                          ? t("page.invoice.ui.fontLarge")
+                          : t("page.invoice.ui.fontStandard")}
                     </span>
                   </div>
                   <div
@@ -920,10 +922,10 @@ const InvoicePage = () => {
                     </p>
                     <span className="text-xs font-medium text-muted-foreground">
                       {lineSpacing === "compact"
-                        ? "Rapat"
+                        ? t("page.invoice.ui.spacingTight")
                         : lineSpacing === "relaxed"
-                          ? "Longgar"
-                          : "Standar"}
+                          ? t("page.invoice.ui.spacingLoose")
+                          : t("page.invoice.ui.spacingStandard")}
                     </span>
                   </div>
                   <div

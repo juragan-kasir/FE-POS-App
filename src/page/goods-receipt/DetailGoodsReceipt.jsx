@@ -312,7 +312,7 @@ const DetailGoodsReceipt = () => {
                                     item.qtyStock ||
                                       Number(item.qtyReceived) * (item.conversionToBase || 1)
                                   ).toLocaleString("id-ID")}{" "}
-                                  stok
+                                  {t("common.ui.stock")}
                                 </span>
                               </span>
                             </div>
@@ -467,7 +467,7 @@ const DetailGoodsReceipt = () => {
                                 : t("page.goodsReceipt.add.items.summaryPending")}
                             </span>
                             <span className="font-medium text-muted-foreground">
-                              {completedItems}/{poItems.length} item
+                              {completedItems}/{poItems.length} {t("common.ui.items")}
                             </span>
                           </div>
                           <div className="h-2 bg-muted rounded-full overflow-hidden">
@@ -480,7 +480,7 @@ const DetailGoodsReceipt = () => {
                           </div>
                           <p className="text-xs text-muted-foreground">
                             {totalReceivedNow.toLocaleString("id-ID")} /{" "}
-                            {totalOrdered.toLocaleString("id-ID")} unit
+                            {totalOrdered.toLocaleString("id-ID")} {t("common.ui.unitWord")}
                           </p>
                         </div>
                       </div>

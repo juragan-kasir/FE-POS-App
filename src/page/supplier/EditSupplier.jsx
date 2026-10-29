@@ -1144,7 +1144,7 @@ const EditSupplier = () => {
                                 value={field.value}
                                 onChange={field.onChange}
                                 placeholder={t("page.supplier.ui.selectPaymentType")}
-                                searchPlaceholder="Cari..."
+                                searchPlaceholder={t("common.search.generic")}
                               />
                               <FormMessage />
                             </FormItem>
@@ -1467,7 +1467,7 @@ const EditSupplier = () => {
                                 value={field.value || ""}
                                 onChange={field.onChange}
                                 placeholder={t("page.supplier.ui.selectTaxType")}
-                                searchPlaceholder="Cari..."
+                                searchPlaceholder={t("common.search.generic")}
                               />
                               <FormMessage />
                             </FormItem>
@@ -1492,7 +1492,7 @@ const EditSupplier = () => {
                                 value={field.value || ""}
                                 onChange={field.onChange}
                                 placeholder={t("page.supplier.ui.selectTransactionType")}
-                                searchPlaceholder="Cari..."
+                                searchPlaceholder={t("common.search.generic")}
                               />
                               <FormMessage />
                             </FormItem>
@@ -1684,7 +1684,7 @@ const EditSupplier = () => {
                           value={productUnit}
                           onChange={(v) => setProductUnit(v)}
                           placeholder={t("page.supplier.ui.selectUnit")}
-                          searchPlaceholder="Cari satuan..."
+                          searchPlaceholder={t("common.search.unit")}
                         />
                       </div>
                       <div className="col-span-6 space-y-1">
@@ -1716,7 +1716,7 @@ const EditSupplier = () => {
                               value={productLeadTimeUnit}
                               onChange={(v) => setProductLeadTimeUnit(v)}
                               placeholder={t("page.supplier.ui.select")}
-                              searchPlaceholder="Cari..."
+                              searchPlaceholder={t("common.search.generic")}
                             />
                           </div>
                         </div>

@@ -153,7 +153,7 @@ const LowStockAll = () => {
       render: (row) => (
         <div className="flex items-center gap-2">
           <Store size={14} className="text-muted-foreground shrink-0" />
-          <span className="font-medium">{row.storeName || "Unknown"}</span>
+          <span className="font-medium">{row.storeName || t("common.ui.unknown")}</span>
         </div>
       )
     },

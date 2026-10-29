@@ -638,8 +638,8 @@ const MemberDetail = () => {
                 </HorizontalScrollArea>
                 <div className="px-4 py-3 border-t border-border flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 bg-muted/10">
                   <p className="text-xs text-muted-foreground">
-                    {t("page.member.ui.showing")} {(pointData?.data || []).length} dari{" "}
-                    {pointData?.pagination?.total || pointData?.total || 0}{" "}
+                    {t("page.member.ui.showing")} {(pointData?.data || []).length}{" "}
+                    {t("common.ui.of")} {pointData?.pagination?.total || pointData?.total || 0}{" "}
                     {t("page.member.ui.pointActivities")}
                   </p>
                   <div className="flex gap-1">
@@ -672,8 +672,8 @@ const MemberDetail = () => {
             {activeTab === "transactions" && (
               <div className="px-4 py-3 border-t border-border flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 bg-muted/10">
                 <p className="text-xs text-muted-foreground">
-                  {t("page.member.ui.showing")} {transactions.length} dari{" "}
-                  {member?.transactionPagination?.total || 0} transaksi
+                  {t("page.member.ui.showing")} {transactions.length} {t("common.ui.of")}{" "}
+                  {member?.transactionPagination?.total || 0} {t("common.ui.transactions")}
                 </p>
                 <div className="flex gap-1">
                   <button

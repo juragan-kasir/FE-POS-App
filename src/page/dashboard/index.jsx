@@ -849,7 +849,9 @@ const Dashboard = () => {
               </HorizontalScrollArea>
               {recentOrdersTotal > ORDER_PAGE_SIZE && (
                 <div className="flex items-center justify-between px-5 py-3 border-t border-border">
-                  <span className="text-xs text-muted-foreground">{recentOrdersTotal} orders</span>
+                  <span className="text-xs text-muted-foreground">
+                    {recentOrdersTotal} {t("common.ui.orders")}
+                  </span>
                   <div className="flex items-center gap-1">
                     <button
                       type="button"

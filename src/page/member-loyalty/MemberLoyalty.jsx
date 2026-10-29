@@ -245,7 +245,7 @@ const MemberLoyalty = () => {
                               {t("page.memberLoyalty.ui.discount")}
                             </p>
                             <p className="text-sm text-muted-foreground">
-                              {tier.memberCount || 0} member
+                              {tier.memberCount || 0} {t("common.ui.membersCount")}
                             </p>
                           </div>
                         </div>
@@ -418,8 +418,8 @@ const MemberLoyalty = () => {
         open={!!deleteTierTarget}
         onOpenChange={(open) => !open && setDeleteTierTarget(null)}
         title={t("page.memberTier.edit.deleteTier")}
-        description={`Yakin ingin menghapus tier "${deleteTierTarget?.name}"? Tindakan ini tidak dapat dibatalkan.`}
-        confirmText="Hapus"
+        description={t("page.memberLoyalty.ui.deleteTierDesc", { name: deleteTierTarget?.name })}
+        confirmText={t("common.delete")}
         confirmVariant="destructive"
         onConfirm={() => deleteTierMutation.mutate({ id: deleteTierTarget.id })}
         loading={deleteTierMutation.isLoading}
@@ -523,7 +523,7 @@ const AddTierForm = ({ onSuccess }) => {
         </Select>
       </div>
       <Button variant="success" type="submit" disabled={addTier.isLoading}>
-        {addTier.isLoading ? "Saving..." : "Add Tier"}
+        {addTier.isLoading ? t("common.ui.savingEllipsis") : t("page.memberLoyalty.ui.addTier")}
       </Button>
     </form>
   );
@@ -626,7 +626,7 @@ const EditTierForm = ({ tier, onSuccess }) => {
         </Select>
       </div>
       <Button variant="success" type="submit" disabled={editTier.isLoading}>
-        {editTier.isLoading ? "Saving..." : "Update Tier"}
+        {editTier.isLoading ? t("common.ui.savingEllipsis") : t("page.memberLoyalty.ui.updateTier")}
       </Button>
     </form>
   );

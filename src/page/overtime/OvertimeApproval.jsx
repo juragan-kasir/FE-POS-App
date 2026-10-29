@@ -252,7 +252,7 @@ const OvertimeApproval = () => {
                   setPage(1);
                 }}
                 placeholder={t("page.table.form.storePlaceholder")}
-                searchPlaceholder="Cari toko..."
+                searchPlaceholder={t("common.search.store")}
               />
             </div>
           )}
@@ -277,14 +277,14 @@ const OvertimeApproval = () => {
                 setPage(1);
               }}
               placeholder={t("page.overtime.ui.selectStatus")}
-              searchPlaceholder="Cari..."
+              searchPlaceholder={t("common.search.generic")}
             />
           </div>
         </div>
         <p className="text-xs text-muted-foreground">
           {t("page.overtime.ui.showingOvertimeRequestsFor")}{" "}
           <span className="font-medium text-foreground">
-            {locationName(store) || `Toko #${store || "-"}`}
+            {locationName(store) || t("common.ui.storeNumber", { id: store || "-" })}
           </span>
         </p>
       </div>
@@ -341,7 +341,8 @@ const OvertimeApproval = () => {
                   <div className="flex items-center gap-1.5 text-sm font-semibold text-foreground min-w-0">
                     <Store size={14} className="shrink-0 text-muted-foreground" />
                     <span className="truncate">
-                      {locationName(ot.store) || `Toko #${ot.store || "-"}`}
+                      {locationName(ot.store) ||
+                        t("common.ui.storeNumber", { id: ot.store || "-" })}
                     </span>
                   </div>
                   {statusBadge(ot.status)}
@@ -526,12 +527,12 @@ const OvertimeApproval = () => {
         open={decisionTarget?.decision === "approved"}
         onOpenChange={(open) => !open && setDecisionTarget(null)}
         title={t("page.overtime.ui.approveThisOvertimeRequest")}
-        description={`Anda akan menyetujui lembur ${
-          decisionTarget?.ot?.employee?.fullName || "karyawan"
-        } pada ${fmt(decisionTarget?.ot?.date)} selama ${durationLabel(
-          decisionTarget?.ot?.duration_hours
-        )}.`}
-        confirmText="Terima"
+        description={t("page.overtime.ui.approveDesc", {
+          name: decisionTarget?.ot?.employee?.fullName || t("page.overtime.ui.employeeFallback"),
+          date: fmt(decisionTarget?.ot?.date),
+          duration: durationLabel(decisionTarget?.ot?.duration_hours)
+        })}
+        confirmText={t("common.ui.accept")}
         loading={decideMutation.isLoading}
         onConfirm={confirmDecide}
       />
@@ -541,10 +542,11 @@ const OvertimeApproval = () => {
         open={decisionTarget?.decision === "rejected"}
         onOpenChange={(open) => !open && setDecisionTarget(null)}
         title={t("page.overtime.ui.rejectThisOvertimeRequest")}
-        description={`Lembur ${
-          decisionTarget?.ot?.employee?.fullName || "karyawan"
-        } pada ${fmt(decisionTarget?.ot?.date)} akan ditolak.`}
-        confirmText="Tolak"
+        description={t("page.overtime.ui.rejectDesc", {
+          name: decisionTarget?.ot?.employee?.fullName || t("page.overtime.ui.employeeFallback"),
+          date: fmt(decisionTarget?.ot?.date)
+        })}
+        confirmText={t("common.reject")}
         confirmVariant="destructive"
         loading={decideMutation.isLoading}
         onConfirm={confirmDecide}
@@ -562,10 +564,9 @@ const OvertimeApproval = () => {
         type="confirm"
         open={!!payrollTarget}
         onOpenChange={(open) => !open && setPayrollTarget(null)}
-        title={`Posting payroll lembur ${payrollTarget}?`}
-        description={`Seluruh lembur disetujui dan belum diposting pada ${payrollTarget} akan
-          dihitung biayanya dan dibuatkan jurnal akuntansi. Tindakan ini tidak dapat dibatalkan.`}
-        confirmText="Ya, Posting"
+        title={t("page.overtime.ui.postPayrollTitle", { month: payrollTarget })}
+        description={t("page.overtime.ui.postPayrollDesc", { month: payrollTarget })}
+        confirmText={t("page.overtime.ui.yesPost")}
         loading={payrollMutation.isLoading}
         onConfirm={() => payrollMutation.mutate({ store, month: payrollTarget })}
       />

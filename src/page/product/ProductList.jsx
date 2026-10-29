@@ -709,7 +709,7 @@ const ProductList = () => {
                         setPage(1);
                       }}
                       placeholder={`${t("common.all")} ${t("page.product.table.category")}`}
-                      searchPlaceholder="Cari kategori..."
+                      searchPlaceholder={t("common.search.category")}
                     />
                   </div>
                   <div className="flex flex-col gap-1.5">
@@ -732,7 +732,7 @@ const ProductList = () => {
                         setPage(1);
                       }}
                       placeholder={t("common.all")}
-                      searchPlaceholder="Cari status..."
+                      searchPlaceholder={t("common.search.status")}
                     />
                   </div>
                   <div className="flex flex-col gap-1.5">
@@ -758,7 +758,7 @@ const ProductList = () => {
                         setPage(1);
                       }}
                       placeholder={t("page.product.list.filter.newest")}
-                      searchPlaceholder="Cari..."
+                      searchPlaceholder={t("common.search.generic")}
                     />
                   </div>
                 </TableToolbar>

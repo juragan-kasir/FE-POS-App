@@ -498,7 +498,7 @@ const SupplierList = () => {
                           setPage(1);
                         }}
                         placeholder={t("common.all")}
-                        searchPlaceholder="Cari status..."
+                        searchPlaceholder={t("common.search.status")}
                       />
                     </div>
                     <div className="flex flex-col gap-1.5">
@@ -542,7 +542,7 @@ const SupplierList = () => {
         open={!!deleteTarget}
         onOpenChange={(open) => !open && setDeleteTarget(null)}
         title={t("modal.confirmDelete")}
-        description={`Yakin ingin menghapus supplier ${deleteTarget?.name || ""}?`}
+        description={t("page.supplier.list.deleteDesc", { name: deleteTarget?.name || "" })}
         confirmText={t("common.delete")}
         loading={deleteMutation.isLoading}
         onConfirm={confirmDelete}

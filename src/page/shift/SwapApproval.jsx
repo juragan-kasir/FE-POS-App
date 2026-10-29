@@ -160,7 +160,7 @@ const AuditTrailPanel = ({ store, locations }) => {
           </div>
         </div>
         <span className="text-xs font-semibold text-primary">
-          {open ? "Sembunyikan" : "Detail"}
+          {open ? t("common.ui.hide") : "Detail"}
         </span>
       </button>
 
@@ -175,7 +175,7 @@ const AuditTrailPanel = ({ store, locations }) => {
                 onChange={(e) => setFromDate(e.target.value || fromDate)}
                 className="h-9 rounded-lg border border-border bg-background px-2.5 text-xs text-foreground focus:outline-none focus:ring-2 focus:ring-ring"
               />
-              <span>sampai</span>
+              <span>{t("common.ui.until")}</span>
               <input
                 type="date"
                 value={toDate}
@@ -223,8 +223,9 @@ const AuditTrailPanel = ({ store, locations }) => {
                           </span>
                           <EmpAvatar emp={sw.targetUser} size="w-8 h-8" />
                           <span className="ml-auto shrink-0 text-muted-foreground">
-                            {locationName(sw.store) || `Toko #${sw.store || "-"}`} ·{" "}
-                            {fmt(sw.tanggal_mulai)}
+                            {locationName(sw.store) ||
+                              t("common.ui.storeNumber", { id: sw.store || "-" })}{" "}
+                            · {fmt(sw.tanggal_mulai)}
                           </span>
                         </div>
                       ))}
@@ -374,13 +375,13 @@ const SwapApproval = ({ user, store, locations }) => {
                 setPage(1);
               }}
               placeholder={t("page.shift.ui.selectStatus")}
-              searchPlaceholder="Cari..."
+              searchPlaceholder={t("common.search.generic")}
             />
           </div>
           <p className="text-xs text-muted-foreground">
             {t("page.shift.ui.showingScheduleChangeRequestsFor")}{" "}
             <span className="font-medium text-foreground">
-              {locationName(store) || `Toko #${store || "-"}`}
+              {locationName(store) || t("common.ui.storeNumber", { id: store || "-" })}
             </span>
           </p>
         </div>
@@ -439,7 +440,8 @@ const SwapApproval = ({ user, store, locations }) => {
                   <div className="flex items-center gap-1.5 text-sm font-semibold text-foreground min-w-0">
                     <Store size={14} className="shrink-0 text-muted-foreground" />
                     <span className="truncate">
-                      {locationName(sw.store) || `Toko #${sw.store || "-"}`}
+                      {locationName(sw.store) ||
+                        t("common.ui.storeNumber", { id: sw.store || "-" })}
                     </span>
                   </div>
                   {statusBadge(sw.status)}
@@ -568,19 +570,26 @@ const SwapApproval = ({ user, store, locations }) => {
         onOpenChange={(open) => !open && setDecisionTarget(null)}
         title={
           decisionTarget?.decision === "approved"
-            ? "Terima permintaan ubah jadwal?"
-            : "Tolak permintaan ubah jadwal?"
+            ? t("page.shift.swapApproval.acceptTitle")
+            : t("page.shift.swapApproval.rejectTitle")
         }
         description={
           decisionTarget?.decision === "approved"
-            ? `Anda akan menyetujui tukar jadwal ${
-                decisionTarget?.swap?.requesterUser?.fullName || "pemohon"
-              } dengan ${decisionTarget?.swap?.targetUser?.fullName || "target"}.`
-            : `Permintaan tukar jadwal dari ${
-                decisionTarget?.swap?.requesterUser?.fullName || "pemohon"
-              } akan ditolak.`
+            ? t("page.shift.swapApproval.approveDesc", {
+                requester:
+                  decisionTarget?.swap?.requesterUser?.fullName ||
+                  t("page.shift.swapApproval.requesterFallback"),
+                target: decisionTarget?.swap?.targetUser?.fullName || "-"
+              })
+            : t("page.shift.swapApproval.rejectDesc", {
+                requester:
+                  decisionTarget?.swap?.requesterUser?.fullName ||
+                  t("page.shift.swapApproval.requesterFallback")
+              })
         }
-        confirmText={decisionTarget?.decision === "approved" ? "Terima" : "Tolak"}
+        confirmText={
+          decisionTarget?.decision === "approved" ? t("common.ui.accept") : t("common.reject")
+        }
         loading={decideMutation.isLoading}
         onConfirm={confirmDecide}
       />

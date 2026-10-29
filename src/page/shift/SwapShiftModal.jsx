@@ -147,7 +147,9 @@ const AvailabilityCalendar = ({ month, busyDates, selectedDate, onSelectDate, di
           {safeGet(MONTHS_ID, mIdx, mIdx)} {year}
         </p>
         <span className="text-xs text-muted-foreground font-medium">
-          {busyDates.size > 0 ? `${busyDates.size} hari sibuk` : "Semua kosong"}
+          {busyDates.size > 0
+            ? t("page.shift.swap.busyDays", { count: busyDates.size })
+            : t("page.shift.swap.allFree")}
         </span>
       </div>
       <div className="grid grid-cols-7 gap-1 text-center mb-1">

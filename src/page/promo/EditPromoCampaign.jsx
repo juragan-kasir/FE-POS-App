@@ -575,7 +575,7 @@ const EditPromoCampaign = () => {
                       value={form.watch("type")}
                       onChange={(v) => form.setValue("type", v)}
                       placeholder={t("page.promo.form.typePlaceholder") || "Pilih tipe campaign"}
-                      searchPlaceholder="Cari tipe..."
+                      searchPlaceholder={t("common.search.type")}
                     />
                   </div>
                 </div>
@@ -607,7 +607,7 @@ const EditPromoCampaign = () => {
                           onChange={(v) => form.setValue("discountType", v)}
                           disabled={isBirthday}
                           placeholder={t("page.discount.form.typePlaceholder")}
-                          searchPlaceholder="Cari tipe diskon..."
+                          searchPlaceholder={t("common.search.discountType")}
                         />
                       </div>
                       <div>
@@ -794,7 +794,7 @@ const EditPromoCampaign = () => {
                           value={rule.ruleType}
                           onChange={(v) => updateRule(index, "ruleType", v)}
                           placeholder={t("page.promo.ui.selectRule")}
-                          searchPlaceholder="Cari rule..."
+                          searchPlaceholder={t("common.search.rule")}
                         />
                         <Button
                           type="button"
@@ -858,7 +858,7 @@ const EditPromoCampaign = () => {
                           value={reward.rewardType}
                           onChange={(v) => updateReward(index, "rewardType", v)}
                           placeholder={t("page.promo.ui.selectReward")}
-                          searchPlaceholder="Cari reward..."
+                          searchPlaceholder={t("common.search.reward")}
                         />
                         <input
                           type="number"
@@ -910,9 +910,11 @@ const EditPromoCampaign = () => {
                       }}
                       disabled={!storeReady}
                       placeholder={
-                        !storeReady ? t("page.bom.add.form.selectStoreFirst") : "Pilih penerapan"
+                        !storeReady
+                          ? t("page.bom.add.form.selectStoreFirst")
+                          : t("page.promo.ui.selectScope")
                       }
-                      searchPlaceholder="Cari penerapan..."
+                      searchPlaceholder={t("common.search.scope")}
                     />
                     {!storeReady && (
                       <p className="text-xs text-muted-foreground mt-1">
@@ -929,7 +931,7 @@ const EditPromoCampaign = () => {
                         onChange={setApplicableIds}
                         placeholder={t("page.discount.form.selectProduct")}
                         selectedLabel="produk dipilih"
-                        searchPlaceholder="Cari produk..."
+                        searchPlaceholder={t("common.search.product")}
                         emptyMessage={t("page.cashier.noProducts")}
                       />
                     ) : null)}
@@ -942,7 +944,7 @@ const EditPromoCampaign = () => {
                         onChange={setApplicableIds}
                         placeholder={t("page.promo.ui.selectCategory")}
                         selectedLabel="kategori dipilih"
-                        searchPlaceholder="Cari kategori..."
+                        searchPlaceholder={t("common.search.category")}
                         emptyMessage={t("page.category.notFound")}
                       />
                     ) : null)}
@@ -953,7 +955,7 @@ const EditPromoCampaign = () => {
                       onChange={setApplicableIds}
                       placeholder={t("page.promo.ui.selectMemberTier")}
                       selectedLabel="tier dipilih"
-                      searchPlaceholder="Cari tier..."
+                      searchPlaceholder={t("common.search.tier")}
                       emptyMessage={t("page.promo.ui.tierNotFound")}
                     />
                   )}
@@ -1007,7 +1009,9 @@ const EditPromoCampaign = () => {
                   <div className="flex items-center justify-between gap-3 rounded-lg border border-border p-3">
                     <div>
                       <p className="text-sm font-medium text-foreground">
-                        {form.watch("autoActivate") ? "Aktif Otomatis" : "Nonaktif"}
+                        {form.watch("autoActivate")
+                          ? t("page.promo.ui.autoActive")
+                          : t("common.inactive")}
                       </p>
                       <p className="text-xs text-muted-foreground">
                         {t("page.promo.ui.activateAutomaticallyOnTheStart")}
@@ -1036,7 +1040,7 @@ const EditPromoCampaign = () => {
                     <div className="pt-3 border-t border-border space-y-2">
                       <p className="text-xs font-medium text-foreground">
                         {t("page.promo.ui.activePromo")}{" "}
-                        {allStores ? t("header.allStore") : "Toko Terpilih"}
+                        {allStores ? t("header.allStore") : t("common.ui.selectedStores")}
                       </p>
                       {combinableLoading ? (
                         <p className="text-xs text-muted-foreground">
@@ -1201,7 +1205,7 @@ function IdsMultiSelect({
             className="w-full justify-between font-normal h-10 bg-background">
             <span className="truncate text-muted-foreground">
               {loading
-                ? "Memuat..."
+                ? t("common.ui.loadingEllipsis")
                 : value.length > 0
                   ? `${value.length} ${selectedLabel}`
                   : placeholder}

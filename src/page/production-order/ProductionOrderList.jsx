@@ -461,7 +461,7 @@ const ProductionOrderList = () => {
                             setPage(1);
                           }}
                           placeholder={t("page.productionOrder.list.filterAll")}
-                          searchPlaceholder="Cari..."
+                          searchPlaceholder={t("common.search.generic")}
                         />
                       </div>
                       <div className="flex flex-col gap-1.5">

@@ -306,7 +306,7 @@ const DeliveryOrderDetail = () => {
                     )}
                     {history.changedByName && (
                       <p className="text-xs text-muted-foreground mt-0.5">
-                        by {history.changedByName}
+                        {t("common.ui.by")} {history.changedByName}
                       </p>
                     )}
                   </div>

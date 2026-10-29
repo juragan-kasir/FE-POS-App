@@ -274,7 +274,7 @@ const AddAdmin = () => {
                     value={form.locationId}
                     onChange={(v) => setForm((prev) => ({ ...prev, locationId: v }))}
                     placeholder={t("page.user.form.locationPlaceholder")}
-                    searchPlaceholder="Cari lokasi..."
+                    searchPlaceholder={t("common.search.location")}
                   />
                 </div>
                 <div className="flex flex-col gap-1.5">
@@ -297,7 +297,7 @@ const AddAdmin = () => {
                     value={form.role}
                     onChange={(v) => setForm((prev) => ({ ...prev, role: v }))}
                     placeholder={t("page.user.form.rolePlaceholder")}
-                    searchPlaceholder="Cari role..."
+                    searchPlaceholder={t("common.search.role")}
                   />
                   <FieldError message={fieldErrors.role} />
                 </div>
@@ -424,7 +424,7 @@ const AddAdmin = () => {
           onOpenChange={setDraftModal}
           title={t("common.saveAsDraftTitle")}
           description={t("common.saveAsDraftDesc")}
-          confirmText="Ya, Simpan Draft"
+          confirmText={t("common.confirm.yesSaveDraft")}
           onConfirm={() => {
             setDraftModal(false);
             setIsSubmitting(true);

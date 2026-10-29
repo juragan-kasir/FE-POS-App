@@ -412,7 +412,7 @@ const SupplierScoreList = () => {
                     setPage(1);
                   }}
                   placeholder={t("page.supplierPerformance.ui.filterPeriod")}
-                  searchPlaceholder="Cari..."
+                  searchPlaceholder={t("common.search.generic")}
                 />
               </div>
               <div className="flex flex-col gap-1.5">
@@ -430,7 +430,7 @@ const SupplierScoreList = () => {
                     setPage(1);
                   }}
                   placeholder={t("page.supplierPerformance.ui.filterGrade")}
-                  searchPlaceholder="Cari..."
+                  searchPlaceholder={t("common.search.generic")}
                 />
               </div>
             </TableToolbar>
@@ -527,7 +527,7 @@ const SupplierScoreList = () => {
               value={calculateForm.period}
               onChange={(v) => setCalculateForm({ ...calculateForm, period: v })}
               placeholder={t("page.supplierPerformance.ui.selectPeriod")}
-              searchPlaceholder="Cari..."
+              searchPlaceholder={t("common.search.generic")}
             />
           </div>
         </div>

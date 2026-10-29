@@ -174,7 +174,7 @@ const LocationList = () => {
         <div>
           <p className="font-medium text-foreground">{loc.name}</p>
           <p className="text-xs text-muted-foreground">
-            {loc.description || loc.type || "Main Branch"}
+            {loc.description || loc.type || t("page.location.list.mainBranch")}
           </p>
         </div>
       )
@@ -182,7 +182,9 @@ const LocationList = () => {
     {
       header: t("page.location.table.category"),
       render: (loc) => (
-        <span className="text-sm font-medium text-foreground">{loc.category || "Main Branch"}</span>
+        <span className="text-sm font-medium text-foreground">
+          {loc.category || t("page.location.list.mainBranch")}
+        </span>
       )
     },
     {

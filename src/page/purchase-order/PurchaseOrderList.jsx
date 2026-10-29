@@ -117,7 +117,7 @@ const SupplierExpandableRow = ({ supplier, renderSupplierItems }) => {
           <div className="min-w-0">
             <span className="font-semibold text-foreground">{supplier.supplierName}</span>
             <span className="ml-2 inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-blue-50 text-blue-700 dark:bg-blue-900/20 dark:text-blue-400 border border-blue-200 dark:border-blue-800">
-              {supplier.items.length} {supplier.items.length > 1 ? "items" : "item"}
+              {supplier.items.length} {t("common.ui.items")}
             </span>
           </div>
         </div>
@@ -629,11 +629,11 @@ const PurchaseOrderList = () => {
                   ? "bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-400"
                   : "bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400"
               }`}>
-              {isCredit ? "Kredit" : "Tunai"}
+              {isCredit ? t("common.ui.credit") : t("common.ui.cash")}
             </span>
             {isCredit && (
               <span className="text-xs text-muted-foreground">
-                DP {po.dpPercent}%{dpPaid ? " (lunas)" : ""}
+                DP {po.dpPercent}%{dpPaid ? ` ${t("common.ui.paidSuffix")}` : ""}
               </span>
             )}
           </div>

@@ -312,7 +312,7 @@ const ShiftTemplateList = () => {
                         setPage(1);
                       }}
                       placeholder={t("common.all")}
-                      searchPlaceholder="Cari status..."
+                      searchPlaceholder={t("common.search.status")}
                     />
                   </div>
                   <div className="flex flex-col gap-1.5">

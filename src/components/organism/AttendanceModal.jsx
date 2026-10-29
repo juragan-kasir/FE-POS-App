@@ -156,7 +156,7 @@ const AttendanceModal = ({
         <div className="px-5 pt-5 pb-3">
           <DialogHeader className="text-left">
             <DialogTitle className="text-xl font-semibold">
-              {isCheckIn ? "Absen Masuk" : "Absen Pulang"}
+              {isCheckIn ? t("component.attendance.checkIn") : t("component.attendance.checkOut")}
             </DialogTitle>
             <DialogDescription>
               {t("component.attendanceModal.ui.verifyYourLocationWithGps")}
@@ -193,7 +193,11 @@ const AttendanceModal = ({
                   }}
                 />
                 <Marker position={[location.latitude, location.longitude]}>
-                  <Popup>{isCheckIn ? "Titik absen masuk" : "Titik absen pulang"}</Popup>
+                  <Popup>
+                    {isCheckIn
+                      ? t("component.attendance.checkInPoint")
+                      : t("component.attendance.checkOutPoint")}
+                  </Popup>
                 </Marker>
               </MapContainer>
             ) : (
@@ -249,7 +253,7 @@ const AttendanceModal = ({
               <div className="flex items-center gap-2 text-sm text-muted-foreground">
                 <MapPin size={14} className="shrink-0 text-primary/70" />
                 <span className="font-medium text-foreground/90">
-                  {storeName || "Kasir"}
+                  {storeName || t("common.ui.cashier")}
                   {shiftName ? ` • ${shiftName}` : ""}
                 </span>
               </div>
@@ -314,7 +318,9 @@ const AttendanceModal = ({
                       !isCheckIn && "bg-amber-600 hover:bg-amber-700"
                     )}>
                     {isLoading && <Loader2 size={15} className="mr-1.5 animate-spin" />}
-                    {isCheckIn ? "Konfirmasi Absen Masuk" : "Konfirmasi Absen Pulang"}
+                    {isCheckIn
+                      ? t("component.attendance.confirmCheckIn")
+                      : t("component.attendance.confirmCheckOut")}
                   </Button>
                 </div>
               </>

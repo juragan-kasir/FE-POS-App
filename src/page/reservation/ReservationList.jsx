@@ -478,7 +478,7 @@ const ReservationList = () => {
                                   setPage(1);
                                 }}
                                 placeholder={t("page.reservation.filter.allStatus")}
-                                searchPlaceholder="Cari..."
+                                searchPlaceholder={t("common.search.generic")}
                               />
                             </div>
                           ]}

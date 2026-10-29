@@ -420,7 +420,11 @@ const AddReservation = () => {
                     <Select onValueChange={field.onChange} value={field.value}>
                       <SelectTrigger>
                         <SelectValue
-                          placeholder={loadingTables ? "Memuat meja..." : "Pilih meja (opsional)"}
+                          placeholder={
+                            loadingTables
+                              ? t("page.reservation.ui.loadingTables")
+                              : t("page.reservation.ui.selectTableOptional")
+                          }
                         />
                       </SelectTrigger>
                       <SelectContent>
@@ -504,7 +508,7 @@ const AddReservation = () => {
                 disabled={createMutation.isLoading}
                 className="gap-2 w-full sm:w-auto justify-center">
                 <Save size={18} />
-                {createMutation.isLoading ? "Menyimpan..." : "Simpan"}
+                {createMutation.isLoading ? t("common.ui.savingEllipsis") : t("common.save")}
               </Button>
             </div>
           </form>
@@ -515,7 +519,7 @@ const AddReservation = () => {
           onOpenChange={setConfirmSaveModal}
           title={t("common.confirmSave")}
           description={t("page.supplier.modal.confirmSaveDesc")}
-          confirmText="Ya, Simpan"
+          confirmText={t("common.confirm.yesSave")}
           onConfirm={() => {
             setConfirmSaveModal(false);
             const values = form.getValues();
@@ -530,7 +534,7 @@ const AddReservation = () => {
         onOpenChange={setCancelModal}
         title={t("page.expense.add.cancelTitle")}
         description={t("page.role.edit.discardDesc")}
-        confirmText="Ya, Batalkan"
+        confirmText={t("common.confirm.yesCancel")}
         onConfirm={() => setTimeout(leave, 150)}
       />
       <MissingFieldsModal

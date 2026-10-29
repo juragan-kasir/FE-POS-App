@@ -636,8 +636,8 @@ const PromoCampaignDetail = () => {
                 </p>
                 <p className="text-xs text-muted-foreground">
                   {campaign.isCombinable
-                    ? "Bisa digabung dengan promo lain"
-                    : "Tidak bisa digabung"}
+                    ? t("page.promo.ui.stackable")
+                    : t("page.promo.ui.notStackable")}
                 </p>
               </div>
             </div>
@@ -656,7 +656,9 @@ const PromoCampaignDetail = () => {
                   {t("page.promo.form.autoActivate")}
                 </p>
                 <p className="text-xs text-muted-foreground">
-                  {campaign.autoActivate ? "Aktif otomatis sesuai jadwal" : "Perlu aktivasi manual"}
+                  {campaign.autoActivate
+                    ? t("page.promo.ui.autoActivateSchedule")
+                    : t("page.promo.ui.manualActivation")}
                 </p>
               </div>
             </div>

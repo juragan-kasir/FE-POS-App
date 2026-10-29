@@ -952,7 +952,8 @@ const AddGoodsReceipt = () => {
                             </span>
                             <span className="font-medium text-muted-foreground">
                               {receiptProgress.filled.toLocaleString("id-ID")}/
-                              {receiptProgress.target.toLocaleString("id-ID")} item
+                              {receiptProgress.target.toLocaleString("id-ID")}{" "}
+                              {t("common.ui.items")}
                             </span>
                           </div>
                           <div className="h-2 bg-muted rounded-full overflow-hidden">

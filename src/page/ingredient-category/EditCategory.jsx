@@ -338,7 +338,7 @@ const EditCategory = () => {
         onOpenChange={setConfirmSaveModal}
         title={t("common.confirmSave")}
         description={t("page.supplier.modal.confirmSaveDesc")}
-        confirmText="Ya, Simpan"
+        confirmText={t("common.confirm.yesSave")}
         onConfirm={() => {
           setConfirmSaveModal(false);
           const values = form.getValues();

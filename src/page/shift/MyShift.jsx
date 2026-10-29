@@ -483,7 +483,7 @@ const MyShift = () => {
                 <p className="text-xs text-muted-foreground">
                   {mySwaps.filter((s) => s.status === "pending").length}{" "}
                   {t("page.shift.ui.inProgress")}{" "}
-                  {mySwaps.filter((s) => s.status === "approved").length} berhasil
+                  {mySwaps.filter((s) => s.status === "approved").length} {t("common.ui.succeeded")}
                 </p>
               </div>
             </div>
@@ -567,7 +567,10 @@ const MyShift = () => {
                     <p className="mt-1.5 text-xs text-muted-foreground line-clamp-2">{s.note}</p>
                   )}
                   <p className="mt-2 text-xs text-muted-foreground">
-                    {isRequester ? "Kamu mengajukan" : "Diajukan untukmu"} ·{" "}
+                    {isRequester
+                      ? t("page.shift.ui.youRequested")
+                      : t("page.shift.ui.requestedForYou")}{" "}
+                    ·{" "}
                     {s.createdAt
                       ? new Date(s.createdAt).toLocaleString(dateLocale(), {
                           day: "numeric",

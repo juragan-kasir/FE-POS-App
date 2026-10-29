@@ -64,9 +64,14 @@ const CancelSwapDialog = ({ open, onOpenChange, swap, onSuccess }) => {
         {swap && (
           <div className="rounded-xl border border-border bg-muted/30 px-4 py-3 text-sm">
             <p className="font-semibold text-foreground flex items-center flex-wrap gap-x-2 gap-y-1">
-              <span>{swap.requesterUser?.fullName || `Karyawan #${swap.requesterId}`}</span>
+              <span>
+                {swap.requesterUser?.fullName ||
+                  t("common.ui.employeeNumber", { id: swap.requesterId })}
+              </span>
               <ArrowRightLeft size={13} className="text-primary shrink-0" />
-              <span>{swap.targetUser?.fullName || `Karyawan #${swap.targetId}`}</span>
+              <span>
+                {swap.targetUser?.fullName || t("common.ui.employeeNumber", { id: swap.targetId })}
+              </span>
             </p>
             {swap.note && (
               <p className="mt-1 text-xs text-muted-foreground line-clamp-2">{swap.note}</p>
@@ -92,7 +97,9 @@ const CancelSwapDialog = ({ open, onOpenChange, swap, onSuccess }) => {
             ) : (
               <ArrowRightLeft size={14} />
             )}
-            {cancelMutation.isLoading ? "Membatalkan..." : "Ya, Batalkan"}
+            {cancelMutation.isLoading
+              ? t("common.ui.cancellingEllipsis")
+              : t("common.confirm.yesCancel")}
           </Button>
         </div>
       </DialogContent>

@@ -246,12 +246,13 @@ const SupplierComparison = () => {
                 setPage(1);
               }}
               placeholder="10"
-              searchPlaceholder="Cari..."
+              searchPlaceholder={t("common.search.generic")}
             />
-            <span>entries</span>
+            <span>{t("common.ui.entries")}</span>
           </div>
           <span className="text-sm text-muted-foreground">
-            {t("page.supplier.ui.showing")} {firstIdx}-{lastIdx} dari {supplierGroups.length}
+            {t("page.supplier.ui.showing")} {firstIdx}-{lastIdx} {t("common.ui.of")}{" "}
+            {supplierGroups.length}
           </span>
         </div>
         <div className="flex gap-1">
