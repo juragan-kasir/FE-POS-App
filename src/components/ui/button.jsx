@@ -36,16 +36,28 @@ const buttonVariants = cva(
   }
 );
 
+// `disabledReason` explains why a disabled button can't be used: it becomes the
+// hover tooltip and the accessible description. It is ignored while loading or
+// when the button is enabled.
 const Button = React.forwardRef(
-  ({ className, variant, size, asChild = false, loading, children, ...props }, ref) => {
+  (
+    { className, variant, size, asChild = false, loading, disabledReason, children, ...props },
+    ref
+  ) => {
     const Comp = asChild ? Slot : "button";
+    const disabled = Boolean(props.disabled || loading);
+    const reason = disabled && !loading && disabledReason ? disabledReason : undefined;
     return (
       <Comp
-        className={cn(buttonVariants({ variant, size, className }))}
+        className={cn(
+          buttonVariants({ variant, size, className }),
+          reason && "disabled:pointer-events-auto disabled:cursor-not-allowed"
+        )}
         ref={ref}
-        disabled={props.disabled || loading}
         aria-busy={loading || undefined}
-        {...props}>
+        title={reason}
+        {...props}
+        disabled={disabled}>
         {loading && <Loader2 size={16} className="mr-2 animate-spin" />}
         {children}
       </Comp>

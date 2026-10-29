@@ -663,6 +663,11 @@ const AddGoodsRequest = () => {
               size="sm"
               onClick={() => appendGroup(emptyGroup())}
               disabled={!storeId || suppliersLoading}
+              disabledReason={
+                suppliersLoading
+                  ? t("common.disabledReason.loading")
+                  : t("common.disabledReason.selectStoreFirst")
+              }
               className="gap-1">
               <Plus size={14} /> {t("page.goodsRequest.add.form.addSupplier")}
             </Button>

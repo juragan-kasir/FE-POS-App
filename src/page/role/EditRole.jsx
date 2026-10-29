@@ -439,6 +439,7 @@ const EditRole = () => {
             variant="draft"
             onClick={() => setDraftModal(true)}
             disabled={isSubmitting || isLocked}
+            disabledReason={isSubmitting ? undefined : t("page.role.edit.systemLocked")}
             className="w-full sm:w-auto justify-center">
             {t("common.saveAsDraft")}
           </Button>
@@ -447,6 +448,7 @@ const EditRole = () => {
             data-tour="role-save"
             onClick={requestSave}
             disabled={isSubmitting || isLocked}
+            disabledReason={isSubmitting ? undefined : t("page.role.edit.systemLocked")}
             className="w-full sm:w-auto justify-center">
             {t("page.role.edit.saveChanges")}
           </Button>

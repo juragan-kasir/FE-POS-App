@@ -434,7 +434,8 @@ const AdminList = () => {
                         size="sm"
                         className="gap-2 h-9"
                         onClick={exportUsers}
-                        disabled={users.length === 0}>
+                        disabled={users.length === 0}
+                        disabledReason={t("common.disabledReason.noDataToExport")}>
                         <Download size={18} className="text-base" />
                         {t("page.user.adminList.exportCsv")}
                       </Button>

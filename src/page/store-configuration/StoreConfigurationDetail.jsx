@@ -578,6 +578,13 @@ const StoreConfigurationEditor = ({ routeId }) => {
                 type="submit"
                 className="w-full sm:w-auto"
                 disabled={!isDirty || isTerminal || saving}
+                disabledReason={
+                  saving
+                    ? undefined
+                    : isTerminal
+                      ? t("page.storeConfiguration.terminal.description")
+                      : t("common.disabledReason.noChanges")
+                }
                 aria-busy={saving}>
                 {saving && <Loader2 className="mr-2 h-4 w-4 animate-spin" aria-hidden="true" />}
                 {saving ? t("common.saving") : t("common.save")}

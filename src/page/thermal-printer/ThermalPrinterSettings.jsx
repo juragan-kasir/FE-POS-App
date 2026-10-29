@@ -332,6 +332,9 @@ const ThermalPrinterSettings = () => {
           <Button
             onClick={handleTestPrint}
             disabled={testing || !status?.connected}
+            disabledReason={
+              testing ? undefined : t("page.thermalPrinter.disabledReason.notConnected")
+            }
             className="w-full sm:w-auto flex items-center gap-2"
             size="lg">
             {testing ? (

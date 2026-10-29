@@ -276,6 +276,7 @@ const UploadExcelModal = ({ open, onOpenChange, onDataParsed, onUploadSuccess, a
                 <Button
                   variant="general"
                   disabled={!file}
+                  disabledReason={t("common.disabledReason.selectFileFirst")}
                   onClick={handlePreview}
                   className="gap-2">
                   <Eye size={16} />
@@ -284,6 +285,9 @@ const UploadExcelModal = ({ open, onOpenChange, onDataParsed, onUploadSuccess, a
                 <Button
                   variant="import"
                   disabled={!file || uploading}
+                  disabledReason={
+                    uploading ? undefined : t("common.disabledReason.selectFileFirst")
+                  }
                   onClick={handleDirectUpload}
                   className="gap-2 min-w-[140px]">
                   {uploading ? (

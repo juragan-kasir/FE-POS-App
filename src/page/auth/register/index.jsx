@@ -423,6 +423,7 @@ const RegisterPage = () => {
                       type="submit"
                       data-tour="auth-submit"
                       disabled={noLocationsAvailable}
+                      disabledReason={t("page.register.noLocationDescription")}
                       className="w-full h-10 bg-foreground text-background hover:bg-foreground/90 rounded-md font-semibold text-sm md:text-base shadow-sm transition-colors">
                       {translationMemo.btnCreateAcc}
                     </Button>

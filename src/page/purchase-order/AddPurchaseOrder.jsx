@@ -1219,6 +1219,11 @@ const AddPurchaseOrder = () => {
                     size="sm"
                     onClick={addGroup}
                     disabled={!selectedStore || suppliersLoading}
+                    disabledReason={
+                      suppliersLoading
+                        ? t("common.disabledReason.loading")
+                        : t("common.disabledReason.selectStoreFirst")
+                    }
                     className="gap-1">
                     <Plus size={14} /> {t("page.purchaseOrder.add.form.addSupplier")}
                   </Button>

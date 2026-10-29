@@ -920,6 +920,7 @@ const AddSupplier = () => {
                               type="button"
                               size="sm"
                               disabled={!contactName.trim()}
+                              disabledReason={t("page.supplier.disabledReason.contactName")}
                               onClick={handleAddContact}
                               className="flex-1 gap-1.5">
                               {editingContactId ? (
@@ -1223,6 +1224,7 @@ const AddSupplier = () => {
                                   disabled={
                                     !bankName.trim() || !accountNumber.trim() || !accountName.trim()
                                   }
+                                  disabledReason={t("page.supplier.disabledReason.bankAccount")}
                                   onClick={handleAddBank}
                                   className="flex-1 gap-1.5">
                                   {editingBankId ? (
@@ -1701,6 +1703,7 @@ const AddSupplier = () => {
                         type="button"
                         size="sm"
                         disabled={!newProductName.trim() || !productPrice}
+                        disabledReason={t("page.supplier.disabledReason.product")}
                         onClick={handleAddManualProduct}
                         className="flex-1 gap-1.5">
                         {editingProductId ? (
@@ -1737,6 +1740,11 @@ const AddSupplier = () => {
                       type="button"
                       size="sm"
                       disabled={!excelFile || excelImportMutation.isLoading}
+                      disabledReason={
+                        excelImportMutation.isLoading
+                          ? undefined
+                          : t("common.disabledReason.selectFileFirst")
+                      }
                       onClick={handleExcelImport}
                       className="w-full gap-1.5">
                       <Upload size={14} />

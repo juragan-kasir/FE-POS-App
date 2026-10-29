@@ -1075,7 +1075,8 @@ const EditCategory = () => {
                   onClick={() => {
                     if (selectedIcon) setIconPickerOpen(false);
                   }}
-                  disabled={!selectedIcon}>
+                  disabled={!selectedIcon}
+                  disabledReason={t("page.category.disabledReason.selectIcon")}>
                   {t("page.category.iconPicker.select")}
                 </Button>
               </div>

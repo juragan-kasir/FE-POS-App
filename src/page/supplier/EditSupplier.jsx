@@ -1022,6 +1022,7 @@ const EditSupplier = () => {
                               type="button"
                               size="sm"
                               disabled={!contactName.trim()}
+                              disabledReason={t("page.supplier.disabledReason.contactName")}
                               onClick={handleAddContact}
                               className="flex-1 gap-1.5">
                               {editingContactId ? (
@@ -1325,6 +1326,7 @@ const EditSupplier = () => {
                                   disabled={
                                     !bankName.trim() || !accountNumber.trim() || !accountName.trim()
                                   }
+                                  disabledReason={t("page.supplier.disabledReason.bankAccount")}
                                   onClick={handleAddBank}
                                   className="flex-1 gap-1.5">
                                   {editingBankId ? (
@@ -1798,6 +1800,7 @@ const EditSupplier = () => {
                         variant="success"
                         size="sm"
                         disabled={!newProductName.trim() || !productPrice}
+                        disabledReason={t("page.supplier.disabledReason.product")}
                         onClick={handleAddProduct}
                         className="flex-1">
                         {editingProductId ? t("common.save") : t("page.supplier.products.add")}
