@@ -333,7 +333,7 @@ const DetailGoodsReceipt = () => {
                               )}
                             </div>
                           </div>
-                          <div className="px-4 pb-4 grid grid-cols-3 gap-4 text-sm">
+                          <div className="px-4 pb-4 grid grid-cols-1 sm:grid-cols-3 gap-4 text-sm">
                             <div>
                               <span className="text-xs text-muted-foreground block mb-0.5">
                                 {t("page.goodsReceipt.add.table.batch")}

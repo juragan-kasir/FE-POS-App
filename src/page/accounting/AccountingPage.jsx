@@ -1043,7 +1043,7 @@ const ManualLines = ({ accounts }) => {
       <input type="hidden" name="lineCount" value={count} />
       {lines.map((_, i) => (
         <div key={i} className="grid grid-cols-12 gap-2 items-end">
-          <div className="col-span-5 space-y-1.5">
+          <div className="col-span-12 sm:col-span-5 space-y-1.5">
             <label htmlFor={`journal-line-${i}-account`} className="text-xs text-muted-foreground">
               {t("page.accounting.journal.account")} {i + 1}
             </label>
@@ -1059,7 +1059,7 @@ const ManualLines = ({ accounts }) => {
               ))}
             </select>
           </div>
-          <div className="col-span-2 space-y-1.5">
+          <div className="col-span-6 sm:col-span-2 space-y-1.5">
             <label htmlFor={`journal-line-${i}-debit`} className="text-xs text-muted-foreground">
               {t("page.accounting.journal.debit")}
             </label>
@@ -1072,7 +1072,7 @@ const ManualLines = ({ accounts }) => {
               defaultValue="0"
             />
           </div>
-          <div className="col-span-2 space-y-1.5">
+          <div className="col-span-6 sm:col-span-2 space-y-1.5">
             <label htmlFor={`journal-line-${i}-credit`} className="text-xs text-muted-foreground">
               {t("page.accounting.journal.credit")}
             </label>
@@ -1085,7 +1085,7 @@ const ManualLines = ({ accounts }) => {
               defaultValue="0"
             />
           </div>
-          <div className="col-span-3 space-y-1.5">
+          <div className="col-span-12 sm:col-span-3 space-y-1.5">
             <label
               htmlFor={`journal-line-${i}-description`}
               className="text-xs text-muted-foreground">
