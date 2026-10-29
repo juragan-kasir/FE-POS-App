@@ -409,10 +409,13 @@ const CashRegisterHistory = () => {
                     </div>
                     {isSuperAdmin && (
                       <div className="flex flex-col gap-1.5">
-                        <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                        <label
+                          htmlFor="cash-register-history-store-filter"
+                          className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                           {t("page.goodsReceipt.detail.store")}
                         </label>
                         <StoreFilter
+                          id="cash-register-history-store-filter"
                           locations={locData?.data || []}
                           value={storeFilter}
                           onChange={(v) => {
@@ -425,9 +428,11 @@ const CashRegisterHistory = () => {
                       </div>
                     )}
                     <div className="flex flex-col gap-1.5">
-                      <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                      <span
+                        aria-hidden="true"
+                        className="block text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                         &nbsp;
-                      </label>
+                      </span>
                       <Button
                         variant="outline"
                         size="sm"

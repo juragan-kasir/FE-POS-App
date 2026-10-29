@@ -682,7 +682,9 @@ const EditPurchaseOrder = () => {
                 {errors.store && <p className="text-xs text-destructive mt-1">{errors.store}</p>}
               </div>
               <div className="relative">
-                <label className="text-sm font-medium text-foreground mb-1.5 block">
+                <label
+                  htmlFor="po-pic"
+                  className="text-sm font-medium text-foreground mb-1.5 block">
                   {t("page.purchaseOrder.add.pic")} <span className="text-destructive">*</span>
                 </label>
                 {employees.length === 0 && !employeesLoading ? (
@@ -710,6 +712,7 @@ const EditPurchaseOrder = () => {
                       <Skeleton className="h-10 w-full" />
                     ) : (
                       <Input
+                        id="po-pic"
                         placeholder={t("page.purchaseOrder.add.picPlaceholder")}
                         value={picSearch}
                         onChange={(e) => {
@@ -1027,11 +1030,14 @@ const EditPurchaseOrder = () => {
               {groups.map((group, gIdx) => (
                 <div key={gIdx} className="border rounded-lg overflow-hidden">
                   <div className="flex flex-col sm:flex-row sm:items-center gap-2 p-3 border-b bg-muted/40">
-                    <Label className="shrink-0 text-xs text-muted-foreground">
+                    <Label
+                      htmlFor={`po-group-${gIdx}-supplier`}
+                      className="shrink-0 text-xs text-muted-foreground">
                       {t("page.purchaseOrder.add.table.supplier")}
                     </Label>
                     <div className="flex-1 min-w-[220px]">
                       <Combobox
+                        id={`po-group-${gIdx}-supplier`}
                         options={supplierOptions}
                         value={group.supplier ? String(group.supplier) : ""}
                         onChange={(val) => pickGroupSupplier(gIdx, val)}

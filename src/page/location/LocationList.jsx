@@ -552,9 +552,11 @@ const LocationList = () => {
                       />
                     </div>
                     <div className="flex flex-col gap-1.5">
-                      <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                      <span
+                        aria-hidden="true"
+                        className="block text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                         {t("page.location.button.viewMap")}
-                      </label>
+                      </span>
                       <Button
                         variant="outline"
                         size="sm"

@@ -8,7 +8,13 @@ import { Button } from "./button";
 import { Calendar } from "./calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "./popover";
 
-export function DatePickerWithRange({ className, date, setDate, placeholder = "Pick a date" }) {
+export function DatePickerWithRange({
+  id = "date",
+  className,
+  date,
+  setDate,
+  placeholder = "Pick a date"
+}) {
   const hasValue = date?.from || date?.to;
 
   const handleClear = (e) => {
@@ -22,7 +28,7 @@ export function DatePickerWithRange({ className, date, setDate, placeholder = "P
       <Popover>
         <PopoverTrigger asChild>
           <Button
-            id="date"
+            id={id}
             variant={"outline"}
             className={cn(
               "w-[300px] justify-start text-left font-normal pr-8",

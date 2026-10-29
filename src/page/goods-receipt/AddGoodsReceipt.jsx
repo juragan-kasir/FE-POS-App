@@ -590,7 +590,7 @@ const AddGoodsReceipt = () => {
               <div className="space-y-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div className="space-y-2">
-                    <Label>
+                    <Label htmlFor="goods-receipt-po">
                       {t("page.goodsReceipt.add.form.purchaseOrder")}{" "}
                       <span className="text-destructive">*</span>
                     </Label>
@@ -638,6 +638,7 @@ const AddGoodsReceipt = () => {
                           onClick={() => setPoOpen(!poOpen)}>
                           <Search size={14} className="mr-2 text-muted-foreground shrink-0" />
                           <input
+                            id="goods-receipt-po"
                             type="text"
                             value={poOpen ? poSearch : selectedPO?.orderNumber || ""}
                             readOnly={!poOpen}
@@ -688,12 +689,18 @@ const AddGoodsReceipt = () => {
                     )}
                   </div>
                   <div className="space-y-2">
-                    <Label>{t("page.goodsReceipt.add.form.receivedDate")}</Label>
+                    <Label htmlFor="goods-receipt-date">
+                      {t("page.goodsReceipt.add.form.receivedDate")}
+                    </Label>
                     <Controller
                       control={control}
                       name="receivedDate"
                       render={({ field }) => (
-                        <DatePicker date={field.value} setDate={field.onChange} />
+                        <DatePicker
+                          id="goods-receipt-date"
+                          date={field.value}
+                          setDate={field.onChange}
+                        />
                       )}
                     />
                   </div>
@@ -913,7 +920,9 @@ const AddGoodsReceipt = () => {
 
                     <div className="space-y-2">
                       <div className="flex items-center justify-between gap-2">
-                        <Label>{t("page.goodsReceipt.add.form.items")}</Label>
+                        <p className="text-sm font-medium leading-none">
+                          {t("page.goodsReceipt.add.form.items")}
+                        </p>
                         <div className="flex items-center gap-2">
                           {fields.length > 0 && (
                             <Button
@@ -1321,7 +1330,7 @@ const AddGoodsReceipt = () => {
               <div className="space-y-6">
                 <div className="space-y-3">
                   <div className="flex items-center justify-between">
-                    <Label>
+                    <Label htmlFor="goods-receipt-docs">
                       {t("page.goodsReceipt.add.form.documentation")}{" "}
                       <span className="text-xs font-normal text-muted-foreground">
                         ({t("common.optional")})
@@ -1334,6 +1343,7 @@ const AddGoodsReceipt = () => {
                     )}
                   </div>
                   <input
+                    id="goods-receipt-docs"
                     type="file"
                     accept="image/*"
                     multiple
@@ -1415,11 +1425,14 @@ const AddGoodsReceipt = () => {
                 </div>
 
                 <div className="space-y-2">
-                  <Label>{t("page.goodsReceipt.add.form.notesLabel")}</Label>
+                  <Label htmlFor="goods-receipt-notes">
+                    {t("page.goodsReceipt.add.form.notesLabel")}
+                  </Label>
                   {loadingPo && poId ? (
                     <Skeleton className="h-16 w-full" />
                   ) : (
                     <Textarea
+                      id="goods-receipt-notes"
                       rows={2}
                       {...form.register("notes")}
                       placeholder={t("page.goodsReceipt.add.placeholder.notes")}

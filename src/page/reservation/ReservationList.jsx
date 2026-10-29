@@ -415,10 +415,13 @@ const ReservationList = () => {
                           ]
                         : [
                             <div key="store">
-                              <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground block mb-1.5">
+                              <label
+                                htmlFor="reservation-list-store-filter"
+                                className="text-xs font-semibold uppercase tracking-wider text-muted-foreground block mb-1.5">
                                 {t("page.goodsReceipt.detail.store")}
                               </label>
                               <StoreFilter
+                                id="reservation-list-store-filter"
                                 locations={locData?.data || []}
                                 value={storeFilter}
                                 onChange={(v) => {

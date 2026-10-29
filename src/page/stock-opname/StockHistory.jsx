@@ -334,10 +334,13 @@ const StockHistory = () => {
                     : [
                         isSuperAdmin && (
                           <div key="store">
-                            <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground block mb-1.5">
+                            <label
+                              htmlFor="stock-history-store-filter"
+                              className="text-xs font-semibold uppercase tracking-wider text-muted-foreground block mb-1.5">
                               {t("header.selectStore") || "Store"}
                             </label>
                             <StoreFilter
+                              id="stock-history-store-filter"
                               locations={locData?.data || []}
                               value={storeFilter}
                               onChange={(v) => {

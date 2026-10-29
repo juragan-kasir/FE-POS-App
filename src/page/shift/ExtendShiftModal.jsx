@@ -253,10 +253,10 @@ const ExtendShiftModal = ({ open, onOpenChange, shift, locationName, onSave, isS
 
         {/* Tipe shift */}
         <div>
-          <label className="block text-sm font-medium text-foreground mb-1.5">
+          <p id="extend-shift-type" className="block text-sm font-medium text-foreground mb-1.5">
             {t("page.shift.ui.shiftType")} <span className="text-destructive">*</span>
-          </label>
-          <div className="flex gap-2">
+          </p>
+          <div role="group" aria-labelledby="extend-shift-type" className="flex gap-2">
             {["harian", "mingguan"].map((type) => (
               <button
                 key={type}

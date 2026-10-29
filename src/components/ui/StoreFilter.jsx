@@ -10,7 +10,7 @@ import {
 
 const stripLoc = (v) => (v ? String(v).replace(/^loc-0*/, "") : v);
 
-const StoreFilter = ({ locations = [], value = "", onChange, isSuperAdmin, t }) => {
+const StoreFilter = ({ id, locations = [], value = "", onChange, isSuperAdmin, t }) => {
   // With one store there is nothing to filter between.
   if (!isSuperAdmin || locations.length <= 1) return null;
 
@@ -24,7 +24,7 @@ const StoreFilter = ({ locations = [], value = "", onChange, isSuperAdmin, t }) 
     <div className="flex items-center gap-2">
       <Store size={16} className="text-muted-foreground shrink-0" />
       <Select value={currentValue} onValueChange={handleChange}>
-        <SelectTrigger className="w-full">
+        <SelectTrigger id={id} className="w-full">
           <SelectValue placeholder={t?.("header.selectStore") || "Pilih Toko"} />
         </SelectTrigger>
         <SelectContent>

@@ -171,7 +171,7 @@ const AddProductionOrder = () => {
         onSubmit={handleSubmit((data) => doSubmit(data, false))}
         className="bg-card p-6 rounded-xl border border-border space-y-6 max-w-2xl">
         <div className="space-y-2">
-          <Label>
+          <Label htmlFor="production-order-product">
             {t("page.productionOrder.add.labelProduk")} <span className="text-destructive">*</span>
           </Label>
           <Controller
@@ -179,6 +179,7 @@ const AddProductionOrder = () => {
             name="productId"
             render={({ field }) => (
               <Combobox
+                id="production-order-product"
                 options={[
                   { value: "", label: t("page.productionOrder.add.placeholderPilihProduk") },
                   ...products.map((p) => ({
@@ -216,11 +217,13 @@ const AddProductionOrder = () => {
         </div>
 
         <div className="space-y-2">
-          <Label>{t("page.productionOrder.add.labelJadwal")}</Label>
+          <Label htmlFor="production-order-date">{t("page.productionOrder.add.labelJadwal")}</Label>
           <Controller
             control={control}
             name="scheduledDate"
-            render={({ field }) => <DatePicker date={field.value} setDate={field.onChange} />}
+            render={({ field }) => (
+              <DatePicker id="production-order-date" date={field.value} setDate={field.onChange} />
+            )}
           />
         </div>
 

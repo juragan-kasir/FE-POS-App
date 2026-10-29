@@ -633,7 +633,7 @@ const AddStockOpname = () => {
             <Card className="p-6 shadow-sm border-muted">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="space-y-2">
-                  <Label>
+                  <Label htmlFor="stock-opname-date">
                     {t("page.stockOpname.form.auditDate")}{" "}
                     <span className="text-destructive">*</span>
                   </Label>
@@ -642,6 +642,7 @@ const AddStockOpname = () => {
                     name="tanggalAudit"
                     render={({ field }) => (
                       <DatePicker
+                        id="stock-opname-date"
                         date={field.value}
                         setDate={(date) => field.onChange(date || new Date())}
                       />

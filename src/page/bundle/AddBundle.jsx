@@ -497,11 +497,13 @@ const AddBundle = () => {
                           key={index}
                           className="flex items-end gap-3 p-3 rounded-lg border border-border bg-muted/20">
                           <div className="flex-1 space-y-1">
-                            <Label className="text-xs">{t("page.bundle.form.selectProduct")}</Label>
+                            <Label htmlFor={`bundle-item-${index}-product`} className="text-xs">
+                              {t("page.bundle.form.selectProduct")}
+                            </Label>
                             <Select
                               value={item.product}
                               onValueChange={(v) => updateBundleItem(index, "product", v)}>
-                              <SelectTrigger className="h-9">
+                              <SelectTrigger id={`bundle-item-${index}-product`} className="h-9">
                                 <SelectValue placeholder={t("page.bundle.form.selectProduct")} />
                               </SelectTrigger>
                               <SelectContent>
@@ -514,8 +516,11 @@ const AddBundle = () => {
                             </Select>
                           </div>
                           <div className="w-20 space-y-1">
-                            <Label className="text-xs">{t("page.bundle.form.quantity")}</Label>
+                            <Label htmlFor={`bundle-item-${index}-qty`} className="text-xs">
+                              {t("page.bundle.form.quantity")}
+                            </Label>
                             <Input
+                              id={`bundle-item-${index}-qty`}
                               type="number"
                               min="1"
                               value={item.quantity}
@@ -524,8 +529,11 @@ const AddBundle = () => {
                             />
                           </div>
                           <div className="w-28 space-y-1">
-                            <Label className="text-xs">{t("page.bundle.form.unitPrice")}</Label>
+                            <Label htmlFor={`bundle-item-${index}-price`} className="text-xs">
+                              {t("page.bundle.form.unitPrice")}
+                            </Label>
                             <Input
+                              id={`bundle-item-${index}-price`}
                               type="text"
                               inputMode="numeric"
                               value={item.unitPrice ? formatIDR(item.unitPrice) : ""}

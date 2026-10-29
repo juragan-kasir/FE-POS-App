@@ -1603,7 +1603,7 @@ export default function DetailPurchaseOrder() {
             </div>
             <div className="space-y-2">
               <div className="flex items-center justify-between">
-                <Label>
+                <Label htmlFor="po-return-docs">
                   {t("page.purchaseOrder.list.returInfo.documentation")}{" "}
                   <span className="text-xs font-normal text-muted-foreground">
                     ({t("common.optional")})
@@ -1614,6 +1614,7 @@ export default function DetailPurchaseOrder() {
                 )}
               </div>
               <input
+                id="po-return-docs"
                 type="file"
                 accept="image/*"
                 multiple

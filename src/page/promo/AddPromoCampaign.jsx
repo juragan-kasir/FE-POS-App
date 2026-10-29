@@ -609,12 +609,20 @@ const AddPromoCampaign = () => {
                         />
                       </div>
                       <div className="space-y-2">
-                        <Label>{t("page.promo.form.discountValue")}</Label>
+                        <Label htmlFor="promo-discount-value">
+                          {t("page.promo.form.discountValue")}
+                        </Label>
                         {isFreeItem || isBirthday ? (
-                          <Input disabled value="N/A" className={`${moneyInputCls} bg-muted`} />
+                          <Input
+                            id="promo-discount-value"
+                            disabled
+                            value="N/A"
+                            className={`${moneyInputCls} bg-muted`}
+                          />
                         ) : isPercentage ? (
                           <div className="relative">
                             <Input
+                              id="promo-discount-value"
                               type="number"
                               value={watchedDiscountValue ?? ""}
                               onChange={(e) =>
@@ -628,6 +636,7 @@ const AddPromoCampaign = () => {
                           </div>
                         ) : (
                           <Input
+                            id="promo-discount-value"
                             type="text"
                             inputMode="numeric"
                             value={watchedDiscountValue ? formatIDR(watchedDiscountValue) : ""}
@@ -791,8 +800,13 @@ const AddPromoCampaign = () => {
                 </div>
                 {isHappyHour && (
                   <div className="space-y-2 pt-2 border-t border-border">
-                    <Label className="text-xs">{t("page.promo.ui.activeDays")}</Label>
-                    <div className="flex flex-wrap gap-2">
+                    <p id="promo-active-days" className="font-medium leading-none text-xs">
+                      {t("page.promo.ui.activeDays")}
+                    </p>
+                    <div
+                      role="group"
+                      aria-labelledby="promo-active-days"
+                      className="flex flex-wrap gap-2">
                       {DAY_LABELS.map((label, day) => (
                         <button
                           key={day}
@@ -872,8 +886,11 @@ const AddPromoCampaign = () => {
                         {rule.ruleType === "buy_x_get_y" && (
                           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                             <div className="space-y-1">
-                              <Label className="text-xs">{t("page.promo.ui.productX")}</Label>
+                              <Label htmlFor={`promo-rule-${index}-product-x`} className="text-xs">
+                                {t("page.promo.ui.productX")}
+                              </Label>
                               <Combobox
+                                id={`promo-rule-${index}-product-x`}
                                 options={productOptions}
                                 value={
                                   rule.condition.productIdX ? String(rule.condition.productIdX) : ""
@@ -886,8 +903,11 @@ const AddPromoCampaign = () => {
                               />
                             </div>
                             <div className="space-y-1">
-                              <Label className="text-xs">{t("page.promo.ui.productYBonus")}</Label>
+                              <Label htmlFor={`promo-rule-${index}-product-y`} className="text-xs">
+                                {t("page.promo.ui.productYBonus")}
+                              </Label>
                               <Combobox
+                                id={`promo-rule-${index}-product-y`}
                                 options={productOptions}
                                 value={
                                   rule.condition.productIdY ? String(rule.condition.productIdY) : ""
@@ -900,8 +920,11 @@ const AddPromoCampaign = () => {
                               />
                             </div>
                             <div className="space-y-1">
-                              <Label className="text-xs">{t("page.promo.ui.buyQtyX")}</Label>
+                              <Label htmlFor={`promo-rule-${index}-qty-x`} className="text-xs">
+                                {t("page.promo.ui.buyQtyX")}
+                              </Label>
                               <Input
+                                id={`promo-rule-${index}-qty-x`}
                                 type="number"
                                 min="1"
                                 value={rule.condition.qtyX ?? 1}
@@ -911,8 +934,11 @@ const AddPromoCampaign = () => {
                               />
                             </div>
                             <div className="space-y-1">
-                              <Label className="text-xs">{t("page.promo.ui.bonusQtyY")}</Label>
+                              <Label htmlFor={`promo-rule-${index}-qty-y`} className="text-xs">
+                                {t("page.promo.ui.bonusQtyY")}
+                              </Label>
                               <Input
+                                id={`promo-rule-${index}-qty-y`}
                                 type="number"
                                 min="1"
                                 value={rule.condition.qtyY ?? 1}
@@ -925,8 +951,11 @@ const AddPromoCampaign = () => {
                         )}
                         {rule.ruleType === "spend_threshold" && (
                           <div className="space-y-1">
-                            <Label className="text-xs">{t("page.discount.form.minPurchase")}</Label>
+                            <Label htmlFor={`promo-rule-${index}-min-purchase`} className="text-xs">
+                              {t("page.discount.form.minPurchase")}
+                            </Label>
                             <Input
+                              id={`promo-rule-${index}-min-purchase`}
                               type="text"
                               inputMode="numeric"
                               value={
@@ -942,8 +971,11 @@ const AddPromoCampaign = () => {
                         )}
                         {rule.ruleType === "member_tier" && (
                           <div className="space-y-1">
-                            <Label className="text-xs">{t("common.ui.memberTiers")}</Label>
+                            <Label htmlFor={`promo-rule-${index}-tier`} className="text-xs">
+                              {t("common.ui.memberTiers")}
+                            </Label>
                             <Combobox
+                              id={`promo-rule-${index}-tier`}
                               options={tierOptions}
                               value={rule.condition.tierId ? String(rule.condition.tierId) : ""}
                               onChange={(v) => updateRule(index, "condition.tierId", Number(v))}
@@ -990,8 +1022,11 @@ const AddPromoCampaign = () => {
                           className="p-3 bg-background rounded-lg border border-border space-y-3">
                           <div className="grid grid-cols-1 sm:grid-cols-12 gap-3 items-end">
                             <div className="space-y-1 sm:col-span-5">
-                              <Label className="text-xs">{t("page.promo.ui.rewardType")}</Label>
+                              <Label htmlFor={`promo-reward-${index}-type`} className="text-xs">
+                                {t("page.promo.ui.rewardType")}
+                              </Label>
                               <Combobox
+                                id={`promo-reward-${index}-type`}
                                 options={[
                                   {
                                     value: "discount_percentage",
@@ -1017,11 +1052,14 @@ const AddPromoCampaign = () => {
                             </div>
                             {!needProduct && (
                               <div className="space-y-1 sm:col-span-4">
-                                <Label className="text-xs">
-                                  {isPercent ? "Nilai (%)" : "Nilai"}
+                                <Label htmlFor={`promo-reward-${index}-value`} className="text-xs">
+                                  {isPercent
+                                    ? t("page.promo.ui.rewardValuePercent")
+                                    : t("page.promo.ui.rewardValue")}
                                 </Label>
                                 {reward.rewardType === "points_multiplier" ? (
                                   <Input
+                                    id={`promo-reward-${index}-value`}
                                     type="number"
                                     min="1"
                                     value={reward.rewardValue ?? 1}
@@ -1036,6 +1074,7 @@ const AddPromoCampaign = () => {
                                 ) : isPercent ? (
                                   <div className="relative">
                                     <Input
+                                      id={`promo-reward-${index}-value`}
                                       type="number"
                                       value={reward.rewardValue ?? 0}
                                       onChange={(e) =>
@@ -1053,6 +1092,7 @@ const AddPromoCampaign = () => {
                                   </div>
                                 ) : (
                                   <Input
+                                    id={`promo-reward-${index}-value`}
                                     type="text"
                                     inputMode="numeric"
                                     value={reward.rewardValue ? formatIDR(reward.rewardValue) : ""}
@@ -1067,8 +1107,13 @@ const AddPromoCampaign = () => {
                             )}
                             {needProduct && (
                               <div className="space-y-1 sm:col-span-7">
-                                <Label className="text-xs">{t("page.promo.ui.freeProduct")}</Label>
+                                <Label
+                                  htmlFor={`promo-reward-${index}-product`}
+                                  className="text-xs">
+                                  {t("page.promo.ui.freeProduct")}
+                                </Label>
                                 <Combobox
+                                  id={`promo-reward-${index}-product`}
                                   options={productOptions}
                                   value={reward.productId ? String(reward.productId) : ""}
                                   onChange={(v) => updateReward(index, "productId", Number(v))}
@@ -1078,8 +1123,11 @@ const AddPromoCampaign = () => {
                               </div>
                             )}
                             <div className="space-y-1 sm:col-span-3">
-                              <Label className="text-xs">{t("document.qty")}</Label>
+                              <Label htmlFor={`promo-reward-${index}-qty`} className="text-xs">
+                                {t("document.qty")}
+                              </Label>
                               <Input
+                                id={`promo-reward-${index}-qty`}
                                 type="number"
                                 min="1"
                                 value={reward.quantity ?? 1}

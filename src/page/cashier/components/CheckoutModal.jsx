@@ -1332,10 +1332,12 @@ const CheckoutModal = ({
           </div>
 
           <div>
-            <label className="block text-sm font-medium mb-2 text-muted-foreground">
+            <p
+              id="checkout-order-type"
+              className="block text-sm font-medium mb-2 text-muted-foreground">
               {t("page.cashier.modal.orderType")}
-            </label>
-            <div className="flex gap-2">
+            </p>
+            <div role="group" aria-labelledby="checkout-order-type" className="flex gap-2">
               <button
                 type="button"
                 onClick={() => {
@@ -1446,10 +1448,15 @@ const CheckoutModal = ({
           </div>
 
           <div>
-            <label className="block text-sm font-medium mb-2 text-muted-foreground">
+            <p
+              id="checkout-payment-method"
+              className="block text-sm font-medium mb-2 text-muted-foreground">
               {t("page.cashier.paymentMethod")}
-            </label>
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+            </p>
+            <div
+              role="group"
+              aria-labelledby="checkout-payment-method"
+              className="grid grid-cols-2 sm:grid-cols-3 gap-2">
               {paymentMethods.length === 0 ? (
                 <p className="col-span-full text-sm text-muted-foreground text-center py-3">
                   {t("page.cashier.noPaymentMethods", "Tidak ada metode pembayaran aktif")}
@@ -1500,7 +1507,9 @@ const CheckoutModal = ({
           {paymentMethod === "cash" && (
             <div className="bg-muted/30 rounded-xl p-4 border border-border/40 space-y-3">
               <div className="flex items-center justify-between">
-                <label className="text-sm font-medium text-muted-foreground">
+                <label
+                  htmlFor="checkout-cash-amount"
+                  className="text-sm font-medium text-muted-foreground">
                   {t("page.cashier.cashAmount")}
                 </label>
                 <button
@@ -1513,6 +1522,7 @@ const CheckoutModal = ({
               </div>
               <div className="relative">
                 <input
+                  id="checkout-cash-amount"
                   ref={cashInputRef}
                   type="text"
                   value={cashAmount ? `Rp ${Number(cashAmount).toLocaleString("id-ID")}` : ""}
@@ -1854,7 +1864,9 @@ const CheckoutModal = ({
           {memberPoints > 0 && (
             <div className="bg-violet-500/5 rounded-xl p-4 border border-violet-500/20 space-y-2">
               <div className="flex items-center justify-between">
-                <label className="text-sm font-medium text-muted-foreground">
+                <label
+                  htmlFor="checkout-redeem-points"
+                  className="text-sm font-medium text-muted-foreground">
                   {t("page.memberLoyalty.tabs.redeem")}
                 </label>
                 <span className="text-xs text-violet-500 font-medium">
@@ -1863,6 +1875,7 @@ const CheckoutModal = ({
               </div>
               <div className="flex gap-2">
                 <input
+                  id="checkout-redeem-points"
                   type="text"
                   value={redeemPoints ? Number(redeemPoints).toLocaleString("id-ID") : ""}
                   onChange={(e) => {
@@ -1981,10 +1994,15 @@ const CheckoutModal = ({
                   <p className="text-xs text-muted-foreground mt-1">{t("common.phoneHint")}</p>
                 </div>
                 <div>
-                  <label className="block text-sm font-medium mb-1.5 text-muted-foreground">
+                  <p
+                    id="checkout-new-customer-tier"
+                    className="block text-sm font-medium mb-1.5 text-muted-foreground">
                     {t("page.cashier.addCustomerMemberTier")}
-                  </label>
-                  <div className="grid grid-cols-2 gap-2">
+                  </p>
+                  <div
+                    role="group"
+                    aria-labelledby="checkout-new-customer-tier"
+                    className="grid grid-cols-2 gap-2">
                     {memberTiers.length === 0 ? (
                       <div className="col-span-2 text-sm text-muted-foreground bg-accent/30 rounded-xl px-3 py-2">
                         {t("page.cashier.addCustomerNoTier")}

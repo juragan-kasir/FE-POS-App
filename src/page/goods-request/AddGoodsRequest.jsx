@@ -171,7 +171,9 @@ const GoodsRequestGroup = ({
   return (
     <div className="border rounded-lg overflow-hidden">
       <div className="flex flex-col sm:flex-row sm:items-center gap-2 p-3 border-b bg-muted/40">
-        <Label className="shrink-0 text-xs text-muted-foreground">
+        <Label
+          htmlFor={`goods-request-group-${groupIndex}-supplier`}
+          className="shrink-0 text-xs text-muted-foreground">
           {t("page.goodsRequest.add.table.supplier")}
         </Label>
         <div className="flex-1 min-w-[220px]">
@@ -180,6 +182,7 @@ const GoodsRequestGroup = ({
             name={`groups.${groupIndex}.supplier`}
             render={({ field }) => (
               <Combobox
+                id={`goods-request-group-${groupIndex}-supplier`}
                 options={supplierOptions}
                 value={field.value ? String(field.value) : ""}
                 onChange={(val) => {
@@ -542,7 +545,7 @@ const AddGoodsRequest = () => {
           className="bg-card p-4 sm:p-6 rounded-xl border border-border space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="space-y-2">
-              <Label>
+              <Label htmlFor="goods-request-store">
                 {t("page.goodsRequest.add.form.store")} <span className="text-destructive">*</span>
               </Label>
               <Controller
@@ -550,6 +553,7 @@ const AddGoodsRequest = () => {
                 name="storeId"
                 render={({ field }) => (
                   <Combobox
+                    id="goods-request-store"
                     options={[
                       { value: "", label: t("page.goodsRequest.add.form.selectStore") },
                       ...locations.map((loc) => ({ value: loc.id, label: loc.name }))
@@ -593,12 +597,15 @@ const AddGoodsRequest = () => {
               </div>
             </div>
             <div className="space-y-2">
-              <Label>{t("page.goodsRequest.add.form.requestDate")}</Label>
+              <Label htmlFor="goods-request-date">
+                {t("page.goodsRequest.add.form.requestDate")}
+              </Label>
               <Controller
                 control={control}
                 name="requestDate"
                 render={({ field }) => (
                   <DatePicker
+                    id="goods-request-date"
                     date={field.value}
                     setDate={field.onChange}
                     placeholder={t("page.goodsRequest.add.form.requestDate")}
@@ -607,7 +614,7 @@ const AddGoodsRequest = () => {
               />
             </div>
             <div className="space-y-2">
-              <Label>
+              <Label htmlFor="goods-request-needed-date">
                 {t("page.goodsRequest.add.form.neededDate")}{" "}
                 <span className="text-destructive">*</span>
               </Label>
@@ -616,6 +623,7 @@ const AddGoodsRequest = () => {
                 name="neededDate"
                 render={({ field }) => (
                   <DatePicker
+                    id="goods-request-needed-date"
                     date={field.value}
                     setDate={field.onChange}
                     placeholder={t("page.goodsRequest.add.placeholder.neededDate")}
@@ -630,9 +638,9 @@ const AddGoodsRequest = () => {
           </div>
 
           <div className="space-y-2">
-            <Label>
+            <p className="text-sm font-medium leading-none">
               {t("page.goodsRequest.add.form.items")} <span className="text-destructive">*</span>
-            </Label>
+            </p>
 
             {groupFields.map((field, gIdx) => (
               <GoodsRequestGroup

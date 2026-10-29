@@ -434,7 +434,7 @@ const AddBom = () => {
           </div>
 
           <div className="space-y-2">
-            <Label>{t("page.bom.add.form.ingredients")}</Label>
+            <p className="text-sm font-medium leading-none">{t("page.bom.add.form.ingredients")}</p>
             {!selectedStore ? (
               <div className="flex flex-col items-center justify-center py-10 text-center px-4 border border-dashed border-border rounded-lg bg-muted/30">
                 <p className="text-sm font-medium text-foreground">

@@ -9741,5 +9741,7 @@
   "common.nextMonth": "Bulan berikutnya",
   "common.openMenu": "Buka menu",
   "common.clearSelection": "Batalkan pilihan",
-  "page.notification.markAsRead": "Tandai dibaca"
+  "page.notification.markAsRead": "Tandai dibaca",
+  "page.promo.ui.rewardValue": "Nilai",
+  "page.promo.ui.rewardValuePercent": "Nilai (%)"
 }

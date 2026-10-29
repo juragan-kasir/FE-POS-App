@@ -104,10 +104,13 @@ const AuditLogList = () => {
                 isFiltered={isFiltered}>
                 {isSuperAdmin && (
                   <div className="flex flex-col gap-1.5">
-                    <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                    <label
+                      htmlFor="audit-log-list-store-filter"
+                      className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                       {t("page.goodsReceipt.detail.store")}
                     </label>
                     <StoreFilter
+                      id="audit-log-list-store-filter"
                       locations={(locData?.data || []).filter((l) => l.status === "active")}
                       value={storeFilter}
                       onChange={(v) => {

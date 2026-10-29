@@ -451,19 +451,22 @@ const EditGoodsRequest = () => {
           </div>
 
           <div id="edit-goods-request-items" className="space-y-2">
-            <Label>
+            <p className="text-sm font-medium leading-none">
               {t("page.goodsRequest.edit.form.items")} <span className="text-destructive">*</span>
-            </Label>
+            </p>
             <FieldError message={formErrors.items} />
 
             {groups.map((group, gIdx) => (
               <div key={gIdx} className="border rounded-lg overflow-hidden">
                 <div className="flex flex-col sm:flex-row sm:items-center gap-2 p-3 border-b bg-muted/40">
-                  <Label className="shrink-0 text-xs text-muted-foreground">
+                  <Label
+                    htmlFor={`goods-request-group-${gIdx}-supplier`}
+                    className="shrink-0 text-xs text-muted-foreground">
                     {t("page.goodsRequest.edit.table.supplier")}
                   </Label>
                   <div className="flex-1 min-w-[220px]">
                     <Combobox
+                      id={`goods-request-group-${gIdx}-supplier`}
                       options={supplierOptionsForGroup(gIdx)}
                       value={group.supplier ? String(group.supplier) : ""}
                       onChange={(val) => pickGroupSupplier(gIdx, val)}

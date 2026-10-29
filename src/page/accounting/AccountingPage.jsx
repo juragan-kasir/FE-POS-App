@@ -75,12 +75,14 @@ const formatDate = (d) => {
 
 // ponytail: bar filter tanggal + reset dipakai 4 tab (overview/trial/income/
 // balance) — diekstrak agar konsisten (saran Codacy PR #23)
-function AccountingFilterBar({ label, onReset, disabled, children }) {
+function AccountingFilterBar({ label, controlId, onReset, disabled, children }) {
   const { t } = useTranslation();
   return (
     <div className="flex flex-wrap items-end gap-2">
       <div className="flex flex-col gap-1.5">
-        <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+        <label
+          htmlFor={controlId}
+          className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
           {label}
         </label>
         {children}
@@ -100,6 +102,7 @@ function AccountingFilterBar({ label, onReset, disabled, children }) {
 
 AccountingFilterBar.propTypes = {
   label: PropTypes.node.isRequired,
+  controlId: PropTypes.string,
   onReset: PropTypes.func.isRequired,
   disabled: PropTypes.bool,
   children: PropTypes.node
@@ -748,10 +751,13 @@ const JournalTab = ({ storeId, isAll }) => {
           />
         </div>
         <div className="flex-1 flex flex-col gap-1.5">
-          <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+          <label
+            htmlFor="accounting-journal-date"
+            className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
             {t("page.accounting.filter.dateRange")}
           </label>
           <DatePickerWithRange
+            id="accounting-journal-date"
             date={dateRange}
             setDate={(d) => {
               setDateRange(d || { from: null, to: null });
@@ -1038,10 +1044,11 @@ const ManualLines = ({ accounts }) => {
       {lines.map((_, i) => (
         <div key={i} className="grid grid-cols-12 gap-2 items-end">
           <div className="col-span-5 space-y-1.5">
-            <label className="text-xs text-muted-foreground">
+            <label htmlFor={`journal-line-${i}-account`} className="text-xs text-muted-foreground">
               {t("page.accounting.journal.account")} {i + 1}
             </label>
             <select
+              id={`journal-line-${i}-account`}
               name={`lineAccount-${i + 1}`}
               className="w-full h-10 px-3 rounded-lg bg-accent/50 border border-border/60 text-sm outline-none focus:border-primary/50 transition-colors">
               <option value="">{t("page.accounting.journal.selectAccount")}</option>
@@ -1053,16 +1060,24 @@ const ManualLines = ({ accounts }) => {
             </select>
           </div>
           <div className="col-span-2 space-y-1.5">
-            <label className="text-xs text-muted-foreground">
+            <label htmlFor={`journal-line-${i}-debit`} className="text-xs text-muted-foreground">
               {t("page.accounting.journal.debit")}
             </label>
-            <Input type="number" name={`lineDebit-${i + 1}`} min="0" step="0.01" defaultValue="0" />
+            <Input
+              id={`journal-line-${i}-debit`}
+              type="number"
+              name={`lineDebit-${i + 1}`}
+              min="0"
+              step="0.01"
+              defaultValue="0"
+            />
           </div>
           <div className="col-span-2 space-y-1.5">
-            <label className="text-xs text-muted-foreground">
+            <label htmlFor={`journal-line-${i}-credit`} className="text-xs text-muted-foreground">
               {t("page.accounting.journal.credit")}
             </label>
             <Input
+              id={`journal-line-${i}-credit`}
               type="number"
               name={`lineCredit-${i + 1}`}
               min="0"
@@ -1071,10 +1086,12 @@ const ManualLines = ({ accounts }) => {
             />
           </div>
           <div className="col-span-3 space-y-1.5">
-            <label className="text-xs text-muted-foreground">
+            <label
+              htmlFor={`journal-line-${i}-description`}
+              className="text-xs text-muted-foreground">
               {t("page.accounting.journal.description")}
             </label>
-            <Input name={`lineDesc-${i + 1}`} />
+            <Input id={`journal-line-${i}-description`} name={`lineDesc-${i + 1}`} />
           </div>
         </div>
       ))}
@@ -1140,10 +1157,12 @@ const TrialBalanceTab = ({ storeId, isAll }) => {
           <p className="text-sm text-muted-foreground">{t("page.accounting.trial.desc")}</p>
         </div>
         <AccountingFilterBar
+          controlId="accounting-filter-date-1"
           label={t("page.accounting.filter.dateRange")}
           onReset={resetFilters}
           disabled={!hasFilter}>
           <DatePickerWithRange
+            id="accounting-filter-date-1"
             date={dateRange}
             setDate={setDateRange}
             placeholder={t("page.accounting.filter.pickDateRange")}
@@ -1318,10 +1337,12 @@ const IncomeStatementTab = ({ storeId, isAll }) => {
           <p className="text-sm text-muted-foreground">{t("page.accounting.income.desc")}</p>
         </div>
         <AccountingFilterBar
+          controlId="accounting-filter-date-2"
           label={t("page.accounting.filter.dateRange")}
           onReset={resetFilters}
           disabled={!hasFilter}>
           <DatePickerWithRange
+            id="accounting-filter-date-2"
             date={dateRange}
             setDate={setDateRange}
             placeholder={t("page.accounting.filter.pickDateRange")}
@@ -1463,6 +1484,7 @@ const BalanceSheetTab = ({ storeId, isAll }) => {
           <p className="text-sm text-muted-foreground">{t("page.accounting.balance.desc")}</p>
         </div>
         <AccountingFilterBar
+          controlId="accounting-filter-date-3"
           label={t("page.accounting.balance.asOf")}
           onReset={resetFilter}
           disabled={!asOf}>
@@ -1594,10 +1616,12 @@ const AccountingOverview = ({ storeId, isAll }) => {
           </div>
         </div>
         <AccountingFilterBar
+          controlId="accounting-filter-date-4"
           label={t("page.accounting.filter.dateRange")}
           onReset={resetFilters}
           disabled={!hasFilter}>
           <DatePickerWithRange
+            id="accounting-filter-date-4"
             date={dateRange}
             setDate={setDateRange}
             placeholder={t("page.accounting.filter.pickDateRange")}

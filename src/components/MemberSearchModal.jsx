@@ -47,10 +47,11 @@ export default function MemberSearchModal({ open, onClose, onSelect }) {
         <div className="p-6 space-y-4 flex-1 overflow-y-auto">
           <div className="space-y-3">
             <div>
-              <label className="block text-sm font-medium mb-1">
+              <label htmlFor="member-search-number" className="block text-sm font-medium mb-1">
                 {t("component.memberSearchModal.ui.memberNumber")}
               </label>
               <Input
+                id="member-search-number"
                 placeholder={t("component.memberSearchModal.ui.phoneMemberNo")}
                 value={memberNumber}
                 onChange={(e) => setMemberNumber(e.target.value)}
@@ -58,8 +59,11 @@ export default function MemberSearchModal({ open, onClose, onSelect }) {
               />
             </div>
             <div>
-              <label className="block text-sm font-medium mb-1">{t("document.name")}</label>
+              <label htmlFor="member-search-name" className="block text-sm font-medium mb-1">
+                {t("document.name")}
+              </label>
               <Input
+                id="member-search-name"
                 placeholder={t("component.memberSearchModal.ui.memberName")}
                 value={memberName}
                 onChange={(e) => setMemberName(e.target.value)}
