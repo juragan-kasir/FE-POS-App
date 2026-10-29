@@ -298,7 +298,7 @@ const AddBusinessTrip = () => {
             <div className="p-4 sm:p-6">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <Label className="flex items-center gap-1 text-sm">
+                  <Label htmlFor="business-trip-store" className="flex items-center gap-1 text-sm">
                     <Building2 size={14} className="text-muted-foreground" />
                     {t("page.businessTrip.add.form.store")}{" "}
                     <span className="text-destructive">*</span>
@@ -317,7 +317,7 @@ const AddBusinessTrip = () => {
                           field.onChange(v);
                         }}
                         value={field.value}>
-                        <SelectTrigger disabled={locationsLoading}>
+                        <SelectTrigger id="business-trip-store" disabled={locationsLoading}>
                           <SelectValue
                             placeholder={t("page.businessTrip.add.form.storePlaceholder")}
                           />
@@ -363,7 +363,7 @@ const AddBusinessTrip = () => {
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label className="text-sm">
+                  <Label htmlFor="business-trip-departure" className="text-sm">
                     {t("page.businessTrip.add.form.departureDate")}{" "}
                     <span className="text-destructive">*</span>
                   </Label>
@@ -372,6 +372,7 @@ const AddBusinessTrip = () => {
                     name="departureDate"
                     render={({ field }) => (
                       <DatePicker
+                        id="business-trip-departure"
                         date={field.value}
                         setDate={field.onChange}
                         placeholder={t("page.businessTrip.add.form.departureDate")}
@@ -383,7 +384,7 @@ const AddBusinessTrip = () => {
                   )}
                 </div>
                 <div className="space-y-2">
-                  <Label className="text-sm">
+                  <Label htmlFor="business-trip-return" className="text-sm">
                     {t("page.businessTrip.add.form.returnDate")}{" "}
                     <span className="text-destructive">*</span>
                   </Label>
@@ -392,6 +393,7 @@ const AddBusinessTrip = () => {
                     name="returnDate"
                     render={({ field }) => (
                       <DatePicker
+                        id="business-trip-return"
                         date={field.value}
                         setDate={field.onChange}
                         placeholder={t("page.businessTrip.add.form.returnDate")}
@@ -560,12 +562,15 @@ const AddBusinessTrip = () => {
                 <div className="p-4 sm:p-6 space-y-4">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="space-y-2">
-                      <Label className="text-sm">{t("page.businessTrip.rab.cashAdvance")}</Label>
+                      <Label htmlFor="business-trip-cash-advance" className="text-sm">
+                        {t("page.businessTrip.rab.cashAdvance")}
+                      </Label>
                       <Controller
                         control={control}
                         name="budget"
                         render={({ field }) => (
                           <CurrencyInput
+                            id="business-trip-cash-advance"
                             value={field.value}
                             onChange={field.onChange}
                             placeholder="0"

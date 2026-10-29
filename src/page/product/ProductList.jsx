@@ -671,10 +671,13 @@ const ProductList = () => {
                     />
                   </div>
                   <div className="flex flex-col gap-1.5">
-                    <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                    <label
+                      htmlFor="product-list-store-filter"
+                      className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                       {t("page.goodsReceipt.detail.store")}
                     </label>
                     <StoreFilter
+                      id="product-list-store-filter"
                       locations={locData?.data || []}
                       value={storeFilter}
                       onChange={(v) => {

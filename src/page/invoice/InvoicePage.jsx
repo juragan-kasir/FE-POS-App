@@ -788,9 +788,11 @@ const InvoicePage = () => {
                 {/* Ukuran Font */}
                 <div className="space-y-2.5">
                   <div className="flex items-center justify-between">
-                    <Label className="text-xs font-semibold text-foreground">
+                    <p
+                      id="invoice-font-size"
+                      className="leading-none text-xs font-semibold text-foreground">
                       {t("page.invoice.ui.fontSize")}
-                    </Label>
+                    </p>
                     <span className="text-xs font-medium text-muted-foreground">
                       {fontSize === "small"
                         ? "Kecil (10px)"
@@ -799,7 +801,10 @@ const InvoicePage = () => {
                           : "Standar (12px)"}
                     </span>
                   </div>
-                  <div className="grid grid-cols-3 gap-2">
+                  <div
+                    role="group"
+                    aria-labelledby="invoice-font-size"
+                    className="grid grid-cols-3 gap-2">
                     {[
                       {
                         key: "small",
@@ -843,9 +848,11 @@ const InvoicePage = () => {
                 {/* Gaya Font (Font Family) */}
                 <div className="space-y-2.5 pt-4 border-t border-border">
                   <div className="flex items-center justify-between">
-                    <Label className="text-xs font-semibold text-foreground">
+                    <p
+                      id="invoice-font-family"
+                      className="leading-none text-xs font-semibold text-foreground">
                       {t("page.invoice.ui.fontFamily")}
-                    </Label>
+                    </p>
                     <span className="text-xs font-medium text-muted-foreground">
                       {fontFamily === "sans"
                         ? "Sans-Serif"
@@ -854,7 +861,10 @@ const InvoicePage = () => {
                           : "Monospace"}
                     </span>
                   </div>
-                  <div className="grid grid-cols-3 gap-2">
+                  <div
+                    role="group"
+                    aria-labelledby="invoice-font-family"
+                    className="grid grid-cols-3 gap-2">
                     {[
                       {
                         key: "monospace",
@@ -903,9 +913,11 @@ const InvoicePage = () => {
                 {/* Kerapatan Baris (Line Spacing) */}
                 <div className="space-y-2.5 pt-4 border-t border-border">
                   <div className="flex items-center justify-between">
-                    <Label className="text-xs font-semibold text-foreground">
+                    <p
+                      id="invoice-line-spacing"
+                      className="leading-none text-xs font-semibold text-foreground">
                       {t("page.invoice.ui.lineSpacing")}
-                    </Label>
+                    </p>
                     <span className="text-xs font-medium text-muted-foreground">
                       {lineSpacing === "compact"
                         ? "Rapat"
@@ -914,7 +926,10 @@ const InvoicePage = () => {
                           : "Standar"}
                     </span>
                   </div>
-                  <div className="grid grid-cols-3 gap-2">
+                  <div
+                    role="group"
+                    aria-labelledby="invoice-line-spacing"
+                    className="grid grid-cols-3 gap-2">
                     {[
                       {
                         key: "compact",

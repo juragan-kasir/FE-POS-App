@@ -229,21 +229,21 @@ const DetailRole = () => {
             </div>
             <div className="space-y-4">
               <div>
-                <label className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
+                <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
                   {t("page.role.detail.nameLabel")}
-                </label>
+                </p>
                 <p className="text-sm font-medium text-foreground mt-1">{role.name}</p>
               </div>
               <div>
-                <label className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
+                <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
                   {t("page.role.detail.descLabel")}
-                </label>
+                </p>
                 <p className="text-sm text-foreground mt-1">{role.description || "-"}</p>
               </div>
               <div>
-                <label className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
+                <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
                   {t("page.role.detail.typeLabel")}
-                </label>
+                </p>
                 <p className="mt-1">
                   <span
                     className={`inline-flex px-2 py-1 rounded-full text-xs font-semibold ${
@@ -260,9 +260,9 @@ const DetailRole = () => {
                 </p>
               </div>
               <div>
-                <label className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
+                <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
                   {t("common.status")}
-                </label>
+                </p>
                 <p className="mt-1">
                   <span
                     className={`inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-semibold ${

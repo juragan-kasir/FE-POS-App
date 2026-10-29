@@ -301,9 +301,9 @@ const MyOvertime = () => {
               />
             </div>
             <div className="space-y-1.5">
-              <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+              <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                 {t("page.overtime.ui.durationAuto")}
-              </label>
+              </p>
               <div className="h-9 rounded-lg border border-border bg-muted/30 px-3 flex items-center text-sm font-medium text-foreground">
                 {duration !== null && duration > 0 ? durationLabel(duration) : "-"}
               </div>

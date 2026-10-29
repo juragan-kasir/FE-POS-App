@@ -170,8 +170,11 @@ const IngredientStockSummary = ({
           <TableToolbar title={t(`${P}.title`)} isFiltered={isFiltered} onReset={resetFilters}>
             {isSuperAdmin && (
               <div>
-                <label className={fieldLabelClass}>{t("header.selectStore")}</label>
+                <label htmlFor="ingredient-summary-store" className={fieldLabelClass}>
+                  {t("header.selectStore")}
+                </label>
                 <StoreFilter
+                  id="ingredient-summary-store"
                   locations={locations}
                   value={storeFilter}
                   onChange={onStoreChange}

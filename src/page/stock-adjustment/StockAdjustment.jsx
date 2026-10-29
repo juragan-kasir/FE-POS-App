@@ -179,7 +179,7 @@ const StockAdjustment = () => {
               <Card className="p-6 shadow-sm border-muted space-y-5">
                 {isSuperAdmin && (
                   <div className="space-y-2">
-                    <Label>
+                    <Label htmlFor="stock-adjustment-store-filter">
                       {t("page.stockAdjustment.form.store")}{" "}
                       <span className="text-destructive">*</span>
                     </Label>
@@ -188,6 +188,7 @@ const StockAdjustment = () => {
                       name="store"
                       render={({ field }) => (
                         <StoreFilter
+                          id="stock-adjustment-store-filter"
                           locations={locData?.data || []}
                           value={field.value}
                           onChange={field.onChange}
@@ -202,7 +203,7 @@ const StockAdjustment = () => {
                   </div>
                 )}
                 <div className="space-y-2">
-                  <Label>
+                  <Label htmlFor="stock-adjustment-product">
                     {t("page.stockAdjustment.form.product")}{" "}
                     <span className="text-destructive">*</span>
                   </Label>
@@ -213,6 +214,7 @@ const StockAdjustment = () => {
                       <Popover open={productOpen} onOpenChange={setProductOpen}>
                         <PopoverTrigger asChild>
                           <Button
+                            id="stock-adjustment-product"
                             variant="outline"
                             role="combobox"
                             className="w-full justify-between h-9">

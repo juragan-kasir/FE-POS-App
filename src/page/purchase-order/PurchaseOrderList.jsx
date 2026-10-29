@@ -1155,10 +1155,13 @@ const PurchaseOrderList = () => {
                     </div>
                     {isSuperAdmin && (
                       <div className="flex flex-col gap-1.5">
-                        <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                        <label
+                          htmlFor="purchase-order-list-store-filter"
+                          className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                           {t("page.goodsReceipt.detail.store")}
                         </label>
                         <StoreFilter
+                          id="purchase-order-list-store-filter"
                           locations={locData?.data || []}
                           value={storeFilter}
                           onChange={(v) => {
@@ -1575,7 +1578,9 @@ const PurchaseOrderList = () => {
 
                     <div className="space-y-2">
                       <div className="flex items-center justify-between">
-                        <label className="text-sm font-medium text-foreground">
+                        <label
+                          htmlFor="po-list-return-docs"
+                          className="text-sm font-medium text-foreground">
                           {t("page.purchaseOrder.list.returInfo.documentation")}{" "}
                           <span className="text-xs font-normal text-muted-foreground">
                             ({t("common.optional")})
@@ -1588,6 +1593,7 @@ const PurchaseOrderList = () => {
                         )}
                       </div>
                       <input
+                        id="po-list-return-docs"
                         type="file"
                         accept="image/*"
                         multiple

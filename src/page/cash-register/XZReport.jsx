@@ -703,12 +703,15 @@ const XZReport = () => {
             <div className="p-2 bg-primary/10 text-primary rounded-lg shadow-sm">
               <Store size={16} />
             </div>
-            <label className="text-xs font-bold uppercase tracking-widest text-muted-foreground whitespace-nowrap">
+            <label
+              htmlFor="xz-store"
+              className="text-xs font-bold uppercase tracking-widest text-muted-foreground whitespace-nowrap">
               {t("header.selectStore")}
             </label>
           </div>
           <div className="relative w-full sm:w-72">
             <select
+              id="xz-store"
               value={storeFilter}
               onChange={(e) => setStoreFilter(e.target.value)}
               className="w-full h-9 pl-3 pr-8 rounded-lg bg-background border border-border/80 text-xs font-semibold appearance-none outline-none focus:border-primary focus:ring-1 focus:ring-primary/30 transition-all cursor-pointer shadow-sm hover:border-border">
@@ -846,12 +849,15 @@ const XZReport = () => {
           ) : (
             <div className="bg-card rounded-2xl border border-border/80 shadow-sm mx-auto overflow-hidden">
               <div className="p-3 bg-gradient-to-r from-accent/30 to-accent/10 dark:from-accent/15 dark:to-accent/5 border-b border-border/40 flex items-center gap-4">
-                <label className="text-xs font-bold uppercase tracking-widest text-muted-foreground/90 whitespace-nowrap">
+                <label
+                  htmlFor="xz-register"
+                  className="text-xs font-bold uppercase tracking-widest text-muted-foreground/90 whitespace-nowrap">
                   {t("page.cashRegister.xz.selectRegister")}
                 </label>
                 {registers.length > 0 ? (
                   <div className="relative flex-1">
                     <select
+                      id="xz-register"
                       value={selectedRegister || ""}
                       onChange={(e) => setSelectedRegister(e.target.value)}
                       className="w-full h-9 pl-3 pr-8 rounded-lg bg-background border border-border/80 text-xs font-semibold appearance-none outline-none focus:border-primary focus:ring-1 focus:ring-primary/30 transition-all cursor-pointer shadow-sm hover:border-border">

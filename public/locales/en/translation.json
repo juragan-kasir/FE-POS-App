@@ -9741,5 +9741,7 @@
   "common.nextMonth": "Next month",
   "common.openMenu": "Open menu",
   "common.clearSelection": "Clear selection",
-  "page.notification.markAsRead": "Mark as read"
+  "page.notification.markAsRead": "Mark as read",
+  "page.promo.ui.rewardValue": "Value",
+  "page.promo.ui.rewardValuePercent": "Value (%)"
 }

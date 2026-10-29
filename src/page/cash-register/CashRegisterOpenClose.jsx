@@ -280,10 +280,15 @@ const CashRegisterOpenClose = () => {
                 </div>
 
                 <div className="space-y-2">
-                  <Label className="text-xs text-muted-foreground font-normal">
+                  <p
+                    id="cash-register-quick-amount"
+                    className="leading-none text-xs text-muted-foreground font-normal">
                     {t("page.cashRegister.openClose.quickSelect")}
-                  </Label>
-                  <div className="grid grid-cols-2 sm:grid-cols-3 md:flex md:flex-wrap gap-2">
+                  </p>
+                  <div
+                    role="group"
+                    aria-labelledby="cash-register-quick-amount"
+                    className="grid grid-cols-2 sm:grid-cols-3 md:flex md:flex-wrap gap-2">
                     {quickAmounts.map((amount) => (
                       <button
                         key={amount}

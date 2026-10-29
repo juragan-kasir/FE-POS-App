@@ -465,10 +465,13 @@ const TableList = () => {
                       onReset={resetFilters}
                       isFiltered={isFiltered}>
                       <div className="flex flex-col gap-1.5">
-                        <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                        <label
+                          htmlFor="table-list-store-filter"
+                          className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                           {t("page.goodsReceipt.detail.store")}
                         </label>
                         <StoreFilter
+                          id="table-list-store-filter"
                           locations={locData?.data || []}
                           value={storeFilter}
                           onChange={(val) => {

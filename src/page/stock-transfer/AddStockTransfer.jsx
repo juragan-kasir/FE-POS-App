@@ -229,7 +229,7 @@ const AddStockTransfer = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {isSuperAdmin && (
               <div className="space-y-2">
-                <Label>
+                <Label htmlFor="stock-transfer-from">
                   {t("page.stockTransfer.add.form.fromStore")}{" "}
                   <span className="text-destructive">*</span>
                 </Label>
@@ -238,6 +238,7 @@ const AddStockTransfer = () => {
                   name="fromStore"
                   render={({ field }) => (
                     <Combobox
+                      id="stock-transfer-from"
                       options={storeOptions}
                       value={field.value}
                       onChange={field.onChange}
@@ -252,7 +253,7 @@ const AddStockTransfer = () => {
               </div>
             )}
             <div className="space-y-2">
-              <Label>
+              <Label htmlFor="stock-transfer-to">
                 {t("page.stockTransfer.add.form.toStore")}{" "}
                 <span className="text-destructive">*</span>
               </Label>
@@ -261,6 +262,7 @@ const AddStockTransfer = () => {
                 name="toStore"
                 render={({ field }) => (
                   <Combobox
+                    id="stock-transfer-to"
                     options={storeOptions}
                     value={field.value}
                     onChange={field.onChange}
@@ -300,19 +302,27 @@ const AddStockTransfer = () => {
               />
             </div>
             <div className="space-y-2">
-              <Label>{t("page.stockTransfer.add.form.expectedArrival")}</Label>
+              <Label htmlFor="stock-transfer-arrival">
+                {t("page.stockTransfer.add.form.expectedArrival")}
+              </Label>
               <Controller
                 control={control}
                 name="expectedArrival"
-                render={({ field }) => <DatePicker date={field.value} setDate={field.onChange} />}
+                render={({ field }) => (
+                  <DatePicker
+                    id="stock-transfer-arrival"
+                    date={field.value}
+                    setDate={field.onChange}
+                  />
+                )}
               />
             </div>
           </div>
 
           <div className="space-y-3">
-            <Label className="text-base font-semibold">
+            <p className="leading-none text-base font-semibold">
               {t("page.stockTransfer.add.form.items")}
-            </Label>
+            </p>
             <HorizontalScrollArea className="border rounded-xl shadow-sm overflow-hidden">
               <table className="w-full text-sm">
                 <thead>

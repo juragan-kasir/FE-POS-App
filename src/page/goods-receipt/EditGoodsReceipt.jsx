@@ -826,7 +826,9 @@ const EditGoodsReceipt = () => {
 
           <div id="edit-goods-receipt-items" className="space-y-2">
             <div className="flex items-center justify-between gap-2">
-              <Label>{t("page.goodsReceipt.edit.form.items")}</Label>
+              <p className="text-sm font-medium leading-none">
+                {t("page.goodsReceipt.edit.form.items")}
+              </p>
               <div className="flex items-center gap-2">
                 {poId && items.length > 0 && (
                   <Button

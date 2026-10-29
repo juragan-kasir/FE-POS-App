@@ -329,10 +329,12 @@ const AddMemberTier = () => {
               </div>
               <div className="flex flex-wrap gap-8">
                 <div className="flex flex-col gap-1.5">
-                  <label className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
+                  <p
+                    id="member-tier-icon"
+                    className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
                     {t("page.memberTier.add.selectIcon")}
-                  </label>
-                  <div className="flex gap-2">
+                  </p>
+                  <div role="group" aria-labelledby="member-tier-icon" className="flex gap-2">
                     {icons.map((icon) => {
                       const Icon = icon.component;
                       const isSelected = formData.selectedIcon === icon.name;
@@ -360,10 +362,12 @@ const AddMemberTier = () => {
                 </div>
 
                 <div className="flex flex-col gap-1.5">
-                  <label className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
+                  <p
+                    id="member-tier-color"
+                    className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
                     {t("page.memberTier.add.badgeColor")}
-                  </label>
-                  <div className="flex gap-2">
+                  </p>
+                  <div role="group" aria-labelledby="member-tier-color" className="flex gap-2">
                     {colors.map((color) => {
                       const isSelected = formData.selectedColor === color.value;
                       return (
