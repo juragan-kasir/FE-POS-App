@@ -34,7 +34,15 @@ jest.mock("@/services/product", () => ({
   getFullProductCatalog: jest.fn(() => Promise.resolve({ data: [], bundles: [] }))
 }));
 jest.mock("@/services/location", () => ({
-  getAllLocation: jest.fn(() => Promise.resolve({ data: [{ id: 3, name: "Warung Bakso Pusat" }] }))
+  // Two stores: with one, /home opens it without the picker.
+  getAllLocation: jest.fn(() =>
+    Promise.resolve({
+      data: [
+        { id: 3, name: "Warung Bakso Pusat" },
+        { id: 4, name: "Warung Bakso Cabang" }
+      ]
+    })
+  )
 }));
 jest.mock("@/services/tax-config", () => ({
   getAllTaxConfig: jest.fn(() => Promise.resolve({ data: [] }))
