@@ -170,6 +170,8 @@ const EditIngredient = () => {
   const watchCategory = form.watch("category");
   const watchName = form.watch("name");
   const watchUnit = form.watch("unit");
+  // Last value of each field that drives a dependent reset (see below).
+  const last = React.useRef({ store: null, supplier: null, category: null, unit: "pcs" });
   const watchBaseUnit = form.watch("baseUnit");
   const watchConversionFactor = form.watch("conversionFactor");
 
@@ -245,7 +247,14 @@ const EditIngredient = () => {
   useEffect(() => {
     const d = ingredientData?.data;
     if (!d) return;
-    hydrateGuard.current = true;
+    // What the form now holds, so the watchers below see loading the record
+    // as "no change" rather than as the user picking a new store/unit.
+    last.current = {
+      store: d.store ? String(d.store) : null,
+      supplier: d.supplier ? String(d.supplier) : null,
+      category: d.category ? String(d.category) : null,
+      unit: d.unit || "pcs"
+    };
     setSource(d.supplier ? "supplier" : "none");
     form.reset({
       name: d.name || "",
@@ -253,7 +262,8 @@ const EditIngredient = () => {
       category: d.category ? String(d.category) : null,
       unit: d.unit || "pcs",
       baseUnit: d.baseUnit || "pcs",
-      conversionFactor: String(d.conversionFactor || "1"),
+      // DECIMAL "24.0000" → "24": the same number, shown the way it was typed.
+      conversionFactor: String(toQuantity(d.conversionFactor) || 1),
       // DECIMAL string ("400.0000") → number, so the digit-only input below
       // never reads the decimals as extra digits (400 → 4000000).
       stock: toQuantity(d.stock),
@@ -264,26 +274,35 @@ const EditIngredient = () => {
     });
   }, [ingredientData]);
 
-  const hydrateGuard = React.useRef(true);
+  // Dependent-field resets run only when the user changes a value. They used
+  // to be held back by a flag that dropped before the form re-rendered with
+  // the loaded record, so loading cleared supplier, category and name and
+  // replaced the saved base unit/conversion with the unit's default hint.
+  const changedByUser = (field, value) => {
+    if (last.current[field] === value) return false;
+    last.current[field] = value;
+    return true;
+  };
 
   useEffect(() => {
-    if (hydrateGuard.current) return;
+    if (!changedByUser("store", watchStore)) return;
     form.setValue("supplier", null);
     form.setValue("category", null);
     form.setValue("name", "");
   }, [watchStore]);
 
   useEffect(() => {
-    if (hydrateGuard.current) return;
+    if (!changedByUser("supplier", watchSupplier)) return;
     if (watchSupplier) form.setValue("name", "");
   }, [watchSupplier]);
 
   useEffect(() => {
-    if (hydrateGuard.current) return;
+    if (!changedByUser("category", watchCategory)) return;
     if (pickFromCatalog) form.setValue("name", "");
   }, [watchCategory]);
 
   useEffect(() => {
+    if (!changedByUser("unit", watchUnit)) return;
     const hint = safeGet(conversionHints, watchUnit);
     if (hint) {
       form.setValue("baseUnit", hint.base);
@@ -293,10 +312,6 @@ const EditIngredient = () => {
       form.setValue("conversionFactor", "1");
     }
   }, [watchUnit]);
-
-  useEffect(() => {
-    hydrateGuard.current = false;
-  }, [watchStore, watchSupplier, watchCategory, ingredientData]);
 
   const mutation = useMutation((payload) => editIngredient(id, payload), {
     onSuccess: () => {
