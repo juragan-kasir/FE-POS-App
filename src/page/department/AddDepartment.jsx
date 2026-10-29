@@ -29,6 +29,7 @@ import Modal from "@/components/organism/modal";
 import MissingFieldsModal from "@/components/organism/MissingFieldsModal";
 import { getMissingFields } from "@/lib/validation";
 import { FIELD_LIMITS } from "@/constants/fieldLimits";
+import { createdId } from "@/utils/createdRecord";
 
 const AddDepartment = () => {
   const { t } = useTranslation();
@@ -68,8 +69,17 @@ const AddDepartment = () => {
   );
 
   const createMutation = useMutation(addDepartment, {
-    onSuccess: () => {
-      toast.success(t("common.success"), { description: t("page.department.toast.addSuccess") });
+    onSuccess: (res) => {
+      const id = createdId(res);
+      toast.success(t("common.success"), {
+        description: t("page.department.toast.addSuccess"),
+        action: id
+          ? {
+              label: t("common.viewDetail"),
+              onClick: () => navigate(`/detail-department?id=${id}`)
+            }
+          : undefined
+      });
       queryClient.invalidateQueries(["departments"]);
       navigate("/department-list");
     },

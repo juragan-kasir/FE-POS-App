@@ -41,6 +41,7 @@ import DepartmentPositions from "@/components/organism/DepartmentPositions";
 import { getMissingFields } from "@/lib/validation";
 import { FIELD_LIMITS } from "@/constants/fieldLimits";
 import LoadErrorBanner from "@/components/ui/LoadErrorBanner";
+import { createdId } from "@/utils/createdRecord";
 
 const AddPosition = () => {
   const { t } = useTranslation();
@@ -85,8 +86,17 @@ const AddPosition = () => {
   };
 
   const createMutation = useMutation(addPosition, {
-    onSuccess: () => {
-      toast.success(t("common.success"), { description: t("page.position.toast.added") });
+    onSuccess: (res) => {
+      const id = createdId(res);
+      toast.success(t("common.success"), {
+        description: t("page.position.toast.added"),
+        action: id
+          ? {
+              label: t("common.viewDetail"),
+              onClick: () => navigate(`/detail-position?positionID=${id}`)
+            }
+          : undefined
+      });
       queryClient.invalidateQueries(["positions"]);
       queryClient.invalidateQueries(["positions-by-department"]);
       navigate("/position-list");

@@ -9751,5 +9751,7 @@
   "page.order.method.e-wallet": "E-Wallet",
   "page.order.method.points": "Poin",
   "page.order.method.split": "Split bill",
-  "page.order.method.other": "Lainnya"
+  "page.order.method.other": "Lainnya",
+  "page.order.detail.returns": "Retur",
+  "page.order.detail.noReturns": "Belum ada retur untuk order ini"
 }

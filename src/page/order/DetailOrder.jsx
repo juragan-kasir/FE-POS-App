@@ -5,6 +5,7 @@ import { useTranslation } from "react-i18next";
 import { Undo2, Receipt, CreditCard, History, ShoppingBag } from "lucide-react";
 import { getOrderById } from "@/services/order";
 import { getSplitBillByOrder } from "@/services/split-bill";
+import { getAllSalesReturn } from "@/services/sales-return";
 import { useLocations } from "@/queries/useLocations";
 import { buttonVariants } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -78,6 +79,20 @@ const DetailOrder = () => {
   const storeName = (locationsData?.data || []).find(
     (loc) => String(loc.id) === String(order?.store)
   )?.name;
+
+  // Returns made against this sale. The list is filtered again here: an API
+  // without the orderId filter would answer with every return of the store.
+  const {
+    data: returnsData,
+    isError: returnsError,
+    refetch: refetchReturns
+  } = useQuery(["order-returns", id], () => getAllSalesReturn({ orderId: id, limit: 50 }), {
+    enabled: !!id,
+    retry: false
+  });
+  const returns = (Array.isArray(returnsData?.data) ? returnsData.data : []).filter(
+    (r) => String(r.order) === String(id)
+  );
 
   const header = (title, description, actions) => (
     <PageHeader
@@ -308,6 +323,45 @@ const DetailOrder = () => {
                   ))}
                 </ul>
               </div>
+            )}
+          </Card>
+
+          <Card className="p-5">
+            <h2 className="text-sm font-semibold mb-4 flex items-center gap-2">
+              <Undo2 size={16} className="text-muted-foreground" aria-hidden="true" />
+              {t("page.order.detail.returns")}
+            </h2>
+            {returnsError ? (
+              <div className="text-sm text-muted-foreground">
+                <p>{t("common.loadError")}</p>
+                <button
+                  type="button"
+                  onClick={() => refetchReturns()}
+                  className="mt-1 text-primary hover:underline">
+                  {t("common.retry")}
+                </button>
+              </div>
+            ) : returns.length === 0 ? (
+              <p className="text-sm text-muted-foreground">{t("page.order.detail.noReturns")}</p>
+            ) : (
+              <ul className="space-y-2 text-sm">
+                {returns.map((r) => (
+                  <li key={r.id} className="flex items-start justify-between gap-3">
+                    <div>
+                      <Link
+                        to={`/sales-return/detail?id=${r.id}`}
+                        className="font-medium text-primary hover:underline">
+                        {r.returnNumber}
+                      </Link>
+                      <p className="text-xs text-muted-foreground">
+                        {formatDateTime(r.createdAt)} ·{" "}
+                        {t(`page.expense.list.${r.status}`, { defaultValue: r.status })}
+                      </p>
+                    </div>
+                    <span className="font-mono">{rupiah(r.refundAmount)}</span>
+                  </li>
+                ))}
+              </ul>
             )}
           </Card>
 
