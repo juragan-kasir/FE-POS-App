@@ -14,6 +14,7 @@ const CustomerOrderManagement = React.lazy(() => import("@/page/customer-order")
 
 // Invoice
 const InvoicePage = React.lazy(() => import("@/page/invoice/InvoicePage"));
+const DetailOrder = React.lazy(() => import("@/page/order/DetailOrder"));
 
 // Notification
 const NotificationPage = React.lazy(() => import("@/page/notification/NotificationPage"));
@@ -47,6 +48,7 @@ export const miscRoutes = (
     <Route path="/kitchen-display" element={<KitchenDisplay />} />
     <Route path="/qr-order-management" element={<CustomerOrderManagement />} />
     <Route path="/invoice-page" element={<InvoicePage />} />
+    <Route path="/order/detail" element={<DetailOrder />} />
     <Route path="/notification" element={<NotificationPage />} />
     <Route path="/support" element={<Support />} />
     <Route path="/profile" element={<ProfilePage />} />

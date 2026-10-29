@@ -1,6 +1,6 @@
 import { safeGet } from "@/lib/safe-lookup";
 import React from "react";
-import { useSearchParams } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import { useQuery } from "react-query";
 import { Receipt, Wallet, Clock, AlertCircle } from "lucide-react";
 import { useTranslation } from "react-i18next";
@@ -237,7 +237,15 @@ const AccountsReceivableDetail = () => {
                     <span className="text-muted-foreground">
                       {t("page.accountsReceivable.detail.field.noOrder")}
                     </span>
-                    <span>{ar.orderNumber || "-"}</span>
+                    {ar.orderId || ar.orderData?.id ? (
+                      <Link
+                        to={`/order/detail?id=${ar.orderId || ar.orderData.id}`}
+                        className="text-primary hover:underline">
+                        {ar.orderNumber || ar.orderData?.orderNumber || "-"}
+                      </Link>
+                    ) : (
+                      <span>{ar.orderNumber || "-"}</span>
+                    )}
                   </div>
                   <Separator />
                   <div className="flex justify-between">
