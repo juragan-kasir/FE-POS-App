@@ -15,6 +15,7 @@ import ProductDetailModal from "./ProductDetailModal";
 import DynamicIcon from "@/components/ui/DynamicIcon";
 import { isInventoryItemMode, usesProductStock } from "@/lib/inventory-mode";
 import { recipePortionsFor, remainingRecipePortions } from "@/lib/recipe-availability";
+import { createScanTracker, listenForScans } from "../scanner";
 
 const renderCategoryIcon = (cat, className, imgClassName) => {
   const icon = cat?.image || cat?.icon;
@@ -156,7 +157,7 @@ const ProductGridTile = React.memo(function ProductGridTile({
             {product.point > 0 && (
               <span className="px-1.5 py-0.5 rounded-md bg-violet-500/90 backdrop-blur-sm shadow-sm">
                 <span className="text-xs font-bold text-white flex items-center gap-0.5">
-                  {product.point} pts
+                  {t("page.cashier.pointsValue", { value: product.point })}
                 </span>
               </span>
             )}
@@ -513,12 +514,36 @@ const ProductGrid = ({
     [addOrder, store, hasChoices]
   );
 
-  // Scanner input types the code then sends Enter — look up an exact SKU
-  // match against the full unfiltered product list (not the search/category
-  // -filtered `products` prop, which could hide the scanned item) and add it
-  // straight to cart, mirroring the same variant/stock checks a manual tap
-  // would go through. Previously this input had no handler at all, so
-  // switching to "barcode mode" and scanning silently did nothing.
+  // Add the product whose SKU is exactly `code` — the same variant/stock
+  // checks a manual tap goes through. Matches against the full unfiltered
+  // product list (not the search/category-filtered `products` prop, which
+  // could hide the scanned item). `remote` also asks the parent for one live
+  // lookup: `allProducts` is only the store's first catalog page (backend
+  // caps a page at 500 rows, F7-02). `quiet` skips the "not found" toast,
+  // for an Enter typed by hand in the search box.
+  const addByCode = useCallback(
+    async (code, { remote = true, quiet = false } = {}) => {
+      const sku = code.trim().toLowerCase();
+      if (!sku) return false;
+      const bySku = (p) => (p.sku || "").toLowerCase() === sku;
+      let match = allProducts.find(bySku);
+      if (!match && remote && onRemoteBarcodeLookup) {
+        try {
+          match = ((await onRemoteBarcodeLookup(code.trim())) || []).find(bySku);
+        } catch {
+          match = null;
+        }
+      }
+      if (!match) {
+        if (!quiet) toast.error(t("page.cashier.barcodeNotFound"));
+        return false;
+      }
+      handleProductClick(match);
+      return true;
+    },
+    [allProducts, handleProductClick, onRemoteBarcodeLookup, t]
+  );
+
   const handleBarcodeKeyDown = useCallback(
     async (e) => {
       if (e.key !== "Enter") return;
@@ -527,42 +552,30 @@ const ProductGrid = ({
       // after the first, so a single physical scan can't add the item
       // twice just because the key auto-repeated before the field cleared.
       if (e.repeat) return;
-      const code = barcode.trim();
-      if (!code) return;
-      const localMatch = allProducts.find(
-        (p) => (p.sku || "").toLowerCase() === code.toLowerCase()
-      );
-      if (localMatch) {
-        handleProductClick(localMatch);
-        onBarcodeChange("");
-        return;
-      }
-      // `allProducts` is only the store's first catalog page (backend caps a
-      // page at 500 rows, F7-02) — a store with more active products than
-      // that has real, sellable items this local list never received. Before
-      // declaring the code unknown, ask the parent (which owns product
-      // fetching) to do one narrowly-scoped live lookup.
-      if (!onRemoteBarcodeLookup) {
-        toast.error(t("page.cashier.barcodeNotFound"));
-        return;
-      }
-      try {
-        const remoteResults = await onRemoteBarcodeLookup(code);
-        const remoteMatch = (remoteResults || []).find(
-          (p) => (p.sku || "").toLowerCase() === code.toLowerCase()
-        );
-        if (!remoteMatch) {
-          toast.error(t("page.cashier.barcodeNotFound"));
-          return;
-        }
-        handleProductClick(remoteMatch);
-        onBarcodeChange("");
-      } catch {
-        toast.error(t("page.cashier.barcodeNotFound"));
-      }
+      if (await addByCode(barcode)) onBarcodeChange("");
     },
-    [barcode, allProducts, handleProductClick, onBarcodeChange, t, onRemoteBarcodeLookup]
+    [barcode, addByCode, onBarcodeChange]
   );
+
+  // The search box takes scans too, so there's no mode to switch first.
+  // Enter adds the product whose SKU matches exactly; when the text arrived
+  // at scanner speed and matches nothing, say so instead of leaving the
+  // code sitting in the search box. A slow, typed Enter that matches no SKU
+  // just stays a search (and never triggers the remote lookup).
+  const searchScan = useRef(createScanTracker());
+  const handleSearchKeyDown = useCallback(
+    async (e) => {
+      const scanned = searchScan.current.key(e);
+      if (e.key !== "Enter" || e.repeat) return;
+      const text = e.currentTarget.value;
+      if (await addByCode(text, { remote: !!scanned, quiet: !scanned })) onSearchChange("");
+    },
+    [addByCode, onSearchChange]
+  );
+
+  // A scan made while no field has focus (e.g. right after tapping a
+  // product) used to type into nothing.
+  useEffect(() => listenForScans((code) => addByCode(code)), [addByCode]);
 
   const handleShowDetail = useCallback(
     (product) => {
@@ -703,6 +716,7 @@ const ProductGrid = ({
                 type="text"
                 value={search}
                 onChange={(e) => onSearchChange(e.target.value)}
+                onKeyDown={handleSearchKeyDown}
                 placeholder={t("page.cashier.searchPlaceholder")}
                 className="w-full h-10 pl-9 pr-9 text-sm rounded-xl bg-accent/50 border border-border/60 outline-none focus:border-primary/50 transition-colors"
               />

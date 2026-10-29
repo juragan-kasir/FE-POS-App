@@ -8,7 +8,10 @@ import { getOrderById, updateOrderStatus } from "../services/order";
 import { getMemberById } from "../services/member";
 
 jest.mock("react-i18next", () => ({
-  useTranslation: () => ({ t: (k) => k })
+  // Points read "<value> pts" (page.cashier.pointsValue); other keys as-is.
+  useTranslation: () => ({
+    t: (k, o) => (k === "page.cashier.pointsValue" ? `${o.value} pts` : k)
+  })
 }));
 
 jest.mock("sonner", () => ({

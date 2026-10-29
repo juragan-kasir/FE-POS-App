@@ -165,7 +165,7 @@ const ProductDetailModal = ({ product, open, onOpenChange, onAddToCart }) => {
                   {minStock != null && minStock > 0 && (
                     <span className="text-muted-foreground text-xs font-normal">
                       {" "}
-                      / min {minStock}
+                      {t("page.cashier.minStockOf", { min: minStock })}
                     </span>
                   )}
                 </p>
@@ -194,7 +194,7 @@ const ProductDetailModal = ({ product, open, onOpenChange, onAddToCart }) => {
             </span>
             {point > 0 && (
               <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-medium bg-violet-500/10 text-violet-600">
-                {point} pts
+                {t("page.cashier.pointsValue", { value: point })}
               </span>
             )}
           </div>

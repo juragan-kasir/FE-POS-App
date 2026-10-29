@@ -2911,6 +2911,8 @@
   "page.cashier.modal.member": "Member",
   "page.cashier.modal.memberNotFound": "Member tidak ditemukan",
   "page.cashier.modal.memberPoints": "Poin",
+  "page.cashier.pointsValue": "{{value}} poin",
+  "page.cashier.minStockOf": "/ min. {{min}}",
   "page.cashier.modal.memberSearch": "Cari ID member atau nomor telepon",
   "page.cashier.modal.redeemTitle": "Tebus dengan Poin",
   "page.cashier.modal.redeemBalance": "Saldo poin kamu",

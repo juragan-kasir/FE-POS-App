@@ -2914,6 +2914,8 @@
   "page.cashier.modal.member": "Member",
   "page.cashier.modal.memberNotFound": "Member not found",
   "page.cashier.modal.memberPoints": "Points",
+  "page.cashier.pointsValue": "{{value}} pts",
+  "page.cashier.minStockOf": "/ min. {{min}}",
   "page.cashier.modal.memberSearch": "Search member ID or phone number",
   "page.cashier.modal.redeemTitle": "Redeem with Points",
   "page.cashier.modal.redeemBalance": "Your points balance",
