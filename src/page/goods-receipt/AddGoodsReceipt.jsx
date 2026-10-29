@@ -974,10 +974,10 @@ const AddGoodsReceipt = () => {
                     </div>
 
                     {hasScannableRows && (
-                      <div className="relative max-w-sm">
+                      <div className="group relative max-w-sm">
                         <ScanLine
                           size={16}
-                          className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground"
+                          className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground transition-colors group-focus-within:text-emerald-600"
                         />
                         <Input
                           type="text"

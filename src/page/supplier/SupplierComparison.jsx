@@ -402,9 +402,9 @@ const SupplierComparison = () => {
               className="text-xs font-medium text-muted-foreground">
               {t("page.supplier.comparison.searchProduct")}
             </label>
-            <div className="relative">
+            <div className="group relative">
               <Search
-                className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground"
+                className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground transition-colors group-focus-within:text-emerald-600"
                 size={14}
               />
               <Input

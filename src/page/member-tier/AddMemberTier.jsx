@@ -402,10 +402,10 @@ const AddMemberTier = () => {
               <div className="space-y-3" id="perks-list">
                 {formData.perks.map((perk) => (
                   <div key={perk.id} className="flex items-center gap-2 group">
-                    <div className="flex-1 relative">
+                    <div className="group flex-1 relative">
                       <CheckCircle
                         size={16}
-                        className={`absolute left-3 top-1/2 -translate-y-1/2 ${
+                        className={`absolute left-3 top-1/2 -translate-y-1/2  transition-colors group-focus-within:text-emerald-600${
                           perk.text.trim() ? "text-green-600" : "text-muted-foreground"
                         }`}
                       />

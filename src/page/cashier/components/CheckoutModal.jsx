@@ -1592,10 +1592,10 @@ const CheckoutModal = ({
               {t("page.cashier.customer")}
             </label>
             <div className="relative flex gap-2">
-              <div className="relative flex-1">
+              <div className="group relative flex-1">
                 <Search
                   size={18}
-                  className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground"
+                  className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground transition-colors group-focus-within:text-emerald-600"
                 />
                 <input
                   id="checkout-modal-customer"
@@ -1740,10 +1740,10 @@ const CheckoutModal = ({
               className="block text-sm font-medium mb-1.5 text-muted-foreground">
               {t("page.cashier.discount")}
             </label>
-            <div className="relative">
+            <div className="group relative">
               <Ticket
                 size={18}
-                className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground"
+                className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground transition-colors group-focus-within:text-emerald-600"
               />
               <input
                 id="checkout-modal-discount"

@@ -545,10 +545,10 @@ const AddShift = () => {
                       <FormLabel>
                         {t("page.shift.form.name")} <span className="text-destructive">*</span>
                       </FormLabel>
-                      <div className="relative">
+                      <div className="group relative">
                         <CalendarDays
                           size={16}
-                          className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground"
+                          className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground transition-colors group-focus-within:text-emerald-600"
                         />
                         <Input
                           placeholder={t("page.shift.edit.form.namaShiftPlaceholder")}
@@ -711,10 +711,10 @@ const AddShift = () => {
                               {isOpen && (
                                 <div className="border-t border-border">
                                   <div className="p-2 border-b border-border">
-                                    <div className="relative">
+                                    <div className="group relative">
                                       <Search
                                         size={14}
-                                        className="absolute left-2.5 top-1/2 -translate-y-1/2 text-muted-foreground"
+                                        className="absolute left-2.5 top-1/2 -translate-y-1/2 text-muted-foreground transition-colors group-focus-within:text-emerald-600"
                                       />
                                       <input
                                         type="text"

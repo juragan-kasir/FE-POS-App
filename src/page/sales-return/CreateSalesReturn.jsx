@@ -657,10 +657,10 @@ const OrderPicker = ({ isLoading, orders, onSelect }) => {
 
   return (
     <div>
-      <div className="relative mb-4">
+      <div className="group relative mb-4">
         <Search
           size={16}
-          className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground"
+          className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground transition-colors group-focus-within:text-emerald-600"
         />
         <input
           type="text"

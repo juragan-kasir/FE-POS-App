@@ -961,10 +961,10 @@ const EditLocation = () => {
                             {t("page.location.form.phoneLabel")}{" "}
                             <span className="text-destructive">*</span>{" "}
                           </FormLabel>
-                          <div className="relative">
+                          <div className="group relative">
                             <Phone
                               size={16}
-                              className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground"
+                              className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground transition-colors group-focus-within:text-emerald-600"
                             />
                             <Input
                               {...field}
@@ -992,10 +992,10 @@ const EditLocation = () => {
                             {t("page.location.form.emailLabel")}{" "}
                             <span className="text-destructive">*</span>{" "}
                           </FormLabel>
-                          <div className="relative">
+                          <div className="group relative">
                             <Mail
                               size={16}
-                              className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground"
+                              className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground transition-colors group-focus-within:text-emerald-600"
                             />
                             <Input
                               {...field}
@@ -1080,10 +1080,10 @@ const EditLocation = () => {
                           {t("page.location.form.addressLabel")}{" "}
                           <span className="text-destructive">*</span>{" "}
                         </FormLabel>
-                        <div className="relative">
+                        <div className="group relative">
                           <MapPin
                             size={16}
-                            className="absolute left-3 top-3 text-muted-foreground"
+                            className="absolute left-3 top-3 text-muted-foreground transition-colors group-focus-within:text-emerald-600"
                           />
                           <Textarea
                             {...field}
@@ -1390,10 +1390,12 @@ const EditLocation = () => {
                           {t("page.location.form.managerLabel")}
                         </FormLabel>
                         <div className="relative">
-                          <div className="cursor-pointer" onClick={() => setManagerModalOpen(true)}>
+                          <div
+                            className="group cursor-pointer"
+                            onClick={() => setManagerModalOpen(true)}>
                             <User
                               size={16}
-                              className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground pointer-events-none"
+                              className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground pointer-events-none transition-colors group-focus-within:text-emerald-600"
                             />
                             <Input
                               {...field}
@@ -1508,10 +1510,10 @@ const EditLocation = () => {
                             <div className="col-span-12 sm:col-span-2 text-sm font-medium">
                               {t(day.label)}
                             </div>
-                            <div className="col-span-5 sm:col-span-3 relative">
+                            <div className="group col-span-5 sm:col-span-3 relative">
                               <Clock
                                 size={14}
-                                className="absolute left-2.5 top-1/2 -translate-y-1/2 text-muted-foreground pointer-events-none"
+                                className="absolute left-2.5 top-1/2 -translate-y-1/2 text-muted-foreground pointer-events-none transition-colors group-focus-within:text-emerald-600"
                               />
                               <input
                                 className="w-full pl-8 pr-3 py-2 rounded-lg border border-border text-sm text-foreground bg-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed"
@@ -1524,10 +1526,10 @@ const EditLocation = () => {
                             <div className="col-span-2 sm:col-span-1 text-center text-xs text-muted-foreground flex items-center justify-center">
                               <span className="text-xs">{t("common.to")}</span>
                             </div>
-                            <div className="col-span-5 sm:col-span-3 relative">
+                            <div className="group col-span-5 sm:col-span-3 relative">
                               <Clock
                                 size={14}
-                                className="absolute left-2.5 top-1/2 -translate-y-1/2 text-muted-foreground pointer-events-none"
+                                className="absolute left-2.5 top-1/2 -translate-y-1/2 text-muted-foreground pointer-events-none transition-colors group-focus-within:text-emerald-600"
                               />
                               <input
                                 className="w-full pl-8 pr-3 py-2 rounded-lg border border-border text-sm text-foreground bg-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed"
@@ -1736,10 +1738,10 @@ const EditLocation = () => {
 
           <div className="px-6 py-4 border-b border-border bg-muted/20">
             <div className="flex gap-2">
-              <div className="relative flex-1">
+              <div className="group relative flex-1">
                 <Search
                   size={16}
-                  className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground"
+                  className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground transition-colors group-focus-within:text-emerald-600"
                 />
                 <Input
                   placeholder={t("page.location.form.searchEmployee")}
