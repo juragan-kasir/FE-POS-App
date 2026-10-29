@@ -68,6 +68,7 @@ import { FIELD_LIMITS } from "@/constants/fieldLimits";
 import { useFormExit } from "@/hooks/useLeaveGuard";
 import { createdId } from "@/utils/createdRecord";
 import LoadErrorBanner from "@/components/ui/LoadErrorBanner";
+import { storesForSave } from "@/lib/product-stores";
 
 const AddProduct = () => {
   const { t } = useTranslation();
@@ -489,7 +490,7 @@ const AddProduct = () => {
       brand: values.brand,
       category: values.category,
       tax: values.tax,
-      stores: selectedStores, // Using 'stores' to match backend expectation if needed
+      stores: storesForSave({ allStores, selectedStores, locations, userStore: user?.store }),
       price: values.price,
       costPrice: values.costPrice,
       stock: linksItemOnSave ? 0 : values.stock,
