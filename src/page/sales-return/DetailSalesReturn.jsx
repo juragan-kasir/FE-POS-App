@@ -1,5 +1,5 @@
 import React from "react";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { useQuery } from "react-query";
 import { ArrowLeft, ShoppingBag } from "lucide-react";
 import { useTranslation } from "react-i18next";
@@ -151,7 +151,16 @@ const DetailSalesReturn = () => {
                       [t("page.salesReturn.detail.field.returnNo"), ret.returnNumber],
                       [
                         t("page.salesReturn.create.orderLabel"),
-                        order?.orderNumber || (ret.order ? `#${ret.order}` : "-")
+                        ret.order ? (
+                          <Link
+                            key="order-link"
+                            to={`/order/detail?id=${ret.order}`}
+                            className="text-primary hover:underline">
+                            {order?.orderNumber || `#${ret.order}`}
+                          </Link>
+                        ) : (
+                          "-"
+                        )
                       ],
                       [
                         t("page.salesReturn.create.customerLabel"),

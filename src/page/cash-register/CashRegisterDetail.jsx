@@ -1,6 +1,6 @@
 import { safeGet } from "@/lib/safe-lookup";
 import React, { useEffect, useMemo, useState } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useQuery } from "react-query";
 import { useCookies } from "react-cookie";
 import { useTranslation } from "react-i18next";
@@ -15,7 +15,8 @@ import {
   FileText,
   Coins,
   ChevronDown,
-  ChevronRight
+  ChevronRight,
+  ExternalLink
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -320,6 +321,13 @@ const CashRegisterDetail = () => {
                       )}
                       {o.orderNumber || "-"}
                     </button>
+                    <Link
+                      to={`/order/detail?id=${o.id}`}
+                      aria-label={t("page.order.detail.openOrder")}
+                      title={t("page.order.detail.openOrder")}
+                      className="ml-2 inline-flex align-middle text-muted-foreground hover:text-primary">
+                      <ExternalLink size={14} aria-hidden="true" />
+                    </Link>
                   </td>
                   <td className="px-4 py-3">
                     {o.cashierName || o.createdByUser?.fullName || o.createdByUser?.userName || "-"}
