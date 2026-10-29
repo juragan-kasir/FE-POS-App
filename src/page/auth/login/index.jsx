@@ -28,7 +28,15 @@ import {
 import { translationSelect } from "@/state/translation";
 import { useThemeStore } from "@/state/theme";
 import { useThemeEffect } from "@/hooks/useThemeEffect";
+import {
+  forgetRememberedSession,
+  readRememberedUser,
+  rememberSession
+} from "@/lib/remembered-session";
+import { sessionCookieOptions } from "@/lib/session-cookie";
+import { getTokenExpiryDate } from "@/lib/token-expiry";
 import { getRoleDashboard } from "@/utils/role";
+import { getToken } from "@/utils/cookies";
 import AuthGuideModal from "@/components/organism/AuthGuideModal";
 import { isPublicRegistrationEnabled } from "@/utils/publicRegistration";
 import logoFull from "@/assets/logo-full.webp";
@@ -39,7 +47,7 @@ const LoginPage = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [showPassword, setShowPassword] = useState(false);
-  const [_, setCookie] = useCookies();
+  const [cookies, setCookie] = useCookies();
   const [loginState, setLoginState] = useState("idle");
   const [rememberMe, setRememberMe] = useState(false);
   const [guideOpen, setGuideOpen] = useState(
@@ -54,6 +62,15 @@ const LoginPage = () => {
       window.history.replaceState({}, document.title);
     }
   }, []);
+
+  useEffect(() => {
+    if (isSessionEnding()) return;
+    const expiresAt = getTokenExpiryDate(getToken());
+    if (!expiresAt || expiresAt <= new Date()) return;
+    const role = readRememberedUser()?.roleType || cookies.user?.roleType;
+    if (!role) return;
+    sessionNavigation.replace(getRoleDashboard(role));
+  }, [cookies.user]);
 
   // Why the previous session ended (logout / expired), left by the session
   // boundary before its page reload. Read once, shown once translations load.
@@ -122,7 +139,8 @@ const LoginPage = () => {
     onSuccess: (success) => {
       // A response landing while a session is ending must not write credentials.
       if (isSessionEnding()) return;
-      setCookie("token", success.token, { path: "/" });
+      const cookieOptions = sessionCookieOptions(success.token, rememberMe);
+      setCookie("token", success.token, cookieOptions);
       const user = { ...success.user };
       if (typeof user.accessMenu === "string") {
         try {
@@ -134,9 +152,11 @@ const LoginPage = () => {
       try {
         sessionStorage.setItem("user", JSON.stringify(user));
       } catch (e) {}
+      if (cookieOptions.expires) rememberSession(user);
+      else forgetRememberedSession();
       // ponytail: strip accessMenu to fit 4KB cookie limit, canAccess falls back to sessionStorage
       const { accessMenu, ...userSlim } = user;
-      setCookie("user", userSlim, { path: "/" });
+      setCookie("user", userSlim, cookieOptions);
       setLoginState("success");
       // Full page load, not router navigation: the app boots fresh for the new
       // user — StoreProvider and SocketProvider read the new cookies/token and
@@ -246,7 +266,9 @@ const LoginPage = () => {
 
             <Form {...form}>
               <form
-                onSubmit={form.handleSubmit((values) => mutateLogin.mutate(values))}
+                onSubmit={form.handleSubmit((values) =>
+                  mutateLogin.mutate({ ...values, rememberMe })
+                )}
                 className="space-y-4">
                 <FormField
                   control={form.control}

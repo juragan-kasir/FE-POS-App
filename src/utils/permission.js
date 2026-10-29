@@ -1,6 +1,7 @@
 /* eslint-disable no-unused-vars */
 import { sidebarMenuSuperAdmin } from "@/utils/sidebar-menu";
 import { safeGet } from "@/lib/safe-lookup";
+import { readRememberedUser } from "@/lib/remembered-session";
 import { bypassesMenuPermissions } from "@/utils/role";
 
 export const parseAccessMenu = (accessMenu) => {
@@ -13,6 +14,20 @@ export const parseAccessMenu = (accessMenu) => {
     }
   }
   return [];
+};
+
+const resolveAccessMenu = (user) => {
+  const own = parseAccessMenu(user?.accessMenu);
+  if (own.length > 0) return own;
+  let session = null;
+  try {
+    session = JSON.parse(sessionStorage.getItem("user"));
+  } catch {
+    session = null;
+  }
+  const fromSession = parseAccessMenu(session?.accessMenu);
+  if (fromSession.length > 0) return fromSession;
+  return parseAccessMenu(readRememberedUser()?.accessMenu);
 };
 
 export const getAllMenuItems = () => {
@@ -123,15 +138,7 @@ export const canAccess = (user, menuKey, action) => {
   if (!user) return false;
   if (bypassesMenuPermissions(user)) return true;
   // ponytail: accessMenu stripped from cookie to fit 4KB limit, read from sessionStorage
-  let accessMenu = parseAccessMenu(user.accessMenu);
-  if (!accessMenu || accessMenu.length === 0) {
-    try {
-      const full = JSON.parse(sessionStorage.getItem("user"));
-      accessMenu = parseAccessMenu(full?.accessMenu);
-    } catch (e) {
-      /* ignore invalid session data */
-    }
-  }
+  const accessMenu = resolveAccessMenu(user);
   if (!accessMenu || accessMenu.length === 0) return false;
   const menu = accessMenu.find(
     (m) =>
@@ -154,15 +161,7 @@ export const canAccess = (user, menuKey, action) => {
 export const hasExplicitMenuAccess = (user, href, actions) => {
   if (!user) return false;
   // ponytail: accessMenu stripped from cookie to fit 4KB limit, read from sessionStorage
-  let accessMenu = parseAccessMenu(user.accessMenu);
-  if (!accessMenu || accessMenu.length === 0) {
-    try {
-      const full = JSON.parse(sessionStorage.getItem("user"));
-      accessMenu = parseAccessMenu(full?.accessMenu);
-    } catch (e) {
-      /* ignore invalid session data */
-    }
-  }
+  const accessMenu = resolveAccessMenu(user);
   if (!accessMenu || accessMenu.length === 0) return false;
 
   const permissions = parseAccessMenuToPermissions(accessMenu);

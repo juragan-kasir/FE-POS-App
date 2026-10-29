@@ -15,6 +15,9 @@ import {
 } from "@/components/ui/select";
 import { editProfile } from "@/services/auth";
 import { isSessionEnding } from "@/services/session";
+import { getToken } from "@/utils/cookies";
+import { isRememberMeEnabled, rememberSession } from "@/lib/remembered-session";
+import { sessionCookieOptions } from "@/lib/session-cookie";
 import { FIELD_LIMITS } from "@/constants/fieldLimits";
 
 export default function EditProfileModal({ open, onOpenChange, user, onSuccess }) {
@@ -85,17 +88,19 @@ export default function EditProfileModal({ open, onOpenChange, user, onSuccess }
       if (isSessionEnding()) return false;
 
       const updatedUser = { ...user, ...result.user };
+      const isRemembered = isRememberMeEnabled();
       try {
         sessionStorage.setItem("user", JSON.stringify(updatedUser));
       } catch {
         // sessionStorage unavailable (private mode / quota) — cookie below still updates
       }
+      if (isRemembered) rememberSession(updatedUser);
       // destructure-to-strip: accessMenu is deliberately excluded from the cookie
       // payload (4KB cookie limit; see login's identical pattern in
       // src/page/auth/login/index.jsx)
       // eslint-disable-next-line no-unused-vars
       const { accessMenu, ...userSlim } = updatedUser;
-      setCookie("user", userSlim, { path: "/" });
+      setCookie("user", userSlim, sessionCookieOptions(getToken(), isRemembered));
 
       toast.success(t("page.profile.editModal.success"));
       onSuccess?.(updatedUser);

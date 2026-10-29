@@ -1,5 +1,6 @@
 import { useMemo } from "react";
 import { useCookies } from "react-cookie";
+import { readRememberedUser } from "@/lib/remembered-session";
 
 // ponytail: resolusi user dipakai bersama Sidebar & CommandPalette
 // (accessMenu bisa terpotong dari cookie, fallback ke sessionStorage)
@@ -21,6 +22,15 @@ export const useUserSession = () => {
       session.accessMenu.length > 0
     ) {
       return session;
+    }
+    const remembered = readRememberedUser();
+    if (
+      remembered &&
+      remembered.accessMenu &&
+      Array.isArray(remembered.accessMenu) &&
+      remembered.accessMenu.length > 0
+    ) {
+      return remembered;
     }
     return cookie?.user;
   }, [cookie?.user]);

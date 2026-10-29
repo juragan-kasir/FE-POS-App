@@ -16,14 +16,17 @@ import { Button } from "@/components/ui/button";
 import PageHeader from "@/components/ui/PageHeader";
 import EditProfileModal from "@/components/organism/edit-profile-modal";
 import { dateLocale } from "@/lib/locale";
+import { readRememberedUser } from "@/lib/remembered-session";
 
 const readStoredUser = () => {
+  let session = null;
   try {
     const stored = sessionStorage.getItem("user");
-    return stored ? JSON.parse(stored) : null;
+    session = stored ? JSON.parse(stored) : null;
   } catch {
-    return null;
+    session = null;
   }
+  return session || readRememberedUser();
 };
 
 const ProfilePage = () => {
