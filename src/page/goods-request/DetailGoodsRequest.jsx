@@ -340,6 +340,7 @@ const DetailGoodsRequest = () => {
                             {t("page.goodsRequest.detail.poReference")}
                           </p>
                           <button
+                            type="button"
                             onClick={() =>
                               navigate(`/purchase-order/detail?id=${request.purchaseOrderData.id}`)
                             }

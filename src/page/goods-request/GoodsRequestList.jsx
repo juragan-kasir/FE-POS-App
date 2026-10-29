@@ -171,6 +171,7 @@ const GoodsRequestList = () => {
       render: (item) =>
         item.purchaseOrderData?.orderNumber ? (
           <button
+            type="button"
             onClick={() => navigate(`/purchase-order/detail?id=${item.purchaseOrderData.id}`)}
             className="font-mono text-xs text-blue-600 hover:underline">
             {item.purchaseOrderData.orderNumber}

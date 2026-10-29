@@ -94,6 +94,7 @@ const StoreSelector = ({ cookie, setCookie }) => {
   return (
     <div className="relative" ref={ref}>
       <button
+        type="button"
         onClick={() => setOpen(!open)}
         className="flex items-center gap-1.5 md:gap-2 px-2 md:px-3 py-1.5 rounded-lg border border-border bg-muted/50 hover:bg-accent transition-colors text-sm max-w-[160px] md:max-w-[200px]">
         <Building2 size={16} className="text-primary shrink-0" />
@@ -114,6 +115,7 @@ const StoreSelector = ({ cookie, setCookie }) => {
               <Store size={20} className="sm:size-[24px] mx-auto text-muted-foreground" />
               <p className="text-xs sm:text-sm text-muted-foreground">{t("header.noStore")}</p>
               <button
+                type="button"
                 onClick={() => {
                   setOpen(false);
                   window.location.assign("/add-location");
@@ -125,6 +127,7 @@ const StoreSelector = ({ cookie, setCookie }) => {
           ) : (
             <>
               <button
+                type="button"
                 onClick={() => {
                   setActiveStore("", "");
                   setOpen(false);
@@ -145,6 +148,7 @@ const StoreSelector = ({ cookie, setCookie }) => {
                 const isSelected = id === activeStoreId;
                 return (
                   <button
+                    type="button"
                     key={id}
                     onClick={() => handleSelect(loc)}
                     className={`w-full flex items-center gap-2 sm:gap-3 px-2 sm:px-3 py-1.5 sm:py-2.5 text-xs sm:text-sm transition-colors hover:bg-accent ${
@@ -213,6 +217,7 @@ export const UserDropdown = () => {
 
   const avatarButton = (onClick) => (
     <button
+      type="button"
       onClick={onClick}
       className="h-7 w-7 sm:h-8 sm:w-8 rounded-full overflow-hidden border-2 border-primary flex items-center justify-center bg-accent text-foreground text-xs font-bold shrink-0 hover:brightness-90 transition-all">
       {userImage ? (
@@ -247,6 +252,7 @@ export const UserDropdown = () => {
             </div>
 
             <button
+              type="button"
               onClick={() => {
                 setOpen(false);
                 navigate("/profile");
@@ -259,6 +265,7 @@ export const UserDropdown = () => {
 
             <div className="border-t border-border mt-1 pt-1">
               <button
+                type="button"
                 onClick={handleLogout}
                 className={`${menuItemClass} text-destructive hover:bg-destructive/10`}>
                 <LogOut size={14} className="sm:size-[16px]" />
@@ -296,6 +303,7 @@ export const UserDropdown = () => {
 
             <div className="py-2">
               <button
+                type="button"
                 onClick={() => {
                   setMobileOpen(false);
                   navigate("/profile");
@@ -314,6 +322,7 @@ export const UserDropdown = () => {
                 <div className="flex items-center bg-muted/50 rounded-full p-0.5 border border-border">
                   {languages.map((lang) => (
                     <button
+                      type="button"
                       key={lang.code}
                       onClick={() => updateTranslation(lang.code)}
                       className={`px-2.5 py-1 text-xs font-bold tracking-widest rounded-full transition-all duration-200 ${
@@ -327,7 +336,7 @@ export const UserDropdown = () => {
                 </div>
               </div>
 
-              <button onClick={toggleTheme} className={menuItemClass}>
+              <button type="button" onClick={toggleTheme} className={menuItemClass}>
                 {theme === "dark" ? (
                   <Sun size={16} className="text-muted-foreground" />
                 ) : (
@@ -339,6 +348,7 @@ export const UserDropdown = () => {
               </button>
 
               <button
+                type="button"
                 onClick={() => {
                   setMobileOpen(false);
                   startTour();
@@ -350,6 +360,7 @@ export const UserDropdown = () => {
 
               <div className="border-t border-border mt-1 pt-1">
                 <button
+                  type="button"
                   onClick={handleLogout}
                   className={`${menuItemClass} text-destructive hover:bg-destructive/10`}>
                   <LogOut size={16} />
@@ -402,6 +413,7 @@ export const NotificationBell = () => {
 
   return (
     <button
+      type="button"
       data-tour="header-notification"
       aria-label={t("header.notifications")}
       onClick={handleClick}
@@ -507,12 +519,14 @@ const Header = ({ onMenuToggle, onOpenPalette, sidebarCollapsed }) => {
         {/* Left */}
         <div className="flex items-center gap-3 flex-1">
           <button
+            type="button"
             aria-label={t("header.openMenu")}
             onClick={onMenuToggle}
             className="desk:hidden p-2 rounded-lg text-muted-foreground hover:bg-accent hover:text-foreground transition-colors">
             <Menu size={20} />
           </button>
           <button
+            type="button"
             data-tour="header-search"
             onClick={onOpenPalette}
             className="hidden md:flex items-center gap-2 bg-muted/50 hover:bg-accent px-5 lg:px-6 py-1.5 rounded-lg lg:rounded-full border border-border transition-colors text-muted-foreground text-sm w-full max-w-xs lg:max-w-sm">
@@ -528,6 +542,7 @@ const Header = ({ onMenuToggle, onOpenPalette, sidebarCollapsed }) => {
         <div className="flex items-center gap-1 sm:gap-2">
           {/* Mobile Search */}
           <button
+            type="button"
             aria-label={t("header.search")}
             onClick={onOpenPalette}
             className="md:hidden p-1.5 sm:p-2 rounded-lg text-muted-foreground hover:bg-accent hover:text-foreground transition-colors">
@@ -540,6 +555,7 @@ const Header = ({ onMenuToggle, onOpenPalette, sidebarCollapsed }) => {
             className="hidden md:flex items-center bg-muted/50 rounded-full p-0.5 border border-border">
             {languages.map((lang) => (
               <button
+                type="button"
                 key={lang.code}
                 onClick={() => updateTranslation(lang.code)}
                 className={`px-1.5 sm:px-2 py-0.5 sm:py-1 text-xs font-bold tracking-widest rounded-full transition-all duration-200 ${
@@ -554,6 +570,7 @@ const Header = ({ onMenuToggle, onOpenPalette, sidebarCollapsed }) => {
 
           {/* Theme Toggle — desktop saja; di mobile pindah ke modal profil */}
           <button
+            type="button"
             data-tour="header-theme"
             aria-label={t("header.toggleTheme")}
             onClick={toggleTheme}
@@ -564,6 +581,7 @@ const Header = ({ onMenuToggle, onOpenPalette, sidebarCollapsed }) => {
 
           {/* Tour Guide — desktop saja; di mobile pindah ke modal profil */}
           <button
+            type="button"
             data-tour="header-tour"
             aria-label={t("guide.dashboard.startTour")}
             onClick={() => startTour()}

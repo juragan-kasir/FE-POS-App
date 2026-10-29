@@ -1194,6 +1194,7 @@ const CheckoutModal = ({
             <DialogTitle className="text-lg font-bold">{t("page.cashier.payment")}</DialogTitle>
           </div>
           <button
+            type="button"
             onClick={requestClose}
             aria-label={t("common.close")}
             className="p-1.5 rounded-lg hover:bg-accent transition-colors">
@@ -1336,6 +1337,7 @@ const CheckoutModal = ({
             </label>
             <div className="flex gap-2">
               <button
+                type="button"
                 onClick={() => {
                   setOrderType("dine-in");
                   setSelectedTable(null);
@@ -1348,6 +1350,7 @@ const CheckoutModal = ({
                 {t("page.cashier.modal.dineIn")}
               </button>
               <button
+                type="button"
                 onClick={() => {
                   setOrderType("take-away");
                   setSelectedTable(null);
@@ -1457,6 +1460,7 @@ const CheckoutModal = ({
                   const isSelected = paymentMethod === method.id;
                   return (
                     <button
+                      type="button"
                       key={method.id}
                       onClick={() => {
                         setPaymentMethod(method.id);
@@ -1500,6 +1504,7 @@ const CheckoutModal = ({
                   {t("page.cashier.cashAmount")}
                 </label>
                 <button
+                  type="button"
                   onClick={applyFullPayment}
                   className="flex items-center gap-1 text-xs font-medium text-primary hover:text-primary/80 transition-colors">
                   <RotateCcw size={12} />
@@ -1631,6 +1636,7 @@ const CheckoutModal = ({
                 {t("page.cashier.ui.searchCustomer")}
               </Button>
               <button
+                type="button"
                 onClick={() => setAddCustomerOpen(true)}
                 className="shrink-0 w-10 h-10 rounded-xl bg-primary/10 border border-border/60 flex items-center justify-center text-primary hover:bg-primary/20 transition-all"
                 title={t("page.cashier.addCustomer")}>
@@ -1647,6 +1653,7 @@ const CheckoutModal = ({
                     <div className="max-h-40 overflow-y-auto">
                       {filteredCustomers.map((c, idx) => (
                         <button
+                          type="button"
                           key={c.id || c._id || idx}
                           onClick={() => {
                             setSelectedCustomer(c);
@@ -1775,6 +1782,7 @@ const CheckoutModal = ({
                     <div className="max-h-40 overflow-y-auto">
                       {filteredDiscounts.map((d, idx) => (
                         <button
+                          type="button"
                           key={d.id || d._id || idx}
                           onClick={() => handleDiscountSelect(d)}
                           className="w-full px-4 py-2.5 text-left text-sm hover:bg-accent transition-colors flex items-center gap-2">
@@ -1867,6 +1875,7 @@ const CheckoutModal = ({
                   inputMode="numeric"
                 />
                 <button
+                  type="button"
                   onClick={() => {
                     setRedeemPoints(String(Math.min(memberPoints, redeemCeiling)));
                   }}
@@ -1924,6 +1933,8 @@ const CheckoutModal = ({
                   </DialogTitle>
                 </div>
                 <button
+                  type="button"
+                  aria-label={t("common.close")}
                   onClick={() => setAddCustomerOpen(false)}
                   className="p-1 rounded-lg hover:bg-accent transition-colors">
                   <X size={16} />
@@ -1983,6 +1994,7 @@ const CheckoutModal = ({
                         const isSelected = selectedTier?.id === tier.id;
                         return (
                           <button
+                            type="button"
                             key={tier.id}
                             onClick={() => setSelectedTier(isSelected ? null : tier)}
                             className={`text-left p-3 rounded-xl border transition-all ${

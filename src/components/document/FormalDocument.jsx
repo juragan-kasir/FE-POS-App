@@ -1,17 +1,19 @@
 import React from "react";
+import { Button } from "@/components/ui/button";
 import { Printer } from "lucide-react";
 import { useTranslation } from "react-i18next";
 
 export const PrintButton = ({ title }) => {
   const { t } = useTranslation();
   return (
-    <button
+    <Button
       type="button"
-      className="no-print inline-flex items-center gap-2 rounded-md border border-input bg-background px-3 py-2 text-sm font-medium hover:bg-accent"
+      variant="outline"
+      className="no-print gap-2"
       onClick={() => window.print()}>
       <Printer size={16} />
       {title || t("common.print")}
-    </button>
+    </Button>
   );
 };
 

@@ -13,6 +13,13 @@
   *::-webkit-scrollbar {
     display: none; /* Chrome, Safari and Opera */
   }
+
+  /* Keyboard focus stays visible on controls that don't use the Button
+     component (tiles, chips, icon buttons). Focus utilities still override. */
+  :is(button, [role="button"], a[href], summary):focus-visible {
+    outline: 2px solid hsl(var(--ring));
+    outline-offset: 2px;
+  }
 }
 
 @media print {

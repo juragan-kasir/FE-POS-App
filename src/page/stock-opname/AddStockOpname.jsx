@@ -945,6 +945,7 @@ const AddStockOpname = () => {
                             </td>
                             <td className="px-3 py-2 text-center">
                               <button
+                                aria-label={t("common.delete")}
                                 type="button"
                                 onClick={() => removeRow(index)}
                                 disabled={fields.length <= 1}

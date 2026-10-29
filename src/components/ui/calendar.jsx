@@ -1,5 +1,6 @@
 "use client";
 import * as React from "react";
+import i18next from "i18next";
 import {
   startOfMonth,
   endOfMonth,
@@ -219,6 +220,8 @@ function CalendarMonth({
         <div className="space-x-1 flex items-center absolute left-1">
           {onPrevMonth && (
             <button
+              type="button"
+              aria-label={i18next.t("common.previousMonth")}
               onClick={onPrevMonth}
               className={cn(
                 buttonVariants({ variant: "outline" }),
@@ -231,6 +234,8 @@ function CalendarMonth({
         <div className="space-x-1 flex items-center absolute right-1">
           {onNextMonth && (
             <button
+              type="button"
+              aria-label={i18next.t("common.nextMonth")}
               onClick={onNextMonth}
               className={cn(
                 buttonVariants({ variant: "outline" }),
@@ -276,6 +281,7 @@ function CalendarMonth({
                         isOutside && !showOutsideDays && "invisible"
                       )}>
                       <button
+                        type="button"
                         onClick={() => !isDisabled && handleSelectDay(day)}
                         disabled={isDisabled || (isOutside && !showOutsideDays)}
                         className={cn(

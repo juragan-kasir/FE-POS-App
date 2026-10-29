@@ -208,6 +208,7 @@ const Support = () => {
                 return (
                   <div key={item.id} className="px-6">
                     <button
+                      type="button"
                       onClick={() => setOpenId(isOpen ? null : item.id)}
                       className="w-full flex items-center justify-between gap-4 py-4 text-left hover:text-primary transition-colors">
                       <div className="flex items-center gap-3 min-w-0">

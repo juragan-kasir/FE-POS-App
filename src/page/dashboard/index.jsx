@@ -560,6 +560,7 @@ const Dashboard = () => {
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
               {quickActions.map((qa) => (
                 <button
+                  type="button"
                   key={qa.href}
                   onClick={() => navigate(qa.href)}
                   className="group bg-card rounded-xl border border-border p-4 shadow-sm hover:shadow-md hover:ring-2 hover:ring-primary/30 transition-all text-left">
@@ -598,6 +599,7 @@ const Dashboard = () => {
                   <div className="flex bg-muted rounded-lg p-0.5">
                     {FILTERS.map((f) => (
                       <button
+                        type="button"
                         key={f.key}
                         onClick={() => setChartFilter(f.key)}
                         className={`px-3 py-1 text-xs font-medium rounded-md transition-colors ${
@@ -721,6 +723,7 @@ const Dashboard = () => {
               </div>
               <div className="p-3 border-t border-border">
                 <button
+                  type="button"
                   onClick={() => navigate("/product-list")}
                   className="w-full text-sm font-semibold text-primary hover:underline inline-flex items-center justify-center gap-1">
                   {t("page.dashboard.seeAllProducts")}
@@ -744,6 +747,7 @@ const Dashboard = () => {
                   </p>
                 </div>
                 <button
+                  type="button"
                   className="text-sm font-semibold text-primary hover:underline"
                   onClick={() => navigate("/report/sales")}>
                   {t("page.dashboard.viewAll")}
@@ -829,6 +833,8 @@ const Dashboard = () => {
                           <td className="px-5 py-3.5">
                             <div className="flex items-center gap-2">
                               <button
+                                type="button"
+                                aria-label={t("common.viewDetail")}
                                 className="p-1.5 rounded-lg text-muted-foreground hover:text-primary hover:bg-primary/10 transition-colors"
                                 onClick={() => navigate("/report/sales")}>
                                 <Eye size={16} />
@@ -846,6 +852,7 @@ const Dashboard = () => {
                   <span className="text-xs text-muted-foreground">{recentOrdersTotal} orders</span>
                   <div className="flex items-center gap-1">
                     <button
+                      type="button"
                       disabled={orderPage <= 1}
                       onClick={() => setOrderPage((p) => Math.max(1, p - 1))}
                       className="px-2.5 py-1 text-xs rounded border border-border hover:bg-accent disabled:opacity-30 disabled:pointer-events-none">
@@ -853,6 +860,7 @@ const Dashboard = () => {
                     </button>
                     {Array.from({ length: recentOrdersPages }, (_, i) => i + 1).map((p) => (
                       <button
+                        type="button"
                         key={p}
                         onClick={() => setOrderPage(p)}
                         className={`px-2.5 py-1 text-xs rounded border ${
@@ -864,6 +872,7 @@ const Dashboard = () => {
                       </button>
                     ))}
                     <button
+                      type="button"
                       disabled={orderPage >= recentOrdersPages}
                       onClick={() => setOrderPage((p) => Math.min(recentOrdersPages, p + 1))}
                       className="px-2.5 py-1 text-xs rounded border border-border hover:bg-accent disabled:opacity-30 disabled:pointer-events-none">
@@ -949,6 +958,7 @@ const Dashboard = () => {
                   </p>
                 </div>
                 <button
+                  type="button"
                   className="text-sm font-semibold text-primary hover:underline"
                   onClick={() => navigate("/expense")}>
                   {t("page.dashboard.viewAll")}

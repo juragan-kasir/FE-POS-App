@@ -9736,5 +9736,10 @@
   "page.reportSettings.disabledReason.selectReport": "Pilih laporan terlebih dahulu",
   "page.overtime.disabledReason.fillForm": "Isi shift, tanggal, jam mulai, dan jam selesai (setelah jam mulai)",
   "page.overtime.disabledReason.selectMonth": "Pilih bulan payroll terlebih dahulu",
-  "page.memberTier.disabledReason.inactive": "Aktifkan tier untuk mengubah tampilan dan benefit"
+  "page.memberTier.disabledReason.inactive": "Aktifkan tier untuk mengubah tampilan dan benefit",
+  "common.previousMonth": "Bulan sebelumnya",
+  "common.nextMonth": "Bulan berikutnya",
+  "common.openMenu": "Buka menu",
+  "common.clearSelection": "Batalkan pilihan",
+  "page.notification.markAsRead": "Tandai dibaca"
 }

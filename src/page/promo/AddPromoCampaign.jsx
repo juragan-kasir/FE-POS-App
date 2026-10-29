@@ -1426,6 +1426,7 @@ function IdsMultiSelect({
   searchPlaceholder,
   emptyMessage
 }) {
+  const { t } = useTranslation();
   const [open, setOpen] = useState(false);
   const toggle = (v) => onChange(value.includes(v) ? value.filter((x) => x !== v) : [...value, v]);
   const selectedOptions = options.filter((o) => value.includes(o.value));
@@ -1481,6 +1482,7 @@ function IdsMultiSelect({
               className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-primary/10 text-primary text-xs font-medium">
               {opt.label}
               <button
+                aria-label={t("common.delete")}
                 type="button"
                 onClick={() => toggle(opt.value)}
                 className="hover:text-destructive">

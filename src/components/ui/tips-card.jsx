@@ -51,6 +51,8 @@ const TipsCard = ({ tips = [], title: titleProp, variant = "default", className,
       )}>
       {dismissKey && (
         <button
+          type="button"
+          aria-label={t("common.close")}
           onClick={() => setDismissed(true)}
           className="absolute top-2 right-2 p-1 rounded [@media(hover:hover)]:opacity-0 [@media(hover:hover)]:group-hover:opacity-100 hover:bg-black/10 transition-opacity">
           <X size={14} />

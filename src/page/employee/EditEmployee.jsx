@@ -790,6 +790,7 @@ const EditEmployee = () => {
                                     className="w-full h-full object-cover"
                                   />
                                   <button
+                                    aria-label={t("common.delete")}
                                     type="button"
                                     onClick={clearImage}
                                     className="absolute top-2 right-2 z-10 p-1.5 bg-background/90 rounded-full text-muted-foreground hover:text-foreground shadow-md">
@@ -1638,6 +1639,7 @@ const EditEmployee = () => {
                                     />
                                   </a>
                                   <button
+                                    aria-label={t("common.delete")}
                                     type="button"
                                     onClick={() => removeExistingDocument(index)}
                                     className="p-1.5 rounded-full text-muted-foreground hover:text-destructive hover:bg-destructive/10 transition-colors shrink-0">
@@ -1671,6 +1673,7 @@ const EditEmployee = () => {
                                     <Eye size={16} />
                                   </button>
                                   <button
+                                    aria-label={t("common.delete")}
                                     type="button"
                                     onClick={() => removeDocument(index)}
                                     className="p-1.5 rounded-full text-muted-foreground hover:text-destructive hover:bg-destructive/10 transition-colors">

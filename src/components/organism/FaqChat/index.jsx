@@ -148,6 +148,7 @@ function FaqChat() {
       {/* FAB — hide saat panel terbuka biar gak tumpuk */}
       {!open && (
         <button
+          type="button"
           onClick={() => setOpen(true)}
           className="fixed bottom-6 right-6 z-40 flex items-center justify-center w-14 h-14 rounded-full bg-primary text-primary-foreground shadow-lg hover:shadow-xl hover:scale-105 active:scale-95 transition-all"
           title={t("component.faqChat.ui.askTheFaq")}>
@@ -251,6 +252,7 @@ function FaqChat() {
                     <div className="flex flex-wrap gap-1.5 pt-1">
                       {messages[messages.length - 1].quickReplies.map((topic) => (
                         <button
+                          type="button"
                           key={topic}
                           onClick={() => handleSearch(topic)}
                           className="text-xs px-2.5 py-1.5 rounded-full border border-primary/30 text-primary bg-primary/5 hover:bg-primary/10 transition-colors">

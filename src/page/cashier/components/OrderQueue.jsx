@@ -201,7 +201,7 @@ const OrderCard = ({
           {cardBody}
         </div>
       ) : (
-        <button onClick={() => onClick(order)} className="w-full text-left">
+        <button type="button" onClick={() => onClick(order)} className="w-full text-left">
           {cardBody}
         </button>
       )}

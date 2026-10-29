@@ -468,6 +468,7 @@ const AddStockTransfer = () => {
                         </td>
                         <td className="px-4 py-3 text-center w-12">
                           <button
+                            aria-label={t("common.delete")}
                             type="button"
                             disabled={fields.length <= 1}
                             onClick={() => removeItem(idx)}

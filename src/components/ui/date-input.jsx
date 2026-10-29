@@ -1,4 +1,5 @@
 import * as React from "react";
+import i18next from "i18next";
 import { X } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -25,6 +26,7 @@ const DateInput = React.forwardRef(
         />
         {hasValue && (
           <button
+            aria-label={i18next.t("common.clear")}
             type="button"
             onClick={handleClear}
             className="absolute right-2 top-1/2 -translate-y-1/2 p-0.5 rounded-md text-muted-foreground hover:text-foreground hover:bg-accent transition-colors cursor-pointer">

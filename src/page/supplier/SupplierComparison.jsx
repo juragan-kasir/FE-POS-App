@@ -256,12 +256,16 @@ const SupplierComparison = () => {
         </div>
         <div className="flex gap-1">
           <button
+            type="button"
+            aria-label={t("common.firstPage")}
             onClick={() => setPage(1)}
             disabled={safePage <= 1}
             className="w-9 h-9 flex items-center justify-center border border-border rounded-lg text-muted-foreground hover:bg-accent disabled:opacity-30 transition-colors">
             <ChevronsLeft size={14} />
           </button>
           <button
+            type="button"
+            aria-label={t("common.previousPage")}
             onClick={() => setPage((p) => Math.max(1, p - 1))}
             disabled={safePage <= 1}
             className="w-9 h-9 flex items-center justify-center border border-border rounded-lg text-muted-foreground hover:bg-accent disabled:opacity-30 transition-colors">
@@ -270,6 +274,7 @@ const SupplierComparison = () => {
           {showStartEllipsis && (
             <>
               <button
+                type="button"
                 onClick={() => setPage(1)}
                 className="w-9 h-9 flex items-center justify-center border border-border rounded-lg text-sm font-medium text-muted-foreground hover:bg-accent transition-colors">
                 1
@@ -281,6 +286,7 @@ const SupplierComparison = () => {
           )}
           {pageNumbers.map((pageNum) => (
             <button
+              type="button"
               key={pageNum}
               onClick={() => setPage(pageNum)}
               className={cn(
@@ -298,6 +304,7 @@ const SupplierComparison = () => {
                 ...
               </span>
               <button
+                type="button"
                 onClick={() => setPage(tp)}
                 className="w-9 h-9 flex items-center justify-center border border-border rounded-lg text-sm font-medium text-muted-foreground hover:bg-accent transition-colors">
                 {tp}
@@ -305,12 +312,16 @@ const SupplierComparison = () => {
             </>
           )}
           <button
+            type="button"
+            aria-label={t("common.nextPage")}
             onClick={() => setPage((p) => Math.min(tp, p + 1))}
             disabled={safePage >= tp}
             className="w-9 h-9 flex items-center justify-center border border-border rounded-lg text-muted-foreground hover:bg-accent disabled:opacity-30 transition-colors">
             <ChevronRight size={14} />
           </button>
           <button
+            type="button"
+            aria-label={t("common.lastPage")}
             onClick={() => setPage(tp)}
             disabled={safePage >= tp}
             className="w-9 h-9 flex items-center justify-center border border-border rounded-lg text-muted-foreground hover:bg-accent disabled:opacity-30 transition-colors">

@@ -473,6 +473,7 @@ const MemberList = () => {
                             { key: "inactive", label: t("common.inactive"), Icon: XCircle }
                           ].map(({ key, label, Icon }) => (
                             <button
+                              type="button"
                               key={key ?? "all"}
                               onClick={() => {
                                 setStatusFilter(key);
@@ -495,6 +496,7 @@ const MemberList = () => {
                             <div className="flex flex-wrap items-center gap-2">
                               {tiers.map((tier) => (
                                 <button
+                                  type="button"
                                   key={tier.id || tier._id}
                                   onClick={() => {
                                     setTierFilter(tierFilter === tier.id ? null : tier.id);

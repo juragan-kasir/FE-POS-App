@@ -369,6 +369,8 @@ const EditMemberTier = () => {
                       const isSelected = formData.selectedIcon === icon.name;
                       return (
                         <button
+                          type="button"
+                          aria-label={icon.name}
                           key={icon.name}
                           onClick={() => handleInputChange("selectedIcon", icon.name)}
                           className={`w-11 h-11 rounded-lg flex items-center justify-center transition-all disabled:opacity-40 ${
@@ -392,6 +394,7 @@ const EditMemberTier = () => {
                       const isSelected = formData.selectedColor === color.value;
                       return (
                         <button
+                          type="button"
                           key={color.name}
                           onClick={() => handleInputChange("selectedColor", color.value)}
                           className={`w-8 h-8 rounded-full transition-all disabled:opacity-40 ${
@@ -433,6 +436,8 @@ const EditMemberTier = () => {
                       />
                     </div>
                     <button
+                      type="button"
+                      aria-label={t("common.delete")}
                       onClick={() => removePerk(perk.id)}
                       className="p-2 text-muted-foreground hover:text-destructive hover:bg-destructive/10 rounded-lg transition-all [@media(hover:hover)]:opacity-0 [@media(hover:hover)]:group-hover:opacity-100 disabled:opacity-0">
                       <Delete size={18} />
@@ -440,6 +445,7 @@ const EditMemberTier = () => {
                   </div>
                 ))}
                 <button
+                  type="button"
                   onClick={addPerk}
                   className="flex items-center gap-2 w-full py-2.5 rounded-lg border-2 border-dashed border-border text-muted-foreground hover:border-primary hover:text-primary transition-all justify-center disabled:opacity-40 text-sm font-semibold">
                   <Plus size={18} />

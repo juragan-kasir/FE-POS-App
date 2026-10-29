@@ -216,6 +216,7 @@ const PriceStoreList = () => {
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
               {stores.map((s) => (
                 <button
+                  type="button"
                   key={s.id}
                   onClick={() => {
                     setSelectedStore(String(s.id));

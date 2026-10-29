@@ -29,12 +29,14 @@ const FloatingTourButton = () => {
   return (
     <div className="fixed bottom-6 right-6 z-30 flex items-end gap-2 animate-in slide-in-from-bottom-4 fade-in duration-500">
       <button
+        type="button"
         onClick={handleDismiss}
         title={t("tour.hide")}
         className="mb-1 p-1.5 rounded-full bg-card border border-border text-muted-foreground hover:text-foreground hover:bg-accent shadow-md transition-colors">
         <X size={14} />
       </button>
       <button
+        type="button"
         onClick={() => startTour()}
         data-tour="floating-tour"
         title={t("guide.dashboard.startTour", { defaultValue: "Mulai Tur Panduan" })}

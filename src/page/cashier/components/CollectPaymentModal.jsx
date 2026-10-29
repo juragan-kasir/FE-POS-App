@@ -393,7 +393,11 @@ const CollectPaymentModal = ({ order, store, onClose, onOpenReceipt }) => {
           <DialogTitle className="text-base font-bold">
             {t("page.cashier.collectPayment.title")}
           </DialogTitle>
-          <button onClick={onClose} className="p-1.5 rounded-lg hover:bg-accent">
+          <button
+            type="button"
+            aria-label={t("common.close")}
+            onClick={onClose}
+            className="p-1.5 rounded-lg hover:bg-accent">
             <X size={18} />
           </button>
         </div>

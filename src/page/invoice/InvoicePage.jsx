@@ -547,6 +547,7 @@ const InvoicePage = () => {
                   ))
                 : locationList.map((s) => (
                     <button
+                      type="button"
                       key={s.id}
                       onClick={() => {
                         setSelectedStore(String(s.id));
@@ -629,6 +630,7 @@ const InvoicePage = () => {
         <>
           <div className="flex items-center gap-4 mb-4">
             <button
+              type="button"
               onClick={() => setSelectedStore("")}
               className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors">
               <ArrowLeft size={18} />

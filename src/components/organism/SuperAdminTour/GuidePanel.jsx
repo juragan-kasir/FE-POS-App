@@ -132,6 +132,7 @@ const GuidePanel = ({ onClose }) => {
                 <div key={category.id} className="rounded-lg overflow-hidden">
                   {/* Category header */}
                   <button
+                    type="button"
                     onClick={() => toggleCategory(category.id)}
                     className="w-full flex items-center gap-2 px-3 py-2.5 text-sm font-medium text-foreground hover:bg-accent rounded-lg transition-colors">
                     <div className="p-1.5 rounded-lg bg-primary/10 text-primary">
@@ -156,6 +157,7 @@ const GuidePanel = ({ onClose }) => {
                           const PageIcon = page.icon;
                           return (
                             <button
+                              type="button"
                               key={page.path}
                               onClick={() => handleNavigate(page.path)}
                               className="w-full flex items-start gap-3 p-2.5 rounded-lg hover:bg-accent/50 transition-colors text-left group">
@@ -209,6 +211,7 @@ const GuidePanel = ({ onClose }) => {
                 <Search className="text-muted-foreground mb-3" size={32} />
                 <p className="text-sm text-muted-foreground">{t("guide.panel.noResults")}</p>
                 <button
+                  type="button"
                   onClick={() => setSearch("")}
                   className="text-sm text-primary hover:underline mt-1">
                   {t("guide.panel.clearSearch")}

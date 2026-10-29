@@ -103,6 +103,7 @@ const ThankYouModal = ({ event, onDismiss }) => {
 
         <div className="absolute top-3 right-3 z-10">
           <button
+            type="button"
             onClick={handleClose}
             aria-label={t("common.close")}
             className="p-2 rounded-full text-muted-foreground hover:bg-accent hover:text-foreground transition-colors">
@@ -155,6 +156,7 @@ const ThankYouModal = ({ event, onDismiss }) => {
           )}
 
           <button
+            type="button"
             onClick={handleClose}
             className="mt-8 w-full sm:w-auto sm:min-w-[220px] h-12 rounded-2xl bg-gradient-to-r from-primary via-primary to-primary/90 text-primary-foreground font-semibold hover:opacity-90 active:scale-[0.98] transition-all shadow-lg shadow-primary/20">
             {t("page.customerDisplayBoard.thankYou.dismiss")}

@@ -280,6 +280,7 @@ const AccountsReceivableList = () => {
           <div className="flex items-center gap-2">
             {["", "UNPAID", "PARTIAL", "PAID", "OVERDUE"].map((s) => (
               <button
+                type="button"
                 key={s}
                 onClick={() => {
                   setStatusFilter(s);

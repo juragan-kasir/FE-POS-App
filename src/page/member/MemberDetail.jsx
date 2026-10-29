@@ -16,7 +16,6 @@ import {
   Trophy,
   BellRing,
   ReceiptText,
-  Receipt,
   ChevronLeft,
   CheckCircle,
   Star,
@@ -453,6 +452,7 @@ const MemberDetail = () => {
           <div className="bg-card rounded-xl border border-border shadow-sm">
             <div className="flex border-b border-border overflow-x-auto">
               <button
+                type="button"
                 onClick={() => setActiveTab("transactions")}
                 className={`px-5 py-3 text-sm font-semibold transition-colors border-b-2 ${
                   activeTab === "transactions"
@@ -462,6 +462,7 @@ const MemberDetail = () => {
                 {t("page.cashRegister.detail.transactionHistory")}
               </button>
               <button
+                type="button"
                 onClick={() => setActiveTab("points")}
                 className={`px-5 py-3 text-sm font-semibold transition-colors border-b-2 ${
                   activeTab === "points"
@@ -492,15 +493,12 @@ const MemberDetail = () => {
                       <th className="px-4 py-3 text-xs font-semibold text-muted-foreground uppercase tracking-wider text-center">
                         {t("page.member.detail.tableStatus")}
                       </th>
-                      <th className="px-4 py-3 text-xs font-semibold text-muted-foreground uppercase tracking-wider text-center">
-                        {t("page.member.detail.tableAction")}
-                      </th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-border">
                     {transactions.length === 0 ? (
                       <tr>
-                        <td colSpan={6} className="px-4 py-12 text-center text-muted-foreground">
+                        <td colSpan={5} className="px-4 py-12 text-center text-muted-foreground">
                           <ReceiptText size={36} className="text-4xl block mb-2" />
                           {t("page.member.pointHistory.noTransaction")}
                         </td>
@@ -535,11 +533,6 @@ const MemberDetail = () => {
                             <span className="px-2.5 py-1 bg-secondary/10 text-secondary text-xs font-bold rounded-full">
                               {trx.status || t("common.completed")}
                             </span>
-                          </td>
-                          <td className="px-4 py-3 text-center">
-                            <button className="text-primary hover:bg-primary/10 p-1.5 rounded-full transition-all">
-                              <Receipt size={20} className="text-lg" />
-                            </button>
                           </td>
                         </tr>
                       ))
@@ -651,15 +644,21 @@ const MemberDetail = () => {
                   </p>
                   <div className="flex gap-1">
                     <button
+                      type="button"
+                      aria-label={t("common.previousPage")}
                       onClick={() => setPointPage(Math.max(1, pointPage - 1))}
                       disabled={pointPage <= 1}
                       className="p-1.5 border border-border rounded-lg hover:bg-muted text-muted-foreground disabled:opacity-30">
                       <ChevronLeft size={20} className="text-lg" />
                     </button>
-                    <button className="px-3 py-1.5 bg-primary text-primary-foreground rounded-lg text-sm font-semibold">
+                    <span
+                      aria-current="page"
+                      className="px-3 py-1.5 bg-primary text-primary-foreground rounded-lg text-sm font-semibold">
                       {pointPage}
-                    </button>
+                    </span>
                     <button
+                      type="button"
+                      aria-label={t("common.nextPage")}
                       onClick={() => setPointPage(pointPage + 1)}
                       disabled={pointPage >= (pointData?.pagination?.totalPages || 1)}
                       className="p-1.5 border border-border rounded-lg hover:bg-muted text-muted-foreground disabled:opacity-30">
@@ -678,12 +677,16 @@ const MemberDetail = () => {
                 </p>
                 <div className="flex gap-1">
                   <button
+                    type="button"
+                    aria-label={t("common.previousPage")}
                     onClick={() => setTransactionPage(Math.max(1, transactionPage - 1))}
                     disabled={transactionPage <= 1}
                     className="p-1.5 border border-border rounded-lg hover:bg-muted text-muted-foreground disabled:opacity-30">
                     <ChevronLeft size={20} className="text-lg" />
                   </button>
                   <button
+                    type="button"
+                    aria-label={t("common.nextPage")}
                     onClick={() => setTransactionPage(transactionPage + 1)}
                     disabled={transactionPage >= (member?.transactionPagination?.totalPages || 1)}
                     className="p-1.5 border border-border rounded-lg hover:bg-muted text-muted-foreground disabled:opacity-30">

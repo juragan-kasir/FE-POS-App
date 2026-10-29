@@ -172,14 +172,14 @@ const StockOpnameList = () => {
           </div>
           <div className="flex items-center gap-2 shrink-0">
             {canAccess(user, MENU_KEY, "export") && (
-              <button
-                onClick={handleExportSelected}
-                className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-md bg-primary text-primary-foreground hover:bg-primary/90 transition-colors">
+              <Button size="sm" className="h-8 gap-1.5 text-xs" onClick={handleExportSelected}>
                 <FileDown size={14} />
                 {t("page.stockOpname.list.export")}
-              </button>
+              </Button>
             )}
             <button
+              type="button"
+              aria-label={t("common.clearSelection")}
               onClick={() => {
                 setSelectedItems([]);
                 if (toastIdRef.current) {

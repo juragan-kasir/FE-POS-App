@@ -115,6 +115,8 @@ const ProductDetailModal = ({ product, open, onOpenChange, onAddToCart }) => {
               </div>
             </div>
             <button
+              type="button"
+              aria-label={t("common.close")}
               onClick={() => onOpenChange(false)}
               className="shrink-0 w-8 h-8 rounded-lg bg-muted/50 flex items-center justify-center text-muted-foreground hover:text-foreground hover:bg-muted transition-colors">
               <X size={16} />

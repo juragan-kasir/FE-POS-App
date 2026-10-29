@@ -501,6 +501,7 @@ const DetailProduct = () => {
                 <div className="flex gap-2 overflow-x-auto pb-1">
                   {allImages.map((src, i) => (
                     <button
+                      aria-label={`${t("common.view")} ${i + 1}`}
                       key={`${src}-${i}`}
                       type="button"
                       onClick={() => setActiveImage(i)}

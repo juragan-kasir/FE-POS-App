@@ -195,6 +195,7 @@ const ARPaymentList = () => {
       <div className="flex items-center gap-2">
         {["", "UNPAID", "PARTIAL", "OVERDUE"].map((s, idx) => (
           <button
+            type="button"
             key={idx}
             onClick={() => {
               setStatusFilter(s);

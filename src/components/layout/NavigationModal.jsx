@@ -162,6 +162,8 @@ const NavigationModal = ({ open, onOpenChange, categories = [], onNavigate }) =>
           />
           {query && (
             <button
+              type="button"
+              aria-label={t("common.clear")}
               onClick={() => setQuery("")}
               className="p-1.5 rounded-lg text-muted-foreground hover:bg-accent hover:text-foreground transition-colors">
               <X size={16} />
@@ -243,6 +245,7 @@ const NavigationModal = ({ open, onOpenChange, categories = [], onNavigate }) =>
 
                             return (
                               <button
+                                type="button"
                                 key={item.href}
                                 ref={(el) => {
                                   itemRefs.current.set(idx, el);

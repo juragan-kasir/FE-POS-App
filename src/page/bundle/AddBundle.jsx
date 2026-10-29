@@ -579,6 +579,7 @@ const AddBundle = () => {
                         className="w-full h-auto max-h-[300px] object-contain"
                       />
                       <button
+                        aria-label={t("common.delete")}
                         type="button"
                         onClick={(e) => {
                           e.stopPropagation();

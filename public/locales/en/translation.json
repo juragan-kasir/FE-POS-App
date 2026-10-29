@@ -9736,5 +9736,10 @@
   "page.reportSettings.disabledReason.selectReport": "Select a report first",
   "page.overtime.disabledReason.fillForm": "Fill in the shift, date, start time and end time (after the start time)",
   "page.overtime.disabledReason.selectMonth": "Select a payroll month first",
-  "page.memberTier.disabledReason.inactive": "Activate the tier to edit its look and benefits"
+  "page.memberTier.disabledReason.inactive": "Activate the tier to edit its look and benefits",
+  "common.previousMonth": "Previous month",
+  "common.nextMonth": "Next month",
+  "common.openMenu": "Open menu",
+  "common.clearSelection": "Clear selection",
+  "page.notification.markAsRead": "Mark as read"
 }

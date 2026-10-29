@@ -197,6 +197,7 @@ const SuperAdminTour = () => {
           {showMenu && (
             <div className="mb-2 bg-background border rounded-xl shadow-xl overflow-hidden min-w-[200px]">
               <button
+                type="button"
                 onClick={handleStart}
                 className="w-full flex items-center gap-3 px-4 py-3 text-sm hover:bg-accent transition-colors text-left">
                 <div className="p-1.5 rounded-lg bg-primary/10 text-primary">
@@ -209,6 +210,7 @@ const SuperAdminTour = () => {
               </button>
               <div className="border-t" />
               <button
+                type="button"
                 onClick={handleOpenGuide}
                 className="w-full flex items-center gap-3 px-4 py-3 text-sm hover:bg-accent transition-colors text-left">
                 <div className="p-1.5 rounded-lg bg-primary/10 text-primary">
@@ -223,6 +225,7 @@ const SuperAdminTour = () => {
           )}
           {/* FAB button */}
           <button
+            type="button"
             onClick={handleFabClick}
             onBlur={handleFabBlur}
             className="p-3 rounded-full bg-primary text-primary-foreground shadow-lg hover:bg-primary/90 active:scale-95 transition-all"
@@ -257,12 +260,14 @@ const SuperAdminTour = () => {
               </span>
               <div className="flex items-center gap-1">
                 <button
+                  type="button"
                   onClick={toggleMinimized}
                   className="p-1 rounded-md text-muted-foreground hover:text-foreground hover:bg-accent transition-colors"
                   title={t("translation:guide.dashboard.minimize")}>
                   <ChevronDown size={16} />
                 </button>
                 <button
+                  type="button"
                   onClick={handleFinish}
                   className="p-1 rounded-md text-muted-foreground hover:text-foreground hover:bg-accent transition-colors"
                   title={t("translation:guide.dashboard.close")}>
