@@ -326,7 +326,7 @@ const DataTable = ({
                         style={getCellStyle(col, colIndex)}
                         onClick={isCheckboxCol ? (e) => e.stopPropagation() : undefined}
                         className={cn(
-                          "px-6 py-3.5 text-xs font-semibold tracking-wider whitespace-nowrap",
+                          "px-6 py-3.5 text-xs font-semibold tracking-wider whitespace-nowrap text-center align-middle",
                           col.align === "right" && "text-right",
                           col.align === "center" && "text-center",
                           col.stickyRight &&

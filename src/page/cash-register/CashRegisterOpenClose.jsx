@@ -174,7 +174,7 @@ const CashRegisterOpenClose = () => {
     <>
       <div className="space-y-6 animate-in fade-in slide-in-from-top-2 duration-300 max-w-[1440px] mx-auto w-full">
         <PageHeader
-          backLink="/dashboard-super-admin"
+          backLink="/cash-register/history"
           onBack={() => setCancelModal(true)}
           breadcrumbs={[
             {
@@ -343,7 +343,7 @@ const CashRegisterOpenClose = () => {
                 <div className="flex flex-col-reverse sm:flex-row sm:items-center sm:justify-end gap-3 pt-2">
                   <Button
                     variant="danger"
-                    onClick={() => navigate("/dashboard-super-admin")}
+                    onClick={() => navigate("/cash-register/history")}
                     className="w-full sm:w-auto gap-1.5">
                     <X size={16} /> {t("page.cashRegister.openClose.cancel")}
                   </Button>
@@ -384,7 +384,7 @@ const CashRegisterOpenClose = () => {
         title={t("modal.cancelTitle")}
         description={t("modal.cancelDescription")}
         confirmText={t("modal.yesCancel")}
-        onConfirm={() => setTimeout(() => navigate("/dashboard-super-admin"), 150)}
+        onConfirm={() => setTimeout(() => navigate("/cash-register/history"), 150)}
       />
       {/* Phase 39 Batch 6C: only ever shown when the preview reports at
           least one eligible table — cancelling here mutates nothing and
