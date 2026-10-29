@@ -234,13 +234,15 @@ const DashboardLayout = () => {
   const user = cookie?.user;
   const role = user?.roleType || "";
 
-  const { data: locationsData } = useLocations("active", {
-    enabled: role !== "super_admin" && !activeStoreId
-  });
+  const { data: locationsData } = useLocations("active", { enabled: !activeStoreId });
   const locations = locationsData?.data || [];
 
+  // A store-bound user lands on a store. A super_admin keeps "Semua Toko"
+  // when there are several stores, but with exactly one store there is
+  // nothing to choose, so that store becomes active (no "pilih toko" gates).
   useEffect(() => {
-    if (role === "super_admin" || !locations.length || activeStoreId) return;
+    if (!locations.length || activeStoreId) return;
+    if (role === "super_admin" && locations.length !== 1) return;
     const first = locations[0];
     const firstId = first.id || first._id;
     const firstName = first.name || first.storeName || "";

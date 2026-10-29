@@ -739,14 +739,14 @@ const EditBundle = () => {
               <Button
                 variant="draft"
                 onClick={() => setDraftModal(true)}
-                disabled={updateMutation.isLoading || !formData.name}
+                disabled={updateMutation.isLoading}
                 className="flex-1 sm:flex-none">
                 {updateMutation.isLoading ? t("common.saving") : t("common.saveDraft")}
               </Button>
               <Button
                 variant="success"
                 onClick={() => handleSubmit(false)}
-                disabled={updateMutation.isLoading || !formData.name}
+                disabled={updateMutation.isLoading}
                 className="gap-2 flex-1 sm:flex-none min-w-0 sm:min-w-[140px] shadow-md">
                 <Save size={18} />
                 {updateMutation.isLoading ? t("common.saving") : t("common.save")}

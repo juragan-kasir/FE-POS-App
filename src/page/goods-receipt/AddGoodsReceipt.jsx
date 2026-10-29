@@ -1596,7 +1596,7 @@ const AddGoodsReceipt = () => {
                 variant="success"
                 type="button"
                 className="w-full sm:w-auto justify-center"
-                disabled={isSubmitting || items.length === 0}
+                disabled={isSubmitting}
                 onClick={async () => {
                   const ok = await trigger();
                   if (!ok) return;

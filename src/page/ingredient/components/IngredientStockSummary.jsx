@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useQuery } from "react-query";
 import { useTranslation } from "react-i18next";
 import { Boxes, Store, UtensilsCrossed } from "lucide-react";
@@ -40,6 +40,14 @@ const IngredientStockSummary = ({
     (isSuperAdmin && storeFilter !== "all") ||
     startDate !== todayDateOnly() ||
     endDate !== todayDateOnly();
+
+  // With one store the summary uses it directly: the store filter is hidden
+  // then (nothing to choose), so asking to pick one would be a dead end.
+  const onlyStoreId =
+    isSuperAdmin && locations.length === 1 ? String(locations[0].id).replace(/^loc-0*/, "") : null;
+  useEffect(() => {
+    if (needsStore && onlyStoreId) onStoreChange?.(onlyStoreId);
+  }, [needsStore, onlyStoreId, onStoreChange]);
 
   const resetFilters = () => {
     setStartDate(todayDateOnly());

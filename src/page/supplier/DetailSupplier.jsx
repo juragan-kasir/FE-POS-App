@@ -977,7 +977,12 @@ const DetailSupplier = () => {
                 <Button
                   onClick={() => setPaymentModal(true)}
                   className="gap-1.5"
-                  disabled={(summary.balance || 0) <= 0}>
+                  disabled={(summary.balance || 0) <= 0}
+                  title={
+                    (summary.balance || 0) <= 0
+                      ? t("page.supplier.detail.noBalanceToPay")
+                      : undefined
+                  }>
                   <Plus size={18} /> {t("page.supplier.detail.catatPembayaran")}
                 </Button>
               )}

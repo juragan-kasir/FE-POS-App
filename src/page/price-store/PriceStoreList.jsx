@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import { useQuery, useMutation, useQueryClient } from "react-query";
 import { useTranslation } from "react-i18next";
 import { useCookies } from "react-cookie";
@@ -21,6 +21,7 @@ import TableToolbar from "@/components/ui/TableToolbar";
 import { SearchInput } from "@/components/ui/SearchInput";
 import { useLocations } from "@/queries/useLocations";
 import LoadErrorBanner from "@/components/ui/LoadErrorBanner";
+import { useSingleStore } from "@/hooks/useSingleStore";
 
 const PriceStoreList = () => {
   const { t } = useTranslation();
@@ -33,6 +34,12 @@ const PriceStoreList = () => {
   const [selectedStore, setSelectedStore] = useState(
     isSuperAdmin ? "" : String(cookie?.user?.store || "")
   );
+
+  // One store: preselect it instead of asking for a choice with one answer.
+  const singleStore = useSingleStore();
+  useEffect(() => {
+    if (singleStore && !selectedStore) setSelectedStore(String(singleStore.id));
+  }, [singleStore, selectedStore]);
   const [editModal, setEditModal] = useState(null);
   const [editPrice, setEditPrice] = useState("");
 

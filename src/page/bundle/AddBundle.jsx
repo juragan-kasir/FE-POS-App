@@ -662,14 +662,14 @@ const AddBundle = () => {
             <Button
               variant="draft"
               onClick={() => setDraftModal(true)}
-              disabled={createMutation.isLoading || !formData.name}
+              disabled={createMutation.isLoading}
               className="flex-1 sm:flex-none">
               {createMutation.isLoading ? t("common.saving") : t("common.saveDraft")}
             </Button>
             <Button
               variant="success"
               onClick={() => handleSubmit(false)}
-              disabled={createMutation.isLoading || !formData.name}
+              disabled={createMutation.isLoading}
               className="gap-2 flex-1 sm:flex-none min-w-0 sm:min-w-[140px] shadow-md">
               <Save size={18} />
               {createMutation.isLoading ? t("common.saving") : t("common.save")}
