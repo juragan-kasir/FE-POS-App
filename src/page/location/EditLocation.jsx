@@ -1505,8 +1505,10 @@ const EditLocation = () => {
                         };
                         return (
                           <div key={day.id} className="grid grid-cols-12 gap-2 items-center py-2">
-                            <div className="col-span-2 text-sm font-medium">{t(day.label)}</div>
-                            <div className="col-span-3 relative">
+                            <div className="col-span-12 sm:col-span-2 text-sm font-medium">
+                              {t(day.label)}
+                            </div>
+                            <div className="col-span-5 sm:col-span-3 relative">
                               <Clock
                                 size={14}
                                 className="absolute left-2.5 top-1/2 -translate-y-1/2 text-muted-foreground pointer-events-none"
@@ -1519,10 +1521,10 @@ const EditLocation = () => {
                                 onChange={(e) => updateOpeningHours(day.id, "open", e.target.value)}
                               />
                             </div>
-                            <div className="col-span-1 text-center text-xs text-muted-foreground flex items-center justify-center">
+                            <div className="col-span-2 sm:col-span-1 text-center text-xs text-muted-foreground flex items-center justify-center">
                               <span className="text-xs">{t("common.to")}</span>
                             </div>
-                            <div className="col-span-3 relative">
+                            <div className="col-span-5 sm:col-span-3 relative">
                               <Clock
                                 size={14}
                                 className="absolute left-2.5 top-1/2 -translate-y-1/2 text-muted-foreground pointer-events-none"
@@ -1537,7 +1539,7 @@ const EditLocation = () => {
                                 }
                               />
                             </div>
-                            <div className="col-span-1 flex justify-center items-center">
+                            <div className="col-span-6 sm:col-span-1 flex justify-start sm:justify-center items-center">
                               <label
                                 className={`flex items-center gap-1 text-xs ${dayData.isOpen ? "cursor-pointer text-foreground" : "cursor-not-allowed text-muted-foreground/50"}`}>
                                 <input
@@ -1551,7 +1553,7 @@ const EditLocation = () => {
                                 {t("page.location.form.is24Hours")}
                               </label>
                             </div>
-                            <div className="col-span-2 flex justify-end items-center gap-2">
+                            <div className="col-span-6 sm:col-span-2 flex justify-end items-center gap-2">
                               <span
                                 className={`text-xs ${dayData.isOpen ? "text-green-600 dark:text-green-400" : "text-destructive dark:text-red-400"}`}>
                                 {dayData.isOpen

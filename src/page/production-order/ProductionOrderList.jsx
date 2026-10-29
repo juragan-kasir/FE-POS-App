@@ -364,7 +364,7 @@ const ProductionOrderList = () => {
                   </div>
                 ))}
               </div>
-              <div className="grid grid-cols-3 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                 {[...Array(3)].map((_, i) => (
                   <div key={i} className="bg-card rounded-xl border border-border p-4">
                     <div className="flex items-start justify-between mb-3">
@@ -393,7 +393,7 @@ const ProductionOrderList = () => {
                   variant="active"
                 />
               </div>
-              <div className="grid grid-cols-3 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                 <StatCard
                   label={t("page.productionOrder.list.statInProgress")}
                   value={stats.inProgress ?? 0}
