@@ -74,6 +74,7 @@ import {
 import { useLocations } from "@/queries/useLocations";
 import { FIELD_LIMITS } from "@/constants/fieldLimits";
 import { useFormExit } from "@/hooks/useLeaveGuard";
+import { storesForSave } from "@/lib/product-stores";
 
 const EditProduct = () => {
   const { t } = useTranslation();
@@ -318,6 +319,13 @@ const EditProduct = () => {
   // prevFirstStoreRef). Track the store this product hydrated with, and only
   // reset on a genuine post-hydration change, not on the initial load.
   const hydratedRef = useRef(false);
+  // Stores are sent only when the user changed them on this form: an omitted
+  // `stores` keeps the product's assignment as it is (renaming a product
+  // must not reassign it — or fail on a legacy product with no store rows).
+  const storesTouchedRef = useRef(false);
+  const markStoresTouched = () => {
+    if (hydratedRef.current) storesTouchedRef.current = true;
+  };
   const prevStoreRef = useRef("");
   const appliedInitialCategoryRef = useRef(false);
 
@@ -753,7 +761,16 @@ const EditProduct = () => {
               .filter((m) => m.name && m.name.trim())
               .map((m) => ({ ...m, name: m.name.trim(), price: Number(m.price) || 0 }))
           : [],
-      stores: selectedStores,
+      ...(storesTouchedRef.current
+        ? {
+            stores: storesForSave({
+              allStores,
+              selectedStores,
+              locations,
+              userStore: user?.store
+            })
+          }
+        : {}),
       createdBy: user?.id,
       modifiedBy: user?.id
     };
@@ -936,6 +953,7 @@ const EditProduct = () => {
                         locations={locations}
                         selectedStores={selectedStores}
                         onChange={(stores) => {
+                          markStoresTouched();
                           setSelectedStores(stores);
                           form.clearErrors("store");
                         }}
@@ -949,6 +967,7 @@ const EditProduct = () => {
                         storeInfoLabel={t("page.product.add.storeInfo")}
                         allStores={allStores}
                         onAllStoresChange={(val) => {
+                          markStoresTouched();
                           setAllStores(val);
                           form.clearErrors("store");
                         }}
