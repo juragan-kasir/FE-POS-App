@@ -2,6 +2,13 @@ import { createContext, useContext, useState, useEffect, useCallback, useMemo } 
 import { useCookies } from "react-cookie";
 import { useQueryClient } from "react-query";
 import { isSessionEnding } from "@/services/session";
+import { getToken } from "@/utils/cookies";
+import { isRememberMeEnabled } from "@/lib/remembered-session";
+import { sessionCookieOptions } from "@/lib/session-cookie";
+
+// Store cookies share the login cookies' lifetime, so a remembered session
+// keeps its user/store after a browser restart.
+const storeCookieOptions = () => sessionCookieOptions(getToken(), isRememberMeEnabled());
 
 const StoreContext = createContext(null);
 
@@ -24,8 +31,8 @@ export function StoreProvider({ children }) {
 
   useEffect(() => {
     if (!isSuperAdmin) {
-      setCookie("activeStore", user?.store || "", { path: "/" });
-      setCookie("activeStoreName", user?.storeName || "", { path: "/" });
+      setCookie("activeStore", user?.store || "", storeCookieOptions());
+      setCookie("activeStoreName", user?.storeName || "", storeCookieOptions());
     }
     // Normalisasi sekali saat mount: refresh HP tidak ikut larut dalam
     // stale activeStore/activeStoreName bekas sesi super admin.
@@ -57,12 +64,13 @@ export function StoreProvider({ children }) {
         return;
       }
 
-      setCookie("activeStore", storeValue, { path: "/" });
-      setCookie("activeStoreName", storeNameValue || "", { path: "/" });
+      const cookieOptions = storeCookieOptions();
+      setCookie("activeStore", storeValue, cookieOptions);
+      setCookie("activeStoreName", storeNameValue || "", cookieOptions);
 
       // Update user cookie to keep UI in sync if needed
       if (user) {
-        setCookie("user", { ...user, store: storeValue, storeName: storeNameValue }, { path: "/" });
+        setCookie("user", { ...user, store: storeValue, storeName: storeNameValue }, cookieOptions);
       }
 
       setActiveStoreIdState(storeValue);
