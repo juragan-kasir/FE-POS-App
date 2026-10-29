@@ -128,6 +128,7 @@ const CommandPalette = ({ open, onClose }) => {
                   const selected = i === selectedIndex;
                   return (
                     <button
+                      type="button"
                       key={item.path}
                       ref={(el) => {
                         itemRefs.current.set(i, el);

@@ -698,6 +698,7 @@ const AddShift = () => {
                                         </span>
                                         {emp.name}
                                         <button
+                                          aria-label={t("common.delete")}
                                           type="button"
                                           onClick={() => toggleEmployee(emp)}
                                           className="hover:text-destructive">

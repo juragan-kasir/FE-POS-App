@@ -230,6 +230,7 @@ const AuthGuideModal = ({ open, onOpenChange, context = "login" }) => {
                   })}
                 </span>
                 <button
+                  type="button"
                   onClick={handleClose}
                   className="p-1 rounded-md text-muted-foreground hover:text-foreground hover:bg-accent transition-colors"
                   title={t("translation:guide.auth.close")}>
@@ -256,6 +257,7 @@ const AuthGuideModal = ({ open, onOpenChange, context = "login" }) => {
                   <div className="mt-4 space-y-2">
                     {actions.map((action) => (
                       <button
+                        type="button"
                         key={action.to}
                         onClick={() => handleNavigate(action.to)}
                         className="w-full flex items-center justify-between p-3 rounded-lg border border-border bg-muted/30 hover:bg-muted hover:border-primary/50 transition-all text-sm font-medium text-foreground group">

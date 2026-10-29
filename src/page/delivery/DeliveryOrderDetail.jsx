@@ -457,6 +457,7 @@ const DeliveryOrderDetail = () => {
           <div className="grid grid-cols-2 gap-2">
             {(nextStatusMap[order.status] || []).map((status) => (
               <button
+                type="button"
                 key={status}
                 onClick={() => setSelectedStatus(status)}
                 className={`p-2 rounded-lg border text-sm font-medium transition-colors ${

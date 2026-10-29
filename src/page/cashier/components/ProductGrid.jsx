@@ -92,6 +92,7 @@ const ProductGridTile = React.memo(function ProductGridTile({
   return (
     <div className="relative">
       <button
+        type="button"
         onClick={() => onSelect(product)}
         disabled={outOfStock}
         className="group bg-card/80 backdrop-blur-sm border border-border/40 rounded-xl p-3 hover:border-border/80 hover:shadow-sm hover:bg-card transition-all duration-200 text-left active:scale-[0.99] disabled:cursor-not-allowed disabled:hover:border-border/40 disabled:hover:bg-card/80 disabled:hover:shadow-none disabled:active:scale-100 w-full">
@@ -241,6 +242,7 @@ const ProductListTile = React.memo(function ProductListTile({
   return (
     <div className="flex items-stretch gap-2">
       <button
+        type="button"
         onClick={() => onSelect(product)}
         disabled={outOfStock}
         className="flex-1 min-w-0 group flex items-center gap-3 bg-card/80 backdrop-blur-sm border border-border/40 rounded-xl p-3 hover:border-border/80 hover:shadow-sm hover:bg-card transition-all duration-200 text-left active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-60 disabled:hover:border-border/40 disabled:hover:bg-card/80 disabled:hover:shadow-none disabled:active:scale-100">
@@ -783,6 +785,7 @@ const ProductGrid = ({
           gutterClassName="flex items-center gap-2 px-4 lg:px-6 pb-2">
           <div className="flex gap-2">
             <button
+              type="button"
               onClick={() => onCategoryChange("")}
               className={`shrink-0 px-3 py-1.5 text-xs font-medium rounded-lg border transition-all ${
                 !categoryId
@@ -793,6 +796,7 @@ const ProductGrid = ({
             </button>
             {categories.map((cat) => (
               <button
+                type="button"
                 key={cat.id || cat._id}
                 onClick={() => onCategoryChange(cat.id || cat._id)}
                 className={`shrink-0 inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-lg border transition-all ${

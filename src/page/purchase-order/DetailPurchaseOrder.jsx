@@ -1634,12 +1634,14 @@ export default function DetailPurchaseOrder() {
                       />
                       <div className="absolute top-1 right-1 flex gap-1 [@media(hover:hover)]:opacity-0 [@media(hover:hover)]:group-hover:opacity-100 transition-opacity">
                         <button
+                          aria-label={t("common.view")}
                           type="button"
                           onClick={() => window.open(d.url, "_blank")}
                           className="p-1 bg-background/90 rounded-full text-muted-foreground hover:text-foreground shadow-sm">
                           <Eye size={12} />
                         </button>
                         <button
+                          aria-label={t("common.delete")}
                           type="button"
                           onClick={() => removeReturnDoc(idx)}
                           className="p-1 bg-background/90 rounded-full text-muted-foreground hover:text-destructive shadow-sm">

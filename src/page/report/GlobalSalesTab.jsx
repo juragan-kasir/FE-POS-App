@@ -190,6 +190,7 @@ const GlobalSalesTab = ({ t, period, setPeriod, data, isLoading }) => {
             <div className="bg-card border border-border rounded-lg p-1 flex">
               {periods.map((p) => (
                 <button
+                  type="button"
                   key={p.label}
                   onClick={() => setPeriod(p.label)}
                   className={`px-3 py-1 text-xs font-semibold rounded-md transition-all ${

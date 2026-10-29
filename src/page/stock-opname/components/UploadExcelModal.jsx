@@ -182,6 +182,7 @@ const UploadExcelModal = ({ open, onOpenChange, onDataParsed, onUploadSuccess, a
                 </div>
               </div>
               <button
+                aria-label={t("common.close")}
                 type="button"
                 onClick={handleClose}
                 className="p-2 rounded-lg text-muted-foreground hover:text-foreground hover:bg-muted/50 transition-colors">
@@ -237,6 +238,7 @@ const UploadExcelModal = ({ open, onOpenChange, onDataParsed, onUploadSuccess, a
                     </div>
                   </div>
                   <button
+                    aria-label={t("common.delete")}
                     type="button"
                     onClick={() => {
                       setFile(null);

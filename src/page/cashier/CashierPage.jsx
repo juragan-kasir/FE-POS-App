@@ -567,6 +567,8 @@ const CashierPage = () => {
                 <Tooltip>
                   <TooltipTrigger asChild>
                     <button
+                      type="button"
+                      aria-label={t("common.openMenu")}
                       onClick={handleMobileMenuToggle}
                       className="desk:hidden p-2 rounded-xl text-muted-foreground hover:bg-accent hover:text-foreground transition-all">
                       <Menu size={20} />
@@ -644,6 +646,8 @@ const CashierPage = () => {
                 <Tooltip>
                   <TooltipTrigger asChild>
                     <button
+                      type="button"
+                      aria-label={t("header.toggleTheme")}
                       onClick={toggleTheme}
                       className="p-1.5 sm:p-2 rounded-xl text-muted-foreground hover:bg-accent hover:text-foreground transition-all">
                       <Sun size={16} className="hidden dark:block sm:size-[18px]" />
@@ -717,6 +721,7 @@ const CashierPage = () => {
                       ))
                     : locationList.map((loc) => (
                         <button
+                          type="button"
                           key={loc.id}
                           onClick={() => setScreenModeStore(loc)}
                           className="flex items-center gap-4 p-5 rounded-xl border-2 border-border bg-card hover:border-primary hover:shadow-lg transition-all text-left group">
@@ -787,6 +792,8 @@ const CashierPage = () => {
                     {t("page.cashier.orderCount", { count: totalItems })}
                   </h2>
                   <button
+                    type="button"
+                    aria-label={t("common.close")}
                     onClick={() => setShowCartMobile(false)}
                     className="p-1.5 rounded-lg hover:bg-accent transition-colors">
                     <X size={18} />
@@ -825,6 +832,7 @@ const CashierPage = () => {
               }`}>
               {/* Toggle button */}
               <button
+                type="button"
                 onClick={() => setCartExpanded(!cartExpanded)}
                 className="absolute -left-3 top-1/2 -translate-y-1/2 z-10 w-6 h-12 flex items-center justify-center rounded-l-lg bg-card border border-border/50 border-r-0 text-muted-foreground hover:text-foreground hover:bg-accent transition-colors"
                 title={cartExpanded ? "Collapse cart" : "Expand cart"}>

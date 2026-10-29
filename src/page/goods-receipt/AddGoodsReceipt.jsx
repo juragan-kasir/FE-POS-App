@@ -1034,6 +1034,7 @@ const AddGoodsReceipt = () => {
                                 )}
                                 {!item.isFromPo && (
                                   <button
+                                    aria-label={t("common.delete")}
                                     type="button"
                                     onClick={() => remove(idx)}
                                     className="text-muted-foreground/40 hover:text-destructive">
@@ -1354,12 +1355,14 @@ const AddGoodsReceipt = () => {
                           <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors" />
                           <div className="absolute top-2 right-2 flex items-center gap-1 [@media(hover:hover)]:opacity-0 [@media(hover:hover)]:group-hover:opacity-100 transition-opacity">
                             <button
+                              aria-label={t("common.view")}
                               type="button"
                               onClick={() => window.open(d.url, "_blank")}
                               className="p-1.5 bg-background/90 backdrop-blur-sm rounded-full text-muted-foreground hover:text-foreground shadow-sm">
                               <Eye size={14} />
                             </button>
                             <button
+                              aria-label={t("common.delete")}
                               type="button"
                               onClick={() => removeDoc(idx)}
                               className="p-1.5 bg-background/90 backdrop-blur-sm rounded-full text-muted-foreground hover:text-destructive shadow-sm">

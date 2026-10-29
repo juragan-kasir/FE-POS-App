@@ -918,6 +918,7 @@ const AddLocation = () => {
                             className="w-full h-auto max-h-[500px] object-contain"
                           />
                           <button
+                            aria-label={t("common.delete")}
                             type="button"
                             onClick={(e) => {
                               e.stopPropagation();
@@ -1265,6 +1266,7 @@ const AddLocation = () => {
                             </div>
                             {field.value && (
                               <button
+                                aria-label={t("common.clear")}
                                 type="button"
                                 onClick={(e) => {
                                   e.stopPropagation();
@@ -1493,6 +1495,7 @@ const AddLocation = () => {
                             maxLength={FIELD_LIMITS.URL}
                           />
                           <button
+                            aria-label={t("common.delete")}
                             type="button"
                             onClick={() => removeSocial(idx)}
                             className="p-2 text-muted-foreground hover:text-destructive transition-colors">

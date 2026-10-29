@@ -743,6 +743,7 @@ const ExpenseList = () => {
                     <div className="mt-2 flex flex-wrap gap-2">
                       {upcoming.slice(0, 5).map((p) => (
                         <button
+                          type="button"
                           key={p.id}
                           onClick={() => navigate(`/detail-expense?id=${p.id}`)}
                           className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-white dark:bg-background border border-amber-300 dark:border-amber-700 text-xs font-medium text-amber-800 dark:text-amber-200 hover:border-amber-400 transition-colors">

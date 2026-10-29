@@ -74,6 +74,7 @@ const PageHeader = ({
               {i > 0 && <span className="text-xs">/</span>}
               {crumb.href ? (
                 <button
+                  type="button"
                   onClick={() => navigate(resolveHref(crumb.href))}
                   className="hover:text-foreground transition-colors whitespace-nowrap">
                   {crumb.i18nKey ? t(crumb.i18nKey) : crumb.label}

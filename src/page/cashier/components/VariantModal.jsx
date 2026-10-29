@@ -64,7 +64,11 @@ const VariantModal = ({ product, onSelect, onClose }) => {
             <Package size={20} className="text-primary" />
             <DialogTitle className="text-lg font-bold">{t(titleKey)}</DialogTitle>
           </div>
-          <button onClick={onClose} className="p-1.5 rounded-lg hover:bg-accent transition-colors">
+          <button
+            type="button"
+            aria-label={t("common.close")}
+            onClick={onClose}
+            className="p-1.5 rounded-lg hover:bg-accent transition-colors">
             <X size={18} />
           </button>
         </div>
@@ -108,6 +112,7 @@ const VariantModal = ({ product, onSelect, onClose }) => {
                   const outOfStock = stock !== null && stock <= 0;
                   return (
                     <button
+                      type="button"
                       key={v.nameVariant || idx}
                       aria-pressed={isSelected}
                       onClick={() =>
@@ -186,6 +191,7 @@ const VariantModal = ({ product, onSelect, onClose }) => {
                           const outOfStock = stock !== null && stock <= 0;
                           return (
                             <button
+                              type="button"
                               key={opt.name || idx}
                               aria-pressed={isSelected}
                               onClick={() => {
@@ -254,6 +260,7 @@ const VariantModal = ({ product, onSelect, onClose }) => {
                   const outOfStock = stock !== null && stock <= 0;
                   return (
                     <button
+                      type="button"
                       key={m.id || m.name || idx}
                       aria-pressed={isSelected}
                       onClick={() => {

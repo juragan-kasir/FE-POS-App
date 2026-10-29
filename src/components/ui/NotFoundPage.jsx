@@ -13,6 +13,7 @@ const NotFoundPage = () => {
         {t("component.notFoundPage.ui.pageNotFound")}
       </p>
       <button
+        type="button"
         onClick={() => navigate(-1)}
         className="inline-flex items-center gap-2 text-sm text-primary hover:underline">
         <ArrowLeft size={16} /> {t("common.back")}

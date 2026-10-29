@@ -284,6 +284,8 @@ const NotificationPage = () => {
                         </div>
                         {!notif.isRead && (
                           <button
+                            type="button"
+                            aria-label={t("page.notification.markAsRead")}
                             onClick={(e) => {
                               e.stopPropagation();
                               readMutate(notif.id);

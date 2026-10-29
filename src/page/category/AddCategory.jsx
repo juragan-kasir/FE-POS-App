@@ -806,6 +806,7 @@ const AddCategory = () => {
                       />
                       {selectedIcon && !imagePreview && (
                         <button
+                          type="button"
                           onClick={() => setSelectedIcon("")}
                           className="text-xs text-destructive hover:underline">
                           {t("page.category.form.removeIcon")}
@@ -813,6 +814,7 @@ const AddCategory = () => {
                       )}
                       {imagePreview && (
                         <button
+                          type="button"
                           onClick={() => {
                             setSelectedImage(null);
                             setImagePreview(null);
@@ -830,6 +832,7 @@ const AddCategory = () => {
                         <div className="grid grid-cols-4 gap-2">
                           {quickIcons.map((icon) => (
                             <button
+                              aria-label={icon}
                               key={icon}
                               type="button"
                               onClick={() => handleSelectIcon(icon)}
@@ -842,16 +845,17 @@ const AddCategory = () => {
                             </button>
                           ))}
                         </div>
-                        <button
+                        <Button
                           type="button"
+                          variant="outline"
                           onClick={() => {
                             setIconSearch("");
                             setIconPickerOpen(true);
                           }}
-                          className="mt-4 py-2 px-4 rounded-lg border border-border text-sm text-muted-foreground hover:bg-accent transition-colors flex items-center gap-2 ml-auto">
+                          className="mt-4 gap-2 ml-auto text-muted-foreground">
                           <BookOpen size={16} />
                           {t("page.category.form.viewAllIcons")}
-                        </button>
+                        </Button>
                       </div>
                     </div>
                   </div>
@@ -925,6 +929,8 @@ const AddCategory = () => {
                     </h3>
                   </div>
                   <button
+                    type="button"
+                    aria-label={t("common.close")}
                     onClick={() => setIconPickerOpen(false)}
                     className="p-2 hover:bg-muted rounded-full transition-colors text-muted-foreground">
                     <X size={20} />

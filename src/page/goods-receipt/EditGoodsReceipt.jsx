@@ -734,6 +734,7 @@ const EditGoodsReceipt = () => {
                     className="relative rounded-lg border border-border overflow-hidden bg-muted/30">
                     <img src={d.url} alt={`doc-${idx + 1}`} className="w-full h-20 object-cover" />
                     <button
+                      aria-label={t("common.delete")}
                       type="button"
                       onClick={() => removeDoc(idx)}
                       className="absolute top-1 right-1 p-1 bg-background/90 rounded-full text-muted-foreground hover:text-destructive shadow">
@@ -1107,6 +1108,7 @@ const EditGoodsReceipt = () => {
                         <td className="px-3 py-2 text-center">
                           {!item.isFromPo && (
                             <button
+                              aria-label={t("common.delete")}
                               type="button"
                               onClick={() => removeItem(idx)}
                               className="text-muted-foreground/30 hover:text-destructive">

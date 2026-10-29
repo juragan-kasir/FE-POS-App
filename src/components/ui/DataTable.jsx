@@ -43,7 +43,7 @@ const DataTable = ({
   isSelectable,
   rowKey,
   // ponytail: single prop for bulk action bar, called with (selectedIds, clearSelection)
-  // e.g. bulkActions={(ids, clear) => <button onClick={() => { deleteItems(ids); clear(); }}>Delete</button>}
+  // e.g. bulkActions={(ids, clear) => <button type="button" onClick={() => { deleteItems(ids); clear(); }}>Delete</button>}
   bulkActions,
   // expandable rows: render a row beneath each row when expanded
   renderExpandedRow,
@@ -431,6 +431,7 @@ const DataTable = ({
         </div>
         <div className="flex gap-1">
           <button
+            type="button"
             onClick={() => onPageChange(1)}
             disabled={page <= 1}
             aria-label={t("common.firstPage")}
@@ -438,6 +439,7 @@ const DataTable = ({
             <ChevronsLeft size={14} />
           </button>
           <button
+            type="button"
             onClick={() => onPageChange(page - 1)}
             disabled={page <= 1}
             aria-label={t("common.previousPage")}
@@ -447,6 +449,7 @@ const DataTable = ({
           {showStartEllipsis && (
             <>
               <button
+                type="button"
                 onClick={() => onPageChange(1)}
                 className="w-9 h-9 flex items-center justify-center border border-border rounded-lg text-sm font-medium text-muted-foreground hover:bg-accent transition-colors">
                 1
@@ -458,6 +461,7 @@ const DataTable = ({
           )}
           {pageNumbers.map((pageNum) => (
             <button
+              type="button"
               key={pageNum}
               onClick={() => onPageChange(pageNum)}
               className={cn(
@@ -475,6 +479,7 @@ const DataTable = ({
                 ...
               </span>
               <button
+                type="button"
                 onClick={() => onPageChange(tp)}
                 className="w-9 h-9 flex items-center justify-center border border-border rounded-lg text-sm font-medium text-muted-foreground hover:bg-accent transition-colors">
                 {tp}
@@ -482,6 +487,7 @@ const DataTable = ({
             </>
           )}
           <button
+            type="button"
             onClick={() => onPageChange(page + 1)}
             disabled={page >= tp}
             aria-label={t("common.nextPage")}
@@ -489,6 +495,7 @@ const DataTable = ({
             <ChevronRight size={14} />
           </button>
           <button
+            type="button"
             onClick={() => onPageChange(tp)}
             disabled={page >= tp}
             aria-label={t("common.lastPage")}

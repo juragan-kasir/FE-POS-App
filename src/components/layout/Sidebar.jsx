@@ -281,6 +281,7 @@ const Sidebar = ({ collapsed = true, expandWidthClass = "w-64", onToggle, onHove
       : isActive(item.href);
     const btn = (
       <button
+        type="button"
         onClick={() => handleNavigate(item.href)}
         className={`nav-btn group relative flex items-center gap-3 rounded-xl overflow-hidden
           h-10 px-3
@@ -417,6 +418,7 @@ const Sidebar = ({ collapsed = true, expandWidthClass = "w-64", onToggle, onHove
               const active = isCategoryActive(cat);
               const btn = (
                 <button
+                  type="button"
                   onClick={() => handleOpenCategory(cat.id)}
                   className={`nav-btn group relative flex items-center gap-3 rounded-xl overflow-hidden
                       h-10 px-3
@@ -455,6 +457,7 @@ const Sidebar = ({ collapsed = true, expandWidthClass = "w-64", onToggle, onHove
           <div className="flex flex-col gap-0.5 w-full">
             {renderNavButton({ title: "Support", i18nKey: "support", href: "/support" }, LifeBuoy)}
             <button
+              type="button"
               onClick={handleLogout}
               className="group relative flex items-center gap-3 rounded-xl overflow-hidden
                 h-10 px-3

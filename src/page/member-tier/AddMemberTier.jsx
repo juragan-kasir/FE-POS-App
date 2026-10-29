@@ -338,6 +338,7 @@ const AddMemberTier = () => {
                       const isSelected = formData.selectedIcon === icon.name;
                       return (
                         <button
+                          type="button"
                           key={icon.name}
                           disabled={!formData.isActive}
                           title={
@@ -367,6 +368,7 @@ const AddMemberTier = () => {
                       const isSelected = formData.selectedColor === color.value;
                       return (
                         <button
+                          type="button"
                           key={color.name}
                           disabled={!formData.isActive}
                           title={
@@ -415,6 +417,7 @@ const AddMemberTier = () => {
                       />
                     </div>
                     <button
+                      type="button"
                       onClick={() => removePerk(perk.id)}
                       disabled={!formData.isActive}
                       title={
@@ -428,6 +431,7 @@ const AddMemberTier = () => {
                   </div>
                 ))}
                 <button
+                  type="button"
                   onClick={addPerk}
                   disabled={!formData.isActive}
                   title={

@@ -560,6 +560,7 @@ const EditShift = () => {
                                         </span>
                                         {empName}
                                         <button
+                                          aria-label={t("common.delete")}
                                           type="button"
                                           onClick={() => toggleEmployee(emp)}
                                           className="hover:text-destructive">

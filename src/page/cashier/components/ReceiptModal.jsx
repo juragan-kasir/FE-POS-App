@@ -695,6 +695,8 @@ const ReceiptModal = ({ data, onClose, onNewTransaction }) => {
                 </DialogTitle>
               </div>
               <button
+                type="button"
+                aria-label={t("common.close")}
                 onClick={() => setShowSplit(false)}
                 className="p-1 rounded-lg hover:bg-accent">
                 <X size={16} />
@@ -907,6 +909,7 @@ const ReceiptModal = ({ data, onClose, onNewTransaction }) => {
                         />
                         {splitCount > 2 && (
                           <button
+                            type="button"
                             onClick={() => {
                               const next = splitAmounts.filter((_, i) => i !== idx);
                               setSplitAmounts(next);

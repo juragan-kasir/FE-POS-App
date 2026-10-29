@@ -89,7 +89,7 @@ export default function MemberSearchModal({ open, onClose, onSelect }) {
           {isError && (
             <div className="text-center py-4 text-sm text-destructive">
               {t("component.memberSearchModal.ui.failedToSearchMembers")}{" "}
-              <button onClick={() => refetch()} className="underline">
+              <button type="button" onClick={() => refetch()} className="underline">
                 {t("common.retry")}
               </button>
             </div>

@@ -477,6 +477,7 @@ const AccountsTab = ({ storeId, isAll }) => {
                           {!isAll && (
                             <div className="inline-flex gap-1">
                               <button
+                                type="button"
                                 onClick={() => openEdit(acc)}
                                 className="p-1.5 rounded-md hover:bg-accent text-muted-foreground hover:text-primary transition-colors"
                                 title={t("page.accounting.accounts.edit")}>
@@ -484,6 +485,7 @@ const AccountsTab = ({ storeId, isAll }) => {
                               </button>
                               {!acc.isSystem && (
                                 <button
+                                  type="button"
                                   onClick={() => setDeleting(acc)}
                                   className="p-1.5 rounded-md hover:bg-destructive/10 text-muted-foreground hover:text-destructive transition-colors"
                                   title={t("page.accounting.accounts.delete")}>
@@ -844,6 +846,7 @@ const JournalTab = ({ storeId, isAll }) => {
                     </span>
                     {entry.sourceType === "manual" && entry.status !== "reversed" && !isAll && (
                       <button
+                        type="button"
                         onClick={() => setDeleting(entry)}
                         className="p-1.5 rounded-md hover:bg-destructive/10 text-muted-foreground hover:text-destructive transition-colors"
                         title={t("page.accounting.journal.reverse")}>

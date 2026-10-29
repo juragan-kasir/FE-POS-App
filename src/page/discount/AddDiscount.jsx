@@ -1205,6 +1205,7 @@ function ProductMultiSelect({ products, value, onChange }) {
                 className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-primary/10 text-primary text-xs font-medium">
                 {name}
                 <button
+                  aria-label={t("common.delete")}
                   type="button"
                   onClick={() => toggleProduct(id)}
                   className="hover:text-destructive">

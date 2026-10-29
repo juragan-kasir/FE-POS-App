@@ -154,6 +154,7 @@ const DashboardUtang = () => {
       align: "center",
       render: (s) => (
         <button
+          type="button"
           onClick={() => setSelectedSupplier(s)}
           className="p-1.5 rounded-md text-muted-foreground hover:text-primary hover:bg-accent transition-colors"
           title={t("page.apDashboard.detailTitle")}>

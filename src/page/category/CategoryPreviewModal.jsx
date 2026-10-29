@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import i18next from "i18next";
 import {
   Bell,
   Check,
@@ -103,6 +104,8 @@ const CategoryPreviewModal = ({ open, onOpenChange, category }) => {
             </div>
           </div>
           <button
+            type="button"
+            aria-label={i18next.t("common.close")}
             onClick={() => onOpenChange(false)}
             className="p-2 hover:bg-muted rounded-full transition-colors text-muted-foreground">
             <X size={18} />

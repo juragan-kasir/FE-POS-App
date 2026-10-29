@@ -51,6 +51,7 @@ const QrisPaymentModal = ({ event, onDismiss }) => {
 
         <div className="absolute top-3 right-3 z-10">
           <button
+            type="button"
             onClick={handleClose}
             aria-label={t("common.close")}
             className="p-2 rounded-full text-muted-foreground hover:bg-accent hover:text-foreground transition-colors">

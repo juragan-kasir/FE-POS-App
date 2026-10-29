@@ -102,6 +102,7 @@ const UploadExcelModal = ({
               </div>
             </div>
             <button
+              aria-label={t("common.close")}
               type="button"
               onClick={handleClose}
               className="p-2 rounded-lg text-muted-foreground hover:text-foreground hover:bg-muted/50 transition-colors">
@@ -142,6 +143,8 @@ const UploadExcelModal = ({
                     </p>
                   </div>
                   <button
+                    type="button"
+                    aria-label={t("common.delete")}
                     onClick={(e) => {
                       e.stopPropagation();
                       setFile(null);
