@@ -106,7 +106,11 @@ const CashierPage = () => {
   const [pickedStore, setPickedStore] = useState(null);
   // Store chosen on the picker, awaiting the one/two-screen choice.
   const [screenModeStore, setScreenModeStore] = useState(null);
-  const store = storeParam || (isSuperAdmin ? pickedStore : cookie?.activeStore || user?.store);
+  // A super admin with exactly one active store goes straight to it (see
+  // singleStoreId below); with several, the picker asks which one.
+  const [autoStoreId, setAutoStoreId] = useState(null);
+  const store =
+    storeParam || (isSuperAdmin ? pickedStore || autoStoreId : cookie?.activeStore || user?.store);
   const boardTabRef = useRef(0);
 
   const openBoardTab = (storeId) => {
@@ -145,6 +149,12 @@ const CashierPage = () => {
   // The store list loaded and holds no store: nothing to pick, so point to
   // creating one (same empty state as the other store-scoped pages).
   const noStoreYet = !!locsData && !locsLoading && locationList.length === 0;
+  // One store, nothing to pick: open it (one screen; the header's board
+  // button still opens the customer display).
+  const singleStoreId = isSuperAdmin && locationList.length === 1 ? locationList[0].id : null;
+  useEffect(() => {
+    if (singleStoreId != null && autoStoreId !== singleStoreId) setAutoStoreId(singleStoreId);
+  }, [singleStoreId, autoStoreId]);
 
   const storeName = store
     ? locationList.find((l) => storeIdsEqual(l.id, store))?.name || t("page.cashier.storeName")
