@@ -22,7 +22,10 @@ jest.mock("react-cookie", () => ({
 }));
 jest.mock("@/services/order", () => ({ getOrderById: jest.fn() }));
 jest.mock("@/services/split-bill", () => ({ getSplitBillByOrder: jest.fn() }));
-jest.mock("@/services/sales-return", () => ({ getSalesReturnById: jest.fn() }));
+jest.mock("@/services/sales-return", () => ({
+  getSalesReturnById: jest.fn(),
+  getAllSalesReturn: jest.fn(() => Promise.resolve({ data: [] }))
+}));
 jest.mock("@/queries/useLocations", () => ({
   useLocations: () => ({ data: { data: [{ id: 1, name: "Toko Pusat" }] } })
 }));
