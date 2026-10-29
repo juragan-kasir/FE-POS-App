@@ -24,7 +24,7 @@ import { axiosInstance } from "@/services";
 import { useQuery, useQueryClient } from "react-query";
 import { useSocket } from "@/services/socket";
 import { useRoomSubscription } from "@/hooks/useRoomSubscription";
-import StoreFilter from "@/components/ui/StoreFilter";
+import StoreFilterField from "@/components/ui/StoreFilterField";
 import TableToolbar from "@/components/ui/TableToolbar";
 import { Skeleton } from "@/components/ui/skeleton";
 import NoStore from "@/components/ui/NoStore";
@@ -262,23 +262,15 @@ const CustomerOrderManagement = () => {
                 title={t("sidebar.customerOrder")}
                 onReset={resetFilters}
                 isFiltered={isFiltered}>
-                {isSuperAdmin && (
-                  <div className="flex flex-col gap-1.5">
-                    <label
-                      htmlFor="index-store-filter"
-                      className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-                      {t("page.customerOrder.storeLabel")}
-                    </label>
-                    <StoreFilter
-                      id="index-store-filter"
-                      locations={(locData?.data || []).filter((l) => l.status === "active")}
-                      value={storeFilter}
-                      onChange={(v) => setGlobalStoreFilter(v)}
-                      isSuperAdmin={isSuperAdmin}
-                      t={t}
-                    />
-                  </div>
-                )}
+                <StoreFilterField
+                  id="index-store-filter"
+                  label={t("page.customerOrder.storeLabel")}
+                  locations={(locData?.data || []).filter((l) => l.status === "active")}
+                  value={storeFilter}
+                  onChange={(v) => setGlobalStoreFilter(v)}
+                  isSuperAdmin={isSuperAdmin}
+                  t={t}
+                />
                 <div className="flex flex-col gap-1.5">
                   <label
                     htmlFor="index-search"

@@ -16,7 +16,7 @@ import NoStore from "@/components/ui/NoStore";
 import DataTable from "@/components/ui/DataTable";
 import TableToolbar from "@/components/ui/TableToolbar";
 import TableActions from "@/components/ui/TableActions";
-import StoreFilter from "@/components/ui/StoreFilter";
+import StoreFilterField from "@/components/ui/StoreFilterField";
 import Modal from "@/components/organism/modal";
 import AbortController from "@/components/organism/abort-controller";
 import PageHeader from "@/components/ui/PageHeader";
@@ -348,26 +348,18 @@ const SalesReturnList = () => {
                     title={t("page.salesReturn.list.title")}
                     onReset={resetFilters}
                     isFiltered={isFiltered}>
-                    {isSuperAdmin && (
-                      <div className="flex flex-col gap-1.5">
-                        <label
-                          htmlFor="sales-return-list-store-filter"
-                          className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-                          {t("page.salesReturn.list.filter.store")}
-                        </label>
-                        <StoreFilter
-                          id="sales-return-list-store-filter"
-                          locations={locData?.data || []}
-                          value={storeFilter}
-                          onChange={(v) => {
-                            setGlobalStoreFilter(v);
-                            setPage(1);
-                          }}
-                          isSuperAdmin={isSuperAdmin}
-                          t={t}
-                        />
-                      </div>
-                    )}
+                    <StoreFilterField
+                      id="sales-return-list-store-filter"
+                      label={t("page.salesReturn.list.filter.store")}
+                      locations={locData?.data || []}
+                      value={storeFilter}
+                      onChange={(v) => {
+                        setGlobalStoreFilter(v);
+                        setPage(1);
+                      }}
+                      isSuperAdmin={isSuperAdmin}
+                      t={t}
+                    />
                     <div className="flex flex-col gap-1.5">
                       <label
                         htmlFor="sales-return-list-all-status"

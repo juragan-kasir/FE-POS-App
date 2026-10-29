@@ -16,7 +16,7 @@ import DataTable from "@/components/ui/DataTable";
 import StatCard from "@/components/ui/StatCard";
 import PageHeader from "@/components/ui/PageHeader";
 import TableToolbar from "@/components/ui/TableToolbar";
-import StoreFilter from "@/components/ui/StoreFilter";
+import StoreFilterField from "@/components/ui/StoreFilterField";
 import Modal from "@/components/organism/modal";
 import AbortController from "@/components/organism/abort-controller";
 import { useLocations } from "@/queries/useLocations";
@@ -447,26 +447,18 @@ const WaiterRequestList = () => {
                 title={t("page.waiterRequest.ui.waiterRequests")}
                 onReset={resetFilters}
                 isFiltered={isFiltered}>
-                {isSuperAdmin && (
-                  <div className="flex flex-col gap-1.5">
-                    <label
-                      htmlFor="waiter-request-list-store-filter"
-                      className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-                      {t("page.goodsReceipt.detail.store")}
-                    </label>
-                    <StoreFilter
-                      id="waiter-request-list-store-filter"
-                      locations={locData?.data || []}
-                      value={storeFilter}
-                      onChange={(v) => {
-                        setGlobalStoreFilter(v);
-                        setPage(1);
-                      }}
-                      isSuperAdmin={isSuperAdmin}
-                      t={t}
-                    />
-                  </div>
-                )}
+                <StoreFilterField
+                  id="waiter-request-list-store-filter"
+                  label={t("page.goodsReceipt.detail.store")}
+                  locations={locData?.data || []}
+                  value={storeFilter}
+                  onChange={(v) => {
+                    setGlobalStoreFilter(v);
+                    setPage(1);
+                  }}
+                  isSuperAdmin={isSuperAdmin}
+                  t={t}
+                />
                 <div className="flex flex-col gap-1.5">
                   <label
                     htmlFor="waiter-request-list-filter-status"

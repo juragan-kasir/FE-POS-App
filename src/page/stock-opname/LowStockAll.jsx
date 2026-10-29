@@ -10,6 +10,7 @@ import { AlertTriangle, Package, ShoppingBasket, Store, Zap } from "lucide-react
 import { getLowStockAll, autoGeneratePOFromLowStock } from "@/services/stock";
 import DataTable from "@/components/ui/DataTable";
 import TableToolbar from "@/components/ui/TableToolbar";
+import StoreFilterField from "@/components/ui/StoreFilterField";
 import { SearchInput } from "@/components/ui/SearchInput";
 import {
   Select,
@@ -237,12 +238,13 @@ const LowStockAll = () => {
                 isLoading={isLoading}
               />
             </div>,
-            <div key="store" className="flex flex-col gap-1.5">
-              <label
-                htmlFor="low-stock-all-store"
-                className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-                {t("document.store")}
-              </label>
+            <StoreFilterField
+              key="store"
+              id="low-stock-all-store"
+              label={t("document.store")}
+              locations={locations}
+              isSuperAdmin={isSuperAdmin}
+              t={t}>
               <Select
                 value={storeFilter}
                 onValueChange={(v) => {
@@ -261,7 +263,7 @@ const LowStockAll = () => {
                   ))}
                 </SelectContent>
               </Select>
-            </div>,
+            </StoreFilterField>,
             <div key="type" className="flex flex-col gap-1.5">
               <label
                 htmlFor="low-stock-all-type"

@@ -13,7 +13,7 @@ import DataTable from "@/components/ui/DataTable";
 import TableToolbar from "@/components/ui/TableToolbar";
 import { useTranslation } from "react-i18next";
 import NoStore from "@/components/ui/NoStore";
-import StoreFilter from "@/components/ui/StoreFilter";
+import StoreFilterField from "@/components/ui/StoreFilterField";
 import PageHeader from "@/components/ui/PageHeader";
 import { DatePicker } from "@/components/ui/date-picker";
 import { useGlobalStoreFilter } from "@/hooks/useGlobalStoreFilter";
@@ -332,26 +332,21 @@ const StockHistory = () => {
                         <Skeleton key="s5" className="h-9 w-full rounded-md" />
                       ]
                     : [
-                        isSuperAdmin && (
-                          <div key="store">
-                            <label
-                              htmlFor="stock-history-store-filter"
-                              className="text-xs font-semibold uppercase tracking-wider text-muted-foreground block mb-1.5">
-                              {t("header.selectStore") || "Store"}
-                            </label>
-                            <StoreFilter
-                              id="stock-history-store-filter"
-                              locations={locData?.data || []}
-                              value={storeFilter}
-                              onChange={(v) => {
-                                setGlobalStoreFilter(v);
-                                setPage(1);
-                              }}
-                              isSuperAdmin={isSuperAdmin}
-                              t={t}
-                            />
-                          </div>
-                        ),
+                        <StoreFilterField
+                          key="store"
+                          id="stock-history-store-filter"
+                          label={t("header.selectStore") || "Store"}
+                          locations={locData?.data || []}
+                          value={storeFilter}
+                          onChange={(v) => {
+                            setGlobalStoreFilter(v);
+                            setPage(1);
+                          }}
+                          isSuperAdmin={isSuperAdmin}
+                          t={t}
+                          className=""
+                          labelClassName="text-xs font-semibold uppercase tracking-wider text-muted-foreground block mb-1.5"
+                        />,
                         itemType === "ingredient" ? (
                           <div key="ingredient">
                             <label

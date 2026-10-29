@@ -8,7 +8,7 @@ import { SearchInput } from "@/components/ui/SearchInput";
 import { Card } from "@/components/ui/card";
 import { Combobox } from "@/components/ui/combobox";
 import { useQuery } from "react-query";
-import StoreFilter from "@/components/ui/StoreFilter";
+import StoreFilterField from "@/components/ui/StoreFilterField";
 import TableToolbar from "@/components/ui/TableToolbar";
 import { Skeleton } from "@/components/ui/skeleton";
 import NoStore from "@/components/ui/NoStore";
@@ -102,26 +102,18 @@ const AuditLogList = () => {
                 title={t("sidebar.auditLog")}
                 onReset={resetFilters}
                 isFiltered={isFiltered}>
-                {isSuperAdmin && (
-                  <div className="flex flex-col gap-1.5">
-                    <label
-                      htmlFor="audit-log-list-store-filter"
-                      className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-                      {t("page.goodsReceipt.detail.store")}
-                    </label>
-                    <StoreFilter
-                      id="audit-log-list-store-filter"
-                      locations={(locData?.data || []).filter((l) => l.status === "active")}
-                      value={storeFilter}
-                      onChange={(v) => {
-                        setGlobalStoreFilter(v);
-                        setPage(1);
-                      }}
-                      isSuperAdmin={isSuperAdmin}
-                      t={t}
-                    />
-                  </div>
-                )}
+                <StoreFilterField
+                  id="audit-log-list-store-filter"
+                  label={t("page.goodsReceipt.detail.store")}
+                  locations={(locData?.data || []).filter((l) => l.status === "active")}
+                  value={storeFilter}
+                  onChange={(v) => {
+                    setGlobalStoreFilter(v);
+                    setPage(1);
+                  }}
+                  isSuperAdmin={isSuperAdmin}
+                  t={t}
+                />
                 <div className="flex flex-col gap-1.5">
                   <label
                     htmlFor="audit-log-list-search"

@@ -17,7 +17,7 @@ import {
 import { SearchInput } from "@/components/ui/SearchInput";
 import NoStore from "@/components/ui/NoStore";
 import StatCard from "@/components/ui/StatCard";
-import StoreFilter from "@/components/ui/StoreFilter";
+import StoreFilterField from "@/components/ui/StoreFilterField";
 import DataTable from "@/components/ui/DataTable";
 import TableToolbar from "@/components/ui/TableToolbar";
 import TableActions from "@/components/ui/TableActions";
@@ -373,26 +373,18 @@ const PurchaseReturnList = () => {
                         isLoading={isFetching}
                       />
                     </div>
-                    {isSuperAdmin && (
-                      <div className="flex flex-col gap-1.5">
-                        <label
-                          htmlFor="purchase-return-list-store-filter"
-                          className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-                          {t("page.purchaseReturn.list.filter.store")}
-                        </label>
-                        <StoreFilter
-                          id="purchase-return-list-store-filter"
-                          locations={locData?.data || []}
-                          value={storeFilter}
-                          onChange={(v) => {
-                            setGlobalStoreFilter(v);
-                            setPage(1);
-                          }}
-                          isSuperAdmin={isSuperAdmin}
-                          t={t}
-                        />
-                      </div>
-                    )}
+                    <StoreFilterField
+                      id="purchase-return-list-store-filter"
+                      label={t("page.purchaseReturn.list.filter.store")}
+                      locations={locData?.data || []}
+                      value={storeFilter}
+                      onChange={(v) => {
+                        setGlobalStoreFilter(v);
+                        setPage(1);
+                      }}
+                      isSuperAdmin={isSuperAdmin}
+                      t={t}
+                    />
                     <div className="flex flex-col gap-1.5">
                       <label
                         htmlFor="purchase-return-list-date"

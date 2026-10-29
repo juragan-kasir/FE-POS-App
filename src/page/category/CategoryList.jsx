@@ -45,7 +45,7 @@ import TableActions from "@/components/ui/TableActions";
 import TableToolbar from "@/components/ui/TableToolbar";
 import { canAccess } from "@/utils/permission";
 import StatCard from "@/components/ui/StatCard";
-import StoreFilter from "@/components/ui/StoreFilter";
+import StoreFilterField from "@/components/ui/StoreFilterField";
 import NoStore from "@/components/ui/NoStore";
 import { useLocations } from "@/queries/useLocations";
 import { dateLocale } from "@/lib/locale";
@@ -572,26 +572,18 @@ const CategoryList = () => {
                       title={t("page.category.list.sectionTitle")}
                       onReset={resetFilters}
                       isFiltered={isFiltered}>
-                      {isSuperAdmin && (
-                        <div className="flex flex-col gap-1.5">
-                          <label
-                            htmlFor="category-list-store-filter"
-                            className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-                            {t("page.goodsReceipt.detail.store")}
-                          </label>
-                          <StoreFilter
-                            id="category-list-store-filter"
-                            locations={locData?.data || []}
-                            value={storeFilter}
-                            onChange={(v) => {
-                              setGlobalStoreFilter(v);
-                              setPage(1);
-                            }}
-                            isSuperAdmin={isSuperAdmin}
-                            t={t}
-                          />
-                        </div>
-                      )}
+                      <StoreFilterField
+                        id="category-list-store-filter"
+                        label={t("page.goodsReceipt.detail.store")}
+                        locations={locData?.data || []}
+                        value={storeFilter}
+                        onChange={(v) => {
+                          setGlobalStoreFilter(v);
+                          setPage(1);
+                        }}
+                        isSuperAdmin={isSuperAdmin}
+                        t={t}
+                      />
                       <div className="flex flex-col gap-1.5">
                         <label
                           htmlFor="category-list-search"

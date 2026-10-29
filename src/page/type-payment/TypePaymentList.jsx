@@ -36,6 +36,7 @@ import UploadExcelModal from "@/components/organism/UploadExcelModal";
 import { uploadTypePaymentExcel } from "@/services/type-payment";
 import DataTable from "@/components/ui/DataTable";
 import TableToolbar from "@/components/ui/TableToolbar";
+import StoreFilterField from "@/components/ui/StoreFilterField";
 import TableActions from "@/components/ui/TableActions";
 import { canAccess } from "@/utils/permission";
 import AbortController from "@/components/organism/abort-controller";
@@ -454,32 +455,30 @@ const TypePaymentList = () => {
                       title={t("page.typePayment.list.title")}
                       onReset={resetFilters}
                       isFiltered={isFiltered}>
-                      {isSuperAdmin && (
-                        <div className="flex flex-col gap-1.5">
-                          <label
-                            htmlFor="type-payment-list-store"
-                            className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-                            {t("page.goodsReceipt.detail.store")}
-                          </label>
-                          <Combobox
-                            id="type-payment-list-store"
-                            options={[
-                              { value: "all", label: t("page.employee.list.allStores") },
-                              ...(locData?.data || []).map((loc) => ({
-                                value: loc.id,
-                                label: loc.name
-                              }))
-                            ]}
-                            value={storeFilter}
-                            onChange={(v) => {
-                              setGlobalStoreFilter(v);
-                              setPage(1);
-                            }}
-                            placeholder={t("page.employee.list.allStores")}
-                            searchPlaceholder={t("common.search.store")}
-                          />
-                        </div>
-                      )}
+                      <StoreFilterField
+                        id="type-payment-list-store"
+                        label={t("page.goodsReceipt.detail.store")}
+                        locations={locData?.data || []}
+                        isSuperAdmin={isSuperAdmin}
+                        t={t}>
+                        <Combobox
+                          id="type-payment-list-store"
+                          options={[
+                            { value: "all", label: t("page.employee.list.allStores") },
+                            ...(locData?.data || []).map((loc) => ({
+                              value: loc.id,
+                              label: loc.name
+                            }))
+                          ]}
+                          value={storeFilter}
+                          onChange={(v) => {
+                            setGlobalStoreFilter(v);
+                            setPage(1);
+                          }}
+                          placeholder={t("page.employee.list.allStores")}
+                          searchPlaceholder={t("common.search.store")}
+                        />
+                      </StoreFilterField>
                       <div className="flex flex-col gap-1.5">
                         <label
                           htmlFor="type-payment-list-status"

@@ -62,7 +62,7 @@ import { Combobox } from "@/components/ui/combobox";
 import { SearchInput } from "@/components/ui/SearchInput";
 import { Label } from "@/components/ui/label";
 import { DatePicker } from "@/components/ui/date-picker";
-import StoreFilter from "@/components/ui/StoreFilter";
+import StoreFilterField from "@/components/ui/StoreFilterField";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   Select,
@@ -1153,26 +1153,18 @@ const PurchaseOrderList = () => {
                         isLoading={isFetching}
                       />
                     </div>
-                    {isSuperAdmin && (
-                      <div className="flex flex-col gap-1.5">
-                        <label
-                          htmlFor="purchase-order-list-store-filter"
-                          className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-                          {t("page.goodsReceipt.detail.store")}
-                        </label>
-                        <StoreFilter
-                          id="purchase-order-list-store-filter"
-                          locations={locData?.data || []}
-                          value={storeFilter}
-                          onChange={(v) => {
-                            setGlobalStoreFilter(v);
-                            setPage(1);
-                          }}
-                          isSuperAdmin={isSuperAdmin}
-                          t={t}
-                        />
-                      </div>
-                    )}
+                    <StoreFilterField
+                      id="purchase-order-list-store-filter"
+                      label={t("page.goodsReceipt.detail.store")}
+                      locations={locData?.data || []}
+                      value={storeFilter}
+                      onChange={(v) => {
+                        setGlobalStoreFilter(v);
+                        setPage(1);
+                      }}
+                      isSuperAdmin={isSuperAdmin}
+                      t={t}
+                    />
                     <div className="flex flex-col gap-1.5">
                       <label
                         htmlFor="purchase-order-list-po-date"

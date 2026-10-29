@@ -17,7 +17,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { SearchInput } from "@/components/ui/SearchInput";
 import DataTable from "@/components/ui/DataTable";
-import StoreFilter from "@/components/ui/StoreFilter";
+import StoreFilterField from "@/components/ui/StoreFilterField";
 import { Skeleton } from "@/components/ui/skeleton";
 import PageHeader from "@/components/ui/PageHeader";
 import Modal from "@/components/organism/modal";
@@ -407,26 +407,18 @@ const CashRegisterHistory = () => {
                         />
                       </div>
                     </div>
-                    {isSuperAdmin && (
-                      <div className="flex flex-col gap-1.5">
-                        <label
-                          htmlFor="cash-register-history-store-filter"
-                          className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-                          {t("page.goodsReceipt.detail.store")}
-                        </label>
-                        <StoreFilter
-                          id="cash-register-history-store-filter"
-                          locations={locData?.data || []}
-                          value={storeFilter}
-                          onChange={(v) => {
-                            setGlobalStoreFilter(v);
-                            setPage(1);
-                          }}
-                          isSuperAdmin={isSuperAdmin}
-                          t={t}
-                        />
-                      </div>
-                    )}
+                    <StoreFilterField
+                      id="cash-register-history-store-filter"
+                      label={t("page.goodsReceipt.detail.store")}
+                      locations={locData?.data || []}
+                      value={storeFilter}
+                      onChange={(v) => {
+                        setGlobalStoreFilter(v);
+                        setPage(1);
+                      }}
+                      isSuperAdmin={isSuperAdmin}
+                      t={t}
+                    />
                     <div className="flex flex-col gap-1.5">
                       <span
                         aria-hidden="true"

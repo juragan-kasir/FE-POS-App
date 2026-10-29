@@ -28,6 +28,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Combobox } from "@/components/ui/combobox";
+import StoreFilterField from "@/components/ui/StoreFilterField";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Loading } from "@/components/ui/loading";
 import Modal from "@/components/organism/modal";
@@ -233,29 +234,27 @@ const OvertimeApproval = () => {
 
       <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-3">
         <div className="flex flex-col sm:flex-row gap-3">
-          {isSuperAdmin && (
-            <div className="flex flex-col gap-1.5">
-              <label
-                htmlFor="overtime-approval-store"
-                className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-                {t("document.store")}
-              </label>
-              <Combobox
-                id="overtime-approval-store"
-                options={[
-                  { value: "all", label: t("header.allStore") },
-                  ...locations.map((l) => ({ value: String(l.id), label: l.name }))
-                ]}
-                value={storeFilter}
-                onChange={(v) => {
-                  setGlobalStoreFilter(v);
-                  setPage(1);
-                }}
-                placeholder={t("page.table.form.storePlaceholder")}
-                searchPlaceholder={t("common.search.store")}
-              />
-            </div>
-          )}
+          <StoreFilterField
+            id="overtime-approval-store"
+            label={t("document.store")}
+            locations={locations}
+            isSuperAdmin={isSuperAdmin}
+            t={t}>
+            <Combobox
+              id="overtime-approval-store"
+              options={[
+                { value: "all", label: t("header.allStore") },
+                ...locations.map((l) => ({ value: String(l.id), label: l.name }))
+              ]}
+              value={storeFilter}
+              onChange={(v) => {
+                setGlobalStoreFilter(v);
+                setPage(1);
+              }}
+              placeholder={t("page.table.form.storePlaceholder")}
+              searchPlaceholder={t("common.search.store")}
+            />
+          </StoreFilterField>
           <div className="flex flex-col gap-1.5">
             <label
               htmlFor="overtime-approval-status"

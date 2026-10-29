@@ -31,6 +31,7 @@ import { Button } from "@/components/ui/button";
 import { SearchInput } from "@/components/ui/SearchInput";
 import DataTable from "@/components/ui/DataTable";
 import TableToolbar from "@/components/ui/TableToolbar";
+import StoreFilterField from "@/components/ui/StoreFilterField";
 import { Loading } from "@/components/ui/loading";
 import { Skeleton } from "@/components/ui/skeleton";
 import Modal from "@/components/organism/modal";
@@ -438,35 +439,33 @@ const GoodsReceiptList = () => {
                           isLoading={isFetching}
                         />
                       </div>
-                      {isSuperAdmin && (
-                        <div className="flex flex-col gap-1.5">
-                          <label
-                            htmlFor="goods-receipt-list-store"
-                            className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-                            {t("page.goodsReceipt.detail.store")}
-                          </label>
-                          <Combobox
-                            id="goods-receipt-list-store"
-                            options={[
-                              {
-                                value: "all",
-                                label: t("page.goodsReceipt.list.filter.allStores")
-                              },
-                              ...(locData?.data || []).map((loc) => ({
-                                value: loc.id,
-                                label: loc.name
-                              }))
-                            ]}
-                            value={storeFilter}
-                            onChange={(val) => {
-                              setGlobalStoreFilter(val);
-                              setPage(1);
-                            }}
-                            placeholder={t("page.goodsReceipt.list.filter.allStores")}
-                            searchPlaceholder={t("common.search")}
-                          />
-                        </div>
-                      )}
+                      <StoreFilterField
+                        id="goods-receipt-list-store"
+                        label={t("page.goodsReceipt.detail.store")}
+                        locations={locData?.data || []}
+                        isSuperAdmin={isSuperAdmin}
+                        t={t}>
+                        <Combobox
+                          id="goods-receipt-list-store"
+                          options={[
+                            {
+                              value: "all",
+                              label: t("page.goodsReceipt.list.filter.allStores")
+                            },
+                            ...(locData?.data || []).map((loc) => ({
+                              value: loc.id,
+                              label: loc.name
+                            }))
+                          ]}
+                          value={storeFilter}
+                          onChange={(val) => {
+                            setGlobalStoreFilter(val);
+                            setPage(1);
+                          }}
+                          placeholder={t("page.goodsReceipt.list.filter.allStores")}
+                          searchPlaceholder={t("common.search")}
+                        />
+                      </StoreFilterField>
                       <div className="flex flex-col gap-1.5">
                         <label
                           htmlFor="goods-receipt-list-status"

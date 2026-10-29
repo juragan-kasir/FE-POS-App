@@ -35,7 +35,7 @@ import { format } from "date-fns";
 import AbortController from "@/components/organism/abort-controller";
 import NoStore from "@/components/ui/NoStore";
 import StatCard from "@/components/ui/StatCard";
-import StoreFilter from "@/components/ui/StoreFilter";
+import StoreFilterField from "@/components/ui/StoreFilterField";
 import PageHeader from "@/components/ui/PageHeader";
 import { useLocations } from "@/queries/useLocations";
 import { dateLocale } from "@/lib/locale";
@@ -414,24 +414,21 @@ const ReservationList = () => {
                             <Skeleton key="s3" className="h-9 w-40 rounded-md" />
                           ]
                         : [
-                            <div key="store">
-                              <label
-                                htmlFor="reservation-list-store-filter"
-                                className="text-xs font-semibold uppercase tracking-wider text-muted-foreground block mb-1.5">
-                                {t("page.goodsReceipt.detail.store")}
-                              </label>
-                              <StoreFilter
-                                id="reservation-list-store-filter"
-                                locations={locData?.data || []}
-                                value={storeFilter}
-                                onChange={(v) => {
-                                  setGlobalStoreFilter(v);
-                                  setPage(1);
-                                }}
-                                isSuperAdmin={isSuperAdmin}
-                                t={t}
-                              />
-                            </div>,
+                            <StoreFilterField
+                              key="store"
+                              id="reservation-list-store-filter"
+                              label={t("page.goodsReceipt.detail.store")}
+                              locations={locData?.data || []}
+                              value={storeFilter}
+                              onChange={(v) => {
+                                setGlobalStoreFilter(v);
+                                setPage(1);
+                              }}
+                              isSuperAdmin={isSuperAdmin}
+                              t={t}
+                              className=""
+                              labelClassName="text-xs font-semibold uppercase tracking-wider text-muted-foreground block mb-1.5"
+                            />,
                             <div key="date">
                               <label
                                 htmlFor="reservation-list-date"

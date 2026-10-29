@@ -36,6 +36,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import Modal from "@/components/organism/modal";
 import DataTable from "@/components/ui/DataTable";
 import TableToolbar from "@/components/ui/TableToolbar";
+import StoreFilterField from "@/components/ui/StoreFilterField";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { canAccess } from "@/utils/permission";
 import AbortController from "@/components/organism/abort-controller";
@@ -570,32 +571,30 @@ const ShiftList = () => {
                           title={t("page.shift.list.title")}
                           onReset={resetFilters}
                           isFiltered={isFiltered}>
-                          {isSuperAdmin && (
-                            <div className="flex flex-col gap-1.5">
-                              <label
-                                htmlFor="shift-list-store"
-                                className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-                                {t("page.goodsReceipt.detail.store")}
-                              </label>
-                              <Combobox
-                                id="shift-list-store"
-                                options={[
-                                  { value: "all", label: t("page.employee.list.allStores") },
-                                  ...(locData?.data || []).map((loc) => ({
-                                    value: loc.id,
-                                    label: loc.name
-                                  }))
-                                ]}
-                                value={storeFilter}
-                                onChange={(v) => {
-                                  setGlobalStoreFilter(v);
-                                  setPage(1);
-                                }}
-                                placeholder={t("page.employee.list.allStores")}
-                                searchPlaceholder={t("common.search.store")}
-                              />
-                            </div>
-                          )}
+                          <StoreFilterField
+                            id="shift-list-store"
+                            label={t("page.goodsReceipt.detail.store")}
+                            locations={locData?.data || []}
+                            isSuperAdmin={isSuperAdmin}
+                            t={t}>
+                            <Combobox
+                              id="shift-list-store"
+                              options={[
+                                { value: "all", label: t("page.employee.list.allStores") },
+                                ...(locData?.data || []).map((loc) => ({
+                                  value: loc.id,
+                                  label: loc.name
+                                }))
+                              ]}
+                              value={storeFilter}
+                              onChange={(v) => {
+                                setGlobalStoreFilter(v);
+                                setPage(1);
+                              }}
+                              placeholder={t("page.employee.list.allStores")}
+                              searchPlaceholder={t("common.search.store")}
+                            />
+                          </StoreFilterField>
                           <div className="flex flex-col gap-1.5">
                             <label
                               htmlFor="shift-list-status"

@@ -22,7 +22,7 @@ import AbortController from "@/components/organism/abort-controller";
 import Modal from "@/components/organism/modal";
 import NoStore from "@/components/ui/NoStore";
 import { Combobox } from "@/components/ui/combobox";
-import StoreFilter from "@/components/ui/StoreFilter";
+import StoreFilterField from "@/components/ui/StoreFilterField";
 import PageHeader from "@/components/ui/PageHeader";
 import { useLocations } from "@/queries/useLocations";
 import i18next from "i18next";
@@ -297,26 +297,18 @@ const StockTransferList = () => {
                     title={t("page.stockTransfer.list.title")}
                     onReset={resetFilters}
                     isFiltered={isFiltered}>
-                    {isSuperAdmin && (
-                      <div className="flex flex-col gap-1.5">
-                        <label
-                          htmlFor="stock-transfer-list-store-filter"
-                          className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-                          {t("page.goodsReceipt.detail.store")}
-                        </label>
-                        <StoreFilter
-                          id="stock-transfer-list-store-filter"
-                          locations={locData?.data || []}
-                          value={storeFilter}
-                          onChange={(v) => {
-                            setGlobalStoreFilter(v);
-                            setPage(1);
-                          }}
-                          isSuperAdmin={isSuperAdmin}
-                          t={t}
-                        />
-                      </div>
-                    )}
+                    <StoreFilterField
+                      id="stock-transfer-list-store-filter"
+                      label={t("page.goodsReceipt.detail.store")}
+                      locations={locData?.data || []}
+                      value={storeFilter}
+                      onChange={(v) => {
+                        setGlobalStoreFilter(v);
+                        setPage(1);
+                      }}
+                      isSuperAdmin={isSuperAdmin}
+                      t={t}
+                    />
                     <div className="flex flex-col gap-1.5">
                       <label
                         htmlFor="stock-transfer-list-all-status"

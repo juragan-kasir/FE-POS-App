@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 import { Boxes, Store, UtensilsCrossed } from "lucide-react";
 import DataTable from "@/components/ui/DataTable";
 import TableToolbar from "@/components/ui/TableToolbar";
-import StoreFilter from "@/components/ui/StoreFilter";
+import StoreFilterField from "@/components/ui/StoreFilterField";
 import { DatePicker } from "@/components/ui/date-picker";
 import { getIngredientStockSummary } from "@/services/ingredient";
 import { formatQuantity } from "@/utils/quantity";
@@ -168,21 +168,17 @@ const IngredientStockSummary = ({
         emptyIcon={needsStore ? Store : Boxes}
         toolbar={
           <TableToolbar title={t(`${P}.title`)} isFiltered={isFiltered} onReset={resetFilters}>
-            {isSuperAdmin && (
-              <div>
-                <label htmlFor="ingredient-summary-store" className={fieldLabelClass}>
-                  {t("header.selectStore")}
-                </label>
-                <StoreFilter
-                  id="ingredient-summary-store"
-                  locations={locations}
-                  value={storeFilter}
-                  onChange={onStoreChange}
-                  isSuperAdmin={isSuperAdmin}
-                  t={t}
-                />
-              </div>
-            )}
+            <StoreFilterField
+              id="ingredient-summary-store"
+              label={t("header.selectStore")}
+              locations={locations}
+              value={storeFilter}
+              onChange={onStoreChange}
+              isSuperAdmin={isSuperAdmin}
+              t={t}
+              className=""
+              labelClassName={fieldLabelClass}
+            />
             <div>
               <label htmlFor="summary-start" className={fieldLabelClass}>
                 {t(`${P}.startDate`)}

@@ -35,7 +35,7 @@ import DataTable from "@/components/ui/DataTable";
 import TableToolbar from "@/components/ui/TableToolbar";
 import PageHeader from "@/components/ui/PageHeader";
 import NoStore from "@/components/ui/NoStore";
-import StoreFilter from "@/components/ui/StoreFilter";
+import StoreFilterField from "@/components/ui/StoreFilterField";
 import { useTranslation } from "react-i18next";
 import { canAccess } from "@/utils/permission";
 import TableActions from "@/components/ui/TableActions";
@@ -573,26 +573,18 @@ const MemberList = () => {
                         title={t("page.member.list.title")}
                         onReset={resetFilters}
                         isFiltered={isFiltered}>
-                        {isSuperAdmin && (
-                          <div className="flex flex-col gap-1.5">
-                            <label
-                              htmlFor="member-list-store-filter"
-                              className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-                              {t("page.goodsReceipt.detail.store")}
-                            </label>
-                            <StoreFilter
-                              id="member-list-store-filter"
-                              locations={locData?.data || []}
-                              value={storeFilter}
-                              onChange={(v) => {
-                                setGlobalStoreFilter(v);
-                                setPage(1);
-                              }}
-                              isSuperAdmin={isSuperAdmin}
-                              t={t}
-                            />
-                          </div>
-                        )}
+                        <StoreFilterField
+                          id="member-list-store-filter"
+                          label={t("page.goodsReceipt.detail.store")}
+                          locations={locData?.data || []}
+                          value={storeFilter}
+                          onChange={(v) => {
+                            setGlobalStoreFilter(v);
+                            setPage(1);
+                          }}
+                          isSuperAdmin={isSuperAdmin}
+                          t={t}
+                        />
                         <div className="flex flex-col gap-1.5">
                           <label
                             htmlFor="member-list-search"

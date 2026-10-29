@@ -29,7 +29,7 @@ import {
 import { getAllCategoryActive } from "@/services/category";
 import NoStore from "@/components/ui/NoStore";
 import { Button } from "@/components/ui/button";
-import StoreFilter from "@/components/ui/StoreFilter";
+import StoreFilterField from "@/components/ui/StoreFilterField";
 import { SearchInput } from "@/components/ui/SearchInput";
 import { Loading } from "@/components/ui/loading";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -670,24 +670,18 @@ const ProductList = () => {
                       isLoading={isFetching}
                     />
                   </div>
-                  <div className="flex flex-col gap-1.5">
-                    <label
-                      htmlFor="product-list-store-filter"
-                      className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-                      {t("page.goodsReceipt.detail.store")}
-                    </label>
-                    <StoreFilter
-                      id="product-list-store-filter"
-                      locations={locData?.data || []}
-                      value={storeFilter}
-                      onChange={(v) => {
-                        setGlobalStoreFilter(v);
-                        setPage(1);
-                      }}
-                      isSuperAdmin={isSuperAdmin}
-                      t={t}
-                    />
-                  </div>
+                  <StoreFilterField
+                    id="product-list-store-filter"
+                    label={t("page.goodsReceipt.detail.store")}
+                    locations={locData?.data || []}
+                    value={storeFilter}
+                    onChange={(v) => {
+                      setGlobalStoreFilter(v);
+                      setPage(1);
+                    }}
+                    isSuperAdmin={isSuperAdmin}
+                    t={t}
+                  />
                   <div className="flex flex-col gap-1.5">
                     <label
                       htmlFor="product-list-category"

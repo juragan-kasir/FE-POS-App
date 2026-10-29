@@ -26,7 +26,7 @@ import {
   updateTableStatus
 } from "@/services/table";
 import NoStore from "@/components/ui/NoStore";
-import StoreFilter from "@/components/ui/StoreFilter";
+import StoreFilterField from "@/components/ui/StoreFilterField";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -464,24 +464,18 @@ const TableList = () => {
                       title={t("page.table.list.title")}
                       onReset={resetFilters}
                       isFiltered={isFiltered}>
-                      <div className="flex flex-col gap-1.5">
-                        <label
-                          htmlFor="table-list-store-filter"
-                          className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-                          {t("page.goodsReceipt.detail.store")}
-                        </label>
-                        <StoreFilter
-                          id="table-list-store-filter"
-                          locations={locData?.data || []}
-                          value={storeFilter}
-                          onChange={(val) => {
-                            setGlobalStoreFilter(val);
-                            setPage(1);
-                          }}
-                          isSuperAdmin={isSuperAdmin}
-                          t={t}
-                        />
-                      </div>
+                      <StoreFilterField
+                        id="table-list-store-filter"
+                        label={t("page.goodsReceipt.detail.store")}
+                        locations={locData?.data || []}
+                        value={storeFilter}
+                        onChange={(val) => {
+                          setGlobalStoreFilter(val);
+                          setPage(1);
+                        }}
+                        isSuperAdmin={isSuperAdmin}
+                        t={t}
+                      />
                       <div className="flex flex-col gap-1.5">
                         <label
                           htmlFor="table-list-search"

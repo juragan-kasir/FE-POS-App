@@ -36,7 +36,7 @@ import {
 } from "@/services/discount";
 import { Button } from "@/components/ui/button";
 import { Combobox } from "@/components/ui/combobox";
-import StoreFilter from "@/components/ui/StoreFilter";
+import StoreFilterField from "@/components/ui/StoreFilterField";
 import { SearchInput } from "@/components/ui/SearchInput";
 import StatCard from "@/components/ui/StatCard";
 import { Loading } from "@/components/ui/loading";
@@ -651,24 +651,18 @@ const DiscountList = () => {
                   title={t("page.discount.list.title")}
                   onReset={resetFilters}
                   isFiltered={isFiltered}>
-                  <div className="flex flex-col gap-1.5">
-                    <label
-                      htmlFor="discount-list-store-filter"
-                      className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-                      {t("page.goodsReceipt.detail.store")}
-                    </label>
-                    <StoreFilter
-                      id="discount-list-store-filter"
-                      locations={locData?.data || []}
-                      value={storeFilter}
-                      onChange={(v) => {
-                        setGlobalStoreFilter(v);
-                        setPage(1);
-                      }}
-                      isSuperAdmin={isSuperAdmin}
-                      t={t}
-                    />
-                  </div>
+                  <StoreFilterField
+                    id="discount-list-store-filter"
+                    label={t("page.goodsReceipt.detail.store")}
+                    locations={locData?.data || []}
+                    value={storeFilter}
+                    onChange={(v) => {
+                      setGlobalStoreFilter(v);
+                      setPage(1);
+                    }}
+                    isSuperAdmin={isSuperAdmin}
+                    t={t}
+                  />
                   <div className="flex flex-col gap-1.5">
                     <label
                       htmlFor="discount-list-status"

@@ -21,7 +21,7 @@ import TableToolbar from "@/components/ui/TableToolbar";
 import AbortController from "@/components/organism/abort-controller";
 import StatCard from "@/components/ui/StatCard";
 import NoStore from "@/components/ui/NoStore";
-import StoreFilter from "@/components/ui/StoreFilter";
+import StoreFilterField from "@/components/ui/StoreFilterField";
 import PageHeader from "@/components/ui/PageHeader";
 import { TipsCard } from "@/components/ui/tips-card";
 import {
@@ -440,26 +440,18 @@ const BundleList = () => {
 
   const filters = (
     <TableToolbar title={t("page.bundle.title")} onReset={resetFilters} isFiltered={isFiltered}>
-      {isSuperAdmin && (
-        <div className="flex flex-col gap-1.5">
-          <label
-            htmlFor="bundle-store-filter"
-            className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-            {t("page.goodsReceipt.detail.store")}
-          </label>
-          <StoreFilter
-            id="bundle-store-filter"
-            locations={locData?.data || []}
-            value={storeFilter}
-            onChange={(v) => {
-              setGlobalStoreFilter(v);
-              setPage(1);
-            }}
-            isSuperAdmin={isSuperAdmin}
-            t={t}
-          />
-        </div>
-      )}
+      <StoreFilterField
+        id="bundle-store-filter"
+        label={t("page.goodsReceipt.detail.store")}
+        locations={locData?.data || []}
+        value={storeFilter}
+        onChange={(v) => {
+          setGlobalStoreFilter(v);
+          setPage(1);
+        }}
+        isSuperAdmin={isSuperAdmin}
+        t={t}
+      />
       <div className="flex flex-col gap-1.5">
         <label
           htmlFor="bundle-list-search"

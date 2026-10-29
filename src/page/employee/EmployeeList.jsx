@@ -29,6 +29,7 @@ import {
   Lightbulb
 } from "lucide-react";
 import NoStore from "@/components/ui/NoStore";
+import StoreFilterField from "@/components/ui/StoreFilterField";
 import { useTranslation } from "react-i18next";
 import DataTable from "@/components/ui/DataTable";
 import TableActions from "@/components/ui/TableActions";
@@ -439,12 +440,12 @@ const EmployeeList = () => {
                           isLoading={isFetching}
                         />
                       </div>
-                      <div className="flex flex-col gap-1.5">
-                        <label
-                          htmlFor="employee-list-store"
-                          className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-                          {t("document.store")}
-                        </label>
+                      <StoreFilterField
+                        id="employee-list-store"
+                        label={t("document.store")}
+                        locations={locData?.data || []}
+                        isSuperAdmin={isSuperAdmin}
+                        t={t}>
                         <Combobox
                           id="employee-list-store"
                           options={[
@@ -462,7 +463,7 @@ const EmployeeList = () => {
                           placeholder={t("page.employee.list.allStores")}
                           searchPlaceholder={t("common.search.store")}
                         />
-                      </div>
+                      </StoreFilterField>
                       <div className="flex flex-col gap-1.5">
                         <label
                           htmlFor="employee-list-posisi"

@@ -33,7 +33,7 @@ import { canAccess } from "@/utils/permission";
 import AbortController from "@/components/organism/abort-controller";
 import StatCard from "@/components/ui/StatCard";
 import NoStore from "@/components/ui/NoStore";
-import StoreFilter from "@/components/ui/StoreFilter";
+import StoreFilterField from "@/components/ui/StoreFilterField";
 import PageHeader from "@/components/ui/PageHeader";
 import { Combobox } from "@/components/ui/combobox";
 import { useLocations } from "@/queries/useLocations";
@@ -476,26 +476,18 @@ const StockOpnameList = () => {
                     title={t("page.stockOpname.list.title")}
                     onReset={resetFilters}
                     isFiltered={isFiltered}>
-                    {isSuperAdmin && (
-                      <div className="flex flex-col gap-1.5">
-                        <label
-                          htmlFor="stock-opname-list-store-filter"
-                          className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-                          {t("page.goodsReceipt.detail.store")}
-                        </label>
-                        <StoreFilter
-                          id="stock-opname-list-store-filter"
-                          locations={locData?.data || []}
-                          value={storeFilter}
-                          onChange={(val) => {
-                            setGlobalStoreFilter(val);
-                            setPage(1);
-                          }}
-                          isSuperAdmin={isSuperAdmin}
-                          t={t}
-                        />
-                      </div>
-                    )}
+                    <StoreFilterField
+                      id="stock-opname-list-store-filter"
+                      label={t("page.goodsReceipt.detail.store")}
+                      locations={locData?.data || []}
+                      value={storeFilter}
+                      onChange={(val) => {
+                        setGlobalStoreFilter(val);
+                        setPage(1);
+                      }}
+                      isSuperAdmin={isSuperAdmin}
+                      t={t}
+                    />
                     <div className="flex flex-col gap-1.5">
                       <label
                         htmlFor="stock-opname-list-all-status"
