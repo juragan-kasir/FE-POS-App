@@ -62,10 +62,13 @@ import {
   FileSpreadsheet,
   CloudUpload,
   Eye,
-  PackageCheck
+  PackageCheck,
+  AlertTriangle,
+  RefreshCw
 } from "lucide-react";
 import HorizontalScrollArea from "@/components/ui/HorizontalScrollArea";
 import { FIELD_LIMITS } from "@/constants/fieldLimits";
+import AbortController from "@/components/organism/abort-controller";
 
 export default function DetailPurchaseOrder() {
   const { t } = useTranslation();
@@ -78,6 +81,10 @@ export default function DetailPurchaseOrder() {
   const [returns, setReturns] = useState([]);
   const [receipts, setReceipts] = useState([]);
   const [loading, setLoading] = useState(true);
+  // A failed load used to fall through to "PO tidak ditemukan", and failed
+  // payment/return/receipt lists showed as empty ("belum ada …").
+  const [loadError, setLoadError] = useState(null);
+  const [partialLoadError, setPartialLoadError] = useState(false);
 
   const [paymentModalOpen, setPaymentModalOpen] = useState(false);
   const [payAmount, setPayAmount] = useState("");
@@ -155,18 +162,23 @@ export default function DetailPurchaseOrder() {
   const loadData = async () => {
     try {
       setLoading(true);
+      setLoadError(null);
       const poRes = await getPurchaseOrderById(id);
       setPo(poRes.data);
-      const [paymentRes, returnRes, receiptRes] = await Promise.allSettled([
+      const related = await Promise.allSettled([
         getPaymentsByPO(id),
         getReturnsByPO(id),
         getGoodsReceiptByPO(id)
       ]);
+      const [paymentRes, returnRes, receiptRes] = related;
       setPayments(paymentRes.status === "fulfilled" ? paymentRes.value?.data || [] : []);
       setReturns(returnRes.status === "fulfilled" ? returnRes.value?.data || [] : []);
       setReceipts(receiptRes.status === "fulfilled" ? receiptRes.value?.data || [] : []);
+      setPartialLoadError(related.some((r) => r.status === "rejected"));
     } catch (err) {
-      toast.error(err.response?.data?.message || t("page.purchaseOrder.detail.loadFailed"));
+      setLoadError(err);
+      // A reload after an action keeps the PO on screen; say it didn't refresh.
+      if (po) toast.error(err.response?.data?.message || t("page.purchaseOrder.detail.loadFailed"));
     } finally {
       setLoading(false);
     }
@@ -652,6 +664,7 @@ export default function DetailPurchaseOrder() {
         </div>
       );
     }
+    const notFound = !loadError || loadError.response?.status === 404;
     return (
       <div className="space-y-6">
         <PageHeader
@@ -671,9 +684,14 @@ export default function DetailPurchaseOrder() {
               i18nKey: "page.purchaseOrder.detail.title"
             }
           ]}
-          title={t("page.purchaseOrder.detail.notFound")}
+          title={
+            notFound
+              ? t("page.purchaseOrder.detail.notFound")
+              : t("page.purchaseOrder.detail.title")
+          }
           backLink="/purchase-order"
         />
+        {!notFound && <AbortController refetch={loadData} error={loadError} />}
       </div>
     );
   }
@@ -720,6 +738,19 @@ export default function DetailPurchaseOrder() {
         </Button>
         <PrintButton />
       </PageHeader>
+
+      {partialLoadError && !loading && (
+        <div
+          role="alert"
+          className="flex flex-col sm:flex-row sm:items-center gap-3 rounded-lg border border-destructive/30 bg-destructive/5 px-4 py-3">
+          <AlertTriangle size={18} className="text-destructive shrink-0" aria-hidden="true" />
+          <p className="flex-1 text-sm text-foreground">{t("common.loadErrorPartial")}</p>
+          <Button type="button" variant="outline" size="sm" className="gap-1.5" onClick={loadData}>
+            <RefreshCw size={14} aria-hidden="true" />
+            {t("common.retry")}
+          </Button>
+        </div>
+      )}
 
       {loading ? (
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
