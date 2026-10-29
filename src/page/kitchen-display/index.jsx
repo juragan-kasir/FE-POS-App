@@ -207,7 +207,9 @@ const KitchenDisplay = () => {
         </div>
         <div className="flex items-center gap-3 text-sm text-muted-foreground">
           <Bell size={16} />
-          <span>{orders.reduce((s, o) => s + (o.items?.length || 0), 0)} item</span>
+          <span>
+            {orders.reduce((s, o) => s + (o.items?.length || 0), 0)} {t("common.ui.items")}
+          </span>
         </div>
       </div>
 

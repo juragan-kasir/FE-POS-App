@@ -835,7 +835,9 @@ const CashierPage = () => {
                 type="button"
                 onClick={() => setCartExpanded(!cartExpanded)}
                 className="absolute -left-3 top-1/2 -translate-y-1/2 z-10 w-6 h-12 flex items-center justify-center rounded-l-lg bg-card border border-border/50 border-r-0 text-muted-foreground hover:text-foreground hover:bg-accent transition-colors"
-                title={cartExpanded ? "Collapse cart" : "Expand cart"}>
+                title={
+                  cartExpanded ? t("page.cashier.ui.collapseCart") : t("page.cashier.ui.expandCart")
+                }>
                 {cartExpanded ? <ChevronRight size={14} /> : <ChevronLeft size={14} />}
               </button>
               <CartPanel

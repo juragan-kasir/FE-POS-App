@@ -314,13 +314,13 @@ const NavigationModal = ({ open, onOpenChange, categories = [], onNavigate }) =>
               <kbd className="px-1.5 py-0.5 font-mono bg-background rounded border border-border/50">
                 ↓
               </kbd>
-              navigasi
+              {t("component.navigationModal.navigate")}
             </span>
             <span className="flex items-center gap-1.5">
               <kbd className="px-1.5 py-0.5 font-mono bg-background rounded border border-border/50">
                 ↵
               </kbd>
-              pilih
+              {t("component.navigationModal.select")}
             </span>
           </div>
           <span>

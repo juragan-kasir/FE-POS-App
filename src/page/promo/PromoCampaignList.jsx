@@ -285,7 +285,7 @@ const PromoCampaignList = () => {
               : "-"}
           </div>
           <div className="text-muted-foreground">
-            to{" "}
+            {t("common.ui.until")}{" "}
             {row.endDate && !isNaN(new Date(row.endDate).getTime())
               ? new Date(row.endDate).toLocaleDateString()
               : "-"}
@@ -494,7 +494,7 @@ const PromoCampaignList = () => {
                     setPage(1);
                   }}
                   placeholder={t("page.promo.ui.filterStatus")}
-                  searchPlaceholder="Cari status..."
+                  searchPlaceholder={t("common.search.status")}
                 />
               </div>
               <div className="flex flex-col gap-1.5">
@@ -512,7 +512,7 @@ const PromoCampaignList = () => {
                     setPage(1);
                   }}
                   placeholder={t("page.promo.ui.filterType")}
-                  searchPlaceholder="Cari tipe..."
+                  searchPlaceholder={t("common.search.type")}
                 />
               </div>
               <div className="flex flex-col gap-1.5">

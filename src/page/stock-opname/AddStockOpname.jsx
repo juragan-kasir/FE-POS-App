@@ -826,7 +826,7 @@ const AddStockOpname = () => {
                                                 </div>
                                                 {selectedProductIds.has(p.id || p._id) && (
                                                   <span className="ml-auto text-xs text-muted-foreground bg-muted px-1.5 py-0.5 rounded shrink-0">
-                                                    dipilih
+                                                    {t("common.ui.selectedCount")}
                                                   </span>
                                                 )}
                                               </div>

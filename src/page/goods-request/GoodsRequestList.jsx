@@ -189,7 +189,7 @@ const GoodsRequestList = () => {
       align: "center",
       render: (item) => (
         <span className="font-mono text-sm">
-          {item.totalItems || item.items?.length || 0} items
+          {item.totalItems || item.items?.length || 0} {t("common.ui.items")}
         </span>
       )
     },

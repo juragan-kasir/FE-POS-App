@@ -541,7 +541,7 @@ const MemberList = () => {
                                 setPage(1);
                               }}
                               placeholder={t("page.member.list.sortNewest")}
-                              searchPlaceholder="Cari..."
+                              searchPlaceholder={t("common.search.generic")}
                             />
                           </div>
                           <div className="flex items-center gap-1.5">

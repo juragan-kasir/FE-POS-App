@@ -420,9 +420,9 @@ const DataTable = ({
                 value={String(pageSize || 10)}
                 onChange={(v) => onPageSizeChange(Number(v))}
                 placeholder="10"
-                searchPlaceholder="Cari..."
+                searchPlaceholder={t("common.search.generic")}
               />
-              <span aria-hidden="true">entries</span>
+              <span aria-hidden="true">{t("common.ui.entries")}</span>
             </div>
           )}
           <span className="text-sm text-muted-foreground">
@@ -575,7 +575,9 @@ const DataTable = ({
 
       {selectedIds.length > 0 && bulkActions && (
         <div className="flex items-center justify-between px-4 py-3 bg-primary/5 border-t border-border">
-          <span className="text-sm font-medium">{selectedIds.length} selected</span>
+          <span className="text-sm font-medium">
+            {selectedIds.length} {t("common.ui.selectedCount")}
+          </span>
           <div className="flex items-center gap-2">
             {bulkActions(selectedIds, () => onSelectionChange([]))}
           </div>

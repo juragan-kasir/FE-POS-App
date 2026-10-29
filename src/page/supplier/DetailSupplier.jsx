@@ -511,9 +511,9 @@ const DetailSupplier = () => {
                   </p>
                   <Badge variant="outline" className="capitalize font-semibold">
                     {supplier.paymentType === "cbd"
-                      ? "CBD (Bayar Di Muka)"
+                      ? t("page.supplier.detail.termCbd")
                       : supplier.paymentType === "tempo"
-                        ? "Tempo"
+                        ? t("page.supplier.detail.termCredit")
                         : supplier.paymentType || "-"}
                   </Badge>
                 </div>
@@ -759,7 +759,8 @@ const DetailSupplier = () => {
                       <div className="flex items-center gap-3">
                         <p className="text-xs text-muted-foreground whitespace-nowrap">
                           {t("page.supplier.ui.showing")} {startIdx + 1}–
-                          {Math.min(startIdx + productPageSize, totalItems)} dari {totalItems}
+                          {Math.min(startIdx + productPageSize, totalItems)} {t("common.ui.of")}{" "}
+                          {totalItems}
                         </p>
                         <Combobox
                           options={[
@@ -777,7 +778,7 @@ const DetailSupplier = () => {
                             setProductPage(1);
                           }}
                           placeholder="10"
-                          searchPlaceholder="Cari..."
+                          searchPlaceholder={t("common.search.generic")}
                         />
                       </div>
 

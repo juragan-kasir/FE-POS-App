@@ -502,11 +502,11 @@ const ShiftList = () => {
                                     <span
                                       className={`shrink-0 inline-flex items-center px-1.5 py-0.5 rounded-full text-xs font-semibold ${badgeClass}`}>
                                       {isPast
-                                        ? "Sudah berakhir"
+                                        ? t("page.shift.ui.alreadyEnded")
                                         : diff === 0
-                                          ? "Hari ini"
+                                          ? t("common.ui.today")
                                           : diff === 1
-                                            ? "Besok"
+                                            ? t("common.ui.tomorrow")
                                             : `${diff} hari lagi`}
                                     </span>
                                   </div>
@@ -532,7 +532,9 @@ const ShiftList = () => {
                                 </div>
                                 <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
                                   <Users size={10} className="shrink-0" />
-                                  <span>{s.karyawan?.length || 0} karyawan</span>
+                                  <span>
+                                    {s.karyawan?.length || 0} {t("common.ui.employeesCount")}
+                                  </span>
                                 </div>
                               </div>
                               <Button
@@ -590,7 +592,7 @@ const ShiftList = () => {
                                   setPage(1);
                                 }}
                                 placeholder={t("page.employee.list.allStores")}
-                                searchPlaceholder="Cari toko..."
+                                searchPlaceholder={t("common.search.store")}
                               />
                             </div>
                           )}
@@ -614,7 +616,7 @@ const ShiftList = () => {
                                 setPage(1);
                               }}
                               placeholder={t("common.all")}
-                              searchPlaceholder="Cari..."
+                              searchPlaceholder={t("common.search.generic")}
                             />
                           </div>
                           <div className="flex flex-col gap-1.5">

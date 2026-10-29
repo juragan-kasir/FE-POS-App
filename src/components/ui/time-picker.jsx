@@ -90,7 +90,7 @@ export const TimePicker = React.forwardRef(function TimePicker(
           <CommandList>
             <CommandEmpty>{t("component.timePicker.ui.noTimes")}</CommandEmpty>
             {!value && (
-              <CommandGroup heading="Cepat">
+              <CommandGroup heading={t("component.timePicker.quick")}>
                 <div className="grid grid-cols-4 gap-1.5 p-2">
                   {(slots ? TIME_PRESETS.filter((p) => slots.includes(p.value)) : TIME_PRESETS).map(
                     (preset) => (
@@ -110,7 +110,7 @@ export const TimePicker = React.forwardRef(function TimePicker(
                 </div>
               </CommandGroup>
             )}
-            <CommandGroup heading="Semua Jam">
+            <CommandGroup heading={t("component.timePicker.allHours")}>
               <ScrollArea className="h-48">
                 {(slots || TIME_SLOTS).map((time) => (
                   <CommandItem

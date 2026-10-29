@@ -1015,7 +1015,7 @@ const EditGoodsReceipt = () => {
                                   {(
                                     parseFloat(item.qtyReceived) * (item.conversionToBase || 1)
                                   ).toLocaleString("id-ID")}{" "}
-                                  stok
+                                  {t("common.ui.stock")}
                                 </p>
                               )}
                             </div>
@@ -1167,7 +1167,7 @@ const EditGoodsReceipt = () => {
                           : "-"}
                       </span>
                       <span className="text-muted-foreground">
-                        {totalQty.toLocaleString("id-ID")} unit
+                        {totalQty.toLocaleString("id-ID")} {t("common.ui.unitWord")}
                       </span>
                       <span
                         className={`px-2 py-0.5 rounded-full text-xs font-medium ${

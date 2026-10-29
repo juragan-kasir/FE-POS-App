@@ -487,7 +487,7 @@ const PositionList = () => {
                             setPage(1);
                           }}
                           placeholder={t("common.all")}
-                          searchPlaceholder="Cari status..."
+                          searchPlaceholder={t("common.search.status")}
                         />
                       </div>
                       <div className="flex flex-col gap-1.5">
@@ -511,7 +511,7 @@ const PositionList = () => {
                             setPage(1);
                           }}
                           placeholder={`${t("common.all")} ${t("page.position.table.department")}`}
-                          searchPlaceholder="Cari departemen..."
+                          searchPlaceholder={t("common.search.department")}
                         />
                       </div>
                       <div className="flex flex-col gap-1.5">

@@ -315,7 +315,11 @@ const DiscountList = () => {
         const store = item.store;
         if (!store || Array.isArray(store))
           return <span className="text-xs text-foreground">{t("header.allStore")}</span>;
-        return <span className="text-xs">{store.name || `Store #${store.id}`}</span>;
+        return (
+          <span className="text-xs">
+            {store.name || t("common.ui.storeNumber", { id: store.id })}
+          </span>
+        );
       }
     },
     {
@@ -686,7 +690,7 @@ const DiscountList = () => {
                         setPage(1);
                       }}
                       placeholder={t("common.all")}
-                      searchPlaceholder="Cari..."
+                      searchPlaceholder={t("common.search.generic")}
                     />
                   </div>
                   <div className="flex flex-col gap-1.5">

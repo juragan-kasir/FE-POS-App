@@ -223,7 +223,9 @@ const StockForecast = () => {
                                 {formatNumber(item.dailyConsumption ?? 0)}{" "}
                                 {t("page.stockForecast.ui.day")}
                               </td>
-                              <td className="p-2">{days > 0 ? `${days} hari` : "Sudah habis"}</td>
+                              <td className="p-2">
+                                {days > 0 ? `${days} hari` : t("page.stockForecast.ui.alreadyOut")}
+                              </td>
                               <td className="p-2">
                                 <Badge variant={risk.variant}>{risk.label}</Badge>
                               </td>
@@ -311,7 +313,9 @@ const StockForecast = () => {
                     onClick={() => setWriteoffModal(true)}
                     disabled={writeOffMutation.isLoading}>
                     <AlertTriangle className="w-4 h-4 mr-1.5" />
-                    {writeOffMutation.isLoading ? "Memproses..." : "Write-off Kedaluwarsa"}
+                    {writeOffMutation.isLoading
+                      ? t("common.ui.processingEllipsis")
+                      : t("page.stockForecast.ui.writeOffExpired")}
                   </Button>
                 </div>
               </CardHeader>
@@ -439,7 +443,7 @@ const StockForecast = () => {
         onOpenChange={setWriteoffModal}
         title={t("page.stockForecast.ui.writeOffExpiredBatches")}
         description={t("page.stockForecast.ui.everyBatchPastItsExpiry")}
-        confirmText="Ya, Write-off"
+        confirmText={t("page.stockForecast.ui.yesWriteOff")}
         onConfirm={handleWriteOff}
         loading={writeOffMutation.isLoading}
       />

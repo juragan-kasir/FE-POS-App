@@ -672,11 +672,11 @@ const AddShift = () => {
                                     {storeLoc?.name || `Toko #${storeId}`}
                                   </p>
                                   <p className="text-xs text-muted-foreground">
-                                    {storeEmps.length} karyawan
+                                    {storeEmps.length} {t("common.ui.employeesCount")}
                                     {selectedCount > 0 && (
                                       <span className="text-primary font-medium">
                                         {" "}
-                                        · {selectedCount} dipilih
+                                        · {selectedCount} {t("common.ui.selectedCount")}
                                       </span>
                                     )}
                                   </p>
@@ -1006,7 +1006,7 @@ const AddShift = () => {
         onOpenChange={setStoreRemoveModal}
         title={t("page.shift.ui.removeEmployeesFromTheStore")}
         description={t("page.shift.ui.someSelectedEmployeesWillBe")}
-        confirmText="Ya, Lanjutkan"
+        confirmText={t("common.confirm.yesContinue")}
         onConfirm={confirmStoreRemove}
       />
     </div>

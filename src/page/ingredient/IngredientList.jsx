@@ -538,7 +538,7 @@ const IngredientList = () => {
                           setPage(1);
                         }}
                         placeholder={t("common.all")}
-                        searchPlaceholder="Cari..."
+                        searchPlaceholder={t("common.search.generic")}
                       />
                     </div>
                     <div className="flex flex-col gap-1.5">

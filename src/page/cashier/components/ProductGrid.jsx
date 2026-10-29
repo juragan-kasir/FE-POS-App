@@ -886,7 +886,7 @@ const ProductGrid = ({
                     "w-5 h-5 rounded object-cover"
                   )}
                 <h3 className="text-sm font-semibold text-foreground">
-                  {category?.nameCategory || category?.name || "Uncategorized"}
+                  {category?.nameCategory || category?.name || t("common.ui.uncategorized")}
                 </h3>
               </div>
               {catProducts.length > 0 ? (

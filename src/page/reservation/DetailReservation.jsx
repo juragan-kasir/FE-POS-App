@@ -161,7 +161,7 @@ const DetailReservation = () => {
               {r.tableInfo?.name || "-"}
             </DetailRow>
             <DetailRow label={t("page.reservation.columns.store")}>
-              {r.storeInfo?.name || `Store #${r.store}`}
+              {r.storeInfo?.name || t("common.ui.storeNumber", { id: r.store })}
             </DetailRow>
             <DetailRow label={t("page.reservation.columns.notes")}>{r.notes || "-"}</DetailRow>
           </div>

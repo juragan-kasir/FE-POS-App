@@ -420,24 +420,28 @@ Terima kasih telah berbelanja!
             {
               name: "Epson TM-T20/T20II/T88",
               interface: "USB / Ethernet / Bluetooth",
-              note: "Fully supported"
+              note: t("page.thermalPrinter.compat.full")
             },
             {
               name: "Star Micronics TSP100/TSP143",
               interface: "USB / Ethernet / Bluetooth",
-              note: "Fully supported"
+              note: t("page.thermalPrinter.compat.full")
             },
             {
               name: "Bixolon SRP-350/350plus",
               interface: "USB / Ethernet / Bluetooth",
-              note: "Fully supported"
+              note: t("page.thermalPrinter.compat.full")
             },
             {
               name: "Citizen CT-S310/CT-S400",
               interface: "USB / Ethernet",
-              note: "Fully supported"
+              note: t("page.thermalPrinter.compat.full")
             },
-            { name: "Generic 58mm/80mm Thermal", interface: "USB / Serial", note: "Basic support" },
+            {
+              name: "Generic 58mm/80mm Thermal",
+              interface: "USB / Serial",
+              note: t("page.thermalPrinter.compat.basic")
+            },
             {
               name: "RPP02N / RPP300 (Bluetooth)",
               interface: "Bluetooth (macOS)",

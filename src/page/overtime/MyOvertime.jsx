@@ -245,7 +245,7 @@ const MyOvertime = () => {
               setPage(1);
             }}
             placeholder={t("page.table.form.storePlaceholder")}
-            searchPlaceholder="Cari toko..."
+            searchPlaceholder={t("common.search.store")}
           />
         </div>
       )}
@@ -278,8 +278,12 @@ const MyOvertime = () => {
               options={shiftOptions}
               value={form.shift_id}
               onChange={(v) => setForm((f) => ({ ...f, shift_id: v }))}
-              placeholder={myShifts.length ? "Pilih shift" : "Tidak ada shift aktif"}
-              searchPlaceholder="Cari shift..."
+              placeholder={
+                myShifts.length
+                  ? t("page.overtime.ui.selectShift")
+                  : t("page.overtime.ui.noActiveShift")
+              }
+              searchPlaceholder={t("common.search.shift")}
             />
             {myShifts.length === 0 && (
               <p className="text-xs text-red-500">{t("page.overtime.ui.youAreNotAssignedTo")}</p>
@@ -381,7 +385,8 @@ const MyOvertime = () => {
                   {t("page.overtime.ui.requestHistory")}
                 </h2>
                 <p className="text-xs text-muted-foreground">
-                  {locationName(effectiveStore) || `Toko #${effectiveStore || "-"}`}
+                  {locationName(effectiveStore) ||
+                    t("common.ui.storeNumber", { id: effectiveStore || "-" })}
                 </p>
               </div>
             </div>
@@ -495,10 +500,11 @@ const MyOvertime = () => {
         open={!!cancelTarget}
         onOpenChange={(open) => !open && setCancelTarget(null)}
         title={t("page.overtime.ui.cancelThisOvertimeRequest")}
-        description={`Pengajuan lembur ${
-          cancelTarget?.shift?.name || ""
-        } pada ${fmtDate(cancelTarget?.date)} akan dibatalkan.`}
-        confirmText="Batalkan Pengajuan"
+        description={t("page.overtime.ui.cancelDesc", {
+          shift: cancelTarget?.shift?.name || "",
+          date: fmtDate(cancelTarget?.date)
+        })}
+        confirmText={t("page.overtime.ui.cancelRequest")}
         loading={cancelMutation.isLoading}
         onConfirm={() => cancelMutation.mutate({ id: cancelTarget.id })}
       />

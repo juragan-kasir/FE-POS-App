@@ -386,7 +386,7 @@ const DashboardUser = () => {
                   </p>
                   <p className="flex items-center gap-2">
                     <Store size={14} className="shrink-0 text-muted-foreground/70" />
-                    {todayShift.storeName || todayShift.store || "Semua toko"}
+                    {todayShift.storeName || todayShift.store || t("common.ui.allStores")}
                   </p>
                 </div>
                 <div className="mt-auto pt-4">
@@ -620,7 +620,7 @@ const DashboardUser = () => {
                   />
                   <div className="min-w-0">
                     <p className="text-[13px] font-semibold text-foreground truncate">
-                      {n.title || "Notifikasi"}
+                      {n.title || t("common.ui.notifications")}
                     </p>
                     <p className="text-xs text-muted-foreground line-clamp-1">
                       {n.message || n.description || n.storeName || ""}
@@ -662,7 +662,7 @@ const DashboardUser = () => {
                 <p className="text-xs text-muted-foreground">
                   {mySwaps.filter((s) => s.status === "pending").length}{" "}
                   {t("page.dashboardUser.ui.inProgress2")}{" "}
-                  {mySwaps.filter((s) => s.status === "approved").length} berhasil
+                  {mySwaps.filter((s) => s.status === "approved").length} {t("common.ui.succeeded")}
                 </p>
               </div>
             </div>
@@ -752,7 +752,10 @@ const DashboardUser = () => {
                     <p className="mt-1.5 text-xs text-muted-foreground line-clamp-2">{s.note}</p>
                   )}
                   <p className="mt-2 text-xs text-muted-foreground">
-                    {isRequester ? "Kamu mengajukan" : "Diajukan untukmu"} ·{" "}
+                    {isRequester
+                      ? t("page.shift.ui.youRequested")
+                      : t("page.shift.ui.requestedForYou")}{" "}
+                    ·{" "}
                     {s.createdAt
                       ? new Date(s.createdAt).toLocaleString(dateLocale(), {
                           day: "numeric",
@@ -937,10 +940,10 @@ const DashboardUser = () => {
                         key={b.productId || safeGet(b, "productName")}
                         className="flex items-center justify-between gap-3 rounded-xl border border-border/60 bg-muted/30 px-3.5 py-2.5">
                         <span className="min-w-0 truncate text-[13px] font-medium text-foreground">
-                          {b.productName || "Produk"}
+                          {b.productName || t("common.ui.product")}
                         </span>
                         <span className="shrink-0 rounded-full bg-primary/10 text-primary text-xs font-semibold px-2 py-0.5">
-                          {b.quantity || 0} terjual
+                          {b.quantity || 0} {t("common.ui.sold")}
                         </span>
                       </li>
                     ))}

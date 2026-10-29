@@ -628,7 +628,7 @@ const CategoryList = () => {
                             setPage(1);
                           }}
                           placeholder={t("page.category.list.statusAll")}
-                          searchPlaceholder="Cari..."
+                          searchPlaceholder={t("common.search.generic")}
                         />
                       </div>
                     </TableToolbar>

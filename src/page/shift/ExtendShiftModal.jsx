@@ -159,7 +159,7 @@ const ExtendShiftModal = ({ open, onOpenChange, shift, locationName, onSave, isS
                   </span>
                   <span className="inline-flex items-center gap-1">
                     <Store size={11} className="shrink-0" />
-                    {locationName || `Toko #${shift?.store || "-"}`}
+                    {locationName || t("common.ui.storeNumber", { id: shift?.store || "-" })}
                   </span>
                 </div>
               </div>
@@ -184,7 +184,9 @@ const ExtendShiftModal = ({ open, onOpenChange, shift, locationName, onSave, isS
                         ? "text-amber-600 dark:text-amber-400"
                         : "text-muted-foreground"
                   )}>
-                  {isExpired ? "Shift telah berakhir" : `${daysLeft} hari lagi berakhir`}
+                  {isExpired
+                    ? t("page.shift.ui.ended")
+                    : t("page.shift.ui.endsInDays", { count: daysLeft })}
                 </span>
               )}
             </div>
@@ -245,7 +247,7 @@ const ExtendShiftModal = ({ open, onOpenChange, shift, locationName, onSave, isS
                 />
               </div>
               <p className="text-xs text-muted-foreground mt-1">
-                {isMingguan ? "Atur tanggal berakhir shift" : "Hanya untuk shift mingguan"}
+                {isMingguan ? t("page.shift.ui.setEndDate") : t("page.shift.ui.weeklyOnly")}
               </p>
             </div>
           </div>
@@ -268,15 +270,13 @@ const ExtendShiftModal = ({ open, onOpenChange, shift, locationName, onSave, isS
                     ? "bg-primary text-primary-foreground border-primary shadow-sm"
                     : "bg-background text-muted-foreground border-border hover:border-primary/50"
                 )}>
-                {type === "harian" ? "Harian" : "Mingguan"}
+                {type === "harian" ? t("common.ui.daily") : t("common.ui.weekly")}
               </button>
             ))}
           </div>
           <p className="text-xs text-muted-foreground mt-1.5 flex items-center gap-1">
             <Info size={11} className="shrink-0" />
-            {isMingguan
-              ? "Shift berjalan mingguan dengan tanggal selesai."
-              : "Hanya untuk shift mingguan"}
+            {isMingguan ? t("page.shift.ui.weeklyDesc") : t("page.shift.ui.weeklyOnly")}
           </p>
         </div>
 
@@ -393,7 +393,7 @@ const ExtendShiftModal = ({ open, onOpenChange, shift, locationName, onSave, isS
                 <Info size={11} className="shrink-0 mt-0.5" />
                 <span>
                   {mismatch.length} {t("page.shift.ui.employees")}
-                  {mismatchGroups.map((g) => g.label || "Tidak ditemukan").join(", ")}
+                  {mismatchGroups.map((g) => g.label || t("common.ui.notFound")).join(", ")}
                   {t("page.shift.ui.doNotMatchThisShift")}
                 </span>
               </p>
@@ -404,8 +404,11 @@ const ExtendShiftModal = ({ open, onOpenChange, shift, locationName, onSave, isS
               <p className="text-xs text-muted-foreground flex items-center gap-1.5">
                 <Info size={11} className="shrink-0" />
                 {resolvedCount === 0
-                  ? "Belum ada data karyawan yang cocok. Pastikan data karyawan tersedia pada toko ini."
-                  : `${resolvedCount} karyawan terisi, ${unknownCount} ID tidak ditemukan di daftar karyawan.`}
+                  ? t("page.shift.ui.noMatchingEmployee")
+                  : t("page.shift.ui.employeesResolved", {
+                      resolved: resolvedCount,
+                      unknown: unknownCount
+                    })}
               </p>
             </div>
           )}

@@ -277,7 +277,10 @@ const DetailCategory = () => {
         type="custom"
         open={productModalOpen}
         onOpenChange={setProductModalOpen}
-        title={`Produk dalam kategori "${category?.name || ""}" (${products.length})`}>
+        title={t("page.category.detail.productsInCategory", {
+          name: category?.name || "",
+          count: products.length
+        })}>
         <div className="space-y-3 max-h-[32rem] overflow-y-auto pr-1">
           {productLoading ? (
             <p className="text-sm text-muted-foreground text-center py-4">
@@ -360,7 +363,7 @@ const DetailCategory = () => {
                             p.status === "active" ? "bg-green-500" : "bg-red-500"
                           }`}
                         />
-                        {p.status === "active" ? "Aktif" : "Tidak Aktif"}
+                        {p.status === "active" ? t("common.active") : t("common.inactive")}
                       </span>
                     </div>
                     {tax?.rate && (

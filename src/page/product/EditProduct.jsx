@@ -1034,7 +1034,7 @@ const EditProduct = () => {
                               value={field.value}
                               onChange={field.onChange}
                               placeholder={t("page.product.form.tipeProduk")}
-                              searchPlaceholder="Cari..."
+                              searchPlaceholder={t("common.search.generic")}
                             />
                             <FormMessage />
                             {noStockOpname && (

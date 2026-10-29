@@ -1742,7 +1742,7 @@ const EditEmployee = () => {
         onOpenChange={setConfirmSaveModal}
         title={t("common.confirmSave")}
         description={t("page.employee.ui.areYouSureYouWant")}
-        confirmText="Ya, Simpan"
+        confirmText={t("common.confirm.yesSave")}
         onConfirm={() => {
           setConfirmSaveModal(false);
           onSubmit(form.getValues(), false);

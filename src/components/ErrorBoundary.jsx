@@ -28,7 +28,7 @@ export default class ErrorBoundary extends React.Component {
               {i18next.t("component.errorBoundary.ui.somethingWentWrong")}
             </h1>
             <p className="text-muted-foreground text-sm">
-              {this.state.error?.message || "An unexpected error occurred"}
+              {this.state.error?.message || i18next.t("common.ui.unexpectedError")}
             </p>
             <Button onClick={this.handleReset}>
               {i18next.t("component.errorBoundary.ui.tryAgain")}

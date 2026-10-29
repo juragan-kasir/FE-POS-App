@@ -300,7 +300,9 @@ const WaiterRequestList = () => {
           <MapPin size={14} className="text-muted-foreground" />
           <span>
             {row.original.table?.name ||
-              (row.original.tableId ? `Meja ${row.original.tableId}` : "-")}
+              (row.original.tableId
+                ? t("common.ui.tableNumber", { name: row.original.tableId })
+                : "-")}
           </span>
         </div>
       )
@@ -480,7 +482,7 @@ const WaiterRequestList = () => {
                       setPage(1);
                     }}
                     placeholder={t("page.waiterRequest.ui.filterStatus")}
-                    searchPlaceholder="Cari..."
+                    searchPlaceholder={t("common.search.generic")}
                   />
                 </div>
               </TableToolbar>
@@ -505,10 +507,11 @@ const WaiterRequestList = () => {
         open={!!approveTarget}
         onOpenChange={(open) => !open && setApproveTarget(null)}
         title={t("page.waiterRequest.ui.approveRequest")}
-        description={`Setujui permintaan "${typeMeta[approveTarget?.type]?.label || approveTarget?.type}" dari meja ${
-          approveTarget?.table?.name || approveTarget?.tableId || "-"
-        }?`}
-        confirmText="Setujui"
+        description={t("page.waiterRequest.ui.approveDesc", {
+          type: typeMeta[approveTarget?.type]?.label || approveTarget?.type,
+          table: approveTarget?.table?.name || approveTarget?.tableId || "-"
+        })}
+        confirmText={t("common.approve")}
         onConfirm={() => statusMutation.mutate({ id: approveTarget?.id, status: "approved" })}
         loading={statusMutation.isLoading}
       />
@@ -519,10 +522,11 @@ const WaiterRequestList = () => {
         open={!!rejectTarget}
         onOpenChange={(open) => !open && setRejectTarget(null)}
         title={t("page.waiterRequest.ui.rejectRequest")}
-        description={`Tolak permintaan "${typeMeta[rejectTarget?.type]?.label || rejectTarget?.type}" dari meja ${
-          rejectTarget?.table?.name || rejectTarget?.tableId || "-"
-        }?`}
-        confirmText="Tolak"
+        description={t("page.waiterRequest.ui.rejectDesc", {
+          type: typeMeta[rejectTarget?.type]?.label || rejectTarget?.type,
+          table: rejectTarget?.table?.name || rejectTarget?.tableId || "-"
+        })}
+        confirmText={t("common.reject")}
         confirmVariant="destructive"
         onConfirm={() => statusMutation.mutate({ id: rejectTarget?.id, status: "rejected" })}
         loading={statusMutation.isLoading}
@@ -534,10 +538,11 @@ const WaiterRequestList = () => {
         open={!!doneTarget}
         onOpenChange={(open) => !open && setDoneTarget(null)}
         title={t("page.waiterRequest.ui.markDone")}
-        description={`Tandai permintaan "${typeMeta[doneTarget?.type]?.label || doneTarget?.type}" dari meja ${
-          doneTarget?.table?.name || doneTarget?.tableId || "-"
-        } sebagai selesai?`}
-        confirmText="Selesai"
+        description={t("page.waiterRequest.ui.doneDesc", {
+          type: typeMeta[doneTarget?.type]?.label || doneTarget?.type,
+          table: doneTarget?.table?.name || doneTarget?.tableId || "-"
+        })}
+        confirmText={t("common.ui.done")}
         onConfirm={() => statusMutation.mutate({ id: doneTarget?.id, status: "done" })}
         loading={statusMutation.isLoading}
       />

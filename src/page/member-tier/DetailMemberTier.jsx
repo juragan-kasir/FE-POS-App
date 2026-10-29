@@ -209,7 +209,7 @@ const DetailMemberTier = () => {
                       <span
                         className={`w-1.5 h-1.5 rounded-full ${isActive ? "bg-green-500" : "bg-red-500"}`}
                       />
-                      {isActive ? "Aktif" : "Non-Active"}
+                      {isActive ? t("common.active") : t("common.inactive")}
                     </span>
                   </div>
                 </div>

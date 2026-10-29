@@ -190,7 +190,7 @@ const AddProductionOrder = () => {
                 value={field.value}
                 onChange={field.onChange}
                 placeholder={t("page.productionOrder.add.placeholderPilihProduk")}
-                searchPlaceholder="Cari produk..."
+                searchPlaceholder={t("common.search.product")}
               />
             )}
           />

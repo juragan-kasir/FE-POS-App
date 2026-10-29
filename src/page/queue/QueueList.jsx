@@ -260,7 +260,9 @@ const QueueList = () => {
         return (
           <div className="flex items-center gap-1 text-sm text-muted-foreground">
             <Timer size={14} />
-            <span>{diffMins} min</span>
+            <span>
+              {diffMins} {t("common.ui.minutesShort")}
+            </span>
           </div>
         );
       }
@@ -393,7 +395,7 @@ const QueueList = () => {
                     setPage(1);
                   }}
                   placeholder={t("page.queue.ui.filterStatus")}
-                  searchPlaceholder="Cari..."
+                  searchPlaceholder={t("common.search.generic")}
                 />
               </div>
               <div className="flex flex-col gap-1.5">
@@ -411,7 +413,7 @@ const QueueList = () => {
                     setPage(1);
                   }}
                   placeholder={t("page.queue.ui.filterPriority")}
-                  searchPlaceholder="Cari..."
+                  searchPlaceholder={t("common.search.generic")}
                 />
               </div>
             </TableToolbar>

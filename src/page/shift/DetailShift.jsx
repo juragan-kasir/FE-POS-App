@@ -131,7 +131,8 @@ const DetailShift = () => {
   const mismatchGroups = useMemo(() => {
     const byTarget = new Map();
     mismatch.forEach((row) => {
-      const label = row.emp?.storeData?.name || `Toko #${row.emp?.store ?? "-"}`;
+      const label =
+        row.emp?.storeData?.name || t("common.ui.storeNumber", { id: row.emp?.store ?? "-" });
       byTarget.set(label, (byTarget.get(label) || 0) + 1);
     });
     return [...byTarget].map(([label, count]) => ({ label, count }));
@@ -266,7 +267,7 @@ const DetailShift = () => {
         description={
           <span className="flex items-center gap-2 mt-1 text-sm text-muted-foreground">
             <Store size={13} />
-            {locationName || `Toko #${shift.store || "-"}`}
+            {locationName || t("common.ui.storeNumber", { id: shift.store || "-" })}
             <span className="text-muted-foreground/50">•</span>
             {statusBadge(shift.status, t)}
           </span>
@@ -293,7 +294,7 @@ const DetailShift = () => {
               <span className="font-mono">#{shift.id}</span>
             </InfoRow>
             <InfoRow icon={Store} label={t("document.store")} iconClass="text-primary">
-              {locationName || `Toko #${shift.store || "Semua"}`}
+              {locationName || t("common.ui.storeNumber", { id: shift.store || t("common.all") })}
             </InfoRow>
             <InfoRow icon={CalendarDays} label={t("page.shift.table.name")}>
               {shift.nama_shift || "-"}
@@ -482,7 +483,8 @@ const DetailShift = () => {
         )}
         {resolvedCount > 0 && resolvedCount < matching.length && (
           <p className="mb-4 text-xs text-muted-foreground">
-            {resolvedCount} dari {matching.length} {t("page.shift.ui.employeesFoundInTheEmployee")}
+            {resolvedCount} {t("common.ui.of")} {matching.length}{" "}
+            {t("page.shift.ui.employeesFoundInTheEmployee")}
           </p>
         )}
 
@@ -583,7 +585,10 @@ const DetailShift = () => {
                         {emp?.departmentData?.name || "-"}
                       </td>
                       <td className="px-3 py-2.5 text-muted-foreground">
-                        {emp ? emp.storeData?.name || `Toko #${emp.store ?? "-"}` : "-"}
+                        {emp
+                          ? emp.storeData?.name ||
+                            t("common.ui.storeNumber", { id: emp.store ?? "-" })
+                          : "-"}
                       </td>
                       <td className="px-3 py-2.5">
                         {checkIn
