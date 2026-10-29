@@ -248,7 +248,7 @@ const RegisterPage = () => {
                           {translationMemo.userName}
                         </FormLabel>
                         <div className="relative group">
-                          <User className="absolute left-3.5 md:left-4 top-1/2 -translate-y-1/2 w-4 h-4 md:w-5 md:h-5 text-muted-foreground/60 group-focus-within:text-foreground transition-colors pointer-events-none" />
+                          <User className="absolute left-3.5 md:left-4 top-1/2 -translate-y-1/2 w-4 h-4 md:w-5 md:h-5 text-muted-foreground/60 transition-colors pointer-events-none group-focus-within:text-emerald-600" />
                           <Input
                             {...field}
                             placeholder={translationMemo.placeholderUsername}
@@ -273,7 +273,7 @@ const RegisterPage = () => {
                           {translationMemo.email}
                         </FormLabel>
                         <div className="relative group">
-                          <Mail className="absolute left-3.5 md:left-4 top-1/2 -translate-y-1/2 w-4 h-4 md:w-5 md:h-5 text-muted-foreground/60 group-focus-within:text-foreground transition-colors pointer-events-none" />
+                          <Mail className="absolute left-3.5 md:left-4 top-1/2 -translate-y-1/2 w-4 h-4 md:w-5 md:h-5 text-muted-foreground/60 transition-colors pointer-events-none group-focus-within:text-emerald-600" />
                           <Input
                             {...field}
                             placeholder={translationMemo.placeholderEmail}
@@ -298,7 +298,7 @@ const RegisterPage = () => {
                           {translationMemo.location}
                         </FormLabel>
                         <div className="relative group">
-                          <MapPin className="absolute left-3.5 md:left-4 top-1/2 -translate-y-1/2 w-4 h-4 md:w-5 md:h-5 text-muted-foreground/60 group-focus-within:text-foreground transition-colors pointer-events-none z-10" />
+                          <MapPin className="absolute left-3.5 md:left-4 top-1/2 -translate-y-1/2 w-4 h-4 md:w-5 md:h-5 text-muted-foreground/60 transition-colors group-focus-within:text-emerald-600 pointer-events-none z-10" />
                           <Combobox
                             options={locations.map((loc) => ({
                               value: loc._id || loc.id,
@@ -347,7 +347,7 @@ const RegisterPage = () => {
                             {translationMemo.password}
                           </FormLabel>
                           <div className="relative group">
-                            <Lock className="absolute left-3.5 md:left-4 top-1/2 -translate-y-1/2 w-4 h-4 md:w-5 md:h-5 text-muted-foreground/60 group-focus-within:text-foreground transition-colors pointer-events-none" />
+                            <Lock className="absolute left-3.5 md:left-4 top-1/2 -translate-y-1/2 w-4 h-4 md:w-5 md:h-5 text-muted-foreground/60 transition-colors pointer-events-none group-focus-within:text-emerald-600" />
                             <Input
                               type={showPassword ? "text" : "password"}
                               {...field}
@@ -385,7 +385,7 @@ const RegisterPage = () => {
                             {translationMemo.confirmationPassword}
                           </FormLabel>
                           <div className="relative group">
-                            <Lock className="absolute left-3.5 md:left-4 top-1/2 -translate-y-1/2 w-4 h-4 md:w-5 md:h-5 text-muted-foreground/60 group-focus-within:text-foreground transition-colors pointer-events-none" />
+                            <Lock className="absolute left-3.5 md:left-4 top-1/2 -translate-y-1/2 w-4 h-4 md:w-5 md:h-5 text-muted-foreground/60 transition-colors pointer-events-none group-focus-within:text-emerald-600" />
                             <Input
                               type={showConfirmPassword ? "text" : "password"}
                               {...field}

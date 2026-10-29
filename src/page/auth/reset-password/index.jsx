@@ -303,7 +303,7 @@ const ResetPasswordPage = () => {
                               {translationMemo.email}
                             </FormLabel>
                             <div className="relative group">
-                              <Mail className="absolute left-3.5 md:left-4 top-1/2 -translate-y-1/2 w-4 h-4 md:w-5 md:h-5 text-muted-foreground/60 group-focus-within:text-foreground transition-colors pointer-events-none" />
+                              <Mail className="absolute left-3.5 md:left-4 top-1/2 -translate-y-1/2 w-4 h-4 md:w-5 md:h-5 text-muted-foreground/60 transition-colors pointer-events-none group-focus-within:text-emerald-600" />
                               <Input
                                 {...field}
                                 disabled={isResetMode}
@@ -330,7 +330,7 @@ const ResetPasswordPage = () => {
                                   {translationMemo.newPassword}
                                 </FormLabel>
                                 <div className="relative group">
-                                  <Lock className="absolute left-3.5 md:left-4 top-1/2 -translate-y-1/2 w-4 h-4 md:w-5 md:h-5 text-muted-foreground/60 group-focus-within:text-foreground transition-colors pointer-events-none" />
+                                  <Lock className="absolute left-3.5 md:left-4 top-1/2 -translate-y-1/2 w-4 h-4 md:w-5 md:h-5 text-muted-foreground/60 transition-colors pointer-events-none group-focus-within:text-emerald-600" />
                                   <Input
                                     type={showNewPassword ? "text" : "password"}
                                     {...field}
@@ -370,7 +370,7 @@ const ResetPasswordPage = () => {
                                   {translationMemo.confirmationNewPassword}
                                 </FormLabel>
                                 <div className="relative group">
-                                  <Shield className="absolute left-3.5 md:left-4 top-1/2 -translate-y-1/2 w-4 h-4 md:w-5 md:h-5 text-muted-foreground/60 group-focus-within:text-foreground transition-colors pointer-events-none" />
+                                  <Shield className="absolute left-3.5 md:left-4 top-1/2 -translate-y-1/2 w-4 h-4 md:w-5 md:h-5 text-muted-foreground/60 transition-colors pointer-events-none group-focus-within:text-emerald-600" />
                                   <Input
                                     type={showConfirmPassword ? "text" : "password"}
                                     {...field}

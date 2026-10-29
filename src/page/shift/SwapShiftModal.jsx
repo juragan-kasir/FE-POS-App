@@ -691,10 +691,10 @@ const SwapShiftModal = ({
                 className="text-xs font-semibold text-muted-foreground uppercase tracking-wide mb-1.5 block">
                 {t("page.shift.swap.note")}
               </label>
-              <div className="relative">
+              <div className="group relative">
                 <MessageSquareText
                   size={15}
-                  className="absolute left-3 top-3 text-muted-foreground/70"
+                  className="absolute left-3 top-3 text-muted-foreground/70 transition-colors group-focus-within:text-emerald-600"
                 />
                 <Textarea
                   id="swap-shift-modal-note"

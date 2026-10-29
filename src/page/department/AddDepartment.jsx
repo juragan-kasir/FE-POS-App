@@ -130,10 +130,10 @@ const AddDepartment = () => {
                       {t("page.department.form.name")} <span className="text-destructive">*</span>
                     </FormLabel>
                     <FormControl>
-                      <div className="relative">
+                      <div className="group relative">
                         <Building2
                           size={18}
-                          className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground text-base"
+                          className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground text-base transition-colors group-focus-within:text-emerald-600"
                         />
                         <Input
                           {...field}

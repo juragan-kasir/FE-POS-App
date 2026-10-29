@@ -585,10 +585,10 @@ const AddGoodsRequest = () => {
               <Label htmlFor="add-goods-request-requested-by">
                 {t("page.goodsRequest.add.form.requestedBy")}
               </Label>
-              <div className="relative">
+              <div className="group relative">
                 <User
                   size={15}
-                  className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground"
+                  className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground transition-colors group-focus-within:text-emerald-600"
                 />
                 <Input
                   id="add-goods-request-requested-by"

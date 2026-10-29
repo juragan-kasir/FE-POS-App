@@ -408,10 +408,10 @@ const EditGoodsRequest = () => {
               <Label htmlFor="edit-goods-request-requested-by">
                 {t("page.goodsRequest.edit.form.requestedBy")}
               </Label>
-              <div className="relative">
+              <div className="group relative">
                 <User
                   size={15}
-                  className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground"
+                  className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground transition-colors group-focus-within:text-emerald-600"
                 />
                 <Input
                   id="edit-goods-request-requested-by"
