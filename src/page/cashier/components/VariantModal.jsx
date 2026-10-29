@@ -333,6 +333,7 @@ const VariantModal = ({ product, onSelect, onClose }) => {
               onSelect(choice);
             }}
             disabled={!canAdd}
+            disabledReason={t("page.cashier.chooseVariant")}
             className="w-full h-12 rounded-xl font-semibold text-sm relative overflow-hidden group/btn">
             <div className="absolute inset-0 bg-gradient-to-r from-primary via-primary to-primary/90 opacity-90 group-hover/btn:opacity-100 transition-opacity" />
             <span className="relative flex items-center justify-center gap-2">

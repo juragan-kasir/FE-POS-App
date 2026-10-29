@@ -356,6 +356,9 @@ const MyOvertime = () => {
             variant="success"
             className="w-full sm:w-auto gap-2"
             disabled={!canSubmit || createMutation.isLoading}
+            disabledReason={
+              createMutation.isLoading ? undefined : t("page.overtime.disabledReason.fillForm")
+            }
             onClick={handleSubmit}>
             {createMutation.isLoading ? (
               <Loader2 size={16} className="animate-spin" />

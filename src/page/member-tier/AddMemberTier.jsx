@@ -340,6 +340,11 @@ const AddMemberTier = () => {
                         <button
                           key={icon.name}
                           disabled={!formData.isActive}
+                          title={
+                            !formData.isActive
+                              ? t("page.memberTier.disabledReason.inactive")
+                              : undefined
+                          }
                           onClick={() => handleInputChange("selectedIcon", icon.name)}
                           className={`w-11 h-11 rounded-lg flex items-center justify-center transition-all disabled:opacity-40 ${
                             isSelected
@@ -364,6 +369,11 @@ const AddMemberTier = () => {
                         <button
                           key={color.name}
                           disabled={!formData.isActive}
+                          title={
+                            !formData.isActive
+                              ? t("page.memberTier.disabledReason.inactive")
+                              : undefined
+                          }
                           onClick={() => handleInputChange("selectedColor", color.value)}
                           className={`w-8 h-8 rounded-full transition-all disabled:opacity-40 ${
                             color.tailwind
@@ -407,6 +417,11 @@ const AddMemberTier = () => {
                     <button
                       onClick={() => removePerk(perk.id)}
                       disabled={!formData.isActive}
+                      title={
+                        !formData.isActive
+                          ? t("page.memberTier.disabledReason.inactive")
+                          : undefined
+                      }
                       className="p-2 text-muted-foreground hover:text-destructive hover:bg-destructive/10 rounded-lg transition-all [@media(hover:hover)]:opacity-0 [@media(hover:hover)]:group-hover:opacity-100 disabled:opacity-0">
                       <Delete size={18} />
                     </button>
@@ -415,6 +430,9 @@ const AddMemberTier = () => {
                 <button
                   onClick={addPerk}
                   disabled={!formData.isActive}
+                  title={
+                    !formData.isActive ? t("page.memberTier.disabledReason.inactive") : undefined
+                  }
                   className="flex items-center gap-2 w-full py-2.5 rounded-lg border-2 border-dashed border-border text-muted-foreground hover:border-primary hover:text-primary transition-all justify-center disabled:opacity-40 text-sm font-semibold">
                   <Plus size={18} />
                   {t("page.memberTier.add.addBenefit")}

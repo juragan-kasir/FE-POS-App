@@ -1412,6 +1412,7 @@ const AddEmployee = () => {
                                         variant="success"
                                         className="w-full justify-start text-left font-normal"
                                         disabled={disableAccess}
+                                        disabledReason={t("page.employee.add.selectRoleFirst")}
                                         onClick={() => setAccessMenuModalOpen(true)}>
                                         {disableAccess
                                           ? t("page.employee.add.selectRoleFirst")

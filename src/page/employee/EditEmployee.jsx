@@ -1541,6 +1541,7 @@ const EditEmployee = () => {
                                       variant="outline"
                                       className="w-full justify-start text-left font-normal"
                                       disabled={disableAccess}
+                                      disabledReason={t("page.employee.add.selectRoleFirst")}
                                       onClick={() => setAccessMenuModalOpen(true)}>
                                       {disableAccess
                                         ? t("page.employee.edit.selectRoleFirst")

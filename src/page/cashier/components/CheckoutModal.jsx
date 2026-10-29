@@ -1139,6 +1139,18 @@ const CheckoutModal = ({
         (paymentMethod !== "cash" || cashAmountNum >= remainingTotal) &&
         (isQrisPayment || referenceReady)));
 
+  // First unmet condition of canSubmit, shown on the disabled pay button.
+  let submitBlockedReason;
+  if (!canSubmit) {
+    if (items.length === 0) submitBlockedReason = t("page.cashier.emptyCartDesc");
+    else if (attemptBlocking) submitBlockedReason = t("page.cashier.disabledReason.attemptPending");
+    else if (priceChangePending) submitBlockedReason = t("page.cashier.priceChanged.title");
+    else if (!quoteCurrent) submitBlockedReason = t("page.cashier.quote.notReady");
+    else if (!paymentMethod) submitBlockedReason = t("page.cashier.selectPayment");
+    else if (paymentMethod === "cash") submitBlockedReason = t("page.cashier.insufficientCash");
+    else submitBlockedReason = t("page.cashier.collectPayment.reference.required");
+  }
+
   const hasUnsavedCheckout =
     qrisPending ||
     Boolean(paymentMethod) ||
@@ -1808,6 +1820,13 @@ const CheckoutModal = ({
                 size="sm"
                 onClick={handleApplyPromoCode}
                 disabled={!promoCode.trim() || promoLoading || !!selectedDiscount}
+                disabledReason={
+                  promoLoading
+                    ? undefined
+                    : selectedDiscount
+                      ? t("page.cashier.disabledReason.discountApplied")
+                      : t("page.cashier.disabledReason.enterPromoCode")
+                }
                 className="h-10 px-4 rounded-xl shrink-0">
                 {promoLoading ? (
                   <Loader2 size={14} className="animate-spin" />
@@ -2021,6 +2040,11 @@ const CheckoutModal = ({
                   variant="success"
                   onClick={handleAddCustomer}
                   disabled={!newCustomerName.trim() || addCustomerMutation.isLoading}
+                  disabledReason={
+                    addCustomerMutation.isLoading
+                      ? undefined
+                      : t("page.cashier.disabledReason.enterCustomerName")
+                  }
                   className="flex-1">
                   {addCustomerMutation.isLoading ? (
                     <Loader2 size={16} className="animate-spin" />
@@ -2191,7 +2215,7 @@ const CheckoutModal = ({
                       size="sm"
                       variant="success"
                       onClick={handleOpenRecordedOrder}
-                      disabled={recovering}>
+                      loading={recovering}>
                       {t("page.cashier.attempt.openRecorded")}
                     </Button>
                   )}
@@ -2263,6 +2287,11 @@ const CheckoutModal = ({
                   variant="success"
                   onClick={handleQrisConfirm}
                   disabled={mutation.isLoading || referenceTrimmed === ""}
+                  disabledReason={
+                    mutation.isLoading
+                      ? undefined
+                      : t("page.cashier.collectPayment.reference.required")
+                  }
                   className="flex-[2] h-12 rounded-xl font-semibold text-sm">
                   {mutation.isLoading ? (
                     <Loader2 size={16} className="animate-spin" />
@@ -2280,6 +2309,7 @@ const CheckoutModal = ({
               variant="success"
               onClick={handleSubmit}
               disabled={!canSubmit || mutation.isLoading}
+              disabledReason={mutation.isLoading ? undefined : submitBlockedReason}
               className="w-full h-12 rounded-xl font-semibold text-sm relative overflow-hidden group/btn">
               <div className="absolute inset-0 bg-gradient-to-r from-primary via-primary to-primary/90 opacity-90 group-hover/btn:opacity-100 transition-opacity" />
               <span className="relative flex items-center justify-center gap-2">

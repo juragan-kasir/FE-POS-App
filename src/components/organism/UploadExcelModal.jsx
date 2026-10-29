@@ -200,6 +200,9 @@ const UploadExcelModal = ({
                 variant="import"
                 onClick={handleUpload}
                 disabled={!file || mutation.isLoading}
+                disabledReason={
+                  mutation.isLoading ? undefined : t("common.disabledReason.selectFileFirst")
+                }
                 className="gap-2 px-6 min-w-[140px]">
                 {mutation.isLoading ? (
                   <>

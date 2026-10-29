@@ -496,6 +496,13 @@ const CartPanel = ({
               aria-keyshortcuts="F4"
               onClick={onCheckout}
               disabled={isLoading || isEmpty || taxUnavailable}
+              disabledReason={
+                isLoading
+                  ? undefined
+                  : isEmpty
+                    ? t("page.cashier.emptyCartDesc")
+                    : t("page.cashier.taxUnavailable")
+              }
               className="w-full h-11 rounded-xl font-semibold text-sm relative overflow-hidden group/btn">
               <div className="absolute inset-0 bg-gradient-to-r from-primary via-primary to-primary/90 opacity-90 group-hover/btn:opacity-100 transition-opacity" />
               <span className="relative flex items-center justify-center gap-2">

@@ -1692,7 +1692,12 @@ const PurchaseOrderList = () => {
                         files: returDocs.map((d) => d.file)
                       });
                     }}
-                    disabled={!returReason.trim() || returnMutation.isLoading}>
+                    disabled={!returReason.trim() || returnMutation.isLoading}
+                    disabledReason={
+                      returnMutation.isLoading
+                        ? undefined
+                        : t("page.purchaseOrder.disabledReason.returnReason")
+                    }>
                     {returnMutation.isLoading
                       ? t("common.processing")
                       : t("page.purchaseOrder.list.returInfo.confirmButton")}

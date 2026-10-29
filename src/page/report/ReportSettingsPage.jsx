@@ -257,11 +257,23 @@ const ReportSettingsPage = () => {
         ]}
         title={t("page.reportSettings.title")}
         description={t("page.reportSettings.description")}>
-        <Button variant="outline" onClick={() => setPreviewOpen(true)} disabled={!activeReport}>
+        <Button
+          variant="outline"
+          onClick={() => setPreviewOpen(true)}
+          disabled={!activeReport}
+          disabledReason={t("page.reportSettings.disabledReason.selectReport")}>
           <Eye size={16} />
           {t("page.reportSettings.preview")}
         </Button>
-        <Button onClick={handleSave} loading={saving} disabled={!activeReport || !dirty}>
+        <Button
+          onClick={handleSave}
+          loading={saving}
+          disabled={!activeReport || !dirty}
+          disabledReason={
+            !activeReport
+              ? t("page.reportSettings.disabledReason.selectReport")
+              : t("common.disabledReason.noChanges")
+          }>
           <Save size={16} />
           {t("common.save")}
         </Button>

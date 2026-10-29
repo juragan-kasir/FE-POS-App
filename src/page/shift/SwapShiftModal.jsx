@@ -727,6 +727,7 @@ const SwapShiftModal = ({
             <Button
               size="sm"
               disabled={!targetShiftId || !dateValid}
+              disabledReason={t("page.shift.swap.disabledReason.selectTarget")}
               onClick={() => setStep("coworker")}>
               {t("page.shift.swap.next")}
               <ChevronRight size={14} />
@@ -736,6 +737,11 @@ const SwapShiftModal = ({
               variant="success"
               size="sm"
               disabled={!canSubmit}
+              disabledReason={
+                swapMutation.isLoading
+                  ? undefined
+                  : t("page.shift.swap.disabledReason.selectCoworker")
+              }
               onClick={() =>
                 swapMutation.mutate({
                   requesterShiftId: ownShiftId,

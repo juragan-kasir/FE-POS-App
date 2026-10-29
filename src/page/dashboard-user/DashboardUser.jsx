@@ -420,11 +420,12 @@ const DashboardUser = () => {
                       size="sm"
                       className="w-full mt-3"
                       disabled={hasCheckedIn && hasCheckedOut}
+                      disabledReason={t("page.shift.disabledReason.attendanceDone")}
                       onClick={() =>
                         setAttendanceType(hasCheckedIn && !hasCheckedOut ? "check-out" : "check-in")
                       }>
                       {hasCheckedIn && hasCheckedOut ? (
-                        "Sudah absen hari ini"
+                        t("page.dashboardUser.ui.attendanceCompleteToday")
                       ) : hasCheckedIn ? (
                         <>
                           <LogOut size={14} className="mr-1.5" />

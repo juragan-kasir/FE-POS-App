@@ -767,6 +767,13 @@ const ReceiptModal = ({ data, onClose, onNewTransaction }) => {
                                     (splitNeedsReference && !payReference.trim()) ||
                                     paySplitMutation.isLoading
                                   }
+                                  disabledReason={
+                                    paySplitMutation.isLoading
+                                      ? undefined
+                                      : !payMethodChoice
+                                        ? t("page.cashier.selectPayment")
+                                        : t("page.cashier.collectPayment.reference.required")
+                                  }
                                   onClick={() =>
                                     paySplitMutation.mutate({
                                       id: split.id,
@@ -944,7 +951,8 @@ const ReceiptModal = ({ data, onClose, onNewTransaction }) => {
                     className="flex-1"
                     onClick={handleSplitSubmit}
                     loading={splitMutation.isLoading}
-                    disabled={splitAmounts.reduce((s, a) => s + a, 0) !== total}>
+                    disabled={splitAmounts.reduce((s, a) => s + a, 0) !== total}
+                    disabledReason={t("page.cashier.disabledReason.splitTotalMismatch")}>
                     {t("common.save")}
                   </Button>
                 </div>

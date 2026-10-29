@@ -1048,7 +1048,12 @@ const EditPurchaseOrder = () => {
                       size="icon"
                       className="h-8 w-8 shrink-0 text-muted-foreground hover:text-destructive"
                       onClick={() => handleRemoveGroupClick(gIdx)}
-                      disabled={groups.length === 1 || !!goodsRequestData}>
+                      disabled={groups.length === 1 || !!goodsRequestData}
+                      disabledReason={
+                        goodsRequestData
+                          ? t("page.purchaseOrder.disabledReason.fromGoodsRequest")
+                          : undefined
+                      }>
                       <Trash2 size={14} />
                     </Button>
                   </div>
@@ -1205,6 +1210,11 @@ const EditPurchaseOrder = () => {
                                     type="button"
                                     onClick={() => handleRemoveItemClick(gIdx, iIdx)}
                                     disabled={group.items.length === 1 || !!goodsRequestData}
+                                    title={
+                                      goodsRequestData
+                                        ? t("page.purchaseOrder.disabledReason.fromGoodsRequest")
+                                        : undefined
+                                    }
                                     className="text-muted-foreground/40 hover:text-destructive disabled:opacity-30 disabled:cursor-not-allowed disabled:hover:text-muted-foreground/40">
                                     <Trash2 size={14} />
                                   </button>
@@ -1222,6 +1232,7 @@ const EditPurchaseOrder = () => {
                           size="sm"
                           onClick={() => addItem(gIdx)}
                           disabled={!!goodsRequestData}
+                          disabledReason={t("page.purchaseOrder.disabledReason.fromGoodsRequest")}
                           className="gap-1">
                           <Plus size={14} /> {t("page.purchaseOrder.add.form.addItem")}
                         </Button>
@@ -1237,6 +1248,13 @@ const EditPurchaseOrder = () => {
                 size="sm"
                 onClick={addGroup}
                 disabled={!selectedStore || suppliersLoading || !!goodsRequestData}
+                disabledReason={
+                  goodsRequestData
+                    ? t("page.purchaseOrder.disabledReason.fromGoodsRequest")
+                    : suppliersLoading
+                      ? t("common.disabledReason.loading")
+                      : t("common.disabledReason.selectStoreFirst")
+                }
                 className="gap-1">
                 <Plus size={14} /> {t("page.purchaseOrder.add.form.addSupplier")}
               </Button>

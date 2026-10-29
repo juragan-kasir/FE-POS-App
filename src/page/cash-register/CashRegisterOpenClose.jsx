@@ -351,6 +351,13 @@ const CashRegisterOpenClose = () => {
                       numericBalance <= 0 ||
                       !selectedStore
                     }
+                    disabledReason={
+                      openMut.isLoading || checkingTableReset
+                        ? undefined
+                        : !selectedStore
+                          ? t("common.disabledReason.selectStoreFirst")
+                          : t("page.cashRegister.disabledReason.openingBalance")
+                    }
                     className="w-full sm:w-auto gap-1.5">
                     <DollarSign size={16} />
                     {openMut.isLoading

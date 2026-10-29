@@ -175,6 +175,18 @@ const CollectPaymentModal = ({ order, store, onClose, onOpenReceipt }) => {
   // UX only — the server re-checks (422 REFERENCE_REQUIRED).
   const referenceReady = !needsReference || referenceTrimmed !== "";
   const canConfirm = cashCovers && pointsReady && referenceReady;
+  let confirmBlockedReason;
+  if (!cashCovers) confirmBlockedReason = t("page.cashier.collectPayment.cashInsufficient");
+  else if (!pointsReady)
+    confirmBlockedReason = !member
+      ? t("page.cashier.collectPayment.points.unavailableGuest")
+      : !pointsSufficient
+        ? t("page.cashier.collectPayment.points.insufficient")
+        : t("page.cashier.disabledReason.confirmPoints");
+  else if (!referenceReady)
+    confirmBlockedReason = isOtherMethod
+      ? t("page.cashier.collectPayment.reference.otherRequired")
+      : t("page.cashier.collectPayment.reference.required");
 
   const invalidateOrderQueues = () => {
     CASHIER_ORDER_QUEUE_STATUSES.forEach((status) =>
@@ -734,6 +746,7 @@ const CollectPaymentModal = ({ order, store, onClose, onOpenReceipt }) => {
                       className="flex-1"
                       loading={settleMutation.isLoading}
                       disabled={!canConfirm}
+                      disabledReason={confirmBlockedReason}
                       onClick={handleConfirmFullPayment}>
                       {t("page.cashier.collectPayment.confirm")}
                     </Button>

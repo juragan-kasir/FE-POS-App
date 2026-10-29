@@ -220,6 +220,9 @@ const CashierTablePanel = ({ store, onClose }) => {
                   variant="outline"
                   className="shrink-0"
                   disabled={!tb.canRelease}
+                  disabledReason={
+                    tb.blockedReason ? t(`${P}.blocked.${tb.blockedReason}`) : undefined
+                  }
                   onClick={() => setTargets([tb])}>
                   {t(`${P}.release`)}
                 </Button>

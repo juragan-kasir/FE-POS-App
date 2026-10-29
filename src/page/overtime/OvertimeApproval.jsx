@@ -507,6 +507,9 @@ const OvertimeApproval = () => {
           <Button
             className="gap-2"
             disabled={!payrollMonth || payrollMutation.isLoading}
+            disabledReason={
+              payrollMutation.isLoading ? undefined : t("page.overtime.disabledReason.selectMonth")
+            }
             onClick={() => setPayrollTarget(payrollMonth)}>
             {payrollMutation.isLoading ? (
               <Loader2 size={16} className="animate-spin" />

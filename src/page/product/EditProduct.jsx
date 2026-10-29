@@ -1616,7 +1616,7 @@ const EditProduct = () => {
                                   type="button"
                                   size="sm"
                                   variant="success"
-                                  disabled={savingStoreId === sp.storeId}
+                                  loading={savingStoreId === sp.storeId}
                                   onClick={() => handleSaveStorePrice(sp.storeId, sp.price)}
                                   className="h-9 shrink-0">
                                   {t("page.product.form.saveStorePrice")}

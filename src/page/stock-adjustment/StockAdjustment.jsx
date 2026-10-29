@@ -337,6 +337,9 @@ const StockAdjustment = () => {
                     variant="success"
                     type="submit"
                     disabled={submitting || (isSuperAdmin && !queryStore)}
+                    disabledReason={
+                      submitting ? undefined : t("common.disabledReason.selectStoreFirst")
+                    }
                     className="w-full sm:w-auto justify-center">
                     {submitting ? <Loading /> : <Save className="mr-2 h-4 w-4" />}
                     {t("page.stockAdjustment.form.submit")}

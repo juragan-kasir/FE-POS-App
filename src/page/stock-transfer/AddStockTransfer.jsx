@@ -517,6 +517,7 @@ const AddStockTransfer = () => {
               variant="success"
               type="submit"
               disabled={isSubmitting || singleStoreOnly}
+              disabledReason={isSubmitting ? undefined : t("page.stockTransfer.add.singleStore")}
               className="w-full sm:w-auto justify-center">
               <Save size={16} className="mr-1" />{" "}
               {isSubmitting ? t("page.stockTransfer.add.saving") : t("page.stockTransfer.add.save")}

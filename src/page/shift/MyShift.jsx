@@ -312,10 +312,11 @@ const MyShift = () => {
                 <Button
                   size="sm"
                   disabled={hasCheckedIn && hasCheckedOut}
+                  disabledReason={t("page.shift.disabledReason.attendanceDone")}
                   className="h-8 gap-1.5 text-xs"
                   onClick={() => setAttendanceShift(s)}>
                   {hasCheckedIn && hasCheckedOut ? (
-                    "Sudah Absen"
+                    t("page.shift.ui.attendanceComplete")
                   ) : hasCheckedIn ? (
                     <>
                       <LogOut size={13} />
