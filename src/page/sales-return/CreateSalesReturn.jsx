@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useEffect, useRef } from "react";
+import React, { useState, useMemo, useEffect, useRef, useId } from "react";
 import { useSearchParams, useNavigate } from "react-router-dom";
 import { useQuery, useMutation, useQueryClient } from "react-query";
 import { toast } from "sonner";
@@ -28,6 +28,7 @@ import Modal from "@/components/organism/modal";
 import PageHeader from "@/components/ui/PageHeader";
 import { FieldError } from "@/components/ui/field-error";
 import { useDomDirtyTracking } from "@/hooks/useDomDirtyTracking";
+import { useUnsavedChangesGuard } from "@/contexts/UnsavedChangesContext";
 import UserGuide from "@/components/organism/UserGuide";
 import VoidOrderDialog from "@/components/organism/VoidOrderDialog";
 import { isAdminRole } from "@/utils/role";
@@ -68,6 +69,19 @@ const CreateSalesReturn = () => {
   const [refundMethod, setRefundMethod] = useState("cash");
   const [confirmModal, setConfirmModal] = useState(false);
   const [voidOpen, setVoidOpen] = useState(false);
+
+  // Items are picked with +/- buttons, which the DOM tracker (input/change
+  // events) never sees, so leaving after picking items lost them without a
+  // word. Report the selection itself as unsaved work: the router guard then
+  // asks before Kembali, the breadcrumb, the sidebar or closing the tab.
+  // A successful return clears it (every mutation success marks all clean).
+  const { registerDirty } = useUnsavedChangesGuard();
+  const selectionId = useId();
+  const hasSelection = items.length > 0 || reason !== "" || notes.trim() !== "";
+  useEffect(() => {
+    registerDirty(selectionId, hasSelection);
+    return () => registerDirty(selectionId, false);
+  }, [registerDirty, selectionId, hasSelection]);
 
   const {
     data: orderData,
