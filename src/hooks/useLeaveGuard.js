@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useId, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import { getDirty, markAllClean, setDirty } from "@/lib/unsaved-changes-store";
+import { getDirty, isJustSaved, markAllClean, setDirty } from "@/lib/unsaved-changes-store";
 
 const isEqual = (a, b) => {
   if (a === b) return true;
@@ -58,8 +58,11 @@ export function useFormExit(to, confirm, form) {
     navigate(to);
   }, [navigate, to]);
 
+  // Just saved: nothing to lose, leave without asking.
   const request = () =>
-    !form || touched.current || hasChanges(form) || getDirty() ? confirm() : leave();
+    !isJustSaved() && (!form || touched.current || hasChanges(form) || getDirty())
+      ? confirm()
+      : leave();
 
   return { request, leave };
 }

@@ -34,6 +34,7 @@ import { FieldError } from "@/components/ui/field-error";
 import { createdId } from "@/utils/createdRecord";
 import LoadErrorBanner from "@/components/ui/LoadErrorBanner";
 import { useSingleStore } from "@/hooks/useSingleStore";
+import { markSaved } from "@/lib/unsaved-changes-store";
 
 const emptyLine = () => ({ supplierId: "", ingredientId: "", qty: "", unit: "pcs", notes: "" });
 
@@ -281,6 +282,8 @@ const AddBom = () => {
         ? await editBom(editId, body)
         : await addBom({ ...body, productId: parseInt(productId), createdBy: user?.id });
       const bomId = isEdit ? editId : createdId(saved);
+      // Saved: the way back to the list must not ask "Batalkan Perubahan?".
+      markSaved();
       toast.success(t(isEdit ? "page.bom.edit.toast.success" : "page.bom.add.toast.success"), {
         description: t(
           isEdit ? "page.bom.edit.toast.successDesc" : "page.bom.add.toast.successDesc"

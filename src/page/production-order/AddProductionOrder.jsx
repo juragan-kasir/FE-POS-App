@@ -29,6 +29,7 @@ import { formatDateOnly } from "@/utils/dateOnly";
 import { useFormExit } from "@/hooks/useLeaveGuard";
 import { createdId } from "@/utils/createdRecord";
 import LoadErrorBanner from "@/components/ui/LoadErrorBanner";
+import { markSaved } from "@/lib/unsaved-changes-store";
 
 const AddProductionOrder = () => {
   const { t } = useTranslation();
@@ -112,6 +113,8 @@ const AddProductionOrder = () => {
       };
       const saved = id ? await editProductionOrder(id, payload) : await addProductionOrder(payload);
       const orderId = id || createdId(saved);
+      // Saved: the way back to the list must not ask "Batalkan Perubahan?".
+      markSaved();
       toast.success(t("page.productionOrder.add.toastSuccess"), {
         description: id
           ? t("page.productionOrder.add.toastSuccessDescEdit")

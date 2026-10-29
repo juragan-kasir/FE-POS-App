@@ -65,6 +65,7 @@ import { useLocations } from "@/queries/useLocations";
 import { FIELD_LIMITS } from "@/constants/fieldLimits";
 import { formatDateOnly } from "@/utils/dateOnly";
 import { useFormExit } from "@/hooks/useLeaveGuard";
+import { markSaved } from "@/lib/unsaved-changes-store";
 
 // BE persists these opname quantities as decimals (matching the product's
 // own DECIMAL(10,4) stock field, which is what auto-fills stokAwalJumlah) —
@@ -566,6 +567,8 @@ const AddStockOpname = () => {
         newId = created?.data?.id || created?.id;
         if (!newId) throw new Error(t("page.stockOpname.toast.getIdError"));
       }
+      // Saved: the way back to the list must not ask "Batalkan Perubahan?".
+      markSaved();
       toast.success(t("common.success"), {
         description: t("page.stockOpname.toast.completeSuccess")
       });

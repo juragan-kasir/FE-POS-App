@@ -34,6 +34,7 @@ import { FIELD_LIMITS } from "@/constants/fieldLimits";
 import { useFormExit } from "@/hooks/useLeaveGuard";
 import LoadErrorBanner from "@/components/ui/LoadErrorBanner";
 import { useSingleStore } from "@/hooks/useSingleStore";
+import { markSaved } from "@/lib/unsaved-changes-store";
 
 const AddStockTransfer = () => {
   const { t } = useTranslation();
@@ -167,6 +168,8 @@ const AddStockTransfer = () => {
             notes: it.notes
           }))
       });
+      // Saved: the way back to the list must not ask "Batalkan Perubahan?".
+      markSaved();
       toast.success(t("page.stockTransfer.add.toast.success"), {
         description: t("page.stockTransfer.add.toast.successDesc")
       });

@@ -28,6 +28,7 @@ import { useFormExit } from "@/hooks/useLeaveGuard";
 import { createdId } from "@/utils/createdRecord";
 import LoadErrorBanner from "@/components/ui/LoadErrorBanner";
 import { useSingleStore } from "@/hooks/useSingleStore";
+import { markSaved } from "@/lib/unsaved-changes-store";
 
 const emptyItem = {
   name: "",
@@ -504,6 +505,8 @@ const AddGoodsRequest = () => {
           notes: it.notes || null
         }))
       });
+      // Saved: the way back to the list must not ask "Batalkan Perubahan?".
+      markSaved();
       queryClient.invalidateQueries(["goods-requests"]);
       setCreatedRecordId(createdId(created));
       setSuccessModal(true);
