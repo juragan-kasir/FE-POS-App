@@ -346,3 +346,82 @@ describe("ReceiptModal — accessible dialog semantics (F9-04)", () => {
     expect(onClose).not.toHaveBeenCalled();
   });
 });
+
+describe("ReceiptModal — split bill only for orders still due (DR-23)", () => {
+  beforeEach(() => {
+    mockCookieUser = { id: 1, roleType: "admin", store: 7 };
+    getSplitBillByOrder.mockReset();
+    paySplitBill.mockReset();
+  });
+
+  const renderWith = (data, handlers = {}) =>
+    render(
+      <QueryClientProvider
+        client={
+          new QueryClient({
+            defaultOptions: { queries: { retry: false }, mutations: { retry: false } }
+          })
+        }>
+        <ReceiptModal
+          data={data}
+          onClose={handlers.onClose || jest.fn()}
+          onNewTransaction={handlers.onNewTransaction || jest.fn()}
+        />
+      </QueryClientProvider>
+    );
+
+  test("a paid checkout shows no Split action (the server would refuse it)", async () => {
+    renderWith({ ...orderData, paymentStatus: "paid" });
+    await screen.findByRole("dialog");
+
+    expect(screen.queryByText("page.cashier.receipt.split")).not.toBeInTheDocument();
+    expect(screen.getByText("page.cashier.receipt.paymentSuccess")).toBeInTheDocument();
+    expect(screen.getByText("page.cashier.receipt.newTransaction")).toBeInTheDocument();
+  });
+
+  test("an unpaid order from the queue opens on the split panel and says it is still due", async () => {
+    getSplitBillByOrder.mockResolvedValue({
+      data: { splits: [], summary: { totalSplits: 0, totalPaid: 0, totalPending: 0 } }
+    });
+    const onClose = jest.fn();
+    const onNewTransaction = jest.fn();
+    renderWith({ ...orderData, paymentStatus: "unpaid" }, { onClose, onNewTransaction });
+
+    expect(await screen.findByText("page.cashier.receipt.splitTitle")).toBeInTheDocument();
+    expect(screen.getByText("page.cashier.receipt.awaitingPayment")).toBeInTheDocument();
+    expect(screen.getByText("page.cashier.receipt.totalDue")).toBeInTheDocument();
+    expect(screen.queryByText("page.cashier.receipt.paymentSuccess")).not.toBeInTheDocument();
+    expect(screen.queryByText("page.cashier.receipt.paidWith")).not.toBeInTheDocument();
+
+    // Back on the receipt, the primary action closes without clearing the cart.
+    fireEvent.keyDown(document, { key: "Escape" });
+    await waitFor(() =>
+      expect(screen.queryByText("page.cashier.receipt.splitTitle")).not.toBeInTheDocument()
+    );
+    expect(screen.queryByText("page.cashier.receipt.newTransaction")).not.toBeInTheDocument();
+    fireEvent.click(screen.getByText("common.close"));
+    expect(onClose).toHaveBeenCalled();
+    expect(onNewTransaction).not.toHaveBeenCalled();
+  });
+
+  test("paying the last split marks the bill as paid", async () => {
+    getSplitBillByOrder.mockResolvedValue({
+      data: {
+        splits: [{ id: 1, splitNumber: "SPL001", amount: 100000, status: "pending" }],
+        summary: { totalSplits: 1, totalPaid: 0, totalPending: 100000 }
+      }
+    });
+    paySplitBill.mockResolvedValue({ data: { orderComplete: true } });
+    renderWith({ ...orderData, paymentStatus: "partial" });
+
+    await waitFor(() => expect(screen.getByText("SPL001")).toBeInTheDocument());
+    fireEvent.click(screen.getByText("page.cashier.receipt.splitPay"));
+    fireEvent.change(screen.getByLabelText("split-pay-method"), { target: { value: "cash" } });
+    fireEvent.click(screen.getByLabelText("page.cashier.receipt.splitPayConfirm"));
+
+    await waitFor(() =>
+      expect(screen.getByText("page.cashier.receipt.paymentSuccess")).toBeInTheDocument()
+    );
+    expect(screen.queryByText("page.cashier.receipt.awaitingPayment")).not.toBeInTheDocument();
+  });
+});

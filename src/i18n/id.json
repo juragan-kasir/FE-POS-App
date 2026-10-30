@@ -8807,6 +8807,8 @@
   "page.cashier.receipt.paperSize": "Ukuran kertas",
   "page.cashier.receipt.summary": "Ringkasan pembayaran",
   "page.cashier.receipt.totalPaid": "Total dibayar",
+  "page.cashier.receipt.totalDue": "Total tagihan",
+  "page.cashier.receipt.awaitingPayment": "Menunggu Pembayaran",
   "page.cashier.receipt.paidWith": "Metode pembayaran",
   "page.cashier.receipt.preview": "Pratinjau struk",
   "page.cashier.orderQueue.timeAgo.justNow": "Baru saja",

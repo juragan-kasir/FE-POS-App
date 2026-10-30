@@ -12,7 +12,8 @@ import {
   Merge,
   FileText,
   MessageCircle,
-  ReceiptText
+  ReceiptText,
+  Clock
 } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { useMutation, useQuery, useQueryClient } from "react-query";
@@ -222,7 +223,17 @@ const ReceiptModal = ({ data, onClose, onNewTransaction }) => {
   const cashAmount = data?.cashAmount || data?.payment?.cashAmount || 0;
   const changeAmount = data?.changeAmount || data?.payment?.changeAmount || 0;
 
-  const [showSplit, setShowSplit] = useState(false);
+  // DR-23: a split bill can only be planned on an order still open for
+  // collection (unpaid/partial). The queue's "Split Bill" opens this modal
+  // with such an order, so it starts on the split panel and says the bill is
+  // still due; after a normal checkout the order is already paid, so the
+  // Split action is hidden instead of leading to a server refusal. An order
+  // without a status keeps the old behavior.
+  const awaitingPayment = data?.paymentStatus === "unpaid" || data?.paymentStatus === "partial";
+  const canSplit = awaitingPayment || data?.paymentStatus == null;
+  const [settledHere, setSettledHere] = useState(false);
+  const showAwaiting = awaitingPayment && !settledHere;
+  const [showSplit, setShowSplit] = useState(awaitingPayment);
 
   const [splitCount, setSplitCount] = useState(2);
   // ponytail: simple equal-split default, manual override per person
@@ -318,6 +329,7 @@ const ReceiptModal = ({ data, onClose, onNewTransaction }) => {
       setPayReference("");
       refetchSplits();
       if (result?.data?.orderComplete) {
+        setSettledHere(true);
         // Matches OrderQueue.jsx's actual query keys — each status tab is
         // its own key (["cashier-orders-<status>", store]), not a shared
         // prefix, so each needs its own invalidation call.
@@ -576,29 +588,55 @@ const ReceiptModal = ({ data, onClose, onNewTransaction }) => {
           <section
             aria-label={t("page.cashier.receipt.summary")}
             className="shrink-0 border-b border-border/60 p-4 sm:px-5 md:w-72 md:overflow-y-auto md:border-b-0 md:border-r md:p-5">
-            <div
-              role="status"
-              className="flex items-center gap-3 rounded-xl bg-emerald-50 px-3 py-2.5 text-emerald-800 dark:bg-emerald-950/40 dark:text-emerald-300">
-              <CheckCircle size={22} className="shrink-0" aria-hidden="true" />
-              <div className="min-w-0">
-                <p className="text-sm font-semibold">{t("page.cashier.receipt.paymentSuccess")}</p>
-                <p className="truncate font-mono text-xs opacity-80" title={orderNumber}>
-                  {orderNumber}
-                </p>
+            {showAwaiting ? (
+              <div
+                role="status"
+                className="flex items-center gap-3 rounded-xl bg-amber-50 px-3 py-2.5 text-amber-800 dark:bg-amber-950/40 dark:text-amber-300">
+                <Clock size={22} className="shrink-0" aria-hidden="true" />
+                <div className="min-w-0">
+                  <p className="text-sm font-semibold">
+                    {t("page.cashier.receipt.awaitingPayment")}
+                  </p>
+                  <p className="truncate font-mono text-xs opacity-80" title={orderNumber}>
+                    {orderNumber}
+                  </p>
+                </div>
               </div>
-            </div>
+            ) : (
+              <div
+                role="status"
+                className="flex items-center gap-3 rounded-xl bg-emerald-50 px-3 py-2.5 text-emerald-800 dark:bg-emerald-950/40 dark:text-emerald-300">
+                <CheckCircle size={22} className="shrink-0" aria-hidden="true" />
+                <div className="min-w-0">
+                  <p className="text-sm font-semibold">
+                    {t("page.cashier.receipt.paymentSuccess")}
+                  </p>
+                  <p className="truncate font-mono text-xs opacity-80" title={orderNumber}>
+                    {orderNumber}
+                  </p>
+                </div>
+              </div>
+            )}
             <dl className="mt-4 grid grid-cols-2 items-baseline gap-x-3 gap-y-2 text-sm md:grid-cols-1 md:gap-y-1">
-              <dt className="text-muted-foreground">{t("page.cashier.receipt.totalPaid")}</dt>
+              <dt className="text-muted-foreground">
+                {showAwaiting
+                  ? t("page.cashier.receipt.totalDue")
+                  : t("page.cashier.receipt.totalPaid")}
+              </dt>
               <dd className="text-right text-2xl font-bold tabular-nums md:text-left md:text-3xl">
                 Rp{formatPrice(total)}
               </dd>
-              <dt className="text-muted-foreground md:mt-3">
-                {t("page.cashier.receipt.paidWith")}
-              </dt>
-              <dd className="text-right font-semibold md:text-left">
-                {receiptData.paymentMethodLabel || "-"}
-              </dd>
-              {receiptData.showTender && (
+              {!awaitingPayment && (
+                <>
+                  <dt className="text-muted-foreground md:mt-3">
+                    {t("page.cashier.receipt.paidWith")}
+                  </dt>
+                  <dd className="text-right font-semibold md:text-left">
+                    {receiptData.paymentMethodLabel || "-"}
+                  </dd>
+                </>
+              )}
+              {!awaitingPayment && receiptData.showTender && (
                 <>
                   <dt className="text-muted-foreground md:mt-3">
                     {t("page.cashier.receipt.change")}
@@ -620,7 +658,8 @@ const ReceiptModal = ({ data, onClose, onNewTransaction }) => {
         </div>
 
         <footer className="shrink-0 border-t border-border/60 bg-background p-3 sm:p-4 md:grid md:grid-cols-[1fr_auto] md:items-center md:gap-3">
-          <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
+          <div
+            className={`grid grid-cols-2 gap-2 ${canSplit && !settledHere ? "sm:grid-cols-4" : "sm:grid-cols-3"}`}>
             <Button
               variant="outline"
               className="h-11 rounded-xl border-border/60"
@@ -645,26 +684,40 @@ const ReceiptModal = ({ data, onClose, onNewTransaction }) => {
               <MessageCircle size={16} aria-hidden="true" />
               <span className="truncate">{t("page.cashier.receipt.sendWA")}</span>
             </Button>
-            <Button
-              variant="outline"
-              className="h-11 rounded-xl border-border/60"
-              onClick={() => {
-                setSplitCount(2);
-                const base = Math.floor(total / 2);
-                setSplitAmounts([total - base, base]);
-                setShowSplit(true);
-              }}>
-              <Users size={16} aria-hidden="true" />
-              {t("page.cashier.receipt.split")}
-            </Button>
+            {canSplit && !settledHere && (
+              <Button
+                variant="outline"
+                className="h-11 rounded-xl border-border/60"
+                onClick={() => {
+                  setSplitCount(2);
+                  const base = Math.floor(total / 2);
+                  setSplitAmounts([total - base, base]);
+                  setShowSplit(true);
+                }}>
+                <Users size={16} aria-hidden="true" />
+                {t("page.cashier.receipt.split")}
+              </Button>
+            )}
           </div>
-          <Button
-            ref={newTransactionRef}
-            onClick={onNewTransaction}
-            className="mt-2 h-12 w-full rounded-xl text-base font-semibold md:mt-0 md:w-56">
-            <RotateCcw size={18} aria-hidden="true" />
-            {t("page.cashier.receipt.newTransaction")}
-          </Button>
+          {awaitingPayment ? (
+            // Opened from the order queue: the cart in progress is not this
+            // order, so closing must not start a new transaction (which
+            // clears the cart).
+            <Button
+              ref={newTransactionRef}
+              onClick={onClose}
+              className="mt-2 h-12 w-full rounded-xl text-base font-semibold md:mt-0 md:w-56">
+              {t("common.close")}
+            </Button>
+          ) : (
+            <Button
+              ref={newTransactionRef}
+              onClick={onNewTransaction}
+              className="mt-2 h-12 w-full rounded-xl text-base font-semibold md:mt-0 md:w-56">
+              <RotateCcw size={18} aria-hidden="true" />
+              {t("page.cashier.receipt.newTransaction")}
+            </Button>
+          )}
         </footer>
       </DialogContent>
 

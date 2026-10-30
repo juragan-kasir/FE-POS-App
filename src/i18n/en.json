@@ -8807,6 +8807,8 @@
   "page.cashier.receipt.paperSize": "Paper size",
   "page.cashier.receipt.summary": "Payment summary",
   "page.cashier.receipt.totalPaid": "Total paid",
+  "page.cashier.receipt.totalDue": "Total due",
+  "page.cashier.receipt.awaitingPayment": "Awaiting Payment",
   "page.cashier.receipt.paidWith": "Payment method",
   "page.cashier.receipt.preview": "Receipt preview",
   "page.cashier.orderQueue.timeAgo.justNow": "Just now",
