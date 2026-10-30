@@ -1,7 +1,7 @@
 import { safeGet } from "@/lib/safe-lookup";
 import React, { useState, useMemo, useCallback, useRef, useEffect } from "react";
 import PropTypes from "prop-types";
-import { Search, Barcode, Grid3X3, List, Tag, Package, X, Eye, SearchX } from "lucide-react";
+import { Search, Barcode, Grid3X3, List, Tag, Package, X, Eye, SearchX, Plus } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { useQuery } from "react-query";
 import { toast } from "sonner";
@@ -10,6 +10,7 @@ import { getAllCategoryActive } from "@/services/category";
 import { optimizeImage } from "@/utils/image";
 import { Skeleton } from "@/components/ui/skeleton";
 import ScrollRail from "@/components/ui/ScrollRail";
+import { Button } from "@/components/ui/button";
 import VariantModal from "./VariantModal";
 import ProductDetailModal from "./ProductDetailModal";
 import DynamicIcon from "@/components/ui/DynamicIcon";
@@ -348,7 +349,8 @@ const ProductGrid = ({
   store,
   refocusSignal,
   onRemoteBarcodeLookup,
-  recipeAvailability
+  recipeAvailability,
+  onAddProduct
 }) => {
   const { t } = useTranslation();
   const [viewMode, setViewMode] = useState("grid");
@@ -875,16 +877,27 @@ const ProductGrid = ({
                   </button>
                 </>
               ) : (
+                // Nothing searched or filtered and still no products: the store
+                // has nothing on sale yet (a new store, or products not assigned
+                // to it). Say so, and give whoever can add products the way there.
                 <>
                   <div className="w-16 h-16 rounded-2xl bg-muted/50 border border-border/50 flex items-center justify-center mx-auto mb-3">
                     <Package size={32} className="text-muted-foreground/40" />
                   </div>
                   <p className="font-medium text-muted-foreground">
-                    {t("page.cashier.noProducts")}
+                    {t("page.cashier.catalogEmpty")}
                   </p>
-                  <p className="text-sm text-muted-foreground/60 mt-1">
-                    {t("page.cashier.noProductsDesc")}
+                  <p className="text-sm text-muted-foreground/60 mt-1 max-w-sm mx-auto">
+                    {onAddProduct
+                      ? t("page.cashier.catalogEmptyDescAdmin")
+                      : t("page.cashier.catalogEmptyDescStaff")}
                   </p>
+                  {onAddProduct && (
+                    <Button type="button" onClick={onAddProduct} className="mt-4">
+                      <Plus size={16} aria-hidden="true" />
+                      {t("page.cashier.addProduct")}
+                    </Button>
+                  )}
                 </>
               )}
             </div>
@@ -991,7 +1004,8 @@ ProductGrid.propTypes = {
   store: PropTypes.any,
   refocusSignal: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   onRemoteBarcodeLookup: PropTypes.func,
-  recipeAvailability: PropTypes.object
+  recipeAvailability: PropTypes.object,
+  onAddProduct: PropTypes.func
 };
 
 // P20-B3: memoize the grid itself so a parent re-render (e.g. CashierPage cart totals)

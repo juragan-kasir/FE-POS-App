@@ -22,7 +22,7 @@ const products = [{ id: 1, nameProduct: "Product A", sku: "SKU-001", price: 1000
 // Mirrors how CashierPage drives ProductGrid: search/categoryId/refocusSignal
 // live in the parent, so this harness reproduces just enough of that to
 // exercise the empty-state branching and the imperative refocus signal.
-const Harness = ({ initialRefocusSignal = 0 }) => {
+const Harness = ({ initialRefocusSignal = 0, catalog = products, onAddProduct }) => {
   const [search, setSearch] = useState("");
   const [categoryId, setCategoryId] = useState("");
   const [refocusSignal, setRefocusSignal] = useState(initialRefocusSignal);
@@ -32,8 +32,8 @@ const Harness = ({ initialRefocusSignal = 0 }) => {
         bump-refocus
       </button>
       <ProductGrid
-        products={search || categoryId ? [] : products}
-        allProducts={products}
+        products={search || categoryId ? [] : catalog}
+        allProducts={catalog}
         refocusSignal={refocusSignal}
         isLoading={false}
         search={search}
@@ -43,6 +43,7 @@ const Harness = ({ initialRefocusSignal = 0 }) => {
         categoryId={categoryId}
         onCategoryChange={setCategoryId}
         store="1"
+        onAddProduct={onAddProduct}
       />
     </>
   );
@@ -80,6 +81,25 @@ describe("ProductGrid empty state", () => {
     fireEvent.click(screen.getByText("page.cashier.clearSearchFilters"));
     expect(screen.getByPlaceholderText("page.cashier.searchPlaceholder").value).toBe("");
     expect(screen.getByText("Product A")).toBeInTheDocument();
+  });
+
+  test("a store with no products says so (not 'try another keyword') and offers Tambah Produk", () => {
+    const onAddProduct = jest.fn();
+    renderGrid({ catalog: [], onAddProduct });
+
+    expect(screen.getByText("page.cashier.catalogEmpty")).toBeInTheDocument();
+    expect(screen.getByText("page.cashier.catalogEmptyDescAdmin")).toBeInTheDocument();
+    expect(screen.queryByText("page.cashier.noProductsDesc")).not.toBeInTheDocument();
+    fireEvent.click(screen.getByText("page.cashier.addProduct"));
+    expect(onAddProduct).toHaveBeenCalledTimes(1);
+  });
+
+  test("staff who cannot add products are told to ask an admin, with no add button", () => {
+    renderGrid({ catalog: [] });
+
+    expect(screen.getByText("page.cashier.catalogEmpty")).toBeInTheDocument();
+    expect(screen.getByText("page.cashier.catalogEmptyDescStaff")).toBeInTheDocument();
+    expect(screen.queryByText("page.cashier.addProduct")).not.toBeInTheDocument();
   });
 });
 

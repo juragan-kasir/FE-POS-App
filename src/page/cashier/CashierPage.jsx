@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useMemo, useCallback, useRef } from "react";
 import { useQuery, useMutation, useQueryClient } from "react-query";
 import { useCookies } from "react-cookie";
-import { useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import {
   ShoppingCart,
   X,
@@ -27,6 +27,7 @@ import {
 import { getCustomerTaxRate } from "@/services/order";
 import { storeIdsEqual } from "@/utils/storeId";
 import { isAdminRole } from "@/utils/role";
+import { canAccess } from "@/utils/permission";
 import { normalizeCatalogProduct } from "@/utils/catalogPrice";
 import { orderList } from "@/state/order-list";
 import {
@@ -101,6 +102,10 @@ const CashierPage = () => {
   // DR-23 §J: void is elevated (order.void) — the legacy admin roles only.
   // UX gate; the server's capability check is the authority.
   const canVoidOrders = isAdminRole(user);
+  // An empty catalog offers "Tambah Produk" to whoever may add products —
+  // the same check the product list uses for its add button.
+  const navigate = useNavigate();
+  const canAddProduct = canAccess(user, "/product-list", "add");
   const [searchParams, setSearchParams] = useSearchParams();
   const storeParam = searchParams.get("store");
   const [pickedStore, setPickedStore] = useState(null);
@@ -785,6 +790,7 @@ const CashierPage = () => {
                 storeName={storeName}
                 onRemoteBarcodeLookup={lookupProductRemote}
                 recipeAvailability={recipeAvailability}
+                onAddProduct={canAddProduct ? () => navigate("/add-product") : undefined}
               />
             </div>
           )}
