@@ -35,7 +35,11 @@ import { getBomByProduct, getBomCosting } from "@/services/bom";
 
 import { getProductPriceByStore, updateProductPriceByStore } from "@/services/price-store";
 import { checkStockOpnameExists } from "@/services/stock";
-import { getUnsavedStorePriceRows, buildSavedStorePriceMap } from "@/lib/store-price-guard";
+import {
+  getUnsavedStorePriceRows,
+  buildSavedStorePriceMap,
+  mergeStorePriceRows
+} from "@/lib/store-price-guard";
 import { useConfirmSubmit } from "@/hooks/useConfirmSubmit";
 import UserGuide from "@/components/organism/UserGuide";
 import StoreSelectCard from "@/components/organism/StoreSelectCard";
@@ -159,20 +163,27 @@ const EditProduct = () => {
   const locations = locationsData?.data || locationsData?.locations || [];
 
   const storeIds = locations.map((l) => l.id);
-  const { data: storePricesData } = useQuery(
+  const {
+    data: storePricesData,
+    isLoading: storePricesLoading,
+    isError: storePricesError,
+    refetch: refetchStorePrices
+  } = useQuery(
     ["product-store-prices", productId],
     () => getProductPriceByStore({ productId, storeIds }),
     { enabled: isSuperAdmin && !!productId && storeIds.length > 0 }
   );
 
+  // Keyed on the query data, not `locations` (a fresh [] each render while
+  // locations load).
   useEffect(() => {
     if (storePricesData?.data) {
       const prices = storePricesData.data.storePrices || storePricesData.data;
       const list = Array.isArray(prices) ? prices : [];
-      setStorePrices(list);
+      setStorePrices(mergeStorePriceRows(locations, list));
       setSavedStorePriceMap(buildSavedStorePriceMap(list));
     }
-  }, [storePricesData]);
+  }, [storePricesData, locationsData]);
 
   const formSchema = useMemo(() => {
     return z.object({
@@ -938,10 +949,21 @@ const EditProduct = () => {
                         <p className="text-sm text-muted-foreground">
                           {t("page.product.form.loadingStores")}
                         </p>
-                      ) : storePrices.length === 0 && storeIds.length > 0 ? (
+                      ) : storePricesLoading ? (
                         <p className="text-sm text-muted-foreground">
                           {t("page.product.form.loadingStorePrices")}
                         </p>
+                      ) : storePricesError ? (
+                        <div className="flex flex-wrap items-center gap-3 text-sm text-destructive">
+                          <span>{t("page.product.form.storePricesLoadFailed")}</span>
+                          <Button
+                            type="button"
+                            size="sm"
+                            variant="outline"
+                            onClick={() => refetchStorePrices()}>
+                            {t("common.retry")}
+                          </Button>
+                        </div>
                       ) : (
                         <div className="space-y-3">
                           {storePrices.map((sp) => (
@@ -951,6 +973,11 @@ const EditProduct = () => {
                                   <p className="text-sm font-medium text-foreground">
                                     {sp.storeName}
                                   </p>
+                                  {!(sp.storeId in savedStorePriceMap) && (
+                                    <p className="text-xs text-muted-foreground">
+                                      {t("page.product.form.storePriceUsesBase")}
+                                    </p>
+                                  )}
                                 </div>
                                 <div className="relative w-40 shrink-0">
                                   <span className="absolute left-3 top-1/2 -translate-y-1/2 text-xs text-muted-foreground">
@@ -958,8 +985,11 @@ const EditProduct = () => {
                                   </span>
                                   <Input
                                     type="number"
-                                    placeholder="0"
-                                    value={sp.price || ""}
+                                    aria-label={`${t("page.product.form.storePriceSection")} ${sp.storeName}`}
+                                    placeholder={Number(form.watch("price") || 0).toLocaleString(
+                                      "id-ID"
+                                    )}
+                                    value={sp.price ?? ""}
                                     onChange={(e) => {
                                       const val = e.target.value;
                                       setStorePrices((prev) =>
@@ -976,6 +1006,8 @@ const EditProduct = () => {
                                   size="sm"
                                   variant="success"
                                   loading={savingStoreId === sp.storeId}
+                                  disabled={String(sp.price ?? "") === ""}
+                                  disabledReason={t("page.product.form.storePriceEmptyReason")}
                                   onClick={() => handleSaveStorePrice(sp.storeId, sp.price)}
                                   className="h-9 shrink-0">
                                   {t("page.product.form.saveStorePrice")}
