@@ -63,6 +63,7 @@ import ProductImageGallery from "@/components/organism/ProductImageGallery";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import InventoryModeField from "@/page/product/InventoryModeField";
 import ProductPriceCostFields from "@/page/product/ProductPriceCostFields";
+import ConversionFactorField from "@/page/product/ConversionFactorField";
 import { INVENTORY_MODES, isInventoryItemMode } from "@/lib/inventory-mode";
 import InventoryLinkField, { useLinkItems } from "@/page/product/InventoryLinkField";
 import {
@@ -1271,43 +1272,7 @@ const EditProduct = () => {
                             )}
                           />
 
-                          <FormField
-                            control={form.control}
-                            name="conversionFactor"
-                            render={({ field }) => {
-                              const unit = form.watch("unit");
-                              const baseUnit = form.watch("baseUnit");
-                              const factor = field.value || 1;
-                              const isSameUnit = unit === baseUnit;
-
-                              // Automatically set to 1 if same unit
-                              useEffect(() => {
-                                if (isSameUnit && field.value !== 1) {
-                                  field.onChange(1);
-                                }
-                              }, [isSameUnit, field.value]);
-
-                              return (
-                                <FormItem>
-                                  <FormLabel>{t("page.product.form.conversionFactor")}</FormLabel>
-                                  <Input
-                                    type="number"
-                                    min="1"
-                                    {...field}
-                                    disabled={isSameUnit}
-                                    placeholder="1"
-                                  />
-                                  <p className="text-xs font-medium text-primary mt-1.5 flex items-center gap-1.5 bg-primary/5 p-2 rounded-md border border-primary/10">
-                                    <Info size={14} />
-                                    {isSameUnit
-                                      ? t("page.product.form.sameUnitHelper")
-                                      : `1 ${unit || "Satuan"} = ${factor} ${baseUnit || "Satuan Dasar"}`}
-                                  </p>
-                                  <FormMessage />
-                                </FormItem>
-                              );
-                            }}
-                          />
+                          <ConversionFactorField form={form} />
 
                           {isSuperAdmin && (
                             <FormField
