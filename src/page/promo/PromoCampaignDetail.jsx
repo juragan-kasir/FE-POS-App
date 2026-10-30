@@ -622,7 +622,7 @@ const PromoCampaignDetail = () => {
           <div className="space-y-3">
             <div className="flex items-center gap-3">
               {campaign.isCombinable ? (
-                <div className="w-9 h-9 rounded-lg bg-green-50 flex items-center justify-center">
+                <div className="w-9 h-9 rounded-lg bg-green-50 flex items-center justify-center dark:bg-green-950/40">
                   <CheckCircle size={16} className="text-green-600" />
                 </div>
               ) : (
@@ -643,7 +643,7 @@ const PromoCampaignDetail = () => {
             </div>
             <div className="flex items-center gap-3">
               {campaign.autoActivate ? (
-                <div className="w-9 h-9 rounded-lg bg-green-50 flex items-center justify-center">
+                <div className="w-9 h-9 rounded-lg bg-green-50 flex items-center justify-center dark:bg-green-950/40">
                   <CheckCircle size={16} className="text-green-600" />
                 </div>
               ) : (

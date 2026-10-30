@@ -12,11 +12,18 @@ const buttonVariants = cva(
       variant: {
         default: "bg-primary text-primary-foreground hover:bg-primary/90",
         destructive: "bg-destructive text-destructive-foreground hover:bg-destructive/90",
-        success: "bg-green-600 text-white hover:bg-green-700",
-        danger: "bg-red-50 text-red-700 border border-red-200 hover:bg-red-100",
-        general: "bg-blue-50 text-blue-700 border border-blue-200 hover:bg-blue-100",
-        import: "bg-emerald-50 text-emerald-700 border border-emerald-200 hover:bg-emerald-100",
-        draft: "bg-amber-50 text-amber-700 border border-amber-200 hover:bg-amber-100",
+        // Confirm/save actions: the brand primary (emerald), not a second green.
+        success: "bg-primary text-primary-foreground hover:bg-primary/90",
+        // Tinted variants: light tint in light mode, a dark tint (not a bright
+        // pastel block) in dark mode.
+        danger:
+          "bg-red-50 text-red-700 border border-red-200 hover:bg-red-100 dark:bg-red-950/40 dark:text-red-300 dark:border-red-900 dark:hover:bg-red-950/70",
+        general:
+          "bg-blue-50 text-blue-700 border border-blue-200 hover:bg-blue-100 dark:bg-blue-950/40 dark:text-blue-300 dark:border-blue-900 dark:hover:bg-blue-950/70",
+        import:
+          "bg-emerald-50 text-emerald-700 border border-emerald-200 hover:bg-emerald-100 dark:bg-emerald-950/40 dark:text-emerald-300 dark:border-emerald-900 dark:hover:bg-emerald-950/70",
+        draft:
+          "bg-amber-50 text-amber-700 border border-amber-200 hover:bg-amber-100 dark:bg-amber-950/40 dark:text-amber-300 dark:border-amber-900 dark:hover:bg-amber-950/70",
         outline: "border border-input bg-background hover:bg-accent hover:text-accent-foreground",
         secondary: "bg-secondary text-secondary-foreground hover:bg-secondary/80",
         ghost: "hover:bg-accent hover:text-accent-foreground",

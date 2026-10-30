@@ -1262,7 +1262,7 @@ export default function DetailPurchaseOrder() {
                           <Button
                             size="sm"
                             variant="destructive"
-                            className="text-red-500 hover:text-red-600 hover:bg-red-50"
+                            className="text-red-500 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-950/60 dark:text-red-300 dark:hover:text-red-200"
                             onClick={() => {
                               setPaymentToDelete(payment);
                               setDeleteModalOpen(true);

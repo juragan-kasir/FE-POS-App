@@ -207,7 +207,7 @@ const RoleManagement = () => {
                           <Shield size={16} className="text-primary" aria-hidden="true" />
                           <span className="text-sm font-semibold text-foreground">{row.name}</span>
                           {isProtected(row) && (
-                            <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-xs font-bold bg-amber-100 text-amber-700 uppercase tracking-wider">
+                            <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-xs font-bold bg-amber-100 text-amber-700 uppercase tracking-wider dark:bg-amber-950/40 dark:text-amber-300">
                               <Lock size={10} aria-hidden="true" />
                               {row.isSystem ? t("page.role.badge.system") : t("common.default")}
                             </span>

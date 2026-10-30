@@ -169,7 +169,7 @@ const DetailBom = () => {
               <h2 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider mb-3">
                 {t("page.bom.detail.summary")}
               </h2>
-              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-bold bg-blue-100 text-blue-800">
+              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-bold bg-blue-100 text-blue-800 dark:bg-blue-950/40 dark:text-blue-300">
                 <ClipboardList size={14} /> {bom.lines?.length || 0}{" "}
                 {t("page.bom.detail.ingredientCount")}
               </div>

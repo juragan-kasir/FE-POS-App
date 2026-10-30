@@ -112,7 +112,7 @@ const AdvancedReporting = () => {
 
   return (
     <div className="space-y-6">
-      <div className="rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-900">
+      <div className="rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-900 dark:bg-amber-950/40 dark:text-amber-300 dark:border-amber-900">
         {t(
           "page.advancedReporting.legacyNotice",
           "Advanced reporting uses pre-aggregated summaries that may be stale. For live sales data, use the main Report page."

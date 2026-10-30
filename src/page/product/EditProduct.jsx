@@ -1057,7 +1057,7 @@ const EditProduct = () => {
                             />
                             <FormMessage />
                             {noStockOpname && (
-                              <div className="flex items-start gap-2.5 mt-2 p-3 rounded-lg bg-amber-50 border border-amber-200">
+                              <div className="flex items-start gap-2.5 mt-2 p-3 rounded-lg bg-amber-50 border border-amber-200 dark:bg-amber-950/40 dark:border-amber-900">
                                 <AlertTriangle
                                   size={18}
                                   className="text-amber-600 text-base mt-0.5"

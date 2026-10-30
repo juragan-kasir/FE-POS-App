@@ -304,27 +304,27 @@ const ExpenseList = () => {
   const getStatusBadge = (status) => {
     if (status === "draft") {
       return (
-        <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-amber-100 text-amber-800">
+        <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-amber-100 text-amber-800 dark:bg-amber-950/40 dark:text-amber-300">
           {t("page.expense.list.statusDraft")}
         </span>
       );
     }
     if (status === "pending") {
       return (
-        <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-orange-100 text-orange-800">
+        <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-orange-100 text-orange-800 dark:bg-orange-950/40 dark:text-orange-300">
           {t("page.expense.list.statusPending")}
         </span>
       );
     }
     if (status === "rejected") {
       return (
-        <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">
+        <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800 dark:bg-red-950/40 dark:text-red-300">
           {t("page.expense.list.statusRejected")}
         </span>
       );
     }
     return (
-      <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+      <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800 dark:bg-green-950/40 dark:text-green-300">
         {t("page.expense.list.statusApproved")}
       </span>
     );
@@ -341,7 +341,7 @@ const ExpenseList = () => {
           <div className="flex flex-col">
             <span className="font-medium text-foreground">{item.description || "-"}</span>
             {item.frequency && (
-              <span className="inline-flex w-fit items-center px-2 py-0.5 rounded-full text-xs font-semibold bg-blue-100 text-blue-700 mt-0.5">
+              <span className="inline-flex w-fit items-center px-2 py-0.5 rounded-full text-xs font-semibold bg-blue-100 text-blue-700 mt-0.5 dark:bg-blue-950/40 dark:text-blue-300">
                 {t("page.expense.list.recurring")} ·{" "}
                 {t(
                   `page.expense.form.frequency${item.frequency.charAt(0).toUpperCase()}${item.frequency.slice(1)}`
@@ -354,13 +354,13 @@ const ExpenseList = () => {
               </span>
             )}
             {item.employee?.fullName && (
-              <span className="inline-flex w-fit items-center gap-1 px-2 py-0.5 rounded-full text-xs font-semibold bg-teal-100 text-teal-700 mt-0.5">
+              <span className="inline-flex w-fit items-center gap-1 px-2 py-0.5 rounded-full text-xs font-semibold bg-teal-100 text-teal-700 mt-0.5 dark:bg-teal-950/40 dark:text-teal-300">
                 <Users size={10} />
                 {item.employee.fullName}
               </span>
             )}
             {item.paymentMethod && (
-              <span className="inline-flex w-fit items-center px-2 py-0.5 rounded-full text-xs font-semibold bg-purple-100 text-purple-700 mt-0.5">
+              <span className="inline-flex w-fit items-center px-2 py-0.5 rounded-full text-xs font-semibold bg-purple-100 text-purple-700 mt-0.5 dark:bg-purple-950/40 dark:text-purple-300">
                 {getPaymentLabel(item.paymentMethod)}
               </span>
             )}
