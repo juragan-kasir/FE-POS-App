@@ -7259,6 +7259,8 @@
   "sidebar.section.masterData": "Master Data",
   "sidebar.section.pembelian": "Purchasing",
   "sidebar.section.penjualan": "Sales",
+  "sidebar.section.transaksi": "Transactions",
+  "sidebar.section.layanan": "Service",
   "sidebar.section.inventory": "Inventory",
   "sidebar.section.keuangan": "Finance",
   "sidebar.section.membership": "Membership",

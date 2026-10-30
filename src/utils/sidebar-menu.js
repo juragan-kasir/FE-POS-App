@@ -1168,8 +1168,71 @@ export const sidebarMenuUser = [
   }
 ];
 
+// Sales follow-up pages (returns, receivables, queue, waiter calls) were only
+// in the menus above, which feed search and permissions — not in the
+// categories the sidebar shows — so they were reachable only through Ctrl+K.
+// A new category of their own puts them back in the sidebar.
+const salesNavCategory = ({ withTables = false } = {}) => ({
+  id: "penjualan",
+  icon: ShoppingCart,
+  title: "Penjualan",
+  i18nKey: "sidebar.section.penjualan",
+  sections: [
+    {
+      title: "Transaksi",
+      i18nKey: "sidebar.section.transaksi",
+      items: [
+        {
+          title: "Retur Penjualan",
+          i18nKey: "sidebar.salesReturn",
+          href: "/sales-return",
+          icon: ShoppingCart,
+          activePaths: ["/sales-return/create", "/sales-return/detail"]
+        },
+        {
+          title: "Piutang (AR)",
+          i18nKey: "sidebar.piutang",
+          href: "/accounts-receivable",
+          icon: Receipt
+        }
+      ]
+    },
+    {
+      title: "Layanan",
+      i18nKey: "sidebar.section.layanan",
+      items: [
+        { title: "Antrian", i18nKey: "sidebar.queue", href: "/queue-list", icon: Clock },
+        {
+          title: "Permintaan Pelayan",
+          i18nKey: "sidebar.waiterRequest",
+          href: "/waiter-request",
+          icon: HandPlatter
+        }
+      ]
+    },
+    ...(withTables
+      ? [
+          {
+            title: "Meja & Reservasi",
+            i18nKey: "sidebar.section.mejaReservasi",
+            items: [
+              { title: "Meja", i18nKey: "sidebar.meja", href: "/table-list", icon: Table },
+              {
+                title: "Reservasi Meja",
+                i18nKey: "sidebar.reservation",
+                href: "/reservation",
+                icon: CalendarDays
+              }
+            ]
+          }
+        ]
+      : [])
+  ]
+});
+
 export const navCategories = {
   super_admin: [
+    salesNavCategory(),
     {
       id: "location",
       icon: Store,
@@ -1577,6 +1640,8 @@ export const navCategories = {
     }
   ],
   admin: [
+    // Admin has no Location category, so its tables live here too.
+    salesNavCategory({ withTables: true }),
     {
       id: "produk",
       icon: ShoppingBag,
