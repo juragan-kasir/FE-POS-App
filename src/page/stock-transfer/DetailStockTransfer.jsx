@@ -141,7 +141,7 @@ const DetailStockTransfer = () => {
     return (
       <div className="p-6">
         <p className="text-muted-foreground">{t("page.stockTransfer.detail.notFound")}</p>
-        <Button variant="danger" onClick={() => navigate("/stock-transfer")} className="mt-4">
+        <Button variant="outline" onClick={() => navigate("/stock-transfer")} className="mt-4">
           <ArrowLeft size={16} className="mr-1" /> {t("page.stockTransfer.detail.back")}
         </Button>
       </div>

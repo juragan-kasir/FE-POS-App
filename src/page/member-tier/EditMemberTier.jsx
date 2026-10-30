@@ -554,7 +554,7 @@ const EditMemberTier = () => {
 
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mt-8 bg-card border border-border rounded-xl p-4">
           <Button
-            variant="danger"
+            variant="outline"
             onClick={requestLeave}
             className="gap-2 w-full sm:w-auto justify-center">
             <X size={18} />

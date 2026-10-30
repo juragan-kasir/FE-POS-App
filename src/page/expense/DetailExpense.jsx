@@ -441,7 +441,7 @@ const DetailExpense = () => {
                     {t("page.expense.detail.paymentLogTitle")}
                   </h3>
                   {item.isPaid && (
-                    <span className="inline-flex px-2 py-0.5 rounded-full text-xs font-bold uppercase bg-teal-100 text-teal-700">
+                    <span className="inline-flex px-2 py-0.5 rounded-full text-xs font-bold uppercase bg-teal-100 text-teal-700 dark:bg-teal-950/40 dark:text-teal-300">
                       {t("page.expense.list.statusPaid")}
                     </span>
                   )}
@@ -465,7 +465,7 @@ const DetailExpense = () => {
                           )}
                         </div>
                         <div className="text-right shrink-0">
-                          <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold bg-purple-100 text-purple-700 capitalize">
+                          <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold bg-purple-100 text-purple-700 capitalize dark:bg-purple-950/40 dark:text-purple-300">
                             {p.paymentMethod || "-"}
                           </span>
                           <p className="text-xs text-muted-foreground mt-1">
@@ -548,7 +548,7 @@ const DetailExpense = () => {
                     onClick={() => navigate(`/edit-expense?id=${item.id}`)}>
                     {t("page.expense.detail.editBtn")}
                   </Button>
-                  <Button className="w-full" variant="danger" onClick={() => navigate("/expense")}>
+                  <Button className="w-full" variant="outline" onClick={() => navigate("/expense")}>
                     {t("page.expense.detail.backToList")}
                   </Button>
                 </div>

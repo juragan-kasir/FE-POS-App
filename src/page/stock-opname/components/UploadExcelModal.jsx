@@ -272,7 +272,7 @@ const UploadExcelModal = ({ open, onOpenChange, onDataParsed, onUploadSuccess, a
               )}
 
               <div className="flex items-center justify-end gap-3 pt-2">
-                <Button variant="danger" onClick={handleClose}>
+                <Button variant="outline" onClick={handleClose}>
                   {t("common.cancel")}
                 </Button>
                 <Button

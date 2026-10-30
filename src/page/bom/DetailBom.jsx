@@ -81,7 +81,7 @@ const DetailBom = () => {
       ) : !bom ? (
         <div className="p-6">
           <p className="text-muted-foreground">{t("page.bom.detail.notFound")}</p>
-          <Button variant="danger" onClick={() => navigate("/bom")} className="mt-4">
+          <Button variant="outline" onClick={() => navigate("/bom")} className="mt-4">
             <ArrowLeft size={16} className="mr-1" /> {t("page.bom.detail.back")}
           </Button>
         </div>
@@ -169,7 +169,7 @@ const DetailBom = () => {
               <h2 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider mb-3">
                 {t("page.bom.detail.summary")}
               </h2>
-              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-bold bg-blue-100 text-blue-800">
+              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-bold bg-blue-100 text-blue-800 dark:bg-blue-950/40 dark:text-blue-300">
                 <ClipboardList size={14} /> {bom.lines?.length || 0}{" "}
                 {t("page.bom.detail.ingredientCount")}
               </div>

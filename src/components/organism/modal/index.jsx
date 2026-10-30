@@ -136,7 +136,7 @@ export default function Modal({
             </DialogHeader>
             <div className="flex justify-center gap-3 mt-4">
               {!isNotification && (
-                <Button type="button" variant="danger" onClick={handleCancel}>
+                <Button type="button" variant="outline" onClick={handleCancel}>
                   {cancelLabel}
                 </Button>
               )}
@@ -173,7 +173,7 @@ export default function Modal({
             <div className="py-4 max-h-[65vh] overflow-y-auto">{children}</div>
             {isForm && (
               <div className="flex justify-end gap-3">
-                <Button type="button" variant="danger" onClick={handleCancel}>
+                <Button type="button" variant="outline" onClick={handleCancel}>
                   {cancelLabel}
                 </Button>
                 <Button

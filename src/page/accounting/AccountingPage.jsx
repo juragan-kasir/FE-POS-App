@@ -835,7 +835,7 @@ const JournalTab = ({ storeId, isAll }) => {
                       {t(`page.accounting.journal.source.${entry.sourceType}`)}
                     </span>
                     {entry.status === "reversed" && (
-                      <span className="inline-flex px-2 py-0.5 rounded-full bg-amber-100 text-amber-800 text-xs font-semibold">
+                      <span className="inline-flex px-2 py-0.5 rounded-full bg-amber-100 text-amber-800 text-xs font-semibold dark:bg-amber-950/40 dark:text-amber-300">
                         {t("page.accounting.journal.reversed")}
                       </span>
                     )}

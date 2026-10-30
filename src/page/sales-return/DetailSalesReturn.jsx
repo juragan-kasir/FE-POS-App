@@ -103,7 +103,7 @@ const DetailSalesReturn = () => {
     return (
       <div className="p-6">
         <p className="text-muted-foreground">{t("page.salesReturn.detail.notFound")}</p>
-        <Button variant="danger" onClick={() => navigate("/sales-return")} className="mt-4">
+        <Button variant="outline" onClick={() => navigate("/sales-return")} className="mt-4">
           <ArrowLeft size={16} className="mr-1" /> {t("page.salesReturn.detail.back")}
         </Button>
       </div>

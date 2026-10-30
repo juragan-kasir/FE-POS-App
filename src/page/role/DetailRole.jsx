@@ -185,7 +185,7 @@ const DetailRole = () => {
       <div className="text-center py-16">
         <Shield size={48} className="mx-auto mb-4 text-muted-foreground/40" />
         <p className="text-muted-foreground">{t("page.role.detail.notFound")}</p>
-        <Button variant="danger" onClick={() => navigate("/role-management")} className="mt-4">
+        <Button variant="outline" onClick={() => navigate("/role-management")} className="mt-4">
           {t("common.back")}
         </Button>
       </div>

@@ -430,7 +430,7 @@ const EditPromoCampaign = () => {
         backLink="/promo-list"
         onBack={requestLeave}>
         <UserGuide guideKey="add-promo" mode="edit" />
-        <Button variant="danger" onClick={requestLeave}>
+        <Button variant="outline" onClick={requestLeave}>
           {t("common.cancel")}
         </Button>
       </PageHeader>
@@ -1090,7 +1090,7 @@ const EditPromoCampaign = () => {
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-card border border-border rounded-xl p-4">
             <Button
               type="button"
-              variant="danger"
+              variant="outline"
               onClick={requestLeave}
               className="gap-2 w-full sm:w-auto justify-center">
               <X size={18} />

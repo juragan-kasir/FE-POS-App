@@ -547,7 +547,7 @@ const ProductPreview = ({ product, open, onOpenChange }) => {
             <MonitorSmartphone size={14} />
             Preview menampilkan data sesuai isian form current
           </div>
-          <Button variant="danger" onClick={() => onOpenChange(false)}>
+          <Button variant="outline" onClick={() => onOpenChange(false)}>
             Tutup
           </Button>
         </div>

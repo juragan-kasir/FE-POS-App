@@ -682,7 +682,7 @@ const CustomerOrderManagement = () => {
 
           <DialogFooter className="gap-2">
             <Button
-              variant="danger"
+              variant="outline"
               onClick={() => setModalOrder(null)}
               className="flex-1 sm:flex-none">
               {t("common.cancel")}

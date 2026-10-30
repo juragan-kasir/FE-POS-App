@@ -106,7 +106,7 @@ const DetailGoodsReceipt = () => {
       ) : !receipt ? (
         <div className="p-6">
           <p className="text-muted-foreground">{t("page.goodsReceipt.detail.notFound")}</p>
-          <Button variant="danger" onClick={() => navigate("/goods-receipt")} className="mt-4">
+          <Button variant="outline" onClick={() => navigate("/goods-receipt")} className="mt-4">
             <ArrowLeft size={16} className="mr-1" /> {t("page.goodsReceipt.detail.back")}
           </Button>
         </div>

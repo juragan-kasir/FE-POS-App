@@ -75,7 +75,7 @@ const DetailMemberTier = () => {
       <div className="flex flex-col items-center justify-center h-64 text-muted-foreground gap-3">
         <Award size={48} className="text-muted-foreground/40" />
         <p>{t("page.memberTier.ui.tierIdNotFound")}</p>
-        <Button variant="danger" onClick={() => navigate("/member-tier")}>
+        <Button variant="outline" onClick={() => navigate("/member-tier")}>
           {t("common.back")}
         </Button>
       </div>
@@ -175,7 +175,7 @@ const DetailMemberTier = () => {
         <div className="flex flex-col items-center justify-center h-64 text-muted-foreground gap-3">
           <Award size={48} className="text-muted-foreground/40" />
           <p>{t("page.memberTier.ui.tierNotFound")}</p>
-          <Button variant="danger" onClick={() => navigate("/member-tier")}>
+          <Button variant="outline" onClick={() => navigate("/member-tier")}>
             {t("common.back")}
           </Button>
         </div>

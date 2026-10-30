@@ -240,7 +240,7 @@ const ParkedCartPanel = ({ store, onResumed, hasCartItems }) => {
             </DialogDescription>
           </DialogHeader>
           <DialogFooter>
-            <Button variant="danger" onClick={() => setPendingResumeCart(null)}>
+            <Button variant="outline" onClick={() => setPendingResumeCart(null)}>
               {t("page.cashier.cancel", "Cancel")}
             </Button>
             <Button

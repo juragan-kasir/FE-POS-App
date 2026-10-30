@@ -91,7 +91,7 @@ const DetailPurchaseReturn = () => {
       <div className="flex flex-col items-center justify-center h-64 gap-4">
         <ShoppingBag className="w-12 h-12 text-muted-foreground" />
         <p className="text-muted-foreground">{t("page.purchaseReturn.detail.notFound")}</p>
-        <Button variant="danger" onClick={() => navigate("/purchase-return")}>
+        <Button variant="outline" onClick={() => navigate("/purchase-return")}>
           <ArrowLeft size={16} className="mr-2" />
           {t("page.purchaseReturn.detail.back")}
         </Button>

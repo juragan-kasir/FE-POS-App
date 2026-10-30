@@ -908,7 +908,7 @@ const AddIngredient = () => {
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pt-6 mt-6 border-t">
                   <Button
                     type="button"
-                    variant="danger"
+                    variant="outline"
                     onClick={requestLeave}
                     className="w-full sm:w-auto justify-center">
                     <X size={16} className="mr-1" /> {t("page.ingredient.form.cancelButton")}

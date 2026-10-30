@@ -2089,7 +2089,7 @@ const CheckoutModal = ({
               </div>
               <div className="flex gap-2 px-5 py-4 border-t border-border/50 bg-muted/20">
                 <Button
-                  variant="danger"
+                  variant="outline"
                   onClick={() => setAddCustomerOpen(false)}
                   className="flex-1">
                   {t("page.cashier.addCustomerCancel")}
@@ -2348,7 +2348,7 @@ const CheckoutModal = ({
               {renderReferenceField()}
               <div className="flex gap-2">
                 <Button
-                  variant="danger"
+                  variant="outline"
                   onClick={clearPendingQris}
                   className="flex-1 h-12 rounded-xl">
                   {t("page.cashier.cancel", "Batal")}

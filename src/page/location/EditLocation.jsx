@@ -733,7 +733,7 @@ const EditLocation = () => {
       <div className="flex flex-col items-center justify-center h-64 text-muted-foreground gap-3">
         <MapPin size={40} />
         <p>{t("page.location.edit.idNotFound")}</p>
-        <Button variant="danger" onClick={() => navigate("/location-list")}>
+        <Button variant="outline" onClick={() => navigate("/location-list")}>
           {t("breadcrumb.back")}
         </Button>
       </div>
@@ -820,7 +820,7 @@ const EditLocation = () => {
       <div className="flex flex-col items-center justify-center h-64 text-muted-foreground gap-3">
         <Building2 size={40} />
         <p>{t("page.location.edit.locationNotFound")}</p>
-        <Button variant="danger" onClick={() => navigate("/location-list")}>
+        <Button variant="outline" onClick={() => navigate("/location-list")}>
           {t("breadcrumb.back")}
         </Button>
       </div>
@@ -847,7 +847,7 @@ const EditLocation = () => {
         description={t("page.location.edit.description")}
         backLink="/location-list"
         onBack={requestLeave}>
-        <Button variant="danger" onClick={requestLeave} className="gap-2">
+        <Button variant="outline" onClick={requestLeave} className="gap-2">
           <ArrowLeft size={20} className="text-lg" />
           {t("breadcrumb.back")}
         </Button>
@@ -1698,7 +1698,7 @@ const EditLocation = () => {
             <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mt-6 bg-card border border-border rounded-xl p-4">
               <Button
                 type="button"
-                variant="danger"
+                variant="outline"
                 className="w-full sm:w-auto"
                 onClick={requestLeave}>
                 {t("common.cancel")}
@@ -1951,7 +1951,7 @@ const EditLocation = () => {
                 {t("page.location.form.addEmployee")}
               </Button>
               <Button
-                variant="danger"
+                variant="outline"
                 size="sm"
                 onClick={() => setManagerModalOpen(false)}
                 className="h-8">

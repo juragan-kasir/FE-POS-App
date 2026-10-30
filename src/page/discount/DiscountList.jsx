@@ -813,7 +813,7 @@ const DiscountList = () => {
           </div>
 
           <DialogFooter className="gap-2 sm:gap-0 pt-2 border-t">
-            <Button variant="danger" onClick={() => setExtendTarget(null)} className="gap-1">
+            <Button variant="outline" onClick={() => setExtendTarget(null)} className="gap-1">
               <X size={16} />
               {t("common.cancel")}
             </Button>

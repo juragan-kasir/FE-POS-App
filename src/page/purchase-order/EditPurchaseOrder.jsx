@@ -1425,7 +1425,7 @@ const EditPurchaseOrder = () => {
         <div className="sticky bottom-4 flex flex-wrap justify-between items-center gap-3 bg-card border border-border/60 shadow-lg rounded-xl p-4 backdrop-blur-sm">
           <Button
             type="button"
-            variant="danger"
+            variant="outline"
             onClick={requestLeave}
             className="gap-2 flex-1 sm:flex-none">
             <X size={18} />

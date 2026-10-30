@@ -140,7 +140,7 @@ const AccountsReceivableDetail = () => {
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
             <div>
               <Card className="p-4 flex items-center gap-3">
-                <div className="p-2 rounded-lg bg-blue-50">
+                <div className="p-2 rounded-lg bg-blue-50 dark:bg-blue-950/40">
                   <Receipt size={20} className="text-blue-600" />
                 </div>
                 <div>
@@ -153,7 +153,7 @@ const AccountsReceivableDetail = () => {
             </div>
             <div>
               <Card className="p-4 flex items-center gap-3">
-                <div className="p-2 rounded-lg bg-green-50">
+                <div className="p-2 rounded-lg bg-green-50 dark:bg-green-950/40">
                   <Wallet size={20} className="text-green-600" />
                 </div>
                 <div>

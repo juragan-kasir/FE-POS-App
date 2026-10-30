@@ -237,7 +237,7 @@ const PromoCampaignDetail = () => {
       <div className="flex flex-col items-center justify-center h-64 text-muted-foreground gap-3">
         <Megaphone size={48} className="text-muted-foreground/40" />
         <p>{t("page.promo.detail.notFound")}</p>
-        <Button variant="danger" onClick={() => navigate("/promo-list")}>
+        <Button variant="outline" onClick={() => navigate("/promo-list")}>
           <ArrowLeft size={16} className="mr-1" />
           {t("common.back")}
         </Button>
@@ -622,7 +622,7 @@ const PromoCampaignDetail = () => {
           <div className="space-y-3">
             <div className="flex items-center gap-3">
               {campaign.isCombinable ? (
-                <div className="w-9 h-9 rounded-lg bg-green-50 flex items-center justify-center">
+                <div className="w-9 h-9 rounded-lg bg-green-50 flex items-center justify-center dark:bg-green-950/40">
                   <CheckCircle size={16} className="text-green-600" />
                 </div>
               ) : (
@@ -643,7 +643,7 @@ const PromoCampaignDetail = () => {
             </div>
             <div className="flex items-center gap-3">
               {campaign.autoActivate ? (
-                <div className="w-9 h-9 rounded-lg bg-green-50 flex items-center justify-center">
+                <div className="w-9 h-9 rounded-lg bg-green-50 flex items-center justify-center dark:bg-green-950/40">
                   <CheckCircle size={16} className="text-green-600" />
                 </div>
               ) : (

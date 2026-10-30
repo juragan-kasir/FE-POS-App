@@ -1559,7 +1559,7 @@ const AddLocation = () => {
               <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mt-6 bg-card border border-border rounded-xl p-4">
                 <Button
                   type="button"
-                  variant="danger"
+                  variant="outline"
                   className="w-full sm:w-auto"
                   onClick={requestLeave}>
                   {t("common.cancel")}
@@ -1818,7 +1818,7 @@ const AddLocation = () => {
                 {t("page.location.form.addEmployee")}
               </Button>
               <Button
-                variant="danger"
+                variant="outline"
                 size="sm"
                 onClick={() => setManagerModalOpen(false)}
                 className="h-8">

@@ -1262,7 +1262,7 @@ export default function DetailPurchaseOrder() {
                           <Button
                             size="sm"
                             variant="destructive"
-                            className="text-red-500 hover:text-red-600 hover:bg-red-50"
+                            className="text-red-500 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-950/60 dark:text-red-300 dark:hover:text-red-200"
                             onClick={() => {
                               setPaymentToDelete(payment);
                               setDeleteModalOpen(true);
@@ -1532,7 +1532,7 @@ export default function DetailPurchaseOrder() {
               </div>
             </div>
             <DialogFooter>
-              <Button variant="danger" onClick={() => setPaymentModalOpen(false)}>
+              <Button variant="outline" onClick={() => setPaymentModalOpen(false)}>
                 {t("common.cancel")}
               </Button>
               <Button variant="success" onClick={handleRecordPayment} disabled={paySubmitting}>
@@ -1556,7 +1556,7 @@ export default function DetailPurchaseOrder() {
             </DialogDescription>
           </DialogHeader>
           <DialogFooter>
-            <Button variant="danger" onClick={() => setDeleteModalOpen(false)}>
+            <Button variant="outline" onClick={() => setDeleteModalOpen(false)}>
               {t("common.cancel")}
             </Button>
             <Button variant="destructive" onClick={handleDeletePayment}>
@@ -1704,7 +1704,7 @@ export default function DetailPurchaseOrder() {
             </div>
           </div>
           <DialogFooter>
-            <Button variant="danger" onClick={() => setReturnModalOpen(false)}>
+            <Button variant="outline" onClick={() => setReturnModalOpen(false)}>
               {t("common.cancel")}
             </Button>
             <Button variant="success" onClick={handleCreateReturn} disabled={returnSubmitting}>

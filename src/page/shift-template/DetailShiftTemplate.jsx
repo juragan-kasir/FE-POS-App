@@ -61,7 +61,7 @@ const DetailShiftTemplate = () => {
         <Button variant="outline" onClick={() => refetch()}>
           {t("common.retry")}
         </Button>
-        <Button variant="danger" onClick={() => navigate("/shift-template-list")}>
+        <Button variant="outline" onClick={() => navigate("/shift-template-list")}>
           {t("common.back")}
         </Button>
       </div>

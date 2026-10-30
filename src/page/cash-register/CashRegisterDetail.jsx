@@ -516,7 +516,7 @@ const CashRegisterDetail = () => {
           <Receipt size={48} className="mx-auto text-muted-foreground/40 mb-3" />
           <p className="text-muted-foreground">{t("page.cashRegister.detail.notFound")}</p>
           <Button
-            variant="danger"
+            variant="outline"
             onClick={() => navigate("/cash-register/history")}
             className="mt-4">
             {t("page.cashRegister.detail.backToHistory")}

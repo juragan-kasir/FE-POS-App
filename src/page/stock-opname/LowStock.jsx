@@ -139,7 +139,7 @@ const LowStock = () => {
               <div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <Card className="p-5 flex items-center gap-4">
-                    <div className="w-12 h-12 rounded-xl bg-red-100 flex items-center justify-center shrink-0">
+                    <div className="w-12 h-12 rounded-xl bg-red-100 flex items-center justify-center shrink-0 dark:bg-red-950/40">
                       <Package size={24} className="text-red-600" />
                     </div>
                     <div>
@@ -150,7 +150,7 @@ const LowStock = () => {
                     </div>
                   </Card>
                   <Card className="p-5 flex items-center gap-4">
-                    <div className="w-12 h-12 rounded-xl bg-orange-100 flex items-center justify-center shrink-0">
+                    <div className="w-12 h-12 rounded-xl bg-orange-100 flex items-center justify-center shrink-0 dark:bg-orange-950/40">
                       <ShoppingBasket size={24} className="text-orange-600" />
                     </div>
                     <div>

@@ -819,7 +819,7 @@ const AddProduct = () => {
                             />
                             <FormMessage />
                             {noStockOpname && (
-                              <div className="flex items-start gap-2.5 mt-2 p-3 rounded-lg bg-amber-50 border border-amber-200">
+                              <div className="flex items-start gap-2.5 mt-2 p-3 rounded-lg bg-amber-50 border border-amber-200 dark:bg-amber-950/40 dark:border-amber-900">
                                 <TriangleAlert
                                   size={16}
                                   className="text-amber-600 mt-0.5 shrink-0"
@@ -1719,7 +1719,7 @@ const AddProduct = () => {
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mt-6 bg-card border border-border rounded-xl p-4">
             <Button
               type="button"
-              variant="danger"
+              variant="outline"
               onClick={requestLeave}
               className="gap-2 w-full sm:w-auto">
               <X size={18} />

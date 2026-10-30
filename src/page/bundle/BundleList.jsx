@@ -300,7 +300,7 @@ const BundleList = () => {
     {
       header: t("page.bundle.table.discount"),
       render: (row) => (
-        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-bold bg-red-100 text-red-700 border border-red-200">
+        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-bold bg-red-100 text-red-700 border border-red-200 dark:bg-red-950/40 dark:text-red-300 dark:border-red-900">
           <Zap size={10} />
           {row.discountPercentage > 0 ? `${row.discountPercentage}%` : "-"}
         </span>

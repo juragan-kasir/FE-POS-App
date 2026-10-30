@@ -234,7 +234,7 @@ const AttendanceModal = ({
                       {t("component.attendanceModal.ui.noAttendanceTimeIsRecorded")}
                     </p>
                     <div className="flex gap-3 pt-1">
-                      <Button type="button" variant="danger" onClick={() => onOpenChange(false)}>
+                      <Button type="button" variant="outline" onClick={() => onOpenChange(false)}>
                         {t("common.cancel")}
                       </Button>
                       <Button type="button" onClick={() => setRunKey((k) => k + 1)}>
@@ -306,7 +306,7 @@ const AttendanceModal = ({
                 </p>
 
                 <div className="mt-auto flex flex-col-reverse sm:flex-row lg:flex-col gap-3 pt-2">
-                  <Button type="button" variant="danger" onClick={() => onOpenChange(false)}>
+                  <Button type="button" variant="outline" onClick={() => onOpenChange(false)}>
                     {t("common.cancel")}
                   </Button>
                   <Button

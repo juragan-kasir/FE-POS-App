@@ -144,7 +144,7 @@ const DeliveryOrderDetail = () => {
     return (
       <div className="text-center py-20">
         <p className="text-muted-foreground">{t("page.delivery.detail.notFound")}</p>
-        <Button variant="danger" className="mt-4" onClick={() => navigate("/delivery-orders")}>
+        <Button variant="outline" className="mt-4" onClick={() => navigate("/delivery-orders")}>
           {t("page.delivery.detail.backToList")}
         </Button>
       </div>
@@ -172,7 +172,7 @@ const DeliveryOrderDetail = () => {
         ]}
         title={`${t("page.delivery.detail.title")} - ${order.orderNumber}`}
         description={order.customerName}>
-        <Button variant="danger" onClick={() => navigate("/delivery-orders")}>
+        <Button variant="outline" onClick={() => navigate("/delivery-orders")}>
           <ArrowLeft size={16} className="mr-1" />
           {t("page.delivery.detail.backToList")}
         </Button>

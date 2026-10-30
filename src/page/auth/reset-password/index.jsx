@@ -271,7 +271,7 @@ const ResetPasswordPage = () => {
                     {translationMemo.emailSentDesc}
                   </p>
                   <Button
-                    variant="danger"
+                    variant="outline"
                     type="button"
                     onClick={() => navigate("/")}
                     className="w-full h-10 bg-foreground text-background hover:bg-foreground/90 rounded-md font-semibold text-sm md:text-base shadow-sm transition-colors">

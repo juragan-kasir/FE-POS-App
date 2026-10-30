@@ -106,7 +106,7 @@ const DetailIngredientCategory = () => {
         <Button variant="outline" onClick={() => refetch()}>
           {t("common.retry")}
         </Button>
-        <Button variant="danger" onClick={() => navigate("/ingredient-category")}>
+        <Button variant="outline" onClick={() => navigate("/ingredient-category")}>
           {t("common.back")}
         </Button>
       </div>

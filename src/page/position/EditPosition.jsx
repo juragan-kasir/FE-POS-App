@@ -134,7 +134,7 @@ const EditPosition = () => {
       <div className="flex flex-col items-center justify-center h-64 text-muted-foreground gap-3">
         <BadgeCheck size={36} className="text-4xl" />
         <p>{t("page.position.edit.idNotFound")}</p>
-        <Button variant="danger" onClick={() => navigate("/position-list")}>
+        <Button variant="outline" onClick={() => navigate("/position-list")}>
           {t("common.cancel")}
         </Button>
       </div>
@@ -184,7 +184,7 @@ const EditPosition = () => {
       <div className="flex flex-col items-center justify-center h-64 text-muted-foreground gap-3">
         <BadgeCheck size={36} className="text-4xl" />
         <p>{t("page.position.edit.notFound")}</p>
-        <Button variant="danger" onClick={() => navigate("/position-list")}>
+        <Button variant="outline" onClick={() => navigate("/position-list")}>
           {t("common.cancel")}
         </Button>
       </div>
@@ -388,7 +388,7 @@ const EditPosition = () => {
             />
 
             <div className="flex items-center justify-end gap-3 pt-2">
-              <Button type="button" variant="danger" onClick={requestLeave} className="gap-2">
+              <Button type="button" variant="outline" onClick={requestLeave} className="gap-2">
                 <X size={20} className="text-lg" />
                 {t("common.cancel")}
               </Button>

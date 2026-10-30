@@ -423,7 +423,7 @@ const ExtendShiftModal = ({ open, onOpenChange, shift, locationName, onSave, isS
 
         {/* Footer */}
         <div className="flex items-center justify-end gap-3 pt-2 border-t border-border">
-          <Button type="button" variant="danger" onClick={() => onOpenChange(false)}>
+          <Button type="button" variant="outline" onClick={() => onOpenChange(false)}>
             {t("common.cancel")}
           </Button>
           <Button
