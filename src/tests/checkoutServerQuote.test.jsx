@@ -143,7 +143,9 @@ describe("CheckoutModal — server quote", () => {
     );
     renderModal();
 
-    expect(await screen.findByText("Rp 99.900")).toBeInTheDocument();
+    // Shown in the summary and in the sticky footer above Konfirmasi.
+    expect(await screen.findAllByText("Rp 99.900")).toHaveLength(2);
+    expect(screen.getByTestId("checkout-footer-total")).toHaveTextContent("Rp 99.900");
     expect(screen.getByText("page.cashier.quote.tierDiscount")).toBeInTheDocument();
     expect(screen.getByText("-Rp 10.000")).toBeInTheDocument();
     expect(screen.getByText("Rp 9.900")).toBeInTheDocument();
@@ -230,7 +232,9 @@ describe("CheckoutModal — server quote", () => {
     );
     renderModal();
 
-    expect(await screen.findByText("Rp 95.000")).toBeInTheDocument();
+    // Shown in the summary and in the sticky footer above Konfirmasi.
+    expect(await screen.findAllByText("Rp 95.000")).toHaveLength(2);
+    expect(screen.getByTestId("checkout-footer-total")).toHaveTextContent("Rp 95.000");
     expect(screen.queryByText("page.cashier.quote.tierDiscount")).not.toBeInTheDocument();
     expect(screen.getByText("-Rp 5.000")).toBeInTheDocument();
   });
