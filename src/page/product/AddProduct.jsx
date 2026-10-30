@@ -9,18 +9,12 @@ import {
   Save,
   X,
   Plus,
-  Tag,
-  Layers,
   DollarSign,
   Info,
-  Trash2,
-  GripVertical,
   Package,
-  TrendingUp,
   ChevronLeft,
   ChevronRight,
   ChevronDown,
-  Check,
   Eye,
   TriangleAlert
 } from "lucide-react";
@@ -40,7 +34,6 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Switch } from "@/components/ui/switch";
 import { Button } from "@/components/ui/button";
 import { Loading } from "@/components/ui/loading";
 import Modal from "@/components/organism/modal";
@@ -56,11 +49,12 @@ import MissingFieldsModal from "@/components/organism/MissingFieldsModal";
 import { getMissingFields } from "@/lib/validation";
 import { normalizePayload } from "@/lib/payload-normalizer";
 import ProductPreview from "./ProductPreview";
-import ProductImageGallery from "@/components/organism/ProductImageGallery";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import InventoryModeField from "@/page/product/InventoryModeField";
 import ProductPriceCostFields from "@/page/product/ProductPriceCostFields";
 import ConversionFactorField from "@/page/product/ConversionFactorField";
+import ProductExtrasStep from "@/page/product/ProductExtrasStep";
+import { useProductExtras } from "@/page/product/useProductExtras";
 import InventoryLinkField, { useLinkItems } from "@/page/product/InventoryLinkField";
 import { INVENTORY_MODES, initialStockNeedsStore, isInventoryItemMode } from "@/lib/inventory-mode";
 import { linkUnitCost, linksPayload, missingLinkStores } from "@/lib/inventory-link";
@@ -119,13 +113,9 @@ const AddProduct = () => {
   const [successModal, setSuccessModal] = useState(false);
   const [createdRecordId, setCreatedRecordId] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [productImages, setProductImages] = useState([]);
   const [optionalOpen, setOptionalOpen] = useState(false);
 
   const [currentStep, setCurrentStep] = useState(1);
-  const [variantGroups, setVariantGroups] = useState([]);
-  const [modifierItems, setModifierItems] = useState([]);
-  const [priceTiers, setPriceTiers] = useState([]);
   const [noStockOpname, setNoStockOpname] = useState(false);
   const [missingFieldsModal, setMissingFieldsModal] = useState(false);
   const [missingFieldsList, setMissingFieldsList] = useState([]);
@@ -217,6 +207,8 @@ const AddProduct = () => {
       store: ""
     }
   });
+  const extras = useProductExtras(form, setConfirmAction);
+  const { variantGroups, modifierItems, priceTiers, productImages } = extras;
   const { request: requestLeave, leave } = useFormExit(
     "/product-list",
     () => setCancelModal(true),
@@ -292,86 +284,6 @@ const AddProduct = () => {
     }
   });
 
-  const handleProductImagesChange = (updater) => {
-    setProductImages(updater);
-  };
-
-  const addVariantGroup = () => {
-    setVariantGroups((prev) => [
-      ...prev,
-      { id: Date.now(), name: "", options: [{ name: "", price: 0, stock: 0 }] }
-    ]);
-    form.setValue("isOption", true);
-  };
-
-  const removeVariantGroup = (id) => {
-    setVariantGroups((prev) => prev.filter((g) => g.id !== id));
-    if (variantGroups.length <= 1) {
-      form.setValue("isOption", false);
-    }
-  };
-
-  const updateVariantGroup = (id, field, value) => {
-    setVariantGroups((prev) => prev.map((g) => (g.id === id ? { ...g, [field]: value } : g)));
-  };
-
-  const addVariantOption = (groupId) => {
-    setVariantGroups((prev) =>
-      prev.map((g) =>
-        g.id === groupId ? { ...g, options: [...g.options, { name: "", price: 0, stock: 0 }] } : g
-      )
-    );
-  };
-
-  const updateVariantOption = (groupId, index, field, value) => {
-    setVariantGroups((prev) =>
-      prev.map((g) =>
-        g.id === groupId
-          ? {
-              ...g,
-              options: g.options.map((opt, i) => (i === index ? { ...opt, [field]: value } : opt))
-            }
-          : g
-      )
-    );
-  };
-
-  const removeVariantOption = (groupId, index) => {
-    setVariantGroups((prev) =>
-      prev.map((g) =>
-        g.id === groupId ? { ...g, options: g.options.filter((_, i) => i !== index) } : g
-      )
-    );
-  };
-
-  const addModifierItem = () => {
-    setModifierItems((prev) => [...prev, { id: Date.now(), name: "", price: 0 }]);
-    form.setValue("hasModifiers", true);
-  };
-
-  const updateModifierItem = (id, field, value) => {
-    setModifierItems((prev) => prev.map((m) => (m.id === id ? { ...m, [field]: value } : m)));
-  };
-
-  const removeModifierItem = (id) => {
-    setModifierItems((prev) => prev.filter((m) => m.id !== id));
-    if (modifierItems.length <= 1) {
-      form.setValue("hasModifiers", false);
-    }
-  };
-
-  const addPriceTier = () => {
-    setPriceTiers((prev) => [...prev, { id: Date.now(), name: "", price: 0 }]);
-  };
-
-  const updatePriceTier = (id, field, value) => {
-    setPriceTiers((prev) => prev.map((t) => (t.id === id ? { ...t, [field]: value } : t)));
-  };
-
-  const removePriceTier = (id) => {
-    setPriceTiers((prev) => prev.filter((t) => t.id !== id));
-  };
-
   const canGoNext = () => {
     if (currentStep === 1) {
       const values = form.getValues();
@@ -399,50 +311,6 @@ const AddProduct = () => {
 
   const handlePrev = () => {
     setCurrentStep((prev) => Math.max(prev - 1, 1));
-  };
-
-  const handleToggleOption = (checked) => {
-    if (!checked && variantGroups.length > 0) {
-      setConfirmAction({
-        title: t("page.product.form.confirmDisableVariantTitle"),
-        description: t("page.product.form.confirmDisableVariantDesc"),
-        onConfirm: () => {
-          form.setValue("isOption", false);
-          setVariantGroups([]);
-        }
-      });
-      return;
-    }
-    form.setValue("isOption", checked);
-    if (!checked) setVariantGroups([]);
-  };
-
-  const handleToggleModifier = (checked) => {
-    if (!checked && modifierItems.length > 0) {
-      setConfirmAction({
-        title: t("page.product.form.confirmDisableModifierTitle"),
-        description: t("page.product.form.confirmDisableModifierDesc"),
-        onConfirm: () => {
-          form.setValue("hasModifiers", false);
-          setModifierItems([]);
-        }
-      });
-      return;
-    }
-    form.setValue("hasModifiers", checked);
-    if (!checked) setModifierItems([]);
-  };
-
-  const confirmRemove = (onConfirm, count) => {
-    if (count > 1) {
-      setConfirmAction({
-        title: t("page.product.form.confirmDeleteTitle"),
-        description: t("page.product.form.confirmDeleteDesc"),
-        onConfirm
-      });
-      return;
-    }
-    onConfirm();
   };
 
   const handleSave = async (values, saveAsDraft = false) => {
@@ -1255,429 +1123,7 @@ const AddProduct = () => {
                 </>
               )}
 
-              {currentStep === 3 && (
-                <>
-                  <div className="bg-card rounded-xl shadow-sm border border-border p-6">
-                    <div className="flex items-center gap-2 pb-4 border-b border-border mb-5">
-                      <Layers size={18} className="text-primary" />
-                      <h3 className="text-base font-semibold text-foreground">
-                        {t("page.product.form.variantSection")}
-                      </h3>
-                    </div>
-
-                    <div className="space-y-6">
-                      <div className="flex items-center justify-between">
-                        <div>
-                          <p className="text-sm font-semibold text-foreground">
-                            {t("page.product.form.hasVariant")}
-                          </p>
-                          <p className="text-xs text-muted-foreground mt-0.5">
-                            {t("page.product.form.hasVariantDesc")}
-                          </p>
-                        </div>
-                        <Switch
-                          checked={form.watch("isOption") || variantGroups.length > 0}
-                          onCheckedChange={handleToggleOption}
-                        />
-                      </div>
-
-                      {isOption && (
-                        <div className="space-y-3 pl-4 border-l-2 border-primary/20">
-                          {variantGroups.map((group, groupIdx) => (
-                            <div key={group.id} className="bg-muted/30 rounded-lg p-4 space-y-3">
-                              <div className="flex items-center gap-2 mb-1">
-                                <span className="text-xs font-semibold text-primary bg-primary/10 rounded px-1.5 py-0.5 shrink-0">
-                                  {groupIdx + 1}
-                                </span>
-                                <span className="text-xs font-medium text-muted-foreground">
-                                  {t("page.product.form.variantSection")} {groupIdx + 1}
-                                </span>
-                              </div>
-                              <div className="flex items-center justify-between gap-2">
-                                <div className="flex items-center gap-2 flex-1">
-                                  <GripVertical
-                                    size={16}
-                                    className="text-muted-foreground shrink-0"
-                                  />
-                                  <Input
-                                    placeholder={t("page.product.form.variantNamePlaceholder")}
-                                    value={group.name}
-                                    onChange={(e) =>
-                                      updateVariantGroup(group.id, "name", e.target.value)
-                                    }
-                                    className="h-9 text-sm flex-1"
-                                    maxLength={FIELD_LIMITS.SHORT_LABEL}
-                                  />
-                                </div>
-                                <Button
-                                  type="button"
-                                  variant="destructive"
-                                  size="icon"
-                                  className="h-8 w-8 text-destructive shrink-0"
-                                  onClick={() =>
-                                    confirmRemove(
-                                      () => removeVariantGroup(group.id),
-                                      variantGroups.length
-                                    )
-                                  }>
-                                  <Trash2 size={18} />
-                                </Button>
-                              </div>
-                              <div className="space-y-2">
-                                {group.options.map((opt, idx) => (
-                                  <div key={idx} className="flex items-center gap-2">
-                                    <span className="text-xs font-semibold text-muted-foreground bg-muted rounded px-1 py-0.5 shrink-0">
-                                      {String.fromCharCode(65 + idx)}
-                                    </span>
-                                    <Input
-                                      placeholder={t("page.product.form.optionPlaceholder", {
-                                        number: idx + 1
-                                      })}
-                                      value={opt.name}
-                                      onChange={(e) =>
-                                        updateVariantOption(group.id, idx, "name", e.target.value)
-                                      }
-                                      className="h-9 text-sm flex-1"
-                                      maxLength={FIELD_LIMITS.SHORT_LABEL}
-                                    />
-                                    <div className="relative w-28 shrink-0">
-                                      <span className="absolute left-2.5 top-1/2 -translate-y-1/2 text-xs text-muted-foreground">
-                                        Rp
-                                      </span>
-                                      <Input
-                                        type="text"
-                                        inputMode="numeric"
-                                        placeholder="0"
-                                        value={Number(opt.price).toLocaleString("id-ID")}
-                                        onChange={(e) => {
-                                          const raw = e.target.value.replace(/[^0-9]/g, "");
-                                          updateVariantOption(
-                                            group.id,
-                                            idx,
-                                            "price",
-                                            raw ? Number(raw) : 0
-                                          );
-                                        }}
-                                        className="h-9 text-sm pl-8"
-                                      />
-                                    </div>
-                                    <Input
-                                      type="number"
-                                      placeholder={t("page.product.form.variantStockPlaceholder")}
-                                      value={opt.stock}
-                                      onChange={(e) =>
-                                        updateVariantOption(group.id, idx, "stock", e.target.value)
-                                      }
-                                      className="h-9 text-sm w-20 shrink-0"
-                                    />
-                                    {group.options.length > 1 && (
-                                      <Button
-                                        type="button"
-                                        variant="destructive"
-                                        size="icon"
-                                        className="h-8 w-8 text-muted-foreground shrink-0"
-                                        onClick={() =>
-                                          confirmRemove(
-                                            () => removeVariantOption(group.id, idx),
-                                            group.options.length
-                                          )
-                                        }>
-                                        <X size={18} />
-                                      </Button>
-                                    )}
-                                  </div>
-                                ))}
-                              </div>
-                              <Button
-                                type="button"
-                                variant="success"
-                                size="sm"
-                                className="gap-1 h-8 text-xs"
-                                onClick={() => addVariantOption(group.id)}>
-                                <Plus size={14} /> {t("page.product.form.addOption")}
-                              </Button>
-                            </div>
-                          ))}
-                          <Button
-                            type="button"
-                            variant="success"
-                            size="sm"
-                            className="gap-1"
-                            onClick={addVariantGroup}>
-                            <Plus size={18} /> {t("page.product.form.addVariantGroup")}
-                          </Button>
-                        </div>
-                      )}
-
-                      <div className="border-t border-border pt-5">
-                        <div className="flex items-center justify-between">
-                          <div>
-                            <p className="text-sm font-semibold text-foreground">
-                              {t("page.product.form.hasModifier")}
-                            </p>
-                            <p className="text-xs text-muted-foreground mt-0.5">
-                              {t("page.product.form.hasModifierDesc")}
-                            </p>
-                          </div>
-                          <Switch
-                            checked={form.watch("hasModifiers") || modifierItems.length > 0}
-                            onCheckedChange={handleToggleModifier}
-                          />
-                        </div>
-
-                        {hasModifiers && (
-                          <div className="space-y-3 pl-4 border-l-2 border-primary/20 mt-4">
-                            <p className="text-xs text-muted-foreground">
-                              {t("page.product.form.modifierInfo")}
-                            </p>
-                            {modifierItems.map((mod, modIdx) => (
-                              <div key={mod.id} className="bg-muted/30 rounded-lg p-4">
-                                <div className="flex items-center gap-2 mb-2">
-                                  <span className="text-xs font-semibold text-primary bg-primary/10 rounded px-1.5 py-0.5 shrink-0">
-                                    {modIdx + 1}
-                                  </span>
-                                  <span className="text-xs font-medium text-muted-foreground">
-                                    {t("page.product.form.modifierSection")} {modIdx + 1}
-                                  </span>
-                                </div>
-                                <div className="flex items-center gap-2 mb-3">
-                                  <Input
-                                    placeholder={t("page.product.form.modifierNamePlaceholder")}
-                                    value={mod.name}
-                                    onChange={(e) =>
-                                      updateModifierItem(mod.id, "name", e.target.value)
-                                    }
-                                    className="h-9 text-sm flex-1"
-                                    maxLength={FIELD_LIMITS.SHORT_LABEL}
-                                  />
-                                  <div className="relative w-32 shrink-0">
-                                    <span className="absolute left-2.5 top-1/2 -translate-y-1/2 text-xs text-muted-foreground">
-                                      Rp
-                                    </span>
-                                    <Input
-                                      type="text"
-                                      inputMode="numeric"
-                                      placeholder="0"
-                                      value={Number(mod.price).toLocaleString("id-ID")}
-                                      onChange={(e) => {
-                                        const raw = e.target.value.replace(/[^0-9]/g, "");
-                                        updateModifierItem(mod.id, "price", raw ? Number(raw) : 0);
-                                      }}
-                                      className="h-9 text-sm pl-8"
-                                    />
-                                  </div>
-                                  <Button
-                                    type="button"
-                                    variant="destructive"
-                                    size="icon"
-                                    className="h-8 w-8 text-destructive shrink-0"
-                                    onClick={() =>
-                                      confirmRemove(
-                                        () => removeModifierItem(mod.id),
-                                        modifierItems.length
-                                      )
-                                    }>
-                                    <Trash2 size={18} />
-                                  </Button>
-                                </div>
-                              </div>
-                            ))}
-                            <Button
-                              type="button"
-                              variant="success"
-                              size="sm"
-                              className="gap-1"
-                              onClick={addModifierItem}>
-                              <Plus size={18} /> {t("page.product.form.addModifier")}
-                            </Button>
-                          </div>
-                        )}
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="bg-card rounded-xl shadow-sm border border-border p-6">
-                    <div className="flex items-center gap-2 pb-4 border-b border-border mb-5">
-                      <TrendingUp size={18} className="text-primary" />
-                      <h3 className="text-base font-semibold text-foreground">
-                        {t("page.product.form.tierSection")}
-                      </h3>
-                    </div>
-                    <p className="text-xs text-muted-foreground -mt-2 mb-4">
-                      {t("page.product.form.tierInfo")}
-                    </p>
-                    <div className="space-y-3">
-                      {priceTiers.map((tier, tierIdx) => (
-                        <div key={tier.id} className="bg-muted/30 rounded-lg p-4">
-                          <div className="flex items-center gap-2 mb-2">
-                            <span className="text-xs font-semibold text-primary bg-primary/10 rounded px-1.5 py-0.5 shrink-0">
-                              {tierIdx + 1}
-                            </span>
-                            <span className="text-xs font-medium text-muted-foreground">
-                              {t("page.product.form.tierSection")} {tierIdx + 1}
-                            </span>
-                          </div>
-                          <div className="flex items-center gap-2">
-                            <Input
-                              placeholder={t("page.product.form.tierNamePlaceholder")}
-                              value={tier.name}
-                              onChange={(e) => updatePriceTier(tier.id, "name", e.target.value)}
-                              className="h-9 text-sm flex-1"
-                              maxLength={FIELD_LIMITS.SHORT_LABEL}
-                            />
-                            <div className="relative w-40 shrink-0">
-                              <span className="absolute left-2.5 top-1/2 -translate-y-1/2 text-xs text-muted-foreground">
-                                Rp
-                              </span>
-                              <Input
-                                type="text"
-                                inputMode="numeric"
-                                placeholder="0"
-                                value={Number(tier.price).toLocaleString("id-ID")}
-                                onChange={(e) => {
-                                  const raw = e.target.value.replace(/[^0-9]/g, "");
-                                  updatePriceTier(tier.id, "price", raw ? Number(raw) : 0);
-                                }}
-                                className="h-9 text-sm pl-8"
-                              />
-                            </div>
-                            <Button
-                              type="button"
-                              variant="destructive"
-                              size="icon"
-                              className="h-8 w-8 text-destructive shrink-0"
-                              onClick={() =>
-                                confirmRemove(() => removePriceTier(tier.id), priceTiers.length)
-                              }>
-                              <Trash2 size={18} />
-                            </Button>
-                          </div>
-                        </div>
-                      ))}
-                      <Button
-                        type="button"
-                        variant="success"
-                        size="sm"
-                        className="gap-1"
-                        onClick={addPriceTier}>
-                        <Plus size={18} /> {t("page.product.form.addTier")}
-                      </Button>
-                      {priceTiers.length === 0 && (
-                        <p className="text-xs text-muted-foreground">
-                          {t("page.product.form.tierEmpty")}
-                        </p>
-                      )}
-                    </div>
-                  </div>
-
-                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                    <div className="bg-card rounded-xl shadow-sm border border-border p-6">
-                      <ProductImageGallery
-                        images={productImages}
-                        onChange={handleProductImagesChange}
-                      />
-                    </div>
-
-                    <div className="bg-card rounded-xl shadow-sm border border-border p-6">
-                      <div className="flex items-center gap-2 pb-4 border-b border-border mb-4">
-                        <Tag size={18} className="text-primary" />
-                        <h3 className="text-base font-semibold text-foreground">
-                          {t("page.product.form.statusSection")}
-                        </h3>
-                      </div>
-
-                      <div className="space-y-4">
-                        <FormField
-                          control={form.control}
-                          name="status"
-                          render={({ field }) => (
-                            <FormItem>
-                              <div
-                                className={`pt-2 flex items-center justify-between p-4 rounded-lg ${
-                                  field.value
-                                    ? "bg-green-50 dark:bg-green-900/10 border border-green-200 dark:border-green-800"
-                                    : "bg-red-50 dark:bg-red-900/10 border border-red-200 dark:border-red-800"
-                                }`}>
-                                <div className="flex items-center gap-3">
-                                  <div
-                                    className={`w-10 h-10 rounded-full flex items-center justify-center ${
-                                      field.value
-                                        ? "bg-green-600 text-secondary"
-                                        : "bg-destructive/10 text-destructive"
-                                    }`}>
-                                    {field.value ? (
-                                      <Check size={20} />
-                                    ) : (
-                                      <span className="text-lg font-bold">⏻</span>
-                                    )}
-                                  </div>
-                                  <div>
-                                    <p className="text-sm font-semibold text-foreground">
-                                      {t("page.product.form.statusLabel")}{" "}
-                                      {field.value
-                                        ? t("page.product.form.active")
-                                        : t("page.product.form.inactive")}
-                                    </p>
-                                    <p className="text-xs text-muted-foreground">
-                                      {field.value
-                                        ? t("page.product.form.activeDesc")
-                                        : t("page.product.form.inactiveDesc")}
-                                    </p>
-                                  </div>
-                                </div>
-                                <Switch checked={field.value} onCheckedChange={field.onChange} />
-                              </div>
-                            </FormItem>
-                          )}
-                        />
-
-                        <FormField
-                          control={form.control}
-                          name="isAvailable"
-                          render={({ field }) => (
-                            <FormItem>
-                              <div
-                                className={`pt-2 flex items-center justify-between p-4 rounded-lg ${
-                                  field.value
-                                    ? "bg-green-50 dark:bg-green-900/10 border border-green-200 dark:border-green-800"
-                                    : "bg-red-50 dark:bg-red-900/10 border border-red-200 dark:border-red-800"
-                                }`}>
-                                <div className="flex items-center gap-3">
-                                  <div
-                                    className={`w-10 h-10 rounded-full flex items-center justify-center ${
-                                      field.value
-                                        ? "bg-green-600 text-secondary"
-                                        : "bg-destructive/10 text-destructive"
-                                    }`}>
-                                    {field.value ? (
-                                      <Check size={20} />
-                                    ) : (
-                                      <span className="text-lg font-bold">⏻</span>
-                                    )}
-                                  </div>
-                                  <div>
-                                    <p className="text-sm font-semibold text-foreground">
-                                      {field.value
-                                        ? t("page.product.form.yes")
-                                        : t("page.product.form.no")}
-                                    </p>
-                                    <p className="text-xs text-muted-foreground">
-                                      {field.value
-                                        ? t("page.product.form.availableDesc")
-                                        : t("page.product.form.unavailableDesc")}
-                                    </p>
-                                  </div>
-                                </div>
-                                <Switch checked={field.value} onCheckedChange={field.onChange} />
-                              </div>
-                            </FormItem>
-                          )}
-                        />
-                      </div>
-                    </div>
-                  </div>
-                </>
-              )}
+              {currentStep === 3 && <ProductExtrasStep form={form} extras={extras} />}
             </div>
           </div>
 
