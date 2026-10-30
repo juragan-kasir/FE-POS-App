@@ -940,7 +940,7 @@ const CashierPage = () => {
               <DialogDescription>{t("page.cashier.loadOrderConfirmDesc")}</DialogDescription>
             </DialogHeader>
             <DialogFooter>
-              <Button variant="danger" onClick={() => setPendingLoadOrder(null)}>
+              <Button variant="outline" onClick={() => setPendingLoadOrder(null)}>
                 {t("page.cashier.cancel")}
               </Button>
               <Button
@@ -963,7 +963,7 @@ const CashierPage = () => {
               <DialogDescription>{t("page.cashier.clearCartDesc")}</DialogDescription>
             </DialogHeader>
             <DialogFooter>
-              <Button variant="danger" onClick={() => setClearCartOpen(false)}>
+              <Button variant="outline" onClick={() => setClearCartOpen(false)}>
                 {t("page.cashier.cancel")}
               </Button>
               <Button
@@ -1000,7 +1000,7 @@ const CashierPage = () => {
               maxLength={FIELD_LIMITS.DESCRIPTION}
             />
             <DialogFooter>
-              <Button variant="danger" onClick={() => setParkCartOpen(false)}>
+              <Button variant="outline" onClick={() => setParkCartOpen(false)}>
                 {t("page.cashier.cancel")}
               </Button>
               <Button variant="success" disabled={parkMutation.isLoading} onClick={handleParkCart}>

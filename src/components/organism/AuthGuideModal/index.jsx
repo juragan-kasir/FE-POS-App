@@ -285,7 +285,7 @@ const AuthGuideModal = ({ open, onOpenChange, context = "login" }) => {
 
                 {isLast ? (
                   <Button
-                    variant="danger"
+                    variant="outline"
                     size="sm"
                     onClick={handleClose}
                     className="gap-1 text-xs">

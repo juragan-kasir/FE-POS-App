@@ -1532,7 +1532,7 @@ export default function DetailPurchaseOrder() {
               </div>
             </div>
             <DialogFooter>
-              <Button variant="danger" onClick={() => setPaymentModalOpen(false)}>
+              <Button variant="outline" onClick={() => setPaymentModalOpen(false)}>
                 {t("common.cancel")}
               </Button>
               <Button variant="success" onClick={handleRecordPayment} disabled={paySubmitting}>
@@ -1556,7 +1556,7 @@ export default function DetailPurchaseOrder() {
             </DialogDescription>
           </DialogHeader>
           <DialogFooter>
-            <Button variant="danger" onClick={() => setDeleteModalOpen(false)}>
+            <Button variant="outline" onClick={() => setDeleteModalOpen(false)}>
               {t("common.cancel")}
             </Button>
             <Button variant="destructive" onClick={handleDeletePayment}>
@@ -1704,7 +1704,7 @@ export default function DetailPurchaseOrder() {
             </div>
           </div>
           <DialogFooter>
-            <Button variant="danger" onClick={() => setReturnModalOpen(false)}>
+            <Button variant="outline" onClick={() => setReturnModalOpen(false)}>
               {t("common.cancel")}
             </Button>
             <Button variant="success" onClick={handleCreateReturn} disabled={returnSubmitting}>

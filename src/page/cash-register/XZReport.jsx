@@ -802,7 +802,7 @@ const XZReport = () => {
                 {t("page.cashRegister.xz.noOpenRegister")}
               </p>
               <Button
-                variant="danger"
+                variant="default"
                 onClick={() => navigate("/cash-register/open-close")}
                 className="font-semibold shadow-sm hover:shadow-md rounded-lg px-5 h-9 transition-all"
                 size="sm">

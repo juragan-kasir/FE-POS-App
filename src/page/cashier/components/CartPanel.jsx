@@ -524,7 +524,7 @@ const CartPanel = ({
             <DialogDescription>{t("page.cashier.deleteDesc")}</DialogDescription>
           </DialogHeader>
           <DialogFooter className="gap-2">
-            <Button variant="danger" onClick={() => setDeleteConfirm(null)}>
+            <Button variant="outline" onClick={() => setDeleteConfirm(null)}>
               {t("page.cashier.deleteNo")}
             </Button>
             <Button variant="destructive" onClick={handleDeleteConfirm}>
@@ -553,7 +553,7 @@ const CartPanel = ({
             </div>
           )}
           <DialogFooter className="gap-2">
-            <Button variant="danger" onClick={cancelPriceOverride}>
+            <Button variant="outline" onClick={cancelPriceOverride}>
               {t("page.cashier.confirmPriceOverrideNo")}
             </Button>
             <Button variant="success" onClick={confirmPriceOverride}>

@@ -618,7 +618,7 @@ const EditGoodsRequest = () => {
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pt-4 border-t">
             <Button
               type="button"
-              variant="danger"
+              variant="outline"
               className="w-full sm:w-auto justify-center"
               onClick={requestLeave}>
               <X size={16} className="mr-1" /> {t("page.goodsRequest.edit.form.cancel")}

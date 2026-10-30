@@ -548,7 +548,7 @@ const ProductionOrderList = () => {
                 </div>
                 <div className="flex justify-end gap-2 mt-4">
                   <Button
-                    variant="danger"
+                    variant="outline"
                     onClick={() => {
                       setCompleteTarget(null);
                       setCompleteQty("");

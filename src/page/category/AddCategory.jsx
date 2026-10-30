@@ -865,7 +865,7 @@ const AddCategory = () => {
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mt-6 bg-card border border-border rounded-xl p-4">
                 <Button
                   type="button"
-                  variant="danger"
+                  variant="outline"
                   className="w-full sm:w-auto justify-center"
                   onClick={requestLeave}>
                   {t("common.cancel")}
@@ -1022,7 +1022,7 @@ const AddCategory = () => {
                 </div>
 
                 <div className="px-8 py-5 border-t border-border bg-muted/30 flex justify-end gap-4">
-                  <Button variant="danger" onClick={() => setIconPickerOpen(false)}>
+                  <Button variant="outline" onClick={() => setIconPickerOpen(false)}>
                     {t("page.category.iconPicker.cancel")}
                   </Button>
                   <Button

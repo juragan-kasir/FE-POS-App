@@ -847,7 +847,7 @@ const EditProduct = () => {
       <div className="flex flex-col items-center justify-center h-64 text-muted-foreground gap-3">
         <Info size={48} className="opacity-30" />
         <p>{t("page.product.detail.notFound")}</p>
-        <Button variant="danger" onClick={() => navigate("/product-list")}>
+        <Button variant="outline" onClick={() => navigate("/product-list")}>
           {t("page.product.form.back")}
         </Button>
       </div>
@@ -2091,7 +2091,7 @@ const EditProduct = () => {
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mt-6 bg-card border border-border rounded-xl p-4">
             <Button
               type="button"
-              variant="danger"
+              variant="outline"
               onClick={requestLeave}
               className="gap-2 w-full sm:w-auto">
               <X size={18} /> {t("page.product.form.cancel")}

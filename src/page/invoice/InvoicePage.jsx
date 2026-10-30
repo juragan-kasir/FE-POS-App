@@ -1341,7 +1341,7 @@ const InvoicePage = () => {
                 <DialogDescription>{t("page.invoice.saveConfirmDesc")}</DialogDescription>
               </DialogHeader>
               <DialogFooter className="gap-2">
-                <Button variant="danger" onClick={() => setSaveConfirmOpen(false)}>
+                <Button variant="outline" onClick={() => setSaveConfirmOpen(false)}>
                   {t("common.cancel")}
                 </Button>
                 <Button variant="success" onClick={handleConfirmSave}>

@@ -336,7 +336,7 @@ const CreateSalesReturn = () => {
         icon={SearchX}
         title={t("page.salesReturn.create.orderNotFound.title")}
         description={t("page.salesReturn.create.orderNotFound.desc")}>
-        <Button variant="danger" onClick={() => navigate("/sales-return")}>
+        <Button variant="outline" onClick={() => navigate("/sales-return")}>
           <ArrowLeft size={16} className="mr-2" /> {t("page.salesReturn.create.back")}
         </Button>
       </EmptyState>
@@ -358,7 +358,7 @@ const CreateSalesReturn = () => {
         icon={Ban}
         title={t("page.salesReturn.create.orderNotPaid.title")}
         description={t("page.salesReturn.create.orderNotPaid.desc")}>
-        <Button variant="danger" onClick={() => navigate("/sales-return")}>
+        <Button variant="outline" onClick={() => navigate("/sales-return")}>
           <ArrowLeft size={16} className="mr-2" /> {t("page.salesReturn.create.back")}
         </Button>
       </EmptyState>

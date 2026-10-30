@@ -1719,7 +1719,7 @@ const AddProduct = () => {
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mt-6 bg-card border border-border rounded-xl p-4">
             <Button
               type="button"
-              variant="danger"
+              variant="outline"
               onClick={requestLeave}
               className="gap-2 w-full sm:w-auto">
               <X size={18} />

@@ -97,7 +97,7 @@ const DetailStockOpname = () => {
     return (
       <div className="flex flex-col items-center justify-center h-64 gap-4">
         <p className="text-muted-foreground">{t("common.notFound")}</p>
-        <Button variant="danger" onClick={() => navigate("/stock-opname")}>
+        <Button variant="outline" onClick={() => navigate("/stock-opname")}>
           {t("common.back")}
         </Button>
       </div>
@@ -306,7 +306,7 @@ const DetailStockOpname = () => {
         </Card>
 
         <div className="flex items-center justify-between pt-2">
-          <Button variant="danger" onClick={() => navigate("/stock-opname")}>
+          <Button variant="outline" onClick={() => navigate("/stock-opname")}>
             {t("common.back")}
           </Button>
           {canEdit && (

@@ -48,7 +48,7 @@ const DetailTypePayment = () => {
       <div className="flex flex-col items-center justify-center h-64 text-muted-foreground gap-3">
         <CreditCard size={48} className="opacity-40" />
         <p>{t("page.typePayment.ui.paymentIdNotFound")}</p>
-        <Button variant="danger" onClick={() => navigate("/type-payment-list")}>
+        <Button variant="outline" onClick={() => navigate("/type-payment-list")}>
           {t("common.back")}
         </Button>
       </div>
@@ -113,7 +113,7 @@ const DetailTypePayment = () => {
       <div className="flex flex-col items-center justify-center h-64 text-muted-foreground gap-3">
         <CreditCard size={48} className="opacity-40" />
         <p>{t("page.typePayment.ui.paymentMethodNotFound")}</p>
-        <Button variant="danger" onClick={() => navigate("/type-payment-list")}>
+        <Button variant="outline" onClick={() => navigate("/type-payment-list")}>
           {t("common.back")}
         </Button>
       </div>
@@ -282,7 +282,10 @@ const DetailTypePayment = () => {
         </div>
 
         <div className="flex justify-end gap-3">
-          <Button variant="danger" onClick={() => navigate("/type-payment-list")} className="gap-2">
+          <Button
+            variant="outline"
+            onClick={() => navigate("/type-payment-list")}
+            className="gap-2">
             <ArrowLeft size={16} />
             {t("common.back")}
           </Button>

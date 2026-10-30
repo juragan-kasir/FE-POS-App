@@ -419,7 +419,7 @@ const NotificationPage = () => {
             )}
 
             <div className="flex justify-end gap-3 pt-4 border-t">
-              <Button variant="danger" onClick={() => setSelectedNotif(null)}>
+              <Button variant="outline" onClick={() => setSelectedNotif(null)}>
                 {t("common.close")}
               </Button>
             </div>

@@ -660,7 +660,7 @@ const AddBundle = () => {
         {/* ponytail: mobile = tombol memenuhi lebar; desktop satu baris justify-between */}
         <div className="sticky bottom-4 z-10 flex flex-wrap justify-between items-center gap-3 bg-card border border-border/60 shadow-lg rounded-xl p-4 backdrop-blur-sm">
           <Button
-            variant="danger"
+            variant="outline"
             onClick={requestLeave}
             disabled={createMutation.isLoading}
             className="gap-2 flex-1 sm:flex-none">

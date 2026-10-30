@@ -318,7 +318,7 @@ const LocationDetail = () => {
       <div className="flex flex-col items-center justify-center h-64 text-muted-foreground gap-3">
         <Store size={40} />
         <p>{t("page.location.detail.locationNotFound")}</p>
-        <Button variant="danger" onClick={() => navigate("/location-list")}>
+        <Button variant="outline" onClick={() => navigate("/location-list")}>
           {t("breadcrumb.back")}
         </Button>
       </div>

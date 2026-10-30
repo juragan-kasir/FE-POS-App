@@ -109,7 +109,7 @@ const SupplierScoreDetail = () => {
         ]}
         title={t("page.supplierPerformance.detail.title")}
         description={score.supplier?.name || ""}>
-        <Button variant="danger" onClick={() => navigate("/supplier-score-list")}>
+        <Button variant="outline" onClick={() => navigate("/supplier-score-list")}>
           <ArrowLeft size={16} className="mr-2" />
           {t("common.back")}
         </Button>

@@ -136,7 +136,7 @@ const EditShiftTemplate = () => {
       <div className="flex flex-col items-center justify-center h-64 text-muted-foreground gap-3">
         <BadgeCheck size={36} className="text-4xl" />
         <p>{t("page.shiftTemplate.detail.idNotFound")}</p>
-        <Button variant="danger" onClick={() => navigate("/shift-template-list")}>
+        <Button variant="outline" onClick={() => navigate("/shift-template-list")}>
           {t("page.shiftTemplate.button.back")}
         </Button>
       </div>
@@ -151,7 +151,7 @@ const EditShiftTemplate = () => {
       <div className="flex flex-col items-center justify-center h-64 text-muted-foreground gap-3">
         <BadgeCheck size={36} className="text-4xl" />
         <p>{t("page.shiftTemplate.detail.notFound")}</p>
-        <Button variant="danger" onClick={() => navigate("/shift-template-list")}>
+        <Button variant="outline" onClick={() => navigate("/shift-template-list")}>
           {t("page.shiftTemplate.button.back")}
         </Button>
       </div>
@@ -315,7 +315,7 @@ const EditShiftTemplate = () => {
             />
 
             <div className="flex items-center justify-end gap-3 pt-2">
-              <Button type="button" variant="danger" onClick={requestLeave} className="gap-2">
+              <Button type="button" variant="outline" onClick={requestLeave} className="gap-2">
                 <X size={20} className="text-lg" />
                 {t("common.cancel")}
               </Button>

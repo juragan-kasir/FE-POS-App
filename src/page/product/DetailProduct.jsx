@@ -292,7 +292,7 @@ const DetailProduct = () => {
         <Button variant="outline" onClick={() => refetch()}>
           {t("common.retry")}
         </Button>
-        <Button variant="danger" onClick={() => navigate("/product-list")}>
+        <Button variant="outline" onClick={() => navigate("/product-list")}>
           {t("common.back")}
         </Button>
       </div>

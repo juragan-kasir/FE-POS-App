@@ -237,7 +237,7 @@ const PromoCampaignDetail = () => {
       <div className="flex flex-col items-center justify-center h-64 text-muted-foreground gap-3">
         <Megaphone size={48} className="text-muted-foreground/40" />
         <p>{t("page.promo.detail.notFound")}</p>
-        <Button variant="danger" onClick={() => navigate("/promo-list")}>
+        <Button variant="outline" onClick={() => navigate("/promo-list")}>
           <ArrowLeft size={16} className="mr-1" />
           {t("common.back")}
         </Button>

@@ -166,7 +166,7 @@ const MemberPointHistory = () => {
       <div className="flex flex-col items-center justify-center h-64 text-muted-foreground gap-3">
         <Users size={48} className="text-5xl" />
         <p>{t("page.cashier.modal.memberNotFound")}</p>
-        <Button variant="danger" onClick={() => navigate("/member-list")}>
+        <Button variant="outline" onClick={() => navigate("/member-list")}>
           {t("page.member.pointHistory.back")}
         </Button>
       </div>

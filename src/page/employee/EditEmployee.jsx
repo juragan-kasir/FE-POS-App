@@ -669,7 +669,7 @@ const EditEmployee = () => {
       <div className="flex flex-col items-center justify-center h-96 gap-4">
         <BadgeCheck size={18} className="text-6xl text-muted-foreground" />
         <p className="text-muted-foreground">{t("page.employee.edit.notFound")}</p>
-        <Button variant="danger" onClick={() => navigate("/employee-list")}>
+        <Button variant="outline" onClick={() => navigate("/employee-list")}>
           {t("common.cancel")}
         </Button>
       </div>
@@ -1693,7 +1693,7 @@ const EditEmployee = () => {
                   <div className="flex flex-col sm:flex-row items-center justify-end gap-3 pt-5 border-t border-border mt-6">
                     <Button
                       type="button"
-                      variant="danger"
+                      variant="outline"
                       className="w-full sm:w-auto"
                       onClick={requestLeave}>
                       <ArrowLeft size={20} className="text-lg" />

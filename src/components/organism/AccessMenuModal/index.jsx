@@ -360,7 +360,7 @@ export default function AccessMenuModal({
         </div>
 
         <DialogFooter>
-          <Button type="button" variant="danger" onClick={() => onOpenChange(false)}>
+          <Button type="button" variant="outline" onClick={() => onOpenChange(false)}>
             {t("common.cancel")}
           </Button>
           <Button variant="success" type="button" onClick={handleSave} disabled={saving}>

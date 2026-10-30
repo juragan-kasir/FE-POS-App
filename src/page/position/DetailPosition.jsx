@@ -61,7 +61,7 @@ const DetailPosition = () => {
         <Button variant="outline" onClick={() => refetch()}>
           {t("common.retry")}
         </Button>
-        <Button variant="danger" onClick={() => navigate("/position-list")}>
+        <Button variant="outline" onClick={() => navigate("/position-list")}>
           {t("common.back")}
         </Button>
       </div>

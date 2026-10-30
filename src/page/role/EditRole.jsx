@@ -426,7 +426,7 @@ const EditRole = () => {
       </div>
 
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mt-6 bg-card border border-border rounded-xl p-4">
-        <Button variant="danger" onClick={leave} className="w-full sm:w-auto justify-center">
+        <Button variant="outline" onClick={leave} className="w-full sm:w-auto justify-center">
           {t("common.cancel")}
         </Button>
         <div className="flex flex-col sm:flex-row gap-3 sm:items-center">

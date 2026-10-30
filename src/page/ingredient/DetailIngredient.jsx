@@ -78,7 +78,7 @@ const DetailIngredient = () => {
       <div className="flex flex-col items-center justify-center h-64 text-muted-foreground gap-3">
         <Package size={40} />
         <p>{t("page.ingredient.notFound")}</p>
-        <Button variant="danger" onClick={() => navigate("/ingredient")}>
+        <Button variant="outline" onClick={() => navigate("/ingredient")}>
           {t("common.back")}
         </Button>
       </div>
@@ -187,7 +187,7 @@ const DetailIngredient = () => {
         <div className="flex flex-col items-center justify-center h-64 text-muted-foreground gap-3">
           <Package size={40} />
           <p>{t("page.ingredient.notFound")}</p>
-          <Button variant="danger" onClick={() => navigate("/ingredient")}>
+          <Button variant="outline" onClick={() => navigate("/ingredient")}>
             {t("common.back")}
           </Button>
         </div>

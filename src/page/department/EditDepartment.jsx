@@ -116,7 +116,7 @@ const EditDepartment = () => {
       <div className="flex flex-col items-center justify-center h-64 text-muted-foreground gap-3">
         <Building2 size={36} className="text-4xl" />
         <p>{t("page.department.detail.idNotFound")}</p>
-        <Button variant="danger" onClick={() => navigate("/department-list")}>
+        <Button variant="outline" onClick={() => navigate("/department-list")}>
           {t("page.department.button.back")}
         </Button>
       </div>
@@ -131,7 +131,7 @@ const EditDepartment = () => {
       <div className="flex flex-col items-center justify-center h-64 text-muted-foreground gap-3">
         <Building2 size={36} className="text-4xl" />
         <p>{t("page.department.detail.notFound")}</p>
-        <Button variant="danger" onClick={() => navigate("/department-list")}>
+        <Button variant="outline" onClick={() => navigate("/department-list")}>
           {t("page.department.button.back")}
         </Button>
       </div>
@@ -256,7 +256,7 @@ const EditDepartment = () => {
             />
 
             <div className="flex items-center justify-end gap-3 pt-2">
-              <Button type="button" variant="danger" onClick={requestLeave} className="gap-2">
+              <Button type="button" variant="outline" onClick={requestLeave} className="gap-2">
                 <X size={20} className="text-lg" />
                 {t("common.cancel")}
               </Button>

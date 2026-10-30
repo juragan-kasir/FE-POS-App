@@ -773,7 +773,7 @@ const EditBusinessTrip = () => {
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
             <Button
               type="button"
-              variant="danger"
+              variant="outline"
               className="w-full sm:w-auto justify-center"
               onClick={requestLeave}>
               <X size={16} className="mr-1" /> {t("page.businessTrip.add.form.cancel")}

@@ -1650,7 +1650,7 @@ const PurchaseOrderList = () => {
                 </p>
                 <div className="flex gap-2">
                   <Button
-                    variant="danger"
+                    variant="outline"
                     onClick={() => {
                       setReturModal(false);
                       setReturPo(null);
@@ -2011,7 +2011,7 @@ const PurchaseOrderList = () => {
                   </div>
                   <div className="px-6 py-4 border-t border-border flex justify-between gap-3">
                     <Button
-                      variant="danger"
+                      variant="outline"
                       className="h-11 px-6 min-w-[120px]"
                       onClick={() => {
                         setPayModal(false);
@@ -2074,7 +2074,7 @@ const PurchaseOrderList = () => {
               </div>
               <div className="px-6 py-4 border-t border-border flex justify-end gap-2">
                 <Button
-                  variant="danger"
+                  variant="outline"
                   onClick={() => {
                     setCancelModal(false);
                     setCancelPoId(null);
@@ -2143,7 +2143,7 @@ const PurchaseOrderList = () => {
               </div>
               <div className="px-6 py-4 border-t border-border flex justify-end gap-2">
                 <Button
-                  variant="danger"
+                  variant="outline"
                   onClick={() => {
                     setDeleteModal(false);
                     setDeletePoId(null);

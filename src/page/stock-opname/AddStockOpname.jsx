@@ -1002,7 +1002,7 @@ const AddStockOpname = () => {
 
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-card border border-border rounded-xl p-4">
               <Button
-                variant="danger"
+                variant="outline"
                 onClick={requestLeave}
                 className="transition-all w-full sm:w-auto justify-center">
                 <X size={16} className="mr-1" />
