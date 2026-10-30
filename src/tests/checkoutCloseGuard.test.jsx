@@ -196,3 +196,22 @@ describe("CheckoutModal — cash is preselected", () => {
     );
   });
 });
+
+describe("CheckoutModal — order of sections", () => {
+  test("customer and discount come before payment, and the total stays in the footer", async () => {
+    renderModal();
+    await screen.findByLabelText("page.cashier.cashAmount");
+
+    const before = (a, b) =>
+      Boolean(a.compareDocumentPosition(b) & Node.DOCUMENT_POSITION_FOLLOWING);
+    const customer = screen.getByLabelText("page.cashier.customer");
+    const discount = screen.getAllByText("page.cashier.discount")[0];
+    const payment = screen.getByText("page.cashier.paymentMethod");
+    const cash = screen.getByLabelText("page.cashier.cashAmount");
+
+    expect(before(customer, payment)).toBe(true);
+    expect(before(discount, payment)).toBe(true);
+    expect(before(payment, cash)).toBe(true);
+    expect(screen.getByTestId("checkout-footer-total")).toBeInTheDocument();
+  });
+});

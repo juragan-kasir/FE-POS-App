@@ -1,4 +1,5 @@
 import i18next from "i18next";
+import { localizeServerError } from "./errorLocalize";
 
 // Pages show `err.response.data.message || err.message` in their error
 // toasts and modals. Left alone that surfaced axios' own text ("Request
@@ -43,6 +44,13 @@ const kindForStatus = (status) => {
   return "unknown";
 };
 
+// Locale text for a key, or null when the key is missing.
+const translateKey = (key) =>
+  i18next.isInitialized && i18next.exists(key) ? i18next.t(key) : null;
+
+// The app defaults to Indonesian; English UI keeps the server's English text.
+const isIndonesianUi = () => !String(i18next.language || "id").startsWith("en");
+
 // A 5xx message is kept only when the server wrote it for users.
 const keepServerMessage = (status, text) =>
   typeof text === "string" && text.trim() !== "" && (status < 500 || /^gagal\b/i.test(text.trim()));
@@ -55,7 +63,14 @@ export const friendlyErrorMessage = (err) => {
     if (err?.code === "ECONNABORTED" || err?.code === "ETIMEDOUT") return message("timeout");
     return message("network");
   }
-  const serverText = err.response.data?.message;
+  const data = err.response.data;
+  const serverText = data?.message;
+  // 4xx text the server wrote for users, in Indonesian where it is
+  // recognised (see errorLocalize.js); otherwise the server's own words.
+  if (status < 500 && isIndonesianUi()) {
+    const localized = localizeServerError(data, translateKey);
+    if (localized) return localized;
+  }
   return keepServerMessage(status, serverText) ? serverText : message(kindForStatus(status));
 };
 

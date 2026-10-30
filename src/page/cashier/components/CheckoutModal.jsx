@@ -1469,145 +1469,8 @@ const CheckoutModal = ({
             )}
           </div>
 
-          <div>
-            <p
-              id="checkout-payment-method"
-              className="block text-sm font-medium mb-2 text-muted-foreground">
-              {t("page.cashier.paymentMethod")}
-            </p>
-            <div
-              role="group"
-              aria-labelledby="checkout-payment-method"
-              className="grid grid-cols-2 sm:grid-cols-3 gap-2">
-              {paymentMethods.length === 0 ? (
-                <p className="col-span-full text-sm text-muted-foreground text-center py-3">
-                  {t("page.cashier.noPaymentMethods", "Tidak ada metode pembayaran aktif")}
-                </p>
-              ) : (
-                paymentMethods.map((method) => {
-                  const Icon = method.icon;
-                  const isSelected = paymentMethod === method.id;
-                  return (
-                    <button
-                      type="button"
-                      key={method.id}
-                      onClick={() => {
-                        methodPickedRef.current = true;
-                        setPaymentMethod(method.id);
-                        setReferenceRefused(false);
-                        setReferenceDuplicate(false);
-                        clearPendingQris();
-                      }}
-                      className={`relative flex flex-col items-center gap-1.5 p-3 rounded-xl border transition-all duration-200 ${
-                        isSelected
-                          ? "border-primary bg-primary/10 shadow-sm shadow-primary/10 scale-[1.02]"
-                          : "border-border/50 bg-card/50 hover:border-border hover:bg-accent/50"
-                      }`}>
-                      <div
-                        className={`w-9 h-9 rounded-lg flex items-center justify-center bg-gradient-to-br ${method.color} shadow-sm`}>
-                        <Icon size={16} className="text-white" />
-                      </div>
-                      <span
-                        className={`text-xs font-medium ${
-                          isSelected ? "text-primary" : "text-muted-foreground"
-                        }`}>
-                        {method.label}
-                      </span>
-                      {isSelected && (
-                        <div className="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-primary flex items-center justify-center shadow-lg">
-                          <Check size={10} className="text-primary-foreground" />
-                        </div>
-                      )}
-                    </button>
-                  );
-                })
-              )}
-            </div>
-          </div>
-
-          {needsReference && !isQrisPayment && renderReferenceField()}
-
-          {paymentMethod === "cash" && (
-            <div className="bg-muted/30 rounded-xl p-4 border border-border/40 space-y-3">
-              <div className="flex items-center justify-between">
-                <label
-                  htmlFor="checkout-cash-amount"
-                  className="text-sm font-medium text-muted-foreground">
-                  {t("page.cashier.cashAmount")}
-                </label>
-                <button
-                  type="button"
-                  onClick={applyFullPayment}
-                  className="flex items-center gap-1 text-xs font-medium text-primary hover:text-primary/80 transition-colors">
-                  <RotateCcw size={12} />
-                  {t("page.cashier.roundUp")}
-                </button>
-              </div>
-              <div className="relative">
-                <input
-                  id="checkout-cash-amount"
-                  ref={cashInputRef}
-                  type="text"
-                  value={cashAmount ? `Rp ${Number(cashAmount).toLocaleString("id-ID")}` : ""}
-                  onChange={(e) => {
-                    setCashAmount(e.target.value.replace(/[^0-9]/g, ""));
-                    setFullPayment(false);
-                  }}
-                  onKeyDown={(e) => {
-                    if (e.key !== "Enter") return;
-                    if (e.nativeEvent?.isComposing || e.isComposing) return;
-                    if (paymentMethod !== "cash") return;
-                    if (!canSubmit || mutation.isLoading || isSubmittingRef.current) return;
-                    e.preventDefault();
-                    handleSubmit();
-                  }}
-                  placeholder="Rp 0"
-                  className="w-full h-12 px-4 text-lg font-bold rounded-xl bg-accent/50 border border-border/60 outline-none focus:border-primary/50 transition-colors text-right"
-                  inputMode="numeric"
-                />
-              </div>
-              {cashAmountNum > 0 && remainingTotal > 0 && cashAmountNum < remainingTotal && (
-                <div className="flex items-center gap-1.5 text-xs text-destructive bg-destructive/5 rounded-lg px-3 py-2">
-                  <AlertCircle size={12} />
-                  {t("page.cashier.insufficientCash")}
-                </div>
-              )}
-              {cashAmountNum >= remainingTotal && (
-                <div className="flex items-center justify-between text-sm bg-emerald-500/5 rounded-lg px-3 py-2">
-                  <span className="text-emerald-500 font-medium">{t("page.cashier.change")}</span>
-                  <span className="font-bold text-emerald-500">Rp {formatPrice(change)}</span>
-                </div>
-              )}
-              {!fullPayment && (
-                <div className="flex flex-wrap gap-1.5">
-                  {total > 0 && (
-                    <button
-                      type="button"
-                      onClick={() => {
-                        setCashAmount(String(total));
-                        setFullPayment(false);
-                      }}
-                      className="px-3 py-1.5 text-xs font-semibold rounded-lg bg-primary/10 text-primary border border-primary/30 hover:bg-primary/15 transition-all">
-                      {t("page.cashier.exactCash")}
-                    </button>
-                  )}
-                  {quickAmounts.map((amt) => (
-                    <button
-                      key={amt}
-                      type="button"
-                      onClick={() => {
-                        setCashAmount(String(amt));
-                        setFullPayment(false);
-                      }}
-                      className="px-3 py-1.5 text-xs font-medium rounded-lg bg-accent/50 border border-border/50 hover:bg-accent hover:border-border transition-all">
-                      Rp {formatPrice(amt)}
-                    </button>
-                  ))}
-                </div>
-              )}
-            </div>
-          )}
-
+          {/* Who is buying and what comes off the bill come before payment:
+              the total the cashier collects is the one after them. */}
           <div ref={searchContainerRef} className="relative">
             <label
               htmlFor="checkout-modal-customer"
@@ -1929,6 +1792,145 @@ const CheckoutModal = ({
               )}
             </div>
           )}
+
+          <div>
+            <p
+              id="checkout-payment-method"
+              className="block text-sm font-medium mb-2 text-muted-foreground">
+              {t("page.cashier.paymentMethod")}
+            </p>
+            <div
+              role="group"
+              aria-labelledby="checkout-payment-method"
+              className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+              {paymentMethods.length === 0 ? (
+                <p className="col-span-full text-sm text-muted-foreground text-center py-3">
+                  {t("page.cashier.noPaymentMethods", "Tidak ada metode pembayaran aktif")}
+                </p>
+              ) : (
+                paymentMethods.map((method) => {
+                  const Icon = method.icon;
+                  const isSelected = paymentMethod === method.id;
+                  return (
+                    <button
+                      type="button"
+                      key={method.id}
+                      onClick={() => {
+                        methodPickedRef.current = true;
+                        setPaymentMethod(method.id);
+                        setReferenceRefused(false);
+                        setReferenceDuplicate(false);
+                        clearPendingQris();
+                      }}
+                      className={`relative flex flex-col items-center gap-1.5 p-3 rounded-xl border transition-all duration-200 ${
+                        isSelected
+                          ? "border-primary bg-primary/10 shadow-sm shadow-primary/10 scale-[1.02]"
+                          : "border-border/50 bg-card/50 hover:border-border hover:bg-accent/50"
+                      }`}>
+                      <div
+                        className={`w-9 h-9 rounded-lg flex items-center justify-center bg-gradient-to-br ${method.color} shadow-sm`}>
+                        <Icon size={16} className="text-white" />
+                      </div>
+                      <span
+                        className={`text-xs font-medium ${
+                          isSelected ? "text-primary" : "text-muted-foreground"
+                        }`}>
+                        {method.label}
+                      </span>
+                      {isSelected && (
+                        <div className="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-primary flex items-center justify-center shadow-lg">
+                          <Check size={10} className="text-primary-foreground" />
+                        </div>
+                      )}
+                    </button>
+                  );
+                })
+              )}
+            </div>
+          </div>
+
+          {needsReference && !isQrisPayment && renderReferenceField()}
+
+          {paymentMethod === "cash" && (
+            <div className="bg-muted/30 rounded-xl p-4 border border-border/40 space-y-3">
+              <div className="flex items-center justify-between">
+                <label
+                  htmlFor="checkout-cash-amount"
+                  className="text-sm font-medium text-muted-foreground">
+                  {t("page.cashier.cashAmount")}
+                </label>
+                <button
+                  type="button"
+                  onClick={applyFullPayment}
+                  className="flex items-center gap-1 text-xs font-medium text-primary hover:text-primary/80 transition-colors">
+                  <RotateCcw size={12} />
+                  {t("page.cashier.roundUp")}
+                </button>
+              </div>
+              <div className="relative">
+                <input
+                  id="checkout-cash-amount"
+                  ref={cashInputRef}
+                  type="text"
+                  value={cashAmount ? `Rp ${Number(cashAmount).toLocaleString("id-ID")}` : ""}
+                  onChange={(e) => {
+                    setCashAmount(e.target.value.replace(/[^0-9]/g, ""));
+                    setFullPayment(false);
+                  }}
+                  onKeyDown={(e) => {
+                    if (e.key !== "Enter") return;
+                    if (e.nativeEvent?.isComposing || e.isComposing) return;
+                    if (paymentMethod !== "cash") return;
+                    if (!canSubmit || mutation.isLoading || isSubmittingRef.current) return;
+                    e.preventDefault();
+                    handleSubmit();
+                  }}
+                  placeholder="Rp 0"
+                  className="w-full h-12 px-4 text-lg font-bold rounded-xl bg-accent/50 border border-border/60 outline-none focus:border-primary/50 transition-colors text-right"
+                  inputMode="numeric"
+                />
+              </div>
+              {cashAmountNum > 0 && remainingTotal > 0 && cashAmountNum < remainingTotal && (
+                <div className="flex items-center gap-1.5 text-xs text-destructive bg-destructive/5 rounded-lg px-3 py-2">
+                  <AlertCircle size={12} />
+                  {t("page.cashier.insufficientCash")}
+                </div>
+              )}
+              {cashAmountNum >= remainingTotal && (
+                <div className="flex items-center justify-between text-sm bg-emerald-500/5 rounded-lg px-3 py-2">
+                  <span className="text-emerald-500 font-medium">{t("page.cashier.change")}</span>
+                  <span className="font-bold text-emerald-500">Rp {formatPrice(change)}</span>
+                </div>
+              )}
+              {!fullPayment && (
+                <div className="flex flex-wrap gap-1.5">
+                  {total > 0 && (
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setCashAmount(String(total));
+                        setFullPayment(false);
+                      }}
+                      className="px-3 py-1.5 text-xs font-semibold rounded-lg bg-primary/10 text-primary border border-primary/30 hover:bg-primary/15 transition-all">
+                      {t("page.cashier.exactCash")}
+                    </button>
+                  )}
+                  {quickAmounts.map((amt) => (
+                    <button
+                      key={amt}
+                      type="button"
+                      onClick={() => {
+                        setCashAmount(String(amt));
+                        setFullPayment(false);
+                      }}
+                      className="px-3 py-1.5 text-xs font-medium rounded-lg bg-accent/50 border border-border/50 hover:bg-accent hover:border-border transition-all">
+                      Rp {formatPrice(amt)}
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
+          )}
         </div>
 
         {closeConfirmOpen && (
@@ -2115,6 +2117,18 @@ const CheckoutModal = ({
         )}
 
         <div className="border-t border-border/50 p-4 shrink-0 space-y-2">
+          {/* Payment sits at the bottom of the form now, so the amount to
+              collect stays in view here while the cash is typed. */}
+          <div
+            className="flex items-baseline justify-between gap-3"
+            data-testid="checkout-footer-total">
+            <span className="text-sm font-medium text-muted-foreground">
+              {t("page.cashier.total")}
+            </span>
+            <span className="text-xl font-bold text-primary tabular-nums">
+              {quote ? `Rp ${formatPrice(total)}` : "…"}
+            </span>
+          </div>
           {priceChange && (
             <div
               data-testid="price-change-panel"
