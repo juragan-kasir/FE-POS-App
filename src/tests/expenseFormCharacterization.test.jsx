@@ -116,10 +116,14 @@ const fillSingleExpense = async () => {
   await waitFor(() => expect(categorySelect()).toBeTruthy());
   fireEvent.change(categorySelect(), { target: { value: "7" } });
   fireEvent.change(screen.getAllByTestId("date-picker")[0], { target: { value: "2026-10-20" } });
-  fireEvent.change(screen.getByPlaceholderText("page.expense.add.descriptionPlaceholder"), {
+  // By the key's tail: Tambah and Edit use different keys with the same text.
+  fireEvent.change(screen.getByPlaceholderText(/\.descriptionPlaceholder$/), {
     target: { value: "Token listrik" }
   });
-  fireEvent.change(screen.getAllByPlaceholderText("0")[0], { target: { value: "250000" } });
+  // "0", or the key whose text is "0" (Edit's amount placeholder).
+  fireEvent.change(screen.getAllByPlaceholderText(/^(0|.*\.amountPlaceholder)$/)[0], {
+    target: { value: "250000" }
+  });
 };
 
 describe("AddExpense — characterization (single expense)", () => {
