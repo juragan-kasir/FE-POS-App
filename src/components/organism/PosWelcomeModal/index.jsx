@@ -45,7 +45,9 @@ const PosWelcomeModal = ({ open, onOpenChange }) => {
             <PartyPopper size={26} />
           </div>
           <h2 className="text-xl font-bold tracking-tight">
-            {t("guide.posWelcome.title", { defaultValue: "🎉 Selamat Datang di juragankasir.com!" })}
+            {t("guide.posWelcome.title", {
+              defaultValue: "🎉 Selamat Datang di juragankasir.com!"
+            })}
           </h2>
           <p className="text-sm text-muted-foreground">
             {t("guide.posWelcome.subtitle", { defaultValue: "Mari mulai transaksi pertama Anda" })}

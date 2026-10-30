@@ -5,6 +5,7 @@ import { useStore } from "@/contexts/StoreContext";
 import { RefreshCw, Store, CalendarDays, Building2, Info, BellRing, Calendar } from "lucide-react";
 import { getSuperAdminDashboard } from "@/services/dashboard";
 import { getUpcomingPayments } from "@/services/expense";
+import { getAllProductTable } from "@/services/product";
 import { useTranslation } from "react-i18next";
 import {
   Select,
@@ -28,6 +29,8 @@ import { formatCurrencyRupiah } from "@/utils/formatter-currency";
 import { buildDashboardQueryParams } from "@/lib/dashboard-query";
 import { useLocations } from "@/queries/useLocations";
 import PageHeader from "@/components/ui/PageHeader";
+import PosWelcomeModal from "@/components/organism/PosWelcomeModal";
+import { usePosWelcome } from "@/hooks/usePosWelcome";
 
 const PRESETS = ["7d", "30d", "thisMonth", "lastMonth", "all"];
 
@@ -100,6 +103,29 @@ const DashboardSuperAdmin = () => {
 
   const d = dashData?.data || {};
   const summary = d.summary || {};
+
+  // A brand-new account (no orders, members or products anywhere) gets the
+  // POS welcome once per browser. The summary's activeProducts is not
+  // computed by the server, so products are counted from the catalog.
+  const { data: productCountData, isSuccess: productCountLoaded } = useQuery(
+    ["dashboard-super-admin-product-count"],
+    () => getAllProductTable({ location: "", page: 1, limit: 1, statusProduct: "all" }),
+    { staleTime: 5 * 60 * 1000, retry: 1 }
+  );
+  // get-product-all reports the catalog size as stats.total (whatever the
+  // status filter) and the filtered count as pagination.totalItems.
+  const productTotal = Number(
+    productCountData?.stats?.total ?? productCountData?.pagination?.totalItems ?? 0
+  );
+  const welcome = usePosWelcome(
+    !isLoading &&
+      !isError &&
+      productCountLoaded &&
+      Number(summary.orders || 0) === 0 &&
+      Number(summary.revenue || 0) === 0 &&
+      Number(summary.totalMembers || 0) === 0 &&
+      productTotal === 0
+  );
   const selectedStoreName = locations.find((l) => String(l.id) === String(storeFilter))?.name;
 
   // The period label follows the active language, so it is derived here
@@ -282,6 +308,7 @@ const DashboardSuperAdmin = () => {
           </div>
         </>
       )}
+      <PosWelcomeModal open={welcome.open} onOpenChange={welcome.onOpenChange} />
     </div>
   );
 };
