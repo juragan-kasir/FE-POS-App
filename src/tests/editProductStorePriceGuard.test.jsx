@@ -284,3 +284,67 @@ describe("EditProduct — per-store price save speaks the canonical JSON contrac
     expect(editProduct).not.toHaveBeenCalled();
   });
 });
+
+// Production 10-30 (browser check): the server lists only stores that
+// already have their own price, so a product with none showed "Memuat harga
+// toko…" forever and no store could be given a price from this page.
+describe("EditProduct — Harga per Toko for a product without store prices", () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+    getProductById.mockResolvedValue({ data: seededProduct });
+    updateProductPriceByStore.mockResolvedValue({ data: { success: true } });
+    editProduct.mockResolvedValue({ data: { id: 1 } });
+  });
+
+  const openPricing = async () => {
+    renderPage();
+    await screen.findByDisplayValue("Kopi");
+    fireEvent.click(screen.getByText("page.product.form.next"));
+  };
+
+  test("lists every store, empty, instead of loading forever; a typed price can be saved", async () => {
+    getProductPriceByStore.mockResolvedValue({ data: { storePrices: [] } });
+    await openPricing();
+
+    const saveButtons = await screen.findAllByText("page.product.form.saveStorePrice");
+    expect(screen.queryByText("page.product.form.loadingStorePrices")).not.toBeInTheDocument();
+    expect(saveButtons.length).toBeGreaterThan(0);
+    expect(screen.getAllByText("page.product.form.storePriceUsesBase").length).toBe(
+      saveButtons.length
+    );
+
+    const row = saveButtons[0].closest("div.flex");
+    const save = saveButtons[0].closest("button");
+    expect(save).toBeDisabled();
+    fireEvent.change(within(row).getByRole("spinbutton"), { target: { value: "21000" } });
+    expect(save).not.toBeDisabled();
+    fireEvent.click(save);
+    await waitFor(() => expect(updateProductPriceByStore).toHaveBeenCalled());
+    expect(updateProductPriceByStore.mock.calls[0][0].storePrices[0].price).toBe("21000");
+  });
+
+  test("a typed but unsaved price for such a store blocks the main save", async () => {
+    getProductPriceByStore.mockResolvedValue({ data: { storePrices: [] } });
+    await openPricing();
+    const saveButtons = await screen.findAllByText("page.product.form.saveStorePrice");
+    fireEvent.change(within(saveButtons[0].closest("div.flex")).getByRole("spinbutton"), {
+      target: { value: "21000" }
+    });
+    fireEvent.click(screen.getByText("page.product.form.next"));
+    fireEvent.click(await screen.findByText("page.product.form.saveEdit"));
+    fireEvent.click(await screen.findByText("common.yesSave"));
+    await waitFor(() =>
+      expect(screen.getByText(/page\.product\.form\.unsavedStorePrices/)).toBeInTheDocument()
+    );
+    expect(editProduct).not.toHaveBeenCalled();
+  });
+
+  test("a failed load says so and offers a retry", async () => {
+    getProductPriceByStore.mockRejectedValue(new Error("boom"));
+    await openPricing();
+    expect(await screen.findByText("page.product.form.storePricesLoadFailed")).toBeInTheDocument();
+    getProductPriceByStore.mockResolvedValue({ data: { storePrices: [] } });
+    fireEvent.click(screen.getByText("common.retry"));
+    expect(await screen.findAllByText("page.product.form.saveStorePrice")).not.toHaveLength(0);
+  });
+});
