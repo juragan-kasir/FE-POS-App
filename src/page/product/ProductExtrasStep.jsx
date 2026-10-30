@@ -89,9 +89,11 @@ const ProductExtrasStep = ({ form, extras }) => {
                     </div>
                     <Button
                       type="button"
-                      variant="destructive"
+                      variant="ghost"
                       size="icon"
-                      className="h-8 w-8 text-destructive shrink-0"
+                      aria-label={t("common.delete")}
+                      title={t("common.delete")}
+                      className="h-8 w-8 shrink-0 text-destructive hover:bg-destructive/10 hover:text-destructive"
                       onClick={() =>
                         confirmRemove(() => removeVariantGroup(group.id), variantGroups.length)
                       }>
@@ -143,9 +145,11 @@ const ProductExtrasStep = ({ form, extras }) => {
                         {group.options.length > 1 && (
                           <Button
                             type="button"
-                            variant="destructive"
+                            variant="ghost"
                             size="icon"
-                            className="h-8 w-8 text-destructive shrink-0"
+                            aria-label={t("common.delete")}
+                            title={t("common.delete")}
+                            className="h-8 w-8 shrink-0 text-destructive hover:bg-destructive/10 hover:text-destructive"
                             onClick={() =>
                               confirmRemove(
                                 () => removeVariantOption(group.id, idx),
@@ -240,9 +244,11 @@ const ProductExtrasStep = ({ form, extras }) => {
                       </div>
                       <Button
                         type="button"
-                        variant="destructive"
+                        variant="ghost"
                         size="icon"
-                        className="h-8 w-8 text-destructive shrink-0"
+                        aria-label={t("common.delete")}
+                        title={t("common.delete")}
+                        className="h-8 w-8 shrink-0 text-destructive hover:bg-destructive/10 hover:text-destructive"
                         onClick={() =>
                           confirmRemove(() => removeModifierItem(mod.id), modifierItems.length)
                         }>
@@ -307,9 +313,11 @@ const ProductExtrasStep = ({ form, extras }) => {
                 </div>
                 <Button
                   type="button"
-                  variant="destructive"
+                  variant="ghost"
                   size="icon"
-                  className="h-8 w-8 text-destructive shrink-0"
+                  aria-label={t("common.delete")}
+                  title={t("common.delete")}
+                  className="h-8 w-8 shrink-0 text-destructive hover:bg-destructive/10 hover:text-destructive"
                   onClick={() => confirmRemove(() => removePriceTier(tier.id), priceTiers.length)}>
                   <Trash2 size={18} />
                 </Button>
