@@ -3024,6 +3024,8 @@
   "page.cashier.receipt.toast.orderNotFound": "Order ID not found",
   "page.cashier.receipt.toast.splitSumError": "Split total ({{sum}}) must equal the total ({{total}})",
   "page.cashier.storeName": "Store Name",
+  "page.cashier.pickStoreTitle": "Choose a Store",
+  "page.cashier.pickStoreDesc": "Choose the store you are selling at to open the cashier.",
   "page.cashier.toast.processError": "Transaction processing failed",
   "page.cashier.variant.add": "Add",
   "page.cashier.variant.basePrice": "Base Price",

@@ -713,11 +713,9 @@ const CashierPage = () => {
                   <Store size={40} className="text-primary" />
                 </div>
                 <h2 className="text-2xl font-bold text-foreground mb-2">
-                  {t("page.cashier.storeName")}
+                  {t("page.cashier.pickStoreTitle")}
                 </h2>
-                <p className="text-muted-foreground mb-8">
-                  {t("page.table.form.storePlaceholder")}
-                </p>
+                <p className="text-muted-foreground mb-8">{t("page.cashier.pickStoreDesc")}</p>
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                   {locsLoading
                     ? [0, 1, 2, 3].map((i) => (
@@ -745,9 +743,16 @@ const CashierPage = () => {
                           </div>
                           <div className="flex-1 min-w-0">
                             <p className="font-semibold text-foreground">{loc.name}</p>
-                            <p className="text-sm text-muted-foreground">
-                              {t("page.table.form.storePlaceholder")}
-                            </p>
+                            {/* Where the store is, so same-named outlets can be
+                                told apart (city holds a region code, so only
+                                the address or a resolved city name is shown). */}
+                            {(loc.address || loc.cityName) && (
+                              <p
+                                className="truncate text-sm text-muted-foreground"
+                                title={loc.address || loc.cityName}>
+                                {loc.address || loc.cityName}
+                              </p>
+                            )}
                           </div>
                           <ChevronRight
                             size={20}

@@ -3021,6 +3021,8 @@
   "page.cashier.receipt.toast.orderNotFound": "ID pesanan tidak ditemukan",
   "page.cashier.receipt.toast.splitSumError": "Total pembagian ({{sum}}) harus sama dengan total ({{total}})",
   "page.cashier.storeName": "Nama Toko",
+  "page.cashier.pickStoreTitle": "Pilih Toko",
+  "page.cashier.pickStoreDesc": "Pilih toko tempat Anda berjualan untuk membuka kasir.",
   "page.cashier.toast.processError": "Pemrosesan transaksi gagal",
   "page.cashier.variant.add": "Tambah",
   "page.cashier.variant.basePrice": "Harga Dasar",

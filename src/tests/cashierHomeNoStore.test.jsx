@@ -103,13 +103,18 @@ test("no store yet: shows the empty state and links to creating a store", async 
 test("with several stores: the picker is shown, not the empty state", async () => {
   getAllLocation.mockResolvedValue({
     data: [
-      { id: 3, name: "Warung Bakso Pusat" },
+      { id: 3, name: "Warung Bakso Pusat", address: "Jl. Merdeka 1" },
       { id: 4, name: "Warung Bakso Cabang" }
     ]
   });
   renderHome();
   expect(await screen.findByText("Warung Bakso Pusat")).toBeInTheDocument();
   expect(screen.getByText("Warung Bakso Cabang")).toBeInTheDocument();
+  // A heading that asks the question, and each card says where the store is
+  // (a store without an address shows no filler line).
+  expect(screen.getByText("page.cashier.pickStoreTitle")).toBeInTheDocument();
+  expect(screen.getByText("Jl. Merdeka 1")).toBeInTheDocument();
+  expect(screen.queryByText("page.table.form.storePlaceholder")).not.toBeInTheDocument();
   expect(screen.queryByText("page.noStore.title")).not.toBeInTheDocument();
   expect(screen.queryByTestId("order-queue")).not.toBeInTheDocument();
 });
@@ -120,5 +125,5 @@ test("with one store: the cashier opens on it without the picker", async () => {
   getAllLocation.mockResolvedValue({ data: [{ id: 3, name: "Bakso ABC" }] });
   renderHome();
   expect(await screen.findByTestId("order-queue")).toHaveTextContent("queue-store-3");
-  expect(screen.queryByText("page.table.form.storePlaceholder")).not.toBeInTheDocument();
+  expect(screen.queryByText("page.cashier.pickStoreTitle")).not.toBeInTheDocument();
 });
