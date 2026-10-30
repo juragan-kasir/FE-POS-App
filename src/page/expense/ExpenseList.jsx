@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { usePageParam } from "@/hooks/usePageParam";
+import { usePageParam, useSearchParam } from "@/hooks/usePageParam";
 import { useGlobalStoreFilter } from "@/hooks/useGlobalStoreFilter";
 import { useQuery, useMutation, useQueryClient } from "react-query";
 import { useNavigate } from "react-router-dom";
@@ -64,7 +64,7 @@ const ExpenseList = () => {
   const [cookie] = useCookies();
   const [page, setPage] = usePageParam();
   const [limit, setLimit] = useState(10);
-  const [search, setSearch] = useState("");
+  const [search, setSearch] = useSearchParam();
   const [statusFilter, setStatusFilter] = useState("all");
   const [isActiveFilter, setIsActiveFilter] = useState("active");
   const [startDate, setStartDate] = useState(null);
@@ -96,7 +96,6 @@ const ExpenseList = () => {
     setStartDate(null);
     setEndDate(null);
     setGlobalStoreFilter("all");
-    setPage(1);
   };
 
   const { data: locData, isLoading: isLoadingLocations } = useLocations("active", {
@@ -771,7 +770,6 @@ const ExpenseList = () => {
                       value={search}
                       onChange={(val) => {
                         setSearch(val);
-                        setPage(1);
                       }}
                       placeholder={t("page.expense.list.search")}
                       isLoading={isFetching}

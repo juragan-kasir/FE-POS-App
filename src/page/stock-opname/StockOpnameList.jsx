@@ -1,5 +1,5 @@
 import { safeGet } from "@/lib/safe-lookup";
-import { usePageParam } from "@/hooks/usePageParam";
+import { usePageParam, useSearchParam } from "@/hooks/usePageParam";
 import React, { useState, useEffect, useCallback } from "react";
 import { useQuery, useMutation, useQueryClient } from "react-query";
 import { useNavigate } from "react-router-dom";
@@ -67,7 +67,7 @@ const StockOpnameList = () => {
   const MENU_KEY = "/stock-opname";
   const [page, setPage] = usePageParam();
   const [limit, setLimit] = useState(10);
-  const [search, setSearch] = useState("");
+  const [search, setSearch] = useSearchParam();
   const [storeFilter, setGlobalStoreFilter] = useGlobalStoreFilter();
   const [statusFilter, setStatusFilter] = useState("all");
   const [noDataModal, setNoDataModal] = useState(false);
@@ -80,7 +80,6 @@ const StockOpnameList = () => {
     setSearch("");
     setGlobalStoreFilter("all");
     setStatusFilter("all");
-    setPage(1);
   };
 
   const { data: locData } = useLocations("active", {
@@ -522,7 +521,6 @@ const StockOpnameList = () => {
                         value={search}
                         onChange={(val) => {
                           setSearch(val);
-                          setPage(1);
                         }}
                         placeholder={t("page.stockOpname.list.searchPlaceholder")}
                         isLoading={isFetching}

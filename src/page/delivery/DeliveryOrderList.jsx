@@ -1,5 +1,5 @@
 import { safeGet } from "@/lib/safe-lookup";
-import { usePageParam } from "@/hooks/usePageParam";
+import { usePageParam, useSearchParam } from "@/hooks/usePageParam";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useQuery, useMutation, useQueryClient } from "react-query";
@@ -121,7 +121,7 @@ const DeliveryOrderList = () => {
   const [cookie] = useCookies();
   const [page, setPage] = usePageParam();
   const [limit, setLimit] = useState(10);
-  const [search, setSearch] = useState("");
+  const [search, setSearch] = useSearchParam();
   const [statusFilter, setStatusFilter] = useState("all");
   const [sourceFilter, setSourceFilter] = useState("all");
   const [cancelTarget, setCancelTarget] = useState(null);
@@ -153,7 +153,6 @@ const DeliveryOrderList = () => {
     setStatusFilter("all");
     setSourceFilter("all");
     setGlobalStoreFilter("all");
-    setPage(1);
   };
 
   const cancelMutation = useMutation(({ id, reason }) => cancelDeliveryOrder(id, reason), {
@@ -348,7 +347,6 @@ const DeliveryOrderList = () => {
                 value={search}
                 onChange={(val) => {
                   setSearch(val);
-                  setPage(1);
                 }}
                 placeholder={t("page.delivery.list.search")}
                 isLoading={isFetching}

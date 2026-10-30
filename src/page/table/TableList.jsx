@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { usePageParam } from "@/hooks/usePageParam";
+import { usePageParam, useSearchParam } from "@/hooks/usePageParam";
 import { useGlobalStoreFilter } from "@/hooks/useGlobalStoreFilter";
 import { useQuery, useMutation, useQueryClient } from "react-query";
 import { useNavigate } from "react-router-dom";
@@ -79,7 +79,7 @@ const TableList = () => {
 
   const [page, setPage] = usePageParam();
   const [limit, setLimit] = useState(10);
-  const [search, setSearch] = useState("");
+  const [search, setSearch] = useSearchParam();
   const [deleteTarget, setDeleteTarget] = useState(null);
   const [editTarget, setEditTarget] = useState(null);
   const [qrTarget, setQrTarget] = useState(null);
@@ -105,7 +105,6 @@ const TableList = () => {
   const resetFilters = () => {
     setSearch("");
     setGlobalStoreFilter("all");
-    setPage(1);
   };
 
   const deleteMutation = useMutation(deleteTable, {
@@ -487,7 +486,6 @@ const TableList = () => {
                           value={search}
                           onChange={(val) => {
                             setSearch(val);
-                            setPage(1);
                           }}
                           placeholder={t("page.table.list.search")}
                           isLoading={isFetching}

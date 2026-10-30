@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { usePageParam } from "@/hooks/usePageParam";
+import { usePageParam, useSearchParam } from "@/hooks/usePageParam";
 import { Plus, Award, CheckCircle, FileEdit, XCircle, Eye, Edit, Trash2 } from "lucide-react";
 import StatCard from "@/components/ui/StatCard";
 import { useQuery, useMutation, useQueryClient } from "react-query";
@@ -34,7 +34,7 @@ const MemberTier = () => {
   const MENU_KEY = "/member-tier";
   const [currentPage, setCurrentPage] = usePageParam();
   const [deleteTarget, setDeleteTarget] = useState(null);
-  const [search, setSearch] = useState("");
+  const [search, setSearch] = useSearchParam();
   const [statusFilter, setStatusFilter] = useState("all");
   const [limit, setLimit] = useState(5);
 

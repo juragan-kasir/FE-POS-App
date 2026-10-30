@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { usePageParam } from "@/hooks/usePageParam";
+import { usePageParam, useSearchParam } from "@/hooks/usePageParam";
 import { useCookies } from "react-cookie";
 import { useTranslation } from "react-i18next";
 import { useQuery, useMutation, useQueryClient } from "react-query";
@@ -77,7 +77,7 @@ const PositionList = () => {
   const MENU_KEY = "/position-list";
   const [page, setPage] = usePageParam();
   const [limit, setLimit] = useState(10);
-  const [search, setSearch] = useState("");
+  const [search, setSearch] = useSearchParam();
   const [deleteTarget, setDeleteTarget] = useState(null);
   const [uploadModalOpen, setUploadModalOpen] = useState(false);
   const [noDepartmentModal, setNoDepartmentModal] = useState(false);
@@ -92,7 +92,6 @@ const PositionList = () => {
     setSearch("");
     setStatusFilter("all");
     setDepartmentFilter("");
-    setPage(1);
   };
 
   const { data: locData } = useLocations("active", {
@@ -525,7 +524,6 @@ const PositionList = () => {
                           value={search}
                           onChange={(val) => {
                             setSearch(val);
-                            setPage(1);
                           }}
                           placeholder={t("page.position.list.search")}
                           isLoading={isFetching}

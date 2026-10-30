@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { usePageParam } from "@/hooks/usePageParam";
+import { usePageParam, useSearchParam } from "@/hooks/usePageParam";
 import { useGlobalStoreFilter } from "@/hooks/useGlobalStoreFilter";
 import { useQuery, useMutation, useQueryClient } from "react-query";
 import { useNavigate } from "react-router-dom";
@@ -55,7 +55,7 @@ const SalesReturnList = () => {
   const MENU_KEY = "/sales-return";
   const [page, setPage] = usePageParam();
   const [limit, setLimit] = useState(10);
-  const [search, setSearch] = useState("");
+  const [search, setSearch] = useSearchParam();
   const [storeFilter, setGlobalStoreFilter] = useGlobalStoreFilter();
   const [statusFilter, setStatusFilter] = useState("all");
   const [actionTarget, setActionTarget] = useState(null);
@@ -78,7 +78,6 @@ const SalesReturnList = () => {
     setSearch("");
     setGlobalStoreFilter("all");
     setStatusFilter("all");
-    setPage(1);
   };
 
   const { data, isLoading, isError, refetch } = useQuery(
@@ -395,7 +394,6 @@ const SalesReturnList = () => {
                         value={search}
                         onChange={(val) => {
                           setSearch(val);
-                          setPage(1);
                         }}
                         placeholder={t("page.salesReturn.list.placeholder.search")}
                         isLoading={isLoading}

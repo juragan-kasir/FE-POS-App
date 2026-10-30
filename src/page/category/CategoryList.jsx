@@ -1,5 +1,5 @@
 import { safeGet } from "@/lib/safe-lookup";
-import { usePageParam } from "@/hooks/usePageParam";
+import { usePageParam, useSearchParam } from "@/hooks/usePageParam";
 import React, { useState } from "react";
 import { useGlobalStoreFilter } from "@/hooks/useGlobalStoreFilter";
 import { useQuery, useMutation, useQueryClient } from "react-query";
@@ -96,7 +96,7 @@ const CategoryList = () => {
   const MENU_KEY = "/category-list";
   const [page, setPage] = usePageParam();
   const [limit, setLimit] = useState(10);
-  const [search, setSearch] = useState("");
+  const [search, setSearch] = useSearchParam();
   const [statusFilter, setStatusFilter] = useState("");
   const [deleteTarget, setDeleteTarget] = useState(null);
   const [uploadModalOpen, setUploadModalOpen] = useState(false);
@@ -110,7 +110,6 @@ const CategoryList = () => {
     setGlobalStoreFilter("all");
     setSearch("");
     setStatusFilter("");
-    setPage(1);
   };
 
   const { data: locData } = useLocations("active", {
@@ -595,7 +594,6 @@ const CategoryList = () => {
                           value={search}
                           onChange={(val) => {
                             setSearch(val);
-                            setPage(1);
                           }}
                           placeholder={t("page.category.list.search")}
                           isLoading={isFetching}

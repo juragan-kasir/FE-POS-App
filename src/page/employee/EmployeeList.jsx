@@ -1,5 +1,5 @@
 import { safeGet } from "@/lib/safe-lookup";
-import { usePageParam } from "@/hooks/usePageParam";
+import { usePageParam, useSearchParam } from "@/hooks/usePageParam";
 import React, { useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "react-query";
 import { useNavigate } from "react-router-dom";
@@ -61,7 +61,7 @@ const EmployeeList = () => {
   const MENU_KEY = "/employee-list";
   const [page, setPage] = usePageParam();
   const [limit, setLimit] = useState(10);
-  const [search, setSearch] = useState("");
+  const [search, setSearch] = useSearchParam();
   const [locationFilter, setLocationFilter] = useState("");
   const [positionFilter, setPositionFilter] = useState("");
   const [departmentFilter, setDepartmentFilter] = useState("");
@@ -76,7 +76,6 @@ const EmployeeList = () => {
     setLocationFilter("");
     setPositionFilter("");
     setDepartmentFilter("");
-    setPage(1);
   };
 
   const { data, isLoading, isFetching, isError, refetch } = useQuery(
@@ -434,7 +433,6 @@ const EmployeeList = () => {
                           value={search}
                           onChange={(val) => {
                             setSearch(val);
-                            setPage(1);
                           }}
                           placeholder={t("page.employee.list.searchPlaceholder")}
                           isLoading={isFetching}

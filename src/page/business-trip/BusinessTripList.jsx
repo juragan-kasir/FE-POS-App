@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { usePageParam } from "@/hooks/usePageParam";
+import { usePageParam, useSearchParam } from "@/hooks/usePageParam";
 import { useQuery, useMutation, useQueryClient } from "react-query";
 import { useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
@@ -73,7 +73,7 @@ const BusinessTripList = () => {
   const MENU_KEY = "/business-trip";
   const [page, setPage] = usePageParam();
   const [limit, setLimit] = useState(10);
-  const [search, setSearch] = useState("");
+  const [search, setSearch] = useSearchParam();
   const [statusFilter, setStatusFilter] = useState("all");
   const [deleteTarget, setDeleteTarget] = useState(null);
   const [approveTarget, setApproveTarget] = useState(null);
@@ -85,7 +85,6 @@ const BusinessTripList = () => {
   const resetFilters = () => {
     setStatusFilter("all");
     setSearch("");
-    setPage(1);
   };
 
   const { data, isLoading, isFetching, isError, refetch } = useQuery(
@@ -361,7 +360,6 @@ const BusinessTripList = () => {
                   value={search}
                   onChange={(val) => {
                     setSearch(val);
-                    setPage(1);
                   }}
                   placeholder={t("page.businessTrip.list.search")}
                   isLoading={isFetching}

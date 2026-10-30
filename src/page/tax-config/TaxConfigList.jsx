@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { usePageParam } from "@/hooks/usePageParam";
+import { usePageParam, useSearchParam } from "@/hooks/usePageParam";
 import { safeGet } from "@/lib/safe-lookup";
 import { getTaxType } from "@/utils/taxDisplay";
 import { useTranslation } from "react-i18next";
@@ -70,7 +70,7 @@ const TaxConfigList = () => {
   const [cookie] = useCookies();
   const [page, setPage] = usePageParam();
   const [limit, setLimit] = useState(10);
-  const [search, setSearch] = useState("");
+  const [search, setSearch] = useSearchParam();
   const [deleteTarget, setDeleteTarget] = useState(null);
   const [uploadModalOpen, setUploadModalOpen] = useState(false);
   const [isDownloadingTemplate, setIsDownloadingTemplate] = useState(false);
@@ -83,7 +83,6 @@ const TaxConfigList = () => {
   const resetFilters = () => {
     setSearch("");
     setStatusFilter("all");
-    setPage(1);
   };
 
   const user = cookie?.user;
@@ -540,7 +539,6 @@ const TaxConfigList = () => {
                           value={search}
                           onChange={(val) => {
                             setSearch(val);
-                            setPage(1);
                           }}
                           placeholder={t("page.taxConfig.list.search")}
                           isLoading={isFetching}

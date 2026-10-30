@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { usePageParam } from "@/hooks/usePageParam";
+import { usePageParam, useSearchParam } from "@/hooks/usePageParam";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { useQuery, useMutation, useQueryClient } from "react-query";
 import { toast } from "sonner";
@@ -48,7 +48,7 @@ const SupplierCategoryList = () => {
 
   const [page, setPage] = usePageParam();
   const [limit, setLimit] = useState(10);
-  const [search, setSearch] = useState("");
+  const [search, setSearch] = useSearchParam();
   const [statusFilter, setStatusFilter] = useState("");
   const [deleteTarget, setDeleteTarget] = useState(null);
   const [formModal, setFormModal] = useState(false);
@@ -59,7 +59,6 @@ const SupplierCategoryList = () => {
   const resetFilters = () => {
     setSearch("");
     setStatusFilter("");
-    setPage(1);
   };
 
   const formSchema = z.object({
@@ -170,7 +169,14 @@ const SupplierCategoryList = () => {
     const cat = categories.find((c) => String(c.id) === String(editId));
     if (cat) {
       handleEdit(cat);
-      setSearchParams({}, { replace: true });
+      setSearchParams(
+        (prev) => {
+          const params = new URLSearchParams(prev);
+          params.delete("edit");
+          return params;
+        },
+        { replace: true }
+      );
     }
   }, [searchParams, isLoading, categories]);
 
@@ -417,7 +423,6 @@ const SupplierCategoryList = () => {
                   value={search}
                   onChange={(v) => {
                     setSearch(v);
-                    setPage(1);
                   }}
                   isLoading={isFetching}
                   placeholder={`${t("common.search")}...`}
