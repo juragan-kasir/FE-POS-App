@@ -9,7 +9,6 @@ import {
   Save,
   X,
   Plus,
-  DollarSign,
   Info,
   Package,
   ChevronLeft,
@@ -50,12 +49,11 @@ import { getMissingFields } from "@/lib/validation";
 import { normalizePayload } from "@/lib/payload-normalizer";
 import ProductPreview from "./ProductPreview";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
-import InventoryModeField from "@/page/product/InventoryModeField";
-import ProductPriceCostFields from "@/page/product/ProductPriceCostFields";
 import ConversionFactorField from "@/page/product/ConversionFactorField";
 import ProductExtrasStep from "@/page/product/ProductExtrasStep";
+import ProductPricingStep from "@/page/product/ProductPricingStep";
 import { useProductExtras } from "@/page/product/useProductExtras";
-import InventoryLinkField, { useLinkItems } from "@/page/product/InventoryLinkField";
+import { useLinkItems } from "@/page/product/InventoryLinkField";
 import { INVENTORY_MODES, initialStockNeedsStore, isInventoryItemMode } from "@/lib/inventory-mode";
 import { linkUnitCost, linksPayload, missingLinkStores } from "@/lib/inventory-link";
 import { useLocations } from "@/queries/useLocations";
@@ -972,157 +970,19 @@ const AddProduct = () => {
                 </div>
               )}
               {currentStep === 2 && (
-                <>
-                  <div className="bg-card rounded-xl shadow-sm border border-border p-6">
-                    <div className="flex items-center gap-2 pb-4 border-b border-border mb-5">
-                      <DollarSign size={18} className="text-primary" />
-                      <h3 className="text-base font-semibold text-foreground">
-                        {t("page.product.form.priceSection")}
-                      </h3>
-                    </div>
-
-                    <div className="mb-5">
-                      <InventoryModeField
-                        value={form.watch("inventoryMode")}
-                        onChange={(mode) =>
-                          form.setValue("inventoryMode", mode, { shouldDirty: true })
-                        }
-                      />
-                    </div>
-
-                    {linksItem && (
-                      <div className="mb-5">
-                        <InventoryLinkField
-                          stores={linkStores}
-                          value={inventoryLinks}
-                          onChange={(links) => {
-                            setInventoryLinks(links);
-                            setLinkError("");
-                          }}
-                          productName={form.watch("nameProduct")}
-                          error={linkError}
-                        />
-                      </div>
-                    )}
-
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      <ProductPriceCostFields form={form} linkedCost={linkedCost} />
-                      {!linksItem && (
-                        <>
-                          <FormField
-                            control={form.control}
-                            name="stock"
-                            render={({ field }) => (
-                              <FormItem>
-                                <FormLabel>{t("page.product.form.stock")}</FormLabel>
-                                {form.watch("inventoryMode") === "make_to_order" && (
-                                  <p className="text-xs text-muted-foreground">
-                                    {t("page.product.form.inventoryMode.stockUnused")}
-                                  </p>
-                                )}
-                                <Input
-                                  type="text"
-                                  inputMode="numeric"
-                                  placeholder="0"
-                                  value={
-                                    field.value !== undefined && field.value !== ""
-                                      ? Number(field.value).toLocaleString("id-ID")
-                                      : ""
-                                  }
-                                  onChange={(e) => {
-                                    const raw = e.target.value.replace(/[^0-9]/g, "");
-                                    field.onChange(raw ? Number(raw) : "");
-                                  }}
-                                />
-                                <FormMessage />
-                              </FormItem>
-                            )}
-                          />
-                          <FormField
-                            control={form.control}
-                            name="minStock"
-                            render={({ field }) => (
-                              <FormItem>
-                                <FormLabel>{t("page.product.form.minStock")}</FormLabel>
-                                <Input
-                                  type="text"
-                                  inputMode="numeric"
-                                  placeholder="0"
-                                  value={
-                                    field.value !== undefined && field.value !== ""
-                                      ? Number(field.value).toLocaleString("id-ID")
-                                      : ""
-                                  }
-                                  onChange={(e) => {
-                                    const raw = e.target.value.replace(/[^0-9]/g, "");
-                                    field.onChange(raw ? Number(raw) : "");
-                                  }}
-                                />
-                                <FormMessage />
-                              </FormItem>
-                            )}
-                          />
-                        </>
-                      )}
-                      <FormField
-                        control={form.control}
-                        name="point"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>{t("page.product.form.point")}</FormLabel>
-                            <Input
-                              type="text"
-                              inputMode="numeric"
-                              placeholder="0"
-                              value={
-                                field.value !== undefined && field.value !== ""
-                                  ? Number(field.value).toLocaleString("id-ID")
-                                  : ""
-                              }
-                              onChange={(e) => {
-                                const raw = e.target.value.replace(/[^0-9]/g, "");
-                                field.onChange(raw ? Number(raw) : "");
-                              }}
-                            />
-                            <p className="text-xs text-muted-foreground mt-1">
-                              {t("page.product.form.pointInfo")}
-                            </p>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                      <FormField
-                        control={form.control}
-                        name="redeemPoints"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>{t("page.product.form.redeemPoints")}</FormLabel>
-                            <Input
-                              type="text"
-                              inputMode="numeric"
-                              placeholder="0"
-                              value={
-                                field.value !== undefined && field.value !== ""
-                                  ? Number(field.value).toLocaleString("id-ID")
-                                  : ""
-                              }
-                              onChange={(e) => {
-                                const raw = e.target.value.replace(/[^0-9]/g, "");
-                                field.onChange(raw ? Number(raw) : "");
-                              }}
-                            />
-                            <p className="text-xs text-muted-foreground mt-1">
-                              {t("page.product.form.redeemPointsInfo")}
-                            </p>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                    </div>
-                  </div>
-                </>
+                <ProductPricingStep
+                  form={form}
+                  linksItem={linksItem}
+                  linkStores={linkStores}
+                  inventoryLinks={inventoryLinks}
+                  onInventoryLinksChange={(links) => {
+                    setInventoryLinks(links);
+                    setLinkError("");
+                  }}
+                  linkError={linkError}
+                  linkedCost={linkedCost}
+                />
               )}
-
               {currentStep === 3 && <ProductExtrasStep form={form} extras={extras} />}
             </div>
           </div>
