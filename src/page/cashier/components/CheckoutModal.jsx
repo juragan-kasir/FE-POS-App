@@ -375,6 +375,21 @@ const CheckoutModal = ({
       });
   }, [paymentMethodsData]);
 
+  // Most sales are cash: preselect it (when the store has it active) so the
+  // cashier types the amount and presses Enter, instead of picking a method
+  // on every sale. Only until the cashier picks a method themselves.
+  const defaultPaymentMethod = paymentMethods.some((m) => m.id === "cash") ? "cash" : "";
+  const methodPickedRef = useRef(false);
+  useEffect(() => {
+    if (!methodPickedRef.current && !paymentMethod && defaultPaymentMethod) {
+      setPaymentMethod(defaultPaymentMethod);
+    }
+  }, [defaultPaymentMethod, paymentMethod]);
+  // Cash selected (preselected or clicked) → the amount field is next.
+  useEffect(() => {
+    if (paymentMethod === "cash") cashInputRef.current?.focus();
+  }, [paymentMethod]);
+
   const matchedTier = useMemo(() => {
     if (!memberPoints || memberTiers.length === 0) return null;
     const active = memberTiers.filter((t) => t.status === "active");
@@ -1153,7 +1168,8 @@ const CheckoutModal = ({
 
   const hasUnsavedCheckout =
     qrisPending ||
-    Boolean(paymentMethod) ||
+    // The preselected cash method is not a change the cashier made.
+    (Boolean(paymentMethod) && paymentMethod !== defaultPaymentMethod) ||
     referenceInput.trim() !== "" ||
     cashAmount.trim() !== "" ||
     Boolean(selectedCustomer) ||
@@ -1187,7 +1203,13 @@ const CheckoutModal = ({
     <Dialog open onOpenChange={(open) => !open && requestClose()}>
       <DialogContent
         className="max-w-2xl max-h-[90vh] flex flex-col overflow-hidden p-0"
-        withX={false}>
+        withX={false}
+        onOpenAutoFocus={(e) => {
+          // Cash already selected → open on the amount field.
+          if (!cashInputRef.current) return;
+          e.preventDefault();
+          cashInputRef.current.focus();
+        }}>
         <div className="flex items-center justify-between px-6 py-4 border-b border-border/50 shrink-0">
           <div className="flex items-center gap-2">
             <Receipt size={20} className="text-primary" />
@@ -1470,6 +1492,7 @@ const CheckoutModal = ({
                       type="button"
                       key={method.id}
                       onClick={() => {
+                        methodPickedRef.current = true;
                         setPaymentMethod(method.id);
                         setReferenceRefused(false);
                         setReferenceDuplicate(false);

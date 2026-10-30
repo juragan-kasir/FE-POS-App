@@ -115,7 +115,7 @@ describe("CheckoutModal — closing does not silently discard input", () => {
 
   test("Escape on a dirty checkout asks before discarding", async () => {
     const onClose = renderModal();
-    fireEvent.click(await screen.findByText("Cash"));
+    fireEvent.click(await screen.findByText("QRIS"));
     expect(onClose).not.toHaveBeenCalled();
 
     fireEvent.keyDown(document, { key: "Escape" });
@@ -136,7 +136,7 @@ describe("CheckoutModal — closing does not silently discard input", () => {
     const onClose = renderModal();
     const dialog = await screen.findByRole("dialog");
 
-    fireEvent.click((await screen.findByText("Cash")).closest("button"));
+    fireEvent.click((await screen.findByText("QRIS")).closest("button"));
     fireEvent.click(dialog.querySelector("button"));
 
     expect(await screen.findByText("page.cashier.checkoutDiscardTitle")).toBeInTheDocument();
@@ -156,5 +156,43 @@ describe("CheckoutModal — closing does not silently discard input", () => {
     expect(await screen.findByText("page.cashier.checkoutDiscardTitle")).toBeInTheDocument();
     expect(screen.getByText("page.cashier.checkoutDiscardQris")).toBeInTheDocument();
     expect(onClose).not.toHaveBeenCalled();
+  });
+
+  test("the preselected cash method alone is not a change to discard", async () => {
+    const onClose = renderModal();
+    await waitFor(() =>
+      expect(screen.getByLabelText("page.cashier.cashAmount")).toBeInTheDocument()
+    );
+
+    fireEvent.keyDown(document, { key: "Escape" });
+
+    await waitFor(() => expect(onClose).toHaveBeenCalledTimes(1));
+    expect(screen.queryByText("page.cashier.checkoutDiscardTitle")).not.toBeInTheDocument();
+  });
+});
+
+describe("CheckoutModal — cash is preselected", () => {
+  test("opens with cash selected and the amount field focused", async () => {
+    renderModal();
+    const amount = await screen.findByLabelText("page.cashier.cashAmount");
+    await waitFor(() => expect(amount).toHaveFocus());
+  });
+
+  test("a store without an active cash method gets no preselection", async () => {
+    getAllTypePayment.mockResolvedValue({
+      data: [{ type: "qris", name: "QRIS", status: "active" }]
+    });
+    renderModal();
+    await screen.findByText("QRIS");
+    expect(screen.queryByLabelText("page.cashier.cashAmount")).not.toBeInTheDocument();
+  });
+
+  test("a method the cashier picks is kept (not reset to cash)", async () => {
+    renderModal();
+    await screen.findByLabelText("page.cashier.cashAmount");
+    fireEvent.click(screen.getByText("QRIS"));
+    await waitFor(() =>
+      expect(screen.queryByLabelText("page.cashier.cashAmount")).not.toBeInTheDocument()
+    );
   });
 });
