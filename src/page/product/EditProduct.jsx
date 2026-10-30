@@ -9,38 +9,20 @@ import { useTranslation } from "react-i18next";
 import {
   Save,
   X,
-  Plus,
   Package,
-  Tag,
   Layers,
-  DollarSign,
   Info,
-  Trash2,
-  GripVertical,
-  TrendingUp,
   Store,
   ChevronLeft,
   ChevronRight,
-  ChevronDown,
-  Check,
-  Eye,
-  AlertTriangle
+  Eye
 } from "lucide-react";
 import { useCookies } from "react-cookie";
 import PageHeader from "@/components/ui/PageHeader";
-import { Combobox } from "@/components/ui/combobox";
-import {
-  Form,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-  FormDescription,
-  FormControl
-} from "@/components/ui/form";
+
+import { Form, FormField, FormItem, FormMessage, FormControl } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { Switch } from "@/components/ui/switch";
+
 import { Button } from "@/components/ui/button";
 import { Loading } from "@/components/ui/loading";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -59,13 +41,13 @@ import UserGuide from "@/components/organism/UserGuide";
 import StoreSelectCard from "@/components/organism/StoreSelectCard";
 import AbortController from "@/components/organism/abort-controller";
 import ProductPreview from "./ProductPreview";
-import ProductImageGallery from "@/components/organism/ProductImageGallery";
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
-import InventoryModeField from "@/page/product/InventoryModeField";
-import ProductPriceCostFields from "@/page/product/ProductPriceCostFields";
-import ConversionFactorField from "@/page/product/ConversionFactorField";
+
+import ProductExtrasStep from "@/page/product/ProductExtrasStep";
+import ProductPricingStep from "@/page/product/ProductPricingStep";
+import ProductInfoStep from "@/page/product/ProductInfoStep";
+import { useProductExtras } from "@/page/product/useProductExtras";
 import { INVENTORY_MODES, isInventoryItemMode } from "@/lib/inventory-mode";
-import InventoryLinkField, { useLinkItems } from "@/page/product/InventoryLinkField";
+import { useLinkItems } from "@/page/product/InventoryLinkField";
 import {
   linkUnitCost,
   linksFromProduct,
@@ -73,34 +55,12 @@ import {
   missingLinkStores
 } from "@/lib/inventory-link";
 import { useLocations } from "@/queries/useLocations";
-import { FIELD_LIMITS } from "@/constants/fieldLimits";
+
 import { useFormExit } from "@/hooks/useLeaveGuard";
 import { storesForSave } from "@/lib/product-stores";
 
 const EditProduct = () => {
   const { t } = useTranslation();
-  const unitOptions = [
-    { value: "pcs", label: t("page.product.form.unit.pcs") },
-    { value: "item", label: t("page.product.form.unit.item") },
-    { value: "unit", label: t("page.product.form.unit.unit") },
-    { value: "buah", label: t("page.product.form.unit.buah") },
-    { value: "pasang", label: t("page.product.form.unit.pasang") },
-    { value: "set", label: t("page.product.form.unit.set") },
-    { value: "lusin", label: t("page.product.form.unit.lusin") },
-    { value: "pack", label: t("page.product.form.unit.pack") },
-    { value: "box", label: t("page.product.form.unit.box") },
-    { value: "karton", label: t("page.product.form.unit.karton") },
-    { value: "kg", label: t("page.product.form.unit.kg") },
-    { value: "gram", label: t("page.product.form.unit.gram") },
-    { value: "liter", label: t("page.product.form.unit.liter") },
-    { value: "ml", label: t("page.product.form.unit.ml") },
-    { value: "meter", label: t("page.product.form.unit.meter") },
-    { value: "cm", label: t("page.product.form.unit.cm") },
-    { value: "cup", label: t("page.product.form.unit.cup") },
-    { value: "gelas", label: t("page.product.form.unit.gelas") },
-    { value: "porsi", label: t("page.product.form.unit.porsi") }
-  ];
-
   // const productFieldLabels = {
   //   nameProduct: "Nama Produk",
   //   category: "Kategori",
@@ -124,9 +84,6 @@ const EditProduct = () => {
   const [modalMessage, setModalMessage] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const [variantGroups, setVariantGroups] = useState([]);
-  const [modifierItems, setModifierItems] = useState([]);
-  const [priceTiers, setPriceTiers] = useState([]);
   const [currentStep, setCurrentStep] = useState(1);
   const [storePrices, setStorePrices] = useState([]);
   const [savedStorePriceMap, setSavedStorePriceMap] = useState({});
@@ -136,17 +93,12 @@ const EditProduct = () => {
   const [noStockOpname, setNoStockOpname] = useState(false);
   // BA finding #3: read-only recipe snapshot written by the BOM.
   const [composition, setComposition] = useState([]);
-  const [productImages, setProductImages] = useState([]);
   const [optionalOpen, setOptionalOpen] = useState(false);
   const [showPreview, setShowPreview] = useState(false);
   const [confirmAction, setConfirmAction] = useState(null);
   // BRD BR-02: the inventory item per outlet of an "inventory_item" product.
   const [inventoryLinks, setInventoryLinks] = useState([]);
   const [linkError, setLinkError] = useState("");
-
-  const handleProductImagesChange = (updater) => {
-    setProductImages(updater);
-  };
 
   const {
     data: productData,
@@ -280,6 +232,17 @@ const EditProduct = () => {
       store: ""
     }
   });
+  const extras = useProductExtras(form, setConfirmAction);
+  const {
+    variantGroups,
+    setVariantGroups,
+    modifierItems,
+    setModifierItems,
+    priceTiers,
+    setPriceTiers,
+    productImages,
+    setProductImages
+  } = extras;
   const { request: requestLeave, leave } = useFormExit(
     "/product-list",
     () => setCancelModal(true),
@@ -520,66 +483,6 @@ const EditProduct = () => {
     updateStorePriceMutation.mutate(payload);
   };
 
-  const addVariantGroup = () => {
-    setVariantGroups((prev) => [
-      ...prev,
-      { id: Date.now(), name: "", options: [{ name: "", price: 0, stock: 0 }] }
-    ]);
-    form.setValue("isOption", true);
-  };
-
-  const removeVariantGroup = (id) => {
-    setVariantGroups((prev) => prev.filter((g) => g.id !== id));
-    if (variantGroups.length <= 1) form.setValue("isOption", false);
-  };
-
-  const updateVariantGroup = (id, field, value) => {
-    setVariantGroups((prev) => prev.map((g) => (g.id === id ? { ...g, [field]: value } : g)));
-  };
-
-  const addVariantOption = (groupId) => {
-    setVariantGroups((prev) =>
-      prev.map((g) =>
-        g.id === groupId ? { ...g, options: [...g.options, { name: "", price: 0, stock: 0 }] } : g
-      )
-    );
-  };
-
-  const updateVariantOption = (groupId, index, field, value) => {
-    setVariantGroups((prev) =>
-      prev.map((g) =>
-        g.id === groupId
-          ? {
-              ...g,
-              options: g.options.map((opt, i) => (i === index ? { ...opt, [field]: value } : opt))
-            }
-          : g
-      )
-    );
-  };
-
-  const removeVariantOption = (groupId, index) => {
-    setVariantGroups((prev) =>
-      prev.map((g) =>
-        g.id === groupId ? { ...g, options: g.options.filter((_, i) => i !== index) } : g
-      )
-    );
-  };
-
-  const addModifierItem = () => {
-    setModifierItems((prev) => [...prev, { id: Date.now(), name: "", price: 0 }]);
-    form.setValue("hasModifiers", true);
-  };
-
-  const updateModifierItem = (id, field, value) => {
-    setModifierItems((prev) => prev.map((m) => (m.id === id ? { ...m, [field]: value } : m)));
-  };
-
-  const removeModifierItem = (id) => {
-    setModifierItems((prev) => prev.filter((m) => m.id !== id));
-    if (modifierItems.length <= 1) form.setValue("hasModifiers", false);
-  };
-
   const canGoNext = () => {
     if (currentStep === 1) {
       const values = form.getValues();
@@ -605,62 +508,6 @@ const EditProduct = () => {
   };
 
   const handlePrev = () => setCurrentStep((prev) => Math.max(prev - 1, 1));
-
-  const handleToggleOption = (checked) => {
-    if (!checked && variantGroups.length > 0) {
-      setConfirmAction({
-        title: t("page.product.form.confirmDisableVariantTitle"),
-        description: t("page.product.form.confirmDisableVariantDesc"),
-        onConfirm: () => {
-          form.setValue("isOption", false);
-          setVariantGroups([]);
-        }
-      });
-      return;
-    }
-    form.setValue("isOption", checked);
-    if (!checked) setVariantGroups([]);
-  };
-
-  const handleToggleModifier = (checked) => {
-    if (!checked && modifierItems.length > 0) {
-      setConfirmAction({
-        title: t("page.product.form.confirmDisableModifierTitle"),
-        description: t("page.product.form.confirmDisableModifierDesc"),
-        onConfirm: () => {
-          form.setValue("hasModifiers", false);
-          setModifierItems([]);
-        }
-      });
-      return;
-    }
-    form.setValue("hasModifiers", checked);
-    if (!checked) setModifierItems([]);
-  };
-
-  const confirmRemove = (onConfirm, count) => {
-    if (count > 1) {
-      setConfirmAction({
-        title: t("page.product.form.confirmDeleteTitle"),
-        description: t("page.product.form.confirmDeleteDesc"),
-        onConfirm
-      });
-      return;
-    }
-    onConfirm();
-  };
-
-  const addPriceTier = () => {
-    setPriceTiers((prev) => [...prev, { id: Date.now(), name: "", price: 0 }]);
-  };
-
-  const updatePriceTier = (id, field, value) => {
-    setPriceTiers((prev) => prev.map((t) => (t.id === id ? { ...t, [field]: value } : t)));
-  };
-
-  const removePriceTier = (id) => {
-    setPriceTiers((prev) => prev.filter((t) => t.id !== id));
-  };
 
   const handleSave = async (values, saveAsDraft = false) => {
     // F9-25: per-store prices are only persisted via each row's own Save
@@ -983,348 +830,15 @@ const EditProduct = () => {
               />
 
               {currentStep === 1 && (
-                <div className="grid grid-cols-1 gap-6">
-                  {/* Informasi Produk */}
-                  <div className="bg-card rounded-xl shadow-sm border border-border p-6">
-                    <div className="flex items-center gap-2 pb-4 border-b border-border mb-5">
-                      <Info size={18} className="text-primary" />
-                      <h3 className="text-base font-semibold text-foreground">
-                        {t("page.product.add.productInfoSection")}
-                      </h3>
-                    </div>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      <FormField
-                        control={form.control}
-                        name="nameProduct"
-                        render={({ field }) => (
-                          <FormItem className="md:col-span-2">
-                            <FormLabel>
-                              {t("page.product.form.nameProduct")}{" "}
-                              <span className="text-destructive">*</span>
-                            </FormLabel>
-                            <Input
-                              placeholder={t("page.product.form.namePlaceholder")}
-                              {...field}
-                              maxLength={FIELD_LIMITS.BUSINESS_NAME}
-                            />
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-
-                      <FormField
-                        control={form.control}
-                        name="category"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>
-                              {t("page.product.form.category")}{" "}
-                              <span className="text-destructive">*</span>
-                            </FormLabel>
-                            <Combobox
-                              options={categories.map((c) => ({
-                                value: String(c.id),
-                                label: c.name
-                              }))}
-                              value={field.value}
-                              onChange={field.onChange}
-                              placeholder={t("page.product.form.categoryPlaceholder")}
-                              searchPlaceholder={t("page.product.form.categorySearch")}
-                            />
-                            <FormDescription>{t("page.product.form.categoryHint")}</FormDescription>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-
-                      <FormField
-                        control={form.control}
-                        name="tipeProduk"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>{t("page.product.form.tipeProduk")}</FormLabel>
-                            <Combobox
-                              options={[
-                                { value: "menu", label: t("page.product.form.tipeProdukMenu") },
-                                {
-                                  value: "bahan_baku",
-                                  label: t("page.product.form.tipeProdukBahanBaku")
-                                }
-                              ]}
-                              value={field.value}
-                              onChange={field.onChange}
-                              placeholder={t("page.product.form.tipeProduk")}
-                              searchPlaceholder={t("common.search.generic")}
-                            />
-                            <FormMessage />
-                            {noStockOpname && (
-                              <div className="flex items-start gap-2.5 mt-2 p-3 rounded-lg bg-amber-50 border border-amber-200 dark:bg-amber-950/40 dark:border-amber-900">
-                                <AlertTriangle
-                                  size={18}
-                                  className="text-amber-600 text-base mt-0.5"
-                                />
-                                <div>
-                                  <p className="text-xs font-semibold text-amber-800">
-                                    {t("page.product.form.noStockOpname")}
-                                  </p>
-                                  <p className="text-xs text-amber-700 mt-0.5">
-                                    {t("page.product.form.noStockOpnameWarning")}
-                                  </p>
-                                </div>
-                              </div>
-                            )}
-                          </FormItem>
-                        )}
-                      />
-
-                      <FormField
-                        control={form.control}
-                        name="estimationTime"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>{t("page.product.form.estimationTime")}</FormLabel>
-                            <div className="relative">
-                              <Input
-                                type="text"
-                                inputMode="numeric"
-                                placeholder="0"
-                                value={
-                                  field.value !== undefined && field.value !== ""
-                                    ? Number(field.value).toLocaleString("id-ID")
-                                    : ""
-                                }
-                                onChange={(e) => {
-                                  const raw = e.target.value.replace(/[^0-9]/g, "");
-                                  field.onChange(raw ? Number(raw) : "");
-                                }}
-                              />
-                              <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-muted-foreground">
-                                {t("page.product.form.minutes")}
-                              </span>
-                            </div>
-                            <p className="text-xs text-muted-foreground mt-1">
-                              {t("page.product.form.estimationTimeDesc")}
-                            </p>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-
-                      <FormField
-                        control={form.control}
-                        name="description"
-                        render={({ field }) => (
-                          <FormItem className="md:col-span-2">
-                            <FormLabel>{t("page.product.form.description")}</FormLabel>
-                            <Textarea
-                              placeholder={t("page.product.form.descPlaceholder")}
-                              rows={3}
-                              {...field}
-                              maxLength={FIELD_LIMITS.DESCRIPTION}
-                            />
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                    </div>
-
-                    <Collapsible
-                      open={optionalOpen}
-                      onOpenChange={setOptionalOpen}
-                      className="mt-5 border-t pt-5">
-                      <div className="flex items-center justify-between">
-                        <div className="flex items-center gap-2">
-                          <Info size={18} className="text-primary" />
-                          <div>
-                            <h3 className="text-sm font-semibold text-foreground">
-                              {t("page.product.form.optionalInfo")}
-                            </h3>
-                            <p className="text-xs text-muted-foreground mt-0.5">
-                              {t("page.product.form.optionalInfoDesc")}
-                            </p>
-                          </div>
-                        </div>
-                        <CollapsibleTrigger asChild>
-                          <Button
-                            type="button"
-                            variant="ghost"
-                            size="icon"
-                            className="h-8 w-8 shrink-0">
-                            <ChevronDown
-                              size={18}
-                              className={`transition-transform duration-200 ${optionalOpen ? "rotate-180" : ""}`}
-                            />
-                          </Button>
-                        </CollapsibleTrigger>
-                      </div>
-                      <CollapsibleContent>
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-5">
-                          <FormField
-                            control={form.control}
-                            name="brand"
-                            render={({ field }) => (
-                              <FormItem>
-                                <FormLabel>{t("page.product.form.brand")}</FormLabel>
-                                <Input
-                                  placeholder={t("page.product.form.brandPlaceholder")}
-                                  {...field}
-                                  maxLength={FIELD_LIMITS.BUSINESS_NAME}
-                                />
-                                <p className="text-xs text-muted-foreground mt-1">
-                                  {t("page.product.form.brandOptional")}
-                                </p>
-                                <FormMessage />
-                              </FormItem>
-                            )}
-                          />
-
-                          <FormField
-                            control={form.control}
-                            name="sku"
-                            render={({ field }) => (
-                              <FormItem>
-                                <FormLabel>{t("page.product.form.sku")}</FormLabel>
-                                <Input
-                                  placeholder={t("page.product.form.skuPlaceholder2")}
-                                  {...field}
-                                  maxLength={FIELD_LIMITS.CODE}
-                                />
-                                <p className="text-xs text-muted-foreground mt-1">
-                                  {t("page.product.form.skuOptional")}
-                                </p>
-                                <FormMessage />
-                                <FormDescription>{t("common.optionalField")}</FormDescription>
-                              </FormItem>
-                            )}
-                          />
-
-                          <FormField
-                            control={form.control}
-                            name="barcode"
-                            render={({ field }) => (
-                              <FormItem>
-                                <FormLabel>{t("page.product.form.barcode")}</FormLabel>
-                                <Input
-                                  placeholder={t("page.product.form.barcodePlaceholder")}
-                                  {...field}
-                                  maxLength={FIELD_LIMITS.BARCODE}
-                                />
-                                <p className="text-xs text-muted-foreground mt-1">
-                                  {t("page.product.form.barcodeInfo")}
-                                </p>
-                                <FormMessage />
-                                <FormDescription>{t("common.optionalField")}</FormDescription>
-                              </FormItem>
-                            )}
-                          />
-
-                          <FormField
-                            control={form.control}
-                            name="unit"
-                            render={({ field }) => (
-                              <FormItem>
-                                <FormLabel>{t("page.product.form.unit")}</FormLabel>
-                                <Combobox
-                                  options={unitOptions}
-                                  value={field.value}
-                                  onChange={field.onChange}
-                                  placeholder={t("page.product.form.unitPlaceholder")}
-                                  searchPlaceholder={t("page.product.form.unitSearch")}
-                                />
-                                <FormMessage />
-                              </FormItem>
-                            )}
-                          />
-
-                          <FormField
-                            control={form.control}
-                            name="baseUnit"
-                            render={({ field }) => (
-                              <FormItem>
-                                <FormLabel>{t("page.product.form.baseUnit")}</FormLabel>
-                                <Combobox
-                                  options={[
-                                    { value: "pcs", label: t("page.product.form.baseUnitPcs") },
-                                    {
-                                      value: "gram",
-                                      label: t("page.product.form.baseUnitGram")
-                                    },
-                                    { value: "ml", label: t("page.product.form.baseUnitMl") },
-                                    { value: "cm", label: t("page.product.form.baseUnitCm") },
-                                    {
-                                      value: "buah",
-                                      label: t("page.product.form.baseUnitBuah")
-                                    },
-                                    {
-                                      value: "lembar",
-                                      label: t("page.product.form.baseUnitLembar")
-                                    }
-                                  ]}
-                                  value={field.value}
-                                  onChange={field.onChange}
-                                  placeholder={t("page.product.form.baseUnitPlaceholder")}
-                                />
-                                <p className="text-xs text-muted-foreground mt-1">
-                                  {t("page.product.form.baseUnitHelper")}
-                                </p>
-                                <FormMessage />
-                              </FormItem>
-                            )}
-                          />
-
-                          <ConversionFactorField form={form} />
-
-                          {isSuperAdmin && (
-                            <FormField
-                              control={form.control}
-                              name="tax"
-                              render={({ field }) => (
-                                <FormItem>
-                                  <FormLabel>{t("page.product.form.tax")}</FormLabel>
-                                  {taxOptions.length === 0 ? (
-                                    <div className="flex flex-col items-center gap-3 p-4 border-2 border-dashed border-border rounded-lg bg-muted/20">
-                                      <div className="text-center flex flex-col items-center gap-2">
-                                        <Package size={28} className="text-muted-foreground/60" />
-                                        <p className="text-sm font-medium text-foreground">
-                                          {t("page.product.form.noTax")}
-                                        </p>
-                                        <p className="text-xs text-muted-foreground">
-                                          {t("page.product.form.noTaxDesc")}
-                                        </p>
-                                      </div>
-                                      <Button
-                                        type="button"
-                                        variant="success"
-                                        size="sm"
-                                        onClick={() => navigate("/tax-list")}
-                                        className="gap-2">
-                                        <Plus size={18} className="text-base" />
-                                        {t("page.product.form.addTax")}
-                                      </Button>
-                                    </div>
-                                  ) : (
-                                    <Combobox
-                                      options={taxOptions.map((tOpt) => ({
-                                        value: String(tOpt.id),
-                                        label: `${tOpt.name} (${tOpt.rate}%)`
-                                      }))}
-                                      value={field.value}
-                                      onChange={field.onChange}
-                                      placeholder={t("page.product.form.taxPlaceholder")}
-                                      searchPlaceholder={t("page.product.form.taxSearch")}
-                                    />
-                                  )}
-                                  <FormMessage />
-                                </FormItem>
-                              )}
-                            />
-                          )}
-                        </div>
-                      </CollapsibleContent>
-                    </Collapsible>
-                  </div>
-
-                  {tipeProduk === "menu" && (
+                <ProductInfoStep
+                  form={form}
+                  categories={categories}
+                  taxOptions={taxOptions}
+                  isSuperAdmin={isSuperAdmin}
+                  noStockOpname={noStockOpname}
+                  optionalOpen={optionalOpen}
+                  onOptionalOpenChange={setOptionalOpen}
+                  recipeCard={
                     <div className="bg-card rounded-xl shadow-sm border border-border p-6">
                       <div className="flex items-center justify-between gap-2 pb-4 border-b border-border mb-5">
                         <div className="flex items-center gap-2">
@@ -1352,7 +866,7 @@ const EditProduct = () => {
                         </Button>
                       </div>
                       {/* BA finding #3: the recipe is owned by the BOM (single source)
-                          and shown here read-only; it is changed on the BOM page. */}
+                        and shown here read-only; it is changed on the BOM page. */}
                       {existingBom && composition.length > 0 ? (
                         <>
                           <p className="text-xs text-muted-foreground -mt-2 mb-3">
@@ -1377,179 +891,40 @@ const EditProduct = () => {
                         </p>
                       )}
                     </div>
-                  )}
-                </div>
+                  }
+                />
               )}
               {currentStep === 2 && (
-                <>
-                  {/* Harga & Stok */}
-                  <div className="bg-card rounded-xl shadow-sm border border-border p-6">
-                    <div className="flex items-center gap-2 pb-4 border-b border-border mb-5">
-                      <DollarSign size={18} className="text-primary" />
-                      <h3 className="text-base font-semibold text-foreground">
-                        {t("page.product.step.price")}
-                      </h3>
-                    </div>
-                    <div className="mb-5">
-                      <InventoryModeField
-                        value={form.watch("inventoryMode")}
-                        productId={product.id}
-                        savedMode={product.inventoryMode}
-                        onChange={(mode) =>
-                          form.setValue("inventoryMode", mode, { shouldDirty: true })
-                        }
-                      />
-                    </div>
-                    {linksItem && (
-                      <div className="mb-5">
-                        <InventoryLinkField
-                          stores={(allStores ? [] : selectedStores).map((id) => ({
-                            id,
-                            name:
-                              storeNames.get(String(id)) ||
-                              locations.find((l) => String(l.id) === String(id))?.name ||
-                              ""
-                          }))}
-                          value={inventoryLinks}
-                          onChange={(links) => {
-                            setInventoryLinks(links);
-                            setLinkError("");
-                          }}
-                          productName={form.watch("nameProduct")}
-                          error={linkError}
-                        />
-                        {Number(product.stock) > 0 && (
-                          <p
-                            className="mt-2 text-xs text-amber-700 dark:text-amber-400"
-                            role="note">
-                            {t("page.product.form.inventoryLink.oldStockUnused", {
-                              stock: Number(product.stock).toLocaleString("id-ID")
-                            })}
-                          </p>
-                        )}
-                      </div>
-                    )}
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      <ProductPriceCostFields
-                        form={form}
-                        costing={bomCosting}
-                        storeId={costingStore}
-                        linkedCost={linkedCost}
-                      />
-                      {!linksItem && (
-                        <>
-                          <FormField
-                            control={form.control}
-                            name="stock"
-                            render={({ field }) => (
-                              <FormItem>
-                                <FormLabel>{t("page.product.form.stock")}</FormLabel>
-                                {form.watch("inventoryMode") === "make_to_order" && (
-                                  <p className="text-xs text-muted-foreground">
-                                    {t("page.product.form.inventoryMode.stockUnused")}
-                                  </p>
-                                )}
-                                <Input
-                                  type="text"
-                                  inputMode="numeric"
-                                  placeholder="0"
-                                  value={
-                                    field.value !== undefined && field.value !== ""
-                                      ? Number(field.value).toLocaleString("id-ID")
-                                      : ""
-                                  }
-                                  onChange={(e) => {
-                                    const raw = e.target.value.replace(/[^0-9]/g, "");
-                                    field.onChange(raw ? Number(raw) : "");
-                                  }}
-                                />
-                                <FormMessage />
-                              </FormItem>
-                            )}
-                          />
-                          <FormField
-                            control={form.control}
-                            name="minStock"
-                            render={({ field }) => (
-                              <FormItem>
-                                <FormLabel>{t("page.product.form.minStock")}</FormLabel>
-                                <Input
-                                  type="text"
-                                  inputMode="numeric"
-                                  placeholder="0"
-                                  value={
-                                    field.value !== undefined && field.value !== ""
-                                      ? Number(field.value).toLocaleString("id-ID")
-                                      : ""
-                                  }
-                                  onChange={(e) => {
-                                    const raw = e.target.value.replace(/[^0-9]/g, "");
-                                    field.onChange(raw ? Number(raw) : "");
-                                  }}
-                                />
-                                <FormMessage />
-                              </FormItem>
-                            )}
-                          />
-                        </>
-                      )}
-                      <FormField
-                        control={form.control}
-                        name="point"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>{t("page.product.form.point")}</FormLabel>
-                            <Input
-                              type="text"
-                              inputMode="numeric"
-                              placeholder="0"
-                              value={
-                                field.value !== undefined && field.value !== ""
-                                  ? Number(field.value).toLocaleString("id-ID")
-                                  : ""
-                              }
-                              onChange={(e) => {
-                                const raw = e.target.value.replace(/[^0-9]/g, "");
-                                field.onChange(raw ? Number(raw) : "");
-                              }}
-                            />
-                            <p className="text-xs text-muted-foreground mt-1">
-                              {t("page.product.form.pointInfo")}
-                            </p>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                      <FormField
-                        control={form.control}
-                        name="redeemPoints"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>{t("page.product.form.redeemPoints")}</FormLabel>
-                            <Input
-                              type="text"
-                              inputMode="numeric"
-                              placeholder="0"
-                              value={
-                                field.value !== undefined && field.value !== ""
-                                  ? Number(field.value).toLocaleString("id-ID")
-                                  : ""
-                              }
-                              onChange={(e) => {
-                                const raw = e.target.value.replace(/[^0-9]/g, "");
-                                field.onChange(raw ? Number(raw) : "");
-                              }}
-                            />
-                            <p className="text-xs text-muted-foreground mt-1">
-                              {t("page.product.form.redeemPointsInfo")}
-                            </p>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                    </div>
-                  </div>
-
+                <ProductPricingStep
+                  form={form}
+                  linksItem={linksItem}
+                  linkStores={(allStores ? [] : selectedStores).map((id) => ({
+                    id,
+                    name:
+                      storeNames.get(String(id)) ||
+                      locations.find((l) => String(l.id) === String(id))?.name ||
+                      ""
+                  }))}
+                  inventoryLinks={inventoryLinks}
+                  onInventoryLinksChange={(links) => {
+                    setInventoryLinks(links);
+                    setLinkError("");
+                  }}
+                  linkError={linkError}
+                  linkedCost={linkedCost}
+                  productId={product.id}
+                  savedMode={product.inventoryMode}
+                  inventoryLinkNote={
+                    Number(product.stock) > 0 && (
+                      <p className="mt-2 text-xs text-amber-700 dark:text-amber-400" role="note">
+                        {t("page.product.form.inventoryLink.oldStockUnused", {
+                          stock: Number(product.stock).toLocaleString("id-ID")
+                        })}
+                      </p>
+                    )
+                  }
+                  costing={bomCosting}
+                  costingStore={costingStore}>
                   {/* Harga per Toko */}
                   {isSuperAdmin && (
                     <div className="bg-card rounded-xl shadow-sm border border-border p-6">
@@ -1612,443 +987,9 @@ const EditProduct = () => {
                       )}
                     </div>
                   )}
-                </>
+                </ProductPricingStep>
               )}
-
-              {currentStep === 3 && (
-                <>
-                  {/* Varian & Opsi + Modifiers */}
-                  <div className="bg-card rounded-xl shadow-sm border border-border p-6">
-                    <div className="flex items-center gap-2 pb-4 border-b border-border mb-5">
-                      <Layers size={18} className="text-primary" />
-                      <h3 className="text-base font-semibold text-foreground">
-                        {t("page.product.form.variantSection")}
-                      </h3>
-                    </div>
-                    <div className="space-y-6">
-                      <div className="flex items-center justify-between">
-                        <div>
-                          <p className="text-sm font-semibold text-foreground">
-                            {t("page.product.form.hasVariant")}
-                          </p>
-                          <p className="text-xs text-muted-foreground mt-0.5">
-                            {t("page.product.form.hasVariantDesc")}
-                          </p>
-                        </div>
-                        <Switch
-                          checked={form.watch("isOption") || variantGroups.length > 0}
-                          onCheckedChange={handleToggleOption}
-                        />
-                      </div>
-                      {isOption && (
-                        <div className="space-y-3 pl-4 border-l-2 border-primary/20">
-                          {variantGroups.map((group, groupIdx) => (
-                            <div key={group.id} className="bg-muted/30 rounded-lg p-4 space-y-3">
-                              <div className="flex items-center gap-2 mb-1">
-                                <span className="text-xs font-semibold text-primary bg-primary/10 rounded px-1.5 py-0.5 shrink-0">
-                                  {groupIdx + 1}
-                                </span>
-                                <span className="text-xs font-medium text-muted-foreground">
-                                  {t("page.product.form.variantSection")} {groupIdx + 1}
-                                </span>
-                              </div>
-                              <div className="flex items-center justify-between gap-2">
-                                <div className="flex items-center gap-2 flex-1">
-                                  <GripVertical
-                                    size={16}
-                                    className="text-muted-foreground shrink-0"
-                                  />
-                                  <Input
-                                    placeholder={t("page.product.form.variantNamePlaceholder")}
-                                    value={group.name}
-                                    onChange={(e) =>
-                                      updateVariantGroup(group.id, "name", e.target.value)
-                                    }
-                                    className="h-9 text-sm flex-1"
-                                    maxLength={FIELD_LIMITS.SHORT_LABEL}
-                                  />
-                                </div>
-                                <Button
-                                  type="button"
-                                  variant="destructive"
-                                  size="icon"
-                                  className="h-8 w-8 text-destructive shrink-0"
-                                  onClick={() =>
-                                    confirmRemove(
-                                      () => removeVariantGroup(group.id),
-                                      variantGroups.length
-                                    )
-                                  }>
-                                  <Trash2 size={18} />
-                                </Button>
-                              </div>
-                              <div className="space-y-2">
-                                {group.options.map((opt, idx) => (
-                                  <div key={idx} className="flex items-center gap-2">
-                                    <span className="text-xs font-semibold text-muted-foreground bg-muted rounded px-1 py-0.5 shrink-0">
-                                      {String.fromCharCode(65 + idx)}
-                                    </span>
-                                    <Input
-                                      placeholder={t("page.product.form.optionPlaceholder", {
-                                        number: idx + 1
-                                      })}
-                                      value={opt.name}
-                                      onChange={(e) =>
-                                        updateVariantOption(group.id, idx, "name", e.target.value)
-                                      }
-                                      className="h-9 text-sm flex-1"
-                                      maxLength={FIELD_LIMITS.SHORT_LABEL}
-                                    />
-                                    <div className="relative w-28 shrink-0">
-                                      <span className="absolute left-2.5 top-1/2 -translate-y-1/2 text-xs text-muted-foreground">
-                                        Rp
-                                      </span>
-                                      <Input
-                                        type="text"
-                                        inputMode="numeric"
-                                        placeholder="0"
-                                        value={Number(opt.price || 0).toLocaleString("id-ID")}
-                                        onChange={(e) => {
-                                          const raw = e.target.value.replace(/[^0-9]/g, "");
-                                          updateVariantOption(
-                                            group.id,
-                                            idx,
-                                            "price",
-                                            raw ? Number(raw) : 0
-                                          );
-                                        }}
-                                        className="h-9 text-sm pl-8"
-                                      />
-                                    </div>
-                                    <Input
-                                      type="number"
-                                      placeholder={t("page.product.form.variantStockPlaceholder")}
-                                      value={opt.stock ?? 0}
-                                      onChange={(e) =>
-                                        updateVariantOption(group.id, idx, "stock", e.target.value)
-                                      }
-                                      className="h-9 text-sm w-20 shrink-0"
-                                    />
-                                    {group.options.length > 1 && (
-                                      <Button
-                                        type="button"
-                                        variant="destructive"
-                                        size="icon"
-                                        className="h-8 w-8 text-destructive shrink-0"
-                                        onClick={() =>
-                                          confirmRemove(
-                                            () => removeVariantOption(group.id, idx),
-                                            group.options.length
-                                          )
-                                        }>
-                                        <Trash2 size={14} />
-                                      </Button>
-                                    )}
-                                  </div>
-                                ))}
-                              </div>
-                              <Button
-                                type="button"
-                                variant="success"
-                                size="sm"
-                                onClick={() => addVariantOption(group.id)}
-                                className="gap-1 h-8 text-xs">
-                                <Plus size={14} /> {t("page.product.form.addOption")}
-                              </Button>
-                            </div>
-                          ))}
-                          <Button
-                            type="button"
-                            variant="success"
-                            onClick={addVariantGroup}
-                            className="gap-2">
-                            <Plus size={16} /> {t("page.product.form.addVariantGroup")}
-                          </Button>
-                        </div>
-                      )}
-                    </div>
-
-                    {/* Separator */}
-                    <div className="border-t border-border my-6" />
-
-                    {/* Modifiers */}
-                    <div>
-                      <div className="flex items-center gap-2 pb-4 mb-5">
-                        <Tag size={18} className="text-primary" />
-                        <h3 className="text-base font-semibold text-foreground">
-                          {t("page.product.form.modifierSection")}
-                        </h3>
-                      </div>
-                      <div className="flex items-center justify-between">
-                        <div>
-                          <p className="text-sm font-semibold text-foreground">
-                            {t("page.product.form.hasModifier")}
-                          </p>
-                          <p className="text-xs text-muted-foreground mt-0.5">
-                            {t("page.product.form.hasModifierDesc")}
-                          </p>
-                        </div>
-                        <Switch
-                          checked={form.watch("hasModifiers") || modifierItems.length > 0}
-                          onCheckedChange={handleToggleModifier}
-                        />
-                      </div>
-                      {hasModifiers && (
-                        <div className="space-y-3 mt-4">
-                          <p className="text-xs text-muted-foreground">
-                            {t("page.product.form.modifierInfo")}
-                          </p>
-                          {modifierItems.map((mod, modIdx) => (
-                            <div key={mod.id} className="bg-muted/30 rounded-lg p-4">
-                              <div className="flex items-center gap-2 mb-2">
-                                <span className="text-xs font-semibold text-primary bg-primary/10 rounded px-1.5 py-0.5 shrink-0">
-                                  {modIdx + 1}
-                                </span>
-                                <span className="text-xs font-medium text-muted-foreground">
-                                  {t("page.product.form.modifierSection")} {modIdx + 1}
-                                </span>
-                              </div>
-                              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                                <Input
-                                  placeholder={t("page.product.form.modifierNamePlaceholder")}
-                                  value={mod.name}
-                                  onChange={(e) =>
-                                    updateModifierItem(mod.id, "name", e.target.value)
-                                  }
-                                  className="h-9 text-sm"
-                                  maxLength={FIELD_LIMITS.SHORT_LABEL}
-                                />
-                                <div className="flex items-center gap-2">
-                                  <div className="relative flex-1">
-                                    <span className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground text-xs">
-                                      Rp
-                                    </span>
-                                    <Input
-                                      type="text"
-                                      inputMode="numeric"
-                                      placeholder="0"
-                                      value={Number(mod.price).toLocaleString("id-ID")}
-                                      onChange={(e) => {
-                                        const raw = e.target.value.replace(/[^0-9]/g, "");
-                                        updateModifierItem(mod.id, "price", raw ? Number(raw) : 0);
-                                      }}
-                                      className="h-9 text-sm pl-10"
-                                    />
-                                  </div>
-                                  <Button
-                                    type="button"
-                                    variant="destructive"
-                                    size="icon"
-                                    className="h-8 w-8 text-destructive shrink-0"
-                                    onClick={() =>
-                                      confirmRemove(
-                                        () => removeModifierItem(mod.id),
-                                        modifierItems.length
-                                      )
-                                    }>
-                                    <Trash2 size={14} />
-                                  </Button>
-                                </div>
-                              </div>
-                            </div>
-                          ))}
-                          <Button
-                            type="button"
-                            variant="success"
-                            onClick={addModifierItem}
-                            className="gap-2">
-                            <Plus size={16} /> {t("page.product.form.addModifier")}
-                          </Button>
-                        </div>
-                      )}
-                    </div>
-                  </div>
-
-                  <div className="bg-card rounded-xl shadow-sm border border-border p-6">
-                    <div className="flex items-center gap-2 pb-4 border-b border-border mb-5">
-                      <TrendingUp size={18} className="text-primary" />
-                      <h3 className="text-base font-semibold text-foreground">
-                        {t("page.product.form.tierSection")}
-                      </h3>
-                    </div>
-                    <p className="text-xs text-muted-foreground -mt-2 mb-4">
-                      {t("page.product.form.tierInfo")}
-                    </p>
-                    <div className="space-y-3">
-                      {priceTiers.map((tier, tierIdx) => (
-                        <div key={tier.id} className="bg-muted/30 rounded-lg p-4">
-                          <div className="flex items-center gap-2 mb-2">
-                            <span className="text-xs font-semibold text-primary bg-primary/10 rounded px-1.5 py-0.5 shrink-0">
-                              {tierIdx + 1}
-                            </span>
-                            <span className="text-xs font-medium text-muted-foreground">
-                              {t("page.product.form.tierSection")} {tierIdx + 1}
-                            </span>
-                          </div>
-                          <div className="flex items-center gap-2">
-                            <Input
-                              placeholder={t("page.product.form.tierNamePlaceholder")}
-                              value={tier.name}
-                              onChange={(e) => updatePriceTier(tier.id, "name", e.target.value)}
-                              className="h-9 text-sm flex-1"
-                              maxLength={FIELD_LIMITS.SHORT_LABEL}
-                            />
-                            <div className="relative w-40 shrink-0">
-                              <span className="absolute left-2.5 top-1/2 -translate-y-1/2 text-xs text-muted-foreground">
-                                Rp
-                              </span>
-                              <Input
-                                type="text"
-                                inputMode="numeric"
-                                placeholder="0"
-                                value={Number(tier.price).toLocaleString("id-ID")}
-                                onChange={(e) => {
-                                  const raw = e.target.value.replace(/[^0-9]/g, "");
-                                  updatePriceTier(tier.id, "price", raw ? Number(raw) : 0);
-                                }}
-                                className="h-9 text-sm pl-8"
-                              />
-                            </div>
-                            <Button
-                              type="button"
-                              variant="destructive"
-                              size="icon"
-                              className="h-8 w-8 text-destructive shrink-0"
-                              onClick={() =>
-                                confirmRemove(() => removePriceTier(tier.id), priceTiers.length)
-                              }>
-                              <Trash2 size={18} />
-                            </Button>
-                          </div>
-                        </div>
-                      ))}
-                      <Button
-                        type="button"
-                        variant="success"
-                        size="sm"
-                        className="gap-1"
-                        onClick={addPriceTier}>
-                        <Plus size={18} />
-                        {t("page.product.form.addTier")}
-                      </Button>
-                      {priceTiers.length === 0 && (
-                        <p className="text-xs text-muted-foreground">
-                          {t("page.product.form.tierEmpty")}
-                        </p>
-                      )}
-                    </div>
-                  </div>
-
-                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                    {/* Image Gallery */}
-                    <div className="bg-card rounded-xl shadow-sm border border-border p-6">
-                      <ProductImageGallery
-                        images={productImages}
-                        onChange={handleProductImagesChange}
-                      />
-                    </div>
-
-                    {/* Status */}
-                    <div className="bg-card rounded-xl shadow-sm border border-border p-6">
-                      <div className="flex items-center gap-2 pb-4 border-b border-border mb-4">
-                        <Tag size={18} className="text-primary" />
-                        <h3 className="text-base font-semibold text-foreground">
-                          {t("page.product.form.statusSection")}
-                        </h3>
-                      </div>
-
-                      <div className="space-y-4">
-                        <FormField
-                          control={form.control}
-                          name="status"
-                          render={({ field }) => (
-                            <FormItem>
-                              <div
-                                className={`pt-2 flex items-center justify-between p-4 rounded-lg ${
-                                  field.value
-                                    ? "bg-green-50 dark:bg-green-900/10 border border-green-200 dark:border-green-800"
-                                    : "bg-red-50 dark:bg-red-900/10 border border-red-200 dark:border-red-800"
-                                }`}>
-                                <div className="flex items-center gap-3">
-                                  <div
-                                    className={`w-10 h-10 rounded-full flex items-center justify-center ${
-                                      field.value
-                                        ? "bg-green-600 text-secondary"
-                                        : "bg-destructive/10 text-destructive"
-                                    }`}>
-                                    {field.value ? (
-                                      <Check size={20} />
-                                    ) : (
-                                      <span className="text-lg font-bold">⏻</span>
-                                    )}
-                                  </div>
-                                  <div>
-                                    <p className="text-sm font-semibold text-foreground">
-                                      {t("page.product.form.statusLabel")}{" "}
-                                      {field.value
-                                        ? t("page.product.form.active")
-                                        : t("page.product.form.inactive")}
-                                    </p>
-                                    <p className="text-xs text-muted-foreground">
-                                      {field.value
-                                        ? t("page.product.form.activeDesc")
-                                        : t("page.product.form.inactiveDesc")}
-                                    </p>
-                                  </div>
-                                </div>
-                                <Switch checked={field.value} onCheckedChange={field.onChange} />
-                              </div>
-                            </FormItem>
-                          )}
-                        />
-
-                        <FormField
-                          control={form.control}
-                          name="isAvailable"
-                          render={({ field }) => (
-                            <FormItem>
-                              <div
-                                className={`pt-2 flex items-center justify-between p-4 rounded-lg ${
-                                  field.value
-                                    ? "bg-green-50 dark:bg-green-900/10 border border-green-200 dark:border-green-800"
-                                    : "bg-red-50 dark:bg-red-900/10 border border-red-200 dark:border-red-800"
-                                }`}>
-                                <div className="flex items-center gap-3">
-                                  <div
-                                    className={`w-10 h-10 rounded-full flex items-center justify-center ${
-                                      field.value
-                                        ? "bg-green-600 text-secondary"
-                                        : "bg-destructive/10 text-destructive"
-                                    }`}>
-                                    {field.value ? (
-                                      <Check size={20} />
-                                    ) : (
-                                      <span className="text-lg font-bold">⏻</span>
-                                    )}
-                                  </div>
-                                  <div>
-                                    <p className="text-sm font-semibold text-foreground">
-                                      {field.value
-                                        ? t("page.product.form.yes")
-                                        : t("page.product.form.no")}
-                                    </p>
-                                    <p className="text-xs text-muted-foreground">
-                                      {field.value
-                                        ? t("page.product.form.availableDesc")
-                                        : t("page.product.form.unavailableDesc")}
-                                    </p>
-                                  </div>
-                                </div>
-                                <Switch checked={field.value} onCheckedChange={field.onChange} />
-                              </div>
-                            </FormItem>
-                          )}
-                        />
-                      </div>
-                    </div>
-                  </div>
-                </>
-              )}
+              {currentStep === 3 && <ProductExtrasStep form={form} extras={extras} />}
             </div>
           </div>
 
