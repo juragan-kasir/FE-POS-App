@@ -6,10 +6,14 @@ import { cn } from "@/lib/utils";
 
 const STORAGE_PREFIX = "tips-dismissed-";
 
+// Solid in light mode; in dark mode a tint, since a solid emerald/blue block
+// was the brightest thing on every dark page.
 const variantStyles = {
-  default: "bg-gradient-to-br from-primary to-primary/90 text-primary-foreground",
-  info: "bg-gradient-to-br from-blue-500 to-blue-600 text-white",
-  warning: "bg-gradient-to-br from-amber-500 to-amber-600 text-white"
+  default:
+    "bg-gradient-to-br from-primary to-primary/90 text-primary-foreground dark:from-primary/20 dark:to-primary/10 dark:text-foreground dark:border dark:border-primary/30",
+  info: "bg-gradient-to-br from-blue-500 to-blue-600 text-white dark:from-blue-950/70 dark:to-blue-900/40 dark:text-blue-100 dark:border dark:border-blue-900",
+  warning:
+    "bg-gradient-to-br from-amber-500 to-amber-600 text-white dark:from-amber-950/70 dark:to-amber-900/40 dark:text-amber-100 dark:border dark:border-amber-900"
 };
 
 const variantIcons = {
