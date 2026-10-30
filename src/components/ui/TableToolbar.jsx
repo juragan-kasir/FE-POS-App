@@ -28,7 +28,7 @@ const TableToolbar = ({ title, onReset, isFiltered, children }) => {
         id={filtersId}
         className={`${showFilters ? "flex" : "hidden"} lg:flex flex-row flex-wrap items-end gap-3 w-full`}>
         {filters.map((filter, i) => (
-          <div key={i} className="flex flex-col gap-1.5 flex-1 min-w-[150px]">
+          <div key={i} className="flex flex-col gap-1.5 flex-1 min-w-[150px] empty:hidden">
             {filter}
           </div>
         ))}
