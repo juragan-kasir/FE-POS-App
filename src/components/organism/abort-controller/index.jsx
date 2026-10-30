@@ -10,8 +10,10 @@ import { useTranslation } from "react-i18next";
 export const forbiddenKind = (error) => {
   const res = error?.response;
   if (res?.status !== 403) return null;
-  const { code, message } = res.data || {};
-  if (code === "STORE_SCOPE_REQUIRED" || message === "Store assignment required") return "noStore";
+  // serverMessage: the server's own text, before errorMessage.js localizes it.
+  const { code, message, serverMessage } = res.data || {};
+  if (code === "STORE_SCOPE_REQUIRED" || (serverMessage ?? message) === "Store assignment required")
+    return "noStore";
   return "forbidden";
 };
 
