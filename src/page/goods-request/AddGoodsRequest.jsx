@@ -7,7 +7,7 @@ import { useCookies } from "react-cookie";
 import { useForm, useFieldArray, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { Save, X, Plus, Trash2, User } from "lucide-react";
+import { Save, X, Plus, User } from "lucide-react";
 import PageHeader from "@/components/ui/PageHeader";
 import UserGuide from "@/components/organism/UserGuide";
 import { format } from "date-fns";
@@ -21,7 +21,8 @@ import { Label } from "@/components/ui/label";
 import { Combobox } from "@/components/ui/combobox";
 import Modal from "@/components/organism/modal";
 import { Loading } from "@/components/ui/loading";
-import HorizontalScrollArea from "@/components/ui/HorizontalScrollArea";
+
+import GoodsRequestGroupEditor from "./GoodsRequestGroupEditor";
 import { useLocations } from "@/queries/useLocations";
 import { FIELD_LIMITS } from "@/constants/fieldLimits";
 import { useFormExit } from "@/hooks/useLeaveGuard";
@@ -69,10 +70,8 @@ const GoodsRequestGroup = ({
   watch,
   getValues,
   setValue,
-  register,
   onRemove,
-  takenSupplierIds,
-  t
+  takenSupplierIds
 }) => {
   const { fields, append, remove, replace } = useFieldArray({
     control,
@@ -169,153 +168,34 @@ const GoodsRequestGroup = ({
     }
   };
 
+  const setItemField = (iIdx, fieldName, value) =>
+    setValue(`groups.${groupIndex}.items.${iIdx}.${fieldName}`, value, {
+      shouldValidate: true,
+      shouldDirty: true
+    });
+
   return (
-    <div className="border rounded-lg overflow-hidden">
-      <div className="flex flex-col sm:flex-row sm:items-center gap-2 p-3 border-b bg-muted/40">
-        <Label
-          htmlFor={`goods-request-group-${groupIndex}-supplier`}
-          className="shrink-0 text-xs text-muted-foreground">
-          {t("page.goodsRequest.add.table.supplier")}
-        </Label>
-        <div className="flex-1 min-w-[220px]">
-          <Controller
-            control={control}
-            name={`groups.${groupIndex}.supplier`}
-            render={({ field }) => (
-              <Combobox
-                id={`goods-request-group-${groupIndex}-supplier`}
-                options={supplierOptions}
-                value={field.value ? String(field.value) : ""}
-                onChange={(val) => {
-                  field.onChange(val);
-                  replace([{ ...emptyItem }]);
-                }}
-                placeholder={t("page.goodsRequest.add.placeholder.selectSupplier")}
-                searchPlaceholder={t("common.search")}
-                emptyMessage={t("page.goodsRequest.add.table.noSupplier")}
-                disabled={!storeId || suppliersLoading}
-              />
-            )}
-          />
-        </div>
-        <Button
-          type="button"
-          variant="ghost"
-          size="icon"
-          className="h-8 w-8 shrink-0 text-muted-foreground hover:text-destructive"
-          onClick={onRemove}
-          disabled={!canRemove}>
-          <Trash2 size={14} />
-        </Button>
-      </div>
-
-      <HorizontalScrollArea>
-        <table className="w-full text-sm min-w-[760px]">
-          <thead>
-            <tr className="border-b">
-              <th className="px-3 py-2 text-left font-semibold text-muted-foreground text-xs">
-                {t("page.goodsRequest.add.table.name")}
-              </th>
-              <th className="px-3 py-2 text-center font-semibold text-muted-foreground text-xs">
-                {t("page.goodsRequest.add.table.qty")}
-              </th>
-              <th className="px-3 py-2 text-center font-semibold text-muted-foreground text-xs">
-                {t("page.goodsRequest.add.table.unit")}
-              </th>
-              <th className="px-3 py-2 text-left font-semibold text-muted-foreground text-xs">
-                {t("page.goodsRequest.add.table.notes")}
-              </th>
-              <th className="w-10"></th>
-            </tr>
-          </thead>
-          <tbody>
-            {fields.map((field, iIdx) => {
-              const item = items.at(iIdx) || {};
-              return (
-                <tr key={field.id} className="border-b border-muted/20">
-                  <td className="px-3 py-2 min-w-[280px]">
-                    <Combobox
-                      options={itemOptionsForRow(iIdx)}
-                      value={selectedItemValue(item)}
-                      onChange={(val) => pickItemOption(iIdx, val)}
-                      placeholder={t("page.goodsRequest.add.placeholder.selectItem")}
-                      searchPlaceholder={t("common.search")}
-                      emptyMessage={t("page.goodsRequest.add.table.noItem")}
-                      disabled={!supplier}
-                    />
-                    {item.name && !selectedItemValue(item) && (
-                      <p className="text-xs text-muted-foreground mt-1 truncate">{item.name}</p>
-                    )}
-                  </td>
-                  <td className="px-3 py-2">
-                    <Controller
-                      control={control}
-                      name={`groups.${groupIndex}.items.${iIdx}.qty`}
-                      render={({ field: qtyField }) => (
-                        <Input
-                          type="text"
-                          inputMode="numeric"
-                          value={qtyField.value === 0 ? "" : String(qtyField.value)}
-                          onChange={(e) =>
-                            qtyField.onChange(Number(e.target.value.replace(/[^0-9]/g, "")) || 0)
-                          }
-                          className="h-8 text-xs text-center w-20 mx-auto"
-                          placeholder="0"
-                        />
-                      )}
-                    />
-                  </td>
-                  <td className="px-3 py-2">
-                    <div className="flex justify-center">
-                      <Controller
-                        control={control}
-                        name={`groups.${groupIndex}.items.${iIdx}.unit`}
-                        render={({ field: unitField }) => (
-                          <Combobox
-                            options={unitOptions}
-                            value={unitField.value}
-                            onChange={unitField.onChange}
-                            placeholder="pcs"
-                            searchPlaceholder={t("common.search")}
-                          />
-                        )}
-                      />
-                    </div>
-                  </td>
-                  <td className="px-3 py-2">
-                    <Input
-                      {...register(`groups.${groupIndex}.items.${iIdx}.notes`)}
-                      className="h-8 text-xs"
-                      placeholder={t("page.goodsRequest.add.placeholder.notes")}
-                    />
-                  </td>
-                  <td className="px-3 py-2 text-center">
-                    <button
-                      aria-label={t("common.delete")}
-                      type="button"
-                      onClick={() => remove(iIdx)}
-                      className="text-muted-foreground/40 hover:text-destructive">
-                      <Trash2 size={14} />
-                    </button>
-                  </td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
-      </HorizontalScrollArea>
-
-      <div className="p-3 border-t">
-        <Button
-          type="button"
-          variant="success"
-          size="sm"
-          onClick={() => append({ ...emptyItem })}
-          className="gap-1">
-          <Plus size={14} /> {t("page.goodsRequest.add.form.addItem")}
-        </Button>
-      </div>
-    </div>
+    <GoodsRequestGroupEditor
+      index={groupIndex}
+      supplier={supplier}
+      supplierOptions={supplierOptions}
+      onSupplierChange={(val) => {
+        setValue(`groups.${groupIndex}.supplier`, val, { shouldValidate: true, shouldDirty: true });
+        replace([{ ...emptyItem }]);
+      }}
+      supplierDisabled={!storeId || suppliersLoading}
+      canRemove={canRemove}
+      onRemove={onRemove}
+      items={fields.map((_, iIdx) => items.at(iIdx) || {})}
+      rowKeys={fields.map((f) => f.id)}
+      itemOptionsForRow={itemOptionsForRow}
+      selectedItemValue={selectedItemValue}
+      onPickItem={pickItemOption}
+      onItemChange={setItemField}
+      onRemoveItem={remove}
+      onAddItem={() => append({ ...emptyItem })}
+      unitOptions={unitOptions}
+    />
   );
 };
 
@@ -661,7 +541,6 @@ const AddGoodsRequest = () => {
                 register={form.register}
                 onRemove={() => removeGroup(gIdx)}
                 takenSupplierIds={takenSupplierIdsByGroupIndex.at(gIdx) || new Set()}
-                t={t}
               />
             ))}
 
