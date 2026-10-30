@@ -56,6 +56,9 @@ jest.mock("@/queries/useLocations", () => ({
 jest.mock("@/services/expense", () => ({
   getUpcomingPayments: jest.fn(() => Promise.resolve({ data: [] }))
 }));
+jest.mock("@/services/product", () => ({
+  getAllProductTable: jest.fn(() => Promise.resolve({ stats: { total: 3 } }))
+}));
 jest.mock("@/services/dashboard", () => ({
   getSuperAdminDashboard: jest.fn()
 }));

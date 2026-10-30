@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useEffect, useRef, useCallback } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import { safeGet } from "@/lib/safe-lookup";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
@@ -26,6 +26,7 @@ import {
 } from "lucide-react";
 import AbortController from "@/components/organism/abort-controller";
 import PosWelcomeModal from "@/components/organism/PosWelcomeModal";
+import { usePosWelcome } from "@/hooks/usePosWelcome";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
 import { formatCurrencyRupiah } from "@/utils/formatter-currency";
 import { getAPDashboard } from "@/services/purchase-payment";
@@ -204,28 +205,9 @@ const Dashboard = () => {
   const lowStockItems = d.lowStock || 0;
 
   // ponytail: pengguna baru = data kosong semua → sambut sekali per browser.
-  const [welcomeOpen, setWelcomeOpen] = useState(false);
-  const welcomeSeen = useRef(
-    typeof window !== "undefined" && localStorage.getItem("pos-welcome-seen") === "1"
+  const { open: welcomeOpen, onOpenChange: handleWelcomeChange } = usePosWelcome(
+    !isLoading && !isError && totalOrders === 0 && totalProducts === 0 && totalMembers === 0
   );
-  useEffect(() => {
-    if (
-      !isLoading &&
-      !welcomeSeen.current &&
-      totalOrders === 0 &&
-      totalProducts === 0 &&
-      totalMembers === 0
-    ) {
-      setWelcomeOpen(true);
-    }
-  }, [isLoading, totalOrders, totalProducts, totalMembers]);
-  const handleWelcomeChange = useCallback((open) => {
-    setWelcomeOpen(open);
-    if (!open) {
-      localStorage.setItem("pos-welcome-seen", "1");
-      welcomeSeen.current = true;
-    }
-  }, []);
 
   const summaryCards = [
     {
