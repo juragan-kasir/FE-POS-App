@@ -1,5 +1,5 @@
 import { safeGet } from "@/lib/safe-lookup";
-import { usePageParam } from "@/hooks/usePageParam";
+import { usePageParam, useSearchParam } from "@/hooks/usePageParam";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useQuery, useMutation, useQueryClient } from "react-query";
@@ -112,7 +112,7 @@ const DriverList = () => {
   const [cookie] = useCookies();
   const [page, setPage] = usePageParam();
   const [limit, setLimit] = useState(10);
-  const [search, setSearch] = useState("");
+  const [search, setSearch] = useSearchParam();
   const [statusFilter, setStatusFilter] = useState("all");
   const [deleteTarget, setDeleteTarget] = useState(null);
   const [storeFilter, setGlobalStoreFilter] = useGlobalStoreFilter();
@@ -139,7 +139,6 @@ const DriverList = () => {
     setSearch("");
     setStatusFilter("all");
     setGlobalStoreFilter("all");
-    setPage(1);
   };
 
   const deleteMutation = useMutation(deleteDriver, {
@@ -391,7 +390,6 @@ const DriverList = () => {
                 value={search}
                 onChange={(val) => {
                   setSearch(val);
-                  setPage(1);
                 }}
                 placeholder={t("page.delivery.driver.list.search")}
                 isLoading={isFetching}

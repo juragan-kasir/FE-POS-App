@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { usePageParam } from "@/hooks/usePageParam";
+import { usePageParam, useSearchParam } from "@/hooks/usePageParam";
 import { useGlobalStoreFilter } from "@/hooks/useGlobalStoreFilter";
 import { useQuery, useMutation, useQueryClient } from "react-query";
 import { useNavigate } from "react-router-dom";
@@ -71,7 +71,7 @@ const GoodsRequestList = () => {
   const MENU_KEY = "/goods-request";
   const [page, setPage] = usePageParam();
   const [limit, setLimit] = useState(10);
-  const [search, setSearch] = useState("");
+  const [search, setSearch] = useSearchParam();
   const [statusFilter, setStatusFilter] = useState("all");
   const [storeFilter, setGlobalStoreFilter] = useGlobalStoreFilter();
   const [deleteTarget, setDeleteTarget] = useState(null);
@@ -86,7 +86,6 @@ const GoodsRequestList = () => {
     setGlobalStoreFilter("all");
     setStatusFilter("all");
     setSearch("");
-    setPage(1);
   };
   const isSuperAdmin = user?.roleType === "super_admin";
 
@@ -580,7 +579,6 @@ const GoodsRequestList = () => {
                           value={search}
                           onChange={(val) => {
                             setSearch(val);
-                            setPage(1);
                           }}
                           placeholder={t("page.goodsRequest.list.searchPlaceholder")}
                           isLoading={isFetching}

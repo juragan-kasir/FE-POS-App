@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { usePageParam } from "@/hooks/usePageParam";
+import { usePageParam, useSearchParam } from "@/hooks/usePageParam";
 import { useQuery, useMutation, useQueryClient } from "react-query";
 import { useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
@@ -52,7 +52,7 @@ const RoleManagement = () => {
   });
   const [page, setPage] = usePageParam();
   const [limit, setLimit] = useState(10);
-  const [search, setSearch] = useState("");
+  const [search, setSearch] = useSearchParam();
   const [statusFilter, setStatusFilter] = useState("all");
   const [deleteTarget, setDeleteTarget] = useState(null);
 
@@ -88,7 +88,6 @@ const RoleManagement = () => {
   const resetFilters = () => {
     setSearch("");
     setStatusFilter("all");
-    setPage(1);
   };
 
   const roles = data?.data || [];
@@ -398,7 +397,6 @@ const RoleManagement = () => {
                           value={search}
                           onChange={(val) => {
                             setSearch(val);
-                            setPage(1);
                           }}
                           placeholder={t("page.globalSetting.roleManagement.search")}
                           isLoading={isFetching}

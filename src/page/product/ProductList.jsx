@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { usePageParam } from "@/hooks/usePageParam";
+import { usePageParam, useSearchParam } from "@/hooks/usePageParam";
 import { useGlobalStoreFilter } from "@/hooks/useGlobalStoreFilter";
 import { useQuery, useMutation, useQueryClient } from "react-query";
 import { useNavigate, useSearchParams } from "react-router-dom";
@@ -56,7 +56,7 @@ const ProductList = () => {
   const [searchParams] = useSearchParams();
   const [page, setPage] = usePageParam();
   const [limit, setLimit] = useState(12);
-  const [search, setSearch] = useState("");
+  const [search, setSearch] = useSearchParam();
   const [categoryFilter, setCategoryFilter] = useState("");
   const [sortFilter, setSortFilter] = useState("");
   const [deleteTarget, setDeleteTarget] = useState(null);
@@ -79,7 +79,6 @@ const ProductList = () => {
     setSearch("");
     setCategoryFilter("");
     setSortFilter("");
-    setPage(1);
   };
 
   const user = cookie?.user;
@@ -664,7 +663,6 @@ const ProductList = () => {
                       value={search}
                       onChange={(val) => {
                         setSearch(val);
-                        setPage(1);
                       }}
                       placeholder={t("page.product.list.searchSku")}
                       isLoading={isFetching}

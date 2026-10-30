@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { usePageParam } from "@/hooks/usePageParam";
+import { usePageParam, useSearchParam } from "@/hooks/usePageParam";
 import { useGlobalStoreFilter } from "@/hooks/useGlobalStoreFilter";
 import { useQuery, useMutation, useQueryClient } from "react-query";
 import { useNavigate } from "react-router-dom";
@@ -54,7 +54,7 @@ const SupplierList = () => {
   const [cookie] = useCookies();
   const [page, setPage] = usePageParam();
   const [limit, setLimit] = useState(10);
-  const [search, setSearch] = useState("");
+  const [search, setSearch] = useSearchParam();
   const [deleteTarget, setDeleteTarget] = useState(null);
   const [uploadModalOpen, setUploadModalOpen] = useState(false);
   const [isDownloadingTemplate, setIsDownloadingTemplate] = useState(false);
@@ -93,7 +93,6 @@ const SupplierList = () => {
     setSearch("");
     setGlobalStoreFilter("all");
     setStatusFilter("all");
-    setPage(1);
   };
 
   const deleteMutation = useMutation(deleteSupplier, {
@@ -506,7 +505,6 @@ const SupplierList = () => {
                         value={search}
                         onChange={(val) => {
                           setSearch(val);
-                          setPage(1);
                         }}
                         placeholder={t("page.supplier.list.search")}
                         isLoading={isFetching}

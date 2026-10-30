@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { usePageParam } from "@/hooks/usePageParam";
+import { usePageParam, useSearchParam } from "@/hooks/usePageParam";
 import { useQuery, useMutation, useQueryClient } from "react-query";
 import { useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
@@ -63,7 +63,7 @@ const ShiftList = () => {
   const [cookie] = useCookies();
   const [page, setPage] = usePageParam();
   const [limit, setLimit] = useState(10);
-  const [search, setSearch] = useState("");
+  const [search, setSearch] = useSearchParam();
   const [deleteTarget, setDeleteTarget] = useState(null);
   const [extendTarget, setExtendTarget] = useState(null);
   const [statusFilter, setStatusFilter] = useState("all");
@@ -76,7 +76,6 @@ const ShiftList = () => {
     setSearch("");
     setStatusFilter("all");
     setGlobalStoreFilter("all");
-    setPage(1);
   };
 
   const user = cookie?.user;
@@ -629,7 +628,6 @@ const ShiftList = () => {
                               value={search}
                               onChange={(val) => {
                                 setSearch(val);
-                                setPage(1);
                               }}
                               placeholder={t("page.shift.list.search")}
                               isLoading={isFetching}

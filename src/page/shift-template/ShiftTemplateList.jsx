@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { usePageParam } from "@/hooks/usePageParam";
+import { usePageParam, useSearchParam } from "@/hooks/usePageParam";
 import { useQuery, useMutation, useQueryClient } from "react-query";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
@@ -39,7 +39,7 @@ const ShiftTemplateList = () => {
   const MENU_KEY = "/shift-template-list";
   const [page, setPage] = usePageParam();
   const [limit, setLimit] = useState(10);
-  const [search, setSearch] = useState("");
+  const [search, setSearch] = useSearchParam();
   const [deleteTarget, setDeleteTarget] = useState(null);
   const [statusFilter, setStatusFilter] = useState("all");
 
@@ -48,7 +48,6 @@ const ShiftTemplateList = () => {
   const resetFilters = () => {
     setSearch("");
     setStatusFilter("all");
-    setPage(1);
   };
 
   const { data, isFetching } = useQuery(
@@ -326,7 +325,6 @@ const ShiftTemplateList = () => {
                       value={search}
                       onChange={(val) => {
                         setSearch(val);
-                        setPage(1);
                       }}
                       placeholder={t("page.shiftTemplate.list.search")}
                       isLoading={isFetching}

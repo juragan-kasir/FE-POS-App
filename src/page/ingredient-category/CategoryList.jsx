@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { usePageParam } from "@/hooks/usePageParam";
+import { usePageParam, useSearchParam } from "@/hooks/usePageParam";
 import { useQuery, useMutation, useQueryClient } from "react-query";
 import { useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
@@ -69,7 +69,7 @@ const CategoryList = () => {
   const user = cookie?.user;
   const isSuperAdmin = user?.roleType === "super_admin";
   const MENU_KEY = "/ingredient-category";
-  const [search, setSearch] = useState("");
+  const [search, setSearch] = useSearchParam();
   const [page, setPage] = usePageParam();
   const [limit, setLimit] = useState(10);
   const [deleteTarget, setDeleteTarget] = useState(null);
@@ -93,7 +93,6 @@ const CategoryList = () => {
   const resetFilters = () => {
     setSearch("");
     setStatusFilter("all");
-    setPage(1);
   };
 
   const deleteMutation = useMutation(deleteIngredientCategory, {
@@ -424,7 +423,6 @@ const CategoryList = () => {
                           value={search}
                           onChange={(val) => {
                             setSearch(val);
-                            setPage(1);
                           }}
                           placeholder={t("page.ingredientCategory.list.searchPlaceholder")}
                           isLoading={isFetching}

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo, useRef } from "react";
-import { usePageParam } from "@/hooks/usePageParam";
+import { usePageParam, useSearchParam } from "@/hooks/usePageParam";
 import { useGlobalStoreFilter } from "@/hooks/useGlobalStoreFilter";
 import { createPortal } from "react-dom";
 import { useQuery, useMutation, useQueryClient } from "react-query";
@@ -163,7 +163,7 @@ const PurchaseOrderList = () => {
   const [cookie] = useCookies();
   const [page, setPage] = usePageParam();
   const [limit, setLimit] = useState(10);
-  const [search, setSearch] = useState("");
+  const [search, setSearch] = useSearchParam();
   const [storeFilter, setGlobalStoreFilter] = useGlobalStoreFilter();
   const [statusFilter, setStatusFilter] = useState("all");
   const [sourceFilter, setSourceFilter] = useState("all");
@@ -283,7 +283,6 @@ const PurchaseOrderList = () => {
     setSourceFilter("all");
     setDateFilter(undefined);
     setSearch("");
-    setPage(1);
   };
 
   const { data: locData } = useLocations("active", {
@@ -1147,7 +1146,6 @@ const PurchaseOrderList = () => {
                         value={search}
                         onChange={(val) => {
                           setSearch(val);
-                          setPage(1);
                         }}
                         placeholder={t("page.purchaseOrder.list.searchPlaceholder")}
                         isLoading={isFetching}

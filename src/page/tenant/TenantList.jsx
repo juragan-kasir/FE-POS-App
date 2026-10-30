@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { usePageParam } from "@/hooks/usePageParam";
+import { usePageParam, useSearchParam } from "@/hooks/usePageParam";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
@@ -227,7 +227,7 @@ const TenantList = () => {
   const permission = useTenantManagePermission();
   const [page, setPage] = usePageParam();
   const [limit, setLimit] = useState(DEFAULT_LIMIT);
-  const [search, setSearch] = useState("");
+  const [search, setSearch] = useSearchParam();
   const [statusFilter, setStatusFilter] = useState("all");
   const [formTarget, setFormTarget] = useState(null); // { tenant } | null
   const [statusTarget, setStatusTarget] = useState(null);
@@ -284,7 +284,6 @@ const TenantList = () => {
   const resetFilters = () => {
     setSearch("");
     setStatusFilter("all");
-    setPage(1);
   };
   const countOf = (query) => (query.data?.pagination?.total ?? 0).toLocaleString();
 
@@ -453,7 +452,6 @@ const TenantList = () => {
                     value={search}
                     onChange={(value) => {
                       setSearch(value);
-                      setPage(1);
                     }}
                     placeholder={t(`${P}.searchPlaceholder`)}
                     isLoading={isFetching}

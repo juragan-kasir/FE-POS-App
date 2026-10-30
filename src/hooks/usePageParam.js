@@ -31,3 +31,32 @@ export const usePageParam = () => {
 
   return [page, setPage];
 };
+
+// The list's search text, kept in the URL (?q=) next to ?page= so it is still
+// there when the user comes back from a detail page. Setting it also returns
+// to page 1 in the same URL write: two setSearchParams calls in one event
+// overwrite each other (each starts from the URL as it was rendered), so a
+// following setPage(1) would drop the new search text.
+export const useSearchParam = (key = "q") => {
+  const [searchParams, setSearchParams] = useSearchParams();
+  const value = searchParams.get(key) || "";
+
+  const setValue = useCallback(
+    (next) => {
+      setSearchParams(
+        (prev) => {
+          const params = new URLSearchParams(prev);
+          const text = typeof next === "function" ? next(prev.get(key) || "") : next;
+          if (text) params.set(key, text);
+          else params.delete(key);
+          params.delete("page");
+          return params;
+        },
+        { replace: true }
+      );
+    },
+    [key, setSearchParams]
+  );
+
+  return [value, setValue];
+};

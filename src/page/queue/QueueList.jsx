@@ -1,5 +1,5 @@
 import { safeGet } from "@/lib/safe-lookup";
-import { usePageParam } from "@/hooks/usePageParam";
+import { usePageParam, useSearchParam } from "@/hooks/usePageParam";
 import React, { useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "react-query";
 import { useCookies } from "react-cookie";
@@ -123,7 +123,7 @@ const QueueList = () => {
   const [cookie] = useCookies();
   const [page, setPage] = usePageParam();
   const [limit, setLimit] = useState(20);
-  const [search, setSearch] = useState("");
+  const [search, setSearch] = useSearchParam();
   const [statusFilter, setStatusFilter] = useState("all");
   const [priorityFilter, setPriorityFilter] = useState("all");
   const [seatedTarget, setSeatedTarget] = useState(null);
@@ -138,7 +138,6 @@ const QueueList = () => {
     setSearch("");
     setStatusFilter("all");
     setPriorityFilter("all");
-    setPage(1);
   };
 
   const user = cookie?.user;
@@ -374,7 +373,6 @@ const QueueList = () => {
                   value={search}
                   onChange={(val) => {
                     setSearch(val);
-                    setPage(1);
                   }}
                   placeholder={t("page.queue.list.searchPlaceholder")}
                   className="w-full md:w-64"

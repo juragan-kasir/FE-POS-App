@@ -1,5 +1,5 @@
 import { safeGet } from "@/lib/safe-lookup";
-import { usePageParam } from "@/hooks/usePageParam";
+import { usePageParam, useSearchParam } from "@/hooks/usePageParam";
 import React, { useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "react-query";
 import { useNavigate } from "react-router-dom";
@@ -56,7 +56,7 @@ const LocationList = () => {
   const MENU_KEY = "/location-list";
   const [page, setPage] = usePageParam();
   const [limit, setLimit] = useState(10);
-  const [search, setSearch] = useState("");
+  const [search, setSearch] = useSearchParam();
   const [statusFilter, setStatusFilter] = useState("all");
   const [deleteTarget, setDeleteTarget] = useState(null);
   const [archiveModal, setArchiveModal] = useState({
@@ -118,7 +118,6 @@ const LocationList = () => {
   const resetFilters = () => {
     setSearch("");
     setStatusFilter("all");
-    setPage(1);
   };
 
   const targetMutation = useMutation(({ id, dailyTarget }) => editLocation({ id, dailyTarget }), {
@@ -523,7 +522,6 @@ const LocationList = () => {
                         value={search}
                         onChange={(val) => {
                           setSearch(val);
-                          setPage(1);
                         }}
                         placeholder={t("page.location.list.search")}
                         isLoading={isFetching}

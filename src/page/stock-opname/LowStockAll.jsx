@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { usePageParam } from "@/hooks/usePageParam";
+import { usePageParam, useSearchParam } from "@/hooks/usePageParam";
 import { useGlobalStoreFilter } from "@/hooks/useGlobalStoreFilter";
 import { useQuery, useMutation, useQueryClient } from "react-query";
 import { useCookies } from "react-cookie";
@@ -41,7 +41,7 @@ const LowStockAll = () => {
   const [confirmModal, setConfirmModal] = useState(false);
   const [page, setPage] = usePageParam();
   const [limit, setLimit] = useState(20);
-  const [search, setSearch] = useState("");
+  const [search, setSearch] = useSearchParam();
   const [storeFilter, setGlobalStoreFilter] = useGlobalStoreFilter();
   const [typeFilter, setTypeFilter] = useState("all");
 
@@ -56,7 +56,6 @@ const LowStockAll = () => {
     setSearch("");
     setGlobalStoreFilter("all");
     setTypeFilter("all");
-    setPage(1);
   };
 
   const { data, isLoading, isError, refetch } = useQuery(
@@ -232,7 +231,6 @@ const LowStockAll = () => {
                 value={search}
                 onChange={(val) => {
                   setSearch(val);
-                  setPage(1);
                 }}
                 placeholder={t("page.stockOpname.ui.searchItemName")}
                 isLoading={isLoading}

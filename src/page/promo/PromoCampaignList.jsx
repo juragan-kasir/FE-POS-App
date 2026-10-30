@@ -1,5 +1,5 @@
 import { safeGet } from "@/lib/safe-lookup";
-import { usePageParam } from "@/hooks/usePageParam";
+import { usePageParam, useSearchParam } from "@/hooks/usePageParam";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useQuery, useMutation, useQueryClient } from "react-query";
@@ -159,7 +159,7 @@ const PromoCampaignList = () => {
   const [cookie] = useCookies();
   const [page, setPage] = usePageParam();
   const [limit, setLimit] = useState(10);
-  const [search, setSearch] = useState("");
+  const [search, setSearch] = useSearchParam();
   const [statusFilter, setStatusFilter] = useState("all");
   const [typeFilter, setTypeFilter] = useState("all");
   const [deleteTarget, setDeleteTarget] = useState(null);
@@ -174,7 +174,6 @@ const PromoCampaignList = () => {
     setSearch("");
     setStatusFilter("all");
     setTypeFilter("all");
-    setPage(1);
   };
 
   const user = cookie?.user;
@@ -526,7 +525,6 @@ const PromoCampaignList = () => {
                   value={search}
                   onChange={(val) => {
                     setSearch(val);
-                    setPage(1);
                   }}
                   placeholder={t("page.promo.list.searchPlaceholder")}
                   className="w-full md:w-64"

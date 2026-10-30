@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { usePageParam } from "@/hooks/usePageParam";
+import { usePageParam, useSearchParam } from "@/hooks/usePageParam";
 import { useGlobalStoreFilter } from "@/hooks/useGlobalStoreFilter";
 import { useNavigate } from "react-router-dom";
 import { useQuery, useMutation, useQueryClient } from "react-query";
@@ -49,7 +49,7 @@ const CashRegisterHistory = () => {
   const [storeFilter, setGlobalStoreFilter] = useGlobalStoreFilter();
   const [page, setPage] = usePageParam();
   const [limit, setLimit] = useState(10);
-  const [search, setSearch] = useState("");
+  const [search, setSearch] = useSearchParam();
   const [closeTarget, setCloseTarget] = useState(null);
   const [rawClosing, setRawClosing] = useState("0");
   const closingBalance = parseIDR(rawClosing);
@@ -59,7 +59,6 @@ const CashRegisterHistory = () => {
   const resetFilters = () => {
     setSearch("");
     setGlobalStoreFilter("all");
-    setPage(1);
   };
 
   const { data: locData, isLoading: isLoadingLocations } = useLocations("active", {
@@ -400,7 +399,6 @@ const CashRegisterHistory = () => {
                           value={search}
                           onChange={(val) => {
                             setSearch(val);
-                            setPage(1);
                           }}
                           placeholder={t("page.cashRegister.history.search")}
                           isLoading={isFetching}

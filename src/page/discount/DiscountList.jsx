@@ -1,5 +1,5 @@
 import { safeGet } from "@/lib/safe-lookup";
-import { usePageParam } from "@/hooks/usePageParam";
+import { usePageParam, useSearchParam } from "@/hooks/usePageParam";
 import { formatDateOnly } from "@/utils/dateOnly";
 import React, { useState } from "react";
 import { useGlobalStoreFilter } from "@/hooks/useGlobalStoreFilter";
@@ -99,7 +99,7 @@ const DiscountList = () => {
   const [cookie] = useCookies();
   const [page, setPage] = usePageParam();
   const [limit, setLimit] = useState(10);
-  const [search, setSearch] = useState("");
+  const [search, setSearch] = useSearchParam();
   const [statusFilter, setStatusFilter] = useState("all");
   const [deleteTarget, setDeleteTarget] = useState(null);
   const [isDownloadingTemplate, setIsDownloadingTemplate] = useState(false);
@@ -113,7 +113,6 @@ const DiscountList = () => {
     setSearch("");
     setStatusFilter("all");
     setGlobalStoreFilter("all");
-    setPage(1);
   };
 
   const user = cookie?.user;
@@ -698,7 +697,6 @@ const DiscountList = () => {
                       value={search}
                       onChange={(val) => {
                         setSearch(val);
-                        setPage(1);
                       }}
                       placeholder={t("page.discount.list.search")}
                       isLoading={isFetching}

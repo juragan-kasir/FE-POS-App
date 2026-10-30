@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { usePageParam } from "@/hooks/usePageParam";
+import { usePageParam, useSearchParam } from "@/hooks/usePageParam";
 import { useGlobalStoreFilter } from "@/hooks/useGlobalStoreFilter";
 import { useQuery, useMutation, useQueryClient } from "react-query";
 import { useNavigate } from "react-router-dom";
@@ -62,7 +62,7 @@ const IngredientList = () => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const [cookie] = useCookies();
-  const [search, setSearch] = useState("");
+  const [search, setSearch] = useSearchParam();
   const [page, setPage] = usePageParam();
   const [deleteTarget, setDeleteTarget] = useState(null);
   const [importModal, setImportModal] = useState(false);
@@ -80,7 +80,6 @@ const IngredientList = () => {
     setGlobalStoreFilter("all");
     setSearch("");
     setStatusFilter("all");
-    setPage(1);
   };
 
   const user = cookie?.user;
@@ -544,7 +543,6 @@ const IngredientList = () => {
                         value={search}
                         onChange={(val) => {
                           setSearch(val);
-                          setPage(1);
                         }}
                         placeholder={t("page.ingredient.list.searchPlaceholder")}
                         isLoading={isFetching}

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { usePageParam } from "@/hooks/usePageParam";
+import { usePageParam, useSearchParam } from "@/hooks/usePageParam";
 import { useGlobalStoreFilter } from "@/hooks/useGlobalStoreFilter";
 import { useQuery, useMutation, useQueryClient } from "react-query";
 import { useNavigate } from "react-router-dom";
@@ -52,7 +52,7 @@ const PurchaseReturnList = () => {
   const MENU_KEY = "/purchase-return";
   const [page, setPage] = usePageParam();
   const [limit, setLimit] = useState(10);
-  const [search, setSearch] = useState("");
+  const [search, setSearch] = useSearchParam();
   const [storeFilter, setGlobalStoreFilter] = useGlobalStoreFilter();
   const [statusFilter, setStatusFilter] = useState("all");
   const [dateFilter, setDateFilter] = useState(undefined);
@@ -75,7 +75,6 @@ const PurchaseReturnList = () => {
     setStatusFilter("all");
     setDateFilter(undefined);
     setSearch("");
-    setPage(1);
   };
 
   const { data, isLoading, isFetching, isError, refetch } = useQuery(
@@ -367,7 +366,6 @@ const PurchaseReturnList = () => {
                         value={search}
                         onChange={(val) => {
                           setSearch(val);
-                          setPage(1);
                         }}
                         placeholder={t("page.purchaseReturn.list.placeholder.search")}
                         isLoading={isFetching}
