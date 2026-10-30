@@ -215,3 +215,10 @@ describe("CheckoutModal — order of sections", () => {
     expect(screen.getByTestId("checkout-footer-total")).toBeInTheDocument();
   });
 });
+
+test("the promo code input fills its row (its counter used to sit far from it)", async () => {
+  renderModal();
+  const promo = await screen.findByLabelText("page.cashier.promoCode");
+  expect(promo.className).toMatch(/\bw-full\b/);
+  expect(promo.parentElement.className).toMatch(/\bflex-1\b/);
+});

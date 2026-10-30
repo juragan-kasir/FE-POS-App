@@ -8,6 +8,7 @@ import Sidebar from "./Sidebar";
 import Header from "./Header";
 import CommandPalette from "./CommandPalette";
 import { TipsCard } from "@/components/ui/tips-card";
+import { matchRouteTips } from "@/lib/page-tips";
 import FloatingTourButton from "@/components/organism/FloatingTourButton";
 import { OfflineBanner } from "@/components/ui/OfflineIndicator";
 import { useStore } from "@/contexts/StoreContext";
@@ -23,8 +24,11 @@ const tipsKeys = {
   "/edit-product": ["tips.product", "tips.product2", "tips.product3"],
   "/category-list": ["tips.category", "tips.category2"],
   "/supplier": ["tips.supplier", "tips.supplier2"],
+  "/supplier-category": ["tips.supplier", "tips.supplier2"],
+  "/supplier-comparison": ["tips.supplier", "tips.supplier2"],
   "/member-list": ["tips.member", "tips.member2"],
   "/member-tier": ["tips.memberTier", "tips.memberTier2"],
+  "/edit-member-tier": ["tips.memberTier", "tips.memberTier2"],
   "/discount-list": ["tips.discount", "tips.discount2"],
   "/type-payment-list": ["tips.payment", "tips.payment2"],
   "/shift-list": ["tips.shift", "tips.shift2"],
@@ -32,6 +36,7 @@ const tipsKeys = {
   "/stock-opname": ["tips.stockOpname", "tips.stockOpname2"],
   "/stock-history": ["tips.stockHistory", "tips.stockHistory2"],
   "/low-stock": ["tips.lowStock", "tips.lowStock2"],
+  "/low-stock-all": ["tips.lowStock", "tips.lowStock2"],
   "/expense-category": ["tips.expense", "tips.expense2"],
   "/expense": ["tips.expense", "tips.expense2"],
   "/employee-list": ["tips.employee", "tips.employee2"],
@@ -50,6 +55,9 @@ const tipsKeys = {
   "/invoice-page": ["tips.invoice", "tips.invoice2", "tips.invoice3"],
   "/cashier": ["tips.cashier", "tips.cashier2", "tips.cashier3"],
   "/dashboard": ["tips.dashboard", "tips.dashboard2"],
+  "/dashboard-super-admin": ["tips.dashboard", "tips.dashboard2"],
+  "/dashboard-admin": ["tips.dashboard", "tips.dashboard2"],
+  "/dashboard-user": ["tips.dashboard", "tips.dashboard2"],
 
   "/add-category": ["tips.category", "tips.category2"],
   "/edit-category": ["tips.category", "tips.category2"],
@@ -72,6 +80,8 @@ const tipsKeys = {
 
   "/add-shift": ["tips.shift", "tips.shift2"],
   "/edit-shift": ["tips.shift", "tips.shift2"],
+  "/add-shift-template": ["tips.shift", "tips.shift2"],
+  "/edit-shift-template": ["tips.shift", "tips.shift2"],
 
   "/add-location": ["tips.location", "tips.location2"],
   "/edit-location": ["tips.location", "tips.location2"],
@@ -119,6 +129,11 @@ const tipsKeys = {
   ],
 
   "/purchase-payment": ["tips.purchasePayment", "tips.purchasePayment2", "tips.purchasePayment3"],
+  "/purchase-payment-detail": [
+    "tips.purchasePayment",
+    "tips.purchasePayment2",
+    "tips.purchasePayment3"
+  ],
 
   "/stock-adjustment": ["tips.stockAdjustment", "tips.stockAdjustment2", "tips.stockAdjustment3"],
 
@@ -308,8 +323,9 @@ const DashboardLayout = () => {
   const handleSidebarHoverChange = useCallback((collapsed) => setSidebarCollapsed(collapsed), []);
 
   const currentPath = location.pathname;
-  const matchedKeys = Object.entries(tipsKeys).find(([path]) => currentPath.startsWith(path));
-  const tips = matchedKeys?.[1]?.map((key) => t(key));
+  const matchedKeys = matchRouteTips(tipsKeys, currentPath);
+  const canOpenCurrent = canOpenPage(sessionUser, location.pathname);
+  const tips = canOpenCurrent ? matchedKeys?.map((key) => t(key)) : undefined;
 
   return (
     <div className="min-h-screen bg-background">
@@ -358,7 +374,7 @@ const DashboardLayout = () => {
             <div
               key={location.pathname}
               className="animate-in fade-in slide-in-from-bottom-2 duration-500">
-              {canOpenPage(sessionUser, location.pathname) ? <Outlet /> : <AccessDenied />}
+              {canOpenCurrent ? <Outlet /> : <AccessDenied />}
             </div>
           </SidebarContext.Provider>
           {tips && (

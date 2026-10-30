@@ -1718,7 +1718,10 @@ const CheckoutModal = ({
                 value={promoCode}
                 onChange={(e) => setPromoCode(e.target.value)}
                 placeholder={t("page.cashier.promoCodePlaceholder")}
-                className="flex-1 h-10 px-4 text-sm rounded-xl bg-accent/50 border border-border/60 outline-none focus:border-primary/50 transition-colors"
+                // unstyled drops the base w-full: without it the input was only
+                // as wide as its text while the 0/50 counter spanned the row.
+                containerClassName="flex-1 min-w-0"
+                className="w-full h-10 px-4 text-sm rounded-xl bg-accent/50 border border-border/60 outline-none focus:border-primary/50 transition-colors"
                 disabled={promoLoading || !!selectedDiscount}
                 maxLength={FIELD_LIMITS.CODE}
               />

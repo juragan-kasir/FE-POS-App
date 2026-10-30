@@ -20,21 +20,23 @@ const variantStyles = {
     label: "text-green-700 dark:text-green-400",
     value: "text-green-900 dark:text-green-100"
   },
+  // inactive/draft used to be solid red/amber blocks — louder than every
+  // other card even when they counted nothing. Tinted like the rest.
   inactive: {
-    card: "bg-red-600 dark:bg-red-900",
-    iconBg: "bg-red-700 dark:bg-red-950",
-    iconColor: "text-white",
-    subtitle: "text-red-100",
-    label: "text-red-100",
-    value: "text-white"
+    card: "bg-red-50 dark:bg-red-950/30 border border-red-200 dark:border-red-900/50",
+    iconBg: "bg-red-100 dark:bg-red-900/40",
+    iconColor: "text-red-600 dark:text-red-400",
+    subtitle: "text-red-600 dark:text-red-400",
+    label: "text-red-700 dark:text-red-400",
+    value: "text-red-900 dark:text-red-100"
   },
   draft: {
-    card: "bg-amber-600 dark:bg-amber-900",
-    iconBg: "bg-amber-700 dark:bg-amber-950",
-    iconColor: "text-white",
-    subtitle: "text-amber-100",
-    label: "text-amber-100",
-    value: "text-white"
+    card: "bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-900/50",
+    iconBg: "bg-amber-100 dark:bg-amber-900/40",
+    iconColor: "text-amber-600 dark:text-amber-400",
+    subtitle: "text-amber-600 dark:text-amber-400",
+    label: "text-amber-700 dark:text-amber-400",
+    value: "text-amber-900 dark:text-amber-100"
   },
   gray: {
     card: "bg-muted dark:bg-muted/20 border border-border dark:border-border",
@@ -86,6 +88,20 @@ const variantStyles = {
   }
 };
 
+// Pages already pass "warning" (e.g. pending expenses); it had no style and
+// silently fell back to default.
+variantStyles.warning = variantStyles.gold;
+
+// Cards that flag a problem (inactive, draft, rejected, expiring) stay
+// neutral while they count nothing, so a zero doesn't look like an alert.
+const ALERT_VARIANTS = new Set(["inactive", "draft", "red", "expiring", "warning"]);
+const isZero = (value) => {
+  if (typeof value === "number") return value === 0;
+  if (typeof value !== "string") return false;
+  const digits = value.replace(/[^0-9]/g, "");
+  return digits !== "" && Number(digits) === 0;
+};
+
 const StatCard = ({
   label,
   value,
@@ -96,7 +112,8 @@ const StatCard = ({
   "data-tour": dataTour,
   className = ""
 }) => {
-  const s = safeGet(variantStyles, variant, variantStyles.default); // ponytail: akses aman anti object-injection
+  const effective = ALERT_VARIANTS.has(variant) && isZero(value) ? "gray" : variant;
+  const s = safeGet(variantStyles, effective, variantStyles.default); // ponytail: akses aman anti object-injection
   return (
     <div
       data-tour={dataTour}
