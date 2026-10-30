@@ -69,7 +69,13 @@ jest.mock("@/components/ui/date-picker", () => ({
     return (
       <input
         data-testid={id}
-        value={date ? date.toISOString().slice(0, 10) : ""}
+        value={
+          date
+            ? `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}-${String(
+                date.getDate()
+              ).padStart(2, "0")}`
+            : ""
+        }
         onChange={(e) => setDate(e.target.value ? new Date(`${e.target.value}T00:00:00`) : null)}
       />
     );
