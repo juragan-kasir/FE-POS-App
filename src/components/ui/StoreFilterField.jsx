@@ -1,3 +1,4 @@
+import React from "react";
 import StoreFilter from "@/components/ui/StoreFilter";
 
 const FIELD_CLASS = "flex flex-col gap-1.5";
