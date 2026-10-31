@@ -26,8 +26,9 @@ jest.mock("react-i18next", () => ({
 jest.mock("@/contexts/StoreContext", () => ({
   useStore: () => ({ activeStoreId: "7", setActiveStore: jest.fn() })
 }));
+let mockStores = [];
 jest.mock("@/queries/useLocations", () => ({
-  useLocations: () => ({ data: { data: [{ id: 7, name: "Toko A" }] } })
+  useLocations: () => ({ data: { data: mockStores }, isSuccess: true })
 }));
 jest.mock("@/services/expense", () => ({
   getUpcomingPayments: jest.fn(() => Promise.resolve({ data: [] }))
@@ -51,11 +52,24 @@ const renderPage = () =>
 describe("Super admin dashboard — POS welcome for an empty account", () => {
   beforeEach(() => {
     localStorage.clear();
+    mockStores = [];
     getSuperAdminDashboard.mockReset();
     getAllProductTable.mockReset();
   });
 
-  test("shows the welcome when orders, members and products are all empty", async () => {
+  test("stays closed once the account has a store, even with no sales or products", async () => {
+    mockStores = [{ id: 7, name: "Toko A", status: "draft" }];
+    getSuperAdminDashboard.mockResolvedValue({ data: { summary: emptySummary } });
+    getAllProductTable.mockResolvedValue({ stats: { total: 0 }, pagination: { totalItems: 0 } });
+    renderPage();
+
+    await waitFor(() => expect(getAllProductTable).toHaveBeenCalled());
+    await screen.findByText("page.dashboardSuperAdmin.kpi.revenue");
+    await new Promise((r) => setTimeout(r, 50));
+    expect(screen.queryByText(WELCOME)).not.toBeInTheDocument();
+  });
+
+  test("shows the welcome when there is no store and orders, members and products are empty", async () => {
     getSuperAdminDashboard.mockResolvedValue({ data: { summary: emptySummary } });
     getAllProductTable.mockResolvedValue({ stats: { total: 0 }, pagination: { totalItems: 0 } });
     renderPage();
