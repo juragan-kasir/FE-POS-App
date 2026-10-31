@@ -227,8 +227,8 @@ describe("EditPromoCampaign — characterization", () => {
       discountValue: 0,
       maxDiscount: null,
       minPurchase: 50000,
-      startDate: "2026-11-01T02:00",
-      endDate: "2026-11-30T16:59",
+      startDate: "2026-11-01T02:00:00.000Z",
+      endDate: "2026-11-30T16:59:00.000Z",
       startTime: "",
       endTime: "",
       applicableTo: "specific_products",
@@ -239,11 +239,21 @@ describe("EditPromoCampaign — characterization", () => {
       autoActivate: true,
       store: 4,
       applicableIds: [5, 6],
+      daysOfWeek: [5, 6],
       rules: loadedCampaign.rules,
       rewards: loadedCampaign.rewards,
       status: "active"
     });
     await waitFor(() => expect(mockNavigate).toHaveBeenCalledWith("/promo-list"));
+  });
+
+  test("active days the server left empty stay null", async () => {
+    getCampaignById.mockResolvedValue({ ...loadedCampaign, daysOfWeek: null });
+    renderPage(EditPromoCampaign);
+    await screen.findByDisplayValue("Promo akhir bulan");
+    await confirmSave();
+    await waitFor(() => expect(updateCampaign).toHaveBeenCalledTimes(1));
+    expect(updateCampaign.mock.calls[0][1].daysOfWeek).toBeNull();
   });
 
   test("saving as draft sends status draft", async () => {
