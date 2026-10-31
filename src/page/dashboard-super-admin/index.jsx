@@ -104,7 +104,7 @@ const DashboardSuperAdmin = () => {
   const d = dashData?.data || {};
   const summary = d.summary || {};
 
-  // A brand-new account (no orders, members or products anywhere) gets the
+  // A brand-new account (no store, orders, members or products anywhere) gets the
   // POS welcome once per browser. The summary's activeProducts is not
   // computed by the server, so products are counted from the catalog.
   const { data: productCountData, isSuccess: productCountLoaded } = useQuery(
@@ -117,10 +117,16 @@ const DashboardSuperAdmin = () => {
   const productTotal = Number(
     productCountData?.stats?.total ?? productCountData?.pagination?.totalItems ?? 0
   );
+  const { data: anyStoreData, isSuccess: anyStoreLoaded } = useLocations("all", {
+    staleTime: 5 * 60 * 1000
+  });
+  const storeCount = (anyStoreData?.data || []).length;
   const welcome = usePosWelcome(
     !isLoading &&
       !isError &&
       productCountLoaded &&
+      anyStoreLoaded &&
+      storeCount === 0 &&
       Number(summary.orders || 0) === 0 &&
       Number(summary.revenue || 0) === 0 &&
       Number(summary.totalMembers || 0) === 0 &&
