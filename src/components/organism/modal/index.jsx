@@ -42,6 +42,7 @@ export default function Modal({
   onSecondary,
   loading,
   isLoading,
+  confirmDisabled = false,
   className,
   children
 }) {
@@ -180,7 +181,7 @@ export default function Modal({
                   type="button"
                   variant={confirmBtnVariant}
                   className={confirmBtnClass}
-                  disabled={resolvedLoading}
+                  disabled={resolvedLoading || confirmDisabled}
                   onClick={handleConfirm}>
                   {resolvedLoading ? t("common.loading") : confirmLabel}
                 </Button>
