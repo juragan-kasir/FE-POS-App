@@ -68,8 +68,9 @@ const ReceiptModal = ({ data, onClose, onNewTransaction }) => {
   };
 
   const user = cookie?.user;
+  const orderStore = data?.store && typeof data.store === "object" ? data.store.id : data?.store;
   const storeId =
-    cookie?.activeStore || user?.store || data?.storeId || data?.location || data?.store || "";
+    data?.storeId || data?.location || orderStore || cookie?.activeStore || user?.store || "";
 
   const { data: invoiceSettings } = useQuery(
     ["invoice-settings", storeId],
