@@ -68,6 +68,7 @@ import NoStore from "@/components/ui/NoStore";
 import { FIELD_LIMITS } from "@/constants/fieldLimits";
 import { Textarea } from "@/components/ui/textarea";
 import { handleCashierShortcut } from "./shortcuts";
+import { productTextMatches } from "@/lib/product-code";
 
 const CashierPage = () => {
   const { t } = useTranslation();
@@ -329,10 +330,7 @@ const CashierPage = () => {
   const filteredProducts = useMemo(
     () =>
       allProducts.filter((p) => {
-        const name = (p.nameProduct || p.name || "").toLowerCase();
-        const sku = (p.sku || "").toLowerCase();
-        const q = search.toLowerCase();
-        const matchesSearch = !search || name.includes(q) || sku.includes(q);
+        const matchesSearch = productTextMatches(p, search);
         const matchesCategory = !categoryId || String(catId(p)) === String(categoryId);
         return matchesSearch && matchesCategory;
       }),
