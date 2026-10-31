@@ -52,6 +52,11 @@ import { createdId } from "@/utils/createdRecord";
 import LoadErrorBanner from "@/components/ui/LoadErrorBanner";
 import { dateLocale } from "@/lib/locale";
 import { markSaved } from "@/lib/unsaved-changes-store";
+import ReceiptPicPicker from "./ReceiptPicPicker";
+import ReceiptDeliveryFields from "./ReceiptDeliveryFields";
+import { useReceiptDocs } from "./useReceiptDocs";
+import { useReceiptDelivery } from "./useReceiptDelivery";
+import { isBeforePoDate, receiptItemsPayload, validReceiptItems } from "./receiptForm";
 
 const AddGoodsReceipt = () => {
   const navigate = useNavigate();
@@ -68,16 +73,10 @@ const AddGoodsReceipt = () => {
   const [poSearch, setPoSearch] = useState("");
   const [poOpen, setPoOpen] = useState(false);
   const poRef = useRef(null);
-  const [picSearch, setPicSearch] = useState("");
-  const [picOpen, setPicOpen] = useState(false);
   const [selectedPic, setSelectedPic] = useState(null);
-  const picRef = useRef(null);
-  // multiple documentation photos: [{ file, url, isNew }]
-  const [docs, setDocs] = useState([]);
-  const docInputRef = useRef(null);
-  const [suratJalan, setSuratJalan] = useState("");
-  const [taxInvoiceNo, setTaxInvoiceNo] = useState("");
-  const [shippingCost, setShippingCost] = useState("");
+  const receiptDocs = useReceiptDocs();
+  const { docs, docInputRef, handleDocChange, removeDoc } = receiptDocs;
+  const delivery = useReceiptDelivery();
   const [scanValue, setScanValue] = useState("");
   const qtyInputRefs = useRef(new Map());
   const [activeTab, setActiveTab] = useState("informasi");
@@ -94,7 +93,6 @@ const AddGoodsReceipt = () => {
   });
   const locations = locationsData?.data || [];
 
-  const docFiles = docs.filter((d) => d.isNew).map((d) => d.file);
   const storeFilterParam =
     allStores || selectedStores.length === 0 ? null : selectedStores.join(",");
 
@@ -103,10 +101,6 @@ const AddGoodsReceipt = () => {
       if (poRef.current && !poRef.current.contains(e.target)) {
         setPoOpen(false);
         setPoSearch("");
-      }
-      if (picRef.current && !picRef.current.contains(e.target)) {
-        setPicOpen(false);
-        setPicSearch("");
       }
     };
     document.addEventListener("mousedown", handleClickOutside);
@@ -205,11 +199,7 @@ const AddGoodsReceipt = () => {
 
   useEffect(() => {
     const isDirty =
-      items.some((it) => parseFloat(it.qtyReceived) > 0) ||
-      docs.length > 0 ||
-      suratJalan.trim() ||
-      taxInvoiceNo.trim() ||
-      parseFloat(shippingCost) > 0;
+      items.some((it) => parseFloat(it.qtyReceived) > 0) || docs.length > 0 || delivery.hasInput;
     if (!isDirty) return;
     const handler = (e) => {
       e.preventDefault();
@@ -217,7 +207,7 @@ const AddGoodsReceipt = () => {
     };
     window.addEventListener("beforeunload", handler);
     return () => window.removeEventListener("beforeunload", handler);
-  }, [items, docs, suratJalan, taxInvoiceNo, shippingCost]);
+  }, [items, docs, delivery.hasInput]);
 
   const { data: poData, isLoading: loadingPOs } = useQuery(
     ["pos-for-gr", storeFilterParam],
@@ -289,9 +279,6 @@ const AddGoodsReceipt = () => {
     { enabled: !!effectiveStoreId }
   );
   const employees = employeesData?.data || [];
-  const filteredEmployees = employees.filter((e) =>
-    (e.fullName || e.userName)?.toLowerCase().includes(picSearch.toLowerCase())
-  );
 
   // riwayat penerimaan (GR sebelumnya utk PO yang sama)
   const { data: grHistoryData } = useQuery(
@@ -398,40 +385,6 @@ const AddGoodsReceipt = () => {
     done: grSummary.target > 0 && grSummary.filled >= grSummary.target
   };
 
-  const handleDocChange = (e) => {
-    const incoming = Array.from(e.target.files || []);
-    if (incoming.length === 0) return;
-    const tooLarge = incoming.find((f) => f.size > 5 * 1024 * 1024);
-    if (tooLarge) {
-      toast.error(t("page.goodsReceipt.add.form.fileTooLarge"));
-      e.target.value = "";
-      return;
-    }
-    const room = 5 - docs.length;
-    if (room <= 0) {
-      toast.error(t("page.goodsReceipt.add.form.docMaxReached"));
-      e.target.value = "";
-      return;
-    }
-    const accepted = incoming.slice(0, room);
-    if (accepted.length < incoming.length) {
-      toast.info(t("page.goodsReceipt.add.form.docMaxReached"));
-    }
-    setDocs((prev) => [
-      ...prev,
-      ...accepted.map((f) => ({ file: f, url: URL.createObjectURL(f), isNew: true }))
-    ]);
-    e.target.value = "";
-  };
-
-  const removeDoc = (idx) => {
-    setDocs((prev) => {
-      const target = prev.at(idx);
-      if (target?.isNew) URL.revokeObjectURL(target.url);
-      return prev.filter((_, i) => i !== idx);
-    });
-  };
-
   const updateItem = (idx, field, value) => setValue(`items.${idx}.${field}`, value);
 
   const newGrIdempotencyKey = () =>
@@ -442,9 +395,7 @@ const AddGoodsReceipt = () => {
     if (isSubmitting) return;
     setIsSubmitting(true);
     try {
-      const validItems = data.items.filter(
-        (it) => parseFloat(it.qtyReceived) > 0 && (it.ingredientName || it.ingredient)
-      );
+      const validItems = validReceiptItems(data.items);
       if (validItems.length === 0) {
         toast.error(t("page.goodsReceipt.add.toast.itemRequired"));
         return;
@@ -457,13 +408,7 @@ const AddGoodsReceipt = () => {
         return;
       }
       // tanggal terima tidak boleh sebelum tanggal PO
-      const poOrderDate = poDetail?.data?.orderDate ? new Date(poDetail.data.orderDate) : null;
-      const startOfDay = (d) => new Date(d.getFullYear(), d.getMonth(), d.getDate());
-      if (
-        poOrderDate &&
-        data.receivedDate instanceof Date &&
-        startOfDay(data.receivedDate) < startOfDay(poOrderDate)
-      ) {
+      if (isBeforePoDate(data.receivedDate, poDetail?.data?.orderDate)) {
         toast.error(t("page.goodsReceipt.add.toast.dateBeforePo"));
         return;
       }
@@ -473,26 +418,12 @@ const AddGoodsReceipt = () => {
         receivedDate: formatDateOnly(data.receivedDate),
         notes: data.notes,
         pic: selectedPic?.id || null,
-        suratJalan: suratJalan.trim() || null,
-        taxInvoiceNo: taxInvoiceNo.trim() || null,
-        shippingCost: parseFloat(shippingCost) || 0,
+        ...delivery.payload,
         idempotencyKey: grIdempotencyRef.current,
         status: saveAsDraft ? "draft" : "completed",
-        items: validItems.map((it) => ({
-          purchaseOrderItem: it.purchaseOrderItem,
-          ingredient: it.ingredient,
-          ingredientName: it.ingredientName,
-          product: it.product,
-          qtyReceived: parseFloat(it.qtyReceived),
-          unit: it.unit,
-          conditionNotes: it.conditionNotes,
-          batchNumber: it.batchNumber?.trim() || null,
-          expiryDate: it.expiryDate || null,
-          costPrice: parseFloat(it.costPrice) || 0,
-          conversionToBase: parseFloat(it.conversionToBase) || 1
-        }))
+        items: receiptItemsPayload(validItems)
       };
-      const receiptId = createdId(await addGoodsReceipt(payload, docFiles));
+      const receiptId = createdId(await addGoodsReceipt(payload, receiptDocs.newDocFiles));
       // Saved: the way back to the list must not ask "Batalkan Perubahan?".
       markSaved();
       grIdempotencyRef.current = "";
@@ -709,129 +640,14 @@ const AddGoodsReceipt = () => {
                   </div>
                 </div>
 
-                <div className="space-y-2">
-                  <Label htmlFor="add-goods-receipt-pic">
-                    {t("page.goodsReceipt.add.form.pic")}{" "}
-                    <span className="text-xs font-normal text-muted-foreground">
-                      ({t("common.optional")})
-                    </span>
-                  </Label>
-                  <div className="relative" ref={picRef}>
-                    <div
-                      className="w-full h-10 px-3 rounded-md border border-input bg-background text-sm flex items-center cursor-pointer"
-                      onClick={() => setPicOpen(!picOpen)}>
-                      <Search size={14} className="mr-2 text-muted-foreground shrink-0" />
-                      <input
-                        id="add-goods-receipt-pic"
-                        type="text"
-                        value={
-                          picOpen ? picSearch : selectedPic?.fullName || selectedPic?.userName || ""
-                        }
-                        readOnly={!picOpen}
-                        onFocus={() => setPicOpen(true)}
-                        onChange={(e) => setPicSearch(e.target.value)}
-                        placeholder={t("page.goodsReceipt.add.form.picPlaceholder")}
-                        className="flex-1 bg-transparent outline-none text-sm"
-                      />
-                    </div>
-                    {picOpen && (
-                      <div className="absolute z-50 top-full mt-1 w-full bg-popover border border-border rounded-md shadow-md max-h-60 overflow-auto">
-                        {filteredEmployees.length === 0 ? (
-                          <div className="px-3 py-2 text-sm text-muted-foreground">
-                            {t("page.goodsReceipt.add.form.picEmpty")}
-                          </div>
-                        ) : (
-                          filteredEmployees.map((emp) => (
-                            <div
-                              key={emp.id}
-                              className={`px-3 py-2 text-sm cursor-pointer hover:bg-accent ${
-                                selectedPic?.id === emp.id ? "bg-accent" : ""
-                              }`}
-                              onClick={() => {
-                                setSelectedPic(emp);
-                                setPicSearch("");
-                                setPicOpen(false);
-                              }}>
-                              {emp.fullName || emp.userName}
-                            </div>
-                          ))
-                        )}
-                      </div>
-                    )}
-                  </div>
-                  {selectedPic && (
-                    <button
-                      type="button"
-                      onClick={() => setSelectedPic(null)}
-                      className="text-xs text-muted-foreground hover:text-destructive">
-                      {t("page.goodsReceipt.add.form.clearPic")}
-                    </button>
-                  )}
-                </div>
+                <ReceiptPicPicker
+                  idPrefix="add"
+                  employees={employees}
+                  value={selectedPic}
+                  onChange={setSelectedPic}
+                />
 
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                  <div className="space-y-2">
-                    <Label htmlFor="add-goods-receipt-surat-jalan">
-                      {t("page.goodsReceipt.add.form.suratJalan")}{" "}
-                      <span className="text-xs font-normal text-muted-foreground">
-                        ({t("common.optional")})
-                      </span>
-                    </Label>
-                    <Input
-                      id="add-goods-receipt-surat-jalan"
-                      type="text"
-                      value={suratJalan}
-                      onChange={(e) => setSuratJalan(e.target.value)}
-                      placeholder={t("page.goodsReceipt.add.placeholder.suratJalan")}
-                      maxLength={FIELD_LIMITS.DOCUMENT_NUMBER}
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="add-goods-receipt-tax-invoice-no">
-                      {t("page.goodsReceipt.add.form.taxInvoiceNo")}{" "}
-                      <span className="text-xs font-normal text-muted-foreground">
-                        ({t("common.optional")})
-                      </span>
-                    </Label>
-                    <Input
-                      id="add-goods-receipt-tax-invoice-no"
-                      type="text"
-                      value={taxInvoiceNo}
-                      onChange={(e) => setTaxInvoiceNo(e.target.value)}
-                      placeholder={t("page.goodsReceipt.add.placeholder.taxInvoiceNo")}
-                      maxLength={FIELD_LIMITS.DOCUMENT_NUMBER}
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="add-goods-receipt-shipping-cost">
-                      {t("page.goodsReceipt.add.form.shippingCost")}{" "}
-                      <span className="text-xs font-normal text-muted-foreground">
-                        ({t("common.optional")})
-                      </span>
-                    </Label>
-                    <div className="relative">
-                      <span className="absolute left-3 top-1/2 -translate-y-1/2 text-sm text-muted-foreground">
-                        Rp
-                      </span>
-                      <Input
-                        id="add-goods-receipt-shipping-cost"
-                        type="text"
-                        inputMode="numeric"
-                        value={shippingCost ? Number(shippingCost).toLocaleString("id-ID") : ""}
-                        onFocus={(e) => e.target.select()}
-                        onChange={(e) => {
-                          const raw = e.target.value.replace(/[^0-9]/g, "");
-                          setShippingCost(raw);
-                        }}
-                        className="pl-10"
-                        placeholder="0"
-                      />
-                    </div>
-                    <p className="text-xs text-muted-foreground">
-                      {t("page.goodsReceipt.add.form.shippingHint")}
-                    </p>
-                  </div>
-                </div>
+                <ReceiptDeliveryFields idPrefix="add" delivery={delivery} />
 
                 {(() => {
                   const po = selectedPO || poDetail?.data;
