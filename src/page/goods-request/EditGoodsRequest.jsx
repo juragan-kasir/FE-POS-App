@@ -4,7 +4,7 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useQuery, useMutation, useQueryClient } from "react-query";
 import { useCookies } from "react-cookie";
-import { Save, X, Plus, Trash2, ArrowLeft, User } from "lucide-react";
+import { Save, X, Plus, ArrowLeft, User } from "lucide-react";
 import PageHeader from "@/components/ui/PageHeader";
 import { useDomDirtyTracking } from "@/hooks/useDomDirtyTracking";
 import UserGuide from "@/components/organism/UserGuide";
@@ -17,11 +17,12 @@ import { Input } from "@/components/ui/input";
 import { DatePicker } from "@/components/ui/date-picker";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
-import { Combobox } from "@/components/ui/combobox";
+
 import { Skeleton } from "@/components/ui/skeleton";
 import Modal from "@/components/organism/modal";
 import { Loading } from "@/components/ui/loading";
-import HorizontalScrollArea from "@/components/ui/HorizontalScrollArea";
+
+import GoodsRequestGroupEditor from "./GoodsRequestGroupEditor";
 import { FIELD_LIMITS } from "@/constants/fieldLimits";
 import { useFormExit } from "@/hooks/useLeaveGuard";
 import LoadErrorBanner from "@/components/ui/LoadErrorBanner";
@@ -457,137 +458,24 @@ const EditGoodsRequest = () => {
             <FieldError message={formErrors.items} />
 
             {groups.map((group, gIdx) => (
-              <div key={gIdx} className="border rounded-lg overflow-hidden">
-                <div className="flex flex-col sm:flex-row sm:items-center gap-2 p-3 border-b bg-muted/40">
-                  <Label
-                    htmlFor={`goods-request-group-${gIdx}-supplier`}
-                    className="shrink-0 text-xs text-muted-foreground">
-                    {t("page.goodsRequest.edit.table.supplier")}
-                  </Label>
-                  <div className="flex-1 min-w-[220px]">
-                    <Combobox
-                      id={`goods-request-group-${gIdx}-supplier`}
-                      options={supplierOptionsForGroup(gIdx)}
-                      value={group.supplier ? String(group.supplier) : ""}
-                      onChange={(val) => pickGroupSupplier(gIdx, val)}
-                      placeholder={t("page.goodsRequest.edit.placeholder.selectSupplier")}
-                      searchPlaceholder={t("common.search")}
-                      emptyMessage={t("page.goodsRequest.edit.table.noSupplier")}
-                      disabled={suppliersLoading}
-                    />
-                  </div>
-                  <Button
-                    type="button"
-                    variant="destructive"
-                    size="icon"
-                    className="h-8 w-8 shrink-0 text-muted-foreground hover:text-destructive"
-                    onClick={() => removeGroup(gIdx)}
-                    disabled={groups.length === 1}>
-                    <Trash2 size={14} />
-                  </Button>
-                </div>
-
-                <HorizontalScrollArea>
-                  <table className="w-full text-sm min-w-[760px]">
-                    <thead>
-                      <tr className="border-b">
-                        <th className="px-3 py-2 text-left font-semibold text-muted-foreground text-xs">
-                          {t("page.goodsRequest.edit.table.name")}
-                        </th>
-                        <th className="px-3 py-2 text-center font-semibold text-muted-foreground text-xs">
-                          {t("page.goodsRequest.edit.table.qty")}
-                        </th>
-                        <th className="px-3 py-2 text-center font-semibold text-muted-foreground text-xs">
-                          {t("page.goodsRequest.edit.table.unit")}
-                        </th>
-                        <th className="px-3 py-2 text-left font-semibold text-muted-foreground text-xs">
-                          {t("page.goodsRequest.edit.table.notes")}
-                        </th>
-                        <th className="w-10"></th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {group.items.map((item, iIdx) => (
-                        <tr key={iIdx} className="border-b border-muted/20">
-                          <td className="px-3 py-2 min-w-[280px]">
-                            <Combobox
-                              options={itemOptionsForRow(gIdx, iIdx, group.supplier)}
-                              value={selectedItemValue(item, group.supplier)}
-                              onChange={(val) => pickItemOption(gIdx, iIdx, val)}
-                              placeholder={t("page.goodsRequest.edit.placeholder.selectItem")}
-                              searchPlaceholder={t("common.search")}
-                              emptyMessage={t("page.goodsRequest.edit.table.noItem")}
-                              disabled={!group.supplier}
-                            />
-                            {item.name && !selectedItemValue(item, group.supplier) && (
-                              <p className="text-xs text-muted-foreground mt-1 truncate">
-                                {item.name}
-                              </p>
-                            )}
-                          </td>
-                          <td className="px-3 py-2">
-                            <Input
-                              type="text"
-                              inputMode="numeric"
-                              value={item.qty === 0 ? "" : String(item.qty)}
-                              onChange={(e) =>
-                                updateItem(
-                                  gIdx,
-                                  iIdx,
-                                  "qty",
-                                  Number(e.target.value.replace(/[^0-9]/g, "")) || 0
-                                )
-                              }
-                              className="h-8 text-xs text-center w-20 mx-auto"
-                              placeholder="0"
-                            />
-                          </td>
-                          <td className="px-3 py-2">
-                            <div className="flex justify-center">
-                              <Combobox
-                                options={unitOptions}
-                                value={item.unit}
-                                onChange={(val) => updateItem(gIdx, iIdx, "unit", val)}
-                                placeholder="pcs"
-                                searchPlaceholder={t("common.search")}
-                              />
-                            </div>
-                          </td>
-                          <td className="px-3 py-2">
-                            <Input
-                              value={item.notes}
-                              onChange={(e) => updateItem(gIdx, iIdx, "notes", e.target.value)}
-                              className="h-8 text-xs"
-                              placeholder={t("page.goodsRequest.edit.placeholder.notes")}
-                              maxLength={FIELD_LIMITS.SHORT_NOTE}
-                            />
-                          </td>
-                          <td className="px-3 py-2 text-center">
-                            <button
-                              aria-label={t("common.delete")}
-                              type="button"
-                              onClick={() => removeItem(gIdx, iIdx)}
-                              className="text-muted-foreground/40 hover:text-destructive">
-                              <Trash2 size={14} />
-                            </button>
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </HorizontalScrollArea>
-
-                <div className="p-3 border-t">
-                  <Button
-                    type="button"
-                    variant="success"
-                    size="sm"
-                    onClick={() => addItem(gIdx)}
-                    className="gap-1">
-                    <Plus size={14} /> {t("page.goodsRequest.edit.form.addItem")}
-                  </Button>
-                </div>
-              </div>
+              <GoodsRequestGroupEditor
+                key={gIdx}
+                index={gIdx}
+                supplier={group.supplier}
+                supplierOptions={supplierOptionsForGroup(gIdx)}
+                onSupplierChange={(val) => pickGroupSupplier(gIdx, val)}
+                supplierDisabled={suppliersLoading}
+                canRemove={groups.length > 1}
+                onRemove={() => removeGroup(gIdx)}
+                items={group.items}
+                itemOptionsForRow={(iIdx) => itemOptionsForRow(gIdx, iIdx, group.supplier)}
+                selectedItemValue={(item) => selectedItemValue(item, group.supplier)}
+                onPickItem={(iIdx, val) => pickItemOption(gIdx, iIdx, val)}
+                onItemChange={(iIdx, field, value) => updateItem(gIdx, iIdx, field, value)}
+                onRemoveItem={(iIdx) => removeItem(gIdx, iIdx)}
+                onAddItem={() => addItem(gIdx)}
+                unitOptions={unitOptions}
+              />
             ))}
 
             <Button
