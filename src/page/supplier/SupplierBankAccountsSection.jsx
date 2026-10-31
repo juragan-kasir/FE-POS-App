@@ -202,10 +202,10 @@ const SupplierBankAccountsSection = ({ idPrefix, bankAccounts, onChange }) => {
                     </Button>
                     <Button
                       type="button"
-                      variant="destructive"
+                      variant="ghost"
                       size="icon"
                       aria-label={t("common.delete")}
-                      className="h-7 w-7 text-destructive hover:text-destructive"
+                      className="h-7 w-7 text-destructive hover:text-destructive hover:bg-destructive/10"
                       onClick={() => onChange(bankAccounts.filter((x) => x.id !== b.id))}>
                       <Trash2 size={14} />
                     </Button>

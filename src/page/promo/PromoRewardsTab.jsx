@@ -148,9 +148,10 @@ const PromoRewardsTab = ({ form, rewards, addReward, updateReward, onDelete, pro
                 <div className="flex justify-end">
                   <Button
                     type="button"
-                    variant="destructive"
+                    variant="ghost"
                     size="icon"
-                    className="h-8 w-8 text-destructive hover:text-destructive"
+                    aria-label={t("common.delete")}
+                    className="h-8 w-8 text-destructive hover:text-destructive hover:bg-destructive/10"
                     onClick={() => onDelete(index)}>
                     <Trash2 size={16} />
                   </Button>
