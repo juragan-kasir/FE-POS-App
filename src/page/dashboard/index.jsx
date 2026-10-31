@@ -1,5 +1,6 @@
 import React, { useState, useMemo, useEffect } from "react";
 import { safeGet } from "@/lib/safe-lookup";
+import { selectNetProfit } from "@/lib/profit-figures";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useQuery } from "react-query";
@@ -201,7 +202,7 @@ const Dashboard = () => {
   const totalProducts = d.totalProducts || 0;
   const totalMembers = d.totalMembers || 0;
   const averageOrderValue = d.averageOrderValue || 0;
-  const netSales = d.netSales || 0;
+  const netProfit = selectNetProfit(d, "netSales");
   const lowStockItems = d.lowStock || 0;
 
   // ponytail: pengguna baru = data kosong semua → sambut sekali per browser.
@@ -253,8 +254,8 @@ const Dashboard = () => {
     {
       id: "netprofit",
       label: t("page.dashboard.netProfit"),
-      value: formatCurrencyRupiah(netSales),
-      growth: growth(netSales, prev.netSales || 0),
+      value: formatCurrencyRupiah(netProfit),
+      growth: growth(netProfit, selectNetProfit(prev, "netSales")),
       trendNote: `${t("page.dashboard.expenses")}: ${formatCurrencyRupiah(d.totalExpense || 0)}`,
       icon: Wallet,
       color: "text-emerald-600",
