@@ -13,9 +13,11 @@ import {
 import SectionCard from "./SectionCard";
 import { useTranslation } from "react-i18next";
 import { formatCurrencyRupiah } from "@/utils/formatter-currency";
+import { selectNetProfit, selectProfitMargin } from "@/lib/profit-figures";
 
 const FinanceSection = ({ finance, summary }) => {
   const { t, i18n } = useTranslation();
+  const netProfit = selectNetProfit(summary, "netRevenue");
   const locale = i18n.language === "en" ? "en-US" : "id-ID";
   const million = t("page.dashboardSuperAdmin.short.million");
   const thousand = t("page.dashboardSuperAdmin.short.thousand");
@@ -131,9 +133,9 @@ const FinanceSection = ({ finance, summary }) => {
             )}
             {statBlock(
               t("page.dashboardSuperAdmin.finance.netProfit"),
-              formatCurrencyRupiah(summary.netRevenue),
-              t("page.dashboardSuperAdmin.kpi.margin", { value: summary.netMargin }),
-              summary.netRevenue >= 0 ? "text-emerald-600" : "text-destructive"
+              formatCurrencyRupiah(netProfit),
+              t("page.dashboardSuperAdmin.kpi.margin", { value: selectProfitMargin(summary) }),
+              netProfit >= 0 ? "text-emerald-600" : "text-destructive"
             )}
             {statBlock(
               t("page.dashboardSuperAdmin.kpi.ap"),

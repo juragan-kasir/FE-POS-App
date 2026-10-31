@@ -12,6 +12,7 @@ import {
 } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { formatCurrencyRupiah } from "@/utils/formatter-currency";
+import { selectNetProfit, selectProfitMargin } from "@/lib/profit-figures";
 
 const growthBadge = (growth) => {
   const up = growth >= 0;
@@ -29,6 +30,7 @@ const growthBadge = (growth) => {
 
 const KpiCards = ({ summary }) => {
   const { t } = useTranslation();
+  const netProfit = selectNetProfit(summary, "netRevenue");
   const cards = [
     {
       key: "revenue",
@@ -57,10 +59,10 @@ const KpiCards = ({ summary }) => {
     {
       key: "netProfit",
       label: t("page.dashboardSuperAdmin.kpi.netProfit"),
-      value: formatCurrencyRupiah(summary.netRevenue),
+      value: formatCurrencyRupiah(netProfit),
       icon: PiggyBank,
-      color: summary.netRevenue >= 0 ? "text-emerald-600" : "text-destructive",
-      sub: t("page.dashboardSuperAdmin.kpi.margin", { value: summary.netMargin })
+      color: netProfit >= 0 ? "text-emerald-600" : "text-destructive",
+      sub: t("page.dashboardSuperAdmin.kpi.margin", { value: selectProfitMargin(summary) })
     },
     {
       key: "expense",
