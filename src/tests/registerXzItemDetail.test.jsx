@@ -175,6 +175,25 @@ describe("XZReport — per-product breakdown (BA finding #1)", () => {
     expect(screen.getByText("SKU-1 · 2 × Rp 25.000")).toBeInTheDocument();
   });
 
+  test("shows the opening time on the store's clock, not the device's", async () => {
+    getXReport.mockResolvedValue({
+      data: {
+        ...xReportData,
+        register: { ...xReportData.register, openedAt: "2026-09-12T10:00:00.000Z" },
+        store: { name: "Store A", timezone: "Pacific/Kiritimati" }
+      }
+    });
+    renderWithProviders(<XZReport />);
+    const expected = new Date("2026-09-12T10:00:00.000Z").toLocaleString("id-ID", {
+      day: "2-digit",
+      month: "short",
+      hour: "2-digit",
+      minute: "2-digit",
+      timeZone: "Pacific/Kiritimati"
+    });
+    expect(await screen.findByText(expected)).toBeInTheDocument();
+  });
+
   test("omits the section entirely when the report has no breakdown (legacy Z)", async () => {
     getXReport.mockResolvedValue({ data: { ...xReportData } });
     renderWithProviders(<XZReport />);
