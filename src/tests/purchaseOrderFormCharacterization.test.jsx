@@ -160,6 +160,39 @@ beforeEach(() => {
   editPurchaseOrder.mockResolvedValue({ data: { id: 60 } });
 });
 
+const typeDigitByDigit = (getInput, digits) => {
+  digits.split("").forEach((digit) => {
+    const input = getInput();
+    type(input, `${input.value}${digit}`);
+  });
+};
+
+describe("AddPurchaseOrder — rupiah inputs", () => {
+  test("a price, discount and extra cost typed digit by digit keep their thousands", async () => {
+    renderPage(AddPurchaseOrder);
+    await waitFor(() => expect(supplierSelect().options.length).toBeGreaterThan(1));
+    type(supplierSelect(), "5");
+    type(itemSelects()[0], "sp-11");
+    const priceInput = () =>
+      screen
+        .getAllByPlaceholderText("page.purchaseOrder.add.rpPlaceholder")
+        .find((el) => el.className.includes("w-36 ml-auto"));
+    type(priceInput(), "");
+    typeDigitByDigit(priceInput, "15000");
+    typeDigitByDigit(() => document.getElementById("add-purchase-order-discount"), "12500");
+    typeDigitByDigit(() => document.getElementById("add-purchase-order-additional-cost"), "20000");
+    await waitFor(() => expect(document.getElementById("po-pic")).toBeTruthy());
+    pickPic();
+    fireEvent.click(screen.getByText("page.purchaseOrder.add.savePo"));
+    fireEvent.click(await screen.findByText("common.yes"));
+    await waitFor(() => expect(addPurchaseOrder).toHaveBeenCalledTimes(1));
+    const payload = addPurchaseOrder.mock.calls[0][0];
+    expect(payload.items[0].price).toBe(15000);
+    expect(payload.discount).toBe(12500);
+    expect(payload.additionalCost).toBe(20000);
+  });
+});
+
 describe("AddPurchaseOrder — characterization", () => {
   const fillOrder = async () => {
     await waitFor(() => expect(supplierSelect().options.length).toBeGreaterThan(1));
