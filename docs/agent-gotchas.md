@@ -33,6 +33,8 @@ The axios request interceptor (`src/services/index.js:13-98`) injects store scop
 
 The payload is considered "already scoped" if it contains any of: `store`, `stores`, `storeId`, `storeIds`, `storePrices`, `selectedStore` (or `store=`/`stores=` in the URL). Multi-store forms (product `storePrices`, expense `allStores`) rely on this — do not "helpfully" add a store field.
 
+A page that has its own store (the cashier's `?store=`) must keep `activeStore` in sync, or every component that reads the cookie talks to another store — before FE #294 a super_admin selling at store B printed store A's receipt header and searched store A's members. Data that belongs to a record (an order's receipt) must read the record's store, not the cookie.
+
 Per-request opt-out: `axiosInstance.put(url, body, { skipStoreInjection: true })` — required when the BE schema is strict and rejects unknown keys (documented example: `editStoreConfiguration`, `src/services/location.js:130`).
 
 ## 4. Two response envelopes — detect, don't assume
@@ -87,7 +89,11 @@ Non-obvious decisions are recorded inline as `// ponytail: …` comments (Indone
 
 Multipart endpoints accept a JSON string in `body.data` (`docs/api-response-contracts.md` §2.3). `normalizePayload(data, { isFormData: true, jsonFields: ["items"] })` handles the common shapes (store arrays, JSON fields, file arrays). Use it instead of hand-building FormData.
 
-## 15. Quick verification before you call anything done
+## 15. A query keyed on search text must keep its previous data
+
+`react-query` v3 starts every new key with `isLoading: true` and no data. If a page renders a skeleton for `isLoading` and the key includes the (debounced) search text, each search swaps the input itself for the skeleton: the field unmounts, loses focus, and keys typed after a pause (or the Enter that should add a product) go nowhere. Use `keepPreviousData: true` and show the skeleton only on the first load. When the key also includes a scope (store), tag the result with that scope and treat data of another scope as still loading, so a store switch never shows the previous store's rows — see `CashierPage.jsx` (`forStore`, FE #292).
+
+## 16. Quick verification before you call anything done
 
 ```bash
 npx prettier --write <files>   # formatting is an ESLint error, not a warning
