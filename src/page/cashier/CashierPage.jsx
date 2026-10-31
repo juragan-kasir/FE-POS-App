@@ -68,6 +68,7 @@ import NoStore from "@/components/ui/NoStore";
 import { FIELD_LIMITS } from "@/constants/fieldLimits";
 import { Textarea } from "@/components/ui/textarea";
 import { handleCashierShortcut } from "./shortcuts";
+import { useOptionalStore } from "@/contexts/StoreContext";
 import { productTextMatches } from "@/lib/product-code";
 
 const CashierPage = () => {
@@ -162,9 +163,20 @@ const CashierPage = () => {
     if (singleStoreId != null && autoStoreId !== singleStoreId) setAutoStoreId(singleStoreId);
   }, [singleStoreId, autoStoreId]);
 
-  const storeName = store
-    ? locationList.find((l) => storeIdsEqual(l.id, store))?.name || t("page.cashier.storeName")
-    : t("page.cashier.storeName");
+  const pickedStoreName = store
+    ? locationList.find((l) => storeIdsEqual(l.id, store))?.name
+    : undefined;
+  const ownStoreName = isSuperAdmin ? undefined : user?.storeName || cookie?.activeStoreName;
+  const storeName = pickedStoreName || ownStoreName || t("page.cashier.storeName");
+
+  const storeContext = useOptionalStore();
+  const syncActiveStore = storeContext?.setActiveStore;
+  const activeStoreId = storeContext?.activeStoreId;
+  useEffect(() => {
+    if (!isSuperAdmin || !syncActiveStore || !store || !pickedStoreName) return;
+    if (storeIdsEqual(activeStoreId, store)) return;
+    syncActiveStore(store, pickedStoreName);
+  }, [isSuperAdmin, syncActiveStore, store, pickedStoreName, activeStoreId]);
   const userName = user?.userName || user?.name || cookie?.name || t("page.cashier.cashierName");
   const { toggleTheme: toggleThemeStore } = useThemeStore();
   useThemeEffect();

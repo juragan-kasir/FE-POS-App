@@ -96,6 +96,10 @@ export function StoreProvider({ children }) {
   return <StoreContext.Provider value={value}>{children}</StoreContext.Provider>;
 }
 
+export function useOptionalStore() {
+  return useContext(StoreContext);
+}
+
 export function useStore() {
   const ctx = useContext(StoreContext);
   if (!ctx) {
