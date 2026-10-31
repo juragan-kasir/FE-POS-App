@@ -217,7 +217,7 @@ Dokumen terkait:
 - **Service:** `src/services/product.js` → `getProductByOutlet({ location, search, page })`
 - **Dikirim:** query `limit="500"` (selalu); `store` (dari `location`), `search`, `page` — hanya bila diisi (page bila ≠ null)
 - **Dipakai:** `res.data`
-- **Catatan:** `limit` dipatok 500 (default endpoint 200 baris per komentar F7-02); dipaginasi oleh `getFullProductCatalog` (loop maks 10 halaman, menggabungkan `data`, memakai `pagination.hasMore`)
+- **Catatan:** `limit` dipatok 500 (default endpoint 200 baris per komentar F7-02); dipaginasi oleh `getFullProductCatalog` (loop maks 10 halaman, menggabungkan `data`, memakai `pagination.hasMore`). `search` di BE mencocokkan `nameProduct`, `sku` **atau `barcode`** (BE #283) — dipakai juga oleh lookup barcode live kasir (`lookupProductRemote`). `CashierPage` memakai `keepPreviousData` dan menandai hasil dengan toko pemiliknya (`forStore`), jadi kotak cari tidak di-unmount saat hasil baru dimuat dan katalog toko lain tidak pernah tampil saat ganti toko (FE #292)
 ---
 
 ### GET `/ingredient/get-all`
@@ -238,7 +238,7 @@ Dokumen terkait:
 - **Service:** `src/services/product.js` → `addProduct(payload)`
 - **Dikirim:** body `payload` apa adanya
 - **Dipakai:** `res.data`
-- **Catatan:** —
+- **Catatan:** nama produk unik **per tenant** (pemilik `stores` yang dipilih), bukan global: bentrok → `409 { code: "NAME_TAKEN", field: "nameProduct", message: "Product with this name already exists." }` (sebelumnya 400 dan global). Produk tanpa `stores` dicek terhadap semua produk.
 ---
 
 ### PUT `/product/edit-product`
@@ -349,14 +349,14 @@ Dokumen terkait:
 - **Service:** `src/services/category.js` → `addCategory(payload)`
 - **Dikirim:** body `payload` apa adanya
 - **Dipakai:** `res.data`
-- **Catatan:** —
+- **Catatan:** nama kategori unik **per tenant** (toko di `store`): bentrok → `409 { code: "NAME_TAKEN", field: "name", message: "Category Sudah Terdaftar" }` (sebelumnya 403 dan global — jangan diperlakukan sebagai error izin)
 ---
 
 ### PUT `/category/edit-category/${payload.get("id")}`
 - **Service:** `src/services/category.js` → `editCategory(payload)`
 - **Dikirim:** path `id` (dibaca via `payload.get("id")` — payload FormData); body `payload` utuh (FormData)
 - **Dipakai:** `res.data`
-- **Catatan:** body FormData; error: `data.message || data?.error`
+- **Catatan:** body FormData; error: `data.message || data?.error`. Ganti nama dicek dalam tenant kategori itu: bentrok → `409 NAME_TAKEN` `"Kategori Sudah Tersedia"` (sebelumnya 403)
 ---
 
 ### GET `/category/get-category/${payload.id}`
@@ -2645,7 +2645,7 @@ Dokumen terkait:
 - **Service:** `src/services/member.js` → `addMember(payload)`; `src/services/customer.js` → `addCustomer(payload)`
 - **Dikirim:** body `payload` (diteruskan apa adanya, kedua fungsi)
 - **Dipakai:** `data` — body respons utuh (keduanya)
-- **Catatan:** cek status respons manual (`!== 200 && !== 201` → `Error`) di kedua fungsi
+- **Catatan:** cek status respons manual (`!== 200 && !== 201` → `Error`) di kedua fungsi. Nama, nomor HP (E.164) dan email member unik **per toko** (member `store: null` berbagi satu kelompok); nomor/email yang sama boleh dipakai member di toko/bisnis lain. Bentrok → `409` `Nama member sudah terdaftar` / `Nomor telepon sudah terdaftar` / `Email sudah terdaftar` (D-05 amendemen A1, 2026-10-31; sebelumnya HP & email global)
 
 ---
 
@@ -2653,7 +2653,7 @@ Dokumen terkait:
 - **Service:** `src/services/member.js` → `editMember(payload)`
 - **Dikirim:** body `payload` (termasuk `id`); id di path dari `payload.id`
 - **Dipakai:** `data` — body respons utuh
-- **Catatan:** cek status respons manual (`!== 200 && !== 201` → `Error`); (path dibangun dinamis)
+- **Catatan:** cek status respons manual (`!== 200 && !== 201` → `Error`); (path dibangun dinamis). HP/email dicek di toko member itu sendiri
 
 ---
 
@@ -2667,9 +2667,9 @@ Dokumen terkait:
 
 ### PUT `/member/edit-point-member/:phoneNumber`
 - **Service:** `src/services/member.js` → `addMemberPoints(phoneNumber, payload)`
-- **Dikirim:** body `payload` (diteruskan apa adanya)
+- **Dikirim:** body `payload` (diteruskan apa adanya; BE membaca `points`, negatif = kurangi)
 - **Dipakai:** `data` — body respons utuh
-- **Catatan:** cek status respons manual (`!== 200 && !== 201` → `Error`); (path dibangun dinamis)
+- **Catatan:** cek status respons manual (`!== 200 && !== 201` → `Error`); (path dibangun dinamis). Pencarian member dibatasi toko pemanggil (`?store=` untuk super_admin, disuntik interceptor bila toko dipilih). Super_admin tanpa toko yang nomornya cocok di lebih dari satu toko → `409 { code: "MEMBER_STORE_REQUIRED" }` "Nomor telepon terdaftar di lebih dari satu toko. Pilih toko terlebih dahulu." — tidak ada yang diubah
 
 ---
 

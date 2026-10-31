@@ -48,6 +48,8 @@ Key consequences:
 
 "Own store scope" = payload/params/URL contains `store`, `stores`, `storeId`, `storeIds`, `storePrices`, or `selectedStore`. Injection lands in GET params as `?store=`, in JSON bodies as `body.store`, in FormData as an appended field.
 
+**Who sets `activeStore` for a super_admin:** the dashboard store selector, and the cashier. When the cashier's store resolves (picker, `?store=` or single-store auto-pick), `CashierPage` calls `setActiveStore(store, name)` through `useOptionalStore()` (`src/contexts/StoreContext.jsx`), so everything that reads the global store — member search, returns, "buka kasir" — follows the store being sold in. `useOptionalStore()` returns `null` without a `StoreProvider` (tests); the app always has one. Documents that belong to an order use **the order's own store**, never `activeStore` first: `ReceiptModal` reads `data.storeId || data.location || data.store` (id or object) before falling back to the cookie.
+
 ## 3. Response conventions
 
 - Two envelopes; detect via `typeof body.success === "boolean"` (style A standard, style B only `POST /order/create` + `/order/quote`). Detail: `docs/api-response-contracts.md`.
