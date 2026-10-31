@@ -106,3 +106,51 @@ describe("axiosInstance response interceptor", () => {
     });
   });
 });
+
+describe("server messages in the UI language", () => {
+  const i18next = require("i18next");
+  const localizedError = (status, data, language) =>
+    new AxiosError(
+      `Request failed with status code ${status}`,
+      "ERR_BAD_REQUEST",
+      {},
+      {},
+      { status, data, headers: { "content-language": language } }
+    );
+
+  afterEach(() => {
+    i18next.language = undefined;
+  });
+
+  test("an English UI shows the server's English text when it answered in English", () => {
+    i18next.language = "en";
+    expect(friendlyErrorMessage(localizedError(404, { message: "Employee not found" }, "en"))).toBe(
+      "Employee not found"
+    );
+  });
+
+  test("an Indonesian UI keeps the server's Indonesian text", () => {
+    expect(
+      friendlyErrorMessage(localizedError(400, { message: "Stok bahan baku tidak cukup" }, "id"))
+    ).toBe("Stok bahan baku tidak cukup");
+  });
+
+  test("a 5xx the server wrote for users is kept in English too", () => {
+    i18next.language = "en";
+    expect(
+      friendlyErrorMessage(localizedError(500, { message: "Failed to import products" }, "en"))
+    ).toBe("Failed to import products");
+  });
+
+  test("every request names the UI language", async () => {
+    const { axiosInstance } = require("../services/index");
+    i18next.language = "en-US";
+    let sent = null;
+    const adapter = (config) => {
+      sent = config.headers["Accept-Language"];
+      return Promise.resolve({ data: {}, status: 200, statusText: "OK", headers: {}, config });
+    };
+    await axiosInstance.get("/anything", { adapter });
+    expect(sent).toBe("en");
+  });
+});
