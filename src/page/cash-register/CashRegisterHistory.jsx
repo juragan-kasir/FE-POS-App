@@ -51,8 +51,8 @@ const CashRegisterHistory = () => {
   const [limit, setLimit] = useState(10);
   const [search, setSearch] = useSearchParam();
   const [closeTarget, setCloseTarget] = useState(null);
-  const [rawClosing, setRawClosing] = useState("0");
-  const closingBalance = parseIDR(rawClosing);
+  const [rawClosing, setRawClosing] = useState("");
+  const closingBalance = parseIDR(rawClosing || "0");
 
   const isFiltered = search !== "" || storeFilter !== "all";
 
@@ -101,7 +101,7 @@ const CashRegisterHistory = () => {
         queryClient.invalidateQueries(["cash-register-history"]);
         queryClient.invalidateQueries(["cash-register-current"]);
         setCloseTarget(null);
-        setRawClosing("0");
+        setRawClosing("");
         refetch();
       },
       onError: (err) =>
@@ -323,11 +323,10 @@ const CashRegisterHistory = () => {
               variant="danger"
               size="icon"
               className="h-8 w-8 text-destructive"
+              aria-label={t("page.cashRegister.history.closeRegister")}
               onClick={(e) => {
                 e.stopPropagation();
-                const expected =
-                  (item.openingBalance || 0) + (item.totalSales || 0) - (item.totalExpenses || 0);
-                setRawClosing(String(expected > 0 ? Math.round(expected) : 0));
+                setRawClosing("");
                 setCloseTarget(item);
               }}>
               <X size={18} />
@@ -466,6 +465,7 @@ const CashRegisterHistory = () => {
         description={t("page.cashRegister.history.closeDesc")}
         confirmText={t("page.cashRegister.history.closeConfirm")}
         loading={closeMut.isLoading}
+        confirmDisabled={rawClosing === ""}
         onConfirm={() => closeMut.mutate()}>
         <div className="space-y-2">
           <Label htmlFor="cash-register-history-closing-balance" className="text-sm font-medium">
@@ -480,16 +480,17 @@ const CashRegisterHistory = () => {
               id="cash-register-history-closing-balance"
               type="text"
               inputMode="numeric"
-              value={formatIDR(rawClosing === "0" ? "" : rawClosing)}
+              value={rawClosing === "" ? "" : formatIDR(rawClosing)}
               placeholder={t("page.cashRegister.current.placeholder")}
-              onChange={(e) => {
-                const cleaned = e.target.value.replace(/[^0-9]/g, "");
-                setRawClosing(cleaned || "0");
-              }}
+              aria-describedby="cash-register-history-closing-hint"
+              onChange={(e) => setRawClosing(e.target.value.replace(/[^0-9]/g, ""))}
               className="pl-10 h-12 text-lg font-semibold tabular-nums"
               autoFocus
             />
           </div>
+          <p id="cash-register-history-closing-hint" className="text-xs text-muted-foreground">
+            {t("page.cashRegister.history.blindCountHint")}
+          </p>
         </div>
       </Modal>
     </div>

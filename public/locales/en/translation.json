@@ -4062,6 +4062,7 @@
   "page.cashRegister.history.openRegister": "Open Register",
   "page.cashRegister.history.closeRegister": "Close Register",
   "page.cashRegister.history.closeDesc": "Enter the closing balance to close this register.",
+  "page.cashRegister.history.blindCountHint": "Count the physical cash in the drawer and type the amount. The difference from the system record is calculated after the register closes.",
   "page.cashRegister.history.closeConfirm": "Yes, Close",
   "page.cashRegister.history.closeSuccess": "Register closed successfully",
   "page.cashRegister.history.closeFail": "Failed to close register",

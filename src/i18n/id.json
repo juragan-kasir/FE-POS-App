@@ -4204,6 +4204,7 @@
   "page.cashRegister.history.openRegister": "Buka Register",
   "page.cashRegister.history.closeRegister": "Tutup Register",
   "page.cashRegister.history.closeDesc": "Masukkan saldo akhir untuk menutup register ini.",
+  "page.cashRegister.history.blindCountHint": "Hitung uang tunai fisik di laci lalu ketik jumlahnya. Selisih dengan catatan sistem dihitung otomatis setelah register ditutup.",
   "page.cashRegister.history.closeConfirm": "Ya, Tutup",
   "page.cashRegister.history.closeSuccess": "Register berhasil ditutup",
   "page.cashRegister.history.closeFail": "Gagal Menutup Register",
