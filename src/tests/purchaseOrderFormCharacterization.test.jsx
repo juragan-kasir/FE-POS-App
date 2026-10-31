@@ -274,6 +274,20 @@ describe("AddPurchaseOrder — characterization", () => {
     expect(addPurchaseOrder).not.toHaveBeenCalled();
   });
 
+  test("a discount above the total is flagged and blocks saving", async () => {
+    renderPage(AddPurchaseOrder);
+    await fillOrder();
+    type(document.getElementById("add-purchase-order-discount"), "300000");
+    expect(
+      screen.getByText("page.purchaseOrder.add.validation.discountExceedsTotal")
+    ).toBeInTheDocument();
+    fireEvent.click(screen.getByText("page.purchaseOrder.add.savePo"));
+    fireEvent.click(await screen.findByText("common.yes"));
+    fireEvent.click(screen.getByText("page.purchaseOrder.add.saveDraft"));
+    fireEvent.click(await screen.findByText("page.purchaseOrder.add.draftConfirm"));
+    expect(addPurchaseOrder).not.toHaveBeenCalled();
+  });
+
   test("discount and tax rate are sent as entered", async () => {
     renderPage(AddPurchaseOrder);
     await fillOrder();
@@ -341,6 +355,7 @@ const loadedPayload = {
   additionalCost: 2000,
   additionalCostNotes: "Ongkir",
   overDeliveryTolerance: 5,
+  dueDate: null,
   paymentMethod: "cash",
   tenor: 0,
   dpPercent: 0,
@@ -406,6 +421,25 @@ describe("EditPurchaseOrder — characterization", () => {
     fireEvent.click(await screen.findByText("common.yes"));
     await waitFor(() => expect(editPurchaseOrder).toHaveBeenCalledTimes(1));
     expect(editPurchaseOrder.mock.calls[0][1].items[1].quantity).toBe(4);
+  });
+
+  test("a cleared note and a removed due date are sent, not dropped", async () => {
+    getPurchaseOrderById.mockResolvedValue({
+      data: { ...loadedOrder, paymentMethod: "credit", tenor: 30, dueDate: "2026-12-01" }
+    });
+    renderPage(EditPurchaseOrder);
+    await waitForLoaded();
+    type(document.getElementById("edit-purchase-order-notes"), "");
+    type(document.getElementById("edit-purchase-order-payment-method"), "cash");
+    fireEvent.click(screen.getByText("page.purchaseOrder.edit.saveChanges"));
+    fireEvent.click(await screen.findByText("common.yes"));
+    await waitFor(() => expect(editPurchaseOrder).toHaveBeenCalledTimes(1));
+    expect(editPurchaseOrder.mock.calls[0][1]).toMatchObject({
+      notes: "",
+      paymentMethod: "cash",
+      dueDate: null,
+      tenor: 0
+    });
   });
 
   test("money fields are locked once goods were received", async () => {

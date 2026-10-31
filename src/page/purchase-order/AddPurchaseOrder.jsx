@@ -37,6 +37,7 @@ import {
   combineDateTime,
   emptyGroup,
   hasDuplicateItems,
+  isDiscountOverTotal,
   isFilledItem,
   poSchemaInput,
   poTotals
@@ -332,6 +333,12 @@ const AddPurchaseOrder = () => {
 
   const handleSubmit = (saveAsDraft) => {
     header.setErrors({});
+    if (isDiscountOverTotal({ discount: header.discount, totalAmount: totals.totalAmount })) {
+      toast.error(t("page.purchaseOrder.add.validation.validationFailed"), {
+        description: t("page.purchaseOrder.add.validation.discountExceedsTotal")
+      });
+      return;
+    }
     if (!saveAsDraft && !validateFinal()) return;
     const isCredit = header.paymentMethod === "credit";
     createMutation.mutate({

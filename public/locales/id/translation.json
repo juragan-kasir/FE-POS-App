@@ -10035,5 +10035,6 @@
   "page.order.method.split": "Split bill",
   "page.order.method.other": "Lainnya",
   "page.order.detail.returns": "Retur",
-  "page.order.detail.noReturns": "Belum ada retur untuk order ini"
+  "page.order.detail.noReturns": "Belum ada retur untuk order ini",
+  "page.purchaseOrder.add.validation.discountExceedsTotal": "Diskon tidak boleh melebihi total harga"
 }
