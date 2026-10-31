@@ -1103,7 +1103,11 @@ const EditGoodsReceipt = () => {
                 className="w-full sm:w-auto justify-center"
                 disabled={isSubmitting}
                 onClick={() => {
-                  const missing = getMissingFields({ poId, items }, formSchema, fieldLabels);
+                  const missing = getMissingFields(
+                    { poId: poId ? String(poId) : "", items },
+                    formSchema,
+                    fieldLabels
+                  );
                   if (missing.length > 0) {
                     setMissingFields(missing);
                     setMissingFieldsModal(true);

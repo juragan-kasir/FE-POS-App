@@ -230,14 +230,14 @@ describe("EditGoodsReceipt — characterization", () => {
     getGoodsReceiptById.mockResolvedValue({ data: loadedReceipt });
   });
 
-  test("saving lists the purchase order as missing although one is loaded", async () => {
+  test("saving as final sends the receipt as completed", async () => {
     renderPage(EditGoodsReceipt);
     await screen.findByDisplayValue("Datang sore");
     fireEvent.click(screen.getByText("page.goodsReceipt.edit.form.save"));
-    expect(await screen.findByTestId("missing-fields")).toHaveTextContent(
-      "page.goodsReceipt.edit.form.purchaseOrder"
-    );
-    expect(editGoodsReceipt).not.toHaveBeenCalled();
+    fireEvent.click(await screen.findByText("page.goodsReceipt.edit.confirmModal.confirm"));
+    await waitFor(() => expect(editGoodsReceipt).toHaveBeenCalledTimes(1));
+    expect(screen.queryByTestId("missing-fields")).not.toBeInTheDocument();
+    expect(editGoodsReceipt.mock.calls[0][1].status).toBe("completed");
   });
 
   test("a draft of an unchanged receipt is sent back as loaded", async () => {
