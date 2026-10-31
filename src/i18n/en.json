@@ -9834,5 +9834,6 @@
   "page.order.method.split": "Split bill",
   "page.order.method.other": "Other",
   "page.order.detail.returns": "Returns",
-  "page.order.detail.noReturns": "No returns for this order yet"
+  "page.order.detail.noReturns": "No returns for this order yet",
+  "page.purchaseOrder.add.validation.discountExceedsTotal": "Discount cannot exceed the total price"
 }

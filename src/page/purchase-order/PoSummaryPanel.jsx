@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { FIELD_LIMITS } from "@/constants/fieldLimits";
-import { formatIDR, parseIDR } from "./poForm";
+import { formatIDR, isDiscountOverTotal, parseIDR } from "./poForm";
 
 const PoSummaryPanel = ({
   idPrefix,
@@ -14,6 +14,11 @@ const PoSummaryPanel = ({
 }) => {
   const { t } = useTranslation();
   const isFinancialLocked = Boolean(financialLockReason);
+  const isDiscountTooHigh = isDiscountOverTotal({
+    discount: header.discount,
+    totalAmount: totals.totalAmount
+  });
+  const discountErrorId = `${idPrefix}-purchase-order-discount-error`;
 
   return (
     <div className="rounded-xl bg-gradient-to-b from-muted/50 to-muted/20 border border-border/60 p-4 sm:p-5">
@@ -25,15 +30,24 @@ const PoSummaryPanel = ({
               className="text-sm text-muted-foreground font-medium whitespace-nowrap">
               {t("page.purchaseOrder.add.discount")}
             </Label>
-            <Input
-              id={`${idPrefix}-purchase-order-discount`}
-              placeholder={t("page.purchaseOrder.add.rpPlaceholder")}
-              value={header.discount ? formatIDR(header.discount) : ""}
-              onChange={(e) => header.setDiscount(parseIDR(e.target.value))}
-              disabled={isFinancialLocked}
-              title={financialLockReason}
-              className="h-9 text-sm w-32 sm:w-36 text-right"
-            />
+            <div>
+              <Input
+                id={`${idPrefix}-purchase-order-discount`}
+                placeholder={t("page.purchaseOrder.add.rpPlaceholder")}
+                value={header.discount ? formatIDR(header.discount) : ""}
+                onChange={(e) => header.setDiscount(parseIDR(e.target.value))}
+                disabled={isFinancialLocked}
+                title={financialLockReason}
+                aria-invalid={isDiscountTooHigh}
+                aria-describedby={isDiscountTooHigh ? discountErrorId : undefined}
+                className={`h-9 text-sm w-32 sm:w-36 text-right ${isDiscountTooHigh ? "border-destructive" : ""}`}
+              />
+              {isDiscountTooHigh && (
+                <p id={discountErrorId} className="text-xs text-destructive mt-1 max-w-[180px]">
+                  {t("page.purchaseOrder.add.validation.discountExceedsTotal")}
+                </p>
+              )}
+            </div>
           </div>
           <div className="flex items-center gap-3">
             <Label

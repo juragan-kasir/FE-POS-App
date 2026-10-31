@@ -5,7 +5,6 @@ import { useCookies } from "react-cookie";
 import { toast } from "sonner";
 import { useTranslation } from "react-i18next";
 import { format } from "date-fns";
-import { normalizePayload } from "@/lib/payload-normalizer";
 import { editPurchaseOrder, getPurchaseOrderById } from "@/services/purchase-order";
 import { getAllSupplier } from "@/services/supplier";
 import { getAllEmployee } from "@/services/employee";
@@ -34,6 +33,7 @@ import {
   emptyGroup,
   groupsFromOrderItems,
   hasDuplicateItems,
+  isDiscountOverTotal,
   poSchemaInput,
   poTotals
 } from "./poForm";
@@ -255,6 +255,12 @@ const EditPurchaseOrder = () => {
 
   const handleSubmit = (saveAsDraft) => {
     header.setErrors({});
+    if (isDiscountOverTotal({ discount: header.discount, totalAmount: totals.totalAmount })) {
+      toast.error(t("page.purchaseOrder.add.validation.validationFailed"), {
+        description: t("page.purchaseOrder.add.validation.discountExceedsTotal")
+      });
+      return;
+    }
     if (!validate(saveAsDraft)) return;
     const isCredit = header.paymentMethod === "credit";
     const payload = {
@@ -274,7 +280,7 @@ const EditPurchaseOrder = () => {
       items: buildItemsPayload(groups, saveAsDraft),
       ...statusChange(saveAsDraft)
     };
-    updateMutation.mutate(normalizePayload(payload, { isFormData: false }));
+    updateMutation.mutate(payload);
   };
 
   const requestSave = () => {

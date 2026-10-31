@@ -140,6 +140,8 @@ export const poTotals = ({ groups, discount, taxRate, additionalCost }) => {
   return { totalAmount, taxAmount, finalAmount, hasAdjustments };
 };
 
+export const isDiscountOverTotal = ({ discount, totalAmount }) => discount > totalAmount;
+
 export const groupsFromOrderItems = (items) => {
   const bySupplier = new Map();
   items.forEach((item) => {
