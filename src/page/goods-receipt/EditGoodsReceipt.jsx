@@ -162,6 +162,9 @@ const EditGoodsReceipt = () => {
 
   const selectedPO = purchaseOrders.find((po) => po.id === parseInt(poId));
 
+  const grStoreId = receiptData?.data?.store || selectedPO?.store;
+  const effectiveStoreId = grStoreId || (storeFilterParam ? storeFilterParam.split(",")[0] : null);
+
   const { data: ingredientsData } = useQuery(
     ["ingredients-gr-edit", effectiveStoreId],
     () => getAllIngredients({ store: effectiveStoreId, limit: 999 }),
@@ -265,8 +268,6 @@ const EditGoodsReceipt = () => {
     }
   }, [poDetail, items.length, loaded]);
 
-  const grStoreId = receiptData?.data?.store || selectedPO?.store;
-  const effectiveStoreId = grStoreId || (storeFilterParam ? storeFilterParam.split(",")[0] : null);
   const { data: employeesData } = useQuery(
     ["employees-for-gr-edit", effectiveStoreId],
     () => getAllEmployee({ limit: 999, status: "active", location: effectiveStoreId || undefined }),
