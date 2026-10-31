@@ -68,6 +68,7 @@ import NoStore from "@/components/ui/NoStore";
 import { FIELD_LIMITS } from "@/constants/fieldLimits";
 import { Textarea } from "@/components/ui/textarea";
 import { handleCashierShortcut } from "./shortcuts";
+import { productTextMatches } from "@/lib/product-code";
 
 const CashierPage = () => {
   const { t } = useTranslation();
@@ -257,17 +258,24 @@ const CashierPage = () => {
   const debouncedSearch = useDebounce(search, 300);
 
   const {
-    data: productsData,
-    isLoading,
+    data: catalogData,
+    isLoading: catalogLoading,
     isError,
     refetch
   } = useQuery(
     ["products-outlet", store, debouncedSearch],
-    () => getFullProductCatalog({ location: store, search: debouncedSearch || undefined }),
+    async () => ({
+      ...(await getFullProductCatalog({ location: store, search: debouncedSearch || undefined })),
+      forStore: store
+    }),
     {
-      enabled: !!store
+      enabled: !!store,
+      keepPreviousData: true
     }
   );
+  const catalogForOtherStore = !!catalogData && String(catalogData.forStore) !== String(store);
+  const productsData = catalogForOtherStore ? undefined : catalogData;
+  const isLoading = catalogLoading || catalogForOtherStore;
 
   // BRD BR-05: portions each recipe product can still make at this outlet
   // (ProductGrid subtracts the cart). Refreshed after every sale
@@ -329,10 +337,7 @@ const CashierPage = () => {
   const filteredProducts = useMemo(
     () =>
       allProducts.filter((p) => {
-        const name = (p.nameProduct || p.name || "").toLowerCase();
-        const sku = (p.sku || "").toLowerCase();
-        const q = search.toLowerCase();
-        const matchesSearch = !search || name.includes(q) || sku.includes(q);
+        const matchesSearch = productTextMatches(p, search);
         const matchesCategory = !categoryId || String(catId(p)) === String(categoryId);
         return matchesSearch && matchesCategory;
       }),

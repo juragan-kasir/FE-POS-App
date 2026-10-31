@@ -17,6 +17,7 @@ import DynamicIcon from "@/components/ui/DynamicIcon";
 import { isInventoryItemMode, usesProductStock } from "@/lib/inventory-mode";
 import { recipePortionsFor, remainingRecipePortions } from "@/lib/recipe-availability";
 import { createScanTracker, listenForScans } from "../scanner";
+import { matchesProductCode } from "@/lib/product-code";
 
 const renderCategoryIcon = (cat, className, imgClassName) => {
   const icon = cat?.image || cat?.icon;
@@ -430,12 +431,13 @@ const ProductGrid = ({
     });
     const toPublic = ({ category, products }) => ({ category, products });
     if (!categories?.length) return groupOrder.map(toPublic);
-    return categories.map((cat) => {
+    const groups = categories.map((cat) => {
       const catId = cat.id || cat._id;
       const found = groupMap.get(catId);
       return found ? toPublic(found) : { category: cat, products: [] };
     });
-  }, [categories, products, getCatId]);
+    return search?.trim() ? groups.filter((g) => g.products.length > 0) : groups;
+  }, [categories, products, getCatId, search]);
 
   const hasChoices = useCallback((product) => {
     if (product.variant && Array.isArray(product.variant) && product.variant.length > 0)
@@ -525,13 +527,12 @@ const ProductGrid = ({
   // for an Enter typed by hand in the search box.
   const addByCode = useCallback(
     async (code, { remote = true, quiet = false } = {}) => {
-      const sku = code.trim().toLowerCase();
-      if (!sku) return false;
-      const bySku = (p) => (p.sku || "").toLowerCase() === sku;
-      let match = allProducts.find(bySku);
+      if (!code.trim()) return false;
+      const byCode = (p) => matchesProductCode(p, code);
+      let match = allProducts.find(byCode);
       if (!match && remote && onRemoteBarcodeLookup) {
         try {
-          match = ((await onRemoteBarcodeLookup(code.trim())) || []).find(bySku);
+          match = ((await onRemoteBarcodeLookup(code.trim())) || []).find(byCode);
         } catch {
           match = null;
         }
@@ -570,9 +571,17 @@ const ProductGrid = ({
       const scanned = searchScan.current.key(e);
       if (e.key !== "Enter" || e.repeat) return;
       const text = e.currentTarget.value;
-      if (await addByCode(text, { remote: !!scanned, quiet: !scanned })) onSearchChange("");
+      if (await addByCode(text, { remote: !!scanned, quiet: !scanned })) {
+        onSearchChange("");
+        return;
+      }
+      if (scanned || !text.trim() || products.length !== 1) return;
+      const [only] = products;
+      if (isOutOfStockRef.current(only)) return;
+      handleProductClick(only);
+      onSearchChange("");
     },
-    [addByCode, onSearchChange]
+    [addByCode, onSearchChange, products, handleProductClick]
   );
 
   // A scan made while no field has focus (e.g. right after tapping a
