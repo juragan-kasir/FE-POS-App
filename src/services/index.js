@@ -5,6 +5,7 @@ import { getToken, getCookie } from "@/utils/cookies";
 import { endSession, isSessionEnding, isSessionExemptPath, SESSION_END_REASON } from "./session";
 import { isRegisterRequiredError, useRegisterRequiredStore } from "@/state/registerRequired";
 import { normalizeApiError } from "./errorMessage";
+import { apiLanguage } from "./apiLanguage";
 
 const axiosInstance = axios.create({
   baseURL: ENDPOINT.BASE_URL
@@ -17,6 +18,8 @@ axiosInstance.interceptors.request.use(
     if (isSessionEnding() && !req.sessionRevocation) {
       throw new CanceledError("Session ended");
     }
+
+    req.headers["Accept-Language"] = apiLanguage();
 
     const token = getToken();
     if (token) {

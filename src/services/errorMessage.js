@@ -1,5 +1,6 @@
 import i18next from "i18next";
 import { localizeServerError } from "./errorLocalize";
+import { apiLanguage } from "./apiLanguage";
 
 // Pages show `err.response.data.message || err.message` in their error
 // toasts and modals. Left alone that surfaced axios' own text ("Request
@@ -48,12 +49,39 @@ const kindForStatus = (status) => {
 const translateKey = (key) =>
   i18next.isInitialized && i18next.exists(key) ? i18next.t(key) : null;
 
-// The app defaults to Indonesian; English UI keeps the server's English text.
-const isIndonesianUi = () => !String(i18next.language || "id").startsWith("en");
+const isIndonesianUi = () => apiLanguage() === "id";
+
+// The server answers errors in the language the request asked for and says
+// so in Content-Language; older servers do not.
+const isServerTextInUiLanguage = (err) =>
+  err?.response?.headers?.["content-language"] === apiLanguage();
 
 // A 5xx message is kept only when the server wrote it for users.
 const keepServerMessage = (status, text) =>
-  typeof text === "string" && text.trim() !== "" && (status < 500 || /^gagal\b/i.test(text.trim()));
+  typeof text === "string" &&
+  text.trim() !== "" &&
+  (status < 500 || /^(gagal|failed)\b/i.test(text.trim()));
+
+const codeMessage = (data) =>
+  typeof data?.code === "string" ? translateKey(`apiError.code.${data.code}`) : null;
+
+const hasIssues = (data) => Array.isArray(data?.errors) && data.errors.length > 0;
+
+// 4xx text in the UI language: a curated text for a known code, field
+// issues with Indonesian labels, the server's own text when it already
+// answered in the UI language, else the older English-to-Indonesian guesses.
+const clientErrorMessage = (err, data) => {
+  const byCode = codeMessage(data);
+  if (byCode) return byCode;
+  if (isIndonesianUi() && hasIssues(data)) {
+    const issues = localizeServerError({ errors: data.errors }, null);
+    if (issues) return issues;
+  }
+  if (isServerTextInUiLanguage(err) && typeof data?.message === "string" && data.message.trim()) {
+    return data.message;
+  }
+  return isIndonesianUi() ? localizeServerError(data, translateKey) : null;
+};
 
 // The message to show for a failed request, or null for a cancelled one.
 export const friendlyErrorMessage = (err) => {
@@ -65,10 +93,8 @@ export const friendlyErrorMessage = (err) => {
   }
   const data = err.response.data;
   const serverText = data?.message;
-  // 4xx text the server wrote for users, in Indonesian where it is
-  // recognised (see errorLocalize.js); otherwise the server's own words.
-  if (status < 500 && isIndonesianUi()) {
-    const localized = localizeServerError(data, translateKey);
+  if (status < 500) {
+    const localized = clientErrorMessage(err, data);
     if (localized) return localized;
   }
   return keepServerMessage(status, serverText) ? serverText : message(kindForStatus(status));

@@ -27,6 +27,15 @@ import AbortController from "@/components/organism/abort-controller";
 import NoStore from "@/components/ui/NoStore";
 import { useLocations } from "@/queries/useLocations";
 import { dateLocale } from "@/lib/locale";
+import { DEFAULT_TIMEZONE, isValidTimezone } from "@/utils/storeTimezone";
+
+const REGISTER_TIME_FORMAT = { day: "2-digit", month: "short", hour: "2-digit", minute: "2-digit" };
+
+const formatStoreTime = (value, timeZone) =>
+  new Date(value).toLocaleString(dateLocale(), {
+    ...REGISTER_TIME_FORMAT,
+    timeZone: isValidTimezone(timeZone) ? timeZone : DEFAULT_TIMEZONE
+  });
 
 const formatIDR = (num) => {
   if (num == null || isNaN(num)) return "Rp 0";
@@ -236,24 +245,14 @@ const ReportView = ({ data, reportType }) => {
             label={t("page.cashRegister.xz.openedAt")}
             value={
               data.register?.openedAt
-                ? new Date(data.register.openedAt).toLocaleString(dateLocale(), {
-                    day: "2-digit",
-                    month: "short",
-                    hour: "2-digit",
-                    minute: "2-digit"
-                  })
+                ? formatStoreTime(data.register.openedAt, data.store?.timezone)
                 : "-"
             }
           />
           {data.register?.closedAt && (
             <Row
               label={t("page.cashRegister.xz.closedAt")}
-              value={new Date(data.register.closedAt).toLocaleString(dateLocale(), {
-                day: "2-digit",
-                month: "short",
-                hour: "2-digit",
-                minute: "2-digit"
-              })}
+              value={formatStoreTime(data.register.closedAt, data.store?.timezone)}
             />
           )}
           <Row
@@ -869,7 +868,10 @@ const XZReport = () => {
                             ? new Date(r.openedAt).toLocaleDateString(dateLocale(), {
                                 day: "2-digit",
                                 month: "short",
-                                year: "numeric"
+                                year: "numeric",
+                                timeZone: isValidTimezone(r.storeData?.timezone)
+                                  ? r.storeData.timezone
+                                  : DEFAULT_TIMEZONE
                               })
                             : "-"}
                         </option>
