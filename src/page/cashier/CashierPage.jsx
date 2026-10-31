@@ -258,17 +258,24 @@ const CashierPage = () => {
   const debouncedSearch = useDebounce(search, 300);
 
   const {
-    data: productsData,
-    isLoading,
+    data: catalogData,
+    isLoading: catalogLoading,
     isError,
     refetch
   } = useQuery(
     ["products-outlet", store, debouncedSearch],
-    () => getFullProductCatalog({ location: store, search: debouncedSearch || undefined }),
+    async () => ({
+      ...(await getFullProductCatalog({ location: store, search: debouncedSearch || undefined })),
+      forStore: store
+    }),
     {
-      enabled: !!store
+      enabled: !!store,
+      keepPreviousData: true
     }
   );
+  const catalogForOtherStore = !!catalogData && String(catalogData.forStore) !== String(store);
+  const productsData = catalogForOtherStore ? undefined : catalogData;
+  const isLoading = catalogLoading || catalogForOtherStore;
 
   // BRD BR-05: portions each recipe product can still make at this outlet
   // (ProductGrid subtracts the cart). Refreshed after every sale
