@@ -35,13 +35,17 @@ export const getPaymentIconKind = (type) => {
 
 export const toPaymentOption = (paymentType) => ({
   key: String(paymentType.id ?? `${paymentType.type}-${paymentType.name}`),
+  paymentTypeId: paymentType.id ?? null,
   type: paymentType.type || paymentType.id?.toString() || paymentType.name?.toLowerCase(),
   label: paymentType.name,
   kind: getPaymentIconKind(paymentType.type)
 });
 
-export const paymentTypeOfOption = (options, key) =>
-  options.find((option) => option.key === key)?.type || "";
+export const findPaymentOption = (options, key) =>
+  options.find((option) => option.key === key) || null;
+
+export const paymentTypeIdPayload = (option) =>
+  option?.paymentTypeId ? { typePaymentId: option.paymentTypeId } : {};
 
 // Display metadata for the canonical payment buckets reported by the API
 // (BE api/service/canonicalPayment.js): the seven canonical tenders plus the
@@ -71,14 +75,25 @@ const PAYMENT_ALIASES = Object.freeze({
   CREDIT: "CARD",
   TRANSFER: "BANK_TRANSFER"
 });
-export const paymentMethodLabel = (method) => {
-  if (!method || method === "-") return "";
-  const code = String(method)
+const canonicalPaymentCode = (method) => {
+  const code = String(method || "")
     .trim()
     .toUpperCase()
     .replace(/[-\s]+/g, "_");
-  const canonical = safeGet(PAYMENT_ALIASES, code, code);
-  if (Object.prototype.hasOwnProperty.call(PAYMENT_METHOD_META, canonical)) {
+  return safeGet(PAYMENT_ALIASES, code, code);
+};
+const isKnownPaymentCode = (code) =>
+  Object.prototype.hasOwnProperty.call(PAYMENT_METHOD_META, code);
+
+export const paymentMethodLabelKey = (method) => {
+  const code = canonicalPaymentCode(method);
+  return `page.dashboardSuperAdmin.payment.method.${isKnownPaymentCode(code) ? code : "UNRECONCILED"}`;
+};
+
+export const paymentMethodLabel = (method) => {
+  if (!method || method === "-") return "";
+  const canonical = canonicalPaymentCode(method);
+  if (isKnownPaymentCode(canonical)) {
     return PAYMENT_METHOD_META[canonical].label;
   }
   const text = String(method).trim();

@@ -43,7 +43,8 @@ import { getMemberById } from "@/services/member";
 import { getTableAvailability, getTablesWithActiveOrders } from "@/services/table";
 import {
   toPaymentOption,
-  paymentTypeOfOption,
+  findPaymentOption,
+  paymentTypeIdPayload,
   REFERENCE_REQUIRED_METHODS,
   MAX_REFERENCE_LENGTH
 } from "@/utils/payment";
@@ -278,7 +279,8 @@ const CheckoutModal = ({
         };
       });
   }, [paymentMethodsData]);
-  const paymentMethod = paymentTypeOfOption(paymentMethods, selectedPaymentKey);
+  const selectedPaymentOption = findPaymentOption(paymentMethods, selectedPaymentKey);
+  const paymentMethod = selectedPaymentOption?.type || "";
   const { data: tablesData, isLoading: tablesLoading } = useQuery(
     ["table-availability", store],
     () => getTableAvailability({ location: store }),
@@ -1012,6 +1014,7 @@ const CheckoutModal = ({
       promoCode: promoCode.trim() || undefined,
       redeemedPoints: Number(redeemPoints) || 0,
       paymentMethod: method,
+      ...paymentTypeIdPayload(selectedPaymentOption),
       source: "pos",
       tableId: orderType === "dine-in" ? selectedTable?.id || null : null,
       totalCovers: orderType === "dine-in" ? partySizeNum : 0,
@@ -1047,6 +1050,7 @@ const CheckoutModal = ({
     mutation.mutate(payload);
   }, [
     paymentMethod,
+    selectedPaymentOption,
     cashAmountNum,
     total,
     remainingTotal,

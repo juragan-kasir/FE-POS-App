@@ -53,7 +53,12 @@ import SendWhatsAppDialog from "./SendWhatsAppDialog";
 import { receiptLabels } from "@/components/receipt/receiptLabels";
 import { buildAddressLines } from "@/utils/receiptDocument";
 import { isRegisterRequiredError } from "@/state/registerRequired";
-import { paymentMethodLabel, toPaymentOption, paymentTypeOfOption } from "@/utils/payment";
+import {
+  paymentMethodLabel,
+  toPaymentOption,
+  findPaymentOption,
+  paymentTypeIdPayload
+} from "@/utils/payment";
 import { FIELD_LIMITS } from "@/constants/fieldLimits";
 
 const ReceiptModal = ({ data, onClose, onNewTransaction }) => {
@@ -279,7 +284,8 @@ const ReceiptModal = ({ data, onClose, onNewTransaction }) => {
     (Array.isArray(splitPaymentMethodsData) ? splitPaymentMethodsData : []) ||
     []
   ).map(toPaymentOption);
-  const payMethodChoice = paymentTypeOfOption(splitPaymentMethods, payOptionKey);
+  const payOption = findPaymentOption(splitPaymentMethods, payOptionKey);
+  const payMethodChoice = payOption?.type || "";
   const splitNeedsReference = !!payMethodChoice && !["cash", "points"].includes(payMethodChoice);
 
   // Reused across retries of the SAME submission (e.g. a network drop after
@@ -318,9 +324,9 @@ const ReceiptModal = ({ data, onClose, onNewTransaction }) => {
     // DR-23 §D: a non-cash split carries its reference (OTHER: a
     // description); the server refuses it otherwise (422 REFERENCE_REQUIRED)
     // and refuses a reused one (409 DUPLICATE_REFERENCE, BA 004).
-    mutationFn: ({ id, paymentMethod, referenceNumber }) =>
+    mutationFn: ({ id, referenceNumber, ...tender }) =>
       paySplitBill(id, {
-        paymentMethod,
+        ...tender,
         ...(referenceNumber ? { referenceNumber } : {})
       }),
     onSuccess: (result) => {
@@ -467,7 +473,7 @@ const ReceiptModal = ({ data, onClose, onNewTransaction }) => {
       date: transactionDate,
       table: tableName,
       paymentMethod,
-      paymentMethodLabel: paymentMethodLabel(paymentMethod),
+      paymentMethodLabel: data?.paymentMethodName || paymentMethodLabel(paymentMethod),
       items: items.map((i) => ({
         name: i.nameProduct || i.name || "-",
         qty: i.count || i.qty || 0,
@@ -835,6 +841,7 @@ const ReceiptModal = ({ data, onClose, onNewTransaction }) => {
                                     paySplitMutation.mutate({
                                       id: split.id,
                                       paymentMethod: payMethodChoice,
+                                      ...paymentTypeIdPayload(payOption),
                                       referenceNumber: splitNeedsReference
                                         ? payReference.trim()
                                         : undefined
