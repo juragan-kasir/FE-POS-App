@@ -1,6 +1,7 @@
 import React, { useState, useMemo, useEffect } from "react";
 import { safeGet } from "@/lib/safe-lookup";
 import { selectNetProfit } from "@/lib/profit-figures";
+import { getPaymentIconKind, paymentMethodLabelKey } from "@/utils/payment";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useQuery } from "react-query";
@@ -42,6 +43,13 @@ import PageHeader from "@/components/ui/PageHeader";
 import { Button } from "@/components/ui/button";
 import i18next from "i18next";
 import { dateLocale } from "@/lib/locale";
+
+const PAYMENT_KIND_ICONS = Object.freeze({
+  cash: Banknote,
+  ewallet: QrCode,
+  card: CreditCard,
+  other: ArrowLeftRight
+});
 
 const FILTERS = [
   {
@@ -340,22 +348,13 @@ const Dashboard = () => {
       : [])
   ];
 
-  const paymentMeta = {
-    cash: { label: t("page.dashboard.payCash"), icon: Banknote },
-    transfer: { label: t("page.dashboard.payTransfer"), icon: ArrowLeftRight },
-    qris: { label: "QRIS", icon: QrCode },
-    qrcode: { label: "QRIS", icon: QrCode },
-    card: { label: t("page.dashboard.payCard"), icon: CreditCard },
-    kredit: { label: t("page.dashboard.payCard"), icon: CreditCard },
-    debit: { label: t("page.dashboard.payCard"), icon: CreditCard }
-  };
-  const paidMethods = (d.paymentMethods || []).map((m) => {
-    const meta = paymentMeta[(m.method || "cash").toLowerCase()] || {
-      label: m.method,
-      icon: Banknote
-    };
-    return { ...m, label: meta.label, icon: meta.icon, sales: Number(m.sales) || 0 };
-  });
+  const paidMethods = (d.paymentMethods || []).map((m) => ({
+    ...m,
+    key: `${m.method}-${m.name ?? ""}`,
+    label: m.name || t(paymentMethodLabelKey(m.method)),
+    icon: safeGet(PAYMENT_KIND_ICONS, getPaymentIconKind(m.method), Banknote),
+    sales: Number(m.sales) || 0
+  }));
   const maxMethodSales = Math.max(1, ...paidMethods.map((m) => m.sales));
 
   const rawChart = d.salesChart || [];
@@ -891,7 +890,7 @@ const Dashboard = () => {
                   paidMethods.map((m) => {
                     const pct = Math.round((m.sales / maxMethodSales) * 100);
                     return (
-                      <div key={m.method || m.label} className="p-4">
+                      <div key={m.key} className="p-4">
                         <div className="flex items-center justify-between mb-1.5">
                           <span className="flex items-center gap-2 text-sm font-medium text-foreground">
                             <m.icon size={15} className="text-muted-foreground" />

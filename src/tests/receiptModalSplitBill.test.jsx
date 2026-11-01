@@ -136,7 +136,9 @@ describe("ReceiptModal split-bill management", () => {
     const confirmBtn = confirmButtons.find((b) => b.querySelector("svg.lucide-circle-check-big"));
     fireEvent.click(confirmBtn);
 
-    await waitFor(() => expect(paySplitBill).toHaveBeenCalledWith(1, { paymentMethod: "cash" }));
+    await waitFor(() =>
+      expect(paySplitBill).toHaveBeenCalledWith(1, { paymentMethod: "cash", typePaymentId: 1 })
+    );
   });
 
   test("a non-cash split needs its reference and sends it (DR-23 §D)", async () => {
@@ -164,6 +166,7 @@ describe("ReceiptModal split-bill management", () => {
     await waitFor(() =>
       expect(paySplitBill).toHaveBeenCalledWith(1, {
         paymentMethod: "qris",
+        typePaymentId: 2,
         referenceNumber: "QR-77"
       })
     );
