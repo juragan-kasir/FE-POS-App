@@ -18,6 +18,9 @@ import { isInventoryItemMode, usesProductStock } from "@/lib/inventory-mode";
 import { recipePortionsFor, remainingRecipePortions } from "@/lib/recipe-availability";
 import { createScanTracker, listenForScans } from "../scanner";
 import { matchesProductCode } from "@/lib/product-code";
+import { CASHIER_GRID_BATCH_SIZE, CASHIER_GRID_PREFETCH_MARGIN } from "@/constants/catalog";
+import { limitGroups } from "../limitGroups";
+import { useIncrementalLimit } from "../hooks/useIncrementalLimit";
 
 const renderCategoryIcon = (cat, className, imgClassName) => {
   const icon = cat?.image || cat?.icon;
@@ -438,6 +441,16 @@ const ProductGrid = ({
     });
     return search?.trim() ? groups.filter((g) => g.products.length > 0) : groups;
   }, [categories, products, getCatId, search]);
+
+  const { limit, sentinelRef, showMore } = useIncrementalLimit({
+    resetKey: `${store}|${categoryId}|${search}`,
+    step: CASHIER_GRID_BATCH_SIZE,
+    rootMargin: CASHIER_GRID_PREFETCH_MARGIN
+  });
+  const visibleCatalog = useMemo(
+    () => limitGroups(productsByCategory, limit),
+    [productsByCategory, limit]
+  );
 
   const hasChoices = useCallback((product) => {
     if (product.variant && Array.isArray(product.variant) && product.variant.length > 0)
@@ -912,68 +925,77 @@ const ProductGrid = ({
             </div>
           </div>
         ) : (
-          productsByCategory.map(({ category, products: catProducts }, grpIdx) => (
-            <div key={category?.id || category?._id || `uncat-${grpIdx}`} className="mb-6">
-              <div className="px-4 lg:px-6 py-3 border-b border-border/40 flex items-center gap-2">
-                {category &&
-                  renderCategoryIcon(
-                    category,
-                    "!text-lg text-primary",
-                    "w-5 h-5 rounded object-cover"
-                  )}
-                <h3 className="text-sm font-semibold text-foreground">
-                  {category?.nameCategory || category?.name || t("common.ui.uncategorized")}
-                </h3>
-              </div>
-              {catProducts.length > 0 ? (
-                viewMode === "grid" ? (
-                  <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 px-4 lg:px-6 pt-3">
-                    {catProducts.map((product, idx) => {
-                      const productId =
-                        product.id || product.ID || product.idProduct || product._id;
-                      const cartCount = cartCountMap.get(productId) || 0;
-                      return (
-                        <ProductGridTile
-                          key={productId || idx}
-                          product={product}
-                          cartCount={cartCount}
-                          onSelect={handleProductClick}
-                          onShowDetail={handleShowDetail}
-                          hasChoices={hasChoices}
-                          {...tileStockProps(product)}
-                        />
-                      );
-                    })}
-                  </div>
-                ) : (
-                  <div className="space-y-2 px-4 lg:px-6 pt-3">
-                    {catProducts.map((product, idx) => {
-                      const productId =
-                        product.id || product.ID || product.idProduct || product._id;
-                      const cartCount = cartCountMap.get(productId) || 0;
-                      return (
-                        <ProductListTile
-                          key={productId || idx}
-                          product={product}
-                          cartCount={cartCount}
-                          onSelect={handleProductClick}
-                          onShowDetail={handleShowDetail}
-                          hasChoices={hasChoices}
-                          {...tileStockProps(product)}
-                        />
-                      );
-                    })}
-                  </div>
-                )
-              ) : (
-                <div className="px-4 lg:px-6 pt-3">
-                  <p className="text-sm text-muted-foreground/60 italic">
-                    {t("page.cashier.ui.noProductsYet")}
-                  </p>
+          <>
+            {visibleCatalog.groups.map(({ category, products: catProducts }, grpIdx) => (
+              <div key={category?.id || category?._id || `uncat-${grpIdx}`} className="mb-6">
+                <div className="px-4 lg:px-6 py-3 border-b border-border/40 flex items-center gap-2">
+                  {category &&
+                    renderCategoryIcon(
+                      category,
+                      "!text-lg text-primary",
+                      "w-5 h-5 rounded object-cover"
+                    )}
+                  <h3 className="text-sm font-semibold text-foreground">
+                    {category?.nameCategory || category?.name || t("common.ui.uncategorized")}
+                  </h3>
                 </div>
-              )}
-            </div>
-          ))
+                {catProducts.length > 0 ? (
+                  viewMode === "grid" ? (
+                    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 px-4 lg:px-6 pt-3">
+                      {catProducts.map((product, idx) => {
+                        const productId =
+                          product.id || product.ID || product.idProduct || product._id;
+                        const cartCount = cartCountMap.get(productId) || 0;
+                        return (
+                          <ProductGridTile
+                            key={productId || idx}
+                            product={product}
+                            cartCount={cartCount}
+                            onSelect={handleProductClick}
+                            onShowDetail={handleShowDetail}
+                            hasChoices={hasChoices}
+                            {...tileStockProps(product)}
+                          />
+                        );
+                      })}
+                    </div>
+                  ) : (
+                    <div className="space-y-2 px-4 lg:px-6 pt-3">
+                      {catProducts.map((product, idx) => {
+                        const productId =
+                          product.id || product.ID || product.idProduct || product._id;
+                        const cartCount = cartCountMap.get(productId) || 0;
+                        return (
+                          <ProductListTile
+                            key={productId || idx}
+                            product={product}
+                            cartCount={cartCount}
+                            onSelect={handleProductClick}
+                            onShowDetail={handleShowDetail}
+                            hasChoices={hasChoices}
+                            {...tileStockProps(product)}
+                          />
+                        );
+                      })}
+                    </div>
+                  )
+                ) : (
+                  <div className="px-4 lg:px-6 pt-3">
+                    <p className="text-sm text-muted-foreground/60 italic">
+                      {t("page.cashier.ui.noProductsYet")}
+                    </p>
+                  </div>
+                )}
+              </div>
+            ))}
+            {visibleCatalog.hasMore && (
+              <div ref={sentinelRef} className="flex justify-center px-4 lg:px-6 pb-6">
+                <Button type="button" variant="outline" size="sm" onClick={showMore}>
+                  {t("page.cashier.showMoreProducts")}
+                </Button>
+              </div>
+            )}
+          </>
         )}
       </div>
 
