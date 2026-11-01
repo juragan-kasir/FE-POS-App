@@ -18,6 +18,8 @@ import {
 import { useCookies } from "react-cookie";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import { defaultRestock } from "@/lib/return-restock";
+import RestockChoice from "./RestockChoice";
 import { Skeleton } from "@/components/ui/skeleton";
 import EmptyState from "@/components/ui/EmptyState";
 import { getOrderById, getOrdersByStore } from "@/services/order";
@@ -65,6 +67,7 @@ const CreateSalesReturn = () => {
 
   const [items, setItems] = useState([]);
   const [reason, setReason] = useState("");
+  const [restockOverride, setRestockOverride] = useState(null);
   const [notes, setNotes] = useState("");
   const [refundMethod, setRefundMethod] = useState("cash");
   const [confirmModal, setConfirmModal] = useState(false);
@@ -78,6 +81,9 @@ const CreateSalesReturn = () => {
   const { registerDirty } = useUnsavedChangesGuard();
   const selectionId = useId();
   const hasSelection = items.length > 0 || reason !== "" || notes.trim() !== "";
+  const reasonKey =
+    reasonKeys.find((key) => t(`page.salesReturn.create.reason.${key}`) === reason) || null;
+  const restock = restockOverride ?? defaultRestock(reasonKey, items);
   useEffect(() => {
     registerDirty(selectionId, hasSelection);
     return () => registerDirty(selectionId, false);
@@ -169,7 +175,7 @@ const CreateSalesReturn = () => {
   const idempotencyKeyRef = useRef(null);
   useEffect(() => {
     idempotencyKeyRef.current = null;
-  }, [items, reason, refundMethod]);
+  }, [items, reason, refundMethod, restock]);
 
   const mutation = useMutation(
     () => {
@@ -184,6 +190,7 @@ const CreateSalesReturn = () => {
         returnedBy: userId,
         refundMethod,
         notes,
+        restock,
         idempotencyKey: idempotencyKeyRef.current
       });
     },
@@ -230,7 +237,8 @@ const CreateSalesReturn = () => {
           price: orderItem.totalPrice
             ? Math.floor(orderItem.totalPrice / orderItem.quantity)
             : orderItem.price,
-          unit: orderItem.unit || "pcs"
+          unit: orderItem.unit || "pcs",
+          inventoryMode: orderItem.inventoryMode || null
         }
       ]);
     }
@@ -564,6 +572,8 @@ const CreateSalesReturn = () => {
             </select>
             <FieldError message={formErrors.reason} />
           </Card>
+
+          <RestockChoice checked={restock} onChange={setRestockOverride} />
 
           {/* Refund Method */}
           <Card className="p-6 space-y-3">
