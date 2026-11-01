@@ -213,6 +213,7 @@ const ReceiptModal = ({ data, onClose, onNewTransaction }) => {
   // no tableId) shows nothing rather than a stray label.
   const tableName = data?.table?.name || (data?.tableId ? String(data.tableId) : null);
   const customerName = data?.customerName || data?.customer?.name || "-";
+  const isMember = Boolean(data?.customerId || data?.customer?.id || data?.customer?._id);
   const paymentMethod = data?.paymentMethod || data?.payment?.method || "-";
   const items = data?.items || data?.orderItems || [];
   const subtotal = data?.subtotal || data?.amount || data?.total || 0;
@@ -465,7 +466,7 @@ const ReceiptModal = ({ data, onClose, onNewTransaction }) => {
         addressFieldsVisible
       ),
       logo: settingsData?.logo || "",
-      memberName: customerName !== "-" ? customerName : "",
+      memberName: isMember && customerName !== "-" ? customerName : "",
       memberTier: data?.customer?.memberTier || data?.customer?.tier || "",
       memberPoints: memberPointsValue ?? null,
       orderNumber,

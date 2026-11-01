@@ -117,6 +117,7 @@ test("the transaction pop-up applies the invoice-page settings exactly like its 
         orderNumber: "ORD-9",
         paymentMethod: "qris",
         customerName: "Budi",
+        customerId: 7,
         customer: { memberTier: "Gold", memberPoints: 10 },
         items: [{ nameProduct: "Bakso", count: 1, price: 20000, totalPrice: 20000 }],
         subtotal: 20000,
