@@ -22,6 +22,10 @@ import {
 } from "@/utils/storeTimezone";
 import HorizontalScrollArea from "@/components/ui/HorizontalScrollArea";
 import CashMovements from "./components/CashMovements";
+import ExpectedCashSummary from "./components/ExpectedCashSummary";
+import { canOpenPage } from "@/utils/pageAccess";
+import { isCashierRole } from "@/utils/role";
+import { CASH_REGISTER_PATHS } from "@/constants/cashRegister";
 
 const formatIDR = (num) => {
   if (!num && num !== 0) return "";
@@ -47,8 +51,11 @@ const CashRegisterCurrent = () => {
     }
   }, [user, navigate]);
 
-  const [rawClosing, setRawClosing] = React.useState("0");
+  const [rawClosing, setRawClosing] = React.useState("");
   const closingBalance = parseIDR(rawClosing);
+  const isCountEntered = rawClosing !== "";
+  const isBlindCount = isCashierRole(user);
+  const canOpenRegister = canOpenPage(user, CASH_REGISTER_PATHS.open);
   const [closeModal, setCloseModal] = React.useState(false);
 
   const { data, isLoading, isError, refetch } = useQuery(
@@ -146,8 +153,8 @@ const CashRegisterCurrent = () => {
         <Button variant="outline" onClick={() => navigate("/cash-register/history")}>
           <Wallet size={16} className="mr-1" /> {t("page.cashRegister.current.historyBtn")}
         </Button>
-        {!reg && (
-          <Button onClick={() => navigate("/cash-register/open-close")}>
+        {!reg && canOpenRegister && (
+          <Button onClick={() => navigate(CASH_REGISTER_PATHS.open)}>
             <DollarSign size={16} className="mr-1" /> {t("page.cashRegister.current.openBtn")}
           </Button>
         )}
@@ -157,9 +164,15 @@ const CashRegisterCurrent = () => {
         <div className="bg-card p-6 rounded-xl border border-border text-center">
           <Wallet size={48} className="mx-auto text-muted-foreground/40 mb-3" />
           <p className="text-muted-foreground">{t("page.cashRegister.current.noActiveRegister")}</p>
-          <Button onClick={() => navigate("/cash-register/open-close")} className="mt-4">
-            <DollarSign size={16} className="mr-1" /> {t("page.cashRegister.current.openBtn")}
-          </Button>
+          {canOpenRegister ? (
+            <Button onClick={() => navigate(CASH_REGISTER_PATHS.open)} className="mt-4">
+              <DollarSign size={16} className="mr-1" /> {t("page.cashRegister.current.openBtn")}
+            </Button>
+          ) : (
+            <p className="mt-4 text-sm text-muted-foreground">
+              {t("page.cashRegister.current.askAdminToOpen")}
+            </p>
+          )}
         </div>
       ) : (
         <>
@@ -239,45 +252,20 @@ const CashRegisterCurrent = () => {
               <h2 className="text-lg font-semibold">{t("page.cashRegister.current.closeTitle")}</h2>
 
               {/* ponytail: settlement summary — auto-calculated expected vs physical */}
-              <div className="rounded-lg bg-muted/30 p-4 space-y-2 text-sm">
-                <div className="flex justify-between">
-                  <span className="text-muted-foreground">
-                    {t("page.cashRegister.current.openingBalance")}
-                  </span>
-                  <span className="font-medium">{formatIDR(reg.openingBalance)}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-muted-foreground">
-                    {t("page.cashRegister.current.totalSales")}
-                  </span>
-                  <span className="font-medium text-green-600">+{formatIDR(currentSales)}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-muted-foreground">
-                    {t("page.cashRegister.current.totalExpenses")}
-                  </span>
-                  <span className="font-medium text-destructive">-{formatIDR(totalExpenses)}</span>
-                </div>
-                <div className="border-t pt-2 flex justify-between font-semibold">
-                  <span>{t("page.cashRegister.current.expectedCash")}</span>
-                  <span>{formatIDR(expectedCash)}</span>
-                </div>
-                <div className="flex justify-between text-xs pt-1">
-                  <span className="text-muted-foreground">
-                    {t("page.cashRegister.current.variance")}
-                  </span>
-                  <span
-                    className={
-                      variance !== 0
-                        ? variance > 0
-                          ? "text-green-600"
-                          : "text-destructive"
-                        : "text-muted-foreground"
-                    }>
-                    {variance === 0 ? "Rp 0" : `${variance > 0 ? "+" : ""}${formatIDR(variance)}`}
-                  </span>
-                </div>
-              </div>
+              {isBlindCount ? (
+                <p className="text-xs text-muted-foreground">
+                  {t("page.cashRegister.history.blindCountHint")}
+                </p>
+              ) : (
+                <ExpectedCashSummary
+                  openingBalance={reg.openingBalance}
+                  currentSales={currentSales}
+                  totalExpenses={totalExpenses}
+                  expectedCash={expectedCash}
+                  variance={variance}
+                  formatAmount={formatIDR}
+                />
+              )}
 
               <div className="space-y-2">
                 <Label
@@ -294,18 +282,18 @@ const CashRegisterCurrent = () => {
                     id="cash-register-current-closing-balance"
                     type="text"
                     inputMode="numeric"
-                    value={formatIDR(rawClosing === "0" ? "" : rawClosing)}
+                    value={isCountEntered ? formatIDR(rawClosing) : ""}
                     placeholder={t("page.cashRegister.current.placeholder")}
                     onChange={(e) => {
                       const cleaned = e.target.value.replace(/[^0-9]/g, "");
-                      setRawClosing(cleaned || "0");
+                      setRawClosing(cleaned);
                     }}
                     className="pl-10 h-12 text-lg font-semibold tabular-nums"
                   />
                 </div>
               </div>
 
-              {variance !== 0 && (
+              {!isBlindCount && isCountEntered && variance !== 0 && (
                 <p
                   className={`text-xs flex items-center gap-1 ${variance > 0 ? "text-green-600" : "text-destructive"}`}>
                   <ArrowRightLeft size={12} />
@@ -335,7 +323,12 @@ const CashRegisterCurrent = () => {
                 </div>
               )}
 
-              <Button onClick={() => setCloseModal(true)} variant="destructive" className="w-full">
+              <Button
+                onClick={() => setCloseModal(true)}
+                variant="destructive"
+                className="w-full"
+                disabled={!isCountEntered}
+                disabledReason={t("page.cashRegister.current.countRequired")}>
                 <X size={16} className="mr-1" /> {t("page.cashRegister.current.closeBtn")}
               </Button>
             </div>

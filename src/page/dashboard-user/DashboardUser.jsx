@@ -33,6 +33,8 @@ import { getMyAttendance } from "@/services/attendance";
 import { getShiftSwaps } from "@/services/shiftSwap";
 import { useUserSession } from "@/hooks/useUserSession";
 import { hasMenuAccess } from "@/utils/permission";
+import { canOpenPage } from "@/utils/pageAccess";
+import { CASH_REGISTER_PATHS } from "@/constants/cashRegister";
 import { formatCurrencyRupiah } from "@/utils/formatter-currency";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Button } from "@/components/ui/button";
@@ -86,7 +88,8 @@ const DashboardUser = () => {
   const canSales = hasMenuAccess(user, "/dashboard-super-admin", ["view"]);
   // ponytail: widget POS / status kas / shift disesuaikan dengan accessMenu user
   const canPos = hasMenuAccess(user, "/home", ["view"]);
-  const canKas = hasMenuAccess(user, "/cash-register/current", ["view"]);
+  const canKas = hasMenuAccess(user, CASH_REGISTER_PATHS.current, ["view"]);
+  const canOpenRegister = canOpenPage(user, CASH_REGISTER_PATHS.open);
   const canMyShift = hasMenuAccess(user, "/my-shift", ["view"]);
 
   const [attendanceType, setAttendanceType] = useState(null);
@@ -556,12 +559,18 @@ const DashboardUser = () => {
                   {t("page.dashboardUser.ui.openTheRegisterWithA")}
                 </p>
                 <div className="mt-auto pt-4">
-                  <Button
-                    size="sm"
-                    className="w-full"
-                    onClick={() => navigate("/cash-register/current")}>
-                    {t("page.dashboardUser.ui.openRegisterNow")}
-                  </Button>
+                  {canOpenRegister ? (
+                    <Button
+                      size="sm"
+                      className="w-full"
+                      onClick={() => navigate(CASH_REGISTER_PATHS.open)}>
+                      {t("page.dashboardUser.ui.openRegisterNow")}
+                    </Button>
+                  ) : (
+                    <p className="text-xs text-muted-foreground">
+                      {t("page.cashRegister.current.askAdminToOpen")}
+                    </p>
+                  )}
                 </div>
               </>
             )}

@@ -4059,6 +4059,8 @@
   "page.cashRegister.current.breadcrumb": "Register Kasir",
   "page.cashRegister.current.breadcrumbDashboard": "Dashboard",
   "page.cashRegister.current.closeBtn": "Tutup Register",
+  "page.cashRegister.current.askAdminToOpen": "Kasir belum dibuka. Minta admin membuka kasir, atau minta akses \"Tambah\" pada menu Kasir (Register).",
+  "page.cashRegister.current.countRequired": "Hitung uang di laci dan ketik jumlahnya dulu (boleh 0).",
   "page.cashRegister.current.closeTitle": "Tutup Register",
   "page.cashRegister.current.closedDesc": "Register kasir berhasil ditutup",
   "page.cashRegister.current.closingBalance": "Saldo Akhir",

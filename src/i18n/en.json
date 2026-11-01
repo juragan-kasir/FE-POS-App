@@ -4119,6 +4119,8 @@
   "page.cashRegister.current.breadcrumb": "Cash Register",
   "page.cashRegister.current.breadcrumbDashboard": "Dashboard",
   "page.cashRegister.current.closeBtn": "Close Register",
+  "page.cashRegister.current.askAdminToOpen": "The register is not open yet. Ask an admin to open it, or to grant you \"Add\" on the Cash Register menu.",
+  "page.cashRegister.current.countRequired": "Count the cash in the drawer and type the amount first (0 is allowed).",
   "page.cashRegister.current.closeTitle": "Close Register",
   "page.cashRegister.current.closedDesc": "Cash register closed successfully",
   "page.cashRegister.current.closingBalance": "Closing Balance",

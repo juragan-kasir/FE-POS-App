@@ -1096,6 +1096,13 @@ export const sidebarMenuCashier = [
     actions: ["add", "view"]
   },
   {
+    title: "Kasir (Register)",
+    i18nKey: "sidebar.cashRegister",
+    href: "/cash-register/current",
+    icon: DollarSign,
+    actions: ["view", "add"]
+  },
+  {
     title: "Membership",
     i18nKey: "sidebar.membership",
     href: "/member-list",

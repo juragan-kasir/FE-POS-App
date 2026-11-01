@@ -2965,7 +2965,7 @@ Dokumen terkait:
 - **Service:** `src/services/cash-register.js` → `openCashRegister(payload)`
 - **Dikirim:** body `payload` (diteruskan apa adanya)
 - **Dipakai:** `data` (dari `res.data`)
-- **Catatan:** —
+- **Catatan:** super_admin/admin/kasir (Q-FIN-05, 2026-11-01). Kasir hanya di tokonya sendiri dan bila role-nya punya "Tambah" pada Kasir (Register) — selain itu 403 `MENU_ACTION_DENIED`. FE menyembunyikan tombol buka lewat `canOpenPage(user, "/cash-register/open-close")`.
 
 ---
 
@@ -2973,7 +2973,7 @@ Dokumen terkait:
 - **Service:** `src/services/cash-register.js` → `closeCashRegister(id, payload)`
 - **Dikirim:** body `payload`; `id` di path
 - **Dipakai:** `data` (dari `res.data`)
-- **Catatan:** —
+- **Catatan:** kasir menutup dengan hitung buta: tanpa `closingBalance` → 422 `CLOSING_BALANCE_REQUIRED` (0 sah). FE tidak menampilkan kas seharusnya/selisih ke kasir sebelum tutup.
 
 ---
 
