@@ -42,10 +42,12 @@ import { getAllTypePayment } from "@/services/type-payment";
 import { getMemberById } from "@/services/member";
 import { getTableAvailability, getTablesWithActiveOrders } from "@/services/table";
 import {
-  getPaymentIconKind,
+  toPaymentOption,
+  paymentTypeOfOption,
   REFERENCE_REQUIRED_METHODS,
   MAX_REFERENCE_LENGTH
 } from "@/utils/payment";
+import { safeGet } from "@/lib/safe-lookup";
 import { buildOrderItemsPayload, parsePriceChangedError } from "@/utils/orderPayload";
 import { useDebounce } from "@/hooks/useDebounce";
 import MemberSearchModal from "@/components/MemberSearchModal";
@@ -63,6 +65,13 @@ import { quickCashAmounts } from "../quickCash";
 // it above the input whenever there isn't enough room below; 200px covers
 // the list's own max-h-40 (160px) plus its border/padding.
 const DROPDOWN_MAX_HEIGHT = 200;
+
+const PAYMENT_KIND_ICONS = Object.freeze({
+  cash: Banknote,
+  ewallet: Smartphone,
+  card: CreditCard,
+  other: Wallet
+});
 
 const computeDropdownPos = (rect) => {
   if (!rect) return null;
@@ -105,7 +114,7 @@ const CheckoutModal = ({
       ? ATTEMPT_STATUS.UNKNOWN
       : attempt?.status || ATTEMPT_STATUS.DRAFT;
   const recordedOrder = attempt?.existingOrder || null;
-  const [paymentMethod, setPaymentMethod] = useState("");
+  const [selectedPaymentKey, setSelectedPaymentKey] = useState("");
   // DR-23 §D (BA gap G-02): the reference of a non-cash payment (EDC
   // approval code, QRIS/e-wallet confirmation, transfer reference) or the
   // description of an "other" payment, as typed. Kept across a refusal and a
@@ -252,6 +261,24 @@ const CheckoutModal = ({
   const { data: paymentMethodsData } = useQuery(["payment-methods-active"], () =>
     getAllTypePayment({ store, status: "active" })
   );
+  const paymentMethods = useMemo(() => {
+    const data = paymentMethodsData?.data || paymentMethodsData || [];
+    const list = Array.isArray(data) ? data : [];
+    return list
+      .filter((pm) => {
+        const s = (pm.status || "").toString().toLowerCase();
+        return !s || s === "active" || s === "true";
+      })
+      .map((pm) => {
+        const option = toPaymentOption(pm);
+        return {
+          ...option,
+          icon: safeGet(PAYMENT_KIND_ICONS, option.kind, Wallet),
+          color: "from-primary to-primary/70"
+        };
+      });
+  }, [paymentMethodsData]);
+  const paymentMethod = paymentTypeOfOption(paymentMethods, selectedPaymentKey);
   const { data: tablesData, isLoading: tablesLoading } = useQuery(
     ["table-availability", store],
     () => getTableAvailability({ location: store }),
@@ -348,43 +375,16 @@ const CheckoutModal = ({
     return Array.isArray(data) ? data : [];
   }, [tiersData]);
 
-  const paymentMethods = useMemo(() => {
-    const data = paymentMethodsData?.data || paymentMethodsData || [];
-    const list = Array.isArray(data) ? data : [];
-    return list
-      .filter((pm) => {
-        const s = (pm.status || "").toString().toLowerCase();
-        return !s || s === "active" || s === "true";
-      })
-      .map((pm) => {
-        const kind = getPaymentIconKind(pm.type);
-        const icon =
-          kind === "cash"
-            ? Banknote
-            : kind === "ewallet"
-              ? Smartphone
-              : kind === "card"
-                ? CreditCard
-                : Wallet;
-        return {
-          id: pm.type || pm.id?.toString() || pm.name?.toLowerCase(),
-          label: pm.name,
-          icon,
-          color: "from-primary to-primary/70"
-        };
-      });
-  }, [paymentMethodsData]);
-
   // Most sales are cash: preselect it (when the store has it active) so the
   // cashier types the amount and presses Enter, instead of picking a method
   // on every sale. Only until the cashier picks a method themselves.
-  const defaultPaymentMethod = paymentMethods.some((m) => m.id === "cash") ? "cash" : "";
+  const defaultPaymentKey = paymentMethods.find((m) => m.type === "cash")?.key || "";
   const methodPickedRef = useRef(false);
   useEffect(() => {
-    if (!methodPickedRef.current && !paymentMethod && defaultPaymentMethod) {
-      setPaymentMethod(defaultPaymentMethod);
+    if (!methodPickedRef.current && !selectedPaymentKey && defaultPaymentKey) {
+      setSelectedPaymentKey(defaultPaymentKey);
     }
-  }, [defaultPaymentMethod, paymentMethod]);
+  }, [defaultPaymentKey, selectedPaymentKey]);
   // Cash selected (preselected or clicked) → the amount field is next.
   useEffect(() => {
     if (paymentMethod === "cash") cashInputRef.current?.focus();
@@ -1169,7 +1169,7 @@ const CheckoutModal = ({
   const hasUnsavedCheckout =
     qrisPending ||
     // The preselected cash method is not a change the cashier made.
-    (Boolean(paymentMethod) && paymentMethod !== defaultPaymentMethod) ||
+    (Boolean(selectedPaymentKey) && selectedPaymentKey !== defaultPaymentKey) ||
     referenceInput.trim() !== "" ||
     cashAmount.trim() !== "" ||
     Boolean(selectedCustomer) ||
@@ -1813,14 +1813,14 @@ const CheckoutModal = ({
               ) : (
                 paymentMethods.map((method) => {
                   const Icon = method.icon;
-                  const isSelected = paymentMethod === method.id;
+                  const isSelected = selectedPaymentKey === method.key;
                   return (
                     <button
                       type="button"
-                      key={method.id}
+                      key={method.key}
                       onClick={() => {
                         methodPickedRef.current = true;
-                        setPaymentMethod(method.id);
+                        setSelectedPaymentKey(method.key);
                         setReferenceRefused(false);
                         setReferenceDuplicate(false);
                         clearPendingQris();

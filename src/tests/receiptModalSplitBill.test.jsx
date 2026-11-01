@@ -38,8 +38,8 @@ jest.mock("@/services/type-payment", () => ({
   getAllTypePayment: jest.fn(() =>
     Promise.resolve({
       data: [
-        { type: "cash", name: "Cash", status: "active" },
-        { type: "qris", name: "QRIS", status: "active" }
+        { id: 1, type: "cash", name: "Cash", status: "active" },
+        { id: 2, type: "qris", name: "QRIS", status: "active" }
       ]
     })
   )
@@ -130,7 +130,7 @@ describe("ReceiptModal split-bill management", () => {
     await waitFor(() => expect(screen.getByText("SPL001")).toBeInTheDocument());
 
     fireEvent.click(screen.getByText("page.cashier.receipt.splitPay"));
-    fireEvent.change(screen.getByLabelText("split-pay-method"), { target: { value: "cash" } });
+    fireEvent.change(screen.getByLabelText("split-pay-method"), { target: { value: "1" } });
 
     const confirmButtons = screen.getAllByRole("button");
     const confirmBtn = confirmButtons.find((b) => b.querySelector("svg.lucide-circle-check-big"));
@@ -152,7 +152,7 @@ describe("ReceiptModal split-bill management", () => {
     fireEvent.click(screen.getByText("page.cashier.receipt.split"));
     await waitFor(() => expect(screen.getByText("SPL001")).toBeInTheDocument());
     fireEvent.click(screen.getByText("page.cashier.receipt.splitPay"));
-    fireEvent.change(screen.getByLabelText("split-pay-method"), { target: { value: "qris" } });
+    fireEvent.change(screen.getByLabelText("split-pay-method"), { target: { value: "2" } });
 
     const confirm = screen.getByLabelText("page.cashier.receipt.splitPayConfirm");
     expect(confirm).toBeDisabled();
@@ -184,7 +184,7 @@ describe("ReceiptModal split-bill management", () => {
     fireEvent.click(screen.getByText("page.cashier.receipt.split"));
     await waitFor(() => expect(screen.getByText("SPL001")).toBeInTheDocument());
     fireEvent.click(screen.getByText("page.cashier.receipt.splitPay"));
-    fireEvent.change(screen.getByLabelText("split-pay-method"), { target: { value: "qris" } });
+    fireEvent.change(screen.getByLabelText("split-pay-method"), { target: { value: "2" } });
     fireEvent.change(screen.getByLabelText("page.cashier.collectPayment.reference.label"), {
       target: { value: "QR-77" }
     });
@@ -416,7 +416,7 @@ describe("ReceiptModal — split bill only for orders still due (DR-23)", () => 
 
     await waitFor(() => expect(screen.getByText("SPL001")).toBeInTheDocument());
     fireEvent.click(screen.getByText("page.cashier.receipt.splitPay"));
-    fireEvent.change(screen.getByLabelText("split-pay-method"), { target: { value: "cash" } });
+    fireEvent.change(screen.getByLabelText("split-pay-method"), { target: { value: "1" } });
     fireEvent.click(screen.getByLabelText("page.cashier.receipt.splitPayConfirm"));
 
     await waitFor(() =>
