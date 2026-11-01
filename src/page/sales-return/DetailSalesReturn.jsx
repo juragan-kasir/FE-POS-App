@@ -181,6 +181,14 @@ const DetailSalesReturn = () => {
                       ],
                       [t("page.salesReturn.detail.field.reason"), ret.reason || "-"],
                       [
+                        t("page.salesReturn.detail.field.restock"),
+                        t(
+                          ret.restock === false
+                            ? "page.salesReturn.detail.restockNo"
+                            : "page.salesReturn.detail.restockYes"
+                        )
+                      ],
+                      [
                         t("page.salesReturn.detail.field.returnedBy"),
                         ret.returnedBy || ret.returnedByData?.name || "-"
                       ],
