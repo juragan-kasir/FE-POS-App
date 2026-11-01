@@ -104,6 +104,11 @@ const STORE_TZ = "America/New_York";
 const FIXED_OPENING_HOURS = [{ day: "monday", open: "09:00", close: "21:00", isOpen: true }];
 const NOON = 12 * 60;
 
+const enterCountedCash = () =>
+  fireEvent.change(document.getElementById("cash-register-current-closing-balance"), {
+    target: { value: "0" }
+  });
+
 const renderWithQuery = (ui) => {
   const queryClient = new QueryClient({ defaultOptions: { queries: { retry: false } } });
   return render(
@@ -301,6 +306,7 @@ describe("Phase 39 Batch 6F — operating-hours informational banners", () => {
       expect(
         await screen.findByText(/page\.cashRegister\.current\.overtimeNotice/)
       ).toBeInTheDocument();
+      enterCountedCash();
       const closeBtn = screen.getByText("page.cashRegister.current.closeBtn");
       expect(closeBtn.closest("button")).not.toBeDisabled();
     });
@@ -318,6 +324,7 @@ describe("Phase 39 Batch 6F — operating-hours informational banners", () => {
       expect(
         screen.queryByText(/page\.cashRegister\.current\.overtimeNotice/)
       ).not.toBeInTheDocument();
+      enterCountedCash();
       const closeBtn = screen.getByText("page.cashRegister.current.closeBtn");
       expect(closeBtn.closest("button")).not.toBeDisabled();
     });
@@ -337,6 +344,7 @@ describe("Phase 39 Batch 6F — operating-hours informational banners", () => {
       expect(
         screen.queryByText(/page\.cashRegister\.current\.overtimeNotice/)
       ).not.toBeInTheDocument();
+      enterCountedCash();
       const closeBtn = screen.getByText("page.cashRegister.current.closeBtn");
       expect(closeBtn.closest("button")).not.toBeDisabled();
     });
@@ -353,6 +361,7 @@ describe("Phase 39 Batch 6F — operating-hours informational banners", () => {
       expect(
         screen.queryByText(/page\.cashRegister\.current\.overtimeNotice/)
       ).not.toBeInTheDocument();
+      enterCountedCash();
       const closeBtn = screen.getByText("page.cashRegister.current.closeBtn");
       expect(closeBtn.closest("button")).not.toBeDisabled();
     });

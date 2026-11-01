@@ -78,6 +78,7 @@ export const SUBPAGES = [
   ["/edit-goods-receipt", "/goods-receipt", "edit"],
   ["/goods-receipt/detail", "/goods-receipt", "view"],
   ["/purchase-return/detail", "/purchase-return", "view"],
+  ["/cash-register/open-close", "/cash-register/current", "add"],
   ["/purchase-payment-detail", "/purchase-payment", "view"],
   ["/sales-return/detail", "/sales-return", "view"],
   ["/accounts-receivable/detail", "/accounts-receivable", "view"],
