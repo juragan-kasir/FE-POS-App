@@ -581,6 +581,20 @@ Dokumen terkait:
 - **Catatan:** sukses 200 (replay) / 201
 ---
 
+### POST `/order/open-bill`
+- **Service:** `src/services/order.js` → `createOpenBill(payload)`
+- **Dikirim:** `{ store, tableId, items (buildOrderItemsPayload), cashierId, cashierName, idempotencyKey }`
+- **Dipakai:** `res.data`
+- **Catatan:** E2E audit #8 (batch B9). Tagihan terbuka: meja ditandai terisi, item ke dapur, belum ada pembayaran/stok. Dibayar nanti lewat `CollectPaymentModal` (`PUT /order/update-status`). Tanpa diskon/promo/poin (fase 1). Error: 422 `TABLE_REQUIRED`, 400 `TABLE_OCCUPIED`, 409 `IDEMPOTENCY_MISMATCH`. Dipakai `OpenBillButton` (hook `useSaveOpenBill`).
+---
+
+### POST `/order/:id/items`
+- **Service:** `src/services/order.js` → `addOrderItems(orderId, payload)`
+- **Dikirim:** `{ store, items, idempotencyKey }`
+- **Dipakai:** `res.data`
+- **Catatan:** menambah satu ronde item ke pesanan yang belum dibayar. Error: 409 `ORDER_NOT_OPEN`, `ORDER_PARTIALLY_PAID`, `ORDER_HAS_SPLITS`, `IDEMPOTENCY_MISMATCH`. Dipakai tombol "Tambah Pesanan" di antrean (hook `useAddOrderRound`).
+---
+
 ### POST `/order/quote`
 - **Service:** `src/services/order.js` → `quoteOrder(payload)`
 - **Dikirim:** body `payload` apa adanya

@@ -1,4 +1,5 @@
 import React, { useRef, useState } from "react";
+import { useOrderQueueRefresh } from "../hooks/useOrderQueueRefresh";
 import PropTypes from "prop-types";
 import { X, CheckCircle2, Users, Banknote, Loader2, AlertCircle, Coins } from "lucide-react";
 import { useTranslation } from "react-i18next";
@@ -21,7 +22,6 @@ import { isRegisterRequiredError } from "@/state/registerRequired";
 // handleLoadOrder, which only pre-fills the cart and leaves the original
 // order unpaid. Every mutation here targets the SAME order id/store that was
 // already fetched; this component never calls order/create.
-const CASHIER_ORDER_QUEUE_STATUSES = ["pending", "confirmed", "preparing", "ready", "served"];
 
 // Mirrors CheckoutModal's own order -> receipt-prop mapping (subTotal ->
 // subtotal, totalPrice -> total/grandTotal, item.productName -> nameProduct,
@@ -188,12 +188,7 @@ const CollectPaymentModal = ({ order, store, onClose, onOpenReceipt }) => {
       ? t("page.cashier.collectPayment.reference.otherRequired")
       : t("page.cashier.collectPayment.reference.required");
 
-  const invalidateOrderQueues = () => {
-    CASHIER_ORDER_QUEUE_STATUSES.forEach((status) =>
-      queryClient.invalidateQueries(["cashier-orders-" + status, store])
-    );
-    queryClient.invalidateQueries(["customer-orders"]);
-  };
+  const invalidateOrderQueues = useOrderQueueRefresh(store);
 
   // react-query's mutation.isLoading flips asynchronously (a tick after
   // mutate() runs), which is too late to stop several fireEvent-speed clicks

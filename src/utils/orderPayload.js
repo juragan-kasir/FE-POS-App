@@ -56,6 +56,8 @@ export const buildOrderItemsPayload = (items = []) =>
     };
   });
 
+export const orderLinesSignature = (items = []) => JSON.stringify(buildOrderItemsPayload(items));
+
 // Returns null unless the error is the W3-2 409 PRICE_CHANGED contract.
 // `submittedLines` are the checkout lines in the exact order they were sent;
 // the server's `index` addresses that order. A line is only mapped back to a

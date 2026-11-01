@@ -51,6 +51,8 @@ import CartPanel from "./components/CartPanel";
 import CheckoutModal from "./components/CheckoutModal";
 import ReceiptModal from "./components/ReceiptModal";
 import OrderQueue from "./components/OrderQueue";
+import AddRoundNotice from "./components/AddRoundNotice";
+import { useAddOrderRound } from "./hooks/useAddOrderRound";
 import IncomingQrOrderAlert from "./components/IncomingQrOrderAlert";
 import CollectPaymentModal from "./components/CollectPaymentModal";
 import ParkedCartPanel from "./components/ParkedCartPanel";
@@ -554,6 +556,23 @@ const CashierPage = () => {
     [store]
   );
 
+  const handleOpenBillSaved = useCallback(() => {
+    setCheckoutOpen(false);
+    orderList.getState().resetOrder();
+    setSelectedTable(null);
+  }, []);
+
+  const addRound = useAddOrderRound({
+    store,
+    items: cartOrder,
+    onAdded: () => orderList.getState().resetOrder()
+  });
+  const cartCheckout = addRound.target ? () => addRound.submit() : () => setCheckoutOpen(true);
+  const cartNotice = addRound.target ? (
+    <AddRoundNotice order={addRound.target} onCancel={addRound.cancel} />
+  ) : null;
+  const cartCheckoutLabel = addRound.target ? t("page.cashier.openBill.addToBill") : undefined;
+
   const handleNewTransaction = useCallback(() => {
     orderList.getState().resetOrder();
     setSelectedTable(null);
@@ -790,6 +809,7 @@ const CashierPage = () => {
                 store={store}
                 onLoadOrder={requestLoadOrder}
                 onCollectPayment={setCollectPaymentOrder}
+                onAddItems={addRound.start}
                 canVoid={canVoidOrders}
               />
               <ParkedCartPanel
@@ -847,7 +867,9 @@ const CashierPage = () => {
                   onIncrement={orderList.getState().incrementOrder}
                   onDecrement={orderList.getState().decrementOrder}
                   onDelete={orderList.getState().handleDeleteOrder}
-                  onCheckout={() => setCheckoutOpen(true)}
+                  onCheckout={cartCheckout}
+                  notice={cartNotice}
+                  checkoutLabel={cartCheckoutLabel}
                   onClearCart={() => setClearCartOpen(true)}
                   onParkCart={() => setParkCartOpen(true)}
                   isParkingCart={parkMutation.isLoading}
@@ -856,7 +878,7 @@ const CashierPage = () => {
                     orderList.getState().updateItemPrice(item, newPrice)
                   }
                   canEditPrice={canOverridePrice}
-                  isLoading={taxLoading}
+                  isLoading={taxLoading || addRound.isSubmitting}
                 />
               </div>
             </div>
@@ -888,7 +910,9 @@ const CashierPage = () => {
                 onIncrement={orderList.getState().incrementOrder}
                 onDecrement={orderList.getState().decrementOrder}
                 onDelete={orderList.getState().handleDeleteOrder}
-                onCheckout={() => setCheckoutOpen(true)}
+                onCheckout={cartCheckout}
+                notice={cartNotice}
+                checkoutLabel={cartCheckoutLabel}
                 onClearCart={() => setClearCartOpen(true)}
                 onParkCart={() => setParkCartOpen(true)}
                 isParkingCart={parkMutation.isLoading}
@@ -897,7 +921,7 @@ const CashierPage = () => {
                   orderList.getState().updateItemPrice(item, newPrice)
                 }
                 canEditPrice={canOverridePrice}
-                isLoading={taxLoading}
+                isLoading={taxLoading || addRound.isSubmitting}
                 expanded={cartExpanded}
               />
             </div>
@@ -916,6 +940,7 @@ const CashierPage = () => {
             onTableChange={setSelectedTable}
             onComplete={handleCheckoutComplete}
             onApplyServerPrices={orderList.getState().applyServerPrices}
+            onBillSaved={handleOpenBillSaved}
           />
         )}
 
