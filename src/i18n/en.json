@@ -134,6 +134,7 @@
   "page.cashier.total": "Total",
   "page.cashier.barcode": "Barcode",
   "page.cashier.checkout": "Checkout",
+  "page.cashier.showMoreProducts": "Show more products",
   "page.cashier.openBill.save": "Save Bill (Pay Later)",
   "page.cashier.openBill.saveHint": "The order goes to the kitchen, table {{table}} is marked occupied, and it is paid later from the order queue.",
   "page.cashier.openBill.saved": "Bill for table {{table}} saved — collect it later from the order queue.",

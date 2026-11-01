@@ -1,0 +1,2 @@
+export const CASHIER_GRID_BATCH_SIZE = 60;
+export const CASHIER_GRID_PREFETCH_MARGIN = "600px";
