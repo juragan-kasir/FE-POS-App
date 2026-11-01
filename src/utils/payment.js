@@ -33,6 +33,16 @@ export const getPaymentIconKind = (type) => {
   return "other";
 };
 
+export const toPaymentOption = (paymentType) => ({
+  key: String(paymentType.id ?? `${paymentType.type}-${paymentType.name}`),
+  type: paymentType.type || paymentType.id?.toString() || paymentType.name?.toLowerCase(),
+  label: paymentType.name,
+  kind: getPaymentIconKind(paymentType.type)
+});
+
+export const paymentTypeOfOption = (options, key) =>
+  options.find((option) => option.key === key)?.type || "";
+
 // Display metadata for the canonical payment buckets reported by the API
 // (BE api/service/canonicalPayment.js): the seven canonical tenders plus the
 // UNRECONCILED reporting bucket for stored tenders that cannot be mapped.

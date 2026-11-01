@@ -53,7 +53,7 @@ import SendWhatsAppDialog from "./SendWhatsAppDialog";
 import { receiptLabels } from "@/components/receipt/receiptLabels";
 import { buildAddressLines } from "@/utils/receiptDocument";
 import { isRegisterRequiredError } from "@/state/registerRequired";
-import { paymentMethodLabel } from "@/utils/payment";
+import { paymentMethodLabel, toPaymentOption, paymentTypeOfOption } from "@/utils/payment";
 import { FIELD_LIMITS } from "@/constants/fieldLimits";
 
 const ReceiptModal = ({ data, onClose, onNewTransaction }) => {
@@ -253,9 +253,8 @@ const ReceiptModal = ({ data, onClose, onNewTransaction }) => {
   // server's capability check is the authority.
   const canManageSplits = ["super_admin", "admin", "kasir"].includes(user?.roleType);
   const [payingId, setPayingId] = useState(null);
-  const [payMethodChoice, setPayMethodChoice] = useState("");
+  const [payOptionKey, setPayOptionKey] = useState("");
   const [payReference, setPayReference] = useState("");
-  const splitNeedsReference = !!payMethodChoice && !["cash", "points"].includes(payMethodChoice);
   const [selectedMergeIds, setSelectedMergeIds] = useState([]);
 
   const { data: existingSplitsData, refetch: refetchSplits } = useQuery(
@@ -279,7 +278,9 @@ const ReceiptModal = ({ data, onClose, onNewTransaction }) => {
     splitPaymentMethodsData?.data ||
     (Array.isArray(splitPaymentMethodsData) ? splitPaymentMethodsData : []) ||
     []
-  ).map((pm) => ({ id: pm.type || pm.id?.toString() || pm.name?.toLowerCase(), label: pm.name }));
+  ).map(toPaymentOption);
+  const payMethodChoice = paymentTypeOfOption(splitPaymentMethods, payOptionKey);
+  const splitNeedsReference = !!payMethodChoice && !["cash", "points"].includes(payMethodChoice);
 
   // Reused across retries of the SAME submission (e.g. a network drop after
   // the request already reached the server), so the server-side idempotency
@@ -326,7 +327,7 @@ const ReceiptModal = ({ data, onClose, onNewTransaction }) => {
       toast.success(t("page.cashier.receipt.toast.splitPaySuccess"));
       warnStockShortages(result?.data?.stockShortages, t);
       setPayingId(null);
-      setPayMethodChoice("");
+      setPayOptionKey("");
       setPayReference("");
       refetchSplits();
       if (result?.data?.orderComplete) {
@@ -801,13 +802,13 @@ const ReceiptModal = ({ data, onClose, onNewTransaction }) => {
                           (isChoosingMethod ? (
                             <div className="space-y-2">
                               <div className="flex items-center gap-2">
-                                <Select value={payMethodChoice} onValueChange={setPayMethodChoice}>
+                                <Select value={payOptionKey} onValueChange={setPayOptionKey}>
                                   <SelectTrigger className="h-8 text-xs flex-1">
                                     <SelectValue placeholder={t("page.cashier.paymentMethod")} />
                                   </SelectTrigger>
                                   <SelectContent>
                                     {splitPaymentMethods.map((m) => (
-                                      <SelectItem key={m.id} value={m.id}>
+                                      <SelectItem key={m.key} value={m.key}>
                                         {m.label}
                                       </SelectItem>
                                     ))}
@@ -877,7 +878,7 @@ const ReceiptModal = ({ data, onClose, onNewTransaction }) => {
                                 className="flex-1 h-8 text-xs"
                                 onClick={() => {
                                   setPayingId(split.id);
-                                  setPayMethodChoice("");
+                                  setPayOptionKey("");
                                   setPayReference("");
                                 }}>
                                 <Banknote size={14} className="mr-1" />
