@@ -6,6 +6,16 @@ export const createOrder = async (payload) => {
   return data;
 };
 
+export const createOpenBill = async (payload) => {
+  const { data } = await axiosInstance.post("/order/open-bill", payload);
+  return data;
+};
+
+export const addOrderItems = async (orderId, payload) => {
+  const { data } = await axiosInstance.post(`/order/${orderId}/items`, payload);
+  return data;
+};
+
 // DR-11 / DR-17: the server's totals for the exact payload /order/create
 // would receive (same resolver; read-only). The checkout displays these
 // instead of re-deriving discounts or tax in the browser.

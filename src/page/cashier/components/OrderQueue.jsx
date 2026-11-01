@@ -10,8 +10,10 @@ import {
   Ban,
   Undo2,
   ClipboardList,
-  AlertCircle
+  AlertCircle,
+  PlusCircle
 } from "lucide-react";
+import { ORDER_PAYMENT_STATUS } from "@/constants/orderQueue";
 import { toast } from "sonner";
 import { getOrdersByStore, updateOrderStatus } from "@/services/order";
 import { getCurrentCashRegister } from "@/services/cash-register";
@@ -102,6 +104,7 @@ const OrderCard = ({
   onCollectPayment,
   onCancelOrder,
   onVoidOrder,
+  onAddItems,
   readOnly = false
 }) => {
   const { t } = useTranslation();
@@ -130,6 +133,10 @@ const OrderCard = ({
   // orders are not in this queue.
   const canVoid =
     !readOnly && typeof onVoidOrder === "function" && order.paymentStatus === "partial";
+  const canAddItems =
+    !readOnly &&
+    typeof onAddItems === "function" &&
+    (!order.paymentStatus || order.paymentStatus === ORDER_PAYMENT_STATUS.unpaid);
   const [confirmingCancel, setConfirmingCancel] = useState(false);
   const cancelTimer = useRef(null);
   useEffect(
@@ -218,6 +225,18 @@ const OrderCard = ({
           {t("page.cashier.orderQueue.collectPayment")}
         </button>
       )}
+      {canAddItems && (
+        <button
+          type="button"
+          onClick={(e) => {
+            e.stopPropagation();
+            onAddItems(order);
+          }}
+          className="w-full flex items-center justify-center gap-1.5 text-xs font-semibold py-1.5 rounded-lg text-primary hover:bg-primary/10 transition-colors">
+          <PlusCircle size={12} aria-hidden="true" />
+          {t("page.cashier.openBill.addItems")}
+        </button>
+      )}
       {canCancel && (
         <button
           type="button"
@@ -274,7 +293,7 @@ const OrderQueueSkeleton = () => (
   </div>
 );
 
-const OrderQueue = ({ store, onLoadOrder, onCollectPayment, canVoid = false }) => {
+const OrderQueue = ({ store, onLoadOrder, onCollectPayment, onAddItems, canVoid = false }) => {
   const { t } = useTranslation();
   const queryClient = useQueryClient();
   // Defensive fallback (`|| {}`): unlike KDS/WaiterRequestList, several
@@ -584,6 +603,7 @@ const OrderQueue = ({ store, onLoadOrder, onCollectPayment, canVoid = false }) =
                 onCollectPayment={onCollectPayment}
                 onCancelOrder={handleCancelOrder}
                 onVoidOrder={canVoid ? setVoidTarget : undefined}
+                onAddItems={onAddItems}
                 readOnly={isClosedRegisterPaid(order)}
               />
             ))}
@@ -650,6 +670,7 @@ OrderQueue.propTypes = {
   store: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   onLoadOrder: PropTypes.func.isRequired,
   onCollectPayment: PropTypes.func,
+  onAddItems: PropTypes.func,
   canVoid: PropTypes.bool
 };
 

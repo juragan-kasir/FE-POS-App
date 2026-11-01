@@ -295,7 +295,9 @@ const CartPanel = ({
   onUpdatePrice,
   isLoading,
   expanded = true,
-  canEditPrice = false
+  canEditPrice = false,
+  notice = null,
+  checkoutLabel
 }) => {
   const { t } = useTranslation();
   const [editingKey, setEditingKey] = useState(null);
@@ -351,6 +353,7 @@ const CartPanel = ({
 
   return (
     <div className={`flex-1 flex flex-col min-h-0 ${!expanded ? "overflow-hidden" : ""}`}>
+      {expanded && notice}
       {/* Collapsed state - show only icon */}
       {!expanded && (
         <div className="hidden lg:flex flex-col items-center justify-center h-full gap-3 py-4">
@@ -507,7 +510,7 @@ const CartPanel = ({
               <div className="absolute inset-0 bg-gradient-to-r from-primary via-primary to-primary/90 opacity-90 group-hover/btn:opacity-100 transition-opacity" />
               <span className="relative flex items-center justify-center gap-2">
                 <DollarSign size={16} />
-                {t("page.cashier.checkout")}
+                {checkoutLabel || t("page.cashier.checkout")}
                 <kbd className="rounded border border-primary-foreground/40 px-1 font-mono text-xs leading-4 opacity-80">
                   F4
                 </kbd>
@@ -577,6 +580,8 @@ CartPanel.propTypes = {
   onDecrement: PropTypes.func,
   onDelete: PropTypes.func,
   onCheckout: PropTypes.func,
+  notice: PropTypes.node,
+  checkoutLabel: PropTypes.string,
   onClearCart: PropTypes.func,
   onParkCart: PropTypes.func,
   isParkingCart: PropTypes.bool,

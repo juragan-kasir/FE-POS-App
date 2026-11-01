@@ -58,6 +58,7 @@ import { isRegisterRequiredError } from "@/state/registerRequired";
 import { FIELD_LIMITS } from "@/constants/fieldLimits";
 import { Input } from "@/components/ui/input";
 import { quickCashAmounts } from "../quickCash";
+import OpenBillButton from "./OpenBillButton";
 
 // The customer/discount dropdowns render in a fixed-position portal anchored
 // to their input's rect — always below it, with no bounds check. On a
@@ -91,7 +92,8 @@ const CheckoutModal = ({
   onClose,
   onTableChange,
   onComplete,
-  onApplyServerPrices
+  onApplyServerPrices,
+  onBillSaved
 }) => {
   const { t } = useTranslation();
   const queryClient = useQueryClient();
@@ -330,6 +332,13 @@ const CheckoutModal = ({
   );
 
   const isQrisPayment = paymentMethod === "e-wallet" || paymentMethod === "qris";
+  const hasOrderDiscount =
+    Boolean(selectedDiscount) || promoCode.trim() !== "" || Number(redeemPoints) > 0;
+  const canSaveOpenBill =
+    typeof onBillSaved === "function" &&
+    orderType === "dine-in" &&
+    Boolean(selectedTable) &&
+    !qrisPending;
 
   useEffect(() => {
     onTableChange?.(selectedTable);
@@ -2401,6 +2410,17 @@ const CheckoutModal = ({
               </span>
             </Button>
           )}
+          {canSaveOpenBill && (
+            <OpenBillButton
+              store={store}
+              items={items}
+              table={selectedTable}
+              cashierId={cashierId}
+              cashierName={cashierName}
+              hasDiscount={hasOrderDiscount}
+              onSaved={onBillSaved}
+            />
+          )}
         </div>
       </DialogContent>
       <MemberSearchModal
@@ -2424,7 +2444,8 @@ CheckoutModal.propTypes = {
   onClose: PropTypes.func,
   onTableChange: PropTypes.func,
   onComplete: PropTypes.func,
-  onApplyServerPrices: PropTypes.func
+  onApplyServerPrices: PropTypes.func,
+  onBillSaved: PropTypes.func
 };
 
 export default CheckoutModal;
