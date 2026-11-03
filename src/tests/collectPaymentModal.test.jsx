@@ -71,6 +71,15 @@ const renderModal = (props = {}) => {
   );
 };
 
+// PGA-06 / ADR-03: no method is preselected and cash needs a counted amount,
+// so a settlement test picks cash and presses "Uang Pas" before confirming.
+const chooseCash = () =>
+  fireEvent.change(screen.getByRole("combobox"), { target: { value: "cash" } });
+const chooseCashExact = () => {
+  chooseCash();
+  fireEvent.click(screen.getByText("page.cashier.exactCash"));
+};
+
 describe("CollectPaymentModal — F4-01 QR order settlement", () => {
   beforeEach(() => {
     getOrderById.mockReset().mockResolvedValue({ data: qrOrder });
@@ -88,6 +97,7 @@ describe("CollectPaymentModal — F4-01 QR order settlement", () => {
       expect(screen.getByText("page.cashier.collectPayment.payFull")).toBeInTheDocument()
     );
     fireEvent.click(screen.getByText("page.cashier.collectPayment.payFull"));
+    chooseCashExact();
     fireEvent.click(screen.getByText("page.cashier.collectPayment.confirm"));
 
     await waitFor(() =>
@@ -105,6 +115,7 @@ describe("CollectPaymentModal — F4-01 QR order settlement", () => {
 
     await waitFor(() => screen.getByText("page.cashier.collectPayment.payFull"));
     fireEvent.click(screen.getByText("page.cashier.collectPayment.payFull"));
+    chooseCashExact();
     fireEvent.click(screen.getByText("page.cashier.collectPayment.confirm"));
 
     await waitFor(() => expect(updateOrderStatus).toHaveBeenCalled());
@@ -124,6 +135,7 @@ describe("CollectPaymentModal — F4-01 QR order settlement", () => {
 
     await waitFor(() => screen.getByText("page.cashier.collectPayment.payFull"));
     fireEvent.click(screen.getByText("page.cashier.collectPayment.payFull"));
+    chooseCashExact();
     fireEvent.click(screen.getByText("page.cashier.collectPayment.confirm"));
 
     await waitFor(() =>
@@ -150,6 +162,7 @@ describe("CollectPaymentModal — F4-01 QR order settlement", () => {
 
     await waitFor(() => screen.getByText("page.cashier.collectPayment.payFull"));
     fireEvent.click(screen.getByText("page.cashier.collectPayment.payFull"));
+    chooseCashExact();
     fireEvent.click(screen.getByText("page.cashier.collectPayment.confirm"));
 
     await waitFor(() => expect(onOpenReceipt).toHaveBeenCalled());
@@ -181,6 +194,7 @@ describe("CollectPaymentModal — F4-01 QR order settlement", () => {
 
     await waitFor(() => screen.getByText("page.cashier.collectPayment.payFull"));
     fireEvent.click(screen.getByText("page.cashier.collectPayment.payFull"));
+    chooseCashExact();
     fireEvent.click(screen.getByText("page.cashier.collectPayment.confirm"));
 
     await waitFor(() => expect(updateOrderStatus).toHaveBeenCalled());
@@ -203,6 +217,7 @@ describe("CollectPaymentModal — F4-01 QR order settlement", () => {
 
     await waitFor(() => screen.getByText("page.cashier.collectPayment.payFull"));
     fireEvent.click(screen.getByText("page.cashier.collectPayment.payFull"));
+    chooseCashExact();
     fireEvent.click(screen.getByText("page.cashier.collectPayment.confirm"));
 
     await waitFor(() => expect(updateOrderStatus).toHaveBeenCalledTimes(1));
@@ -225,6 +240,7 @@ describe("CollectPaymentModal — F4-01 QR order settlement", () => {
 
     await waitFor(() => screen.getByText("page.cashier.collectPayment.payFull"));
     fireEvent.click(screen.getByText("page.cashier.collectPayment.payFull"));
+    chooseCashExact();
     const confirmBtn = screen.getByText("page.cashier.collectPayment.confirm");
     fireEvent.click(confirmBtn);
     fireEvent.click(confirmBtn);
@@ -299,18 +315,36 @@ describe("CollectPaymentModal — DR-04 settlement tender", () => {
     await waitFor(() => screen.getByText("page.cashier.collectPayment.confirm"));
   };
 
-  test("DR04-01: default cash exact-tender sends the method with no cash fields", async () => {
+  test("PGA-06: nothing is preselected; confirm waits for a method, then for the cash amount", async () => {
     updateOrderStatus.mockResolvedValue({
       data: { ...qrOrder, status: "paid", paymentStatus: "paid" }
     });
     await openConfirm();
+    const confirm = screen.getByText("page.cashier.collectPayment.confirm");
+    expect(screen.getByRole("combobox")).toHaveValue("");
+    expect(confirm).toBeDisabled();
+
+    chooseCash();
+    // Cash with a blank amount is no longer "exact tender".
+    expect(screen.getByText("page.cashier.collectPayment.confirm")).toBeDisabled();
+    fireEvent.click(screen.getByText("page.cashier.collectPayment.confirm"));
+    expect(updateOrderStatus).not.toHaveBeenCalled();
+  });
+
+  test("PGA-06: Uang Pas fills the amount due and sends it as the counted cash", async () => {
+    updateOrderStatus.mockResolvedValue({
+      data: { ...qrOrder, status: "paid", paymentStatus: "paid" }
+    });
+    await openConfirm();
+    chooseCashExact();
     fireEvent.click(screen.getByText("page.cashier.collectPayment.confirm"));
 
     await waitFor(() => expect(updateOrderStatus).toHaveBeenCalled());
-    const payload = updateOrderStatus.mock.calls[0][0];
-    expect(payload.paymentMethod).toBe("cash");
-    expect(payload).not.toHaveProperty("cashAmount");
-    expect(payload).not.toHaveProperty("changeAmount");
+    expect(updateOrderStatus.mock.calls[0][0]).toMatchObject({
+      paymentMethod: "cash",
+      cashAmount: 150000,
+      changeAmount: 0
+    });
   });
 
   test("DR04-02: typed cash sends actual tender values and the receipt reflects them", async () => {
@@ -321,6 +355,7 @@ describe("CollectPaymentModal — DR-04 settlement tender", () => {
     renderModal({ onOpenReceipt });
     await waitFor(() => screen.getByText("page.cashier.collectPayment.payFull"));
     fireEvent.click(screen.getByText("page.cashier.collectPayment.payFull"));
+    chooseCash();
 
     fireEvent.change(screen.getByPlaceholderText("150000"), {
       target: { value: "200000" }
@@ -369,7 +404,7 @@ describe("CollectPaymentModal — DR-04 settlement tender", () => {
     expect(receipt.cashAmount).toBeNull();
   });
 
-  test("DR04-04: a QR order's stated intent is preselected as the method", async () => {
+  test("PGA-06: a QR order's stated intent is shown as a hint, never preselected", async () => {
     getOrderById.mockReset().mockResolvedValue({
       data: { ...qrOrder, paymentMethod: "qris" }
     });
@@ -377,6 +412,11 @@ describe("CollectPaymentModal — DR-04 settlement tender", () => {
       data: { ...qrOrder, status: "paid", paymentStatus: "paid" }
     });
     await openConfirm();
+    expect(screen.getByText("page.cashier.collectPayment.dinerIntent")).toBeInTheDocument();
+    expect(screen.getByRole("combobox")).toHaveValue("");
+    expect(screen.getByText("page.cashier.collectPayment.confirm")).toBeDisabled();
+
+    fireEvent.change(screen.getByRole("combobox"), { target: { value: "qris" } });
     fireEvent.change(screen.getByLabelText("page.cashier.collectPayment.reference.label"), {
       target: { value: "QR-1" }
     });
@@ -395,6 +435,7 @@ describe("CollectPaymentModal — DR-04 settlement tender", () => {
     renderModal({ onOpenReceipt, onClose });
     await waitFor(() => screen.getByText("page.cashier.collectPayment.payFull"));
     fireEvent.click(screen.getByText("page.cashier.collectPayment.payFull"));
+    chooseCashExact();
     fireEvent.click(screen.getByText("page.cashier.collectPayment.confirm"));
 
     await waitFor(() => expect(updateOrderStatus).toHaveBeenCalledTimes(1));
@@ -407,6 +448,7 @@ describe("CollectPaymentModal — DR-04 settlement tender", () => {
       data: { ...qrOrder, status: "paid", paymentStatus: "paid" }
     });
     await openConfirm();
+    chooseCash();
 
     fireEvent.change(screen.getByPlaceholderText("150000"), {
       target: { value: "100000" }

@@ -68,10 +68,11 @@ const CollectPaymentModal = ({ order, store, onClose, onOpenReceipt }) => {
   const user = cookie?.user;
   const queryClient = useQueryClient();
   const [mode, setMode] = useState("choose"); // choose | confirmFull
-  // DR-04 tender state: null method means "not chosen yet" — the effective
-  // method falls back to the order's own stated intent (e.g. a QR order's
-  // paymentMethod), else cash. Cash input empty means exact tender (the
-  // server fills cashReceived = due, changeGiven = 0, same as order/create).
+  // DR-04 tender state: null method means "not chosen yet".
+  // PGA-06 / ADR-03: the cashier always picks the method. A QR order's
+  // paymentMethod is only the diner's stated intent and is shown as a hint,
+  // never preselected; and cash needs a typed amount (or "Uang Pas"), so a
+  // blank confirm can no longer book exact cash nobody counted.
   const [methodChoice, setMethodChoice] = useState(null);
   const [cashReceivedInput, setCashReceivedInput] = useState("");
   // Non-cash reference as typed. Kept across a failed settlement and a
@@ -126,12 +127,10 @@ const CollectPaymentModal = ({ order, store, onClose, onOpenReceipt }) => {
   // a member id). Guest orders cannot pick points at all.
   const orderMemberId = freshOrder?.customerId || null;
   const isMethodAvailable = (m) => m !== "points" || !!orderMemberId;
-  const effectiveMethod =
-    methodChoice ??
-    (SETTLEMENT_METHODS.includes(freshOrder?.paymentMethod) &&
-    isMethodAvailable(freshOrder.paymentMethod)
-      ? freshOrder.paymentMethod
-      : "cash");
+  const effectiveMethod = methodChoice;
+  const dinerIntent = SETTLEMENT_METHODS.includes(freshOrder?.paymentMethod)
+    ? freshOrder.paymentMethod
+    : null;
   const isPoints = effectiveMethod === "points";
   const cashReceivedOrNull = cashReceivedInput === "" ? null : Number(cashReceivedInput);
   const cashChange = cashReceivedOrNull === null ? 0 : Math.max(0, cashReceivedOrNull - amountDue);
@@ -141,6 +140,8 @@ const CollectPaymentModal = ({ order, store, onClose, onOpenReceipt }) => {
     effectiveMethod !== "cash" ||
     cashReceivedOrNull === null ||
     (Number.isInteger(cashReceivedOrNull) && cashReceivedOrNull >= amountDue);
+  const methodChosen = !!effectiveMethod;
+  const cashEntered = effectiveMethod !== "cash" || cashReceivedOrNull !== null;
 
   // Member record backs both the points panel and the DR-16 attach
   // section below (existing attached member's name). Fetched whenever the
@@ -174,9 +175,11 @@ const CollectPaymentModal = ({ order, store, onClose, onOpenReceipt }) => {
   const referenceTrimmed = referenceInput.trim();
   // UX only — the server re-checks (422 REFERENCE_REQUIRED).
   const referenceReady = !needsReference || referenceTrimmed !== "";
-  const canConfirm = cashCovers && pointsReady && referenceReady;
+  const canConfirm = methodChosen && cashEntered && cashCovers && pointsReady && referenceReady;
   let confirmBlockedReason;
-  if (!cashCovers) confirmBlockedReason = t("page.cashier.collectPayment.cashInsufficient");
+  if (!methodChosen) confirmBlockedReason = t("page.cashier.selectPayment");
+  else if (!cashEntered) confirmBlockedReason = t("page.cashier.collectPayment.cashAmountRequired");
+  else if (!cashCovers) confirmBlockedReason = t("page.cashier.collectPayment.cashInsufficient");
   else if (!pointsReady)
     confirmBlockedReason = !member
       ? t("page.cashier.collectPayment.points.unavailableGuest")
@@ -350,10 +353,10 @@ const CollectPaymentModal = ({ order, store, onClose, onOpenReceipt }) => {
     if (isSubmittingRef.current || settleMutation.isLoading) return;
     if (!canConfirm) return;
     isSubmittingRef.current = true;
-    // DR-04 tender: method always; cash detail only when the cashier typed
-    // an amount (empty = exact tender, server fills received = due).
+    // DR-04 tender: method always; cash always carries the counted amount
+    // (canConfirm requires it — PGA-06).
     const tender =
-      effectiveMethod === "cash" && cashReceivedOrNull !== null
+      effectiveMethod === "cash"
         ? {
             paymentMethod: "cash",
             cashAmount: cashReceivedOrNull,
@@ -533,7 +536,7 @@ const CollectPaymentModal = ({ order, store, onClose, onOpenReceipt }) => {
                     </label>
                     <select
                       id="collect-payment-method"
-                      value={effectiveMethod}
+                      value={effectiveMethod ?? ""}
                       onChange={(e) => {
                         setMethodChoice(e.target.value);
                         setPointsConfirmed(false);
@@ -542,12 +545,25 @@ const CollectPaymentModal = ({ order, store, onClose, onOpenReceipt }) => {
                         !orderMemberId ? "collect-payment-points-unavailable" : undefined
                       }
                       className="w-full rounded-lg border border-border bg-background px-3 py-2 text-sm">
+                      <option value="" disabled>
+                        {t("page.cashier.selectPayment")}
+                      </option>
                       {SETTLEMENT_METHODS.map((m) => (
                         <option key={m} value={m} disabled={!isMethodAvailable(m)}>
                           {t(`page.cashier.collectPayment.method.${m}`, m)}
                         </option>
                       ))}
                     </select>
+                    {dinerIntent && (
+                      <p className="text-xs text-muted-foreground">
+                        {t("page.cashier.collectPayment.dinerIntent", {
+                          method: t(
+                            `page.cashier.collectPayment.method.${dinerIntent}`,
+                            dinerIntent
+                          )
+                        })}
+                      </p>
+                    )}
                     {!orderMemberId && (
                       <p
                         id="collect-payment-points-unavailable"
@@ -715,16 +731,26 @@ const CollectPaymentModal = ({ order, store, onClose, onOpenReceipt }) => {
                       <label htmlFor="collect-payment-cash" className="text-sm font-medium">
                         {t("page.cashier.cashAmount")}
                       </label>
-                      <input
-                        id="collect-payment-cash"
-                        inputMode="numeric"
-                        placeholder={String(amountDue)}
-                        value={cashReceivedInput}
-                        onChange={(e) =>
-                          setCashReceivedInput(e.target.value.replace(/[^0-9]/g, ""))
-                        }
-                        className="w-full rounded-lg border border-border bg-background px-3 py-2 text-sm"
-                      />
+                      <div className="flex items-center gap-2">
+                        <input
+                          id="collect-payment-cash"
+                          inputMode="numeric"
+                          placeholder={String(amountDue)}
+                          value={cashReceivedInput}
+                          onChange={(e) =>
+                            setCashReceivedInput(e.target.value.replace(/[^0-9]/g, ""))
+                          }
+                          className="w-full rounded-lg border border-border bg-background px-3 py-2 text-sm"
+                        />
+                        <Button
+                          type="button"
+                          variant="outline"
+                          size="sm"
+                          className="shrink-0"
+                          onClick={() => setCashReceivedInput(String(amountDue))}>
+                          {t("page.cashier.exactCash")}
+                        </Button>
+                      </div>
                       <p className="text-sm text-muted-foreground">
                         {t("page.cashier.change")}: Rp {formatPrice(cashChange)}
                       </p>

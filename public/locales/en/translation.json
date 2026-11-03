@@ -2860,6 +2860,8 @@
   "page.cashier.collectPayment.splitBill": "Split Bill",
   "page.cashier.collectPayment.confirm": "Confirm Payment",
   "page.cashier.collectPayment.cashInsufficient": "Cash received must cover the amount due.",
+  "page.cashier.collectPayment.dinerIntent": "Customer chose: {{method}} (not paid yet, pick the method actually received)",
+  "page.cashier.collectPayment.cashAmountRequired": "Type the cash received or press Exact cash",
   "page.cashier.collectPayment.method.cash": "Cash",
   "page.cashier.collectPayment.method.qris": "QRIS",
   "page.cashier.collectPayment.method.debit": "Debit",

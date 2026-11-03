@@ -2857,6 +2857,8 @@
   "page.cashier.collectPayment.splitBill": "Split Bill",
   "page.cashier.collectPayment.confirm": "Konfirmasi Pembayaran",
   "page.cashier.collectPayment.cashInsufficient": "Tunai yang diterima harus menutupi total tagihan.",
+  "page.cashier.collectPayment.dinerIntent": "Pilihan pelanggan: {{method}} (belum dibayar, pilih metode sesuai pembayaran yang diterima)",
+  "page.cashier.collectPayment.cashAmountRequired": "Ketik uang yang diterima atau tekan Uang Pas",
   "page.cashier.collectPayment.method.cash": "Tunai",
   "page.cashier.collectPayment.method.qris": "QRIS",
   "page.cashier.collectPayment.method.debit": "Debit",
