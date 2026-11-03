@@ -4,7 +4,15 @@
  */
 
 export const normalizePayload = (data, options = {}) => {
-  const { isFormData = true, jsonFields = [], storeField = "store" } = options;
+  // clearableFields: keys sent as "" when empty instead of being dropped, so
+  // an edit can clear them. The BE leaves a field it does not receive
+  // unchanged (PGA-08), so dropping an emptied field would keep its old value.
+  const {
+    isFormData = true,
+    jsonFields = [],
+    storeField = "store",
+    clearableFields = []
+  } = options;
 
   if (isFormData) {
     const formData = new FormData();
@@ -35,6 +43,8 @@ export const normalizePayload = (data, options = {}) => {
       // Handle standard fields
       if (value !== undefined && value !== null && value !== "") {
         formData.append(key, value);
+      } else if (clearableFields.includes(key)) {
+        formData.append(key, "");
       }
     });
     return formData;
@@ -44,7 +54,8 @@ export const normalizePayload = (data, options = {}) => {
   const normalized = { ...data };
   Object.keys(normalized).forEach((key) => {
     if (normalized[key] === undefined || normalized[key] === null || normalized[key] === "") {
-      delete normalized[key];
+      if (clearableFields.includes(key)) normalized[key] = "";
+      else delete normalized[key];
     }
   });
   return normalized;

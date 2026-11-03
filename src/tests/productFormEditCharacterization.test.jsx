@@ -210,6 +210,17 @@ describe("EditProduct — characterization", () => {
     expect(payload.stores).toBeUndefined();
   });
 
+  // PGA-08: the BE keeps any field an edit does not send, so a field the
+  // owner emptied must go out as "" rather than be dropped from the form data.
+  test("emptied barcode, brand, description and tax are sent as empty strings", async () => {
+    getProductById.mockResolvedValue({
+      data: { ...seededProduct, barcode: null, brand: null, description: "", tax: null }
+    });
+    renderPage();
+    const payload = await renameAndSave();
+    expect(payload).toMatchObject({ barcode: "", brand: "", description: "", tax: "" });
+  });
+
   test("variants, add-ons and price tiers survive an edit unchanged", async () => {
     const options = [{ name: "Ukuran", options: [{ name: "L", price: 2000 }] }];
     const modifiers = [{ name: "Es", price: 1000 }];

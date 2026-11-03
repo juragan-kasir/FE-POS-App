@@ -652,7 +652,8 @@ const EditProduct = () => {
 
     const payload = normalizePayload(data, {
       isFormData: true,
-      jsonFields: ["stores", "options", "modifiers", "priceTiers", "inventoryLinks"]
+      jsonFields: ["stores", "options", "modifiers", "priceTiers", "inventoryLinks"],
+      clearableFields: ["barcode", "brand", "description", "tax"]
     });
 
     editMutation.mutate(payload);
