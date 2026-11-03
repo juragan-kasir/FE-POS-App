@@ -3074,6 +3074,8 @@
   "page.cashier.orderQueue.scrollLeft": "Gulir ke kiri",
   "page.cashier.orderQueue.scrollRight": "Gulir ke kanan",
   "page.cashier.collectPayment.title": "Terima Pembayaran",
+  "page.cashier.collectPayment.dinerIntent": "Pilihan pelanggan: {{method}} (belum dibayar, pilih metode sesuai pembayaran yang diterima)",
+  "page.cashier.collectPayment.cashAmountRequired": "Ketik uang yang diterima atau tekan Uang Pas",
   "page.cashier.collectPayment.orderNumber": "Nomor Pesanan",
   "page.cashier.collectPayment.amountDue": "Total Tagihan",
   "page.cashier.collectPayment.alreadyPaid": "Pesanan ini sudah lunas.",

@@ -3077,6 +3077,8 @@
   "page.cashier.orderQueue.scrollLeft": "Scroll left",
   "page.cashier.orderQueue.scrollRight": "Scroll right",
   "page.cashier.collectPayment.title": "Collect Payment",
+  "page.cashier.collectPayment.dinerIntent": "Customer chose: {{method}} (not paid yet, pick the method actually received)",
+  "page.cashier.collectPayment.cashAmountRequired": "Type the cash received or press Exact cash",
   "page.cashier.collectPayment.orderNumber": "Order Number",
   "page.cashier.collectPayment.amountDue": "Amount Due",
   "page.cashier.collectPayment.alreadyPaid": "This order has already been settled.",

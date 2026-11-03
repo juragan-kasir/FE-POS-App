@@ -100,6 +100,9 @@ const openConfirm = async (props) => {
   await waitFor(() => screen.getByText(`${P}.payFull`));
   fireEvent.click(screen.getByText(`${P}.payFull`));
   await waitFor(() => screen.getByText(`${P}.confirm`));
+  // PGA-06: nothing is preselected and cash needs a counted amount.
+  fireEvent.change(screen.getByRole("combobox"), { target: { value: "cash" } });
+  fireEvent.click(screen.getByText("page.cashier.exactCash"));
 };
 
 const attachMember77 = async () => {

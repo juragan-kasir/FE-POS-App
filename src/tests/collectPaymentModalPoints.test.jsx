@@ -145,14 +145,16 @@ describe("CollectPaymentModal — DR-04 P2-1 points settlement", () => {
     expect(getMemberById).not.toHaveBeenCalled();
   });
 
-  test("P21-04: a guest order whose stated intent is points falls back to cash, not an unsupported points settlement", async () => {
+  test("P21-04 / PGA-06: a guest order whose stated intent is points preselects nothing and settles with the method staff pick", async () => {
     const guestPointsIntent = { ...guestOrder, paymentMethod: "points" };
     getOrderById.mockReset().mockResolvedValue({ data: guestPointsIntent });
     updateOrderStatus.mockResolvedValue({ data: { ...guestPointsIntent, paymentStatus: "paid" } });
     await openConfirm({ order: guestPointsIntent });
 
-    expect(screen.getByRole("combobox")).toHaveValue("cash");
+    expect(screen.getByRole("combobox")).toHaveValue("");
     expect(screen.queryByTestId("collect-payment-points-panel")).not.toBeInTheDocument();
+    fireEvent.change(screen.getByRole("combobox"), { target: { value: "cash" } });
+    fireEvent.click(screen.getByText("page.cashier.exactCash"));
     fireEvent.click(screen.getByText(`${P}.confirm`));
     await waitFor(() => expect(updateOrderStatus).toHaveBeenCalled());
     expect(updateOrderStatus.mock.calls[0][0].paymentMethod).toBe("cash");
@@ -207,6 +209,7 @@ describe("CollectPaymentModal — DR-04 P2-1 points settlement", () => {
     expect(screen.getByText(`${P}.confirm`)).not.toBeDisabled();
 
     fireEvent.change(screen.getByRole("combobox"), { target: { value: "cash" } });
+    fireEvent.click(screen.getByText("page.cashier.exactCash"));
     expect(screen.queryByTestId("collect-payment-points-panel")).not.toBeInTheDocument();
     expect(screen.getByText(`${P}.confirm`)).not.toBeDisabled();
 

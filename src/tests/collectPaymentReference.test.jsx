@@ -84,6 +84,8 @@ describe("cash", () => {
   test("shows no reference input and settles without a referenceNumber", async () => {
     updateOrderStatus.mockResolvedValue(paidResponse);
     await renderModal();
+    chooseMethod("cash");
+    fireEvent.click(screen.getByText("page.cashier.exactCash"));
     expect(referenceInput()).not.toBeInTheDocument();
     expect(confirmButton()).not.toBeDisabled();
 
@@ -100,6 +102,7 @@ describe("cash", () => {
     chooseMethod("qris");
     typeReference("QR-1");
     chooseMethod("cash");
+    fireEvent.click(screen.getByText("page.cashier.exactCash"));
     expect(referenceInput()).not.toBeInTheDocument();
     fireEvent.click(confirmButton());
     await waitFor(() => expect(updateOrderStatus).toHaveBeenCalledTimes(1));
@@ -132,9 +135,12 @@ describe("non-cash methods that require a reference", () => {
     }
   );
 
-  test("an order whose stated intent is QRIS asks for the reference up front", async () => {
+  test("PGA-06: a QRIS intent is not preselected; the reference is asked once staff pick QRIS", async () => {
     updateOrderStatus.mockResolvedValue(paidResponse);
     await renderModal({ freshOrder: { ...order, paymentMethod: "qris" } });
+    expect(referenceInput()).not.toBeInTheDocument();
+    expect(confirmButton()).toBeDisabled();
+    chooseMethod("qris");
     expect(referenceInput()).toBeInTheDocument();
     expect(confirmButton()).toBeDisabled();
   });
