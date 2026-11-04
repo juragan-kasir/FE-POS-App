@@ -47,6 +47,7 @@ export const generateESCPOS = (data, opts = {}) => {
   m.items.forEach((item) => {
     enc += item.name + "\n";
     if (item.variant) enc += "  - " + item.variant + "\n";
+    item.addons.forEach((name) => (enc += "  + " + name + "\n"));
     enc += row([`${item.qty} x ${formatPrice(item.price)}`, formatPrice(item.total)]);
   });
   enc += line("-", W) + "\n";
