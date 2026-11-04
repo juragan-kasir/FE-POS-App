@@ -36,7 +36,7 @@ import { Loading } from "@/components/ui/loading";
 import PolicyDialog from "@/components/organism/policy-dialog";
 
 import { register } from "@/services/auth";
-import { useLocations } from "@/queries/useLocations";
+import { usePublicLocations } from "@/queries/useLocations";
 import { translationSelect } from "@/state/translation";
 import { useThemeStore } from "@/state/theme";
 import { useThemeEffect } from "@/hooks/useThemeEffect";
@@ -65,7 +65,7 @@ const RegisterPage = () => {
     }
   }, []);
 
-  const { data: locationsData, isLoading, isError } = useLocations();
+  const { data: locationsData, isLoading, isError } = usePublicLocations();
 
   const locations = useMemo(() => {
     if (!locationsData) return [];

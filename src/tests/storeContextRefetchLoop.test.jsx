@@ -4,7 +4,7 @@ import "@testing-library/jest-dom";
 import { CookiesProvider } from "react-cookie";
 import { QueryClient, QueryClientProvider, useQuery } from "react-query";
 import { StoreProvider, useStore } from "../contexts/StoreContext";
-import { getAllLocation } from "../services/location";
+import { getAllLocation, getPublicLocations } from "../services/location";
 import { axiosInstance } from "../services";
 
 // StoreContext.jsx relies on Vite's automatic JSX runtime (no React import);
@@ -12,7 +12,7 @@ import { axiosInstance } from "../services";
 globalThis.React = React;
 
 // Observed 2026-10-19 on /dashboard-admin: an `admin` account with no store
-// looped GET /auth/context + GET /location/get-location-public forever.
+// looped GET /auth/context + GET /location/get-location-mine forever.
 // DashboardLayout auto-picks the first location; for a non-super_admin
 // setActiveStore forces user.store ("" here), so the store never changed,
 // yet each call rewrote the `user` cookie (new object -> new setActiveStore
@@ -132,11 +132,18 @@ describe("getAllLocation status param", () => {
 
   test("used directly as a queryFn it sends no [object Object] status", async () => {
     await getAllLocation({ queryKey: ["allLocations"], signal: undefined });
-    expect(axiosInstance.get).toHaveBeenLastCalledWith("/location/get-location-public");
+    expect(axiosInstance.get).toHaveBeenLastCalledWith("/location/get-location-mine");
   });
 
   test("an explicit status string is still sent", async () => {
     await getAllLocation("all");
-    expect(axiosInstance.get).toHaveBeenLastCalledWith("/location/get-location-public?status=all");
+    expect(axiosInstance.get).toHaveBeenLastCalledWith("/location/get-location-mine?status=all");
+  });
+
+  // PGA-09: signed-in pickers must never read the platform-wide public list;
+  // only the sign-up form (no session yet) does.
+  test("only the sign-up list reads the public endpoint", async () => {
+    await getPublicLocations();
+    expect(axiosInstance.get).toHaveBeenLastCalledWith("/location/get-location-public");
   });
 });

@@ -1,16 +1,22 @@
 import { axiosInstance } from ".";
 import { normalizeStoreId } from "@/utils/storeId";
 
-export const getAllLocation = async (status) => {
+const fetchLocationList = async (path, status) => {
   // ponytail: dipakai langsung sebagai queryFn (useQuery(key, getAllLocation))
   // → react-query mengoper context object; jangan kirim "[object Object]"
   const params = typeof status === "string" && status ? `?status=${status}` : "";
-  const { data, status: resStatus } = await axiosInstance.get(
-    `/location/get-location-public${params}`
-  );
+  const { data, status: resStatus } = await axiosInstance.get(`${path}${params}`);
   if (resStatus !== 200) throw Error(`${data?.message || data?.error || "Gagal memuat data"}`);
   return data;
 };
+
+// Store pickers for a signed-in user: only the outlets this account may work
+// in (PGA-09). get-location-public lists every merchant's outlets.
+export const getAllLocation = (status) => fetchLocationList("/location/get-location-mine", status);
+
+// Sign-up form only: no session yet, so it needs the public list.
+export const getPublicLocations = (status) =>
+  fetchLocationList("/location/get-location-public", status);
 
 export const getAllLocationTable = async ({
   page = 1,

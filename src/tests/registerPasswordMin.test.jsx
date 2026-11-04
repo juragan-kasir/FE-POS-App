@@ -16,7 +16,8 @@ jest.mock("react-i18next", () => ({ useTranslation: () => ({ t: (k) => k }) }));
 jest.mock("sonner", () => ({ toast: { success: jest.fn(), error: jest.fn() } }));
 jest.mock("@/services/auth", () => ({ register: jest.fn(() => Promise.resolve({})) }));
 jest.mock("@/services/location", () => ({
-  getAllLocation: jest.fn(() => Promise.resolve({ data: [{ id: 1, name: "Toko" }] }))
+  getAllLocation: jest.fn(() => Promise.resolve({ data: [{ id: 1, name: "Toko" }] })),
+  getPublicLocations: jest.fn(() => Promise.resolve({ data: [{ id: 1, name: "Toko" }] }))
 }));
 jest.mock("@/state/translation", () => ({
   translationSelect: () => ({ translation: "id", updateTranslation: jest.fn() })
