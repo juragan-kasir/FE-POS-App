@@ -54,7 +54,7 @@ import { receiptLabels } from "@/components/receipt/receiptLabels";
 import { buildAddressLines } from "@/utils/receiptDocument";
 import { isRegisterRequiredError } from "@/state/registerRequired";
 import {
-  paymentMethodLabel,
+  receiptPaymentLabel,
   toPaymentOption,
   findPaymentOption,
   paymentTypeIdPayload
@@ -474,7 +474,7 @@ const ReceiptModal = ({ data, onClose, onNewTransaction }) => {
       date: transactionDate,
       table: tableName,
       paymentMethod,
-      paymentMethodLabel: data?.paymentMethodName || paymentMethodLabel(paymentMethod),
+      paymentMethodLabel: receiptPaymentLabel(paymentMethod, data?.paymentMethodName),
       items: items.map((i) => ({
         name: i.nameProduct || i.name || "-",
         qty: i.count || i.qty || 0,

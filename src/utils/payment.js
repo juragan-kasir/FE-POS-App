@@ -100,6 +100,15 @@ export const paymentMethodLabel = (method) => {
   return text.charAt(0).toUpperCase() + text.slice(1);
 };
 
+// PGA-34: the receipt names the tender. Cash has no provider, so its label
+// is always the canonical one; a store's own type name ("Cash", "Uang
+// Tunai") made two cash receipts disagree. Non-cash keeps the store name
+// (e.g. "GoPay" vs "QRIS" under E-wallet).
+export const receiptPaymentLabel = (method, storeName) => {
+  if (canonicalPaymentCode(method) === "CASH") return paymentMethodLabel(method);
+  return storeName || paymentMethodLabel(method);
+};
+
 // DR-23 §D / §M: the configured payment types whose payment must carry a
 // reference — every method but cash and points (BE requiresTenderReference:
 // CARD = debit/credit, BANK_TRANSFER, E_WALLET, QRIS, OTHER, where OTHER's
