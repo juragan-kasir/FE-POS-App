@@ -5,7 +5,7 @@ import { useLocations } from "../queries/useLocations";
 import { qk } from "../queries/keys";
 import { getAllLocation } from "@/services/location";
 
-// The store list (GET /location/get-location-public) was fetched by ~104
+// The store list (GET /location/get-location-mine) was fetched by ~104
 // useQuery calls under ~60 different keys ("allLocations",
 // "locations-role", "cashier-locations" …), so the same data was requested
 // and cached many times. useLocations is now the single entry point.
