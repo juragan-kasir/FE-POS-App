@@ -160,6 +160,11 @@ export const buildReceiptModel = (data = {}) => {
     return {
       name: item.name || item.nameProduct || item.productName || "-",
       variant: item.variant || item.options?.[0]?.name || item.variantName || "",
+      // PGA-20: priced add-ons are part of the line price, so the receipt
+      // must name them or the line cannot be checked against the menu.
+      addons: (Array.isArray(item.modifiers) ? item.modifiers : [])
+        .map((mod) => (typeof mod === "string" ? mod : mod?.name))
+        .filter(Boolean),
       qty,
       price,
       total: Number(item.total ?? item.totalPrice ?? qty * price)
@@ -316,6 +321,9 @@ export const renderReceiptElement = (data, doc = document) => {
     const block = el("div", `padding:${gap.row}px 0;`);
     block.append(el("div", "font-weight:600;", item.name));
     if (item.variant) block.append(el("div", `font-size:${size.small}px;`, `– ${item.variant}`));
+    item.addons.forEach((name) =>
+      block.append(el("div", `font-size:${size.small}px;`, `+ ${name}`))
+    );
     block.append(row(`${item.qty} x ${formatRupiah(item.price)}`, formatRupiah(item.total)));
     items.append(block);
   });

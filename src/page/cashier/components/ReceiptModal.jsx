@@ -480,7 +480,8 @@ const ReceiptModal = ({ data, onClose, onNewTransaction }) => {
         qty: i.count || i.qty || 0,
         price: i.price || 0,
         total: i.totalPrice || i.price * (i.count || 1) || 0,
-        options: i.options || (i.variantName ? [{ name: i.variantName }] : [])
+        options: i.options || (i.variantName ? [{ name: i.variantName }] : []),
+        modifiers: i.modifiers || i.selectedModifiers || []
       })),
       subtotal,
       discount,

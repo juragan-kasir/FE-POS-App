@@ -181,3 +181,38 @@ describe("print paths use the same receipt", () => {
       .forEach((l) => expect(l.length).toBeLessThanOrEqual(32));
   });
 });
+
+// PGA-20 (product-grade audit 2026-11-02): a priced add-on (Extra Shot
+// +4.000) was charged on the line but never printed.
+describe("priced add-ons are printed", () => {
+  const withAddons = {
+    ...base,
+    items: [
+      {
+        name: "Americano",
+        qty: 1,
+        price: 28000,
+        options: [{ name: "Ukuran - Large" }],
+        modifiers: [{ name: "Extra Shot" }, "Oat Milk"]
+      }
+    ]
+  };
+
+  test("the receipt names every add-on under its line", () => {
+    const text = renderReceiptElement(withAddons).textContent;
+    expect(text).toContain("– Ukuran - Large");
+    expect(text).toContain("+ Extra Shot");
+    expect(text).toContain("+ Oat Milk");
+  });
+
+  test("the ESC/POS receipt prints the same add-ons", () => {
+    const out = generateESCPOS(withAddons);
+    expect(out).toContain("  + Extra Shot\n");
+    expect(out).toContain("  + Oat Milk\n");
+  });
+
+  test("a line without add-ons prints none", () => {
+    expect(buildReceiptModel(base).items[1].addons).toEqual([]);
+    expect(renderReceiptElement(base).textContent).not.toContain("+ ");
+  });
+});

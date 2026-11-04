@@ -93,3 +93,27 @@ describe("ReceiptModal table display (C11)", () => {
     expect(within(screen.getByTestId("receipt-paper")).getByText("ORD-603")).toBeInTheDocument();
   });
 });
+
+// PGA-20: the order's priced add-ons reach the printed receipt.
+describe("ReceiptModal add-ons (PGA-20)", () => {
+  test("prints each add-on of a line returned by the server", async () => {
+    renderModal({
+      id: 604,
+      orderNumber: "ORD-604",
+      total: 28000,
+      items: [
+        {
+          nameProduct: "Americano",
+          count: 1,
+          price: 28000,
+          totalPrice: 28000,
+          options: [{ name: "Ukuran - Large" }],
+          modifiers: [{ name: "Extra Shot" }]
+        }
+      ]
+    });
+    const paper = await screen.findByTestId("receipt-paper");
+    expect(paper).toHaveTextContent("Ukuran - Large");
+    expect(paper).toHaveTextContent("+ Extra Shot");
+  });
+});
