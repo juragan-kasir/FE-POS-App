@@ -1171,7 +1171,7 @@ export const superAdminSteps = [
   // ── Auth Pages ──
   {
     id: "auth-login",
-    page: "/",
+    page: "/login",
     icon: LogIn,
     titleKey: "sidebar.login",
     descKey: "guide.auth.login.s1desc",

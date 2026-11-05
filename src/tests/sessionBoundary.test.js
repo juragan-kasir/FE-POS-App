@@ -91,7 +91,7 @@ describe("endSession — explicit logout", () => {
     });
     expect(session.LOGOUT_TIMEOUT_MS).toBe(5000);
     expect(navigate).toHaveBeenCalledTimes(1);
-    expect(navigate).toHaveBeenCalledWith("/");
+    expect(navigate).toHaveBeenCalledWith("/login");
     expect(sessionStorage.getItem(session.SESSION_NOTICE_KEY)).toBe("logout");
   });
 
@@ -131,7 +131,7 @@ describe("endSession — expired session", () => {
 
     expect(mockLogOut).not.toHaveBeenCalled();
     expect(navigate).toHaveBeenCalledTimes(1);
-    expect(navigate).toHaveBeenCalledWith("/");
+    expect(navigate).toHaveBeenCalledWith("/login");
     expect(sessionStorage.getItem(session.SESSION_NOTICE_KEY)).toBe("expired");
   });
 
@@ -288,7 +288,7 @@ describe("endSession — fail-safe teardown", () => {
     }
 
     expect(navigate).toHaveBeenCalledTimes(1);
-    expect(navigate).toHaveBeenCalledWith("/");
+    expect(navigate).toHaveBeenCalledWith("/login");
   });
 
   test("a throwing navigation does not escape endSession", async () => {

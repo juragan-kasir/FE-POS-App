@@ -59,7 +59,7 @@ describe("401 → session boundary", () => {
     });
 
     expect(navigate).toHaveBeenCalledTimes(1);
-    expect(navigate).toHaveBeenCalledWith("/");
+    expect(navigate).toHaveBeenCalledWith("/login");
     expect(sessionStorage.getItem(session.SESSION_NOTICE_KEY)).toBe("expired");
     expect(adapter.mock.calls.map(([c]) => c.url)).not.toContain("/auth/logout");
   });

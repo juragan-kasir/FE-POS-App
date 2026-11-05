@@ -42,6 +42,7 @@ import { useThemeStore } from "@/state/theme";
 import { useThemeEffect } from "@/hooks/useThemeEffect";
 import AuthGuideModal from "@/components/organism/AuthGuideModal";
 import { FIELD_LIMITS } from "@/constants/fieldLimits";
+import { LOGIN_PATH } from "@/constants/routes";
 
 const RegisterPage = () => {
   const { t, ready } = useTranslation();
@@ -153,7 +154,7 @@ const RegisterPage = () => {
       toast.success(t("page.register.toast.success"), {
         description: t("page.register.toast.successDescription")
       });
-      setTimeout(() => navigate("/"), 1500);
+      setTimeout(() => navigate(LOGIN_PATH), 1500);
     },
     onError: (err) => {
       setIsSubmitting(false);
@@ -438,7 +439,7 @@ const RegisterPage = () => {
                   <Button
                     type="button"
                     variant="link"
-                    onClick={() => navigate("/")}
+                    onClick={() => navigate(LOGIN_PATH)}
                     className="h-auto p-0 font-medium text-foreground font-semibold hover:underline">
                     {translationMemo.login}
                   </Button>

@@ -72,7 +72,7 @@ test("cashier B inherits none of cashier A's user, store or transaction state", 
   expect(mockLogOut).toHaveBeenCalledTimes(1);
   expect(socketA.disconnect).toHaveBeenCalledTimes(1);
   expect(navigate).toHaveBeenCalledTimes(1);
-  expect(navigate).toHaveBeenCalledWith("/");
+  expect(navigate).toHaveBeenCalledWith("/login");
 
   // ---- login as cashier B (store 2) ---------------------------------------
   setCookie("token", "token-B");

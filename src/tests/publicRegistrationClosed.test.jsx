@@ -71,6 +71,6 @@ describe("public registration (D-08)", () => {
     // the route element is decided when the routes module is evaluated
     const element = registerRoute().props.element;
     expect(element.type).toBe(Navigate);
-    expect(element.props.to).toBe("/");
+    expect(element.props.to).toBe("/login");
   });
 });

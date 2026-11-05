@@ -145,8 +145,8 @@ const navActions = {
     ...(isPublicRegistrationEnabled() ? [{ key: "guide.auth.nav.register", to: "/register" }] : []),
     { key: "guide.auth.nav.forgot", to: "/reset-password" }
   ],
-  register: [{ key: "guide.auth.nav.login", to: "/" }],
-  "reset-password": [{ key: "guide.auth.nav.login", to: "/" }]
+  register: [{ key: "guide.auth.nav.login", to: "/login" }],
+  "reset-password": [{ key: "guide.auth.nav.login", to: "/login" }]
 };
 
 const AuthGuideModal = ({ open, onOpenChange, context = "login" }) => {
@@ -184,7 +184,7 @@ const AuthGuideModal = ({ open, onOpenChange, context = "login" }) => {
   // (false positive gitleaks hashicorp-tf-password)
   const resetSegment = ["reset", "password"].join("-");
   const pathToContext = {
-    "/": "login",
+    "/login": "login",
     "/register": "register",
     [`/${resetSegment}`]: resetSegment
   };

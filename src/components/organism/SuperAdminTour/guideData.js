@@ -50,7 +50,7 @@ const guideData = [
     icon: LogIn,
     pages: [
       {
-        path: "/",
+        path: "/login",
         icon: LogIn,
         titleKey: "sidebar.login",
         descKey: "guide.auth.login.s1desc",

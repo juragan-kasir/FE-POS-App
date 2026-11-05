@@ -159,8 +159,9 @@ src/
 ### Public
 | Route | Description |
 |-------|-------------|
-| `/` | Login |
-| `/register` | Registration (redirects to `/` unless public registration is enabled) |
+| `/` | Marketing landing page |
+| `/login` | Login |
+| `/register` | Registration (redirects to `/login` unless public registration is enabled) |
 | `/reset-password` | Password Reset |
 | `/home` | Cashier Terminal |
 | `/customer-display` | Customer Display Screen |

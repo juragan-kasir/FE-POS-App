@@ -15,7 +15,7 @@ integration below.
    Git integration → Production branch `master`).
 4. **Post-deploy health check** (production):
    - Load the app URL (Vercel deployment, e.g. the project's production
-     domain) and confirm the login page renders.
+     domain) and confirm the homepage renders at `/` and login at `/login`.
 5. **Smoke test** the critical flow: log in → open the cashier screen → place
    an order → Kitchen Display shows it → settle the payment.
    - Also verify the API is reachable: `curl -I https://api-bisa-nota.vercel.app`

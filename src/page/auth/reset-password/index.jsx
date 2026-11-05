@@ -40,6 +40,7 @@ import { useThemeStore } from "@/state/theme";
 import { useThemeEffect } from "@/hooks/useThemeEffect";
 import AuthGuideModal from "@/components/organism/AuthGuideModal";
 import { FIELD_LIMITS } from "@/constants/fieldLimits";
+import { LOGIN_PATH } from "@/constants/routes";
 
 const ResetPasswordPage = () => {
   const { t, ready } = useTranslation();
@@ -143,7 +144,7 @@ const ResetPasswordPage = () => {
         toast.success(t("page.resetPassword.toast.success"), {
           description: t("page.resetPassword.toast.successDescription")
         });
-        setTimeout(() => navigate("/"), 1500);
+        setTimeout(() => navigate(LOGIN_PATH), 1500);
       } else {
         setEmailSent(true);
       }
@@ -273,7 +274,7 @@ const ResetPasswordPage = () => {
                   <Button
                     variant="outline"
                     type="button"
-                    onClick={() => navigate("/")}
+                    onClick={() => navigate(LOGIN_PATH)}
                     className="w-full h-10 bg-foreground text-background hover:bg-foreground/90 rounded-md font-semibold text-sm md:text-base shadow-sm transition-colors">
                     {translationMemo.backToLogin}
                   </Button>
@@ -428,7 +429,7 @@ const ResetPasswordPage = () => {
                 <Button
                   type="button"
                   variant="link"
-                  onClick={() => navigate("/")}
+                  onClick={() => navigate(LOGIN_PATH)}
                   className="h-auto p-0 font-medium inline-flex items-center gap-2 text-xs md:text-sm text-foreground hover:text-foreground/80  transition-all">
                   <ArrowLeft className="w-4 h-4" />
                   {translationMemo.backToLogin}

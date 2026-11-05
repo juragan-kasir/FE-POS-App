@@ -100,7 +100,7 @@ describe("disabled-session probe: dead account", () => {
     await flush();
 
     expect(navigate).toHaveBeenCalledTimes(1);
-    expect(navigate).toHaveBeenCalledWith("/");
+    expect(navigate).toHaveBeenCalledWith("/login");
     expect(sessionStorage.getItem(session.SESSION_NOTICE_KEY)).toBe("expired");
     expect(calls.filter((u) => u === "/auth/context")).toHaveLength(1);
     expect(calls).not.toContain("/auth/logout");

@@ -3,6 +3,7 @@ import { checkout } from "@/state/checkout";
 import { invoice } from "@/state/invoice";
 import { categorySelect } from "@/state/category";
 import { REMEMBERED_SESSION_KEYS } from "@/lib/remembered-session";
+import { LANDING_PATH, LOGIN_PATH } from "@/constants/routes";
 
 // Session boundary — the single owner of "this tab's authenticated session
 // ends". Explicit logout (Header, Sidebar, access-denied screen) and a
@@ -47,7 +48,8 @@ export const SESSION_LOCAL_STORAGE_KEYS = Object.freeze([
 // session to end) and the customer-facing display windows, which share the
 // cashier's cookie but must never be sent to the login screen.
 const EXEMPT_PATHS = Object.freeze([
-  "/",
+  LANDING_PATH,
+  LOGIN_PATH,
   "/register",
   "/reset-password",
   "/customer-display",
@@ -118,7 +120,7 @@ const teardown = (reason) => {
   }
 
   attempt(() => window.sessionStorage.setItem(SESSION_NOTICE_KEY, reason));
-  attempt(() => sessionNavigation.replace("/"));
+  attempt(() => sessionNavigation.replace(LOGIN_PATH));
 };
 
 // Ends the session exactly once per page load; later calls are no-ops.
