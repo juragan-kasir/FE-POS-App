@@ -7,6 +7,7 @@ import { useActiveSessionRedirect } from "@/hooks/useActiveSessionRedirect";
 import AssistantSection from "./components/AssistantSection";
 import ClosingCtaSection from "./components/ClosingCtaSection";
 import CustomerStoriesSection from "./components/CustomerStoriesSection";
+import FloatingChatButton from "./components/FloatingChatButton";
 import HeroSection from "./components/HeroSection";
 import LandingFooter from "./components/LandingFooter";
 import LandingNav from "./components/LandingNav";
@@ -19,8 +20,12 @@ import { useDocumentMeta } from "./hooks/useDocumentMeta";
 import "./landing.css";
 
 const LandingContent = () => {
-  const { t } = useTranslation();
-  useDocumentMeta({ title: t("landing.meta.title"), description: t("landing.meta.description") });
+  const { t, i18n } = useTranslation();
+  useDocumentMeta({
+    title: t("landing.meta.title"),
+    description: t("landing.meta.description"),
+    language: i18n.language
+  });
 
   return (
     <>
@@ -42,6 +47,7 @@ const LandingContent = () => {
         <ClosingCtaSection />
       </main>
       <LandingFooter />
+      <FloatingChatButton />
     </>
   );
 };

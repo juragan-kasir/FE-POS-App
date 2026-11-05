@@ -22,19 +22,9 @@ const StoryList = () => (
   </ul>
 );
 
-const StoriesEmptyNote = () => {
-  const { t } = useTranslation();
-
-  return (
-    <p className="mt-6 max-w-[54ch] text-[17px] leading-relaxed text-jk-stone">
-      {t("landing.stories.empty")}
-    </p>
-  );
-};
-
 const CustomerStoriesSection = () => {
   const { t } = useTranslation();
-  const hasStories = CUSTOMER_STORIES.length > 0;
+  if (CUSTOMER_STORIES.length === 0) return null;
 
   return (
     <section
@@ -49,7 +39,7 @@ const CustomerStoriesSection = () => {
           <SectionTitle className="text-[clamp(1.9rem,3.8vw,3.1rem)] leading-[1.08]">
             <span id="landing-stories-title">{t("landing.stories.title")}</span>
           </SectionTitle>
-          {hasStories ? <StoryList /> : <StoriesEmptyNote />}
+          <StoryList />
         </div>
       </div>
     </section>

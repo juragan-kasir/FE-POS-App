@@ -29,7 +29,8 @@ const ConsultButton = ({ tone = "onDark", isClosing = false, className }) => {
       href={channel.href}
       className={cn(
         buttonVariants(),
-        "h-12 rounded-sm px-6 text-[15px] font-semibold",
+        "h-12 w-full rounded-sm px-3 text-[15px] font-semibold",
+        isClosing ? "sm:w-[300px]" : "sm:w-[220px]",
         TONE_CLASSES[tone],
         className
       )}

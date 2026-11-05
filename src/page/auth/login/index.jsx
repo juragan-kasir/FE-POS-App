@@ -5,8 +5,18 @@ import { useTranslation } from "react-i18next";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { Eye, EyeOff, Moon, Sun, Mail, Lock, ArrowRight, HelpCircle } from "lucide-react";
-import { useNavigate, useLocation } from "react-router-dom";
+import {
+  ArrowLeft,
+  Eye,
+  EyeOff,
+  Moon,
+  Sun,
+  Mail,
+  Lock,
+  ArrowRight,
+  HelpCircle
+} from "lucide-react";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useMutation } from "react-query";
 import { useCookies } from "react-cookie";
 import { toast } from "sonner";
@@ -33,6 +43,7 @@ import { forgetRememberedSession, rememberSession } from "@/lib/remembered-sessi
 import { sessionCookieOptions } from "@/lib/session-cookie";
 import { getRoleDashboard } from "@/utils/role";
 import AuthGuideModal from "@/components/organism/AuthGuideModal";
+import { LANDING_PATH } from "@/constants/routes";
 import { isPublicRegistrationEnabled } from "@/utils/publicRegistration";
 import logoFull from "@/assets/logo-full.webp";
 import logoFullDark from "@/assets/logo-full-dark.webp";
@@ -198,36 +209,44 @@ const LoginPage = () => {
 
       {/* Form side */}
       <section className="flex w-full flex-col lg:w-1/2">
-        <header className="flex items-center justify-end gap-2 px-5 py-4 md:px-8 md:py-5">
-          <button
-            type="button"
-            onClick={() => setGuideOpen(true)}
+        <header className="flex items-center justify-between gap-2 px-5 py-4 md:px-8 md:py-5">
+          <Link
+            to={LANDING_PATH}
             className="flex h-8 items-center gap-1.5 rounded-lg px-2.5 text-xs font-medium text-muted-foreground transition-colors hover:bg-muted hover:text-foreground focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-600/30">
-            <HelpCircle className="h-4 w-4" />
-            <span className="hidden sm:inline">{translationMemo.help}</span>
-          </button>
-          <div className="flex items-center rounded-lg bg-muted p-0.5">
+            <ArrowLeft aria-hidden="true" className="h-4 w-4" />
+            {t("page.login.backToHome")}
+          </Link>
+          <div className="flex items-center gap-2">
             <button
               type="button"
-              onClick={() => updateTranslation("id")}
-              className={langButtonClass(translation === "id")}>
-              ID
+              onClick={() => setGuideOpen(true)}
+              className="flex h-8 items-center gap-1.5 rounded-lg px-2.5 text-xs font-medium text-muted-foreground transition-colors hover:bg-muted hover:text-foreground focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-600/30">
+              <HelpCircle className="h-4 w-4" />
+              <span className="hidden sm:inline">{translationMemo.help}</span>
             </button>
+            <div className="flex items-center rounded-lg bg-muted p-0.5">
+              <button
+                type="button"
+                onClick={() => updateTranslation("id")}
+                className={langButtonClass(translation === "id")}>
+                ID
+              </button>
+              <button
+                type="button"
+                onClick={() => updateTranslation("en")}
+                className={langButtonClass(translation === "en")}>
+                EN
+              </button>
+            </div>
             <button
               type="button"
-              onClick={() => updateTranslation("en")}
-              className={langButtonClass(translation === "en")}>
-              EN
+              aria-label={t("header.toggleTheme")}
+              onClick={toggleTheme}
+              className="flex h-8 w-8 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:bg-muted hover:text-foreground focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-600/30">
+              <Sun className="hidden h-4 w-4 dark:block" />
+              <Moon className="block h-4 w-4 dark:hidden" />
             </button>
           </div>
-          <button
-            type="button"
-            aria-label={t("header.toggleTheme")}
-            onClick={toggleTheme}
-            className="flex h-8 w-8 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:bg-muted hover:text-foreground focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-600/30">
-            <Sun className="hidden h-4 w-4 dark:block" />
-            <Moon className="block h-4 w-4 dark:hidden" />
-          </button>
         </header>
 
         <main className="flex flex-1 items-center justify-center px-5 pb-12 md:px-10">

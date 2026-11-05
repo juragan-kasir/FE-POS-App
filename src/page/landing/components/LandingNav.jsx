@@ -14,12 +14,14 @@ import { NAV_LINKS, PRODUCT_MENU_ITEMS } from "@/constants/landing";
 
 import BrandMark from "./BrandMark";
 import ConsultButton from "./ConsultButton";
+import LanguageSwitch from "./LanguageSwitch";
 
 const NAV_LINK_CLASS =
   "inline-flex h-11 items-center text-[15px] font-medium text-jk-paper/85 transition-colors hover:text-jk-leaf";
 
 const ProductMenu = () => {
   const { t } = useTranslation();
+  const keepFocusAtAnchorTarget = (event) => event.preventDefault();
 
   return (
     <DropdownMenu modal={false}>
@@ -29,6 +31,7 @@ const ProductMenu = () => {
       </DropdownMenuTrigger>
       <DropdownMenuContent
         align="start"
+        onCloseAutoFocus={keepFocusAtAnchorTarget}
         className="jk-landing-menu w-[320px] rounded-sm border-black/10 bg-[rgb(var(--jk-paper))] p-2 font-jk-body text-[rgb(var(--jk-ink))]">
         {PRODUCT_MENU_ITEMS.map((item) => (
           <DropdownMenuItem
@@ -76,7 +79,8 @@ const MobileMenu = ({ onNavigate }) => {
           </Link>
         </li>
       </ul>
-      <ConsultButton className="mt-5 w-full" />
+      <LanguageSwitch className="mt-5" />
+      <ConsultButton className="mt-5 sm:w-full" />
     </nav>
   );
 };
@@ -89,7 +93,7 @@ const LandingNav = () => {
 
   return (
     <header className="sticky top-0 z-40 bg-jk-pine">
-      <div className="mx-auto flex h-[72px] max-w-[1320px] items-center justify-between px-5 lg:px-8">
+      <div className="mx-auto flex h-[72px] max-w-[1320px] items-center justify-between px-5 lg:grid lg:grid-cols-[1fr_auto_1fr] lg:gap-6 lg:px-8">
         <Link to={LANDING_PATH} aria-label={t("landing.nav.home")} className="flex">
           <BrandMark />
         </Link>
@@ -101,11 +105,12 @@ const LandingNav = () => {
             </a>
           ))}
         </nav>
-        <div className="hidden items-center gap-6 lg:flex">
+        <div className="hidden items-center justify-end gap-5 lg:flex">
+          <LanguageSwitch />
           <Link to={LOGIN_PATH} className={NAV_LINK_CLASS}>
             {t("landing.nav.login")}
           </Link>
-          <ConsultButton className="h-11 px-5" />
+          <ConsultButton className="h-11 sm:w-[196px]" />
         </div>
         <button
           type="button"

@@ -19,19 +19,19 @@ const HeroCopy = () => {
       <p className="max-w-[46ch] text-[17px] leading-relaxed text-jk-paper/85">
         {t("landing.hero.body")}
       </p>
-      <div className="mt-8 flex flex-wrap gap-3">
-        <ConsultButton />
+      <div className="mt-8 grid max-w-[420px] gap-3 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2">
+        <ConsultButton className="sm:w-full" />
         <a
           href={`#${SECTION_IDS.platform}`}
           className={cn(
             buttonVariants({ variant: "ghost" }),
-            "h-12 rounded-sm border border-white/25 px-5 text-[15px] font-medium text-jk-paper hover:bg-white/10 hover:text-jk-paper"
+            "h-12 w-full rounded-sm border border-white/25 px-3 text-[15px] font-medium text-jk-paper hover:bg-white/10 hover:text-jk-paper"
           )}>
           {t("landing.hero.secondaryCta")}
           <ArrowDown aria-hidden="true" className="ml-2 size-4" />
         </a>
       </div>
-      <ul className="mt-8 space-y-2 font-jk-mono text-[13px] text-jk-paper/75">
+      <ul className="mt-8 space-y-2 text-[14px] text-jk-paper/75">
         {HERO_ASSURANCE_KEYS.map((key) => (
           <li key={key} className="flex gap-2">
             <span aria-hidden="true" className="text-jk-leaf">
@@ -58,7 +58,7 @@ const HeroVisual = () => {
         className="w-[170%] max-w-none rounded-r-none sm:w-[125%] lg:w-full"
       />
       <ReceiptCard className="jk-print absolute -left-14 bottom-16 z-10 hidden drop-shadow-[0_18px_24px_rgba(6,30,21,0.35)] xl:block" />
-      <figcaption className="mt-3 font-jk-mono text-[12px] text-jk-paper/70 lg:absolute lg:-bottom-8 lg:left-0 lg:mt-0 lg:text-jk-stone">
+      <figcaption className="mt-3 text-[13px] text-jk-paper/70 lg:absolute lg:-bottom-8 lg:left-0 lg:mt-0 lg:text-jk-stone">
         {t("landing.common.sampleDataNote")}
       </figcaption>
     </figure>

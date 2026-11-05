@@ -34,7 +34,7 @@ const PosViewPanel = ({ view }) => {
           alt={t(view.altKey)}
           sizes="(min-width: 1024px) 60vw, 100vw"
         />
-        <figcaption className="mt-3 font-jk-mono text-[12px] text-jk-stone">
+        <figcaption className="mt-3 text-[13px] text-jk-stone">
           {t("landing.common.sampleDataNote")}
         </figcaption>
       </figure>
@@ -71,7 +71,7 @@ const PosShowcaseSection = () => {
           ))}
         </Tabs>
         <div className="mt-16 border-t border-jk-ink/20 pt-6 lg:grid lg:grid-cols-12 lg:gap-10">
-          <p className="font-jk-mono text-[13px] uppercase tracking-[0.08em] text-jk-stone lg:col-span-4">
+          <p className="text-[13px] font-semibold uppercase tracking-[0.08em] text-jk-stone lg:col-span-4">
             {t("landing.pos.extraTitle")}
           </p>
           <ul className="mt-4 flex flex-wrap gap-x-6 gap-y-2 text-[16px] lg:col-span-8 lg:mt-0">
