@@ -40,7 +40,7 @@ Source note: `pos.toasttab.com` refused automated fetching (HTTP 403). This sect
 
 > JuraganKasir is the practical technology partner for Indonesian F&B owners: a cashier app, an AI assistant, and a team that installs it and trains your staff.
 
-The differentiator is the service, and a small company can make that promise credibly. Being small is therefore stated rather than hidden.
+The differentiator is the service. The copy makes no enterprise claims, and it never describes the company's size: credibility comes from what the team does for the owner.
 
 ## 4. Customer journey
 
@@ -64,7 +64,7 @@ Existing customers use the "Login" link in the navigation.
 | AI assistant | Practical questions, labelled as an illustration |
 | Human support | The differentiator: a five-step service |
 | Problems | Each owner problem connected to a confirmed feature |
-| Customer stories | Honest empty state, driven by `CUSTOMER_STORIES` |
+| Customer stories | Hidden until `CUSTOMER_STORIES` has real entries |
 | Final CTA | One decision: start a conversation |
 
 "Resources" from the suggested navigation is left out because no resource content exists yet.
@@ -79,7 +79,7 @@ Existing customers use the "Login" link in the navigation.
 
 ## 7. Design direction: "Nota"
 
-The receipt is the one thing every cashier and owner handles daily, so it becomes the visual signature: perforated paper edges, a monospaced ledger voice for figures, and hairline rules in place of card grids.
+The receipt is the one thing every cashier and owner handles daily, so it becomes the visual signature: perforated paper edges, printed-receipt type on the receipts, and hairline rules in place of card grids.
 
 ### Colour
 
@@ -100,7 +100,7 @@ The suggested palette was adjusted to the actual logo, which is a green gradient
 
 - **Bricolage Grotesque** for headlines: characterful, and not a default SaaS choice.
 - **Plus Jakarta Sans** for body: legible, designed for Jakarta's city branding, a quiet local link.
-- **IBM Plex Mono** for receipts, labels, and figures.
+- **IBM Plex Mono** for the two receipts only, where it reads as printed paper.
 
 Fonts are self-hosted WOFF2 files, loaded only by the landing chunk. The POS app keeps Inter and pays nothing.
 
@@ -121,3 +121,44 @@ Indonesian copy is casual but professional, like a helpful friend who knows the 
 3. Add real photos of an installation or training session to the support section. None exist, and stock images would misrepresent the service.
 4. Add real customers to `CUSTOMER_STORIES` when available.
 5. Decide the domain plan. This page lives wherever this app is deployed. Replacing the WordPress homepage needs a DNS or proxy decision.
+
+## 9. Indonesian visitor behaviour
+
+Figures below come from secondary reporting found through web search, not from the original reports, and none of them measures F&B owners specifically. They set direction. This site's own analytics should replace them once traffic exists.
+
+| Evidence | What it means here |
+|---|---|
+| APJII 2025: 229.4M internet users, 80.66% penetration, 83.39% access through a smartphone | Design and test for the phone first |
+| Reported WhatsApp use of 90.8% among internet users aged 16+ (Aug 2025; original source not confirmed) | WhatsApp is the default contact channel, so a form is not needed |
+| Meta-commissioned Kantar survey, 2024: 87% prefer messaging a business, 68% are frustrated when it is not offered | Vendor-sponsored, but it matches the direction: visible chat is expected |
+| Survey of 1,112 online shoppers, 2019: 94% prefer sellers reachable by chat | Old and about online shopping, weak but consistent |
+
+Measured on this production build, mobile profile with throttled network and CPU:
+
+| Profile | Headline visible, before | After | Downloaded, before | After |
+|---|---|---|---|---|
+| Slow 4G (1.6 Mbps), mid-range Android | 4.2 s | 3.7 s | 581 KB | 442 KB |
+| Good 4G (9 Mbps), mid-range Android | 1.4 s | 1.4 s | 581 KB | 442 KB |
+
+That run exposed `translation.json` downloading twice, 140 KB each time, on every page of the app. The preload URL had no `?v=` and no `crossorigin`, so the browser could not reuse it. Fixed in `index.html` and `vite.config.js`.
+
+### Floating chat button
+
+First pass: a green WhatsApp button, always visible. Second pass kept that and tightened it:
+
+| Decision | Why |
+|---|---|
+| One button, WhatsApp only | Stacked floating buttons compete and cover content on a small screen |
+| Icon only on phones, labelled pill on desktop | Keeps content visible, and the WhatsApp mark is widely recognised |
+| Official mark and green `#25D366` on a neutral pill | Must be recognised instantly on pine, paper, and ink sections |
+| "Chat Tim Kami" rather than "Chat Admin" | Says a person answers, which is the differentiator |
+| Fixed width | Language changes must not move it |
+| No pulse, fake unread badge, popup, "online" dot, or reply-time promise | These are unverifiable or manipulative, and they cost trust with owners who are wary of sales tactics |
+| Footer padding | The button must not cover the last links |
+
+### Still worth doing
+
+1. Serve the homepage without the full 140 KB app catalog, or prerender it. This is the largest remaining win on slow connections.
+2. Decide how to answer "harganya berapa?". It will likely be the first question in chat, and no pricing appears on the site.
+3. Add verifiable trust details: company name, city, Instagram, and named team members.
+4. Add analytics with a WhatsApp click event. Without it, none of these decisions can be measured.
