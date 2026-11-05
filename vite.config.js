@@ -40,8 +40,14 @@ try {
 // lihat dist chunk generateCategoricalChart-*.js). HANYA lucide-react yang
 // masih diisolasi manual di bawah.
 
+const translationBuildRefPlugin = () => ({
+  name: "translation-build-ref",
+  transformIndexHtml: (html) =>
+    html.replace("%TRANSLATION_BUILD_REF%", `${gitSha}-${translationRev}`)
+});
+
 export default defineConfig({
-  plugins: [react()],
+  plugins: [react(), translationBuildRefPlugin()],
   define: {
     __GIT_SHA__: JSON.stringify(gitSha),
     __TRANSLATION_REV__: JSON.stringify(translationRev),

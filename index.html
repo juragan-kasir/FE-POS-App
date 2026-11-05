@@ -47,7 +47,8 @@
         l.rel = "preload";
         l.as = "fetch";
         l.type = "application/json";
-        l.href = "/locales/" + lng + "/translation.json";
+        l.crossOrigin = "anonymous";
+        l.href = "/locales/" + lng + "/translation.json?v=%TRANSLATION_BUILD_REF%";
         document.head.appendChild(l);
       } catch (e) {}
     </script>
