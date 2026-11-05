@@ -11,8 +11,9 @@ const ClosingCtaSection = () => {
       <div className="mx-auto max-w-[1320px] px-5 py-20 lg:grid lg:grid-cols-12 lg:items-end lg:gap-10 lg:px-8 lg:py-28">
         <h2
           id="landing-closing-title"
-          className="text-balance font-jk-display text-[clamp(2.6rem,7vw,6rem)] font-semibold leading-[0.98] tracking-[-0.03em] lg:col-span-8">
-          {t("landing.closing.title")}
+          className="text-balance font-jk-display text-[clamp(2.4rem,5.3vw,4.75rem)] font-semibold leading-[0.98] tracking-[-0.03em] lg:col-span-8">
+          <span className="block">{t("landing.closing.titleLine1")}</span>
+          <span className="block">{t("landing.closing.titleLine2")}</span>
         </h2>
         <div className="mt-8 lg:col-span-4 lg:mt-0">
           <p className="text-[18px] leading-relaxed text-white/90">{t("landing.closing.body")}</p>

@@ -3,7 +3,7 @@ import React from "react";
 import { cn } from "@/lib/utils";
 
 export const SectionEyebrow = ({ children, className }) => (
-  <p className={cn("font-jk-mono text-[13px] uppercase tracking-[0.08em]", className)}>
+  <p className={cn("text-[13px] font-semibold uppercase tracking-[0.08em]", className)}>
     {children}
   </p>
 );

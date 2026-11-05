@@ -32,7 +32,7 @@ const LandingFooter = () => {
             </li>
           </ul>
         </nav>
-        <p className="font-jk-mono text-[13px]">{t("landing.footer.copyright")}</p>
+        <p className="text-[14px]">{t("landing.footer.copyright")}</p>
       </div>
     </footer>
   );

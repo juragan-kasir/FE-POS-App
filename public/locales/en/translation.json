@@ -10204,9 +10204,13 @@
   "landing.stories.eyebrow": "Customer stories",
   "landing.stories.title": "Customer stories appear here only when they really happened.",
   "landing.stories.empty": "We don't display testimonials, logos, or numbers we can't back up. When our customers are ready to share, their stories will be here.",
-  "landing.closing.title": "Start Running Your Business Better.",
   "landing.closing.body": "Talk through your business needs with the Juragan Kasir team.",
   "landing.footer.navLabel": "Footer navigation",
   "landing.footer.copyright": "© 2026 Juragan Kasir",
-  "page.login.backToHome": "Back to home"
+  "page.login.backToHome": "Back to home",
+  "landing.language.label": "Choose language",
+  "landing.language.id": "Indonesian",
+  "landing.language.en": "English",
+  "landing.closing.titleLine1": "Start with a chat.",
+  "landing.closing.titleLine2": "We'll do the rest."
 }

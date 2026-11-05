@@ -17,8 +17,8 @@ const CapabilityRow = ({ capability, index }) => {
   const { t } = useTranslation();
 
   return (
-    <li className="grid grid-cols-[2.75rem_1fr] gap-x-3 border-t border-jk-ink/20 py-7 last:border-b md:grid-cols-[3.5rem_1fr_11rem]">
-      <span aria-hidden="true" className="pt-1 font-jk-mono text-[13px] text-jk-stone">
+    <li className="grid grid-cols-[2.75rem_1fr] gap-x-3 border-t border-jk-ink/20 py-7 last:border-b md:grid-cols-[3.5rem_1fr_12rem]">
+      <span aria-hidden="true" className="pt-1 text-[14px] text-jk-stone">
         {formatIndex(index)}
       </span>
       <div>
@@ -31,7 +31,7 @@ const CapabilityRow = ({ capability, index }) => {
       </div>
       <p
         className={cn(
-          "col-start-2 mt-3 font-jk-mono text-[12.5px] md:col-start-3 md:mt-1 md:text-right",
+          "col-start-2 mt-3 text-[13px] font-medium md:col-start-3 md:mt-1 md:text-right",
           STATUS_CLASSES[capability.status]
         )}>
         {t(capability.statusKey)}

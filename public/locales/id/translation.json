@@ -10204,9 +10204,13 @@
   "landing.stories.eyebrow": "Cerita pelanggan",
   "landing.stories.title": "Cerita pelanggan cuma tampil di sini kalau beneran terjadi.",
   "landing.stories.empty": "Kami nggak mau pajang testimoni, logo, atau angka yang belum bisa dibuktikan. Begitu pelanggan kami siap berbagi, ceritanya bakal ada di sini.",
-  "landing.closing.title": "Yuk, Bikin Bisnis Kamu Makin Rapi.",
   "landing.closing.body": "Ceritain kebutuhan usaha kamu ke tim Juragan Kasir. Konsultasinya gratis.",
   "landing.footer.navLabel": "Navigasi footer",
   "landing.footer.copyright": "© 2026 Juragan Kasir",
-  "page.login.backToHome": "Kembali ke beranda"
+  "page.login.backToHome": "Kembali ke beranda",
+  "landing.language.label": "Pilih bahasa",
+  "landing.language.id": "Bahasa Indonesia",
+  "landing.language.en": "Bahasa Inggris",
+  "landing.closing.titleLine1": "Cerita dulu aja.",
+  "landing.closing.titleLine2": "Sisanya kami bantu."
 }

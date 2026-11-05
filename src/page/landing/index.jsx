@@ -19,8 +19,12 @@ import { useDocumentMeta } from "./hooks/useDocumentMeta";
 import "./landing.css";
 
 const LandingContent = () => {
-  const { t } = useTranslation();
-  useDocumentMeta({ title: t("landing.meta.title"), description: t("landing.meta.description") });
+  const { t, i18n } = useTranslation();
+  useDocumentMeta({
+    title: t("landing.meta.title"),
+    description: t("landing.meta.description"),
+    language: i18n.language
+  });
 
   return (
     <>

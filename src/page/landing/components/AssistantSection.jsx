@@ -50,7 +50,7 @@ const ChatMockup = () => {
           ))}
         </ul>
       </div>
-      <figcaption className="mx-auto mt-3 max-w-[460px] font-jk-mono text-[12px] text-jk-paper/65">
+      <figcaption className="mx-auto mt-3 max-w-[460px] text-[13px] text-jk-paper/65">
         {t("landing.assistant.illustrationNote")}
       </figcaption>
     </figure>
