@@ -4,3 +4,5 @@ export const formatCurrencyRupiah = (number) => {
     currency: "IDR"
   }).format(number);
 };
+
+export const formatRupiahPlain = (number) => new Intl.NumberFormat("id-ID").format(number);

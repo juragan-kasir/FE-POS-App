@@ -36,9 +36,24 @@ module.exports = {
         desk: { raw: "(min-width: 1280px) and (hover: hover) and (pointer: fine)" }
       },
       fontFamily: {
-        sans: ["var(--font-sans)", ...fontFamily.sans]
+        sans: ["var(--font-sans)", ...fontFamily.sans],
+        "jk-display": ["Bricolage Grotesque Variable", ...fontFamily.sans],
+        "jk-body": ["Plus Jakarta Sans Variable", ...fontFamily.sans],
+        "jk-mono": ["IBM Plex Mono", ...fontFamily.mono]
       },
       colors: {
+        jk: {
+          pine: "rgb(var(--jk-pine) / <alpha-value>)",
+          "pine-soft": "rgb(var(--jk-pine-soft) / <alpha-value>)",
+          green: "rgb(var(--jk-green) / <alpha-value>)",
+          "green-deep": "rgb(var(--jk-green-deep) / <alpha-value>)",
+          leaf: "rgb(var(--jk-leaf) / <alpha-value>)",
+          paper: "rgb(var(--jk-paper) / <alpha-value>)",
+          "paper-deep": "rgb(var(--jk-paper-deep) / <alpha-value>)",
+          ink: "rgb(var(--jk-ink) / <alpha-value>)",
+          stone: "rgb(var(--jk-stone) / <alpha-value>)",
+          kunyit: "rgb(var(--jk-kunyit) / <alpha-value>)"
+        },
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",

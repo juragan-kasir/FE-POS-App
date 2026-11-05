@@ -1,0 +1,109 @@
+@font-face {
+  font-family: "Bricolage Grotesque Variable";
+  font-style: normal;
+  font-weight: 200 800;
+  font-display: swap;
+  src: url("@/assets/fonts/landing/bricolage-grotesque-latin-wght-normal.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Plus Jakarta Sans Variable";
+  font-style: normal;
+  font-weight: 200 800;
+  font-display: swap;
+  src: url("@/assets/fonts/landing/plus-jakarta-sans-latin-wght-normal.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "IBM Plex Mono";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("@/assets/fonts/landing/ibm-plex-mono-latin-400-normal.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "IBM Plex Mono";
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("@/assets/fonts/landing/ibm-plex-mono-latin-500-normal.woff2") format("woff2");
+}
+
+.jk-landing,
+.jk-landing-menu {
+  --jk-pine: 12 59 42;
+  --jk-pine-soft: 22 82 59;
+  --jk-green: 11 122 69;
+  --jk-green-deep: 8 95 54;
+  --jk-leaf: 123 214 81;
+  --jk-paper: 247 244 236;
+  --jk-paper-deep: 237 232 218;
+  --jk-ink: 22 32 27;
+  --jk-stone: 86 96 90;
+  --jk-kunyit: 229 168 35;
+  --jk-tooth: 7px;
+}
+
+.jk-landing {
+  overflow-x: clip;
+}
+
+.jk-landing :is(a, button):focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 3px;
+}
+
+html:has(.jk-landing) {
+  scroll-behavior: smooth;
+  scroll-padding-top: 88px;
+}
+
+.jk-receipt {
+  -webkit-mask:
+    linear-gradient(#000 0 0) center / 100% calc(100% - 2 * var(--jk-tooth)) no-repeat,
+    conic-gradient(from 135deg at 50% 0, #000 90deg, transparent 0) top / calc(2 * var(--jk-tooth))
+      var(--jk-tooth) repeat-x,
+    conic-gradient(from -45deg at 50% 100%, #000 90deg, transparent 0) bottom /
+      calc(2 * var(--jk-tooth)) var(--jk-tooth) repeat-x;
+  mask:
+    linear-gradient(#000 0 0) center / 100% calc(100% - 2 * var(--jk-tooth)) no-repeat,
+    conic-gradient(from 135deg at 50% 0, #000 90deg, transparent 0) top / calc(2 * var(--jk-tooth))
+      var(--jk-tooth) repeat-x,
+    conic-gradient(from -45deg at 50% 100%, #000 90deg, transparent 0) bottom /
+      calc(2 * var(--jk-tooth)) var(--jk-tooth) repeat-x;
+}
+
+.jk-leader {
+  background-image: radial-gradient(circle, currentColor 1px, transparent 1.5px);
+  background-position: 0 100%;
+  background-repeat: repeat-x;
+  background-size: 7px 7px;
+  opacity: 0.45;
+}
+
+@keyframes jk-print {
+  from {
+    clip-path: inset(0 0 100% 0);
+    transform: translateY(-28px) rotate(-2deg);
+  }
+  to {
+    clip-path: inset(-10%);
+    transform: translateY(0) rotate(-2deg);
+  }
+}
+
+.jk-print {
+  transform: rotate(-2deg);
+  animation: jk-print 900ms cubic-bezier(0.22, 0.8, 0.32, 1) 250ms both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html:has(.jk-landing) {
+    scroll-behavior: auto;
+  }
+
+  .jk-print {
+    animation: none;
+  }
+}
