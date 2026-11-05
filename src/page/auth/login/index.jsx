@@ -27,16 +27,11 @@ import {
 } from "@/services/session";
 import { translationSelect } from "@/state/translation";
 import { useThemeStore } from "@/state/theme";
+import { useActiveSessionRedirect } from "@/hooks/useActiveSessionRedirect";
 import { useThemeEffect } from "@/hooks/useThemeEffect";
-import {
-  forgetRememberedSession,
-  readRememberedUser,
-  rememberSession
-} from "@/lib/remembered-session";
+import { forgetRememberedSession, rememberSession } from "@/lib/remembered-session";
 import { sessionCookieOptions } from "@/lib/session-cookie";
-import { getTokenExpiryDate } from "@/lib/token-expiry";
 import { getRoleDashboard } from "@/utils/role";
-import { getToken } from "@/utils/cookies";
 import AuthGuideModal from "@/components/organism/AuthGuideModal";
 import { isPublicRegistrationEnabled } from "@/utils/publicRegistration";
 import logoFull from "@/assets/logo-full.webp";
@@ -47,7 +42,7 @@ const LoginPage = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [showPassword, setShowPassword] = useState(false);
-  const [cookies, setCookie] = useCookies();
+  const [, setCookie] = useCookies();
   const [loginState, setLoginState] = useState("idle");
   const [rememberMe, setRememberMe] = useState(false);
   const [guideOpen, setGuideOpen] = useState(
@@ -63,14 +58,7 @@ const LoginPage = () => {
     }
   }, []);
 
-  useEffect(() => {
-    if (isSessionEnding()) return;
-    const expiresAt = getTokenExpiryDate(getToken());
-    if (!expiresAt || expiresAt <= new Date()) return;
-    const role = readRememberedUser()?.roleType || cookies.user?.roleType;
-    if (!role) return;
-    sessionNavigation.replace(getRoleDashboard(role));
-  }, [cookies.user]);
+  useActiveSessionRedirect();
 
   // Why the previous session ended (logout / expired), left by the session
   // boundary before its page reload. Read once, shown once translations load.
