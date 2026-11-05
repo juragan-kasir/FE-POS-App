@@ -10212,5 +10212,9 @@
   "landing.language.id": "Indonesian",
   "landing.language.en": "English",
   "landing.closing.titleLine1": "Start with a chat.",
-  "landing.closing.titleLine2": "We'll do the rest."
+  "landing.closing.titleLine2": "We'll do the rest.",
+  "landing.floatingChat.labelWhatsapp": "Chat with Us",
+  "landing.floatingChat.labelEmail": "Email Us",
+  "landing.floatingChat.ariaWhatsapp": "Chat with the Juragan Kasir team on WhatsApp",
+  "landing.floatingChat.ariaEmail": "Email the Juragan Kasir team"
 }

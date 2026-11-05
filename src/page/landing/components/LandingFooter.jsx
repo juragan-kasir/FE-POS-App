@@ -14,7 +14,7 @@ const LandingFooter = () => {
 
   return (
     <footer className="bg-jk-ink text-[15px] text-jk-paper/75">
-      <div className="mx-auto flex max-w-[1320px] flex-col gap-8 px-5 py-12 lg:flex-row lg:items-center lg:justify-between lg:px-8">
+      <div className="mx-auto flex max-w-[1320px] flex-col gap-8 px-5 pb-28 pt-12 lg:flex-row lg:items-center lg:justify-between lg:px-8">
         <BrandMark />
         <nav aria-label={t("landing.footer.navLabel")}>
           <ul className="flex flex-wrap gap-x-6">

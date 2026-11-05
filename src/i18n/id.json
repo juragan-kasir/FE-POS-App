@@ -10011,5 +10011,9 @@
   "landing.language.id": "Bahasa Indonesia",
   "landing.language.en": "Bahasa Inggris",
   "landing.closing.titleLine1": "Cerita dulu aja.",
-  "landing.closing.titleLine2": "Sisanya kami bantu."
+  "landing.closing.titleLine2": "Sisanya kami bantu.",
+  "landing.floatingChat.labelWhatsapp": "Chat Tim Kami",
+  "landing.floatingChat.labelEmail": "Email Tim Kami",
+  "landing.floatingChat.ariaWhatsapp": "Chat tim Juragan Kasir lewat WhatsApp",
+  "landing.floatingChat.ariaEmail": "Kirim email ke tim Juragan Kasir"
 }

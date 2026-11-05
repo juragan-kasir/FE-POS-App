@@ -7,6 +7,7 @@ import { useActiveSessionRedirect } from "@/hooks/useActiveSessionRedirect";
 import AssistantSection from "./components/AssistantSection";
 import ClosingCtaSection from "./components/ClosingCtaSection";
 import CustomerStoriesSection from "./components/CustomerStoriesSection";
+import FloatingChatButton from "./components/FloatingChatButton";
 import HeroSection from "./components/HeroSection";
 import LandingFooter from "./components/LandingFooter";
 import LandingNav from "./components/LandingNav";
@@ -46,6 +47,7 @@ const LandingContent = () => {
         <ClosingCtaSection />
       </main>
       <LandingFooter />
+      <FloatingChatButton />
     </>
   );
 };
