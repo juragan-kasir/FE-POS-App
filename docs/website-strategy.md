@@ -116,7 +116,7 @@ Indonesian copy is casual but professional, like a helpful friend who knows the 
 
 ## 8. Before launch
 
-1. Set `VITE_CONSULT_WHATSAPP_NUMBER` in Vercel.
+1. Set `VITE_CONSULT_WHATSAPP_NUMBER` in the host (Railway builds from the `Dockerfile`, which declares it as a build arg), then redeploy.
 2. Confirm the Telegram assistant status and adjust `landing.platform.assistant.status`.
 3. Add real photos of an installation or training session to the support section. None exist, and stock images would misrepresent the service.
 4. Add real customers to `CUSTOMER_STORIES` when available.

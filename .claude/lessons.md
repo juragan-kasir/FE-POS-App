@@ -15,3 +15,4 @@
 - [perf] A `<link rel=preload as=fetch>` is only reused when its URL (including `?v=`) and `crossorigin` match the real fetch; otherwise the file downloads twice. Measure with throttling on the production build. (2026-11-05)
 - [styling] Keep the landing mono font to receipts only; two typefaces carry the page, and mono on labels reads as an unrelated third voice. (2026-11-05)
 - [copy] Never mention company size or being small in marketing copy; make no enterprise claims either, and lead with what the team does for the owner. (2026-11-05)
+- [deploy] Every new `VITE_*` var needs an `ARG` in `Dockerfile` and a `--build-arg` in `docker-build.sh`; a host variable the Dockerfile does not declare never reaches `vite build`, so the feature silently uses its fallback. (2026-11-05)
