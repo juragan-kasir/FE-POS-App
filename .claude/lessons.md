@@ -16,3 +16,4 @@
 - [styling] Keep the landing mono font to receipts only; two typefaces carry the page, and mono on labels reads as an unrelated third voice. (2026-11-05)
 - [copy] Never mention company size or being small in marketing copy; make no enterprise claims either, and lead with what the team does for the owner. (2026-11-05)
 - [deploy] Every new `VITE_*` var needs an `ARG` in `Dockerfile` and a `--build-arg` in `docker-build.sh`; a host variable the Dockerfile does not declare never reaches `vite build`, so the feature silently uses its fallback. (2026-11-05)
+- [tooling] A second worktree directory (`.worktrees-fe/`, next to `.worktrees/`) must be added to `.gitignore` *and* Jest `modulePathIgnorePatterns` together — one without the other breaks `npm test` (haste map) or stages embedded gitlinks into the commit. (2026-11-07)
