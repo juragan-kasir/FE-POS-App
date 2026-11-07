@@ -13,7 +13,7 @@ describe("Juragan Kasir branding", () => {
   test("browser tab title and app name", () => {
     const html = read("index.html");
     expect(html).toContain("<title>Juragan Kasir</title>");
-    expect(html).toContain('<link rel="icon" href="/mini-logo.png" />');
+    expect(html).toContain('<link rel="icon" href="/favicon.ico" sizes="16x16 32x32 48x48" />');
     expect(html).not.toMatch(/bisa nota/i);
   });
 
