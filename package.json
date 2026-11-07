@@ -95,6 +95,7 @@
     "modulePathIgnorePatterns": [
       "/node_modules/",
       "/.worktrees/",
+      "/.worktrees-fe/",
       ".claude/worktrees/"
     ],
     "transform": {

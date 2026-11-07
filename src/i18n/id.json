@@ -3917,6 +3917,8 @@
   "error.noStoreDesc": "Data ini hanya tersedia untuk akun yang terikat ke toko. Minta super admin mengatur toko Anda di menu Pengguna Admin, lalu login ulang.",
   "error.forbiddenTitle": "Akses Ditolak",
   "error.forbiddenDesc": "Akun Anda tidak memiliki izin untuk melihat data ini. Hubungi super admin jika Anda membutuhkan akses.",
+  "error.notFoundTitle": "Data Tidak Ditemukan",
+  "error.notFoundDesc": "Data yang Anda minta tidak ada atau sudah dihapus. Perbarui daftar untuk melihat data terbaru.",
   "header.appName": "Juragan Kasir",
   "modal.confirmDescription": "Apakah Anda yakin?",
   "modal.errorDescription": "Terjadi kesalahan saat memproses permintaan",

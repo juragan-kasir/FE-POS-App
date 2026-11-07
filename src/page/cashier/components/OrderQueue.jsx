@@ -111,6 +111,7 @@ const OrderCard = ({
   const status = statusConfig[order.status] || statusConfig.pending;
   const payCfg = paymentStatusConfig[order.paymentStatus] || paymentStatusConfig.unpaid;
   const isDineIn = !!order.tableId;
+  const tableLabel = order.table?.name || order.tableName || order.tableId;
   const itemCount = order.totalQuantity || order.items?.length || 0;
   // F4-01: every order this queue lists is, by construction, not yet paid
   // (a POS-created order is created already status:'paid' and never appears
@@ -172,7 +173,7 @@ const OrderCard = ({
         {isDineIn ? <Utensils size={12} /> : <ShoppingBag size={12} />}
         <span>
           {isDineIn
-            ? `${t("page.cashier.orderQueue.dineIn")} / ${t("page.cashier.orderQueue.table")} ${order.tableId}`
+            ? `${t("page.cashier.orderQueue.dineIn")} / ${t("page.cashier.orderQueue.table")} ${tableLabel}`
             : t("page.cashier.orderQueue.takeaway")}
         </span>
       </div>

@@ -12,7 +12,8 @@ const SCALED_PREVIEWS = new Set([
   "page/product/ProductPreview.jsx",
   "page/category/CategoryPreviewModal.jsx",
   "components/document/SpdDocument.jsx",
-  "components/report/ReportPreview.jsx"
+  "components/report/ReportPreview.jsx",
+  "page/landing/components/ReceiptCard.jsx"
 ]);
 const FIXED_BADGE =
   /(?<![\w-])[hw]-[345](?:\.5)?(?![\w.-]).*(?<![\w-])[hw]-[345](?:\.5)?(?![\w.-])|min-w-\[1[0-8]px\]|h-\[1[0-8]px\]/;
