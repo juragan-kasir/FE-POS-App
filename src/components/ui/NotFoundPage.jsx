@@ -9,12 +9,13 @@ import { StatusScreen } from "@/components/ui/status-screen";
 import { LANDING_PATH } from "@/constants/routes";
 import { useDocumentMeta } from "@/hooks/useDocumentMeta";
 import { readActiveSessionRole } from "@/lib/active-session";
+import { isLocaleLoaded } from "@/lib/locale-loaded";
 import { getRoleDashboard } from "@/utils/role";
 
 const INITIAL_LOCATION_KEY = "default";
 
 const NotFoundPage = () => {
-  const { t, i18n, ready } = useTranslation();
+  const { t, i18n } = useTranslation();
   const navigate = useNavigate();
   const location = useLocation();
   const [cookies] = useCookies();
@@ -26,7 +27,7 @@ const NotFoundPage = () => {
     language: i18n.language
   });
 
-  if (!ready) return <PageLoader isFullScreen />;
+  if (!isLocaleLoaded(i18n.language)) return <PageLoader isFullScreen />;
 
   return (
     <StatusScreen

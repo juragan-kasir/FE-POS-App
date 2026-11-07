@@ -20,4 +20,6 @@
 - [errors] A rejected `React.lazy` stays rejected, so a chunk failure needs a full reload, never an in-place retry; and boundaries must call `reportRenderError` because Sentry does not see errors React caught. (2026-11-08)
 - [components] `Loading` defaults to `fullscreen`, which portals an overlay; pass `fullscreen={false}` inside page layouts, or use `PageLoader`. (2026-11-08)
 - [seo] A new public page needs an `Allow` line in `public/robots.txt` and a `public/sitemap.xml` entry, because robots is an allowlist. (2026-11-08)
+- [tests] Several tests read source files as text (`index.html`, `App.jsx`, layouts); grep `src/tests` for the exact line before changing it, because lint and build will not catch the break. (2026-11-08)
+- [i18n] `ready` from `useTranslation` can be true before the locale file arrives (seen at 143 ms against a 2.5 s fetch); use `isLocaleLoaded(language)` when raw keys must never show. (2026-11-08)
 - [tooling] A second worktree directory (`.worktrees-fe/`, next to `.worktrees/`) must be added to `.gitignore` *and* Jest `modulePathIgnorePatterns` together — one without the other breaks `npm test` (haste map) or stages embedded gitlinks into the commit. (2026-11-07)

@@ -61,7 +61,7 @@ const LandingPage = () => {
 
   return (
     <div className="jk-landing min-h-dvh bg-jk-pine font-jk-body text-jk-ink antialiased">
-      {ready ? <LandingContent /> : <PageLoader isFullScreen />}
+      {ready ? <LandingContent /> : <PageLoader isFullScreen className="[--primary:102_61%_58%]" />}
     </div>
   );
 };
