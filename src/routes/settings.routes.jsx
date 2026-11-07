@@ -96,7 +96,14 @@ export const settingsRoutes = (
 
     <Route path="/backup" element={<BackupPage />} />
 
-    <Route path="/audit-log" element={<AuditLogList />} />
+    <Route
+      path="/audit-log"
+      element={
+        <RequireRole roles={["super_admin"]}>
+          <AuditLogList />
+        </RequireRole>
+      }
+    />
     <Route path="/thermal-printer" element={<ThermalPrinterSettings />} />
   </>
 );

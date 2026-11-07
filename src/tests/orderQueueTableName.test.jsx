@@ -14,9 +14,7 @@ jest.mock("../services/order", () => ({
 }));
 
 jest.mock("../services/cash-register", () => ({
-  getCurrentCashRegister: jest.fn(() =>
-    Promise.resolve({ data: { register: { id: 999 } } })
-  )
+  getCurrentCashRegister: jest.fn(() => Promise.resolve({ data: { register: { id: 999 } } }))
 }));
 
 jest.mock("../services/socket", () => ({
@@ -60,12 +58,8 @@ describe("OrderQueue — PGA-26 table label", () => {
   test("renders the table name returned by the API, not the raw table id", async () => {
     renderQueue();
 
-    await waitFor(() =>
-      expect(screen.getByText("#00010")).toBeInTheDocument()
-    );
+    await waitFor(() => expect(screen.getByText("#00010")).toBeInTheDocument());
     expect(screen.getByText(/K3-4/)).toBeInTheDocument();
-    expect(
-      screen.queryByText(/orderQueue\.table 10/)
-    ).not.toBeInTheDocument();
+    expect(screen.queryByText(/orderQueue\.table 10/)).not.toBeInTheDocument();
   });
 });
