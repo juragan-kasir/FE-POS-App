@@ -14,6 +14,7 @@ docker build -t bisa-nota-fe \
   --build-arg VITE_BASE_URL="$API" \
   --build-arg VITE_ORDER_APP_URL="$ORDER_APP" \
   --build-arg VITE_CONSULT_WHATSAPP_NUMBER="${VITE_CONSULT_WHATSAPP_NUMBER:-}" \
+  --build-arg VITE_GA_MEASUREMENT_ID="${VITE_GA_MEASUREMENT_ID:-}" \
   .
 
 docker rm -f bisa-nota-fe >/dev/null 2>&1 || true

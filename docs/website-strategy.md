@@ -161,4 +161,4 @@ First pass: a green WhatsApp button, always visible. Second pass kept that and t
 1. Serve the homepage without the full 140 KB app catalog, or prerender it. This is the largest remaining win on slow connections.
 2. Decide how to answer "harganya berapa?". It will likely be the first question in chat, and no pricing appears on the site.
 3. Add verifiable trust details: company name, city, Instagram, and named team members.
-4. Add analytics with a WhatsApp click event. Without it, none of these decisions can be measured.
+4. Set `VITE_GA_MEASUREMENT_ID` so analytics starts collecting. The `consult_click` event already fires on every WhatsApp or email CTA, with `channel` and `placement` parameters.

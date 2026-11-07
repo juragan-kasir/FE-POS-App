@@ -2,6 +2,7 @@ import React from "react";
 import { Mail } from "lucide-react";
 import { useTranslation } from "react-i18next";
 
+import { CONSULT_PLACEMENT, trackConsultClick } from "@/lib/analytics";
 import { CONSULT_CHANNEL } from "@/lib/consult-channel";
 
 import { useConsultChannel } from "../hooks/useConsultChannel";
@@ -42,6 +43,7 @@ const FloatingChatButton = () => {
   return (
     <a
       href={channel.href}
+      onClick={() => trackConsultClick(channel.type, CONSULT_PLACEMENT.floating)}
       aria-label={t(accessibleLabelKey)}
       className="fixed bottom-[max(1rem,env(safe-area-inset-bottom))] right-4 z-30 flex items-center rounded-full shadow-[0_10px_28px_-8px_rgba(6,30,21,0.55)] transition-transform hover:-translate-y-0.5 focus-visible:outline-offset-4 lg:bottom-6 lg:right-6 lg:w-[188px] lg:bg-white lg:p-1.5 lg:text-jk-ink"
       {...externalLinkProps}>

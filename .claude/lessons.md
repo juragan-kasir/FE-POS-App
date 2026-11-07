@@ -16,4 +16,8 @@
 - [styling] Keep the landing mono font to receipts only; two typefaces carry the page, and mono on labels reads as an unrelated third voice. (2026-11-05)
 - [copy] Never mention company size or being small in marketing copy; make no enterprise claims either, and lead with what the team does for the owner. (2026-11-05)
 - [deploy] Every new `VITE_*` var needs an `ARG` in `Dockerfile` and a `--build-arg` in `docker-build.sh`; a host variable the Dockerfile does not declare never reaches `vite build`, so the feature silently uses its fallback. (2026-11-05)
+- [routing] Keep the `*` route outside `DashboardLayout` and gate logged-in chrome (`Support`, sidebar) on `readActiveSessionRole`; a nested catch-all shows admin UI to public visitors. (2026-11-08)
+- [errors] A rejected `React.lazy` stays rejected, so a chunk failure needs a full reload, never an in-place retry; and boundaries must call `reportRenderError` because Sentry does not see errors React caught. (2026-11-08)
+- [components] `Loading` defaults to `fullscreen`, which portals an overlay; pass `fullscreen={false}` inside page layouts, or use `PageLoader`. (2026-11-08)
+- [seo] A new public page needs an `Allow` line in `public/robots.txt` and a `public/sitemap.xml` entry, because robots is an allowlist. (2026-11-08)
 - [tooling] A second worktree directory (`.worktrees-fe/`, next to `.worktrees/`) must be added to `.gitignore` *and* Jest `modulePathIgnorePatterns` together — one without the other breaks `npm test` (haste map) or stages embedded gitlinks into the commit. (2026-11-07)

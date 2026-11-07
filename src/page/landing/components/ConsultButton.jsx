@@ -3,6 +3,7 @@ import { MessageCircle } from "lucide-react";
 import { useTranslation } from "react-i18next";
 
 import { buttonVariants } from "@/components/ui/button";
+import { CONSULT_PLACEMENT, trackConsultClick } from "@/lib/analytics";
 import { CONSULT_CHANNEL } from "@/lib/consult-channel";
 import { cn } from "@/lib/utils";
 
@@ -24,9 +25,13 @@ const ConsultButton = ({ tone = "onDark", isClosing = false, className }) => {
   const isWhatsApp = channel.type === CONSULT_CHANNEL.whatsapp;
   const label = isClosing ? t(CHANNEL_LABEL_KEYS[channel.type]) : t("landing.consult.primary");
 
+  const handleClick = () =>
+    trackConsultClick(channel.type, isClosing ? CONSULT_PLACEMENT.closing : CONSULT_PLACEMENT.page);
+
   return (
     <a
       href={channel.href}
+      onClick={handleClick}
       className={cn(
         buttonVariants(),
         "h-12 w-full rounded-sm px-3 text-[15px] font-semibold",

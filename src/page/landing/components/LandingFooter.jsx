@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 
 import { FOOTER_LINKS } from "@/constants/landing";
-import { LOGIN_PATH } from "@/constants/routes";
+import { LOGIN_PATH, PRIVACY_PATH } from "@/constants/routes";
 
 import BrandMark from "./BrandMark";
 
@@ -29,6 +29,11 @@ const LandingFooter = () => {
               <Link to={LOGIN_PATH} className={FOOTER_LINK_CLASS}>
                 {t("landing.nav.login")}
               </Link>
+            </li>
+            <li>
+              <a href={PRIVACY_PATH} className={FOOTER_LINK_CLASS}>
+                {t("privacyPolicy")}
+              </a>
             </li>
           </ul>
         </nav>

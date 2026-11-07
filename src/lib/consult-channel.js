@@ -1,5 +1,5 @@
 const WHATSAPP_BASE_URL = "https://wa.me";
-const SUPPORT_EMAIL = "support@juragankasir.com";
+export const SUPPORT_EMAIL = "support@juragankasir.com";
 
 export const CONSULT_CHANNEL = Object.freeze({ whatsapp: "whatsapp", email: "email" });
 
