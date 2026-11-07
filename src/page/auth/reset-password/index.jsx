@@ -35,6 +35,7 @@ import { Loading } from "@/components/ui/loading";
 import PolicyDialog from "@/components/organism/policy-dialog";
 
 import { requestResetPassword, resetPassword } from "@/services/auth";
+import { useDocumentMeta } from "@/hooks/useDocumentMeta";
 import { translationSelect } from "@/state/translation";
 import { useThemeStore } from "@/state/theme";
 import { useThemeEffect } from "@/hooks/useThemeEffect";
@@ -62,6 +63,11 @@ const ResetPasswordPage = () => {
     location.state?.openGuide && location.state?.guideContext === "reset-password"
   );
   const { translation, updateTranslation } = translationSelect();
+  useDocumentMeta({
+    title: t("page.resetPassword.meta.title"),
+    description: t("page.resetPassword.meta.description"),
+    language: translation
+  });
   const { toggleTheme } = useThemeStore();
   useThemeEffect();
 

@@ -1,8 +1,11 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
 
+import { PageLoader } from "@/components/ui/page-loader";
 import { SECTION_IDS } from "@/constants/landing";
 import { useActiveSessionRedirect } from "@/hooks/useActiveSessionRedirect";
+import { useDeferredAnalytics } from "@/hooks/useDeferredAnalytics";
+import { useDocumentMeta } from "@/hooks/useDocumentMeta";
 
 import AssistantSection from "./components/AssistantSection";
 import ClosingCtaSection from "./components/ClosingCtaSection";
@@ -16,7 +19,6 @@ import PosShowcaseSection from "./components/PosShowcaseSection";
 import ProblemsSection from "./components/ProblemsSection";
 import SupportJourneySection from "./components/SupportJourneySection";
 import TrustSection from "./components/TrustSection";
-import { useDocumentMeta } from "./hooks/useDocumentMeta";
 import "./landing.css";
 
 const LandingContent = () => {
@@ -55,10 +57,11 @@ const LandingContent = () => {
 const LandingPage = () => {
   const { ready } = useTranslation();
   useActiveSessionRedirect();
+  useDeferredAnalytics();
 
   return (
     <div className="jk-landing min-h-dvh bg-jk-pine font-jk-body text-jk-ink antialiased">
-      {ready && <LandingContent />}
+      {ready ? <LandingContent /> : <PageLoader isFullScreen />}
     </div>
   );
 };

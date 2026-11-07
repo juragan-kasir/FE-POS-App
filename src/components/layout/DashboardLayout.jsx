@@ -1,4 +1,11 @@
-import React, { useState, useEffect, useCallback, createContext, useContext } from "react";
+import React, {
+  Suspense,
+  useState,
+  useEffect,
+  useCallback,
+  createContext,
+  useContext
+} from "react";
 import { useCookies } from "react-cookie";
 import { useLocation, Outlet } from "react-router-dom";
 export const SidebarContext = createContext(false);
@@ -15,7 +22,10 @@ import { useStore } from "@/contexts/StoreContext";
 import { useBodyScrollLock } from "@/hooks/useBodyScrollLock";
 import { useLocations } from "@/queries/useLocations";
 import { useUserSession } from "@/hooks/useUserSession";
+import { useRouteDocumentTitle } from "@/hooks/useRouteDocumentTitle";
 import { AccessDenied } from "@/components/ui/RequireRole";
+import ErrorBoundary from "@/components/ErrorBoundary";
+import { PageLoader } from "@/components/ui/page-loader";
 import { canOpenPage } from "@/utils/pageAccess";
 
 const tipsKeys = {
@@ -325,6 +335,7 @@ const DashboardLayout = () => {
   const currentPath = location.pathname;
   const matchedKeys = matchRouteTips(tipsKeys, currentPath);
   const canOpenCurrent = canOpenPage(sessionUser, location.pathname);
+  useRouteDocumentTitle(location.pathname);
   const tips = canOpenCurrent ? matchedKeys?.map((key) => t(key)) : undefined;
 
   return (
@@ -374,7 +385,15 @@ const DashboardLayout = () => {
             <div
               key={location.pathname}
               className="animate-in fade-in slide-in-from-bottom-2 duration-500">
-              {canOpenCurrent ? <Outlet /> : <AccessDenied />}
+              {canOpenCurrent ? (
+                <ErrorBoundary>
+                  <Suspense fallback={<PageLoader />}>
+                    <Outlet />
+                  </Suspense>
+                </ErrorBoundary>
+              ) : (
+                <AccessDenied />
+              )}
             </div>
           </SidebarContext.Provider>
           {tips && (

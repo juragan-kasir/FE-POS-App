@@ -35,6 +35,7 @@ import {
   sessionNavigation,
   SESSION_END_REASON
 } from "@/services/session";
+import { useDocumentMeta } from "@/hooks/useDocumentMeta";
 import { translationSelect } from "@/state/translation";
 import { useThemeStore } from "@/state/theme";
 import { useActiveSessionRedirect } from "@/hooks/useActiveSessionRedirect";
@@ -70,6 +71,11 @@ const LoginPage = () => {
   }, []);
 
   useActiveSessionRedirect();
+  useDocumentMeta({
+    title: t("page.login.meta.title"),
+    description: t("page.login.meta.description"),
+    language: translation
+  });
 
   // Why the previous session ended (logout / expired), left by the session
   // boundary before its page reload. Read once, shown once translations load.

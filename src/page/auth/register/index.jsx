@@ -37,6 +37,7 @@ import PolicyDialog from "@/components/organism/policy-dialog";
 
 import { register } from "@/services/auth";
 import { usePublicLocations } from "@/queries/useLocations";
+import { useDocumentMeta } from "@/hooks/useDocumentMeta";
 import { translationSelect } from "@/state/translation";
 import { useThemeStore } from "@/state/theme";
 import { useThemeEffect } from "@/hooks/useThemeEffect";
@@ -57,6 +58,11 @@ const RegisterPage = () => {
     location.state?.openGuide && location.state?.guideContext === "register"
   );
   const { translation, updateTranslation } = translationSelect();
+  useDocumentMeta({
+    title: t("page.register.meta.title"),
+    description: t("page.register.meta.description"),
+    language: translation
+  });
   const { toggleTheme } = useThemeStore();
   useThemeEffect();
 

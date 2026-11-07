@@ -23,9 +23,6 @@ const NotificationPage = React.lazy(() => import("@/page/notification/Notificati
 const Support = React.lazy(() => import("@/page/support"));
 const ProfilePage = React.lazy(() => import("@/page/profile/ProfilePage"));
 
-// Not Found
-const NotFoundPage = React.lazy(() => import("@/components/ui/NotFoundPage"));
-
 export const miscRoutes = (
   <>
     <Route
@@ -52,6 +49,5 @@ export const miscRoutes = (
     <Route path="/notification" element={<NotificationPage />} />
     <Route path="/support" element={<Support />} />
     <Route path="/profile" element={<ProfilePage />} />
-    <Route path="*" element={<NotFoundPage />} />
   </>
 );

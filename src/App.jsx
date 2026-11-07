@@ -7,6 +7,7 @@ import {
   RouterProvider
 } from "react-router-dom";
 import RouteProgress from "@/components/ui/route-progress";
+import { PageLoader } from "@/components/ui/page-loader";
 import { useTranslation } from "react-i18next";
 import { translationSelect } from "@/state/translation";
 import useKeyboardShortcuts from "@/hooks/useKeyboardShortcuts";
@@ -16,8 +17,9 @@ import { OfflineIndicator } from "@/components/ui/OfflineIndicator";
 
 // Layout
 const DashboardLayout = React.lazy(() => import("./components/layout/DashboardLayout"));
+const NotFoundPage = React.lazy(() => import("@/components/ui/NotFoundPage"));
 
-import ErrorBoundary from "@/components/ErrorBoundary";
+import { RouteErrorBoundary, RouteErrorPage } from "@/components/ErrorBoundary";
 
 // Route groups — lazy-loaded per domain
 import {
@@ -76,16 +78,16 @@ const DeferredSentry = () => {
 const RootLayout = () => (
   <React.Fragment>
     <OfflineIndicator />
-    <Suspense>
+    <Suspense fallback={<PageLoader isFullScreen />}>
       <SupportComponent />
       <RouteProgress />
       <ShortcutHandler />
       <RegisterRequiredDialog />
       <DeferredSentry />
       <UnsavedChangesProvider>
-        <ErrorBoundary>
+        <RouteErrorBoundary isFullScreen>
           <Outlet />
-        </ErrorBoundary>
+        </RouteErrorBoundary>
       </UnsavedChangesProvider>
     </Suspense>
   </React.Fragment>
@@ -93,7 +95,7 @@ const RootLayout = () => (
 
 const router = createBrowserRouter(
   createRoutesFromElements(
-    <Route element={<RootLayout />}>
+    <Route element={<RootLayout />} errorElement={<RouteErrorPage />}>
       {/* Standalone routes (no layout) */}
       {authRoutes}
       {cashierRoutes}
@@ -117,6 +119,8 @@ const router = createBrowserRouter(
         {bundleRoutes}
         {businessTripRoutes}
       </Route>
+
+      <Route path="*" element={<NotFoundPage />} />
     </Route>
   )
 );

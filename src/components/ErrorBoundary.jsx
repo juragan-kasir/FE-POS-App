@@ -1,6 +1,7 @@
-import React from "react";
-import { Button } from "@/components/ui/button";
-import i18next from "i18next";
+import React, { useEffect } from "react";
+import { useLocation, useRouteError } from "react-router-dom";
+import ErrorFallback from "@/components/ErrorFallback";
+import { reportRenderError } from "@/lib/report-render-error";
 
 export default class ErrorBoundary extends React.Component {
   constructor(props) {
@@ -12,6 +13,16 @@ export default class ErrorBoundary extends React.Component {
     return { hasError: true, error };
   }
 
+  componentDidCatch(error, errorInfo) {
+    reportRenderError(error, errorInfo.componentStack);
+  }
+
+  componentDidUpdate(previousProps) {
+    if (this.state.hasError && previousProps.resetKey !== this.props.resetKey) {
+      this.handleReset();
+    }
+  }
+
   handleReset = () => {
     this.setState({ hasError: false, error: null });
   };
@@ -19,24 +30,32 @@ export default class ErrorBoundary extends React.Component {
   render() {
     if (this.state.hasError) {
       return (
-        <div className="min-h-screen flex items-center justify-center bg-background p-8">
-          <div className="max-w-md text-center space-y-4">
-            <div className="w-16 h-16 mx-auto rounded-full bg-destructive/10 flex items-center justify-center">
-              <span className="text-3xl">!</span>
-            </div>
-            <h1 className="text-2xl font-bold text-foreground">
-              {i18next.t("component.errorBoundary.ui.somethingWentWrong")}
-            </h1>
-            <p className="text-muted-foreground text-sm">
-              {this.state.error?.message || i18next.t("common.ui.unexpectedError")}
-            </p>
-            <Button onClick={this.handleReset}>
-              {i18next.t("component.errorBoundary.ui.tryAgain")}
-            </Button>
-          </div>
-        </div>
+        <ErrorFallback
+          error={this.state.error}
+          onRetry={this.handleReset}
+          isFullScreen={this.props.isFullScreen}
+        />
       );
     }
     return this.props.children;
   }
 }
+
+export const RouteErrorBoundary = ({ isFullScreen, children }) => {
+  const { pathname } = useLocation();
+  return (
+    <ErrorBoundary resetKey={pathname} isFullScreen={isFullScreen}>
+      {children}
+    </ErrorBoundary>
+  );
+};
+
+export const RouteErrorPage = () => {
+  const error = useRouteError();
+
+  useEffect(() => {
+    reportRenderError(error);
+  }, [error]);
+
+  return <ErrorFallback error={error} isFullScreen />;
+};
