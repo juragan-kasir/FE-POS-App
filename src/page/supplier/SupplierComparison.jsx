@@ -344,7 +344,7 @@ const SupplierComparison = () => {
         breadcrumbs={[
           {
             label: t("breadcrumb.home"),
-            href: "/",
+            href: "/dashboard-super-admin",
             i18nKey: "breadcrumb.home"
           },
           {

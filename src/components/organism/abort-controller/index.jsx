@@ -17,25 +17,48 @@ export const forbiddenKind = (error) => {
   return "forbidden";
 };
 
+export const notFoundKind = (error) => (error?.response?.status === 404 ? "notFound" : null);
+
+const KIND_UI = {
+  noStore: {
+    Icon: Store,
+    boxClass: "bg-amber-100 text-amber-700 dark:bg-amber-900/40 dark:text-amber-400 shadow-sm",
+    titleClass: "text-foreground font-bold text-lg md:text-xl",
+    titleKey: "error.noStoreTitle",
+    descKey: "error.noStoreDesc"
+  },
+  forbidden: {
+    Icon: ShieldAlert,
+    boxClass: "bg-amber-100 text-amber-700 dark:bg-amber-900/40 dark:text-amber-400 shadow-sm",
+    titleClass: "text-foreground font-bold text-lg md:text-xl",
+    titleKey: "error.forbiddenTitle",
+    descKey: "error.forbiddenDesc"
+  },
+  notFound: {
+    Icon: AlertTriangle,
+    boxClass: "bg-destructive/10 text-destructive shadow-sm",
+    titleClass: "text-destructive font-bold text-lg md:text-xl",
+    titleKey: "error.notFoundTitle",
+    descKey: "error.notFoundDesc"
+  }
+};
+
 const AbortController = ({ refetch, error }) => {
   const { t } = useTranslation();
-  const kind = forbiddenKind(error);
+  const kind = notFoundKind(error) || forbiddenKind(error);
 
   if (kind) {
-    const Icon = kind === "noStore" ? Store : ShieldAlert;
+    const { Icon, boxClass, titleClass, titleKey, descKey } = KIND_UI[kind];
     return (
       <div className="flex h-[470px] flex-col rounded-lg">
         <div className="flex flex-col flex-1 items-center justify-center rounded-lg gap-5 px-6">
-          <div className="flex h-20 w-20 items-center justify-center rounded-2xl border bg-amber-100 text-amber-700 dark:bg-amber-900/40 dark:text-amber-400 shadow-sm">
+          <div
+            className={`flex h-20 w-20 items-center justify-center rounded-2xl border ${boxClass}`}>
             <Icon className="h-10 w-10" strokeWidth={1.5} />
           </div>
           <div className="text-center max-w-md space-y-2">
-            <p className="text-foreground font-bold text-lg md:text-xl">
-              {t(kind === "noStore" ? "error.noStoreTitle" : "error.forbiddenTitle")}
-            </p>
-            <p className="text-muted-foreground text-sm leading-relaxed">
-              {t(kind === "noStore" ? "error.noStoreDesc" : "error.forbiddenDesc")}
-            </p>
+            <p className={titleClass}>{t(titleKey)}</p>
+            <p className="text-muted-foreground text-sm leading-relaxed">{t(descKey)}</p>
           </div>
         </div>
       </div>
