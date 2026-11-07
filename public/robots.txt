@@ -1,3 +1,15 @@
 # https://www.robotstxt.org/robotstxt.html
 User-agent: *
-Disallow:
+Allow: /$
+Allow: /privacy$
+Allow: /assets/
+Allow: /locales/
+Allow: /favicon
+Allow: /apple-touch-icon.png
+Allow: /manifest.json
+Allow: /mini-logo.png
+Allow: /logo-512.png
+Allow: /og-juragan-kasir.jpg
+Disallow: /
+
+Sitemap: https://pos.juragankasir.com/sitemap.xml
