@@ -10035,5 +10035,8 @@
   "landing.floatingChat.ariaWhatsapp": "Chat with the Juragan Kasir team on WhatsApp",
   "landing.floatingChat.ariaEmail": "Email the Juragan Kasir team",
   "page.product.form.tierMinQty": "Min. qty",
-  "page.product.form.tierMinQtyHint": "Set for a bulk (grosir) price: it applies automatically once the quantity reaches this number. Leave empty for a special price (e.g. member price) that never applies automatically."
+  "page.product.form.tierMinQtyHint": "Set for a bulk (grosir) price: it applies automatically once the quantity reaches this number. Leave empty for a special price (e.g. member price) that never applies automatically.",
+  "page.product.form.allowDecimalQty": "Sold by weight (kg / liter)",
+  "page.product.form.allowDecimalQtyHint": "The cashier can enter a fraction with up to 3 decimals, e.g. 0.75 kg. The line total rounds to the nearest Rp1.",
+  "page.cashier.weightQty": "Weight / volume"
 }

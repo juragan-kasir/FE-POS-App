@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
-import { quantityBreaksOf, repriceLine } from "@/utils/quantityPrice";
+import { quantityBreaksOf, repriceLine, roundQty, lineTotalOf } from "@/utils/quantityPrice";
 
 export const orderList = create(
   persist(
@@ -70,6 +70,9 @@ export const orderList = create(
               ...(selectedModifiers.length ? { selectedModifiers } : {}),
               image: product.image || product.imageProduct || product.photo || null,
               unit: product.unit || "",
+              // Retail R1: sold by weight / volume (kg, liter), so the count
+              // may be a fraction with up to three decimals.
+              ...(product.allowDecimalQty ? { allowDecimalQty: true } : {}),
               sku: product.sku || "",
               point: product.point || 0,
               redeemPoints: product.redeemPoints || 0
@@ -145,6 +148,22 @@ export const orderList = create(
             })
           };
         });
+      },
+
+      // Set a line's quantity directly (typed into the cart). Whole units
+      // unless the product sells by weight (three decimals). Re-prices the
+      // line, so a grosir break follows the new quantity.
+      setQuantity: (target, quantity) => {
+        const key = target?.cartKey || target?.id;
+        return set((state) => ({
+          order: state.order.map((item) => {
+            if ((item.cartKey || item.id) !== key) return item;
+            const raw = Number(quantity);
+            const qty = item.allowDecimalQty ? roundQty(raw) : Math.round(raw);
+            if (!Number.isFinite(qty) || qty <= 0) return item;
+            return repriceLine(item, qty);
+          })
+        }));
       },
 
       // Delete Product
@@ -227,7 +246,7 @@ export const orderList = create(
                 return {
                   ...items,
                   price,
-                  totalPrice: price * (items.count || 1),
+                  totalPrice: lineTotalOf(price, items.count || 1),
                   priceOverridden: true
                 };
               }

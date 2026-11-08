@@ -865,6 +865,7 @@ const CashierPage = () => {
                   taxUnavailable={taxUnavailable}
                   onRetryTax={refetchTaxRate}
                   onIncrement={orderList.getState().incrementOrder}
+                  onSetQuantity={orderList.getState().setQuantity}
                   onDecrement={orderList.getState().decrementOrder}
                   onDelete={orderList.getState().handleDeleteOrder}
                   onCheckout={cartCheckout}
@@ -908,6 +909,7 @@ const CashierPage = () => {
                 taxUnavailable={taxUnavailable}
                 onRetryTax={refetchTaxRate}
                 onIncrement={orderList.getState().incrementOrder}
+                onSetQuantity={orderList.getState().setQuantity}
                 onDecrement={orderList.getState().decrementOrder}
                 onDelete={orderList.getState().handleDeleteOrder}
                 onCheckout={cartCheckout}
