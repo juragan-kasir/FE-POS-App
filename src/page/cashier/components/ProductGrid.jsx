@@ -622,6 +622,9 @@ const ProductGrid = ({
           variantName: choice.label || choice.nameVariant || choice.name,
           price: choice.price || product.price,
           totalPrice: choice.price || product.price,
+          // Retail R1: the catalog unit the markup sits on (grosir breaks
+          // replace it, the markup stays).
+          catalogUnitPrice: product.price,
           // W3-4 (K3): the selections the price was built from, kept apart
           // from the product's own options/modifiers definitions.
           selectedOptions: Array.isArray(choice.options) ? choice.options : [],
