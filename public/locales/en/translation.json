@@ -8134,7 +8134,7 @@
   "sidebar.section.karyawanShift": "Employees & Shift",
   "common.unlimited": "Unlimited",
   "common.and": "and",
-  "page.product.form.tierInfo": "Price tiers let you set special prices for certain customer groups (e.g. member price, wholesale price). Leave empty if the base price above is enough.",
+  "page.product.form.tierInfo": "Price tiers for special prices. Set \"Min. qty\" to make a bulk (grosir) price the cashier applies automatically once the quantity reaches it (e.g. 12 pcs and up). Without a Min. qty a tier is only a label (e.g. member price). Leave empty if the base price is enough.",
   "page.product.form.modifierInfo": "Modifiers are optional add-ons customers can choose (e.g. extra cheese, spice level, ice). Add a name and extra price (0 if free).",
   "page.product.form.addIngredientProduct": "Add Raw Material Product",
   "page.product.form.compositionInfo": "Composition lists the ingredients that make up this product. Pick from your Raw Material (Bahan Baku) products. For Menu products, this is shown to customers as 'Ingredients'.",
@@ -10234,5 +10234,7 @@
   "landing.floatingChat.labelWhatsapp": "Chat with Us",
   "landing.floatingChat.labelEmail": "Email Us",
   "landing.floatingChat.ariaWhatsapp": "Chat with the Juragan Kasir team on WhatsApp",
-  "landing.floatingChat.ariaEmail": "Email the Juragan Kasir team"
+  "landing.floatingChat.ariaEmail": "Email the Juragan Kasir team",
+  "page.product.form.tierMinQty": "Min. qty",
+  "page.product.form.tierMinQtyHint": "Set for a bulk (grosir) price: it applies automatically once the quantity reaches this number. Leave empty for a special price (e.g. member price) that never applies automatically."
 }

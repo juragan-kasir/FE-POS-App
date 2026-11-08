@@ -1,5 +1,6 @@
 import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
+import { quantityBreaksOf, repriceLine } from "@/utils/quantityPrice";
 
 export const orderList = create(
   persist(
@@ -34,17 +35,19 @@ export const orderList = create(
           return set((state) => ({
             order: state.order.map((item) => {
               if (item.cartKey === cartKey) {
-                return {
-                  ...item,
-                  count: (item.count || 0) + 1,
-                  totalPrice: Number(item.totalPrice || 0) + Number(item.price || 0)
-                };
+                // Retail R1: a quantity break may change the unit price.
+                return repriceLine(item, (item.count || 0) + 1);
               }
               return item;
             })
           }));
         }
         const price = Number(product.price || product.sellPrice || 0);
+        // Retail R1: grosir breaks replace the catalog unit price; the
+        // option/modifier markup (price minus catalog unit) stays on top.
+        const quantityBreaks = isBundle ? [] : quantityBreaksOf(product.priceTiers);
+        const catalogUnit = Number(product.catalogUnitPrice ?? price);
+        const markup = Number.isFinite(catalogUnit) ? Math.max(price - catalogUnit, 0) : 0;
         return set((state) => ({
           order: [
             ...state.order,
@@ -61,6 +64,7 @@ export const orderList = create(
               // effectivePrice/bundlePrice, so checkout may echo it as
               // expectedPrice.
               priceAuthoritative: product.priceAuthoritative === true,
+              ...(quantityBreaks.length ? { quantityBreaks, listPrice: price, markup } : {}),
               ...(isBundle ? { isBundle: true, bundleId: id } : {}),
               ...(selectedOptions.length ? { selectedOptions } : {}),
               ...(selectedModifiers.length ? { selectedModifiers } : {}),
@@ -94,6 +98,8 @@ export const orderList = create(
               ...item,
               price,
               totalPrice: price * (item.count || 1),
+              // The server price is for this count; stop re-pricing locally.
+              quantityBreaks: [],
               priceOverridden: false,
               priceAuthoritative: true
             };
@@ -114,11 +120,7 @@ export const orderList = create(
           return {
             order: state.order.map((items) => {
               if (items.cartKey === decrementOrder.cartKey) {
-                return {
-                  ...items,
-                  count: items.count - 1,
-                  totalPrice: Number(items.totalPrice) - Number(items.price)
-                };
+                return repriceLine(items, items.count - 1);
               } else {
                 // F9-08: keep the same reference for every other line so a
                 // memoized cart row can bail on re-rendering via a plain
@@ -136,11 +138,7 @@ export const orderList = create(
           return {
             order: state.order.map((items) => {
               if (items.cartKey === incrementOrder.cartKey) {
-                return {
-                  ...items,
-                  count: items.count + 1,
-                  totalPrice: Number(items.totalPrice) + Number(items.price)
-                };
+                return repriceLine(items, items.count + 1);
               } else {
                 return items;
               }

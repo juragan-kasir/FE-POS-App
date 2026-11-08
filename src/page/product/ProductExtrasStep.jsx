@@ -295,6 +295,21 @@ const ProductExtrasStep = ({ form, extras }) => {
                   className="h-9 text-sm flex-1"
                   maxLength={FIELD_LIMITS.SHORT_LABEL}
                 />
+                <div className="w-28 shrink-0">
+                  <Input
+                    type="text"
+                    inputMode="numeric"
+                    aria-label={t("page.product.form.tierMinQty")}
+                    title={t("page.product.form.tierMinQtyHint")}
+                    placeholder={t("page.product.form.tierMinQty")}
+                    value={tier.minQty ?? ""}
+                    onChange={(e) => {
+                      const raw = e.target.value.replace(/[^0-9]/g, "");
+                      updatePriceTier(tier.id, "minQty", raw ? Number(raw) : "");
+                    }}
+                    className="h-9 text-sm"
+                  />
+                </div>
                 <div className="relative w-40 shrink-0">
                   <span className="absolute left-2.5 top-1/2 -translate-y-1/2 text-xs text-muted-foreground">
                     Rp

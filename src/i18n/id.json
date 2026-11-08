@@ -8275,7 +8275,7 @@
   "sidebar.section.karyawanShift": "Karyawan & Shift",
   "common.unlimited": "Tak Terbatas",
   "common.and": "dan",
-  "page.product.form.tierInfo": "Tingkat harga memungkinkan Anda menentukan harga khusus untuk kelompok pelanggan tertentu (misal: harga member, harga grosir). Kosongkan jika cukup memakai harga dasar di atas.",
+  "page.product.form.tierInfo": "Tingkat harga untuk harga khusus. Isi \"Min. jumlah\" agar menjadi harga grosir yang otomatis dipakai kasir saat jumlah beli mencapai angka itu (misal 12 pcs ke atas). Tanpa Min. jumlah, tingkat hanya label (misal harga member). Kosongkan bagian ini jika cukup harga dasar.",
   "page.product.form.modifierInfo": "Modifier adalah pilihan tambahan yang bisa dipilih pelanggan (contoh: tambah keju, level pedas, es batu). Tulis nama dan harga tambahan (Rp 0 jika gratis).",
   "page.product.form.addIngredientProduct": "Tambah Produk Bahan Baku",
   "page.product.form.compositionInfo": "Komposisi adalah bahan-bahan penyusun produk ini. Pilih dari daftar produk Bahan Baku yang sudah Anda buat. Untuk produk Menu, komposisi akan tampil di aplikasi pelanggan sebagai 'Bahan-bahan'.",
@@ -10033,5 +10033,7 @@
   "landing.floatingChat.labelWhatsapp": "Chat Tim Kami",
   "landing.floatingChat.labelEmail": "Email Tim Kami",
   "landing.floatingChat.ariaWhatsapp": "Chat tim Juragan Kasir lewat WhatsApp",
-  "landing.floatingChat.ariaEmail": "Kirim email ke tim Juragan Kasir"
+  "landing.floatingChat.ariaEmail": "Kirim email ke tim Juragan Kasir",
+  "page.product.form.tierMinQty": "Min. jumlah",
+  "page.product.form.tierMinQtyHint": "Isi untuk harga grosir: harga ini otomatis dipakai saat jumlah beli mencapai angka ini. Kosongkan untuk harga khusus (misal harga member) yang tidak otomatis."
 }
