@@ -10035,5 +10035,8 @@
   "landing.floatingChat.ariaWhatsapp": "Chat tim Juragan Kasir lewat WhatsApp",
   "landing.floatingChat.ariaEmail": "Kirim email ke tim Juragan Kasir",
   "page.product.form.tierMinQty": "Min. jumlah",
-  "page.product.form.tierMinQtyHint": "Isi untuk harga grosir: harga ini otomatis dipakai saat jumlah beli mencapai angka ini. Kosongkan untuk harga khusus (misal harga member) yang tidak otomatis."
+  "page.product.form.tierMinQtyHint": "Isi untuk harga grosir: harga ini otomatis dipakai saat jumlah beli mencapai angka ini. Kosongkan untuk harga khusus (misal harga member) yang tidak otomatis.",
+  "page.product.form.allowDecimalQty": "Dijual per timbang (kg / liter)",
+  "page.product.form.allowDecimalQtyHint": "Kasir bisa memasukkan jumlah pecahan sampai 3 angka di belakang koma, misal 0,75 kg. Total baris dibulatkan ke Rp1 terdekat.",
+  "page.cashier.weightQty": "Berat / volume"
 }

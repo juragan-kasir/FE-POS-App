@@ -98,3 +98,50 @@ describe("order-list store: quantity breaks", () => {
     expect(line().quantityBreaks).toBeUndefined();
   });
 });
+
+describe("order-list store: sell by weight (retail R1)", () => {
+  beforeEach(() => orderList.setState({ order: [] }));
+
+  const weighed = {
+    id: 9,
+    nameProduct: "Daging",
+    price: 12345,
+    unit: "kg",
+    allowDecimalQty: true,
+    priceAuthoritative: true
+  };
+
+  test("a weighed line takes a typed fraction and rounds the total to the rupiah", () => {
+    orderList.getState().addOrder(weighed);
+    orderList.getState().setQuantity(line(), 0.5);
+    expect(line().count).toBe(0.5);
+    expect(line().totalPrice).toBe(6173);
+    const [item] = buildOrderItemsPayload(orderList.getState().order);
+    expect(item.quantity).toBe(0.5);
+    expect(item.expectedPrice).toBe(12345);
+  });
+
+  test("a whole-unit line rounds a typed fraction to whole units", () => {
+    orderList.getState().addOrder(product);
+    orderList.getState().setQuantity(line(), 2.4);
+    expect(line().count).toBe(2);
+  });
+
+  test("zero or garbage leaves the line unchanged", () => {
+    orderList.getState().addOrder(weighed);
+    orderList.getState().setQuantity(line(), 0);
+    orderList.getState().setQuantity(line(), "abc");
+    expect(line().count).toBe(1);
+  });
+});
+
+describe("quantity input parsing", () => {
+  test("accepts a comma or a dot and keeps three decimals for weighed lines", async () => {
+    const { parseQuantityInput, formatQuantity } = await import("../utils/quantityPrice");
+    expect(parseQuantityInput("0,75", true)).toBe(0.75);
+    expect(parseQuantityInput("1.2345", true)).toBe(1.235);
+    expect(parseQuantityInput("1,5", false)).toBe(2);
+    expect(parseQuantityInput("abc", true)).toBeNull();
+    expect(formatQuantity(0.75)).toBe("0,75");
+  });
+});

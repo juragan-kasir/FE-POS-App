@@ -8,6 +8,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { Combobox } from "@/components/ui/combobox";
+import { Switch } from "@/components/ui/switch";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import ConversionFactorField from "@/page/product/ConversionFactorField";
 import { FIELD_LIMITS } from "@/constants/fieldLimits";
@@ -292,6 +293,28 @@ const ProductInfoStep = ({
                       searchPlaceholder={t("page.product.form.unitSearch")}
                     />
                     <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="allowDecimalQty"
+                render={({ field }) => (
+                  <FormItem className="flex flex-row items-start gap-3 rounded-lg border border-border p-3">
+                    <Switch
+                      id="allowDecimalQty"
+                      checked={field.value === true}
+                      onCheckedChange={field.onChange}
+                    />
+                    <div className="space-y-1">
+                      <FormLabel htmlFor="allowDecimalQty">
+                        {t("page.product.form.allowDecimalQty")}
+                      </FormLabel>
+                      <FormDescription>
+                        {t("page.product.form.allowDecimalQtyHint")}
+                      </FormDescription>
+                    </div>
                   </FormItem>
                 )}
               />

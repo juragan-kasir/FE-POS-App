@@ -33,10 +33,32 @@ export const breakPriceFor = (breaks, quantity) => {
   return price;
 };
 
-// Unit price × quantity, rounded to the nearest Rp1 (half up), as the server
-// rounds a line.
-export const lineTotalOf = (unitPrice, quantity) =>
-  Math.round((Number(unitPrice) || 0) * (Number(quantity) || 0));
+// A quantity rounded to three decimals (gram / milliliter).
+export const roundQty = (value) => Math.round(Number(value) * 1000) / 1000;
+
+// Unit price × quantity, rounded to the nearest Rp1 half up, as the server
+// rounds a line (computed on milli-units so 1.005 kg never rounds down).
+export const lineTotalOf = (unitPrice, quantity) => {
+  const milli = Math.round((Number(quantity) || 0) * 1000);
+  const total = (Number(unitPrice) || 0) * milli;
+  return Math.sign(total) * Math.floor((Math.abs(total) + 500) / 1000);
+};
+
+// Parses a typed quantity ("0,75", "1.5", "2"): whole units unless the line
+// sells by weight. Returns null for anything unusable.
+export const parseQuantityInput = (text, allowDecimal) => {
+  const normalized = String(text ?? "")
+    .trim()
+    .replace(",", ".");
+  if (!/^\d*(\.\d*)?$/.test(normalized) || normalized === "" || normalized === ".") return null;
+  const n = Number(normalized);
+  if (!Number.isFinite(n)) return null;
+  return allowDecimal ? roundQty(n) : Math.round(n);
+};
+
+// A quantity for display: up to three decimals with a comma ("0,75").
+export const formatQuantity = (value) =>
+  Number(value || 0).toLocaleString("id-ID", { maximumFractionDigits: 3 });
 
 // A cart line re-priced for a new count. Overridden lines keep their price;
 // otherwise the unit price is the break price (plus markup) when one

@@ -29,6 +29,8 @@ import {
   DialogFooter
 } from "@/components/ui/dialog";
 
+import { formatQuantity, parseQuantityInput } from "@/utils/quantityPrice";
+
 const itemKey = (item) => item.cartKey || item.id || item.ID || item.idProduct || item._id;
 
 const formatPrice = (value) => {
@@ -54,6 +56,7 @@ const CartLineItem = React.memo(function CartLineItem({
   hasError,
   onIncrement,
   onDecrement,
+  onSetQuantity,
   onRequestDelete,
   onStartEditPrice,
   onCancelEditPrice,
@@ -66,10 +69,30 @@ const CartLineItem = React.memo(function CartLineItem({
   const lineTotal = item.totalPrice || price * count;
   const img = item.image || item.photo || item.ImageURL || item.imageProduct || item.image_url;
 
+  // Retail R1: a weighed line types a fraction ("0,75"), kept as text while
+  // editing; whole-unit lines keep the numeric field.
+  const isWeighed = item.allowDecimalQty === true;
   const [qtyValue, setQtyValue] = useState(count);
+  const [qtyText, setQtyText] = useState(formatQuantity(count));
   useEffect(() => {
     setQtyValue(count);
+    setQtyText(formatQuantity(count));
   }, [count]);
+
+  const commitWeighedQty = () => {
+    const parsed = parseQuantityInput(qtyText, true);
+    if (parsed === null) {
+      setQtyText(formatQuantity(count));
+      return;
+    }
+    if (parsed <= 0) {
+      setQtyText(formatQuantity(count));
+      onRequestDelete(item);
+      return;
+    }
+    if (parsed !== count && onSetQuantity) onSetQuantity(item, parsed);
+    else setQtyText(formatQuantity(count));
+  };
 
   const [priceValue, setPriceValue] = useState(String(price));
   useEffect(() => {
@@ -168,24 +191,47 @@ const CartLineItem = React.memo(function CartLineItem({
                 className="p-1.5 rounded-md text-muted-foreground hover:text-foreground hover:bg-accent transition-all active:scale-90">
                 <Minus size={14} />
               </button>
-              <div className="relative">
-                <input
-                  type="number"
-                  min="1"
-                  value={qtyValue}
-                  onChange={(e) => {
-                    const parsed = Number.parseInt(e.target.value, 10);
-                    setQtyValue(Number.isNaN(parsed) ? count : parsed);
-                  }}
-                  onBlur={() => commitQtyChange(qtyValue)}
-                  onKeyDown={(e) => {
-                    if (e.key === "Enter") {
-                      commitQtyChange(qtyValue);
-                      e.target.blur();
-                    }
-                  }}
-                  className="w-10 text-center text-sm font-semibold bg-transparent border-none outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
-                />
+              <div className="relative flex items-center">
+                {isWeighed ? (
+                  <>
+                    <input
+                      type="text"
+                      inputMode="decimal"
+                      aria-label={t("page.cashier.weightQty")}
+                      value={qtyText}
+                      onChange={(e) => setQtyText(e.target.value.replace(/[^0-9.,]/g, ""))}
+                      onBlur={commitWeighedQty}
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter") {
+                          commitWeighedQty();
+                          e.target.blur();
+                        }
+                      }}
+                      className="w-14 text-center text-sm font-semibold bg-transparent border-none outline-none"
+                    />
+                    {item.unit && (
+                      <span className="text-xs text-muted-foreground">{item.unit}</span>
+                    )}
+                  </>
+                ) : (
+                  <input
+                    type="number"
+                    min="1"
+                    value={qtyValue}
+                    onChange={(e) => {
+                      const parsed = Number.parseInt(e.target.value, 10);
+                      setQtyValue(Number.isNaN(parsed) ? count : parsed);
+                    }}
+                    onBlur={() => commitQtyChange(qtyValue)}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter") {
+                        commitQtyChange(qtyValue);
+                        e.target.blur();
+                      }
+                    }}
+                    className="w-10 text-center text-sm font-semibold bg-transparent border-none outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                  />
+                )}
               </div>
               <button
                 type="button"
@@ -286,6 +332,7 @@ const CartPanel = ({
   onRetryTax,
   onIncrement,
   onDecrement,
+  onSetQuantity,
   onDelete,
   onCheckout,
   onClearCart,
@@ -430,6 +477,7 @@ const CartPanel = ({
                     hasError={!!safeGet(priceErrors, key)}
                     onIncrement={onIncrement}
                     onDecrement={onDecrement}
+                    onSetQuantity={onSetQuantity}
                     onRequestDelete={requestDelete}
                     onStartEditPrice={startEditPrice}
                     onCancelEditPrice={cancelEditPrice}
@@ -578,6 +626,7 @@ CartPanel.propTypes = {
   onRetryTax: PropTypes.func,
   onIncrement: PropTypes.func,
   onDecrement: PropTypes.func,
+  onSetQuantity: PropTypes.func,
   onDelete: PropTypes.func,
   onCheckout: PropTypes.func,
   notice: PropTypes.node,
