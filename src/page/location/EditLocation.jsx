@@ -67,7 +67,7 @@ import {
   SelectValue
 } from "@/components/ui/select";
 import { normalizePayload } from "@/lib/payload-normalizer";
-import { resolveSubmitStatus } from "@/lib/store-lifecycle";
+import { isReactivatableStatus, resolveSubmitStatus } from "@/lib/store-lifecycle";
 import { editLocation, getLocationById } from "@/services/location";
 import {
   getProvinces,
@@ -140,6 +140,11 @@ const EditLocation = () => {
   const [searchParams] = useSearchParams();
   const editId = searchParams.get("id");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  // The saved lifecycle status. An inactive/closed/archived store cannot be
+  // switched back on here (BE STORE_ACTIVATION_NOT_PERMITTED): that goes
+  // through "Aktifkan Kembali" on the location list.
+  const [persistedStatus, setPersistedStatus] = useState(null);
+  const reactivationOnly = isReactivatableStatus(persistedStatus);
   const [successModal, setSuccessModal] = useState(false);
   const [errorModal, setErrorModal] = useState(false);
   const [modalMessage, setModalMessage] = useState("");
@@ -443,6 +448,7 @@ const EditLocation = () => {
       setSocialLinks(location.socialMedia);
     }
 
+    setPersistedStatus(location.status ?? null);
     form.reset({
       name: location.name || "",
       storeId: location.storeId || "",
@@ -1459,9 +1465,18 @@ const EditLocation = () => {
                               ? t("page.location.form.activeDesc")
                               : t("page.location.form.inactiveDesc")}
                           </p>
+                          {reactivationOnly && !field.value && (
+                            <p className="text-xs text-muted-foreground mt-1">
+                              {t("page.location.form.reactivateHint")}
+                            </p>
+                          )}
                         </div>
                       </div>
-                      <Switch checked={field.value} onCheckedChange={field.onChange} />
+                      <Switch
+                        checked={field.value}
+                        onCheckedChange={field.onChange}
+                        disabled={reactivationOnly && !field.value}
+                      />
                     </div>
                   )}
                 />
