@@ -2028,7 +2028,7 @@
   "apiError.code.STORE_HAS_IN_TRANSIT_TRANSFERS": "This store still has stock transfers in transit. Finish them first.",
   "apiError.code.STORE_HAS_OPEN_REGISTERS": "This store still has open cash registers. Close them first.",
   "apiError.code.STORE_HAS_UNSETTLED_ORDERS": "This store still has unpaid orders. Settle them first.",
-  "apiError.code.STORE_NOT_ARCHIVED": "This store is not archived.",
+  "apiError.code.STORE_NOT_ARCHIVED": "Only an archived, inactive or closed store can be reactivated.",
   "apiError.code.STORE_NOT_FOUND": "Store not found or already deleted.",
   "apiError.code.STORE_REQUIRED": "Select a store first.",
   "apiError.code.STORE_SCOPE_DENIED": "This store is outside your access.",
@@ -10038,5 +10038,8 @@
   "page.product.form.tierMinQtyHint": "Set for a bulk (grosir) price: it applies automatically once the quantity reaches this number. Leave empty for a special price (e.g. member price) that never applies automatically.",
   "page.product.form.allowDecimalQty": "Sold by weight (kg / liter)",
   "page.product.form.allowDecimalQtyHint": "The cashier can enter a fraction with up to 3 decimals, e.g. 0.75 kg. The line total rounds to the nearest Rp1.",
-  "page.cashier.weightQty": "Weight / volume"
+  "page.cashier.weightQty": "Weight / volume",
+  "page.location.form.reactivateHint": "An inactive store cannot be activated here. Use \"Reactivate\" on the location list.",
+  "apiError.code.STORE_ACTIVATION_NOT_PERMITTED": "An inactive store cannot be activated from the edit form. Use \"Reactivate\" on the location list.",
+  "apiError.code.REACTIVATE_TENANT_REQUIRED": "Attach the store to a tenant before reactivating it."
 }

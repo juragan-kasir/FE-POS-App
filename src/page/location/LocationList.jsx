@@ -46,6 +46,7 @@ import TableActions from "@/components/ui/TableActions";
 import { qk } from "@/queries/keys";
 import { FIELD_LIMITS } from "@/constants/fieldLimits";
 import { dateLocale } from "@/lib/locale";
+import { isReactivatableStatus } from "@/lib/store-lifecycle";
 
 const LocationList = () => {
   const { t } = useTranslation();
@@ -377,7 +378,7 @@ const LocationList = () => {
               icon: ArchiveRestore,
               onClick: () => setArchiveModal({ open: true, location: loc, mode: "reactivate" }),
               hidden:
-                loc.status !== "archived" ||
+                !isReactivatableStatus(loc.status) ||
                 !isAdminRole(user) ||
                 !canAccess(user, MENU_KEY, "delete")
             },

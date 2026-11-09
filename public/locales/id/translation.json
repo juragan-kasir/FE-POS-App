@@ -1949,7 +1949,7 @@
   "apiError.code.STORE_HAS_IN_TRANSIT_TRANSFERS": "Toko ini masih punya transfer stok yang sedang dikirim. Selesaikan dulu.",
   "apiError.code.STORE_HAS_OPEN_REGISTERS": "Toko ini masih punya register kasir yang terbuka. Tutup dulu.",
   "apiError.code.STORE_HAS_UNSETTLED_ORDERS": "Toko ini masih punya pesanan yang belum lunas. Selesaikan dulu.",
-  "apiError.code.STORE_NOT_ARCHIVED": "Toko ini tidak sedang diarsipkan.",
+  "apiError.code.STORE_NOT_ARCHIVED": "Hanya toko yang diarsipkan, nonaktif, atau tutup yang bisa diaktifkan kembali.",
   "apiError.code.STORE_NOT_FOUND": "Toko tidak ditemukan atau sudah dihapus.",
   "apiError.code.STORE_REQUIRED": "Pilih toko dulu.",
   "apiError.code.STORE_SCOPE_DENIED": "Toko ini di luar akses Anda.",
@@ -10239,5 +10239,8 @@
   "page.product.form.tierMinQtyHint": "Isi untuk harga grosir: harga ini otomatis dipakai saat jumlah beli mencapai angka ini. Kosongkan untuk harga khusus (misal harga member) yang tidak otomatis.",
   "page.product.form.allowDecimalQty": "Dijual per timbang (kg / liter)",
   "page.product.form.allowDecimalQtyHint": "Kasir bisa memasukkan jumlah pecahan sampai 3 angka di belakang koma, misal 0,75 kg. Total baris dibulatkan ke Rp1 terdekat.",
-  "page.cashier.weightQty": "Berat / volume"
+  "page.cashier.weightQty": "Berat / volume",
+  "page.location.form.reactivateHint": "Toko nonaktif tidak bisa diaktifkan dari sini. Gunakan \"Aktifkan Kembali\" di daftar Lokasi.",
+  "apiError.code.STORE_ACTIVATION_NOT_PERMITTED": "Toko nonaktif tidak bisa diaktifkan dari form edit. Gunakan \"Aktifkan Kembali\" di daftar Lokasi.",
+  "apiError.code.REACTIVATE_TENANT_REQUIRED": "Hubungkan toko ke tenant dulu sebelum mengaktifkannya kembali."
 }

@@ -16,3 +16,11 @@ export const resolveSubmitStatus = ({ saveAsDraft, lifecycleTouched, isActive } 
   if (!lifecycleTouched) return undefined;
   return isActive ? "active" : "inactive";
 };
+
+// The one way back to "active" for a store taken out of service. The edit form
+// may not activate an inactive/closed/archived store (BE
+// STORE_ACTIVATION_NOT_PERMITTED); "Aktifkan Kembali" (/reactivate-location)
+// does, with a reason and an audit row. Terminal states never come back.
+export const REACTIVATABLE_STATUSES = Object.freeze(["archived", "inactive", "closed"]);
+
+export const isReactivatableStatus = (status) => REACTIVATABLE_STATUSES.includes(status);
