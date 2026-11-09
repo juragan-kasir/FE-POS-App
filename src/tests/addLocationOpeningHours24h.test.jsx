@@ -172,3 +172,21 @@ describe("AddLocation — Phase 39 Batch 6D is24Hours flag", () => {
     expect(toggle24).toBeDisabled();
   });
 });
+
+describe("AddLocation — default lifecycle status", () => {
+  beforeAll(() => {
+    // The status control is a Radix Switch, which measures itself.
+    globalThis.ResizeObserver ??= class {
+      observe() {}
+      unobserve() {}
+      disconnect() {}
+    };
+  });
+
+  test("a new location starts as Active", async () => {
+    renderPage();
+    fireEvent.mouseDown(await screen.findByText("page.location.form.tabPengaturan"));
+    expect(await screen.findByText("page.location.form.activeDesc")).toBeInTheDocument();
+    expect(screen.queryByText("page.location.form.inactiveDesc")).not.toBeInTheDocument();
+  });
+});
