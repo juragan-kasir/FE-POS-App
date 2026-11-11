@@ -225,7 +225,7 @@ const ReceiptModal = ({ data, onClose, onNewTransaction }) => {
     const r = Number(data.taxRate);
     return r > 1 ? Math.round(r) : Math.round(r * 100);
   })();
-  const discount = data?.discountValue || data?.discount || 0;
+  const discount = Number(data?.discountAmount) || Number(data?.discount) || 0;
   const total = data?.total || data?.grandTotal || 0;
   const cashAmount = data?.cashAmount || data?.payment?.cashAmount || 0;
   const changeAmount = data?.changeAmount || data?.payment?.changeAmount || 0;
@@ -1058,7 +1058,7 @@ ReceiptModal.propTypes = {
     total: PropTypes.number,
     tax: PropTypes.number,
     taxAmount: PropTypes.number,
-    discountValue: PropTypes.number,
+    discountAmount: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
     discount: PropTypes.number,
     grandTotal: PropTypes.number,
     cashAmount: PropTypes.number,
