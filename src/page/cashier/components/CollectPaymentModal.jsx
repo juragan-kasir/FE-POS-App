@@ -375,6 +375,7 @@ const CollectPaymentModal = ({ order, store, onClose, onOpenReceipt }) => {
 
   const handleSplitBill = () => {
     onOpenReceipt(toReceiptData(freshOrder));
+    onClose();
   };
 
   const formatPrice = (value) => Number(value || 0).toLocaleString("id-ID");

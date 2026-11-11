@@ -11,6 +11,7 @@ import {
   PlayCircle,
   Plus,
   Trash2,
+  UserCog,
   XCircle
 } from "lucide-react";
 import PageHeader from "@/components/ui/PageHeader";
@@ -30,6 +31,7 @@ import { createTenant, deleteTenant, getTenants, updateTenant } from "@/services
 import { useTenantManagePermission } from "@/hooks/useTenantManagePermission";
 import { FIELD_LIMITS } from "@/constants/fieldLimits";
 import { dateLocale } from "@/lib/locale";
+import TenantAdminsDialog from "./TenantAdminsDialog";
 
 export const TENANTS_QUERY_KEY = "tenants";
 const DEFAULT_LIMIT = 10;
@@ -232,6 +234,7 @@ const TenantList = () => {
   const [formTarget, setFormTarget] = useState(null); // { tenant } | null
   const [statusTarget, setStatusTarget] = useState(null);
   const [deleteTarget, setDeleteTarget] = useState(null);
+  const [adminsTarget, setAdminsTarget] = useState(null);
 
   // The platform sees every tenant; a client's own super admin (bakso_admin)
   // only its own, without suspend/resume (the BE enforces both).
@@ -339,6 +342,7 @@ const TenantList = () => {
         ...(ownOnly
           ? []
           : [
+              { icon: UserCog, label: t(`${P}.admins.action`) },
               { icon: PauseCircle, label: t(`${P}.action.suspend`) },
               { icon: PlayCircle, label: t(`${P}.action.resume`) }
             ]),
@@ -353,6 +357,12 @@ const TenantList = () => {
               label: t("common.edit"),
               icon: Edit,
               onClick: () => setFormTarget({ tenant: row })
+            },
+            {
+              label: t(`${P}.admins.action`),
+              icon: UserCog,
+              onClick: () => setAdminsTarget(row),
+              hidden: ownOnly
             },
             {
               label: t(`${P}.action.suspend`),
@@ -537,6 +547,12 @@ const TenantList = () => {
           deleteMutation.mutate(deleteTarget.id);
           return false; // closed by onSuccess / onError
         }}
+      />
+
+      <TenantAdminsDialog
+        tenant={adminsTarget}
+        onClose={() => setAdminsTarget(null)}
+        onChanged={() => queryClient.invalidateQueries(TENANTS_QUERY_KEY)}
       />
     </div>
   );
