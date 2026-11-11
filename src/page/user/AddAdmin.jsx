@@ -36,6 +36,11 @@ import { useFieldErrors } from "@/hooks/useFieldErrors";
 import { FieldError } from "@/components/ui/field-error";
 import LoadErrorBanner from "@/components/ui/LoadErrorBanner";
 
+const ALL_LOCATIONS_VALUE = "all";
+
+const toStoreId = (locationId) =>
+  locationId && locationId !== ALL_LOCATIONS_VALUE ? Number(locationId) : null;
+
 const AddAdmin = () => {
   const dirtyRef = useDomDirtyTracking();
   const { t } = useTranslation();
@@ -126,7 +131,7 @@ const AddAdmin = () => {
         password: form.password,
         confirmPassword: form.password,
         phoneNumber: form.phoneNumber,
-        store: form.locationId ? Number(form.locationId) : null,
+        store: toStoreId(form.locationId),
         roleId: form.role ? Number(form.role) : null,
         userType: "admin",
         status: saveAsDraft ? "draft" : "active"
@@ -268,8 +273,11 @@ const AddAdmin = () => {
                     id="add-admin-location"
                     options={[
                       { value: "", label: t("page.user.form.locationPlaceholder") },
-                      ...locations.map((loc) => ({ value: loc.id || loc._id, label: loc.name })),
-                      { value: "all", label: t("page.user.form.locationAll") }
+                      ...locations.map((loc) => ({
+                        value: String(loc.id || loc._id),
+                        label: loc.name
+                      })),
+                      { value: ALL_LOCATIONS_VALUE, label: t("page.user.form.locationAll") }
                     ]}
                     value={form.locationId}
                     onChange={(v) => setForm((prev) => ({ ...prev, locationId: v }))}
@@ -434,7 +442,7 @@ const AddAdmin = () => {
               password: form.password,
               confirmPassword: form.password,
               phoneNumber: form.phoneNumber,
-              store: form.locationId ? Number(form.locationId) : null,
+              store: toStoreId(form.locationId),
               userType: "admin",
               status: "draft"
             });
