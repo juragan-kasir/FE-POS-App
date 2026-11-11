@@ -245,6 +245,8 @@ const FieldError = ({ error }) => {
   );
 };
 
+const toFieldId = (value) => (value ? String(value) : "");
+
 const STOCK_FLOW_FIELDS = ["stokAwalJumlah", "barangMasukJumlah", "barangKeluarJumlah"];
 const PHYSICAL_STOCK_FIELD = "stokFisikJumlah";
 
@@ -422,13 +424,13 @@ const AddStockOpname = () => {
         items:
           opname.items && opname.items.length > 0
             ? opname.items.map((item) => ({
-                productId: item.productId ? String(item.productId) : "",
+                productId: toFieldId(item.productId),
                 kodeBarang: item.kodeBarang || "",
                 namaBarang: item.namaBarang || "",
                 satuan: item.satuan || "",
-                lokasiId: item.lokasiId || "",
+                lokasiId: toFieldId(item.lokasiId),
                 lokasiLabel: item.lokasi || "",
-                store: item.store || "",
+                store: toFieldId(item.store),
                 stokAwalJumlah: String(item.stokAwalJumlah ?? ""),
                 barangMasukJumlah: String(item.barangMasukJumlah ?? ""),
                 barangKeluarJumlah: String(item.barangKeluarJumlah ?? ""),
