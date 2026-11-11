@@ -8684,6 +8684,7 @@
   "page.tenant.admins.add": "Tambahkan",
   "page.tenant.admins.added": "Admin tenant ditambahkan",
   "page.tenant.admins.revoke": "Cabut akses",
+  "page.tenant.admins.revokeReason": "Alasan pencabutan akses",
   "page.tenant.admins.revoked": "Akses admin tenant dicabut",
   "page.tenant.admins.failed": "Perubahan admin tenant gagal disimpan",
   "page.tenant.action.resume": "Aktifkan kembali",

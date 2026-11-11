@@ -8684,6 +8684,7 @@
   "page.tenant.admins.add": "Add",
   "page.tenant.admins.added": "Tenant admin added",
   "page.tenant.admins.revoke": "Revoke access",
+  "page.tenant.admins.revokeReason": "Reason for revoking access",
   "page.tenant.admins.revoked": "Tenant admin access revoked",
   "page.tenant.admins.failed": "Could not save the tenant admin change",
   "page.tenant.action.resume": "Resume",

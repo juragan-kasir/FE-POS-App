@@ -549,7 +549,11 @@ const TenantList = () => {
         }}
       />
 
-      <TenantAdminsDialog tenant={adminsTarget} onClose={() => setAdminsTarget(null)} />
+      <TenantAdminsDialog
+        tenant={adminsTarget}
+        onClose={() => setAdminsTarget(null)}
+        onChanged={() => queryClient.invalidateQueries(TENANTS_QUERY_KEY)}
+      />
     </div>
   );
 };

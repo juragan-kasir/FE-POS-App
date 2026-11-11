@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
-import { UserMinus, UserPlus } from "lucide-react";
+import { UserPlus } from "lucide-react";
 import {
   Dialog,
   DialogContent,
@@ -14,14 +14,16 @@ import { Button } from "@/components/ui/button";
 import { Combobox } from "@/components/ui/combobox";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useTenantAdmins } from "./useTenantAdmins";
+import TenantAdminRow from "./TenantAdminRow";
 
 const P = "page.tenant.admins";
 
-const TenantAdminsDialog = ({ tenant, onClose }) => {
+const TenantAdminsDialog = ({ tenant, onClose, onChanged }) => {
   const { t } = useTranslation();
   const [selectedUserId, setSelectedUserId] = useState("");
   const { admins, candidates, isLoading, add, revoke } = useTenantAdmins(tenant?.id, {
-    enabled: !!tenant
+    enabled: !!tenant,
+    onChanged
   });
 
   const handleAdd = () =>
@@ -33,9 +35,12 @@ const TenantAdminsDialog = ({ tenant, onClose }) => {
       onError: (err) => toast.error(err?.message || t(`${P}.failed`))
     });
 
-  const handleRevoke = (membershipId) =>
-    revoke.mutate(membershipId, {
-      onSuccess: () => toast.success(t(`${P}.revoked`)),
+  const handleRevoke = (payload, onDone) =>
+    revoke.mutate(payload, {
+      onSuccess: () => {
+        onDone();
+        toast.success(t(`${P}.revoked`));
+      },
       onError: (err) => toast.error(err?.message || t(`${P}.failed`))
     });
 
@@ -53,20 +58,12 @@ const TenantAdminsDialog = ({ tenant, onClose }) => {
             <p className="text-sm text-muted-foreground">{t(`${P}.empty`)}</p>
           )}
           {admins.map((admin) => (
-            <div
+            <TenantAdminRow
               key={admin.id}
-              className="flex items-center justify-between gap-2 rounded-lg border px-3 py-2">
-              <span className="text-sm font-medium">{admin.label}</span>
-              <Button
-                variant="ghost"
-                size="sm"
-                className="gap-1.5 text-destructive"
-                disabled={revoke.isLoading}
-                onClick={() => handleRevoke(admin.id)}>
-                <UserMinus size={14} aria-hidden="true" />
-                {t(`${P}.revoke`)}
-              </Button>
-            </div>
+              admin={admin}
+              isRevoking={revoke.isLoading}
+              onRevoke={handleRevoke}
+            />
           ))}
         </div>
 
@@ -99,7 +96,8 @@ const TenantAdminsDialog = ({ tenant, onClose }) => {
 
 TenantAdminsDialog.propTypes = {
   tenant: PropTypes.shape({ id: PropTypes.number, name: PropTypes.string }),
-  onClose: PropTypes.func.isRequired
+  onClose: PropTypes.func.isRequired,
+  onChanged: PropTypes.func
 };
 
 export default TenantAdminsDialog;

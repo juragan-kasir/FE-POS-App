@@ -10,7 +10,7 @@ export const createMembership = async ({ userId, tenantId, role }) => {
   return data;
 };
 
-export const updateMembershipStatus = async (id, status) => {
-  const { data } = await axiosInstance.patch(`/memberships/${id}`, { status });
+export const updateMembershipStatus = async (id, { status, reason }) => {
+  const { data } = await axiosInstance.patch(`/memberships/${id}`, { status, reason });
   return data;
 };

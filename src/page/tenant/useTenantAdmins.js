@@ -12,7 +12,7 @@ import {
 const accountLabel = (user) =>
   user?.fullName ? `${user.fullName} (${user.userName})` : user?.userName || "";
 
-export const useTenantAdmins = (tenantId, { enabled }) => {
+export const useTenantAdmins = (tenantId, { enabled, onChanged }) => {
   const queryClient = useQueryClient();
   const membershipsKey = ["tenant-admins", tenantId];
 
@@ -44,13 +44,17 @@ export const useTenantAdmins = (tenantId, { enabled }) => {
     .filter((user) => !adminUserIds.has(user.id))
     .map((user) => ({ value: String(user.id), label: accountLabel(user) }));
 
-  const refresh = () => queryClient.invalidateQueries(membershipsKey);
+  const refresh = () => {
+    queryClient.invalidateQueries(membershipsKey);
+    onChanged?.();
+  };
   const add = useMutation(
     (userId) => createMembership({ userId: Number(userId), tenantId, role: TENANT_ADMIN_ROLE }),
     { onSuccess: refresh }
   );
   const revoke = useMutation(
-    (membershipId) => updateMembershipStatus(membershipId, MEMBERSHIP_STATUS.deactivated),
+    ({ membershipId, reason }) =>
+      updateMembershipStatus(membershipId, { status: MEMBERSHIP_STATUS.deactivated, reason }),
     { onSuccess: refresh }
   );
 
