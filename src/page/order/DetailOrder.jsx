@@ -1,19 +1,22 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import { useQuery } from "react-query";
+import { useCookies } from "react-cookie";
 import { useTranslation } from "react-i18next";
-import { Undo2, Receipt, CreditCard, History, ShoppingBag } from "lucide-react";
+import { Undo2, Receipt, CreditCard, History, ShoppingBag, Ban } from "lucide-react";
 import { getOrderById } from "@/services/order";
 import { getSplitBillByOrder } from "@/services/split-bill";
 import { getAllSalesReturn } from "@/services/sales-return";
 import { useLocations } from "@/queries/useLocations";
-import { buttonVariants } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import AbortController from "@/components/organism/abort-controller";
 import PageHeader from "@/components/ui/PageHeader";
 import HorizontalScrollArea from "@/components/ui/HorizontalScrollArea";
 import { dateLocale } from "@/lib/locale";
+import VoidOrderDialog from "@/components/organism/VoidOrderDialog";
+import { isAdminRole } from "@/utils/role";
 
 // One sale, read-only: what was sold, how it was charged and paid, and how
 // its status moved. Documents that refer to a sale (sales return, cash
@@ -60,6 +63,8 @@ const DetailOrder = () => {
   const { t } = useTranslation();
   const [searchParams] = useSearchParams();
   const id = searchParams.get("id");
+  const [cookie] = useCookies();
+  const [isVoidOpen, setIsVoidOpen] = useState(false);
 
   const { data, isLoading, isError, error, refetch } = useQuery(
     ["order-detail", id],
@@ -197,8 +202,25 @@ const DetailOrder = () => {
               {t("page.order.detail.createReturn")}
             </Link>
           )}
+          {canReturnOrder(order) && isAdminRole(cookie?.user) && (
+            <Button
+              variant="outline"
+              size="sm"
+              className="gap-1.5 text-destructive"
+              onClick={() => setIsVoidOpen(true)}>
+              <Ban size={14} aria-hidden="true" />
+              {t("page.voidOrder.action")}
+            </Button>
+          )}
         </>
       )}
+      <VoidOrderDialog
+        open={isVoidOpen}
+        onOpenChange={setIsVoidOpen}
+        order={order}
+        store={order.store}
+        onVoided={() => refetch()}
+      />
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
         <div className="lg:col-span-2 space-y-4">
