@@ -245,6 +245,27 @@ const FieldError = ({ error }) => {
   );
 };
 
+const STOCK_FLOW_FIELDS = ["stokAwalJumlah", "barangMasukJumlah", "barangKeluarJumlah"];
+const PHYSICAL_STOCK_FIELD = "stokFisikJumlah";
+
+const QuantityInput = ({ register, name, hasError }) => (
+  <input
+    type="text"
+    inputMode="decimal"
+    {...register(name, {
+      onChange: (e) => {
+        e.target.value = sanitizeDecimalInput(e.target.value);
+      }
+    })}
+    placeholder="0"
+    className={`w-full bg-transparent border-0 border-b text-sm text-right outline-none transition-colors px-0 py-1 tabular-nums ${
+      hasError
+        ? "border-destructive focus:border-solid"
+        : "border-dashed border-muted-foreground/20 focus:border-primary focus:border-solid"
+    }`}
+  />
+);
+
 const AddStockOpname = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
@@ -401,7 +422,7 @@ const AddStockOpname = () => {
         items:
           opname.items && opname.items.length > 0
             ? opname.items.map((item) => ({
-                productId: item.productId || "",
+                productId: item.productId ? String(item.productId) : "",
                 kodeBarang: item.kodeBarang || "",
                 namaBarang: item.namaBarang || "",
                 satuan: item.satuan || "",
@@ -453,7 +474,9 @@ const AddStockOpname = () => {
   };
 
   const handleProductSelect = (index, product) => {
-    setValue(`items.${index}.productId`, product.id || product._id, { shouldValidate: true });
+    setValue(`items.${index}.productId`, String(product.id || product._id), {
+      shouldValidate: true
+    });
     setValue(`items.${index}.kodeBarang`, product.barcode || "", { shouldValidate: true });
     setValue(`items.${index}.namaBarang`, product.nameProduct || product.name, {
       shouldValidate: true
@@ -553,7 +576,10 @@ const AddStockOpname = () => {
   const handleSaveComplete = async (e) => {
     e.preventDefault();
     const valid = await trigger();
-    if (!valid) return;
+    if (!valid) {
+      toast.error(t("common.error"), { description: t("apiError.invalid") });
+      return;
+    }
     setIsSubmitting(true);
     try {
       const payload = buildPayload("completed");
@@ -799,14 +825,16 @@ const AddStockOpname = () => {
                                       <CommandInput placeholder={t("common.search")} />
                                       <CommandList>
                                         {allProducts.filter(
-                                          (p) => !selectedProductIds.has(p.id || p._id)
+                                          (p) => !selectedProductIds.has(String(p.id || p._id))
                                         ).length === 0 && (
                                           <CommandEmpty>
                                             {t("page.stockOpname.table.productNotFound")}
                                           </CommandEmpty>
                                         )}
                                         {allProducts
-                                          .filter((p) => !selectedProductIds.has(p.id || p._id))
+                                          .filter(
+                                            (p) => !selectedProductIds.has(String(p.id || p._id))
+                                          )
                                           .map((p) => (
                                             <CommandItem
                                               key={p.id || p._id}
@@ -827,7 +855,7 @@ const AddStockOpname = () => {
                                                     </span>
                                                   )}
                                                 </div>
-                                                {selectedProductIds.has(p.id || p._id) && (
+                                                {selectedProductIds.has(String(p.id || p._id)) && (
                                                   <span className="ml-auto text-xs text-muted-foreground bg-muted px-1.5 py-0.5 rounded shrink-0">
                                                     {t("common.ui.selectedCount")}
                                                   </span>
@@ -897,32 +925,24 @@ const AddStockOpname = () => {
                                 </p>
                               )}
                             </td>
-                            {[
-                              "stokAwalJumlah",
-                              "barangMasukJumlah",
-                              "barangKeluarJumlah",
-                              "stokFisikJumlah"
-                            ].map((fieldName) => (
+                            {STOCK_FLOW_FIELDS.map((fieldName) => (
                               <td key={fieldName} className="border-r border-muted/20 px-3 py-2">
-                                <input
-                                  type="text"
-                                  inputMode="decimal"
-                                  {...form.register(`items.${index}.${fieldName}`, {
-                                    onChange: (e) => {
-                                      e.target.value = sanitizeDecimalInput(e.target.value);
-                                    }
-                                  })}
-                                  placeholder="0"
-                                  className={`w-full bg-transparent border-0 border-b text-sm text-right outline-none transition-colors px-0 py-1 tabular-nums ${
-                                    safeGet(rowErrors, fieldName)
-                                      ? "border-destructive focus:border-solid"
-                                      : "border-dashed border-muted-foreground/20 focus:border-primary focus:border-solid"
-                                  }`}
+                                <QuantityInput
+                                  register={form.register}
+                                  name={`items.${index}.${fieldName}`}
+                                  hasError={Boolean(safeGet(rowErrors, fieldName))}
                                 />
                               </td>
                             ))}
                             <td className="border-r border-muted/20 px-3 py-2 text-right font-semibold tabular-nums">
                               {stokAkhir}
+                            </td>
+                            <td className="border-r border-muted/20 px-3 py-2">
+                              <QuantityInput
+                                register={form.register}
+                                name={`items.${index}.${PHYSICAL_STOCK_FIELD}`}
+                                hasError={Boolean(safeGet(rowErrors, PHYSICAL_STOCK_FIELD))}
+                              />
                             </td>
                             <td
                               className={`border-r border-muted/20 px-3 py-2 text-right font-semibold tabular-nums ${getSelisihStyle(selisih)}`}>
