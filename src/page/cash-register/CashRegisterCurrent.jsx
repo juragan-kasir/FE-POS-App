@@ -23,6 +23,7 @@ import {
 import HorizontalScrollArea from "@/components/ui/HorizontalScrollArea";
 import CashMovements from "./components/CashMovements";
 import ExpectedCashSummary from "./components/ExpectedCashSummary";
+import OtherStaffNotice from "./components/OtherStaffNotice";
 import { canOpenPage } from "@/utils/pageAccess";
 import { isCashierRole } from "@/utils/role";
 import { CASH_REGISTER_PATHS } from "@/constants/cashRegister";
@@ -252,6 +253,11 @@ const CashRegisterCurrent = () => {
               <h2 className="text-lg font-semibold">{t("page.cashRegister.current.closeTitle")}</h2>
 
               {/* ponytail: settlement summary — auto-calculated expected vs physical */}
+              <OtherStaffNotice
+                otherStaff={data?.data?.otherStaff}
+                formatAmount={formatIDR}
+                hideAmounts={isBlindCount}
+              />
               {isBlindCount ? (
                 <p className="text-xs text-muted-foreground">
                   {t("page.cashRegister.history.blindCountHint")}
