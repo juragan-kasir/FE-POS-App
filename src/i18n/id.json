@@ -7849,6 +7849,7 @@
   "page.customerOrder.storeLabel": "Toko",
   "page.customerOrder.table": "Meja",
   "page.cashier.qrAlert.title": "Pesanan QR baru",
+  "page.cashier.waiterAlert.description": "{{type}} · {{table}}",
   "page.cashier.qrAlert.position": "{{index}} dari {{total}} pesanan baru",
   "page.cashier.qrAlert.orderNumber": "No. Pesanan",
   "page.cashier.qrAlert.customer": "Pelanggan",

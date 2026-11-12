@@ -7,27 +7,11 @@ import { QrCode } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { getOrdersByStore, updateOrderStatus } from "@/services/order";
+import { readSeenIds, writeSeenIds } from "@/lib/session-seen";
 
 const P = "page.cashier.qrAlert";
 
 const seenKey = (store) => `qr-order-alert-seen:${store}`;
-const readSeen = (store) => {
-  try {
-    const raw = sessionStorage.getItem(seenKey(store));
-    const list = raw ? JSON.parse(raw) : [];
-    return new Set(Array.isArray(list) ? list.map(String) : []);
-  } catch {
-    return new Set();
-  }
-};
-const writeSeen = (store, set) => {
-  try {
-    // Keep the list short: only ids that can still be pending matter.
-    sessionStorage.setItem(seenKey(store), JSON.stringify([...set].slice(-200)));
-  } catch {
-    // storage blocked: the in-memory set still works for this page
-  }
-};
 
 const rupiah = (n) => `Rp${Number(n || 0).toLocaleString("id-ID")}`;
 
@@ -39,7 +23,7 @@ const rupiah = (n) => `Rp${Number(n || 0).toLocaleString("id-ID")}`;
 const IncomingQrOrderAlert = ({ store, actor }) => {
   const { t } = useTranslation();
   const queryClient = useQueryClient();
-  const [seen, setSeen] = useState(() => readSeen(store));
+  const [seen, setSeen] = useState(() => readSeenIds(seenKey(store)));
   const [confirmReject, setConfirmReject] = useState(false);
 
   const { data: pending } = useQuery(
@@ -65,7 +49,7 @@ const IncomingQrOrderAlert = ({ store, actor }) => {
     setSeen((prev) => {
       const next = new Set(prev);
       next.add(String(id));
-      writeSeen(store, next);
+      writeSeenIds(seenKey(store), next);
       return next;
     });
   };

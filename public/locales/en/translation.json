@@ -7694,6 +7694,7 @@
   "page.customerOrder.storeLabel": "Store",
   "page.customerOrder.table": "Table",
   "page.cashier.qrAlert.title": "New QR order",
+  "page.cashier.waiterAlert.description": "{{type}} · {{table}}",
   "page.cashier.qrAlert.position": "{{index}} of {{total}} new orders",
   "page.cashier.qrAlert.orderNumber": "Order no.",
   "page.cashier.qrAlert.customer": "Customer",

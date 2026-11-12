@@ -89,6 +89,15 @@ const typeMeta = {
   }
 };
 
+const useWaiterRequestCount = (storeId, status, refetchInterval) => {
+  const { data } = useQuery(
+    ["waiter-request-count", storeId, status],
+    () => getWaiterRequestList({ store: storeId, page: 1, limit: 1, status }),
+    { retry: 1, enabled: !!storeId || storeId === "", refetchInterval }
+  );
+  return data?.pagination?.total || 0;
+};
+
 const statusBadge = (status) => {
   const map = {
     pending:
@@ -177,42 +186,13 @@ const WaiterRequestList = () => {
     }
   );
 
-  const { data: allData } = useQuery(
-    ["waiter-request-all", storeId],
-    () =>
-      getWaiterRequestList({
-        store: storeId,
-        page: 1,
-        limit: 1,
-        status: "all"
-      }),
-    {
-      retry: 1,
-      enabled: !!storeId || storeId === "",
-      refetchInterval: pollFallback
-    }
-  );
-
-  const { data: pendingData } = useQuery(
-    ["waiter-request-pending", storeId],
-    () =>
-      getWaiterRequestList({
-        store: storeId,
-        page: 1,
-        limit: 1,
-        status: "pending"
-      }),
-    {
-      retry: 1,
-      enabled: !!storeId || storeId === "",
-      refetchInterval: pollFallback
-    }
-  );
+  const totalAll = useWaiterRequestCount(storeId, "all", pollFallback);
+  const totalPending = useWaiterRequestCount(storeId, "pending", pollFallback);
+  const totalApproved = useWaiterRequestCount(storeId, "approved", pollFallback);
 
   const invalidate = useCallback(() => {
     queryClient.invalidateQueries(["waiter-request-list"]);
-    queryClient.invalidateQueries(["waiter-request-all"]);
-    queryClient.invalidateQueries(["waiter-request-pending"]);
+    queryClient.invalidateQueries(["waiter-request-count"]);
   }, [queryClient]);
 
   useEffect(() => {
@@ -266,8 +246,6 @@ const WaiterRequestList = () => {
   );
 
   const rows = data?.data || [];
-  const totalAll = allData?.pagination?.total || 0;
-  const totalPending = pendingData?.pagination?.total || 0;
 
   const columns = [
     {
@@ -426,7 +404,7 @@ const WaiterRequestList = () => {
         />
         <StatCard
           label={t("page.waiterRequest.stats.approved")}
-          value={totalPending}
+          value={totalApproved}
           icon={Clock}
           isLoading={isLoading}
           className="border-blue-200 dark:border-blue-800"
