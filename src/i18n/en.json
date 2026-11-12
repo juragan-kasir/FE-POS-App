@@ -10053,5 +10053,9 @@
   "page.cashier.weightQty": "Weight / volume",
   "page.location.form.reactivateHint": "An inactive store cannot be activated here. Use \"Reactivate\" on the location list.",
   "apiError.code.STORE_ACTIVATION_NOT_PERMITTED": "An inactive store cannot be activated from the edit form. Use \"Reactivate\" on the location list.",
-  "apiError.code.REACTIVATE_TENANT_REQUIRED": "Attach the store to a tenant before reactivating it."
+  "apiError.code.REACTIVATE_TENANT_REQUIRED": "Attach the store to a tenant before reactivating it.",
+  "page.cashier.outletClosed.message": "Outside opening hours: BISA shows this outlet as closed and QR orders are refused.",
+  "page.cashier.outletClosed.nextOpen": "Opens {{time}}.",
+  "page.cashier.outletClosed.editHours": "Edit opening hours",
+  "page.location.form.applyHoursToAllDays": "Use {{day}} hours for every day"
 }

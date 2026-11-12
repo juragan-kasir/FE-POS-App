@@ -88,6 +88,7 @@ import { FIELD_LIMITS } from "@/constants/fieldLimits";
 import { useFormExit } from "@/hooks/useLeaveGuard";
 import { createdId } from "@/utils/createdRecord";
 import LoadErrorBanner from "@/components/ui/LoadErrorBanner";
+import ApplyHoursToAllDays from "./components/ApplyHoursToAllDays";
 
 const days = [
   { id: "monday", label: "common.day.monday" },
@@ -1353,6 +1354,11 @@ const AddLocation = () => {
                   {/* Operasional Panel */}
                   {showOperasional && (
                     <div className="border border-border rounded-lg p-4 bg-muted/20">
+                      <ApplyHoursToAllDays
+                        form={form}
+                        sourceDay={days[0].id}
+                        sourceLabel={days[0].label}
+                      />
                       <div className="space-y-2">
                         {days.map((day) => {
                           const dayData = form
