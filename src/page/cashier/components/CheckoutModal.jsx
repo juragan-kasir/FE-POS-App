@@ -51,6 +51,7 @@ import { safeGet } from "@/lib/safe-lookup";
 import { buildOrderItemsPayload, parsePriceChangedError } from "@/utils/orderPayload";
 import { useDebounce } from "@/hooks/useDebounce";
 import MemberSearchModal from "@/components/MemberSearchModal";
+import MemberEarnedPoints from "./MemberEarnedPoints";
 import { toast } from "sonner";
 import { dispatchDisplayEvent, DISPLAY_EVENT_TYPES } from "@/utils/customerDisplayBoard";
 import { isRegisterRequiredError } from "@/state/registerRequired";
@@ -1608,6 +1609,7 @@ const CheckoutModal = ({
                   {t("page.cashier.ui.status")} {selectedCustomer.status || t("common.active")}
                 </span>
               </div>
+              <MemberEarnedPoints items={propItems || []} />
             </div>
           )}
 
