@@ -36,6 +36,9 @@ jest.mock("@/services/location", () => ({
 jest.mock("@/services/tax-config", () => ({
   getAllTaxConfig: jest.fn(() => Promise.resolve({ data: [] }))
 }));
+jest.mock("@/services/waiterRequest", () => ({
+  getWaiterRequestList: jest.fn(() => Promise.resolve({ data: [] }))
+}));
 jest.mock("@/services/order", () => ({
   getCustomerTaxRate: jest.fn(() => Promise.resolve({ data: { rate: 11 } }))
 }));

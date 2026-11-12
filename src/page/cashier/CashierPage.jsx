@@ -54,6 +54,7 @@ import OrderQueue from "./components/OrderQueue";
 import AddRoundNotice from "./components/AddRoundNotice";
 import { useAddOrderRound } from "./hooks/useAddOrderRound";
 import IncomingQrOrderAlert from "./components/IncomingQrOrderAlert";
+import IncomingWaiterRequestAlert from "./components/IncomingWaiterRequestAlert";
 import CollectPaymentModal from "./components/CollectPaymentModal";
 import ParkedCartPanel from "./components/ParkedCartPanel";
 import { createParkedCart } from "@/services/parked-cart";
@@ -969,6 +970,9 @@ const CashierPage = () => {
             store={store}
             actor={{ id: user?.id, name: user?.fullName || user?.userName }}
           />
+        )}
+        {store && ["kasir", "admin", "super_admin"].includes(role) && (
+          <IncomingWaiterRequestAlert key={store} store={store} />
         )}
         {collectPaymentOrder && (
           <CollectPaymentModal
