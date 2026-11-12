@@ -35,6 +35,15 @@ jest.mock("@/services/tenant", () => ({
   deleteTenant: (...args) => mockDeleteTenant(...args)
 }));
 
+jest.mock("@/services/user", () => ({
+  getAllUsers: jest.fn().mockResolvedValue({ data: [] })
+}));
+jest.mock("@/services/membership", () => ({
+  createMembership: jest.fn(),
+  getMemberships: jest.fn().mockResolvedValue({ data: [] }),
+  updateMembershipStatus: jest.fn()
+}));
+
 let mockPermission;
 jest.mock("@/hooks/useTenantManagePermission", () => ({
   useTenantManagePermission: () => mockPermission
@@ -113,6 +122,15 @@ describe("suggestTenantCode", () => {
   });
 });
 
+// More than two actions collapse into the kebab; Radix opens it from the
+// keyboard in jsdom (no PointerEvent).
+const openActions = async (name) => {
+  const row = (await screen.findByText(name)).closest("tr");
+  const trigger = within(row).getByRole("button", { name: "common.actions" });
+  trigger.focus();
+  fireEvent.keyDown(trigger, { key: "Enter" });
+};
+
 describe("TenantList", () => {
   test("without tenant.manage the page is access-denied and nothing is fetched", () => {
     mockPermission = { ...mockPermission, canManageTenants: false, canAdministerTenants: false };
@@ -182,8 +200,8 @@ describe("TenantList", () => {
   test("editing renames only, with the code locked", async () => {
     mockUpdateTenant.mockResolvedValue({ success: true, data: tenant(1, { name: "Baru" }) });
     wrap(<TenantList />);
-    await screen.findByText("Warung 1");
-    fireEvent.click(screen.getAllByTitle("common.edit")[0]);
+    await openActions("Warung 1");
+    fireEvent.click(await screen.findByRole("menuitem", { name: /common.edit/ }));
 
     expect(screen.getByLabelText(/page.tenant.form.code/)).toBeDisabled();
     fireEvent.change(screen.getByLabelText(/page.tenant.form.name/), {
@@ -196,12 +214,12 @@ describe("TenantList", () => {
   test("suspending asks for confirmation and sends only the status", async () => {
     mockUpdateTenant.mockResolvedValue({ success: true, data: tenant(1, { status: "suspended" }) });
     wrap(<TenantList />);
-    await screen.findByText("Warung 1");
-    // only the active tenant offers Suspend; the suspended one offers Resume
-    expect(screen.getAllByTitle("page.tenant.action.suspend")).toHaveLength(1);
-    expect(screen.getAllByTitle("page.tenant.action.resume")).toHaveLength(1);
-
-    fireEvent.click(screen.getByTitle("page.tenant.action.suspend"));
+    await openActions("Warung 1");
+    const suspend = await screen.findByRole("menuitem", { name: /page.tenant.action.suspend/ });
+    expect(
+      screen.queryByRole("menuitem", { name: /page.tenant.action.resume/ })
+    ).not.toBeInTheDocument();
+    fireEvent.click(suspend);
     expect(await screen.findByText("page.tenant.modal.suspendTitle")).toBeInTheDocument();
     fireEvent.click(screen.getByRole("button", { name: /page.tenant.action.suspend/ }));
     await waitFor(() => expect(mockUpdateTenant).toHaveBeenCalledWith(1, { status: "suspended" }));
@@ -223,14 +241,6 @@ describe("TenantList", () => {
 describe("TenantList — delete and a client's own super admin", () => {
   const ownScope = () => {
     mockPermission = { ...mockPermission, canManageTenants: false, ownTenantsOnly: true };
-  };
-  // More than two actions collapse into the kebab; Radix opens it from the
-  // keyboard in jsdom (no PointerEvent).
-  const openActions = async (name) => {
-    const row = (await screen.findByText(name)).closest("tr");
-    const trigger = within(row).getByRole("button", { name: "common.actions" });
-    trigger.focus();
-    fireEvent.keyDown(trigger, { key: "Enter" });
   };
 
   test("only an empty tenant offers Delete; confirming calls the API", async () => {
