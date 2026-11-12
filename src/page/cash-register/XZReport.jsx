@@ -28,6 +28,7 @@ import NoStore from "@/components/ui/NoStore";
 import { useLocations } from "@/queries/useLocations";
 import { dateLocale } from "@/lib/locale";
 import { DEFAULT_TIMEZONE, isValidTimezone } from "@/utils/storeTimezone";
+import OtherStaffNotice from "./components/OtherStaffNotice";
 
 const REGISTER_TIME_FORMAT = { day: "2-digit", month: "short", hour: "2-digit", minute: "2-digit" };
 
@@ -319,6 +320,10 @@ const ReportView = ({ data, reportType }) => {
         </div>
 
         <Dashed />
+
+        <div className="my-3">
+          <OtherStaffNotice otherStaff={data.otherStaff} formatAmount={formatIDR} />
+        </div>
 
         {/* Sales by product (BA finding #1): which items sold this shift —
             name, SKU, qty × average unit price, line total. Rendered only
