@@ -158,37 +158,35 @@ describe("CheckoutModal — closing does not silently discard input", () => {
     expect(onClose).not.toHaveBeenCalled();
   });
 
-  test("the preselected cash method alone is not a change to discard", async () => {
+  test("picking a payment method counts as a change to discard", async () => {
     const onClose = renderModal();
-    await waitFor(() =>
-      expect(screen.getByLabelText("page.cashier.cashAmount")).toBeInTheDocument()
-    );
+    fireEvent.click(await screen.findByText("Cash"));
+    await screen.findByLabelText("page.cashier.cashAmount");
 
     fireEvent.keyDown(document, { key: "Escape" });
 
-    await waitFor(() => expect(onClose).toHaveBeenCalledTimes(1));
-    expect(screen.queryByText("page.cashier.checkoutDiscardTitle")).not.toBeInTheDocument();
+    expect(await screen.findByText("page.cashier.checkoutDiscardTitle")).toBeInTheDocument();
+    expect(onClose).not.toHaveBeenCalled();
   });
 });
 
-describe("CheckoutModal — cash is preselected", () => {
-  test("opens with cash selected and the amount field focused", async () => {
+describe("CheckoutModal — no payment method is preselected (ADR-03)", () => {
+  test("opens with no method selected", async () => {
     renderModal();
+    await screen.findByText("Cash");
+    expect(screen.queryByLabelText("page.cashier.cashAmount")).not.toBeInTheDocument();
+  });
+
+  test("picking cash shows the amount field focused", async () => {
+    renderModal();
+    fireEvent.click(await screen.findByText("Cash"));
     const amount = await screen.findByLabelText("page.cashier.cashAmount");
     await waitFor(() => expect(amount).toHaveFocus());
   });
 
-  test("a store without an active cash method gets no preselection", async () => {
-    getAllTypePayment.mockResolvedValue({
-      data: [{ type: "qris", name: "QRIS", status: "active" }]
-    });
-    renderModal();
-    await screen.findByText("QRIS");
-    expect(screen.queryByLabelText("page.cashier.cashAmount")).not.toBeInTheDocument();
-  });
-
   test("a method the cashier picks is kept (not reset to cash)", async () => {
     renderModal();
+    fireEvent.click(await screen.findByText("Cash"));
     await screen.findByLabelText("page.cashier.cashAmount");
     fireEvent.click(screen.getByText("QRIS"));
     await waitFor(() =>
@@ -200,6 +198,7 @@ describe("CheckoutModal — cash is preselected", () => {
 describe("CheckoutModal — order of sections", () => {
   test("customer and discount come before payment, and the total stays in the footer", async () => {
     renderModal();
+    fireEvent.click(await screen.findByText("Cash"));
     await screen.findByLabelText("page.cashier.cashAmount");
 
     const before = (a, b) =>

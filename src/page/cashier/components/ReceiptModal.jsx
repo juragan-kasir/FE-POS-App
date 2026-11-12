@@ -35,7 +35,7 @@ import {
   cancelSplitBill,
   mergeSplitBills
 } from "@/services/split-bill";
-import { getAllTypePayment } from "@/services/type-payment";
+import { useStorePaymentOptions } from "@/hooks/useStorePaymentOptions";
 import { getInvoiceSetting } from "@/services/invoice";
 import { getLocationById } from "@/services/location";
 import {
@@ -53,12 +53,7 @@ import SendWhatsAppDialog from "./SendWhatsAppDialog";
 import { receiptLabels } from "@/components/receipt/receiptLabels";
 import { buildAddressLines } from "@/utils/receiptDocument";
 import { isRegisterRequiredError } from "@/state/registerRequired";
-import {
-  receiptPaymentLabel,
-  toPaymentOption,
-  findPaymentOption,
-  paymentTypeIdPayload
-} from "@/utils/payment";
+import { receiptPaymentLabel, findPaymentOption, paymentTypeIdPayload } from "@/utils/payment";
 import { FIELD_LIMITS } from "@/constants/fieldLimits";
 
 const ReceiptModal = ({ data, onClose, onNewTransaction }) => {
@@ -275,16 +270,9 @@ const ReceiptModal = ({ data, onClose, onNewTransaction }) => {
     totalPending: 0
   };
 
-  const { data: splitPaymentMethodsData } = useQuery(
-    ["payment-methods-active", storeId],
-    () => getAllTypePayment({ store: storeId, status: "active" }),
-    { enabled: showSplit && canManageSplits && !!storeId }
-  );
-  const splitPaymentMethods = (
-    splitPaymentMethodsData?.data ||
-    (Array.isArray(splitPaymentMethodsData) ? splitPaymentMethodsData : []) ||
-    []
-  ).map(toPaymentOption);
+  const splitPaymentMethods = useStorePaymentOptions(storeId, {
+    enabled: showSplit && canManageSplits
+  });
   const payOption = findPaymentOption(splitPaymentMethods, payOptionKey);
   const payMethodChoice = payOption?.type || "";
   const splitNeedsReference = !!payMethodChoice && !["cash", "points"].includes(payMethodChoice);

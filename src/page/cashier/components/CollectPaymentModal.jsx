@@ -13,7 +13,13 @@ import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { getOrderById, updateOrderStatus } from "@/services/order";
 import { getMemberById } from "@/services/member";
 import MemberSearchModal from "@/components/MemberSearchModal";
-import { REFERENCE_REQUIRED_METHODS, MAX_REFERENCE_LENGTH } from "@/utils/payment";
+import {
+  REFERENCE_REQUIRED_METHODS,
+  MAX_REFERENCE_LENGTH,
+  findPaymentOption,
+  paymentTypeIdPayload
+} from "@/utils/payment";
+import { useStorePaymentOptions } from "@/hooks/useStorePaymentOptions";
 import { isRegisterRequiredError } from "@/state/registerRequired";
 
 // F4-01: settles an order that already exists (e.g. created through
@@ -61,6 +67,14 @@ const SETTLEMENT_METHODS = [
   "points",
   "other"
 ];
+
+const POINTS_OPTION = Object.freeze({ key: "points", paymentTypeId: null, type: "points" });
+
+const toSettlementOptions = (storeOptions) => {
+  const settleable = storeOptions.filter((option) => SETTLEMENT_METHODS.includes(option.type));
+  if (settleable.some((option) => option.type === "points")) return settleable;
+  return [...settleable, POINTS_OPTION];
+};
 
 const CollectPaymentModal = ({ order, store, onClose, onOpenReceipt }) => {
   const { t } = useTranslation();
@@ -127,7 +141,11 @@ const CollectPaymentModal = ({ order, store, onClose, onOpenReceipt }) => {
   // a member id). Guest orders cannot pick points at all.
   const orderMemberId = freshOrder?.customerId || null;
   const isMethodAvailable = (m) => m !== "points" || !!orderMemberId;
-  const effectiveMethod = methodChoice;
+  const storePaymentOptions = useStorePaymentOptions(store);
+  const methodOptions = toSettlementOptions(storePaymentOptions);
+  const selectedMethodOption = findPaymentOption(methodOptions, methodChoice);
+  const effectiveMethod = selectedMethodOption?.type ?? null;
+  const hasStoreMethods = methodOptions.some((option) => option.type !== "points");
   const dinerIntent = SETTLEMENT_METHODS.includes(freshOrder?.paymentMethod)
     ? freshOrder.paymentMethod
     : null;
@@ -216,6 +234,7 @@ const CollectPaymentModal = ({ order, store, onClose, onOpenReceipt }) => {
         changedBy: user?.id,
         changedByName: user?.fullName || user?.userName,
         paymentMethod: tender.paymentMethod,
+        ...paymentTypeIdPayload(tender.paymentOption),
         ...(attachedMemberId != null ? { customerId: attachedMemberId } : {}),
         ...(tender.paymentMethod === "cash" && tender.cashAmount !== null
           ? { cashAmount: tender.cashAmount, changeAmount: tender.changeAmount }
@@ -359,11 +378,13 @@ const CollectPaymentModal = ({ order, store, onClose, onOpenReceipt }) => {
       effectiveMethod === "cash"
         ? {
             paymentMethod: "cash",
+            paymentOption: selectedMethodOption,
             cashAmount: cashReceivedOrNull,
             changeAmount: cashChange
           }
         : {
             paymentMethod: effectiveMethod,
+            paymentOption: selectedMethodOption,
             cashAmount: null,
             changeAmount: null,
             ...(needsReference ? { referenceNumber: referenceTrimmed } : {})
@@ -537,7 +558,7 @@ const CollectPaymentModal = ({ order, store, onClose, onOpenReceipt }) => {
                     </label>
                     <select
                       id="collect-payment-method"
-                      value={effectiveMethod ?? ""}
+                      value={selectedMethodOption?.key ?? ""}
                       onChange={(e) => {
                         setMethodChoice(e.target.value);
                         setPointsConfirmed(false);
@@ -549,12 +570,21 @@ const CollectPaymentModal = ({ order, store, onClose, onOpenReceipt }) => {
                       <option value="" disabled>
                         {t("page.cashier.selectPayment")}
                       </option>
-                      {SETTLEMENT_METHODS.map((m) => (
-                        <option key={m} value={m} disabled={!isMethodAvailable(m)}>
-                          {t(`page.cashier.collectPayment.method.${m}`, m)}
+                      {methodOptions.map((option) => (
+                        <option
+                          key={option.key}
+                          value={option.key}
+                          disabled={!isMethodAvailable(option.type)}>
+                          {option.label ||
+                            t(`page.cashier.collectPayment.method.${option.type}`, option.type)}
                         </option>
                       ))}
                     </select>
+                    {!hasStoreMethods && (
+                      <p className="text-xs text-muted-foreground">
+                        {t("page.cashier.noPaymentMethods")}
+                      </p>
+                    )}
                     {dinerIntent && (
                       <p className="text-xs text-muted-foreground">
                         {t("page.cashier.collectPayment.dinerIntent", {
