@@ -9671,7 +9671,7 @@
   "component.errorBoundary.ui.reload": "Reload",
   "component.errorBoundary.ui.somethingWentWrong": "Something went wrong",
   "component.errorBoundary.ui.tryAgain": "Try again",
-  "component.memberSearchModal.ui.memberNumber": "Member Number",
+  "component.memberSearchModal.ui.memberNumber": "Member phone",
   "component.memberSearchModal.ui.phoneMemberNo": "Phone / Member No.",
   "component.memberSearchModal.ui.memberName": "Member name",
   "component.memberSearchModal.ui.searchForAMember": "Search for a member.",
@@ -10254,5 +10254,7 @@
   "page.cashier.weightQty": "Weight / volume",
   "page.location.form.reactivateHint": "An inactive store cannot be activated here. Use \"Reactivate\" on the location list.",
   "apiError.code.STORE_ACTIVATION_NOT_PERMITTED": "An inactive store cannot be activated from the edit form. Use \"Reactivate\" on the location list.",
-  "apiError.code.REACTIVATE_TENANT_REQUIRED": "Attach the store to a tenant before reactivating it."
+  "apiError.code.REACTIVATE_TENANT_REQUIRED": "Attach the store to a tenant before reactivating it.",
+  "page.cashier.memberPoints.earned": "This sale earns the member {{points}} points.",
+  "page.cashier.memberPoints.none": "This sale earns no points: the products in the cart have no points set. Set them under Products."
 }
