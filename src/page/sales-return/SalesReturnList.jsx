@@ -24,6 +24,7 @@ import { useLocations } from "@/queries/useLocations";
 import { FIELD_LIMITS } from "@/constants/fieldLimits";
 import { Input } from "@/components/ui/input";
 import { dateLocale } from "@/lib/locale";
+import { normalizeRefundMethod, refundMethodLabel as methodLabel } from "@/utils/salesReturnRefund";
 
 const statusCfg = {
   pending: {
@@ -39,14 +40,23 @@ const statusCfg = {
 
 const SalesReturnList = () => {
   const { t } = useTranslation();
-  const refundMethodLabel = (m) => {
-    const known = ["cash", "debit", "credit", "e-wallet", "other"];
-    return known.includes(m) ? t(`page.salesReturn.method.${m}`) : m || "-";
-  };
+  const refundMethodLabel = (m) => methodLabel(m, t);
   const needsRefundReference = (item) =>
     Number(item?.refundAmount) > 0 &&
-    !["cash", "tunai", "points"].includes(String(item?.refundMethod || "cash").toLowerCase());
-  const isOtherRefund = (item) => String(item?.refundMethod || "").toLowerCase() === "other";
+    !["cash", "points"].includes(normalizeRefundMethod(item?.refundMethod || "cash"));
+  const isOtherRefund = (item) => normalizeRefundMethod(item?.refundMethod) === "other";
+  const isCashRefund = (item) => normalizeRefundMethod(item?.refundMethod || "cash") === "cash";
+  const refundAmountText = (item) =>
+    `Rp ${(Number(item?.refundAmount) || 0).toLocaleString("id-ID")}`;
+  const approveDescription = (item) => {
+    const amount = refundAmountText(item);
+    const summary = t("page.salesReturn.list.modal.approveRefundDesc", {
+      amount,
+      method: refundMethodLabel(item?.refundMethod)
+    });
+    if (!isCashRefund(item) || !(Number(item?.refundAmount) > 0)) return summary;
+    return `${summary} ${t("page.salesReturn.list.modal.approveCashDrawer", { amount })}`;
+  };
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const [cookie] = useCookies();
@@ -421,9 +431,11 @@ const SalesReturnList = () => {
             open={!!actionTarget && actionType === "approve" && needsRefundReference(actionItem)}
             onOpenChange={(o) => !o && setActionTarget(null)}
             title={t("page.salesReturn.list.modal.approveTitle")}
-            description={t("page.salesReturn.list.modal.referenceDesc", {
+            description={`${t("page.salesReturn.list.modal.approveRefundAmount", {
+              amount: refundAmountText(actionItem)
+            })} ${t("page.salesReturn.list.modal.referenceDesc", {
               method: refundMethodLabel(actionItem?.refundMethod)
-            })}
+            })}`}
             confirmText={t("page.salesReturn.list.modal.approveConfirm")}
             loading={approveMut.isLoading}
             onConfirm={() => {
@@ -485,7 +497,7 @@ const SalesReturnList = () => {
             }
             description={
               actionType === "approve"
-                ? t("page.salesReturn.list.modal.approveDesc")
+                ? approveDescription(actionItem)
                 : t("page.salesReturn.list.modal.rejectDesc")
             }
             confirmText={

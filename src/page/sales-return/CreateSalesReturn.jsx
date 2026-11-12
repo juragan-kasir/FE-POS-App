@@ -40,6 +40,11 @@ import { Textarea } from "@/components/ui/textarea";
 import { createdId } from "@/utils/createdRecord";
 import LoadErrorBanner from "@/components/ui/LoadErrorBanner";
 import { dateLocale } from "@/lib/locale";
+import {
+  estimateRefund,
+  normalizeRefundMethod,
+  refundMethodLabel
+} from "@/utils/salesReturnRefund";
 
 const reasonKeys = [
   "damaged",
@@ -129,16 +134,20 @@ const CreateSalesReturn = () => {
       { value: "e-wallet", label: t("page.salesReturn.method.ewallet") },
       { value: "other", label: t("page.salesReturn.method.other") }
     ];
-    let opts = list.length > 0 ? list.map((pm) => ({ value: pm.type, label: pm.name })) : fallback;
-    if (order?.paymentMethod && !opts.some((o) => o.value === order.paymentMethod)) {
-      const known = fallback.find((o) => o.value === order.paymentMethod);
-      opts = [{ value: order.paymentMethod, label: known?.label || order.paymentMethod }, ...opts];
+    const storeOptions = list.map((pm) => ({
+      value: normalizeRefundMethod(pm.type),
+      label: pm.name
+    }));
+    let opts = storeOptions.length > 0 ? storeOptions : fallback;
+    const orderMethod = normalizeRefundMethod(order?.paymentMethod);
+    if (orderMethod && !opts.some((o) => o.value === orderMethod)) {
+      opts = [{ value: orderMethod, label: refundMethodLabel(orderMethod, t) }, ...opts];
     }
     return opts;
   }, [paymentMethodsData, order?.paymentMethod, t]);
 
   useEffect(() => {
-    setRefundMethod(order?.paymentMethod || "cash");
+    setRefundMethod(normalizeRefundMethod(order?.paymentMethod) || "cash");
   }, [order?.paymentMethod]);
 
   const todayStr = todayDateOnly();
@@ -237,6 +246,9 @@ const CreateSalesReturn = () => {
           price: orderItem.totalPrice
             ? Math.floor(orderItem.totalPrice / orderItem.quantity)
             : orderItem.price,
+          unitAmount: orderItem.totalPrice
+            ? orderItem.totalPrice / orderItem.quantity
+            : Number(orderItem.price) || 0,
           unit: orderItem.unit || "pcs",
           inventoryMode: orderItem.inventoryMode || null
         }
@@ -261,9 +273,7 @@ const CreateSalesReturn = () => {
     setItems(items.filter((i) => i.orderItemId !== orderItemId));
   };
 
-  const totalRefund = useMemo(() => {
-    return items.reduce((sum, item) => sum + item.price * item.qty, 0);
-  }, [items]);
+  const totalRefund = estimateRefund(items, order);
 
   // Submit stays clickable: a click with missing input names what is missing
   // under the field instead of leaving a silently disabled button.
@@ -549,6 +559,9 @@ const CreateSalesReturn = () => {
                 </span>
                 <span className="font-semibold text-green-600">{formatRupiah(totalRefund)}</span>
               </div>
+              <p className="text-xs text-muted-foreground">
+                {t("page.salesReturn.create.summary.refundNote")}
+              </p>
             </div>
           </Card>
 
