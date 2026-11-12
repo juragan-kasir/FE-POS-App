@@ -18,6 +18,9 @@ jest.mock("react-cookie", () => ({
   useCookies: () => [{ user: { id: 9, fullName: "Kasir Uji", roleType: "admin" } }]
 }));
 
+jest.mock("../services/type-payment", () =>
+  jest.requireActual("./helpers/storePaymentTypes").storePaymentTypesMock()
+);
 jest.mock("../services/order", () => ({
   getOrderById: jest.fn(),
   updateOrderStatus: jest.fn(),

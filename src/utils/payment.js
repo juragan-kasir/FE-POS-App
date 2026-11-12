@@ -41,6 +41,17 @@ export const toPaymentOption = (paymentType) => ({
   kind: getPaymentIconKind(paymentType.type)
 });
 
+const isActivePaymentType = (paymentType) => {
+  const status = String(paymentType.status || "").toLowerCase();
+  return !status || status === "active" || status === "true";
+};
+
+export const activePaymentOptions = (response) => {
+  const data = response?.data || response || [];
+  const list = Array.isArray(data) ? data : [];
+  return list.filter(isActivePaymentType).map(toPaymentOption);
+};
+
 export const findPaymentOption = (options, key) =>
   options.find((option) => option.key === key) || null;
 

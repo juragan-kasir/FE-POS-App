@@ -38,11 +38,10 @@ import {
 import { getAllCustomer, addCustomer } from "@/services/customer";
 import { getAllDiscount, lookupDiscountByCode } from "@/services/discount";
 import { getAllMemberTier } from "@/services/member-tier";
-import { getAllTypePayment } from "@/services/type-payment";
+import { useStorePaymentOptions } from "@/hooks/useStorePaymentOptions";
 import { getMemberById } from "@/services/member";
 import { getTableAvailability, getTablesWithActiveOrders } from "@/services/table";
 import {
-  toPaymentOption,
   findPaymentOption,
   paymentTypeIdPayload,
   REFERENCE_REQUIRED_METHODS,
@@ -261,26 +260,16 @@ const CheckoutModal = ({
   const { data: tiersData } = useQuery(["member-tiers-active"], () =>
     getAllMemberTier({ status: "active" })
   );
-  const { data: paymentMethodsData } = useQuery(["payment-methods-active"], () =>
-    getAllTypePayment({ store, status: "active" })
+  const storePaymentOptions = useStorePaymentOptions(store);
+  const paymentMethods = useMemo(
+    () =>
+      storePaymentOptions.map((option) => ({
+        ...option,
+        icon: safeGet(PAYMENT_KIND_ICONS, option.kind, Wallet),
+        color: "from-primary to-primary/70"
+      })),
+    [storePaymentOptions]
   );
-  const paymentMethods = useMemo(() => {
-    const data = paymentMethodsData?.data || paymentMethodsData || [];
-    const list = Array.isArray(data) ? data : [];
-    return list
-      .filter((pm) => {
-        const s = (pm.status || "").toString().toLowerCase();
-        return !s || s === "active" || s === "true";
-      })
-      .map((pm) => {
-        const option = toPaymentOption(pm);
-        return {
-          ...option,
-          icon: safeGet(PAYMENT_KIND_ICONS, option.kind, Wallet),
-          color: "from-primary to-primary/70"
-        };
-      });
-  }, [paymentMethodsData]);
   const selectedPaymentOption = findPaymentOption(paymentMethods, selectedPaymentKey);
   const paymentMethod = selectedPaymentOption?.type || "";
   const { data: tablesData, isLoading: tablesLoading } = useQuery(
@@ -386,16 +375,6 @@ const CheckoutModal = ({
     return Array.isArray(data) ? data : [];
   }, [tiersData]);
 
-  // Most sales are cash: preselect it (when the store has it active) so the
-  // cashier types the amount and presses Enter, instead of picking a method
-  // on every sale. Only until the cashier picks a method themselves.
-  const defaultPaymentKey = paymentMethods.find((m) => m.type === "cash")?.key || "";
-  const methodPickedRef = useRef(false);
-  useEffect(() => {
-    if (!methodPickedRef.current && !selectedPaymentKey && defaultPaymentKey) {
-      setSelectedPaymentKey(defaultPaymentKey);
-    }
-  }, [defaultPaymentKey, selectedPaymentKey]);
   // Cash selected (preselected or clicked) → the amount field is next.
   useEffect(() => {
     if (paymentMethod === "cash") cashInputRef.current?.focus();
@@ -1181,8 +1160,7 @@ const CheckoutModal = ({
 
   const hasUnsavedCheckout =
     qrisPending ||
-    // The preselected cash method is not a change the cashier made.
-    (Boolean(selectedPaymentKey) && selectedPaymentKey !== defaultPaymentKey) ||
+    Boolean(selectedPaymentKey) ||
     referenceInput.trim() !== "" ||
     cashAmount.trim() !== "" ||
     Boolean(selectedCustomer) ||
@@ -1821,7 +1799,7 @@ const CheckoutModal = ({
               className="grid grid-cols-2 sm:grid-cols-3 gap-2">
               {paymentMethods.length === 0 ? (
                 <p className="col-span-full text-sm text-muted-foreground text-center py-3">
-                  {t("page.cashier.noPaymentMethods", "Tidak ada metode pembayaran aktif")}
+                  {t("page.cashier.noPaymentMethods")}
                 </p>
               ) : (
                 paymentMethods.map((method) => {
@@ -1832,7 +1810,6 @@ const CheckoutModal = ({
                       type="button"
                       key={method.key}
                       onClick={() => {
-                        methodPickedRef.current = true;
                         setSelectedPaymentKey(method.key);
                         setReferenceRefused(false);
                         setReferenceDuplicate(false);
