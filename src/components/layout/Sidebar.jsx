@@ -243,9 +243,15 @@ const Sidebar = ({ collapsed = true, expandWidthClass = "w-64", onToggle, onHove
   // ponytail: posItems hardcoded — untuk user menu-controlled wajib difilter
   // accessMenu supaya item tanpa akses (mis. KDS, QR Orders) tidak bocor.
   const visiblePosItems = useMemo(() => {
-    if (!isMenuControlled) return posItems;
-    return posItems.filter((item) => hasMenuAccess(user, item.href, ["view"]));
-  }, [isMenuControlled, posItems, user]);
+    if (isMenuControlled) {
+      const directHrefs = new Set(directItems.map((item) => item.href));
+      return posItems.filter(
+        (item) => !directHrefs.has(item.href) && hasMenuAccess(user, item.href, ["view"])
+      );
+    }
+    if (isCashierRole(user)) return [];
+    return posItems;
+  }, [isMenuControlled, posItems, directItems, user]);
 
   // ponytail: tombol kategori ikut "hidup" saat halaman aktif berada di
   // dalamnya — cek href, activePaths, dan activeRegex tiap item.
@@ -390,7 +396,7 @@ const Sidebar = ({ collapsed = true, expandWidthClass = "w-64", onToggle, onHove
               })}
 
             {/* Divider before POS */}
-            {!isCashierRole(user) && (
+            {visiblePosItems.length > 0 && (
               <div className="overflow-hidden my-2 mx-auto">
                 <div
                   className={`border-t border-border/40 transition-[width] duration-300 ease-[cubic-bezier(0.4,0,0.2,1)]
@@ -400,8 +406,7 @@ const Sidebar = ({ collapsed = true, expandWidthClass = "w-64", onToggle, onHove
             )}
 
             {/* POS & Penjualan - direct buttons for admin/super_admin */}
-            {!isCashierRole(user) &&
-              visiblePosItems.map((item) => renderNavButton(item, item.icon))}
+            {visiblePosItems.map((item) => renderNavButton(item, item.icon))}
 
             {/* Divider before categories */}
             {categories.length > 0 && (
