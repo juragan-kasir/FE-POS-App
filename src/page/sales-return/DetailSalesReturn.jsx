@@ -12,6 +12,7 @@ import AbortController from "@/components/organism/abort-controller";
 import PageHeader from "@/components/ui/PageHeader";
 import HorizontalScrollArea from "@/components/ui/HorizontalScrollArea";
 import i18next from "i18next";
+import { refundMethodLabel as methodLabel } from "@/utils/salesReturnRefund";
 
 const statusDetail = {
   pending: {
@@ -110,10 +111,7 @@ const DetailSalesReturn = () => {
     );
 
   const st = statusDetail[ret.status] || statusDetail.pending;
-  const refundMethodLabel = (m) => {
-    const known = ["cash", "debit", "credit", "e-wallet", "other"];
-    return known.includes(m) ? t(`page.salesReturn.method.${m}`) : m || "-";
-  };
+  const refundMethodLabel = (m) => methodLabel(m, t);
 
   return (
     <>
