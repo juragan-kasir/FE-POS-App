@@ -2969,6 +2969,8 @@
   "page.cashier.modal.memberNotFound": "Member tidak ditemukan",
   "page.cashier.modal.memberPoints": "Poin",
   "page.cashier.pointsValue": "{{value}} poin",
+  "page.cashier.memberPoints.earned": "Transaksi ini menambah {{points}} poin member.",
+  "page.cashier.memberPoints.none": "Transaksi ini tidak menambah poin: produk di keranjang belum diberi poin. Atur di menu Produk.",
   "page.cashier.minStockOf": "/ min. {{min}}",
   "page.cashier.modal.memberSearch": "Cari ID member atau nomor telepon",
   "page.cashier.modal.redeemTitle": "Tebus dengan Poin",
@@ -10053,7 +10055,5 @@
   "page.cashier.weightQty": "Berat / volume",
   "page.location.form.reactivateHint": "Toko nonaktif tidak bisa diaktifkan dari sini. Gunakan \"Aktifkan Kembali\" di daftar Lokasi.",
   "apiError.code.STORE_ACTIVATION_NOT_PERMITTED": "Toko nonaktif tidak bisa diaktifkan dari form edit. Gunakan \"Aktifkan Kembali\" di daftar Lokasi.",
-  "apiError.code.REACTIVATE_TENANT_REQUIRED": "Hubungkan toko ke tenant dulu sebelum mengaktifkannya kembali.",
-  "page.cashier.memberPoints.earned": "Transaksi ini menambah {{points}} poin member.",
-  "page.cashier.memberPoints.none": "Transaksi ini tidak menambah poin: produk di keranjang belum diberi poin. Atur di menu Produk."
+  "apiError.code.REACTIVATE_TENANT_REQUIRED": "Hubungkan toko ke tenant dulu sebelum mengaktifkannya kembali."
 }

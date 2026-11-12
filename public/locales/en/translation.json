@@ -2719,6 +2719,8 @@
   "page.cashier.modal.memberNotFound": "Member not found",
   "page.cashier.modal.memberPoints": "Points",
   "page.cashier.pointsValue": "{{value}} pts",
+  "page.cashier.memberPoints.earned": "This sale earns the member {{points}} points.",
+  "page.cashier.memberPoints.none": "This sale earns no points: the products in the cart have no points set. Set them under Products.",
   "page.cashier.minStockOf": "/ min. {{min}}",
   "page.cashier.modal.memberSearch": "Search member ID or phone number",
   "page.cashier.modal.redeemTitle": "Redeem with Points",
@@ -10254,7 +10256,5 @@
   "page.cashier.weightQty": "Weight / volume",
   "page.location.form.reactivateHint": "An inactive store cannot be activated here. Use \"Reactivate\" on the location list.",
   "apiError.code.STORE_ACTIVATION_NOT_PERMITTED": "An inactive store cannot be activated from the edit form. Use \"Reactivate\" on the location list.",
-  "apiError.code.REACTIVATE_TENANT_REQUIRED": "Attach the store to a tenant before reactivating it.",
-  "page.cashier.memberPoints.earned": "This sale earns the member {{points}} points.",
-  "page.cashier.memberPoints.none": "This sale earns no points: the products in the cart have no points set. Set them under Products."
+  "apiError.code.REACTIVATE_TENANT_REQUIRED": "Attach the store to a tenant before reactivating it."
 }
