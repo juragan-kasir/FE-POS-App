@@ -52,6 +52,7 @@ import CheckoutModal from "./components/CheckoutModal";
 import ReceiptModal from "./components/ReceiptModal";
 import OrderQueue from "./components/OrderQueue";
 import AddRoundNotice from "./components/AddRoundNotice";
+import OutletClosedNotice from "./components/OutletClosedNotice";
 import { useAddOrderRound } from "./hooks/useAddOrderRound";
 import IncomingQrOrderAlert from "./components/IncomingQrOrderAlert";
 import IncomingWaiterRequestAlert from "./components/IncomingWaiterRequestAlert";
@@ -735,6 +736,7 @@ const CashierPage = () => {
             </div>
           </TooltipProvider>
         </header>
+        {store && <OutletClosedNotice store={store} role={role} />}
 
         <div className="flex flex-1 overflow-hidden">
           {!store && noStoreYet ? (

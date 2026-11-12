@@ -10267,5 +10267,9 @@
   "page.cashier.weightQty": "Berat / volume",
   "page.location.form.reactivateHint": "Toko nonaktif tidak bisa diaktifkan dari sini. Gunakan \"Aktifkan Kembali\" di daftar Lokasi.",
   "apiError.code.STORE_ACTIVATION_NOT_PERMITTED": "Toko nonaktif tidak bisa diaktifkan dari form edit. Gunakan \"Aktifkan Kembali\" di daftar Lokasi.",
-  "apiError.code.REACTIVATE_TENANT_REQUIRED": "Hubungkan toko ke tenant dulu sebelum mengaktifkannya kembali."
+  "apiError.code.REACTIVATE_TENANT_REQUIRED": "Hubungkan toko ke tenant dulu sebelum mengaktifkannya kembali.",
+  "page.cashier.outletClosed.message": "Di luar jam buka: BISA menampilkan outlet tutup dan pesanan QR ditolak.",
+  "page.cashier.outletClosed.nextOpen": "Buka lagi {{time}}.",
+  "page.cashier.outletClosed.editHours": "Atur jam buka",
+  "page.location.form.applyHoursToAllDays": "Samakan semua hari dengan {{day}}"
 }
