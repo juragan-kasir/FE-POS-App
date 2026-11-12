@@ -1,4 +1,5 @@
 import { dateLocale } from "@/lib/locale";
+import { paymentMethodLabel } from "@/utils/payment";
 
 // The ONE receipt design. The invoice-settings preview, the cashier's
 // on-screen receipt and the browser print all render the element built
@@ -51,6 +52,16 @@ const SPACING = {
 };
 
 export const formatRupiah = (value) => `Rp${Number(value || 0).toLocaleString("id-ID")}`;
+
+const SPLIT_PAID_STATUS = "paid";
+const SPLIT_TENDER_SEPARATOR = " + ";
+
+export const splitTenderLabel = (splits = []) =>
+  splits
+    .filter((split) => split.status === SPLIT_PAID_STATUS)
+    .sort((first, second) => first.id - second.id)
+    .map((split) => `${paymentMethodLabel(split.paymentMethod)} ${formatRupiah(split.amount)}`)
+    .join(SPLIT_TENDER_SEPARATOR);
 
 const parseMaybeJson = (raw) => {
   if (!raw) return {};

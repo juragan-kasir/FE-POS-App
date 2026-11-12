@@ -51,7 +51,7 @@ import { printReceipt, printViaBrowser } from "@/utils/thermalPrint";
 import ReceiptPaper from "@/components/receipt/ReceiptPaper";
 import SendWhatsAppDialog from "./SendWhatsAppDialog";
 import { receiptLabels } from "@/components/receipt/receiptLabels";
-import { buildAddressLines } from "@/utils/receiptDocument";
+import { buildAddressLines, splitTenderLabel } from "@/utils/receiptDocument";
 import { isRegisterRequiredError } from "@/state/registerRequired";
 import { receiptPaymentLabel, findPaymentOption, paymentTypeIdPayload } from "@/utils/payment";
 import { FIELD_LIMITS } from "@/constants/fieldLimits";
@@ -261,7 +261,7 @@ const ReceiptModal = ({ data, onClose, onNewTransaction }) => {
   const { data: existingSplitsData, refetch: refetchSplits } = useQuery(
     ["split-bills", orderId],
     () => getSplitBillByOrder(orderId),
-    { enabled: !!orderId && showSplit }
+    { enabled: !!orderId }
   );
   const existingSplits = existingSplitsData?.data?.splits || [];
   const splitSummary = existingSplitsData?.data?.summary || {
@@ -462,7 +462,9 @@ const ReceiptModal = ({ data, onClose, onNewTransaction }) => {
       date: transactionDate,
       table: tableName,
       paymentMethod,
-      paymentMethodLabel: receiptPaymentLabel(paymentMethod, data?.paymentMethodName),
+      paymentMethodLabel:
+        splitTenderLabel(existingSplits) ||
+        receiptPaymentLabel(paymentMethod, data?.paymentMethodName),
       items: items.map((i) => ({
         name: i.nameProduct || i.name || "-",
         qty: i.count || i.qty || 0,
@@ -509,6 +511,7 @@ const ReceiptModal = ({ data, onClose, onNewTransaction }) => {
       districts,
       villages,
       postalCodes,
+      existingSplitsData,
       t
     ]
   );
