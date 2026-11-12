@@ -1125,6 +1125,7 @@ const AddStockOpname = () => {
           const saveFn = id ? updateStockOpname(id, payload) : addStockOpname(payload);
           saveFn
             .then(() => {
+              markSaved();
               toast.success(t("common.success"), {
                 description: id
                   ? t("page.stockOpname.toast.updateSuccess")
