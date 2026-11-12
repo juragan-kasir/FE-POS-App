@@ -50,6 +50,7 @@ import { warnStockShortages } from "@/lib/stock-shortage";
 import { printReceipt, printViaBrowser } from "@/utils/thermalPrint";
 import ReceiptPaper from "@/components/receipt/ReceiptPaper";
 import SendWhatsAppDialog from "./SendWhatsAppDialog";
+import SplitCashTender, { splitCashTender } from "./SplitCashTender";
 import { receiptLabels } from "@/components/receipt/receiptLabels";
 import { buildAddressLines } from "@/utils/receiptDocument";
 import { isRegisterRequiredError } from "@/state/registerRequired";
@@ -261,6 +262,7 @@ const ReceiptModal = ({ data, onClose, onNewTransaction }) => {
   const [payingId, setPayingId] = useState(null);
   const [payOptionKey, setPayOptionKey] = useState("");
   const [payReference, setPayReference] = useState("");
+  const [payCashReceived, setPayCashReceived] = useState("");
   const [selectedMergeIds, setSelectedMergeIds] = useState([]);
 
   const { data: existingSplitsData, refetch: refetchSplits } = useQuery(
@@ -288,6 +290,21 @@ const ReceiptModal = ({ data, onClose, onNewTransaction }) => {
   const payOption = findPaymentOption(splitPaymentMethods, payOptionKey);
   const payMethodChoice = payOption?.type || "";
   const splitNeedsReference = !!payMethodChoice && !["cash", "points"].includes(payMethodChoice);
+  const isSplitCash = payMethodChoice === "cash";
+  const payingSplitAmount =
+    Number(existingSplits.find((split) => split.id === payingId)?.amount) || 0;
+  const splitCash = splitCashTender(payCashReceived, payingSplitAmount);
+  const splitCashTenderPayload = isSplitCash
+    ? { cashAmount: splitCash.cashReceived, changeAmount: splitCash.changeAmount }
+    : {};
+  let splitPayBlockedReason;
+  if (!payMethodChoice) splitPayBlockedReason = t("page.cashier.selectPayment");
+  else if (isSplitCash && splitCash.cashReceived === null)
+    splitPayBlockedReason = t("page.cashier.collectPayment.cashAmountRequired");
+  else if (isSplitCash && !splitCash.covers)
+    splitPayBlockedReason = t("page.cashier.collectPayment.cashInsufficient");
+  else if (splitNeedsReference && !payReference.trim())
+    splitPayBlockedReason = t("page.cashier.collectPayment.reference.required");
 
   // Reused across retries of the SAME submission (e.g. a network drop after
   // the request already reached the server), so the server-side idempotency
@@ -336,6 +353,7 @@ const ReceiptModal = ({ data, onClose, onNewTransaction }) => {
       setPayingId(null);
       setPayOptionKey("");
       setPayReference("");
+      setPayCashReceived("");
       refetchSplits();
       if (result?.data?.orderComplete) {
         setSettledHere(true);
@@ -828,22 +846,17 @@ const ReceiptModal = ({ data, onClose, onNewTransaction }) => {
                                   className="h-8 w-8 p-0 shrink-0"
                                   aria-label={t("page.cashier.receipt.splitPayConfirm")}
                                   disabled={
-                                    !payMethodChoice ||
-                                    (splitNeedsReference && !payReference.trim()) ||
-                                    paySplitMutation.isLoading
+                                    Boolean(splitPayBlockedReason) || paySplitMutation.isLoading
                                   }
                                   disabledReason={
-                                    paySplitMutation.isLoading
-                                      ? undefined
-                                      : !payMethodChoice
-                                        ? t("page.cashier.selectPayment")
-                                        : t("page.cashier.collectPayment.reference.required")
+                                    paySplitMutation.isLoading ? undefined : splitPayBlockedReason
                                   }
                                   onClick={() =>
                                     paySplitMutation.mutate({
                                       id: split.id,
                                       paymentMethod: payMethodChoice,
                                       ...paymentTypeIdPayload(payOption),
+                                      ...splitCashTenderPayload,
                                       referenceNumber: splitNeedsReference
                                         ? payReference.trim()
                                         : undefined
@@ -859,6 +872,14 @@ const ReceiptModal = ({ data, onClose, onNewTransaction }) => {
                                   <X size={14} />
                                 </Button>
                               </div>
+                              {isSplitCash && (
+                                <SplitCashTender
+                                  id={`split-cash-${split.id}`}
+                                  amountDue={Number(split.amount) || 0}
+                                  value={payCashReceived}
+                                  onChange={setPayCashReceived}
+                                />
+                              )}
                               {splitNeedsReference && (
                                 <Input
                                   unstyled
@@ -889,6 +910,7 @@ const ReceiptModal = ({ data, onClose, onNewTransaction }) => {
                                   setPayingId(split.id);
                                   setPayOptionKey("");
                                   setPayReference("");
+                                  setPayCashReceived("");
                                 }}>
                                 <Banknote size={14} className="mr-1" />
                                 {t("page.cashier.receipt.splitPay")}

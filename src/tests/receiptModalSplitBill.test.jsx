@@ -131,13 +131,21 @@ describe("ReceiptModal split-bill management", () => {
 
     fireEvent.click(screen.getByText("page.cashier.receipt.splitPay"));
     fireEvent.change(screen.getByLabelText("split-pay-method"), { target: { value: "1" } });
+    fireEvent.change(screen.getByLabelText("page.cashier.cashAmount"), {
+      target: { value: "60000" }
+    });
 
     const confirmButtons = screen.getAllByRole("button");
     const confirmBtn = confirmButtons.find((b) => b.querySelector("svg.lucide-circle-check-big"));
     fireEvent.click(confirmBtn);
 
     await waitFor(() =>
-      expect(paySplitBill).toHaveBeenCalledWith(1, { paymentMethod: "cash", typePaymentId: 1 })
+      expect(paySplitBill).toHaveBeenCalledWith(1, {
+        paymentMethod: "cash",
+        typePaymentId: 1,
+        cashAmount: 60000,
+        changeAmount: 10000
+      })
     );
   });
 
@@ -420,6 +428,7 @@ describe("ReceiptModal — split bill only for orders still due (DR-23)", () => 
     await waitFor(() => expect(screen.getByText("SPL001")).toBeInTheDocument());
     fireEvent.click(screen.getByText("page.cashier.receipt.splitPay"));
     fireEvent.change(screen.getByLabelText("split-pay-method"), { target: { value: "1" } });
+    fireEvent.click(screen.getByText("page.cashier.exactCash"));
     fireEvent.click(screen.getByLabelText("page.cashier.receipt.splitPayConfirm"));
 
     await waitFor(() =>
