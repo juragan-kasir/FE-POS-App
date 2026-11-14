@@ -40,6 +40,9 @@ jest.mock("@/services/tax-config", () => ({
 jest.mock("@/services/waiterRequest", () => ({
   getWaiterRequestList: jest.fn(() => Promise.resolve({ data: [] }))
 }));
+jest.mock("@/services/cash-register", () => ({
+  getCurrentCashRegister: jest.fn(() => Promise.resolve({ data: { register: null } }))
+}));
 jest.mock("@/services/order", () => ({
   getCustomerTaxRate: jest.fn(() => Promise.resolve({ data: { rate: 0, serviceChargeRate: 0 } }))
 }));

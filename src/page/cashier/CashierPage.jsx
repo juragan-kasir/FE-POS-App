@@ -14,7 +14,8 @@ import {
   ChevronLeft,
   MonitorPlay,
   Armchair,
-  Loader2
+  Loader2,
+  LockKeyhole
 } from "lucide-react";
 import AbortController from "@/components/organism/abort-controller";
 import { useDebounce } from "@/hooks/useDebounce";
@@ -74,6 +75,11 @@ import { Textarea } from "@/components/ui/textarea";
 import { handleCashierShortcut } from "./shortcuts";
 import { useOptionalStore } from "@/contexts/StoreContext";
 import { productTextMatches } from "@/lib/product-code";
+import { canOpenPage } from "@/utils/pageAccess";
+import { formatStoreTime } from "@/utils/storeTimezone";
+import { CASH_REGISTER_PATHS } from "@/constants/cashRegister";
+import { useCurrentCashRegister } from "./hooks/useCurrentCashRegister";
+import CashierShiftNotice from "./components/CashierShiftNotice";
 
 const CashierPage = () => {
   const { t } = useTranslation();
@@ -112,6 +118,7 @@ const CashierPage = () => {
   // the same check the product list uses for its add button.
   const navigate = useNavigate();
   const canAddProduct = canAccess(user, "/product-list", "add");
+  const canOpenRegister = canOpenPage(user, CASH_REGISTER_PATHS.open);
   const [searchParams, setSearchParams] = useSearchParams();
   const storeParam = searchParams.get("store");
   const [pickedStore, setPickedStore] = useState(null);
@@ -122,6 +129,7 @@ const CashierPage = () => {
   const [autoStoreId, setAutoStoreId] = useState(null);
   const store =
     storeParam || (isSuperAdmin ? pickedStore || autoStoreId : cookie?.activeStore || user?.store);
+  const { register: currentRegister, isLoading: registerLoading } = useCurrentCashRegister(store);
   const boardTabRef = useRef(0);
 
   const openBoardTab = (storeId) => {
@@ -696,6 +704,50 @@ const CashierPage = () => {
                     </TooltipContent>
                   </Tooltip>
                 )}
+                {store && !registerLoading && (
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        className={`rounded-xl transition-all ${
+                          currentRegister
+                            ? "border-border/60 bg-card/60 hover:border-primary/40 hover:bg-primary/5 hover:text-primary"
+                            : "border-amber-500/50 bg-amber-500/10 text-amber-700 hover:bg-amber-500/15 dark:text-amber-400"
+                        }`}
+                        onClick={() =>
+                          navigate(
+                            currentRegister ? CASH_REGISTER_PATHS.current : CASH_REGISTER_PATHS.open
+                          )
+                        }>
+                        {currentRegister ? (
+                          <span className="relative flex h-2 w-2">
+                            <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-60" />
+                            <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-500" />
+                          </span>
+                        ) : (
+                          <LockKeyhole size={15} />
+                        )}
+                        <span
+                          className={`ml-1.5 ${
+                            currentRegister ? "hidden xl:inline" : "hidden sm:inline"
+                          }`}>
+                          {currentRegister
+                            ? `${t("page.cashier.shift.active")} · ${formatStoreTime(
+                                currentRegister.openedAt,
+                                currentRegister.storeData?.timezone
+                              )}`
+                            : t("page.cashier.shift.open")}
+                        </span>
+                      </Button>
+                    </TooltipTrigger>
+                    <TooltipContent side="bottom" align="center">
+                      {currentRegister
+                        ? t("page.cashier.shift.activeTooltip")
+                        : t("page.cashier.shift.closedTooltip")}
+                    </TooltipContent>
+                  </Tooltip>
+                )}
                 <Tooltip>
                   <TooltipTrigger asChild>
                     <button
@@ -736,6 +788,12 @@ const CashierPage = () => {
             </div>
           </TooltipProvider>
         </header>
+        <CashierShiftNotice
+          store={store}
+          register={currentRegister}
+          isLoading={registerLoading}
+          canOpenRegister={canOpenRegister}
+        />
         {store && <OutletClosedNotice store={store} role={role} />}
 
         <div className="flex flex-1 overflow-hidden">
