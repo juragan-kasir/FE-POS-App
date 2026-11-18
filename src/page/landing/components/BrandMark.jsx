@@ -1,11 +1,14 @@
 import React from "react";
 
 import logoMark from "@/assets/logo-sidebar.png";
+import logoMarkAvif from "@/assets/logo-sidebar.avif";
+import Picture from "@/components/ui/Picture";
 
 const BrandMark = () => (
   <span className="inline-flex items-center gap-2.5">
-    <img
+    <Picture
       src={logoMark}
+      avif={logoMarkAvif}
       alt=""
       width={40}
       height={40}

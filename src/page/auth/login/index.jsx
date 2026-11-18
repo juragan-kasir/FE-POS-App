@@ -48,6 +48,9 @@ import { LANDING_PATH } from "@/constants/routes";
 import { isPublicRegistrationEnabled } from "@/utils/publicRegistration";
 import logoFull from "@/assets/logo-full.webp";
 import logoFullDark from "@/assets/logo-full-dark.webp";
+import logoFullAvif from "@/assets/logo-full.avif";
+import logoFullDarkAvif from "@/assets/logo-full-dark.avif";
+import Picture from "@/components/ui/Picture";
 
 const LoginPage = () => {
   const { t, ready } = useTranslation();
@@ -61,7 +64,12 @@ const LoginPage = () => {
     location.state?.openGuide && location.state?.guideContext === "login"
   );
   const { translation, updateTranslation } = translationSelect();
-  const { toggleTheme } = useThemeStore();
+  const { toggleTheme, theme } = useThemeStore();
+  // Perf: hanya satu varian logo yang diunduh (img display:none tetap diunduh).
+  const logo =
+    theme === "dark"
+      ? { src: logoFullDark, avif: logoFullDarkAvif }
+      : { src: logoFull, avif: logoFullAvif };
   useThemeEffect();
 
   useEffect(() => {
@@ -200,8 +208,14 @@ const LoginPage = () => {
           className="pointer-events-none absolute -left-32 -top-32 h-[480px] w-[480px] rounded-full bg-emerald-400/15 blur-3xl"
         />
         <div className="relative z-10 flex w-full flex-col justify-between p-10 xl:p-14">
-          <img src={logoFull} alt="Juragan Kasir" className="h-auto w-36 dark:hidden" />
-          <img src={logoFullDark} alt="Juragan Kasir" className="hidden h-auto w-36 dark:block" />
+          <Picture
+            {...logo}
+            alt="Juragan Kasir"
+            width={144}
+            height={97}
+            decoding="async"
+            className="h-auto w-36"
+          />
           <div className="my-auto max-w-md">
             <h2 className="text-balance text-4xl font-semibold leading-[1.15] tracking-tight text-foreground xl:text-5xl">
               {t("page.login.tagline")}
@@ -259,11 +273,13 @@ const LoginPage = () => {
           <div className="w-full max-w-sm">
             {/* Mobile: compact brand, the form stays above the fold */}
             <div className="mb-8 lg:hidden">
-              <img src={logoFull} alt="Juragan Kasir" className="h-auto w-24 dark:hidden" />
-              <img
-                src={logoFullDark}
+              <Picture
+                {...logo}
                 alt="Juragan Kasir"
-                className="hidden h-auto w-24 dark:block"
+                width={96}
+                height={65}
+                decoding="async"
+                className="h-auto w-24"
               />
               <p className="mt-3 text-sm font-medium text-emerald-700 dark:text-emerald-400">
                 {t("page.login.tagline")}

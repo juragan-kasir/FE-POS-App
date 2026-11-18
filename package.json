@@ -90,6 +90,7 @@
     "testEnvironment": "jsdom",
     "setupFiles": ["<rootDir>/jest.setup.cjs"],
     "moduleNameMapper": {
+      "\\.avif$": "<rootDir>/src/tests/__mocks__/avifStub.cjs",
       "^@/(.*)$": "<rootDir>/src/$1"
     },
     "modulePathIgnorePatterns": [

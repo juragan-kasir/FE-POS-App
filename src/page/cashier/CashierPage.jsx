@@ -608,10 +608,7 @@ const CashierPage = () => {
       {/* Mobile Sidebar Overlay */}
       {mobileSidebarOpen && (
         <div className="fixed inset-0 z-50 desk:hidden">
-          <div
-            className="fixed inset-0 bg-black/50 backdrop-blur-sm"
-            onClick={() => setMobileSidebarOpen(false)}
-          />
+          <div className="fixed inset-0 bg-black/60" onClick={() => setMobileSidebarOpen(false)} />
           <div className="fixed left-0 top-0 h-screen w-72 shadow-2xl">
             <Sidebar collapsed={false} onToggle={() => setMobileSidebarOpen(false)} />
           </div>
@@ -901,11 +898,8 @@ const CashierPage = () => {
           {/* Mobile cart overlay */}
           {showCartMobile && (
             <div className="fixed inset-0 z-50 xl:hidden">
-              <div
-                className="fixed inset-0 bg-black/40 backdrop-blur-sm"
-                onClick={() => setShowCartMobile(false)}
-              />
-              <div className="fixed right-0 top-0 bottom-0 w-[88vw] sm:max-w-md bg-card/95 backdrop-blur-xl border-l border-border/50 shadow-2xl flex flex-col">
+              <div className="fixed inset-0 bg-black/50" onClick={() => setShowCartMobile(false)} />
+              <div className="fixed right-0 top-0 bottom-0 w-[88vw] sm:max-w-md bg-card border-l border-border/50 shadow-2xl flex flex-col">
                 <div className="flex items-center justify-between px-5 py-4 border-b border-border/50 shrink-0">
                   <h2 className="font-semibold bg-gradient-to-r from-foreground to-foreground/70 bg-clip-text text-transparent">
                     {t("page.cashier.orderCount", { count: totalItems })}
@@ -949,7 +943,7 @@ const CashierPage = () => {
           {/* Desktop cart sidebar */}
           {store && (
             <div
-              className={`hidden lg:flex shrink-0 h-full border-l border-border/50 bg-card/50 backdrop-blur-sm transition-all duration-300 relative ${
+              className={`hidden lg:flex shrink-0 h-full border-l border-border/50 bg-card/60 transition-all duration-300 relative ${
                 cartExpanded ? "lg:w-[380px] xl:w-[420px]" : "lg:w-14"
               }`}>
               {/* Toggle button */}

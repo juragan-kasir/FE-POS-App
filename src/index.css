@@ -1,5 +1,16 @@
 @import "./styles/print.css";
 
+/* Fallback bermetrik sama dengan Inter: teks sebelum font termuat menempati
+   ruang yang sama → tidak ada lompatan saat font tukar (CLS). */
+@font-face {
+  font-family: "Inter Fallback";
+  src: local("Arial"), local("Helvetica Neue"), local("Helvetica");
+  ascent-override: 90.44%;
+  descent-override: 22.52%;
+  line-gap-override: 0%;
+  size-adjust: 107.12%;
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -210,7 +221,7 @@
     overflow-x: hidden;
   }
   html {
-    font-family: "Inter", system-ui, sans-serif;
+    font-family: "Inter", "Inter Fallback", system-ui, sans-serif;
   }
   /* A field flagged invalid (FormControl, useFieldErrors) gets a red border;
      the attribute selector outranks the field's own border-* utility. */

@@ -514,7 +514,7 @@ const Header = ({ onMenuToggle, onOpenPalette, sidebarCollapsed }) => {
 
   return (
     <header
-      className={`fixed top-0 right-0 z-40 bg-background/80 backdrop-blur-md border-b border-border transition-[left] duration-300 ${sidebarCollapsed ? "desk:left-16" : "desk:left-64"} left-0`}>
+      className={`fixed top-0 right-0 z-40 bg-background/80 backdrop-blur-md border-b border-border ${sidebarCollapsed ? "desk:left-16" : "desk:left-64"} left-0`}>
       <div className="flex items-center justify-between px-4 lg:px-6 py-3 gap-4">
         {/* Left */}
         <div className="flex items-center gap-3 flex-1">

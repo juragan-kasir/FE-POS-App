@@ -248,7 +248,10 @@ const DashboardLayout = () => {
   // mounted = render di DOM, open = trigger transisi transform/opacity
   const [mobileSidebarMounted, setMobileSidebarMounted] = useState(false);
   const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
-  const [sidebarCollapsed, setSidebarCollapsed] = useState(true);
+  // Perf/CLS: di desktop sidebar selalu rail w-16 di layout; saat di-hover ia
+  // melebar MENIMPA konten (fixed + shadow) — tidak lagi menggeser margin
+  // konten & header (dulu tiap hover = layout shift + reflow seluruh halaman).
+  const sidebarCollapsed = true;
   const [isPaletteOpen, setIsPaletteOpen] = useState(false);
   const [cookie] = useCookies();
   const location = useLocation();
@@ -330,8 +333,6 @@ const DashboardLayout = () => {
 
   const closeMobileSidebar = useCallback(() => setMobileSidebarOpen(false), []);
 
-  const handleSidebarHoverChange = useCallback((collapsed) => setSidebarCollapsed(collapsed), []);
-
   const currentPath = location.pathname;
   const matchedKeys = matchRouteTips(tipsKeys, currentPath);
   const canOpenCurrent = canOpenPage(sessionUser, location.pathname);
@@ -342,7 +343,7 @@ const DashboardLayout = () => {
     <div className="min-h-screen bg-background">
       {/* Desktop Sidebar */}
       <div className="hidden desk:block">
-        <Sidebar collapsed={sidebarCollapsed} onHoverChange={handleSidebarHoverChange} />
+        <Sidebar collapsed={sidebarCollapsed} />
       </div>
 
       {/* Mobile Sidebar Overlay */}
@@ -351,7 +352,7 @@ const DashboardLayout = () => {
           <div
             aria-hidden="true"
             onClick={closeMobileSidebar}
-            className={`fixed inset-0 bg-black/50 backdrop-blur-sm transition-opacity duration-300 ease-out
+            className={`fixed inset-0 bg-black/60 transition-opacity duration-300 ease-out
               ${mobileSidebarOpen ? "opacity-100" : "opacity-0 pointer-events-none"}`}
           />
           <div
@@ -370,11 +371,7 @@ const DashboardLayout = () => {
       )}
 
       {/* Main Content */}
-      <div
-        style={{ willChange: "margin-left" }}
-        className={`transition-[margin-left] duration-300 ease-[cubic-bezier(0.4,0,0.2,1)] ${
-          sidebarCollapsed ? "desk:ml-16" : "desk:ml-64"
-        }`}>
+      <div className="desk:ml-16">
         <Header
           onMenuToggle={handleMobileMenuToggle}
           onOpenPalette={() => setIsPaletteOpen(true)}

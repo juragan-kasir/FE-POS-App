@@ -4,12 +4,6 @@
   "description": "Aplikasi kasir untuk UMKM Indonesia — banyak cabang dan program member. Jualan makin laris, cuan makin jelas.",
   "icons": [
     {
-      "src": "logo-sidebar.ico",
-      "sizes": "256x256 128x128 64x64 48x48 32x32 16x16",
-      "type": "image/x-icon",
-      "purpose": "any"
-    },
-    {
       "src": "mini-logo.png",
       "type": "image/png",
       "sizes": "192x192",
@@ -26,7 +20,7 @@
   "scope": "/",
   "display": "standalone",
   "orientation": "portrait-primary",
-  "theme_color": "#2563eb",
+  "theme_color": "#047857",
   "background_color": "#ffffff",
   "categories": ["business", "finance", "productivity"],
   "shortcuts": [

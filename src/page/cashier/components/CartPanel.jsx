@@ -138,7 +138,7 @@ const CartLineItem = React.memo(function CartLineItem({
   };
 
   return (
-    <div className="group bg-card/80 backdrop-blur-sm border border-border/40 rounded-xl p-3 hover:border-border/80 hover:shadow-sm transition-all duration-200">
+    <div className="group bg-card border border-border/40 rounded-xl p-3 hover:border-border/80 hover:shadow-sm transition-all duration-200">
       <div className="flex gap-3">
         {img ? (
           <div className="w-14 h-14 rounded-lg overflow-hidden shrink-0 bg-muted/50">
@@ -488,7 +488,7 @@ const CartPanel = ({
             )}
           </div>
 
-          <div className="border-t border-border/50 bg-card/80 backdrop-blur-sm shrink-0 p-4 space-y-3">
+          <div className="border-t border-border/50 bg-card shrink-0 p-4 space-y-3">
             {isLoading ? (
               <div className="space-y-2">
                 <div className="flex items-center justify-between">
