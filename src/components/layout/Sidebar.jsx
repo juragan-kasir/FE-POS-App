@@ -44,6 +44,8 @@ import Modal from "@/components/organism/modal";
 import NavigationModal from "./NavigationModal";
 import { Tooltip, TooltipTrigger, TooltipContent, TooltipProvider } from "@/components/ui/tooltip";
 import logoImg from "@/assets/logo-sidebar.png";
+import logoImgAvif from "@/assets/logo-sidebar.avif";
+import Picture from "@/components/ui/Picture";
 
 // ponytail: untuk user yang menu-nya dikontrol accessMenu, navigasi memakai
 // cabang kategori + popup yang sama dengan super_admin (difilter accessMenu,
@@ -344,7 +346,14 @@ const Sidebar = ({ collapsed = true, expandWidthClass = "w-64", onToggle, onHove
           className={`mb-5 flex items-center overflow-hidden
             ${isExpanded ? "gap-3 px-1" : "justify-center px-1"}`}>
           <div className="w-9 h-9 shrink-0">
-            <img src={logoImg} alt="Juragan Kasir" className="w-full h-full object-contain" />
+            <Picture
+              src={logoImg}
+              avif={logoImgAvif}
+              alt="Juragan Kasir"
+              width={36}
+              height={36}
+              className="w-full h-full object-contain"
+            />
           </div>
           <span
             className={`text-sm font-semibold text-foreground whitespace-nowrap overflow-hidden

@@ -3,6 +3,7 @@ import react from "@vitejs/plugin-react";
 import crypto from "crypto";
 import path from "path";
 import { execSync } from "child_process";
+import perfHtml from "./vite-plugins/perf-html.js";
 import idLocale from "./src/i18n/id.json";
 import enLocale from "./src/i18n/en.json";
 import idPublicLocale from "./public/locales/id/translation.json";
@@ -47,7 +48,7 @@ const translationBuildRefPlugin = () => ({
 });
 
 export default defineConfig({
-  plugins: [react(), translationBuildRefPlugin()],
+  plugins: [react(), translationBuildRefPlugin(), perfHtml()],
   define: {
     __GIT_SHA__: JSON.stringify(gitSha),
     __TRANSLATION_REV__: JSON.stringify(translationRev),

@@ -101,7 +101,7 @@ const ProductGridTile = React.memo(function ProductGridTile({
         type="button"
         onClick={() => onSelect(product)}
         disabled={outOfStock}
-        className="group bg-card/80 backdrop-blur-sm border border-border/40 rounded-xl p-3 hover:border-border/80 hover:shadow-sm hover:bg-card transition-all duration-200 text-left active:scale-[0.99] disabled:cursor-not-allowed disabled:hover:border-border/40 disabled:hover:bg-card/80 disabled:hover:shadow-none disabled:active:scale-100 w-full">
+        className="group bg-card border border-border/40 rounded-xl p-3 hover:border-border/80 hover:shadow-sm hover:bg-card transition-all duration-200 text-left active:scale-[0.99] disabled:cursor-not-allowed disabled:hover:border-border/40 disabled:hover:bg-card/80 disabled:hover:shadow-none disabled:active:scale-100 w-full">
         <div className="relative mb-2.5">
           {img ? (
             <div className="w-full aspect-square rounded-lg overflow-hidden bg-muted/50">
@@ -133,14 +133,14 @@ const ProductGridTile = React.memo(function ProductGridTile({
             </div>
           )}
           {!product.isAvailable && (
-            <div className="absolute inset-0 bg-black/40 backdrop-blur-[2px] rounded-lg flex items-center justify-center">
+            <div className="absolute inset-0 bg-black/50 rounded-lg flex items-center justify-center">
               <span className="text-xs font-bold text-white bg-destructive/90 px-2 py-1 rounded-md uppercase tracking-wider">
                 {t("page.cashier.product.notFound")}
               </span>
             </div>
           )}
           {outOfStock && (
-            <div className="absolute inset-0 bg-black/40 backdrop-blur-[2px] rounded-lg flex items-center justify-center">
+            <div className="absolute inset-0 bg-black/50 rounded-lg flex items-center justify-center">
               <span
                 title={
                   limitedBy ? t("page.cashier.product.limitedBy", { names: limitedBy }) : undefined
@@ -152,7 +152,7 @@ const ProductGridTile = React.memo(function ProductGridTile({
           )}
           <div className="absolute top-1.5 left-1.5 flex flex-col gap-1">
             {withChoices && (
-              <span className="px-1.5 py-0.5 rounded-md bg-amber-500/90 backdrop-blur-sm shadow-sm">
+              <span className="px-1.5 py-0.5 rounded-md bg-amber-500 shadow-sm">
                 <span className="text-xs font-bold text-white uppercase tracking-wider flex items-center gap-0.5">
                   <Tag size={10} />
                   {t("page.cashier.variant")}
@@ -160,14 +160,14 @@ const ProductGridTile = React.memo(function ProductGridTile({
               </span>
             )}
             {product.point > 0 && (
-              <span className="px-1.5 py-0.5 rounded-md bg-violet-500/90 backdrop-blur-sm shadow-sm">
+              <span className="px-1.5 py-0.5 rounded-md bg-violet-500 shadow-sm">
                 <span className="text-xs font-bold text-white flex items-center gap-0.5">
                   {t("page.cashier.pointsValue", { value: product.point })}
                 </span>
               </span>
             )}
             {product.isBundle && (
-              <span className="px-1.5 py-0.5 rounded-md bg-emerald-500/90 backdrop-blur-sm shadow-sm">
+              <span className="px-1.5 py-0.5 rounded-md bg-emerald-500 shadow-sm">
                 <span className="text-xs font-bold text-white flex items-center gap-0.5">
                   <Package size={10} />
                   {t("breadcrumb.bundle")}
@@ -210,7 +210,7 @@ const ProductGridTile = React.memo(function ProductGridTile({
           onShowDetail(product);
         }}
         title={t("page.product.form.detail", "Detail Produk")}
-        className="absolute top-2 right-2 z-20 w-7 h-7 rounded-lg bg-background/80 backdrop-blur-sm border border-border/40 flex items-center justify-center text-muted-foreground hover:text-primary hover:bg-background transition-colors shadow-sm">
+        className="absolute top-2 right-2 z-20 w-7 h-7 rounded-lg bg-background/95 border border-border/40 flex items-center justify-center text-muted-foreground hover:text-primary hover:bg-background transition-colors shadow-sm">
         <Eye size={14} />
       </button>
     </div>
@@ -251,7 +251,7 @@ const ProductListTile = React.memo(function ProductListTile({
         type="button"
         onClick={() => onSelect(product)}
         disabled={outOfStock}
-        className="flex-1 min-w-0 group flex items-center gap-3 bg-card/80 backdrop-blur-sm border border-border/40 rounded-xl p-3 hover:border-border/80 hover:shadow-sm hover:bg-card transition-all duration-200 text-left active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-60 disabled:hover:border-border/40 disabled:hover:bg-card/80 disabled:hover:shadow-none disabled:active:scale-100">
+        className="flex-1 min-w-0 group flex items-center gap-3 bg-card border border-border/40 rounded-xl p-3 hover:border-border/80 hover:shadow-sm hover:bg-card transition-all duration-200 text-left active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-60 disabled:hover:border-border/40 disabled:hover:bg-card/80 disabled:hover:shadow-none disabled:active:scale-100">
         {img ? (
           <div className="w-12 h-12 rounded-lg overflow-hidden shrink-0 bg-muted/50">
             <img
@@ -321,7 +321,7 @@ const ProductListTile = React.memo(function ProductListTile({
         type="button"
         onClick={() => onShowDetail(product)}
         title={t("page.product.form.detail", "Detail Produk")}
-        className="w-10 shrink-0 rounded-xl bg-card/80 backdrop-blur-sm border border-border/40 flex items-center justify-center text-muted-foreground hover:text-primary hover:bg-card hover:border-border/80 transition-colors">
+        className="w-10 shrink-0 rounded-xl bg-card border border-border/40 flex items-center justify-center text-muted-foreground hover:text-primary hover:bg-card hover:border-border/80 transition-colors">
         <Eye size={16} />
       </button>
     </div>
