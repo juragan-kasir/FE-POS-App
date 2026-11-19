@@ -1,6 +1,7 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { PlusCircle, X } from "lucide-react";
+import { shortOrderNumber } from "@/utils/orderNumber";
 
 const AddRoundNotice = ({ order, onCancel }) => {
   const { t } = useTranslation();
@@ -11,7 +12,7 @@ const AddRoundNotice = ({ order, onCancel }) => {
       <PlusCircle size={14} className="mt-0.5 shrink-0 text-primary" aria-hidden="true" />
       <span className="flex-1">
         {t("page.cashier.openBill.addingTo", {
-          order: order.orderNumber?.slice(-5) || order.id,
+          order: shortOrderNumber(order.orderNumber, order.id),
           table: order.table?.name || order.tableId || "-"
         })}
       </span>
