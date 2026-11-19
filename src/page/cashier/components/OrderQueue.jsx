@@ -14,6 +14,7 @@ import {
   PlusCircle
 } from "lucide-react";
 import { ORDER_PAYMENT_STATUS } from "@/constants/orderQueue";
+import { shortOrderNumber } from "@/utils/orderNumber";
 import { toast } from "sonner";
 import { getOrdersByStore, updateOrderStatus } from "@/services/order";
 import { getCurrentCashRegister } from "@/services/cash-register";
@@ -162,7 +163,7 @@ const OrderCard = ({
     <>
       <div className="flex items-center justify-between mb-2">
         <span className="text-sm font-bold text-foreground">
-          #{order.orderNumber?.slice(-5) || order.id}
+          #{shortOrderNumber(order.orderNumber, order.id)}
         </span>
         <span
           className={`text-xs font-semibold px-2 py-0.5 rounded-full ${status.color} text-white`}>

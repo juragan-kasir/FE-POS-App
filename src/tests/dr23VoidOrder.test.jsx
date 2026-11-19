@@ -191,4 +191,18 @@ describe("OrderQueue — DR-23 void entry point", () => {
     expect(screen.queryByText("page.voidOrder.action")).not.toBeInTheDocument();
     expect(screen.getByLabelText("page.cashier.orderQueue.cancel")).toBeInTheDocument();
   });
+
+  test("a daily-counter order number shows its sequence on the card", async () => {
+    getOrdersByStore.mockImplementation(({ status }) =>
+      Promise.resolve({
+        data:
+          status === partialOrder.status
+            ? [{ ...partialOrder, orderNumber: "ORD-7-261119-0042" }]
+            : []
+      })
+    );
+    withClient(<OrderQueue store={7} onLoadOrder={jest.fn()} onCollectPayment={jest.fn()} />);
+    expect(await screen.findByText("#0042")).toBeInTheDocument();
+    expect(screen.queryByText("#-0042")).not.toBeInTheDocument();
+  });
 });
