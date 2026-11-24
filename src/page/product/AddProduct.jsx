@@ -32,6 +32,7 @@ import ProductPreview from "./ProductPreview";
 import ProductExtrasStep from "@/page/product/ProductExtrasStep";
 import ProductPricingStep from "@/page/product/ProductPricingStep";
 import ProductInfoStep from "@/page/product/ProductInfoStep";
+import { isSkuTaken, showSkuTaken } from "@/page/product/skuTaken";
 import { useProductExtras } from "@/page/product/useProductExtras";
 import { useLinkItems } from "@/page/product/InventoryLinkField";
 import { INVENTORY_MODES, initialStockNeedsStore, isInventoryItemMode } from "@/lib/inventory-mode";
@@ -234,6 +235,11 @@ const AddProduct = () => {
       setSuccessModal(true);
     },
     onError: (err) => {
+      if (isSkuTaken(err)) {
+        showSkuTaken({ err, form, setCurrentStep, fallback: t("apiError.code.SKU_TAKEN") });
+        setIsSubmitting(false);
+        return;
+      }
       setModalMessage(
         err?.response?.data?.message || err.message || t("page.product.form.failedAddProduct")
       );
